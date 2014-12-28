@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+      <groupId>ninja.leaping.configurate</groupId>
+      <artifactId>configurate-parent</artifactId>
+      <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>configurate-core</artifactId>
+  <packaging>jar</packaging>
+  <name>configurate-core</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jboss.seven2six</groupId>
+                <artifactId>seven2six</artifactId>
+                <version>1.1.Final</version>
+                <executions>
+                    <!-- run after "compile", lets your artifact work on 1.6 -->
+                    <execution>
+                        <id>weave</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                    <!-- run after "test-compile", lets you run your tests on 1.6 -->
+                    <execution>
+                        <id>weave-tests</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

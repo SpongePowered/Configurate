@@ -1,0 +1,9 @@
+target/
+# IntelliJ project data
+.idea
+*.iml
+*.ipr
+
+# Mac stuff
+.DS_Store
+Thumbs.db
