@@ -71,9 +71,9 @@
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
                 <version>1.11</version>
                 <configuration>
-                    <!--<ignores>
+                    <ignores>
                         <ignore>java.lang.Throwable</ignore>
-                    </ignores>-->
+                    </ignores>
                     <signature>
                         <groupId>org.codehaus.mojo.signature</groupId>
                         <artifactId>java16</artifactId>
