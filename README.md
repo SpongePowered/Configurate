@@ -1,10 +1,13 @@
 # Configurate
-Configurate is a simple confiuration library released under the [Apache 2.0](blob/master/LICENSE) that provides a node-tree representation of configurations in a variety of formats.
+Configurate is a simple confiuration library released under the [Apache 2.0](LICENSE) that provides a node-tree representation of configurations in a variety of formats.
 
-Configurate requires java 6
 
 ## Building
-We use maven, so this part is pretty easy. Make sure you have maven installed and are in the project's directory (the root of this repository), then run `mvn clean install` to build Configuate and install its artifacts to the local maven repository.
+We use Maven, so this part is pretty easy. 
+
+Configurate requires JDK 7 to build but is at runtime compatible with JDK 6 and above.
+
+Make sure Maven is installed and from the project's directory (the root of this repository), run `mvn clean install` to build Configuate and install its artifacts to the local Maven repository.
 
 ## Usage
 ```xml
@@ -24,7 +27,7 @@ ConfigurationNode node = loader.load(); // Load the configuration into memory
 
 node.getNode("some", "value").getValue(); // Get the value
 ```
-The specific methods are explained in the javadocs
+More detailed explanations of all the methods available in ConfigurationNode are available in the javadocs
 
 ## Contributing
 We love PRs! However, when contributing, here are some things to keep in mind:
