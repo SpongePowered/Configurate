@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ninja.leaping.configurate;
+package ninja.leaping.configurate.loader;
+
+import ninja.leaping.configurate.ConfigurationNode;
 
 import java.io.IOException;
 
@@ -31,6 +33,7 @@ public interface ConfigurationLoader {
 
     /**
      * Save the contents of the given node tree to
+     *
      * @param node The node a save is being requested for
      */
     public void save(ConfigurationNode node) throws IOException;

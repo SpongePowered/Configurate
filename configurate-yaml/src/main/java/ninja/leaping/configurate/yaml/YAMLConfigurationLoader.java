@@ -16,37 +16,56 @@
  */
 package ninja.leaping.configurate.yaml;
 
-import ninja.leaping.configurate.ConfigurationLoader;
+import com.google.common.io.CharSink;
+import com.google.common.io.CharSource;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import ninja.leaping.configurate.loader.FileConfigurationLoader;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
-import java.nio.charset.Charset;
+import java.net.URL;
 
 
 /**
  * A loader for YAML-formatted configurations, using the snakeyaml library for parsing
  */
-public class YAMLConfigurationLoader implements ConfigurationLoader {
-    private final File file;
-
-    private final Yaml yaml;
+public class YAMLConfigurationLoader extends FileConfigurationLoader {
+    private final ThreadLocal<Yaml> yaml = new ThreadLocal<Yaml>() {
+        @Override
+        protected Yaml initialValue() {
+            return new Yaml();
+        }
+    };
 
     public YAMLConfigurationLoader(File file) {
-        this.file = file;
-        this.yaml = new Yaml();
+        super(file);
+    }
+
+    public YAMLConfigurationLoader(URL url) {
+        super(url);
+    }
+
+    public YAMLConfigurationLoader(CharSource source, CharSink sink) {
+        super(source, sink);
     }
 
     @Override
     public ConfigurationNode load() throws IOException {
+        if (!canLoad()) {
+            throw new IOException("No source present to read from!");
+        }
         final SimpleConfigurationNode node = SimpleConfigurationNode.root();
-        node.setValue(yaml.load(new InputStreamReader(new FileInputStream(file), Charset.forName("utf-8"))));
+        node.setValue(yaml.get().load(source.openStream()));
         return node;
     }
 
     @Override
     public void save(ConfigurationNode node) throws IOException {
-        yaml.dump(node.getValue(), new OutputStreamWriter(new FileOutputStream(file), Charset.forName("utf-8")));
+        if (!canSave()) {
+            throw new IOException("No sink present to write to!");
+        }
+        yaml.get().dump(node.getValue(), sink.openStream());
     }
 }
