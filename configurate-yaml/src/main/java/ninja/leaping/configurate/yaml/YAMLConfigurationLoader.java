@@ -57,7 +57,9 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
             throw new IOException("No source present to read from!");
         }
         final SimpleConfigurationNode node = SimpleConfigurationNode.root();
-        node.setValue(yaml.get().load(source.openStream()));
+        try (Reader reader = source.openStream()) {
+            node.setValue(yaml.get().load(reader));
+        }
         return node;
     }
 
@@ -66,6 +68,8 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
         if (!canSave()) {
             throw new IOException("No sink present to write to!");
         }
-        yaml.get().dump(node.getValue(), sink.openStream());
+        try (Writer writer = sink.openStream()) {
+            yaml.get().dump(node.getValue(), writer);
+        }
     }
 }
