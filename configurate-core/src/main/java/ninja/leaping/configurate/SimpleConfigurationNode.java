@@ -271,7 +271,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 SimpleConfigurationNode old = list.set(index, child);
                 old.attached = false;
                 old.detachChildren();
-            } else if (index == -1) {
+            } else if (index == -1) { // Gotta correct the child path for the correct path name
                 list.add(child);
                 id = list.size() - 1;
                 child.path[child.path.length - 1] = id;

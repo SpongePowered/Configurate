@@ -28,6 +28,15 @@ public class PathUtils {
         // Nevar
     }
 
+    /**
+     * Validate that the provided child path is a direct child of the provided parent path.
+     * This means that the length of the child path is 1 greater than the length of the parent path, and that all
+     * elements from 0 to the length of the parent path are identical in both paths.
+     *
+     * @param child The child path to check
+     * @param parent The parent path to
+     * @return Whether child path is a direct child of the parent path
+     */
     public static boolean isDirectChild(Object[] child, Object[] parent) {
         if (child.length != parent.length + 1) {
             return false;
@@ -40,12 +49,25 @@ public class PathUtils {
         return true;
     }
 
+    /**
+     * Takes a path and extends it by one element, {@code next}
+     *
+     * @param path The path to be appended to
+     * @param next The object to be appended to the path
+     * @return The new path
+     */
     public static Object[] appendPath(Object[] path, Object next) {
         Object[] newArray = Arrays.copyOf(path, path.length + 1);
         newArray[path.length] = next;
         return newArray;
     }
 
+    /**
+     * Creates a new path not containing the last element of the input path
+     *
+     * @param path The input path
+     * @return An appropriately modified path
+     */
     public static Object[] dropPathTail(Object[] path) {
         return Arrays.copyOf(path, path.length - 1);
     }
