@@ -83,8 +83,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
 
         if (value == null) {
-            detachChildren();
-            getParent().removeChild(this);
+            getParent().removeChild(path[path.length - 1]);
             return this;
         }
 
@@ -199,6 +198,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public boolean removeChild(Object key) {
         SimpleConfigurationNode removedNode = null;
+        boolean lastChild = false;
         if (key instanceof Integer && hasListChildren()) {
             int index = (Integer) key;
             List<SimpleConfigurationNode> nodes = getImplChildrenList();
@@ -210,13 +210,18 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                     nodes.get(i).updateChildPaths();
                 }
             }
+            lastChild = nodes.size() == 0;
         } else if (hasMapChildren()) {
             removedNode = getImplChildrenMap().remove(key);
+            lastChild = getImplChildrenMap().isEmpty();
         }
 
         if (removedNode != null) {
             removedNode.attached = false;
             removedNode.detachChildren();
+            if (lastChild) {
+                getParent().removeChild(path[path.length - 1]);
+            }
         }
         return removedNode != null;
     }
