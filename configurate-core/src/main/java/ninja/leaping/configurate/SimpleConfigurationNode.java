@@ -27,7 +27,7 @@ import java.util.*;
  * Simple implementation of a configuration node
  */
 public class SimpleConfigurationNode implements ConfigurationNode {
-    private final SimpleConfigurationNode root;
+    protected final SimpleConfigurationNode root;
     private boolean attached;
     /**
      * Path of this node.
@@ -145,14 +145,16 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ConfigurationNode> getChildrenList() {
-        return hasListChildren() ? ImmutableList.copyOf((List <ConfigurationNode>) value) : Collections.<ConfigurationNode>emptyList();
+    public List<? extends SimpleConfigurationNode> getChildrenList() {
+        return hasListChildren() ? ImmutableList.copyOf((List<SimpleConfigurationNode>) value) : Collections
+                .<SimpleConfigurationNode>emptyList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map<Object, ConfigurationNode> getChildrenMap() {
-        return hasMapChildren() ? ImmutableMap.copyOf((Map<Object, ConfigurationNode>) value) : Collections.<Object, ConfigurationNode>emptyMap();
+    public Map<Object, ? extends SimpleConfigurationNode> getChildrenMap() {
+        return hasMapChildren() ? ImmutableMap.copyOf((Map<Object, SimpleConfigurationNode>) value) : Collections
+                .<Object, SimpleConfigurationNode>emptyMap();
     }
 
     @SuppressWarnings("unchecked")

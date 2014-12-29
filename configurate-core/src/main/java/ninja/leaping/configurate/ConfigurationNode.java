@@ -68,14 +68,14 @@ public interface ConfigurationNode {
      *
      * @return The children currently attached to this node
      */
-    public List<ConfigurationNode> getChildrenList();
+    public List<? extends ConfigurationNode> getChildrenList();
 
     /**
      * Return an immutable copy of the mapping from key to node of every child this node is aware of
      *
      * @return Child nodes currently attached
      */
-    public Map<Object, ConfigurationNode> getChildrenMap();
+    public Map<Object, ? extends ConfigurationNode> getChildrenMap();
 
     /**
      * Gets a direct child node of this one.
