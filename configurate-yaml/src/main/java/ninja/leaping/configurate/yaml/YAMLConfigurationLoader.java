@@ -18,7 +18,6 @@ package ninja.leaping.configurate.yaml;
 
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.FileConfigurationLoader;

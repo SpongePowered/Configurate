@@ -96,11 +96,10 @@
                 <version>2.7</version>
                 <configuration>
                     <header>LICENSE_HEADER</header>
-                    <excludes>
-                        <exclude>**/README</exclude>
-                        <exclude>src/test/resources/**</exclude>
-                        <exclude>src/main/resources/**</exclude>
-                    </excludes>
+                    <includes>
+                        <include>src/main/java/**</include>
+                        <include>src/test/java/**</include>
+                    </includes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                 </configuration>
                 <executions>

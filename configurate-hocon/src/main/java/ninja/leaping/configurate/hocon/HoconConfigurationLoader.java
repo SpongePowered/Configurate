@@ -130,6 +130,8 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         }
     }
 
+    // -- Comment handling -- this might have to be updated as the hocon dep changes (But tests should detect this
+    // breakage
     private static final Class<? extends ConfigValue> VALUE_CLASS;
     private static final Class<? extends ConfigOrigin> ORIGIN_CLASS;
     private static final Field VALUE_ORIGIN;
