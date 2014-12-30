@@ -16,6 +16,7 @@
  */
 package ninja.leaping.configurate;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -74,6 +75,43 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public Object getValue(Object def) {
         Object ret = getValue();
         return ret == null ? def : ret;
+    }
+
+    @Override
+    public <T> T getValue(Function<Object, T> transformer) {
+        return transformer.apply(getValue());
+    }
+
+    @Override
+    public <T> T getValue(Function<Object, T> transformer, T def) {
+        T ret = transformer.apply(getValue());
+        return ret == null ? def : ret;
+    }
+
+    @Override
+    public <T> List<T> getList(Function<Object, T> transformer) {
+        final ImmutableList.Builder<T> build = ImmutableList.builder();
+        if (hasListChildren()) {
+            for (SimpleConfigurationNode o : getImplChildrenList()) {
+                T transformed = transformer.apply(o.getValue());
+                if (transformed != null) {
+                    build.add(transformed);
+                }
+            }
+        } else {
+            T transformed = transformer.apply(getValue());
+            if (transformed != null) {
+                build.add(transformed);
+            }
+        }
+
+        return build.build();
+    }
+
+    @Override
+    public <T> List<T> getList(Function<Object, T> transformer, List<T> def) {
+        List<T> ret = getList(transformer);
+        return ret.isEmpty() ? def : ret;
     }
 
     @Override

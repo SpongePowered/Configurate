@@ -17,6 +17,8 @@
 package ninja.leaping.configurate;
 
 
+import com.google.common.base.Function;
+
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +44,50 @@ public interface ConfigurationNode {
      * @return This configuration's current value, or {@code def} if there is none
      */
     public Object getValue(Object def);
+
+    /**
+     * Gets the appropriately transformed typed version of this node's value from the provided transformation function
+     *
+     * @param transformer The transformation function
+     * @param <T> The expected type
+     * @return A transformed value of the correct type, or null either if no value is present or the value could not
+     * be converted
+     */
+    public <T> T getValue(Function<Object, T> transformer);
+
+    /**
+     * Gets the appropriately transformed typed version of this node's value from the provided transformation function
+     *
+     * @param transformer The transformation function
+     * @param def The expected type
+     * @param <T>
+     * @return A transformed value of the correct type, or {@code def} either if no value is present or the value
+     * could not be converted
+     */
+    public <T> T getValue(Function<Object, T> transformer, T def);
+
+    /**
+     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
+     * provided function.
+     * If this node has a scalar value, this function treats it as a list with one value
+     *
+     * @param transformer The transformation function
+     * @param <T> The expected type
+     * @return An immutable copy of the values contained
+     */
+    public <T> List<T> getList(Function<Object, T> transformer);
+
+    /**
+     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
+     * provided function.
+     * If this node has a scalar value, this function treats it as a list with one value
+     *
+     * @param transformer The transformation function
+     * @param <T> The expected type
+     * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
+     * values could be converted
+     */
+    public <T> List<T> getList(Function<Object, T> transformer, List<T> def);
 
     /**
      * Set this node's value to the given value.
