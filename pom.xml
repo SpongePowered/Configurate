@@ -24,6 +24,10 @@
     <artifactId>configurate-parent</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>Configurate Parent</name>
+    <description>A simple configuration library for Java applications that can handle a variety of formats and
+        provides a node-based data structure able to handle a wide variety of configuration schemas</description>
+    <url>http://leaping.ninja/configurate</url>
     <organization>
         <name>Leaping Ninja</name>
         <url>http://leaping.ninja</url>
@@ -31,13 +35,22 @@
     <inceptionYear>2014</inceptionYear>
     <licenses>
         <license>
-            <name>Apache 2.0</name>
+            <name>The Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>zml</name>
+            <email>zml@aoeu.xyz</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/zml2008/configurate.git</connection>
+        <developerConnection>scm:git:git@github.com:zml2008/configurate.git</developerConnection>
+        <url>https://github.com/zml2008/configurate</url>
+    </scm>
 
-    <name>Configurate Parent</name>
-    <url>http://leaping.ninja/configurate</url>
 
     <modules>
         <module>configurate-core</module>
@@ -114,4 +127,53 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
