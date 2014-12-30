@@ -43,6 +43,7 @@
         <module>configurate-core</module>
         <module>configurate-yaml</module>
         <module>configurate-hocon</module>
+        <module>configurate-json</module>
     </modules>
 
     <properties>
