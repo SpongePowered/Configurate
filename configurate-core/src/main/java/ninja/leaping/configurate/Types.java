@@ -37,6 +37,10 @@ public class Types {
     }
 
     public static Float asFloat(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Float) {
             return (Float) value;
         } else if (value instanceof Integer) {
@@ -51,6 +55,10 @@ public class Types {
     }
 
     public static Float strictAsFloat(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Float
                 || value instanceof Integer) {
             return ((Number) value).floatValue();
@@ -59,6 +67,10 @@ public class Types {
     }
 
     public static Double asDouble(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Double) {
             return (Double) value;
         } else if (value instanceof Integer
@@ -75,6 +87,10 @@ public class Types {
     }
 
     public static Double strictAsDouble(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Double
                 || value instanceof Float
                 || value instanceof Integer
@@ -86,6 +102,10 @@ public class Types {
     }
 
     public static Integer asInt(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Integer) {
             return (Integer) value;
         }
@@ -106,10 +126,18 @@ public class Types {
     }
 
     public static Integer strictAsInt(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         return value instanceof Integer ? (Integer) value : null;
     }
 
     public static Long asLong(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Long) {
             return (Long) value;
         } else if (value instanceof Integer) {
@@ -133,6 +161,10 @@ public class Types {
     }
 
     public static Long strictAsLong(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Long) {
             return (Long) value;
         } else if (value instanceof Integer) {
@@ -154,32 +186,38 @@ public class Types {
      * @return Value converted following rules specified above:w
      */
     public static Boolean asBoolean(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Boolean) {
             return (Boolean) value;
         }
         if (value instanceof Number) {
             return !value.equals(0);
         }
-        if (value != null) {
-            final String potential = value.toString();
-            if (potential.equals("true")
-                    || potential.equals("t")
-                    || potential.equals("yes")
-                    || potential.equals("y")
-                    || potential.equals("1")) {
-                return true;
-            } else if (potential.equals("false")
-                    || potential.equals("f")
-                    || potential.equals("no")
-                    || potential.equals("n")
-                    || potential.equals("0")) {
-                return false;
-            }
+        final String potential = value.toString();
+        if (potential.equals("true")
+                || potential.equals("t")
+                || potential.equals("yes")
+                || potential.equals("y")
+                || potential.equals("1")) {
+            return true;
+        } else if (potential.equals("false")
+                || potential.equals("f")
+                || potential.equals("no")
+                || potential.equals("n")
+                || potential.equals("0")) {
+            return false;
         }
         return null;
     }
 
     public static Boolean strictAsBoolean(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         return value instanceof Boolean ? (Boolean) value : null;
     }
 }

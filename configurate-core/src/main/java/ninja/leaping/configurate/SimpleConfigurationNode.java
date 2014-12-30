@@ -21,13 +21,21 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * Simple implementation of a configuration node
  */
 public class SimpleConfigurationNode implements ConfigurationNode {
+    private static final int NUMBER_DEF = 0;
     protected final SimpleConfigurationNode root;
     private boolean attached;
     /**
@@ -77,6 +85,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return ret == null ? def : ret;
     }
 
+    // {{{ Typed values
+
     @Override
     public <T> T getValue(Function<Object, T> transformer) {
         return transformer.apply(getValue());
@@ -113,6 +123,74 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         List<T> ret = getList(transformer);
         return ret.isEmpty() ? def : ret;
     }
+
+    @Override
+    public String getString() {
+        return getString(null);
+    }
+
+    @Override
+    public String getString(String def) {
+        final String ret = Types.asString(getValue());
+        return ret == null ? def : ret;
+    }
+
+    @Override
+    public float getFloat() {
+        return getFloat(NUMBER_DEF);
+    }
+
+    @Override
+    public float getFloat(float def) {
+        final Float ret = Types.asFloat(getValue());
+        return ret == null ? def : ret;
+    }
+
+    @Override
+    public double getDouble() {
+        return getDouble(NUMBER_DEF);
+    }
+
+    @Override
+    public double getDouble(double def) {
+        final Double ret = Types.asDouble(getValue());
+        return ret == null ? def : ret;
+    }
+
+    @Override
+    public int getInt() {
+        return getInt(NUMBER_DEF);
+    }
+
+    @Override
+    public int getInt(int def) {
+        final Integer ret = Types.asInt(getValue());
+        return ret == null ? def : ret;
+    }
+
+    @Override
+    public long getLong() {
+        return getLong(NUMBER_DEF);
+    }
+
+    @Override
+    public long getLong(long def) {
+        final Long ret = Types.asLong(getValue());
+        return ret == null ? def : ret;
+    }
+
+    @Override
+    public boolean getBoolean() {
+        return getBoolean(false);
+    }
+
+    @Override
+    public boolean getBoolean(boolean def) {
+        final Boolean ret = Types.asBoolean(getValue());
+        return ret == null ? def : ret;
+    }
+
+    // }}}
 
     @Override
     public SimpleConfigurationNode setValue(Object value) {

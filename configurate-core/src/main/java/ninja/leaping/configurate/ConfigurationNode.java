@@ -90,6 +90,102 @@ public interface ConfigurationNode {
     public <T> List<T> getList(Function<Object, T> transformer, List<T> def);
 
     /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, null if no appropriate value is available
+     */
+    public String getString();
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, {@code def} if no appropriate value is available
+     */
+    public String getString(String def);
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, 0 if no appropriate value is available
+     */
+    public float getFloat();
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, {@code def} if no appropriate value is available
+     */
+    public float getFloat(float def);
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, 0 if no appropriate value is available
+     */
+    public double getDouble();
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, {@code def} if no appropriate value is available
+     */
+    public double getDouble(double def);
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, 0 if no appropriate value is available
+     */
+    public int getInt();
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, {@code def} if no appropriate value is available
+     */
+    public int getInt(int def);
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, 0 if no appropriate value is available
+     */
+    public long getLong();
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, {@code def} if no appropriate value is available
+     */
+    public long getLong(long def);
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, 0 if no appropriate value is available
+     */
+    public boolean getBoolean();
+
+    /**
+     * Gets the value typed using the appropriate type conversion from {@link Types}
+     *
+     * @see #getValue()
+     * @return The appropriate type conversion, {@code def} if no appropriate value is available
+     */
+    public boolean getBoolean(boolean def);
+
+    /**
      * Set this node's value to the given value.
      * If the provided value is a {@link java.util.Collection} or a {@link java.util.Map}, it will be unwrapped into
      * the appropriate configuration node structure
