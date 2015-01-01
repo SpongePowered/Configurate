@@ -42,8 +42,9 @@ public class JSONConfigurationLoaderTest {
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.json");
         final File tempFile = folder.newFile();
-        ConfigurationLoader loader = new JSONConfigurationLoader(Resources.asCharSource(url, UTF8_CHARSET), Files
-                .asCharSink(tempFile, UTF8_CHARSET));
+        ConfigurationLoader loader = JSONConfigurationLoader.builder()
+                .setSource(Resources.asCharSource(url, UTF8_CHARSET))
+                .setSink(Files.asCharSink(tempFile, UTF8_CHARSET)).build();
         ConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());

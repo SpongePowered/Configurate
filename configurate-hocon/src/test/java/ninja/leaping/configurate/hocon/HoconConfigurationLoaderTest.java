@@ -42,8 +42,9 @@ public class HoconConfigurationLoaderTest {
         URL url = getClass().getResource("/example.conf");
         final File saveTest = folder.newFile();
 
-        HoconConfigurationLoader loader = new HoconConfigurationLoader(Resources.asCharSource(url,
-                UTF8_CHARSET), Files.asCharSink(saveTest, UTF8_CHARSET));
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setSource(Resources.asCharSource(url, UTF8_CHARSET))
+                .setSink(Files.asCharSink(saveTest, UTF8_CHARSET)).build();
         CommentedConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
@@ -51,7 +52,7 @@ public class HoconConfigurationLoaderTest {
         assertEquals(" Test node", testNode.getComment().orNull());
         assertEquals("dog park", node.getNode("other", "location").getValue());
         loader.save(node);
-        assertEquals(Resources.readLines(getClass().getResource("/roundtrip-test.conf"), UTF8_CHARSET), Files
-                .readLines(saveTest, UTF8_CHARSET));
+        assertEquals(Resources.toString(getClass().getResource("/roundtrip-test.conf"), UTF8_CHARSET), Files
+                .toString(saveTest, UTF8_CHARSET));
     }
 }

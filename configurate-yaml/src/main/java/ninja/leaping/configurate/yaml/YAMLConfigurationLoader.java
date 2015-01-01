@@ -21,6 +21,7 @@ import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.FileConfigurationLoader;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
@@ -31,23 +32,84 @@ import java.net.URL;
  * A loader for YAML-formatted configurations, using the snakeyaml library for parsing
  */
 public class YAMLConfigurationLoader extends FileConfigurationLoader {
-    private final ThreadLocal<Yaml> yaml = new ThreadLocal<Yaml>() {
-        @Override
-        protected Yaml initialValue() {
-            return new Yaml();
+    private final ThreadLocal<Yaml> yaml;
+
+    public static class Builder extends FileConfigurationLoader.Builder {
+        private final DumperOptions options = new DumperOptions();
+
+        protected Builder() {
+            setIndent(4);
         }
-    };
 
-    public YAMLConfigurationLoader(File file) {
-        super(file);
+        public Builder setIndent(int indent) {
+            options.setIndent(indent);
+            return this;
+        }
+
+        /**
+         * Sets the flow style for this configuration
+         * Flow: the compact, json-like representation.<br/>
+         * Example: <code>
+         *     {value: [list, of, elements], another: value}
+         * </code>
+         *
+         * Block: expanded, traditional YAML<br/>
+         * Emample: <code>
+         *     value:
+         *     - list
+         *     - of
+         *     - elements
+         *     another: value
+         * </code>
+         *
+         * @param style the appropritae flow style to use
+         * @return this
+         */
+        public Builder setFlowStyle(DumperOptions.FlowStyle style) {
+            options.setDefaultFlowStyle(style);
+            return this;
+        }
+
+        @Override
+        public Builder setFile(File file) {
+            super.setFile(file);
+            return this;
+        }
+
+        @Override
+        public Builder setURL(URL url) {
+            super.setURL(url);
+            return this;
+        }
+
+        public Builder setSource(CharSource source) {
+            super.setSource(source);
+            return this;
+        }
+
+        public Builder setSink(CharSink sink) {
+            super.setSink(sink);
+            return this;
+        }
+
+        @Override
+        public YAMLConfigurationLoader build() {
+            return new YAMLConfigurationLoader(source, sink, options);
+        }
     }
 
-    public YAMLConfigurationLoader(URL url) {
-        super(url);
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public YAMLConfigurationLoader(CharSource source, CharSink sink) {
+    public YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options) {
         super(source, sink);
+        this.yaml = new ThreadLocal<Yaml>() {
+            @Override
+            protected Yaml initialValue() {
+                return new Yaml(options);
+            }
+        };
     }
 
     @Override

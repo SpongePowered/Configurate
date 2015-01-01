@@ -40,19 +40,73 @@ import java.util.regex.Pattern;
  */
 public class HoconConfigurationLoader extends FileConfigurationLoader {
     public static final Pattern CRLF_MATCH = Pattern.compile("\r\n?");
-    private final ConfigRenderOptions render = ConfigRenderOptions.defaults().setOriginComments(false);
-    private final ConfigParseOptions parse = ConfigParseOptions.defaults();
+    private final ConfigRenderOptions render;
+    private final ConfigParseOptions parse;
 
-    public HoconConfigurationLoader(File file) {
-        super(file);
+    public static class Builder extends FileConfigurationLoader.Builder {
+        private ConfigRenderOptions render = ConfigRenderOptions.defaults()
+                .setOriginComments(false)
+                .setJson(false);
+        private ConfigParseOptions parse = ConfigParseOptions.defaults();
+
+        protected Builder() {
+        }
+
+        public ConfigRenderOptions getRenderOptions() {
+            return render;
+        }
+
+        public ConfigParseOptions getParseOptions() {
+            return parse;
+        }
+
+        @Override
+        public Builder setFile(File file) {
+            super.setFile(file);
+            return this;
+        }
+
+        @Override
+        public Builder setURL(URL url) {
+            super.setURL(url);
+            return this;
+        }
+
+        public Builder setRenderOptions(ConfigRenderOptions options) {
+            this.render = options;
+            return this;
+        }
+
+        public Builder setParseOptions(ConfigParseOptions options) {
+            this.parse = options;
+            return this;
+        }
+
+        public Builder setSource(CharSource source) {
+            super.setSource(source);
+            return this;
+        }
+
+        public Builder setSink(CharSink sink) {
+            super.setSink(sink);
+            return this;
+        }
+
+        @Override
+        public HoconConfigurationLoader build() {
+            return new HoconConfigurationLoader(source, sink, render, parse);
+        }
     }
 
-    public HoconConfigurationLoader(URL url) {
-        super(url);
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public HoconConfigurationLoader(CharSource source, CharSink sink) {
+    protected HoconConfigurationLoader(CharSource source, CharSink sink, ConfigRenderOptions render,
+                                       ConfigParseOptions parse) {
         super(source, sink);
+        this.render = render;
+        this.parse = parse;
     }
 
     @Override
@@ -105,12 +159,6 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         traverseForComments(value, node);
         final String renderedValue = value.render(render);
         sink.write(renderedValue);
-    }
-
-    public String renderToString(ConfigurationNode node) throws IOException {
-        final ConfigValue value = ConfigValueFactory.fromAnyRef(node.getValue());
-        traverseForComments(value, node);
-        return value.render(render);
     }
 
     private void traverseForComments(ConfigValue value, ConfigurationNode node) throws IOException {

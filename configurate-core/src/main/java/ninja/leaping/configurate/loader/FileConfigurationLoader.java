@@ -40,15 +40,35 @@ public abstract class FileConfigurationLoader implements ConfigurationLoader {
     protected final CharSource source;
     protected final CharSink sink;
 
-    public FileConfigurationLoader(File file) {
-        this(Files.asCharSource(file, UTF8_CHARSET), Files.asCharSink(file, UTF8_CHARSET));
+    protected static abstract class Builder {
+        protected CharSource source;
+        protected CharSink sink;
+
+        public Builder setFile(File file) {
+            this.source = Files.asCharSource(file, UTF8_CHARSET);
+            this.sink = Files.asCharSink(file, UTF8_CHARSET);
+            return this;
+        }
+
+        public Builder setURL(URL url) {
+            this.source = Resources.asCharSource(url, UTF8_CHARSET);
+            return this;
+        }
+
+        public Builder setSource(CharSource source) {
+            this.source = source;
+            return this;
+        }
+
+        public Builder setSink(CharSink sink) {
+            this.sink = sink;
+            return this;
+        }
+
+        public abstract FileConfigurationLoader build();
     }
 
-    public FileConfigurationLoader(URL url) {
-        this(Resources.asCharSource(url, UTF8_CHARSET), null);
-    }
-
-    public FileConfigurationLoader(CharSource source, CharSink sink) {
+    protected FileConfigurationLoader(CharSource source, CharSink sink) {
         this.source = source;
         this.sink = sink;
     }

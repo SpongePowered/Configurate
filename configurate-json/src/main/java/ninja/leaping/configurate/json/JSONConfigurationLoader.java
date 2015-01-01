@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.json;
 
 import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.core.util.InternCache;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -37,33 +36,69 @@ import java.util.Map;
  * A loader for JSON-formatted configurations, using the jackson library for parsing and generation
  */
 public class JSONConfigurationLoader extends FileConfigurationLoader {
-    private final JsonFactory factory = new JsonFactory();
+    private final JsonFactory factory;
+    private final boolean prettyPrint;
 
-    public JSONConfigurationLoader(File file) {
-        super(file);
-        configure(factory);
+    public static class Builder extends FileConfigurationLoader.Builder {
+        private final JsonFactory factory = new JsonFactory();
+        private boolean prettyPrint = true;
+
+        protected Builder() {
+            factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+            factory.enable(JsonParser.Feature.ALLOW_COMMENTS);
+            factory.enable(JsonParser.Feature.ALLOW_YAML_COMMENTS);
+            factory.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
+            factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
+            factory.enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES);
+            factory.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
+            factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
+        }
+
+        public JsonFactory getFactory() {
+            return this.factory;
+        }
+
+        public Builder setPrettyPrint(boolean prettyPrint) {
+            this.prettyPrint = prettyPrint;
+            return this;
+        }
+
+        @Override
+        public Builder setFile(File file) {
+            super.setFile(file);
+            return this;
+        }
+
+        @Override
+        public Builder setURL(URL url) {
+            super.setURL(url);
+            return this;
+        }
+
+        public Builder setSource(CharSource source) {
+            super.setSource(source);
+            return this;
+        }
+
+        public Builder setSink(CharSink sink) {
+            super.setSink(sink);
+            return this;
+        }
+
+        @Override
+        public JSONConfigurationLoader build() {
+            return new JSONConfigurationLoader(source, sink, factory, prettyPrint);
+        }
     }
 
-    public JSONConfigurationLoader(URL url) {
-        super(url);
-        configure(factory);
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public JSONConfigurationLoader(CharSource source, CharSink sink) {
+    protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory, boolean prettyPrint) {
         super(source, sink);
-        configure(factory);
-    }
-
-    protected void configure(JsonFactory factory) {
-        // Parse loosely, emit strictly
-        factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-        factory.enable(JsonParser.Feature.ALLOW_COMMENTS);
-        factory.enable(JsonParser.Feature.ALLOW_YAML_COMMENTS);
-        factory.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-        factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-        factory.enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES);
-        factory.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
-        factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
+        this.factory = factory;
+        this.prettyPrint = prettyPrint;
     }
 
     @Override
@@ -143,7 +178,9 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
             throw new IOException("No sink present to write to!");
         }
         try (Writer writer = sink.openStream(); JsonGenerator generator = factory.createGenerator(writer)) {
-            generator.useDefaultPrettyPrinter();
+            if (prettyPrint) {
+                generator.useDefaultPrettyPrinter();
+            }
             generateValue(generator, node);
             generator.flush();
             writer.write('\n'); // Jackson doesn't add a newline at the end of files by default
