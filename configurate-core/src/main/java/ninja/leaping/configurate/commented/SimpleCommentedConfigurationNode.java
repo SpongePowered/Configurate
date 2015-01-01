@@ -55,6 +55,9 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
 
     @Override
     public SimpleCommentedConfigurationNode setValue(Object value) {
+        if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode) value).getComment().isPresent()) {
+            setComment(((CommentedConfigurationNode) value).getComment().get());
+        }
         return (SimpleCommentedConfigurationNode)super.setValue(value);
     }
 
