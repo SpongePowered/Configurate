@@ -28,6 +28,7 @@ public interface ConfigurationLoader {
      * Create a new configuration node populated with the appropriate data
      *
      * @return The newly constructed node
+     * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
      */
     public ConfigurationNode load() throws IOException;
 
@@ -35,6 +36,7 @@ public interface ConfigurationLoader {
      * Save the contents of the given node tree to
      *
      * @param node The node a save is being requested for
+     * @throws java.io.IOException if any sort of error occurs with writing or generating the configuration
      */
     public void save(ConfigurationNode node) throws IOException;
 }

@@ -48,12 +48,12 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
 
         /**
          * Sets the flow style for this configuration
-         * Flow: the compact, json-like representation.<br/>
+         * Flow: the compact, json-like representation.<br>
          * Example: <code>
          *     {value: [list, of, elements], another: value}
          * </code>
          *
-         * Block: expanded, traditional YAML<br/>
+         * Block: expanded, traditional YAML<br>
          * Emample: <code>
          *     value:
          *     - list

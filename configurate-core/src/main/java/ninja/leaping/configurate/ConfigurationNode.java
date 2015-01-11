@@ -60,7 +60,7 @@ public interface ConfigurationNode {
      *
      * @param transformer The transformation function
      * @param def The expected type
-     * @param <T>
+     * @param <T> The expected type
      * @return A transformed value of the correct type, or {@code def} either if no value is present or the value
      * could not be converted
      */
@@ -83,6 +83,7 @@ public interface ConfigurationNode {
      * If this node has a scalar value, this function treats it as a list with one value
      *
      * @param transformer The transformation function
+     * @param def The default value if no appropriate value is set
      * @param <T> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
@@ -100,6 +101,7 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
+     * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
@@ -116,6 +118,7 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
+     * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
@@ -132,6 +135,7 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
+     * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
@@ -148,6 +152,7 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
+     * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
@@ -164,6 +169,7 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
+     * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
@@ -180,6 +186,7 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
+     * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */

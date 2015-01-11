@@ -35,7 +35,7 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
 
     /**
      * Sets the comment for this configuration.
-     * @param comment
+     * @param comment The comment to set. Line breaks should be represented as LFs (\n)
      */
     public void setComment(String comment);
 
