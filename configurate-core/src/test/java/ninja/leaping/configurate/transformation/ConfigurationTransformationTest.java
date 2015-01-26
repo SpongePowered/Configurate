@@ -43,13 +43,13 @@ public class ConfigurationTransformationTest {
                 p("a", "b", "b")
         ), autoSortedKeys = new ArrayList<>(), expectedSortedKeys
                 = Arrays.asList(
-                p("a", "b"),
                 p("a", "b", "b"),
-                p("a", "b", "c"),
                 p("a", "b", "c", "d"),
+                p("a", "b", "c"),
                 p("a", "b", "d"),
-                p("a", "c"),
-                p("a", "c", "c")
+                p("a", "b"),
+                p("a", "c", "c"),
+                p("a", "c")
         );
 
         final TransformAction action = new TransformAction() {
