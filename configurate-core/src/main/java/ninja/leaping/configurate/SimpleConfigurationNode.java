@@ -199,7 +199,12 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
 
         if (value == null) {
-            getParent().removeChild(path[path.length - 1]);
+            if (path.length == 0) {
+                detachChildren();
+                this.value = null;
+            } else {
+                getParent().removeChild(path[path.length - 1]);
+            }
             return this;
         }
 
