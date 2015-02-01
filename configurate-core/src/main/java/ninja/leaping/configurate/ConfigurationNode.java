@@ -41,6 +41,7 @@ public interface ConfigurationNode {
      * Get the current value associated with this node.
      * If this node has children, this method will recursively unwrap them to construct a List or a Map
      *
+     * @param def The default value to return if this node has no set value
      * @return This configuration's current value, or {@code def} if there is none
      */
     public Object getValue(Object def);
