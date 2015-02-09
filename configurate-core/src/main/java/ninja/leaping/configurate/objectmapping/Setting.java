@@ -34,7 +34,7 @@ public @interface Setting {
      *
      * @return The path
      */
-    public String[] value() default "";
+    public String[] value();
 
     /**
      * The default comment associated with this configuration node
