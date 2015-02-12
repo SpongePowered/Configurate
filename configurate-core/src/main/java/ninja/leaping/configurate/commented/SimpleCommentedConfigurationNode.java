@@ -43,9 +43,10 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     }
 
     @Override
-    public void setComment(String comment) {
+    public SimpleCommentedConfigurationNode setComment(String comment) {
         attachIfNecessary();
         this.comment = comment;
+        return this;
     }
 
     @Override
