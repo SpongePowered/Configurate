@@ -24,11 +24,11 @@ public class SimpleCommentedConfigurationNodeTest {
     @Test
     public void testCommentsTransferred() {
         CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
-        CommentedConfigurationNode firstChild = subject.getChild("first");
+        CommentedConfigurationNode firstChild = subject.getNode("first");
         firstChild.setValue("test value");
         firstChild.setComment("Such comment. Very wow.");
 
-        CommentedConfigurationNode secondChild = subject.getChild("second");
+        CommentedConfigurationNode secondChild = subject.getNode("second");
         secondChild.setValue("test value's evil twin");
 
         assertFalse(secondChild.isVirtual());

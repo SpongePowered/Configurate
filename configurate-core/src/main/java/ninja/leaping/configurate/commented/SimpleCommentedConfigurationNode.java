@@ -30,11 +30,11 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     private String comment;
 
     public static SimpleCommentedConfigurationNode root() {
-        return new SimpleCommentedConfigurationNode(new Object[0], null);
+        return new SimpleCommentedConfigurationNode(null, null, null);
     }
 
-    protected SimpleCommentedConfigurationNode(Object[] path, SimpleConfigurationNode root) {
-        super(path, root);
+    protected SimpleCommentedConfigurationNode(Object path, SimpleConfigurationNode root, SimpleConfigurationNode parent) {
+        super(path, root, parent);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     }
 
     @Override
-    protected SimpleCommentedConfigurationNode createNode(Object[] path) {
-        return new SimpleCommentedConfigurationNode(path, root);
+    protected SimpleCommentedConfigurationNode createNode(Object path) {
+        return new SimpleCommentedConfigurationNode(path, root, this);
     }
 
     @Override
@@ -80,12 +80,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     }
 
     @Override
-    public SimpleCommentedConfigurationNode getChild(Object key) {
-        return (SimpleCommentedConfigurationNode) super.getChild(key);
-    }
-
-    @Override
-    public SimpleCommentedConfigurationNode getAppendedChild() {
-        return (SimpleCommentedConfigurationNode) super.getAppendedChild();
+    public SimpleCommentedConfigurationNode getAppendedNode() {
+        return (SimpleCommentedConfigurationNode) super.getAppendedNode();
     }
 }

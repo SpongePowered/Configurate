@@ -3,7 +3,7 @@
     "op-level" : "unicorn"
   },
   "other" : {
-    "op-level" : "dragon",
-    "location" : "dog park"
+    "location" : "dog park",
+    "op-level" : "dragon"
   }
 }

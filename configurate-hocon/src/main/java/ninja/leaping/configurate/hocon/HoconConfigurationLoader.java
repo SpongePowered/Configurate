@@ -118,7 +118,7 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         try (Reader reader = source.openStream()) {
             Config hoconConfig = ConfigFactory.parseReader(reader, parse);
             for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
-                readConfigValue(ent.getValue(), node.getChild(ent.getKey()));
+                readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
             }
         }
         return node;
@@ -131,13 +131,13 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         switch (value.valueType()) {
             case OBJECT:
                 for (Map.Entry<String, ConfigValue> ent : ((ConfigObject) value).entrySet()) {
-                    readConfigValue(ent.getValue(), node.getChild(ent.getKey()));
+                    readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
                 }
                 break;
             case LIST:
                 List<ConfigValue> values = (ConfigList) value;
                 for (int i = 0; i < values.size(); ++i) {
-                    readConfigValue(values.get(i), node.getChild(i));
+                    readConfigValue(values.get(i), node.getNode(i));
                 }
                 break;
             case NULL:

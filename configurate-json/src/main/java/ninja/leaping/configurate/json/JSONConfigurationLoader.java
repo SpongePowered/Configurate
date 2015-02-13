@@ -152,7 +152,7 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
                 case END_ARRAY:
                     return;
                 default:
-                    parseValue(parser, node.getAppendedChild());
+                    parseValue(parser, node.getAppendedNode());
             }
         }
         throw new JsonParseException("Reached end of stream with unclosed array!", parser.getCurrentLocation());
@@ -166,7 +166,7 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
                 case END_OBJECT:
                     return;
                 default:
-                    parseValue(parser, node.getChild(parser.getCurrentName()));
+                    parseValue(parser, node.getNode(parser.getCurrentName()));
             }
         }
             throw new JsonParseException("Reached end of stream with unclosed array!", parser.getCurrentLocation());

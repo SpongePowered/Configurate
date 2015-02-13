@@ -181,7 +181,7 @@ public class ConfigurationTransformation {
                 }
                 return;
             } else {
-                node = node.getChild(path[i]);
+                node = node.getNode(path[i]);
                 if (node.isVirtual()) {
                     return;
                 }

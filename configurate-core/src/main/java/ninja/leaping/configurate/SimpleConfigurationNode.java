@@ -19,16 +19,12 @@ package ninja.leaping.configurate;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
@@ -37,46 +33,35 @@ import java.util.Map;
 public class SimpleConfigurationNode implements ConfigurationNode {
     private static final int NUMBER_DEF = 0;
     protected final SimpleConfigurationNode root;
-    private boolean attached;
+    volatile boolean attached;
     /**
      * Path of this node.
      *
      * Internally, may only be modified when an operation that adds or removes a node at the same or higher level in the node tree
      */
-    private final Object[] path;
-    private Object value;
+    volatile Object key;
+    private SimpleConfigurationNode parent;
+    private final AtomicReference<ConfigValue> value = new AtomicReference<>();
 
     public static SimpleConfigurationNode root() {
-        return new SimpleConfigurationNode(new Object[0], null);
+        return new SimpleConfigurationNode(null, null, null);
     }
 
-    protected SimpleConfigurationNode(Object[] path, SimpleConfigurationNode root) {
-        this.path = path;
+    protected SimpleConfigurationNode(Object key, SimpleConfigurationNode root, SimpleConfigurationNode parent) {
+        this.key = key;
         this.root = root == null ? this : root;
         if (root == null) {
             attached = true;
         }
+        this.parent = parent == null ? root : parent;
+
+        value.set(new NullConfigValue(this));
 
     }
 
     @Override
     public Object getValue() {
-        final Object value = this.value;
-        if (value instanceof List) {
-            final List<Object> ret = new ArrayList<>(((List) value).size());
-            for (Object obj : (List) value) {
-                ret.add(((ConfigurationNode) obj).getValue());
-            }
-            return ret.isEmpty() ? null : ret;
-        } else if (value instanceof Map) {
-            final Map<Object, Object> ret = new HashMap<>(((Map) value).size());
-            for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
-                ret.put(ent.getKey(), ((ConfigurationNode) ent.getValue()).getValue());
-            }
-            return ret.isEmpty() ? null : ret;
-        } else {
-            return value;
-        }
+        return value.get().getValue();
     }
 
     @Override
@@ -102,7 +87,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public <T> List<T> getList(Function<Object, T> transformer) {
         final ImmutableList.Builder<T> build = ImmutableList.builder();
         if (hasListChildren()) {
-            for (SimpleConfigurationNode o : getImplChildrenList()) {
+            for (SimpleConfigurationNode o : value.get().iterateChildren()) {
                 T transformed = transformer.apply(o.getValue());
                 if (transformed != null) {
                     build.add(transformed);
@@ -193,46 +178,34 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     // }}}
 
     @Override
-    public SimpleConfigurationNode setValue(Object value) {
-        if (value instanceof ConfigurationNode) {
-            value = ((ConfigurationNode) value).getValue(); // Unwrap existing nodes
+    public SimpleConfigurationNode setValue(Object newValue) {
+        if (newValue instanceof ConfigurationNode) {
+            newValue = ((ConfigurationNode) newValue).getValue(); // Unwrap existing nodes
         }
 
-        if (value == null) {
-            if (path.length == 0) {
-                detachChildren();
-                this.value = null;
+        if (newValue == null) {
+            if (parent == null) {
+                clear();
             } else {
-                getParent().removeChild(path[path.length - 1]);
+                parent.removeChild(key);
             }
             return this;
         }
 
         attachIfNecessary();
-        if (value instanceof Collection) {
-            final Collection<?> valueList = (Collection<?>) value;
-            final List<SimpleConfigurationNode> newValue = new ArrayList<>(valueList.size());
-            int count = 0;
-            for (Object o : valueList) {
-                SimpleConfigurationNode child = createNode(PathUtils.appendPath(this.path, count));
-                newValue.add(count, child);
-                child.attached = true;
-                child.setValue(o);
-                ++count;
+        ConfigValue value, oldValue;
+        do {
+            value = this.value.get();
+            oldValue = value;
+            if (newValue instanceof Collection && !(value instanceof ListConfigValue)) {
+                value = new ListConfigValue(this);
+            } else if (newValue instanceof Map && !(value instanceof MapConfigValue)) {
+                value = new MapConfigValue(this);
+            } else if (!(value instanceof ScalarConfigValue)) {
+                value = new ScalarConfigValue(this);
             }
-            this.value = newValue;
-        } else if (value instanceof Map) {
-            final Map<Object, SimpleConfigurationNode> newValue = new LinkedHashMap<>();
-            for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
-                SimpleConfigurationNode child = createNode(PathUtils.appendPath(this.path, ent.getKey()));
-                newValue.put(ent.getKey(), child);
-                child.attached = true;
-                child.setValue(ent.getValue());
-            }
-            this.value = newValue;
-        } else {
-            this.value = value;
-        }
+            value.setValue(newValue);
+        } while (!this.value.compareAndSet(oldValue, value));
         return this;
     }
 
@@ -241,10 +214,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public SimpleConfigurationNode getNode(Object... path) {
         SimpleConfigurationNode ret = this;
         for (Object el : path) {
-            if (!ret.attached) { // Child is not attached, so won't have any attached children, so skip on traversing
-                return createNode(path);
-            }
-            ret = ret.getChild(el);
+            ret = ret.getChild(el, false);
         }
         return ret;
     }
@@ -256,63 +226,45 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public boolean hasListChildren() {
-        return this.value instanceof List;
+        return this.value.get() instanceof ListConfigValue;
     }
 
     @Override
     public boolean hasMapChildren() {
-        return this.value instanceof Map;
+        return this.value.get() instanceof MapConfigValue;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<? extends SimpleConfigurationNode> getChildrenList() {
-        return hasListChildren() ? ImmutableList.copyOf((List<SimpleConfigurationNode>) value) : Collections
+        ConfigValue value = this.value.get();
+        return value instanceof ListConfigValue ? ImmutableList.copyOf(((ListConfigValue) value).values.get()) : Collections
                 .<SimpleConfigurationNode>emptyList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Map<Object, ? extends SimpleConfigurationNode> getChildrenMap() {
-        return hasMapChildren() ? ImmutableMap.copyOf((Map<Object, SimpleConfigurationNode>) value) : Collections
+        ConfigValue value = this.value.get();
+        return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue) value).values.get()) : Collections
                 .<Object, SimpleConfigurationNode>emptyMap();
     }
 
-    @SuppressWarnings("unchecked")
-    List<SimpleConfigurationNode> getImplChildrenList() {
-        return hasListChildren() ? (List<SimpleConfigurationNode>) value : Collections.<SimpleConfigurationNode>emptyList();
+    protected SimpleConfigurationNode getChild(Object key, boolean attach) {
+        SimpleConfigurationNode child = value.get().getChild(key);
 
-    }
-
-    @SuppressWarnings("unchecked")
-    Map<Object, SimpleConfigurationNode> getImplChildrenMap() {
-        return hasMapChildren() ? (Map<Object, SimpleConfigurationNode>) value : Collections.<Object, SimpleConfigurationNode>emptyMap();
-    }
-
-    @SuppressWarnings("unchecked")
-    Iterable<SimpleConfigurationNode> iterChildren() {
-        if (value instanceof Map) {
-            return ((Map<Object, SimpleConfigurationNode>) value).values();
-        } else if (value instanceof List) {
-            return (List<SimpleConfigurationNode>) value;
+        if (attach) {
+            attachIfNecessary();
+            SimpleConfigurationNode existingChild = value.get().putChildIfAbsent(key, (child = createNode(key)));
+            if (existingChild != null) {
+                child = existingChild;
+            } else {
+                attachChild(child);
+            }
         } else {
-            return Collections.emptyList();
-        }
-    }
-
-    @Override
-    public SimpleConfigurationNode getChild(Object key) {
-        SimpleConfigurationNode child = null;
-        if (hasListChildren() && key instanceof Integer) {
-            final List<SimpleConfigurationNode> valueList = getImplChildrenList();
-            int index = (Integer) key;
-            child = (index < 0 || index >= valueList.size()) ? null : valueList.get(index);
-        } else if (hasMapChildren()) {
-            child = getImplChildrenMap().get(key);
-        }
-
-        if (child == null) { // Does not currently exist!
-            child = createNode(PathUtils.appendPath(path, key));
+            if (child == null) { // Does not currently exist!
+                child = createNode(key);
+            }
         }
 
         return child;
@@ -320,50 +272,36 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public boolean removeChild(Object key) {
-        SimpleConfigurationNode removedNode = null;
-        boolean lastChild = false;
-        if (key instanceof Integer && hasListChildren()) {
-            int index = (Integer) key;
-            List<SimpleConfigurationNode> nodes = getImplChildrenList();
-            if (index < nodes.size()) {
-                removedNode = nodes.remove(index);
-                for (int i = index; i < nodes.size(); ++i) {
-                    Object[] path = nodes.get(i).path;
-                    path[path.length - 1] = index;
-                    nodes.get(i).updateChildPaths();
-                }
-            }
-            lastChild = nodes.size() == 0;
-        } else if (hasMapChildren()) {
-            removedNode = getImplChildrenMap().remove(key);
-            lastChild = getImplChildrenMap().isEmpty();
-        }
+        return possiblyDetach(value.get().putChild(key, null)) != null;
+    }
 
-        if (removedNode != null) {
-            removedNode.attached = false;
-            removedNode.detachChildren();
-            if (lastChild) {
-                getParent().removeChild(path[path.length - 1]);
-            }
+    private SimpleConfigurationNode possiblyDetach(SimpleConfigurationNode node) {
+        if (node != null) {
+            node.attached = false;
+            node.clear();
         }
-        return removedNode != null;
+        return node;
     }
 
     @Override
-    public SimpleConfigurationNode getAppendedChild() {
-        return getChild(-1);
+    public SimpleConfigurationNode getAppendedNode() {
+        return getChild(-1, false);
     }
 
     // }}}
 
     // {{{ Internal methods
+    SimpleConfigurationNode getParent() {
+        SimpleConfigurationNode parent = this.parent;
+        if (parent.isVirtual()) {
+            parent = parent.getParent().getChild(parent.key, true);
 
-    private SimpleConfigurationNode getParent() {
-        return root.getNode(PathUtils.dropPathTail(this.path));
+        }
+        return this.parent = parent;
     }
 
-    protected SimpleConfigurationNode createNode(Object[] path) {
-        return new SimpleConfigurationNode(path, root);
+    protected SimpleConfigurationNode createNode(Object path) {
+        return new SimpleConfigurationNode(path, root, this);
     }
 
     protected void attachIfNecessary() {
@@ -373,78 +311,38 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     protected void attachChild(SimpleConfigurationNode child) {
-        if (!PathUtils.isDirectChild(child.path, path)) {
-            throw new IllegalStateException("Child " + Arrays.toString(child.path) +
-                    " path is not a direct parent of me " + Arrays.toString(this.path) + ", cannot attach");
+        if (isVirtual()) {
+            throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
         }
-        attachIfNecessary();
-        Object id = child.path[child.path.length - 1];
-        if (id instanceof Integer && !hasMapChildren()) {
-            List<SimpleConfigurationNode> list;
-            if (this.value == null) {
-                this.value = list = new ArrayList<>();
+        if (!child.getParent().equals(this)) {
+            throw new IllegalStateException("Child " +  child +
+                    " path is not a direct parent of me (" + this + "), cannot attach");
+        }
+        final ConfigValue oldValue = value.get();
+        ConfigValue newValue = oldValue;
+        do {
+            if (!(oldValue instanceof MapConfigValue)) {
+                if (child.key instanceof Integer) {
+                    if (oldValue instanceof NullConfigValue) {
+                        newValue = new ListConfigValue(this);
 
-            } else if (!(this.value instanceof List)) {
-                SimpleConfigurationNode newChild = createNode(PathUtils.appendPath(this.path, 0));
-                newChild.attached = true;
-                newChild.setValue(this.value);
-                this.value = list = Lists.newArrayList(newChild);
-            } else {
-                list = getImplChildrenList();
+                    } else if (!(oldValue instanceof ListConfigValue)) {
+                        newValue = new ListConfigValue(this, oldValue.getValue());
+                    }
+                } else {
+                    newValue = new MapConfigValue(this);
+                }
             }
-
-            final int index = (Integer) id;
-
-            if (index >= 0 && index < list.size()) {
-                SimpleConfigurationNode old = list.set(index, child);
-                old.attached = false;
-                old.detachChildren();
-            } else if (index == -1) { // Gotta correct the child path for the correct path name
-                list.add(child);
-                id = list.size() - 1;
-                child.path[child.path.length - 1] = id;
-                child.updateChildPaths();
-            } else {
-                list.add(index, child);
-            }
-        } else {
-            if (hasListChildren()) {
-                detachChildren();
-            }
-            Map<Object, SimpleConfigurationNode> map;
-            if (!(this.value instanceof Map)) {
-                this.value = map = new LinkedHashMap<>();
-            } else {
-                map = getImplChildrenMap();
-            }
-            SimpleConfigurationNode oldNode = map.put(id, child);
-            if (oldNode != null) {
-                oldNode.attached = false;
-                oldNode.detachChildren();
-            }
+            possiblyDetach(newValue.putChild(child.key, child));
+        } while (!value.compareAndSet(oldValue, newValue));
+        if (newValue != oldValue) {
+            oldValue.clear();
         }
         child.attached = true;
     }
 
-    protected void updateChildPaths() {
-        updateChildPaths(path.length - 1);
-    }
-
-    protected void updateChildPaths(int startIndex) {
-        for (SimpleConfigurationNode node : iterChildren()) {
-            System.arraycopy(path, startIndex, node.path, startIndex, path.length - startIndex);
-        }
-    }
-
-    protected void detachChildren() {
-        if (hasListChildren() || hasMapChildren()) {
-            Iterable<SimpleConfigurationNode> iter = iterChildren();
-            this.value = null;
-            for (SimpleConfigurationNode node : iter) {
-                node.attached = false;
-                node.detachChildren();
-            }
-        }
+    protected void clear() {
+        value.getAndSet(new NullConfigValue(this)).clear();
     }
     // }}}
 }

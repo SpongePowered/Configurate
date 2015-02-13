@@ -48,9 +48,7 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
     @Override
     public CommentedConfigurationNode setValue(Object value);
     @Override
-    public CommentedConfigurationNode getChild(Object key);
-    @Override
-    public CommentedConfigurationNode getAppendedChild();
+    public CommentedConfigurationNode getAppendedNode();
     @Override
     public CommentedConfigurationNode getNode(Object... path);
 }

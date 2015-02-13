@@ -86,19 +86,19 @@ public class TypeSerializersTest {
         final TypeToken<List<String>> stringListType = new TypeToken<List<String>>() {};
         final TypeSerializer stringListSerializer = TypeSerializers.getSerializer(stringListType);
         final ConfigurationNode value = SimpleConfigurationNode.root();
-        value.getAppendedChild().setValue("hi");
-        value.getAppendedChild().setValue("there");
-        value.getAppendedChild().setValue("beautiful");
-        value.getAppendedChild().setValue("people");
+        value.getAppendedNode().setValue("hi");
+        value.getAppendedNode().setValue("there");
+        value.getAppendedNode().setValue("beautiful");
+        value.getAppendedNode().setValue("people");
 
         assertEquals(Arrays.asList("hi", "there", "beautiful", "people"), stringListSerializer.deserialize(stringListType, value));
         value.setValue(null);
 
         stringListSerializer.serialize(stringListType, Arrays.asList("hi", "there", "lame", "people"), value);
-        assertEquals("hi", value.getChild(0).getString());
-        assertEquals("there", value.getChild(1).getString());
-        assertEquals("lame", value.getChild(2).getString());
-        assertEquals("people", value.getChild(3).getString());
+        assertEquals("hi", value.getNode(0).getString());
+        assertEquals("there", value.getNode(1).getString());
+        assertEquals("lame", value.getNode(2).getString());
+        assertEquals("people", value.getNode(3).getString());
     }
 
     @Test
@@ -107,9 +107,9 @@ public class TypeSerializersTest {
         final TypeSerializer mapStringIntSerializer = TypeSerializers.getSerializer(mapStringIntType);
 
         final ConfigurationNode value = SimpleConfigurationNode.root();
-        value.getChild("fish").setValue(5);
-        value.getChild("bugs").setValue("124880");
-        value.getChild("time").setValue("-1");
+        value.getNode("fish").setValue(5);
+        value.getNode("bugs").setValue("124880");
+        value.getNode("time").setValue("-1");
 
         final Map<String, Integer> expectedValues = ImmutableMap.of("fish", 5, "bugs", 124880, "time", -1);
 

@@ -228,15 +228,6 @@ public interface ConfigurationNode {
     public Map<Object, ? extends ConfigurationNode> getChildrenMap();
 
     /**
-     * Gets a direct child node of this one.
-     * If this is a list, an int passed to this method is the index into the list to get a node at
-     *
-     * @param key The key to look up
-     * @return A child node, possibly unattached
-     */
-    public ConfigurationNode getChild(Object key);
-
-    /**
      * Removes a direct child of this node
      *
      * @param key The key of the node to remove
@@ -247,7 +238,7 @@ public interface ConfigurationNode {
     /**
      * @return a new child created as the next entry in the list when it is attached
      */
-    public ConfigurationNode getAppendedChild();
+    public ConfigurationNode getAppendedNode();
 
 
     /**

@@ -77,6 +77,7 @@ public class ConfigurationTransformationTest {
     public static void assertListOfArrayEquals(List<Object[]> expected, List<Object[]> tested) {
         assertEquals(expected.size(), tested.size());
         for (int i = 0; i < expected.size(); ++i) {
+            System.out.println("Comparing lists " + Arrays.toString(expected.get(i)) + " and " + Arrays.toString(tested.get(i)));
             assertArrayEquals(expected.get(i), tested.get(i));
         }
 
@@ -91,13 +92,13 @@ public class ConfigurationTransformationTest {
                         "f")
         ), populatedResults = new ArrayList<>(), expectedResult = Arrays.asList(
                 p("a", "c", "c"),
-                p("a", "c", "c"),
                 p("a", "b", "c"),
+                p("a", "c", "c"),
                 p("a", "d", "c"),
-                p("b", "c", "d", "e", "f"),
                 p("b", "c", "d", "f", "f"),
-                p("b", "d", "d", "e", "f"),
-                p("b", "d", "d", "f", "f")
+                p("b", "c", "d", "e", "f"),
+                p("b", "d", "d", "f", "f"),
+                p("b", "d", "d", "e", "f")
         );
 
         final TransformAction action = new TransformAction() {

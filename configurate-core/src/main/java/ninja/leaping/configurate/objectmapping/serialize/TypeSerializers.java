@@ -203,7 +203,7 @@ public class TypeSerializers {
             for (Map.Entry<?, ?> ent : origMap.entrySet()) {
                 SimpleConfigurationNode keyNode = SimpleConfigurationNode.root();
                 keySerial.serialize(value, ent.getKey(), keyNode);
-                valueSerial.serialize(value, ent.getValue(), node.getChild(keyNode.getValue()));
+                valueSerial.serialize(value, ent.getValue(), node.getNode(keyNode.getValue()));
             }
         }
     }
@@ -241,7 +241,7 @@ public class TypeSerializers {
             TypeSerializer entrySerial = getSerializer(entryType);
             value.setValue(null);
             for (Object ent : origList) {
-                entrySerial.serialize(entryType, ent, value.getAppendedChild());
+                entrySerial.serialize(entryType, ent, value.getAppendedNode());
             }
         }
     }

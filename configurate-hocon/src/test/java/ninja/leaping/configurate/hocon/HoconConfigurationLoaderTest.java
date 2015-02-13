@@ -19,7 +19,6 @@ package ninja.leaping.configurate.hocon;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.FileConfigurationLoader;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;

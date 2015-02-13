@@ -85,8 +85,8 @@ public class ObjectMapperTest {
         CommentedObject obj = mapper.newInstance(node);
         obj.color = "fuchsia";
         mapper.serializeObject(obj, node);
-        assertEquals("You look nice today", node.getChild("commented-key").getComment().orNull());
-        assertEquals("fuchsia", node.getChild("commented-key").getString());
+        assertEquals("You look nice today", node.getNode("commented-key").getComment().orNull());
+        assertEquals("fuchsia", node.getNode("commented-key").getString());
     }
 
 
