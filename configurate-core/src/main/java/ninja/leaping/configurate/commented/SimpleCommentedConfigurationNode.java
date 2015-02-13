@@ -17,17 +17,19 @@
 package ninja.leaping.configurate.commented;
 
 import com.google.common.base.Optional;
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
  * Represents a configuration node containing comments
  */
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
-    private String comment;
+    private final AtomicReference<String> comment = new AtomicReference<>();
 
     public static SimpleCommentedConfigurationNode root() {
         return new SimpleCommentedConfigurationNode(null, null, null);
@@ -39,13 +41,13 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
 
     @Override
     public Optional<String> getComment() {
-        return Optional.fromNullable(comment);
+        return Optional.fromNullable(comment.get());
     }
 
     @Override
     public SimpleCommentedConfigurationNode setComment(String comment) {
         attachIfNecessary();
-        this.comment = comment;
+        this.comment.set(comment);
         return this;
     }
 
@@ -65,6 +67,17 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
             setComment(((CommentedConfigurationNode) value).getComment().get());
         }
         return (SimpleCommentedConfigurationNode)super.setValue(value);
+    }
+
+    @Override
+    public SimpleCommentedConfigurationNode mergeValuesFrom(ConfigurationNode other) {
+        if (other instanceof CommentedConfigurationNode) {
+            Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
+            if (otherComment.isPresent()) {
+                comment.compareAndSet(null, otherComment.get());
+            }
+        }
+        return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);
     }
 
     @Override

@@ -193,11 +193,19 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             return this;
         }
 
+        insertNewValue(newValue, false);
+        return this;
+    }
+
+    private void insertNewValue(Object newValue, boolean onlyIfNull) {
         attachIfNecessary();
         ConfigValue value, oldValue;
         do {
             value = this.value.get();
             oldValue = value;
+            if (onlyIfNull && !(oldValue instanceof NullConfigValue)) {
+                break;
+            }
             if (newValue instanceof Collection && !(value instanceof ListConfigValue)) {
                 value = new ListConfigValue(this);
             } else if (newValue instanceof Map && !(value instanceof MapConfigValue)) {
@@ -207,6 +215,50 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             }
             value.setValue(newValue);
         } while (!this.value.compareAndSet(oldValue, value));
+
+    }
+
+    @Override
+    public ConfigurationNode mergeValuesFrom(ConfigurationNode other) {
+        /*if (other.hasListChildren()) {
+            ConfigValue oldValue, newValue;
+            do {
+                oldValue = newValue = value.get();
+                if (!(oldValue instanceof ListConfigValue)) {
+                    if (oldValue instanceof NullConfigValue) {
+                        oldValue = new ListConfigValue(this);
+                    } else {
+                        break;
+                    }
+                }
+               // TODO: How to merge list values?
+
+            } while (!this.value.compareAndSet(oldValue, newValue));
+
+        } else */if (other.hasMapChildren()) {
+            ConfigValue oldValue, newValue;
+            do {
+                oldValue = newValue = value.get();
+                if (!(oldValue instanceof MapConfigValue)) {
+                    if (oldValue instanceof NullConfigValue) {
+                        newValue = new MapConfigValue(this);
+                    } else {
+                        break;
+                    }
+                }
+                for (Map.Entry<Object, ? extends ConfigurationNode> ent : other.getChildrenMap().entrySet()) {
+                    SimpleConfigurationNode newChild = createNode(ent.getKey());
+                    newChild.attached = true;
+                    newChild.setValue(ent.getValue());
+                    SimpleConfigurationNode existing = newValue.putChildIfAbsent(ent.getKey(), newChild);
+                    if (existing != null) {
+                        existing.mergeValuesFrom(newChild);
+                    }
+                }
+            } while (!this.value.compareAndSet(oldValue, newValue));
+        } else if (other.getValue() != null) {
+            insertNewValue(other.getValue(), true);
+        }
         return this;
     }
 

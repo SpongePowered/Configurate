@@ -19,6 +19,7 @@ package ninja.leaping.configurate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
+import sun.security.krb5.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -161,6 +162,35 @@ public class SimpleConfigurationNodeTest {
     public void testGetPath() {
         ConfigurationNode root = SimpleConfigurationNode.root();
         assertArrayEquals(new Object[] {"a", "b", "c"}, root.getNode("a", "b", "c").getPath());
+    }
+
+    @Test
+    public void testMergeValues() {
+        SimpleConfigurationNode first = SimpleConfigurationNode.root();
+        SimpleConfigurationNode second = SimpleConfigurationNode.root();
+        first.getNode("scalar").setValue("one");
+        first.getNode("absent").setValue("butmerged");
+        second.getNode("scalar").setValue("two");
+
+        ConfigurationNode firstAbsentMap = first.getNode("absent-map");
+        firstAbsentMap.getNode("a").setValue("one");
+        firstAbsentMap.getNode("b").setValue("two");
+
+        ConfigurationNode firstMergedMap = first.getNode("merged-map");
+        ConfigurationNode secondMergedMap = second.getNode("merged-map");
+        firstMergedMap.getNode("source").setValue("first");
+        secondMergedMap.getNode("source").setValue("second");
+        firstMergedMap.getNode("first-only").setValue("yeah");
+        secondMergedMap.getNode("second-only").setValue("yeah");
+
+        second.mergeValuesFrom(first);
+        assertEquals("two", second.getNode("scalar").getString());
+        assertEquals("butmerged", second.getNode("absent").getString());
+        assertEquals("one", second.getNode("absent-map", "a").getString());
+        assertEquals("two", second.getNode("absent-map", "b").getString());
+        assertEquals("second", second.getNode("merged-map", "source").getString());
+        assertEquals("yeah", second.getNode("merged-map", "first-only").getString());
+        assertEquals("yeah", second.getNode("merged-map", "second-only").getString());
     }
 
 }

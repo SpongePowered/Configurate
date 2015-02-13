@@ -228,6 +228,17 @@ public interface ConfigurationNode {
     public ConfigurationNode setValue(Object value);
 
     /**
+     * Set all the values from the given node that are not present in this node
+     * to their values in the provided node.
+     *
+     * Map keys will be merged. Lists and scalar values will be replaced.
+     *
+     * @param other The node to merge values from
+     * @return this
+     */
+    public ConfigurationNode mergeValuesFrom(ConfigurationNode other);
+
+    /**
      * @return if this node has children in the form of a list
      */
     public boolean hasListChildren();

@@ -37,4 +37,22 @@ public class SimpleCommentedConfigurationNodeTest {
         assertEquals("test value", secondChild.getValue());
         assertEquals("Such comment. Very wow.", secondChild.getComment().orNull());
     }
+
+    @Test
+    public void testCommentsMerged() {
+        CommentedConfigurationNode source = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode target = SimpleCommentedConfigurationNode.root();
+
+        source.getNode("no-value").setValue("a").setComment("yeah");
+        source.getNode("existing-value-no-comment").setValue("orig").setComment("maybe");
+        source.getNode("existing-value").setValue("a").setComment("yeah");
+        target.getNode("existing-value-no-comment").setValue("new");
+        target.getNode("existing-value").setValue("b").setComment("nope");
+
+        target.mergeValuesFrom(source);
+        assertEquals("yeah", target.getNode("no-value").getComment().orNull());
+        assertEquals("maybe", target.getNode("existing-value-no-comment").getComment().orNull());
+        assertEquals("new", target.getNode("existing-value-no-comment").getString());
+        assertEquals("nope", target.getNode("existing-value").getComment().orNull());
+    }
 }
