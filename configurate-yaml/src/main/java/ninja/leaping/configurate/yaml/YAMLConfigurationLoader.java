@@ -120,6 +120,8 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
         final SimpleConfigurationNode node = SimpleConfigurationNode.root();
         try (Reader reader = source.openStream()) {
             node.setValue(yaml.get().load(reader));
+        } catch (FileNotFoundException e) {
+            // Squash -- there is no file so we have nothing to read
         }
         return node;
     }

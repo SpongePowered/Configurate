@@ -120,6 +120,8 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
             for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
                 readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
             }
+        } catch (FileNotFoundException e) {
+            // Squash -- there is no file so we have nothing to read
         }
         return node;
     }

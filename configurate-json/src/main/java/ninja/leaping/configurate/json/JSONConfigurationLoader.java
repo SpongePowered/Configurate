@@ -24,6 +24,7 @@ import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.FileConfigurationLoader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -110,6 +111,8 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
         try (Reader reader = source.openStream(); JsonParser parser = factory.createParser(reader)) {
             parser.nextToken();
             parseValue(parser, node);
+        } catch (FileNotFoundException e) {
+            // Squash -- there is no file so we have nothing to read
         }
         return node;
     }
