@@ -27,6 +27,20 @@ import java.util.Map;
  * navigate through the configuration tree and get values
  */
 public interface ConfigurationNode {
+    /**
+     * The key for this node.
+     * If this node is currently virtual, this method's result may be inaccurate.
+     *
+     * @return The key for this node
+     */
+    public Object getKey();
+
+    /**
+     * Returns the current parent for this node.
+     * If this node is currently virtual, this method's result may be inaccurate.
+     * @return The appropriate parent
+     */
+    public ConfigurationNode getParent();
 
     /**
      * Get the current value associated with this node.

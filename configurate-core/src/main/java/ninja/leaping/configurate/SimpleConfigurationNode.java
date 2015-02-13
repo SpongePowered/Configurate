@@ -288,13 +288,22 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return getChild(-1, false);
     }
 
+    @Override
+    public Object getKey() {
+        return key;
+    }
+
+    public SimpleConfigurationNode getParent() {
+        return this.parent;
+    }
+
     // }}}
 
     // {{{ Internal methods
-    SimpleConfigurationNode getParent() {
+    SimpleConfigurationNode getParentInternal() {
         SimpleConfigurationNode parent = this.parent;
         if (parent.isVirtual()) {
-            parent = parent.getParent().getChild(parent.key, true);
+            parent = parent.getParentInternal().getChild(parent.key, true);
 
         }
         return this.parent = parent;
@@ -306,7 +315,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     protected void attachIfNecessary() {
         if (!attached) {
-            getParent().attachChild(this);
+            getParentInternal().attachChild(this);
         }
     }
 
@@ -314,7 +323,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         if (isVirtual()) {
             throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
         }
-        if (!child.getParent().equals(this)) {
+        if (!child.getParentInternal().equals(this)) {
             throw new IllegalStateException("Child " +  child +
                     " path is not a direct parent of me (" + this + "), cannot attach");
         }

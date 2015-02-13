@@ -41,6 +41,7 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
 
     // Methods from superclass overridden to have correct return types
 
+    public CommentedConfigurationNode getParent();
     @Override
     public List<? extends CommentedConfigurationNode> getChildrenList();
     @Override

@@ -57,7 +57,7 @@ abstract class ConfigValue {
             SimpleConfigurationNode node = it.next();
             node.attached = false;
             it.remove();
-            if (node.getParent().equals(holder)) {
+            if (node.getParentInternal().equals(holder)) {
                 node.clear();
             }
         }

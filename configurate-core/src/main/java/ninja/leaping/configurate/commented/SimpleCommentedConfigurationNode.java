@@ -50,6 +50,11 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     }
 
     @Override
+    public SimpleCommentedConfigurationNode getParent() {
+        return (SimpleCommentedConfigurationNode) super.getParent();
+    }
+
+    @Override
     protected SimpleCommentedConfigurationNode createNode(Object path) {
         return new SimpleCommentedConfigurationNode(path, root, this);
     }

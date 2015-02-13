@@ -67,8 +67,8 @@ public class SimpleConfigurationNodeTest {
         nodeOne.setValue("one");
         nodeTwo.setValue("lilac");
         ConfigurationNode attachedParent = config.getNode("uncreated", "step");
-        assertEquals(attachedParent, nodeOne.getParent());
-        assertEquals(attachedParent, nodeTwo.getParent());
+        assertEquals(attachedParent, nodeOne.getParentInternal());
+        assertEquals(attachedParent, nodeTwo.getParentInternal());
     }
 
     @Test
