@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -291,6 +292,16 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public Object getKey() {
         return key;
+    }
+
+    @Override
+    public Object[] getPath() {
+        LinkedList<Object> pathElements = new LinkedList<>();
+        ConfigurationNode ptr = this;
+        do {
+            pathElements.addFirst(ptr.getKey());
+        } while ((ptr = ptr.getParent()) != root);
+        return pathElements.toArray();
     }
 
     public SimpleConfigurationNode getParent() {

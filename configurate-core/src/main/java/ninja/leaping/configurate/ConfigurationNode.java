@@ -35,6 +35,16 @@ public interface ConfigurationNode {
      */
     public Object getKey();
 
+
+    /**
+     * The full path from the root to this node.
+     *
+     * Node implementations may keep a full path for each node, so this method may involve some object churn.
+     *
+     * @return An array compiled from the keys for each node up the hierarchy
+     */
+    public Object[] getPath();
+
     /**
      * Returns the current parent for this node.
      * If this node is currently virtual, this method's result may be inaccurate.

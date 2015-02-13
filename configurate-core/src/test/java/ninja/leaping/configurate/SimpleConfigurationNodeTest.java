@@ -155,7 +155,12 @@ public class SimpleConfigurationNodeTest {
         child.setValue(null);
         assertTrue(child.isVirtual());
         assertNotEquals(child, root.getNode("child"));
+    }
 
+    @Test
+    public void testGetPath() {
+        ConfigurationNode root = SimpleConfigurationNode.root();
+        assertArrayEquals(new Object[] {"a", "b", "c"}, root.getNode("a", "b", "c").getPath());
     }
 
 }
