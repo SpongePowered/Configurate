@@ -18,7 +18,9 @@ package ninja.leaping.configurate.hocon;
 
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
+import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -53,5 +55,22 @@ public class HoconConfigurationLoaderTest {
         loader.save(node);
         assertEquals(Resources.toString(getClass().getResource("/roundtrip-test.conf"), UTF8_CHARSET), Files
                 .toString(saveTest, UTF8_CHARSET));
+    }
+
+    @Test
+    public void testBooleansNotShared() throws IOException {
+        URL url = getClass().getResource("/comments-test.conf");
+        final File saveTo = folder.newFile();
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setFile(saveTo).setURL(url).build();
+
+        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        node.getNode("test", "third").setValue(false).setComment("really?");
+        node.getNode("test", "apple").setComment("fruit").setValue(false);
+        node.getNode("test", "donut").setValue(true).setComment("tasty");
+        node.getNode("test", "guacamole").setValue(true).setComment("and chips?");
+
+        loader.save(node);
+        assertEquals(Resources.toString(url, UTF8_CHARSET), Files.toString(saveTo, UTF8_CHARSET));
     }
 }

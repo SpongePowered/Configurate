@@ -157,7 +157,7 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         if (!node.hasMapChildren()) {
             throw new IOException("HOCON cannot write nodes not in map format!");
         }
-        final ConfigValue value = ConfigValueFactory.fromAnyRef(node.getValue());
+        final ConfigValue value = ConfigValueFactory.fromAnyRef(node.getValue(), "configurate-hocon");
         traverseForComments(value, node);
         final String renderedValue = value.render(render);
         sink.write(renderedValue);
