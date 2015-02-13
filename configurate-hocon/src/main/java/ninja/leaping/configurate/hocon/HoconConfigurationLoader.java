@@ -114,7 +114,7 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         if (!canLoad()) {
             throw new IOException("No source present to read from!");
         }
-        final SimpleCommentedConfigurationNode node = SimpleCommentedConfigurationNode.root(); // TODO: autoattach
+        final CommentedConfigurationNode node = createEmptyNode();  // TODO: autoattach
         try (Reader reader = source.openStream()) {
             Config hoconConfig = ConfigFactory.parseReader(reader, parse);
             for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
@@ -161,6 +161,11 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
         traverseForComments(value, node);
         final String renderedValue = value.render(render);
         sink.write(renderedValue);
+    }
+
+    @Override
+    public CommentedConfigurationNode createEmptyNode() {
+        return SimpleCommentedConfigurationNode.root();
     }
 
     private void traverseForComments(ConfigValue value, ConfigurationNode node) throws IOException {

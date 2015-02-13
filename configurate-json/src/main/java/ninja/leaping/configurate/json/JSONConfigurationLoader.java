@@ -107,7 +107,7 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
         if (!canLoad()) {
             throw new IOException("No source present to read from!");
         }
-        final SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        final ConfigurationNode node = createEmptyNode();
         try (Reader reader = source.openStream(); JsonParser parser = factory.createParser(reader)) {
             parser.nextToken();
             parseValue(parser, node);
@@ -188,6 +188,11 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
             generator.flush();
             writer.write('\n'); // Jackson doesn't add a newline at the end of files by default
         }
+    }
+
+    @Override
+    public ConfigurationNode createEmptyNode() {
+        return SimpleConfigurationNode.root();
     }
 
     private void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {

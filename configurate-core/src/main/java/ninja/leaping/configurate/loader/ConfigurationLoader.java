@@ -39,4 +39,11 @@ public interface ConfigurationLoader {
      * @throws java.io.IOException if any sort of error occurs with writing or generating the configuration
      */
     public void save(ConfigurationNode node) throws IOException;
+
+    /**
+     * Return an empty node of the most appropriate type for this loader
+     *
+     * @return The appropriate node type
+     */
+    public ConfigurationNode createEmptyNode();
 }

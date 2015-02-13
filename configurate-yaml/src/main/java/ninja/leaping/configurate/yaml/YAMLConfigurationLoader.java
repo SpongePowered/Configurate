@@ -117,7 +117,7 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
         if (!canLoad()) {
             throw new IOException("No source present to read from!");
         }
-        final SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        final ConfigurationNode node = createEmptyNode();
         try (Reader reader = source.openStream()) {
             node.setValue(yaml.get().load(reader));
         } catch (FileNotFoundException e) {
@@ -134,5 +134,10 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
         try (Writer writer = sink.openStream()) {
             yaml.get().dump(node.getValue(), writer);
         }
+    }
+
+    @Override
+    public ConfigurationNode createEmptyNode() {
+        return SimpleConfigurationNode.root();
     }
 }
