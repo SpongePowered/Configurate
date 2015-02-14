@@ -18,8 +18,8 @@ package ninja.leaping.configurate;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 class MapConfigValue extends ConfigValue {
@@ -27,7 +27,7 @@ class MapConfigValue extends ConfigValue {
 
     public MapConfigValue(SimpleConfigurationNode holder) {
         super(holder);
-        this.values.set(new ConcurrentHashMap<Object, SimpleConfigurationNode>());
+        this.values.set(newMap());
     }
 
     @Override
@@ -42,7 +42,7 @@ class MapConfigValue extends ConfigValue {
     @Override
     public void setValue(Object value) {
         if (value instanceof Map) {
-            final ConcurrentMap<Object, SimpleConfigurationNode> newValue = new ConcurrentHashMap<>();
+            final ConcurrentMap<Object, SimpleConfigurationNode> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
                 SimpleConfigurationNode child = holder.createNode(ent.getKey());
                 newValue.put(ent.getKey(), child);
@@ -93,6 +93,10 @@ class MapConfigValue extends ConfigValue {
 
     @Override
     public void clear() {
-        detachChildren(values.getAndSet(new ConcurrentHashMap<Object, SimpleConfigurationNode>())/**/);
+        detachChildren(values.getAndSet(newMap()));
+    }
+
+    private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
+        return new ConcurrentSkipListMap<>();
     }
 }

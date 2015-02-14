@@ -95,10 +95,10 @@ public class ConfigurationTransformationTest {
                 p("a", "b", "c"),
                 p("a", "c", "c"),
                 p("a", "d", "c"),
-                p("b", "c", "d", "f", "f"),
                 p("b", "c", "d", "e", "f"),
-                p("b", "d", "d", "f", "f"),
-                p("b", "d", "d", "e", "f")
+                p("b", "c", "d", "f", "f"),
+                p("b", "d", "d", "e", "f"),
+                p("b", "d", "d", "f", "f")
         );
 
         final TransformAction action = new TransformAction() {
