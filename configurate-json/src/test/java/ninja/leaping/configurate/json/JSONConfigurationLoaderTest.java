@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import static org.junit.Assert.*;
-import static ninja.leaping.configurate.loader.FileConfigurationLoader.UTF8_CHARSET;
+import static ninja.leaping.configurate.loader.AbstractConfigurationLoader.UTF8_CHARSET;
 
 /**
  * Basic sanity checks for the loader

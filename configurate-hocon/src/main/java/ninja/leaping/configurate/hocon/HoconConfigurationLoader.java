@@ -18,13 +18,15 @@ package ninja.leaping.configurate.hocon;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.typesafe.config.*;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
-import ninja.leaping.configurate.loader.FileConfigurationLoader;
+import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -38,12 +40,12 @@ import java.util.regex.Pattern;
 /**
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for parsing
  */
-public class HoconConfigurationLoader extends FileConfigurationLoader {
+public class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
     public static final Pattern CRLF_MATCH = Pattern.compile("\r\n?");
     private final ConfigRenderOptions render;
     private final ConfigParseOptions parse;
 
-    public static class Builder extends FileConfigurationLoader.Builder {
+    public static class Builder extends AbstractConfigurationLoader.Builder {
         private ConfigRenderOptions render = ConfigRenderOptions.defaults()
                 .setOriginComments(false)
                 .setJson(false);
@@ -104,26 +106,17 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
 
     protected HoconConfigurationLoader(CharSource source, CharSink sink, ConfigRenderOptions render,
                                        ConfigParseOptions parse) {
-        super(source, sink);
+        super(source, sink, true, "#");
         this.render = render;
         this.parse = parse;
     }
 
     @Override
-    public CommentedConfigurationNode load() throws IOException {
-        if (!canLoad()) {
-            throw new IOException("No source present to read from!");
+    public void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {
+        Config hoconConfig = ConfigFactory.parseReader(reader, parse);
+        for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
+            readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
         }
-        final CommentedConfigurationNode node = createEmptyNode();  // TODO: autoattach
-        try (Reader reader = source.openStream()) {
-            Config hoconConfig = ConfigFactory.parseReader(reader, parse);
-            for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
-                readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
-            }
-        } catch (FileNotFoundException e) {
-            // Squash -- there is no file so we have nothing to read
-        }
-        return node;
     }
 
     private void readConfigValue(ConfigValue value, CommentedConfigurationNode node) {
@@ -150,18 +143,21 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
     }
 
     @Override
-    public void save(ConfigurationNode node) throws IOException {
-        if (!canSave()) {
-            throw new IOException("No sink present to write to!");
-        }
+    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         if (!node.hasMapChildren()) {
-            throw new IOException("HOCON cannot write nodes not in map format!");
+            if (node.getValue() == null) {
+                writer.write(LINE_SEPARATOR);
+                return;
+            } else {
+                throw new IOException("HOCON cannot write nodes not in map format!");
+            }
         }
         final ConfigValue value = ConfigValueFactory.fromAnyRef(node.getValue(), "configurate-hocon");
         traverseForComments(value, node);
         final String renderedValue = value.render(render);
-        sink.write(renderedValue);
+        writer.write(renderedValue);
     }
+
 
     @Override
     public CommentedConfigurationNode createEmptyNode() {
@@ -219,7 +215,7 @@ public class HoconConfigurationLoader extends FileConfigurationLoader {
             return value;
         }
         try {
-            Object o = ORIGIN_SET_COMMENTS.invoke(value.origin(), Collections.singletonList(comment.get()));
+            Object o = ORIGIN_SET_COMMENTS.invoke(value.origin(), ImmutableList.copyOf(LINE_SPLITTER.trimResults().split(comment.get())));
             VALUE_ORIGIN.set(value, o);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new IOException("Unable to set comments for config value" + value);

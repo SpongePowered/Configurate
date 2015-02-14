@@ -20,21 +20,24 @@ import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
-import ninja.leaping.configurate.loader.FileConfigurationLoader;
+import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 
 
 /**
  * A loader for YAML-formatted configurations, using the snakeyaml library for parsing
  */
-public class YAMLConfigurationLoader extends FileConfigurationLoader {
+public class YAMLConfigurationLoader extends AbstractConfigurationLoader {
     private final ThreadLocal<Yaml> yaml;
 
-    public static class Builder extends FileConfigurationLoader.Builder {
+    public static class Builder extends AbstractConfigurationLoader.Builder {
         private final DumperOptions options = new DumperOptions();
 
         protected Builder() {
@@ -103,7 +106,7 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
     }
 
     public YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options) {
-        super(source, sink);
+        super(source, sink, true, "#");
         this.yaml = new ThreadLocal<Yaml>() {
             @Override
             protected Yaml initialValue() {
@@ -113,27 +116,13 @@ public class YAMLConfigurationLoader extends FileConfigurationLoader {
     }
 
     @Override
-    public ConfigurationNode load() throws IOException {
-        if (!canLoad()) {
-            throw new IOException("No source present to read from!");
-        }
-        final ConfigurationNode node = createEmptyNode();
-        try (Reader reader = source.openStream()) {
-            node.setValue(yaml.get().load(reader));
-        } catch (FileNotFoundException e) {
-            // Squash -- there is no file so we have nothing to read
-        }
-        return node;
+    protected void loadInternal(ConfigurationNode node, BufferedReader reader) throws IOException {
+        node.setValue(yaml.get().load(reader));
     }
 
     @Override
-    public void save(ConfigurationNode node) throws IOException {
-        if (!canSave()) {
-            throw new IOException("No sink present to write to!");
-        }
-        try (Writer writer = sink.openStream()) {
-            yaml.get().dump(node.getValue(), writer);
-        }
+    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
+        yaml.get().dump(node.getValue(), writer);
     }
 
     @Override

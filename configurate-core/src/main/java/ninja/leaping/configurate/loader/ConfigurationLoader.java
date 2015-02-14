@@ -23,14 +23,14 @@ import java.io.IOException;
 /**
  * Loader for a specific configuration format
  */
-public interface ConfigurationLoader {
+public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     /**
      * Create a new configuration node populated with the appropriate data
      *
      * @return The newly constructed node
      * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
      */
-    public ConfigurationNode load() throws IOException;
+    public NodeType load() throws IOException;
 
     /**
      * Save the contents of the given node tree to
@@ -45,5 +45,5 @@ public interface ConfigurationLoader {
      *
      * @return The appropriate node type
      */
-    public ConfigurationNode createEmptyNode();
+    public NodeType createEmptyNode();
 }

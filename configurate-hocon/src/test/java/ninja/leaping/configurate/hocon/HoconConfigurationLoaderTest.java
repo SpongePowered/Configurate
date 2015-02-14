@@ -18,9 +18,7 @@ package ninja.leaping.configurate.hocon;
 
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -30,7 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import static org.junit.Assert.*;
-import static ninja.leaping.configurate.loader.FileConfigurationLoader.UTF8_CHARSET;
+import static ninja.leaping.configurate.loader.AbstractConfigurationLoader.UTF8_CHARSET;
 
 /**
  * Basic sanity checks for the loader
@@ -58,13 +56,18 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
+    public void testHeaderSaved() {
+
+    }
+
+    @Test
     public void testBooleansNotShared() throws IOException {
         URL url = getClass().getResource("/comments-test.conf");
         final File saveTo = folder.newFile();
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setFile(saveTo).setURL(url).build();
 
-        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode node = loader.createEmptyNode();
         node.getNode("test", "third").setValue(false).setComment("really?");
         node.getNode("test", "apple").setComment("fruit").setValue(false);
         node.getNode("test", "donut").setValue(true).setComment("tasty");

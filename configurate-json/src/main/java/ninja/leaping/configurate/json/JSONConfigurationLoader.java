@@ -21,12 +21,11 @@ import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
-import ninja.leaping.configurate.loader.FileConfigurationLoader;
+import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Writer;
 import java.net.URL;
 import java.util.List;
@@ -36,11 +35,11 @@ import java.util.Map;
 /**
  * A loader for JSON-formatted configurations, using the jackson library for parsing and generation
  */
-public class JSONConfigurationLoader extends FileConfigurationLoader {
+public class JSONConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
     private final JsonFactory factory;
     private final boolean prettyPrint;
 
-    public static class Builder extends FileConfigurationLoader.Builder {
+    public static class Builder extends AbstractConfigurationLoader.Builder {
         private final JsonFactory factory = new JsonFactory();
         private boolean prettyPrint = true;
 
@@ -97,24 +96,17 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
     }
 
     protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory, boolean prettyPrint) {
-        super(source, sink);
+        super(source, sink, true, "//");
         this.factory = factory;
         this.prettyPrint = prettyPrint;
     }
 
     @Override
-    public ConfigurationNode load() throws IOException {
-        if (!canLoad()) {
-            throw new IOException("No source present to read from!");
-        }
-        final ConfigurationNode node = createEmptyNode();
-        try (Reader reader = source.openStream(); JsonParser parser = factory.createParser(reader)) {
+    protected void loadInternal(ConfigurationNode node, BufferedReader reader) throws IOException {
+        try (JsonParser parser = factory.createParser(reader)) {
             parser.nextToken();
             parseValue(parser, node);
-        } catch (FileNotFoundException e) {
-            // Squash -- there is no file so we have nothing to read
         }
-        return node;
     }
 
     private void parseValue(JsonParser parser, ConfigurationNode node) throws IOException {
@@ -176,17 +168,14 @@ public class JSONConfigurationLoader extends FileConfigurationLoader {
     }
 
     @Override
-    public void save(ConfigurationNode node) throws IOException {
-        if (!canSave()) {
-            throw new IOException("No sink present to write to!");
-        }
-        try (Writer writer = sink.openStream(); JsonGenerator generator = factory.createGenerator(writer)) {
+    public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
+        try (JsonGenerator generator = factory.createGenerator(writer)) {
             if (prettyPrint) {
                 generator.useDefaultPrettyPrinter();
             }
             generateValue(generator, node);
             generator.flush();
-            writer.write('\n'); // Jackson doesn't add a newline at the end of files by default
+            writer.write(LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }
 
