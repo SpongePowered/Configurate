@@ -216,7 +216,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
             return value;
         }
         try {
-            Object o = ORIGIN_SET_COMMENTS.invoke(value.origin(), ImmutableList.copyOf(LINE_SPLITTER.trimResults().split(comment.get())));
+            Object o = ORIGIN_SET_COMMENTS.invoke(value.origin(), ImmutableList.copyOf(LINE_SPLITTER.split(comment.get())));
             VALUE_ORIGIN.set(value, o);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new IOException("Unable to set comments for config value" + value);
