@@ -18,6 +18,7 @@ package ninja.leaping.configurate.hocon;
 
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.junit.Rule;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class HoconConfigurationLoaderTest {
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setFile(saveTo).setURL(url).build();
 
-        CommentedConfigurationNode node = loader.createEmptyNode();
+        CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults());
         node.getNode("test", "third").setValue(false).setComment("really?");
         node.getNode("test", "apple").setComment("fruit").setValue(false);
         node.getNode("test", "donut").setValue(true).setComment("tasty");
