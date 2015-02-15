@@ -177,4 +177,18 @@ public class ConfigurationTransformationTest {
         assertEquals("value", node.getNode("key").getValue());
         assertEquals(null, node.getNode("at-parent").getValue());
     }
+
+    @Test
+    public void testCorrectNodePassed() {
+        final ConfigurationNode node = SimpleConfigurationNode.root();
+        final ConfigurationNode child = node.getNode("childNode").setValue("something");
+        ConfigurationTransformation.builder()
+                .addAction(p("childNode"), new TransformAction() {
+                    @Override
+                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                        assertEquals(child, valueAtPath);
+                        return null;
+                    }
+                }).build().apply(node);
+    }
 }

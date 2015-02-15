@@ -81,7 +81,7 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
         }
         NodePath immutablePath = sharedPath.get();
         immutablePath.arr = path;
-        Object[] transformedPath = action.visitPath(immutablePath, start);
+        Object[] transformedPath = action.visitPath(immutablePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
             start.getNode(transformedPath).setValue(node);
             node.setValue(null);
