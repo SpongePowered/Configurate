@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.loader;
 
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 
 import java.io.IOException;
 
@@ -33,6 +34,15 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     public NodeType load() throws IOException;
 
     /**
+     * Create a new configuration node populated with the appropriate data, structured with the provided options
+     *
+     * @param options The options to load with
+     * @return The newly constructed node
+     * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
+     */
+    public NodeType load(ConfigurationOptions options) throws IOException;
+
+    /**
      * Save the contents of the given node tree to
      *
      * @param node The node a save is being requested for
@@ -45,5 +55,5 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      *
      * @return The appropriate node type
      */
-    public NodeType createEmptyNode();
+    public NodeType createEmptyNode(ConfigurationOptions options);
 }

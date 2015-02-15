@@ -25,6 +25,7 @@ import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 import java.io.BufferedReader;
@@ -91,10 +92,15 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     @Override
     public NodeType load() throws IOException {
+        return load(ConfigurationOptions.defaults());
+    }
+
+    @Override
+    public NodeType load(ConfigurationOptions options) throws IOException {
         if (!canLoad()) {
             throw new IOException("No source present to read from!");
         }
-        NodeType node = createEmptyNode();
+        NodeType node = createEmptyNode(options);
         try (BufferedReader reader = source.openBufferedStream()) {
             loadInternal(node, reader);
         } catch (FileNotFoundException e) {

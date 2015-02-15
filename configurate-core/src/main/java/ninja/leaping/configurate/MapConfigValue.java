@@ -97,6 +97,6 @@ class MapConfigValue extends ConfigValue {
     }
 
     private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
-        return new ConcurrentSkipListMap<>();
+        return new ConcurrentSkipListMap<>(this.holder.getOptions().getKeyComparator());
     }
 }

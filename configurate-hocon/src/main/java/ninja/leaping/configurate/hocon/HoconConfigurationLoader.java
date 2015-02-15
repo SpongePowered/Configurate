@@ -24,6 +24,7 @@ import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.typesafe.config.*;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
@@ -160,8 +161,8 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
 
 
     @Override
-    public CommentedConfigurationNode createEmptyNode() {
-        return SimpleCommentedConfigurationNode.root();
+    public CommentedConfigurationNode createEmptyNode(ConfigurationOptions options) {
+        return SimpleCommentedConfigurationNode.root(options);
     }
 
     private void traverseForComments(ConfigValue value, ConfigurationNode node) throws IOException {

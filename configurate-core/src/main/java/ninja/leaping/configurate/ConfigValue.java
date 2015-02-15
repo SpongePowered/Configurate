@@ -25,10 +25,6 @@ abstract class ConfigValue {
         this.holder = holder;
     }
 
-    SimpleConfigurationNode getHolder() {
-        return holder;
-    }
-
     abstract Object getValue();
     abstract void setValue(Object value);
 

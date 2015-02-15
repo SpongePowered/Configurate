@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.*;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 
@@ -180,8 +181,8 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     @Override
-    public ConfigurationNode createEmptyNode() {
-        return SimpleConfigurationNode.root();
+    public ConfigurationNode createEmptyNode(ConfigurationOptions options) {
+        return SimpleConfigurationNode.root(options);
     }
 
     private void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {

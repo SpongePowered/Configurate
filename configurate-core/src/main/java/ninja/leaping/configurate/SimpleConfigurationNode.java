@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class SimpleConfigurationNode implements ConfigurationNode {
     private static final int NUMBER_DEF = 0;
-    protected final SimpleConfigurationNode root;
+    private final ConfigurationOptions options;
     volatile boolean attached;
     /**
      * Path of this node.
@@ -45,16 +45,20 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     private final AtomicReference<ConfigValue> value = new AtomicReference<>();
 
     public static SimpleConfigurationNode root() {
-        return new SimpleConfigurationNode(null, null, null);
+        return root(ConfigurationOptions.defaults());
     }
 
-    protected SimpleConfigurationNode(Object key, SimpleConfigurationNode root, SimpleConfigurationNode parent) {
+    public static SimpleConfigurationNode root(ConfigurationOptions options) {
+        return new SimpleConfigurationNode(null, null, options);
+    }
+
+    protected SimpleConfigurationNode(Object key, SimpleConfigurationNode parent, ConfigurationOptions options) {
         this.key = key;
-        this.root = root == null ? this : root;
-        if (root == null) {
+        if (parent == null) {
             attached = true;
         }
-        this.parent = parent == null ? root : parent;
+        this.options = options;
+        this.parent = parent == null ? null : parent;
 
         value.set(new NullConfigValue(this));
 
@@ -343,7 +347,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public Object getKey() {
-        return key;
+        return this.key;
     }
 
     @Override
@@ -352,7 +356,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         ConfigurationNode ptr = this;
         do {
             pathElements.addFirst(ptr.getKey());
-        } while ((ptr = ptr.getParent()) != root);
+        } while ((ptr = ptr.getParent()).getParent() != null);
         return pathElements.toArray();
     }
 
@@ -363,6 +367,10 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     // }}}
 
     // {{{ Internal methods
+    protected ConfigurationOptions getOptions() {
+        return this.options;
+    }
+
     SimpleConfigurationNode getParentInternal() {
         SimpleConfigurationNode parent = this.parent;
         if (parent.isVirtual()) {
@@ -373,7 +381,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     protected SimpleConfigurationNode createNode(Object path) {
-        return new SimpleConfigurationNode(path, root, this);
+        return new SimpleConfigurationNode(path, this, options);
     }
 
     protected void attachIfNecessary() {

@@ -18,6 +18,7 @@ package ninja.leaping.configurate.commented;
 
 import com.google.common.base.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 
 import java.util.List;
@@ -32,11 +33,15 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     private final AtomicReference<String> comment = new AtomicReference<>();
 
     public static SimpleCommentedConfigurationNode root() {
-        return new SimpleCommentedConfigurationNode(null, null, null);
+        return root(ConfigurationOptions.defaults());
     }
 
-    protected SimpleCommentedConfigurationNode(Object path, SimpleConfigurationNode root, SimpleConfigurationNode parent) {
-        super(path, root, parent);
+    public static SimpleCommentedConfigurationNode root(ConfigurationOptions options) {
+        return new SimpleCommentedConfigurationNode(null, null, options);
+    }
+
+    protected SimpleCommentedConfigurationNode(Object path, SimpleConfigurationNode parent, ConfigurationOptions options) {
+        super(path, parent, options);
     }
 
     @Override
@@ -58,7 +63,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
 
     @Override
     protected SimpleCommentedConfigurationNode createNode(Object path) {
-        return new SimpleCommentedConfigurationNode(path, root, this);
+        return new SimpleCommentedConfigurationNode(path, this, getOptions());
     }
 
     @Override
