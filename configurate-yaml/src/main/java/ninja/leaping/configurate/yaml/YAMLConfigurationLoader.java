@@ -35,7 +35,7 @@ import java.net.URL;
 /**
  * A loader for YAML-formatted configurations, using the snakeyaml library for parsing
  */
-public class YAMLConfigurationLoader extends AbstractConfigurationLoader {
+public class YAMLConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
     private final ThreadLocal<Yaml> yaml;
 
     public static class Builder extends AbstractConfigurationLoader.Builder {
