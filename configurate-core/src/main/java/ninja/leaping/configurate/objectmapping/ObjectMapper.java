@@ -81,7 +81,7 @@ public class ObjectMapper<T> {
         public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
             try {
                 this.fieldSerializer.serialize(this.fieldType, this.field.get(instance), node);
-                if (node instanceof CommentedConfigurationNode && this.comment != null) {
+                if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
                     ((CommentedConfigurationNode) node).setComment(this.comment);
                 }
             } catch (IllegalAccessException e) {

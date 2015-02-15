@@ -76,6 +76,7 @@ public class ObjectMapperTest {
 
     private static class CommentedObject {
         @Setting(value = {"commented-key"}, comment = "You look nice today") private String color;
+        @Setting("no-comment") private String politician;
     }
 
     @Test
@@ -84,9 +85,11 @@ public class ObjectMapperTest {
         CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
         CommentedObject obj = mapper.newInstance(node);
         obj.color = "fuchsia";
+        obj.politician = "All of them";
         mapper.serializeObject(obj, node);
         assertEquals("You look nice today", node.getNode("commented-key").getComment().orNull());
         assertEquals("fuchsia", node.getNode("commented-key").getString());
+        assertFalse(node.getNode("no-comment").getComment().isPresent());
     }
 
 
