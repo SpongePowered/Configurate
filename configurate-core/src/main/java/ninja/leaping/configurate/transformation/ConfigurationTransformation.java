@@ -80,6 +80,7 @@ public abstract class ConfigurationTransformation {
     }
 
     public static final class Builder {
+        private MoveStrategy strategy = MoveStrategy.OVERWRITE;
         private final Map<Object[], TransformAction> actions;
 
         protected Builder() {
@@ -91,8 +92,17 @@ public abstract class ConfigurationTransformation {
             return this;
         }
 
+        public MoveStrategy getMoveStrategy() {
+            return strategy;
+        }
+
+        public Builder setMoveStrategy(MoveStrategy strategy) {
+            this.strategy = strategy;
+            return this;
+        }
+
         public ConfigurationTransformation build() {
-            return new SingleConfigurationTransformation(actions);
+            return new SingleConfigurationTransformation(actions, strategy);
         }
     }
 

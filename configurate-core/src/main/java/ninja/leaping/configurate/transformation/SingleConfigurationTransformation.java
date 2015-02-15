@@ -27,6 +27,7 @@ import java.util.Map;
  * Transformations are executed from deepest in the configuration hierarchy outwards
  */
 class SingleConfigurationTransformation extends ConfigurationTransformation {
+    private final MoveStrategy strategy;
     private final Map<Object[], TransformAction> actions;
     private final ThreadLocal<NodePath> sharedPath = new ThreadLocal<NodePath>() {
         @Override
@@ -35,8 +36,9 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
         }
     };
 
-    protected SingleConfigurationTransformation(Map<Object[], TransformAction> actions) {
+    protected SingleConfigurationTransformation(Map<Object[], TransformAction> actions, MoveStrategy strategy) {
         this.actions = actions;
+        this.strategy = strategy;
     }
 
     public static Builder builder() {
@@ -83,7 +85,7 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
         immutablePath.arr = path;
         Object[] transformedPath = action.visitPath(immutablePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
-            start.getNode(transformedPath).setValue(node);
+            this.strategy.move(node, start.getNode(transformedPath));
             node.setValue(null);
         }
     }

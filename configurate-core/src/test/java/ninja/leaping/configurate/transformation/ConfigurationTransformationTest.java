@@ -179,6 +179,32 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
+    public void testMoveStrategy() {
+        final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder()
+                .addAction(p("one"), new TransformAction() {
+                    @Override
+                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                        return p("two");
+                    }
+                });
+        ConfigurationNode overwritten = createMoveNode(), merged = createMoveNode();
+        build.setMoveStrategy(MoveStrategy.OVERWRITE).build().apply(overwritten);
+        build.setMoveStrategy(MoveStrategy.MERGE).build().apply(merged);
+
+        assertEquals("always", overwritten.getNode("two", "fun").getValue());
+        assertEquals("always", merged.getNode("two", "fun").getValue());
+        assertEquals(null, overwritten.getNode("two", "evil").getValue());
+        assertEquals("always", merged.getNode("two", "evil").getValue());
+    }
+
+    private ConfigurationNode createMoveNode() {
+        ConfigurationNode ret = SimpleConfigurationNode.root();
+        ret.getNode("one", "fun").setValue("always");
+        ret.getNode("two", "evil").setValue("always");
+        return ret;
+    }
+
+    @Test
     public void testCorrectNodePassed() {
         final ConfigurationNode node = SimpleConfigurationNode.root();
         final ConfigurationNode child = node.getNode("childNode").setValue("something");
