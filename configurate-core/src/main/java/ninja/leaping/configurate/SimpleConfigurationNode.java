@@ -210,10 +210,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             if (onlyIfNull && !(oldValue instanceof NullConfigValue)) {
                 break;
             }
-            if (newValue instanceof Collection && !(value instanceof ListConfigValue)) {
-                value = new ListConfigValue(this);
-            } else if (newValue instanceof Map && !(value instanceof MapConfigValue)) {
-                value = new MapConfigValue(this);
+            if (newValue instanceof Collection) {
+                if (!(value instanceof ListConfigValue)) {
+                    value = new ListConfigValue(this);
+                }
+            } else if (newValue instanceof Map) {
+                if (!(value instanceof MapConfigValue)) {
+                    value = new MapConfigValue(this);
+                }
             } else if (!(value instanceof ScalarConfigValue)) {
                 value = new ScalarConfigValue(this);
             }

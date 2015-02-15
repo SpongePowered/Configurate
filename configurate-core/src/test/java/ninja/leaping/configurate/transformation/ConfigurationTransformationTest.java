@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.transformation;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import org.junit.Test;
@@ -61,7 +60,7 @@ public class ConfigurationTransformationTest {
                 return null;
             }
         };
-        final SingleConfigurationTransformation.Builder build = SingleConfigurationTransformation.builder();
+        final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder();
         for (Object[] path : unsortedKeys) {
             build.addAction(path, action);
         }
@@ -109,7 +108,7 @@ public class ConfigurationTransformationTest {
                 return null;
             }
         };
-        final SingleConfigurationTransformation.Builder build = SingleConfigurationTransformation.builder();
+        final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder();
         for (Object[] path : wildcardMatch) {
             build.addAction(path, action);
         }
@@ -124,7 +123,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testMoveNode() {
-        final ConfigurationTransformation transform = SingleConfigurationTransformation.builder()
+        final ConfigurationTransformation transform = ConfigurationTransformation.builder()
                 .addAction(p("old", "path"), new TransformAction() {
                     @Override
                     public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
@@ -159,5 +158,23 @@ public class ConfigurationTransformationTest {
             }
         }).build()).apply(node);
         assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testMoveToBase() {
+        final ConfigurationTransformation transform = ConfigurationTransformation.builder()
+                .addAction(p("sub"), new TransformAction() {
+                    @Override
+                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                        return new Object[0];
+                    }
+                }).build();
+
+        ConfigurationNode node = SimpleConfigurationNode.root();
+        node.getNode("sub", "key").setValue("value");
+        node.getNode("at-parent").setValue("until-change");
+        transform.apply(node);
+        assertEquals("value", node.getNode("key").getValue());
+        assertEquals(null, node.getNode("at-parent").getValue());
     }
 }

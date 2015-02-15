@@ -193,4 +193,13 @@ public class SimpleConfigurationNodeTest {
         assertEquals("yeah", second.getNode("merged-map", "second-only").getString());
     }
 
+    @Test
+    public void testSettingMultipleTimesWorks() {
+        SimpleConfigurationNode subject = SimpleConfigurationNode.root();
+        subject.setValue(ImmutableMap.of("a", "b", "b", "c", "c", "d"));
+        assertTrue(subject.hasMapChildren());
+        subject.setValue(ImmutableMap.of("na", "na", "eh", "eh", "bleugh", "bleugh"));
+        assertTrue(subject.hasMapChildren());
+    }
+
 }
