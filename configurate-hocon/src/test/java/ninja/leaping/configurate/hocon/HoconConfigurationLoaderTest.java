@@ -57,7 +57,29 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testHeaderSaved() {
+    public void testSplitLineCommentInput() throws IOException {
+        final File saveTo = folder.newFile();
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setFile(saveTo)
+                .setURL(getClass().getResource("/splitline-comment-input.conf"))
+                .build();
+        loader.save(loader.load());
+        assertEquals(Resources.toString(getClass().getResource("/splitline-comment-output.conf"), UTF8_CHARSET), Files.toString(saveTo, UTF8_CHARSET));
+    }
+
+    @Test
+    public void testHeaderSaved() throws IOException {
+        final File saveTo = folder.newFile();
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setFile(saveTo)
+                .build();
+        CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults());
+        node.setComment("Hi! I am a header!\n" +
+                        "Look at meeeeeee!!!");
+        node.getNode("node").setComment("I have a comment").getNode("party").setValue("now");
+
+        loader.save(node);
+        assertEquals(Resources.toString(getClass().getResource("/header.conf"), UTF8_CHARSET), Files.toString(saveTo, UTF8_CHARSET));
 
     }
 
