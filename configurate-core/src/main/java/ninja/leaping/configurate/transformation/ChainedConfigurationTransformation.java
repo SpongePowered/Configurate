@@ -18,15 +18,18 @@ package ninja.leaping.configurate.transformation;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
-/**
- * Represents an action to be performed that transforms a node in the configuration tree
- */
-public interface TransformAction {
-    /**
-     * Called at a certain path, with the node at that path
-     * @param inputPath The path of the given node
-     * @param valueAtPath The node at the input path. May be modified
-     * @return A modified path, or null if the path is to stay the same
-     */
-    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath);
+import java.util.Arrays;
+
+public class ChainedConfigurationTransformation extends ConfigurationTransformation {
+    private final ConfigurationTransformation[] transformations;
+    public ChainedConfigurationTransformation(ConfigurationTransformation[] transformations) {
+        this.transformations = Arrays.copyOf(transformations, transformations.length);
+    }
+
+    @Override
+    public void apply(ConfigurationNode node) {
+        for (ConfigurationTransformation transformation : transformations) {
+            transformation.apply(node);
+        }
+    }
 }

@@ -16,6 +16,8 @@
  */
 package ninja.leaping.configurate.transformation;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import org.junit.Test;
@@ -54,12 +56,12 @@ public class ConfigurationTransformationTest {
 
         final TransformAction action = new TransformAction() {
             @Override
-            public Object[] visitPath(ConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
                 autoSortedKeys.add(inputPath.getArray());
                 return null;
             }
         };
-        final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder();
+        final SingleConfigurationTransformation.Builder build = SingleConfigurationTransformation.builder();
         for (Object[] path : unsortedKeys) {
             build.addAction(path, action);
         }
@@ -80,7 +82,6 @@ public class ConfigurationTransformationTest {
             System.out.println("Comparing lists " + Arrays.toString(expected.get(i)) + " and " + Arrays.toString(tested.get(i)));
             assertArrayEquals(expected.get(i), tested.get(i));
         }
-
     }
 
     @Test
@@ -103,12 +104,12 @@ public class ConfigurationTransformationTest {
 
         final TransformAction action = new TransformAction() {
             @Override
-            public Object[] visitPath(ConfigurationTransformation.NodePath path, ConfigurationNode valueAtPath) {
+            public Object[] visitPath(SingleConfigurationTransformation.NodePath path, ConfigurationNode valueAtPath) {
                 populatedResults.add(path.getArray());
                 return null;
             }
         };
-        final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder();
+        final SingleConfigurationTransformation.Builder build = SingleConfigurationTransformation.builder();
         for (Object[] path : wildcardMatch) {
             build.addAction(path, action);
         }
@@ -123,10 +124,10 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testMoveNode() {
-        final ConfigurationTransformation transform = ConfigurationTransformation.builder()
+        final ConfigurationTransformation transform = SingleConfigurationTransformation.builder()
                 .addAction(p("old", "path"), new TransformAction() {
                     @Override
-                    public Object[] visitPath(ConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
                         return p("new", "path");
                     }
                 }).build();
@@ -137,5 +138,26 @@ public class ConfigurationTransformationTest {
         transform.apply(node);
         assertTrue(node.getNode("old", "path").isVirtual());
         assertEquals(nodeValue, node.getNode("new", "path").getValue());
+    }
+
+    @Test
+    public void testChainedTransformations() {
+        ConfigurationNode node = SimpleConfigurationNode.root();
+        node.getNode("a").setValue("something?");
+        final List<String> actualOutput = new ArrayList<>(), expectedOutput = ImmutableList.of("one", "two");
+        ConfigurationTransformation.chain(ConfigurationTransformation.builder().addAction(p("a"), new TransformAction() {
+            @Override
+            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                actualOutput.add("one");
+                return null;
+            }
+        }).build(), ConfigurationTransformation.builder().addAction(p("a"), new TransformAction() {
+            @Override
+            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                actualOutput.add("two");
+                return null;
+            }
+        }).build()).apply(node);
+        assertEquals(expectedOutput, actualOutput);
     }
 }
