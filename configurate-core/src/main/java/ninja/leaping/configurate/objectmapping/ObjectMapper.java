@@ -106,6 +106,13 @@ public class ObjectMapper<T> {
         } catch (NoSuchMethodException ignore) {
         }
         this.constructor = constructor;
+        Class<? super T> collectClass = clazz;
+        do {
+            collectFields(collectClass);
+        } while (!(collectClass = collectClass.getSuperclass()).equals(Object.class));
+    }
+
+    private void collectFields(Class<? super T> clazz) throws ObjectMappingException {
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Setting.class)) {
                 Setting setting = field.getAnnotation(Setting.class);
@@ -115,6 +122,7 @@ public class ObjectMapper<T> {
                 cachedFields.add(Maps.immutableEntry(path, data));
             }
         }
+
     }
 
     /**

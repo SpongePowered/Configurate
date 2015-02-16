@@ -31,7 +31,7 @@ public class ObjectMapperTest {
     public final ExpectedException expectedException = ExpectedException.none();
 
     private static class TestObject {
-        @Setting({"test", "key"}) private String stringVal;
+        @Setting({"test", "key"}) protected String stringVal;
     }
 
     @Test
@@ -109,5 +109,22 @@ public class ObjectMapperTest {
         expectedException.expect(ObjectMappingException.class);
         expectedException.expectMessage("No zero-arg constructor");
         mapper.newInstance(SimpleConfigurationNode.root());
+    }
+
+    private static class TestObjectChild extends TestObject {
+        @Setting("child-setting") private boolean childSetting;
+    }
+
+    @Test
+    public void testSuperclassFieldsIncluded() throws ObjectMappingException {
+        final ObjectMapper<TestObjectChild> mapper = ObjectMapper.mapperForClass(TestObjectChild.class);
+        ConfigurationNode node = SimpleConfigurationNode.root();
+        node.getNode("child-setting").setValue(true);
+        node.getNode("test", "key").setValue("Parents get populated too!");
+
+        TestObjectChild instance = mapper.newInstance(node);
+        assertEquals(true, instance.childSetting);
+        assertEquals("Parents get populated too!", instance.stringVal);
+
     }
 }
