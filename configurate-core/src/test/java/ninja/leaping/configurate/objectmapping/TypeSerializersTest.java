@@ -23,7 +23,9 @@ import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +35,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TypeSerializersTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @Test
     public void testStringSerializer() throws ObjectMappingException {
         final TypeToken<String> stringType = TypeToken.of(String.class);
@@ -79,6 +83,29 @@ public class TypeSerializersTest {
 
         assertEquals(true, booleanSerializer.deserialize(booleanType, node.getNode("direct")));
         assertEquals(true, booleanSerializer.deserialize(booleanType, node.getNode("fromstring")));
+    }
+
+    private static enum TestEnum {
+        FIRST,
+        SECOND,
+    }
+
+    @Test
+    public void testEnumValueSerializer() throws ObjectMappingException {
+        final TypeToken<TestEnum> enumType = TypeToken.of(TestEnum.class);
+
+        final TypeSerializer enumSerializer = TypeSerializers.getSerializer(enumType);
+
+        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        node.getNode("present_val").setValue("first");
+        node.getNode("another_present_val").setValue("SECOND");
+        node.getNode("invalid_val").setValue("3rd");
+
+        assertEquals(TestEnum.FIRST, enumSerializer.deserialize(enumType, node.getNode("present_val")));
+        assertEquals(TestEnum.SECOND, enumSerializer.deserialize(enumType, node.getNode("another_present_val")));
+        expectedException.expect(ObjectMappingException.class);
+        enumSerializer.deserialize(enumType, node.getNode("invalid_val"));
+
     }
 
     @Test

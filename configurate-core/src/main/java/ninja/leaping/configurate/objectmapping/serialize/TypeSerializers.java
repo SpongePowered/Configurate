@@ -75,6 +75,7 @@ public class TypeSerializers {
     static {
         registerSerializer(new NumberSerializer());
         registerSerializer(new BooleanSerializer());
+        registerSerializer(new EnumValueSerializer());
         registerSerializer(new MapSerializer());
         registerSerializer(new ListSerializer());
         registerSerializer(new AnnotatedObjectSerializer());
@@ -159,6 +160,39 @@ public class TypeSerializers {
         @Override
         public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) {
             value.setValue(Types.asBoolean(obj));
+        }
+    }
+
+    private static class EnumValueSerializer implements TypeSerializer {
+
+        @Override
+        public boolean isApplicable(TypeToken<?> type) {
+            return type.getRawType().isEnum();
+        }
+
+        @Override
+        public Object deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+            if (!isApplicable(type)) {
+                throw new InvalidTypeException(type);
+            }
+            String enumConstant = value.getString();
+            if (enumConstant == null) {
+                throw new ObjectMappingException("No value present in node " + value);
+            }
+            enumConstant = enumConstant.toUpperCase();
+
+            Enum ret;
+            try {
+                ret = Enum.valueOf(type.getRawType().asSubclass(Enum.class), value.getString().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new ObjectMappingException("Invalid enum constant provided for " + value.getKey() + ": Expected a value of enum " + type + ", got " + enumConstant);
+            }
+            return ret;
+        }
+
+        @Override
+        public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
+            value.setValue(((Enum<?>) obj).name());
         }
     }
 

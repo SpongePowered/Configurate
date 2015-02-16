@@ -19,7 +19,6 @@ package ninja.leaping.configurate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
-import sun.security.krb5.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +83,7 @@ public class SimpleConfigurationNodeTest {
         ConfigurationNode root = SimpleConfigurationNode.root();
         ConfigurationNode a = root.getNode("a").setValue("one");
         ConfigurationNode b = root.getNode("b").setValue("two");
-        assertEquals(ImmutableMap.of("a", a, "b", b), root.getChildrenMap());
+        assertEquals(ImmutableMap.<Object, ConfigurationNode>of("a", a, "b", b), root.getChildrenMap());
     }
 
     @Test
@@ -95,8 +94,8 @@ public class SimpleConfigurationNodeTest {
         assertEquals(ImmutableList.of(a, b), root.getChildrenList());
     }
 
-    private static final Map<Object, Object> TEST_MAP = new HashMap<Object, Object>();
-    private static final List<Object> TEST_LIST = new ArrayList<Object>();
+    private static final Map<Object, Object> TEST_MAP = new HashMap<>();
+    private static final List<Object> TEST_LIST = new ArrayList<>();
     static {
         TEST_LIST.add("test1");
         TEST_LIST.add("test2");
