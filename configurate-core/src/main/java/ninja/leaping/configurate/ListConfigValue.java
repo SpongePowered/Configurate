@@ -45,11 +45,13 @@ class ListConfigValue extends ConfigValue {
     @Override
     public Object getValue() {
         final List<SimpleConfigurationNode> values = this.values.get();
-        final List<Object> ret = new ArrayList<>(values.size());
-        for (SimpleConfigurationNode obj : values) {
-            ret.add(obj.getValue());
+        synchronized (values) {
+            final List<Object> ret = new ArrayList<>(values.size());
+            for (SimpleConfigurationNode obj : values) {
+                ret.add(obj.getValue());
+            }
+            return ret.isEmpty() ? null : ret;
         }
-        return ret.isEmpty() ? null : ret;
     }
 
     @Override
@@ -86,26 +88,28 @@ class ListConfigValue extends ConfigValue {
         List<SimpleConfigurationNode> values;
         do {
             values = this.values.get();
-            final int index = (Integer) key;
-            if (value == null) {
-                if (index < values.size()) {
-                    ret = values.remove(index);
-                    for (int i = index; i < values.size(); ++i) {
-                        values.get(i).key = index;
+            synchronized (values) {
+                final int index = (Integer) key;
+                if (value == null) {
+                    if (index < values.size()) {
+                        ret = values.remove(index);
+                        for (int i = index; i < values.size(); ++i) {
+                            values.get(i).key = index;
+                        }
                     }
-                }
-            } else {
-                if (index >= 0 && index < values.size()) {
-                    if (onlyIfAbsent) {
-                        return values.get(index);
-                    } else {
-                        ret = values.set(index, value);
-                    }
-                } else if (index == -1) { // Gotta correct the child path for the correct path name
-                    values.add(value);
-                    value.key = values.lastIndexOf(value);
                 } else {
-                    values.add(index, value);
+                    if (index >= 0 && index < values.size()) {
+                        if (onlyIfAbsent) {
+                            return values.get(index);
+                        } else {
+                            ret = values.set(index, value);
+                        }
+                    } else if (index == -1) { // Gotta correct the child path for the correct path name
+                        values.add(value);
+                        value.key = values.lastIndexOf(value);
+                    } else {
+                        values.add(index, value);
+                    }
                 }
             }
         } while (!this.values.compareAndSet(values, values));
@@ -116,22 +120,29 @@ class ListConfigValue extends ConfigValue {
     @Override
     public SimpleConfigurationNode getChild(Object key) {
         final List<SimpleConfigurationNode> values = this.values.get();
-        Integer value = Types.asInt(key);
-        if (value == null || value < 0 || value >= values.size()) {
-            return null;
+        synchronized (values) {
+            Integer value = Types.asInt(key);
+            if (value == null || value < 0 || value >= values.size()) {
+                return null;
+            }
+            return values.get(value);
         }
-        return values.get(value);
     }
 
     @Override
     public Iterable<SimpleConfigurationNode> iterateChildren() {
-        return ImmutableList.copyOf(values.get());
+        List<SimpleConfigurationNode> values = this.values.get();
+        synchronized (values) {
+            return ImmutableList.copyOf(values);
+        }
     }
 
     private void detachNodes(List<SimpleConfigurationNode> children) {
-        for (SimpleConfigurationNode node : children) {
-            node.attached = false;
-            node.clear();
+        synchronized (children) {
+            for (SimpleConfigurationNode node : children) {
+                node.attached = false;
+                node.clear();
+            }
         }
     }
 
