@@ -61,7 +61,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
         public Builder setFile(File file) {
             this.source = Files.asCharSource(file, UTF8_CHARSET);
-            this.sink = Files.asCharSink(file, UTF8_CHARSET);
+            this.sink = AtomicFiles.asCharSink(file, UTF8_CHARSET);
             return this;
         }
 

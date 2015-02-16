@@ -19,6 +19,7 @@ package ninja.leaping.configurate.json;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class JSONConfigurationLoaderTest {
         final File tempFile = folder.newFile();
         ConfigurationLoader loader = JSONConfigurationLoader.builder()
                 .setSource(Resources.asCharSource(url, UTF8_CHARSET))
-                .setSink(Files.asCharSink(tempFile, UTF8_CHARSET)).build();
+                .setSink(AtomicFiles.asCharSink(tempFile, UTF8_CHARSET)).build();
         ConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());

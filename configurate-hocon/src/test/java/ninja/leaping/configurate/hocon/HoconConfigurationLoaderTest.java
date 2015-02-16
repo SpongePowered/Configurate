@@ -20,6 +20,7 @@ import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.loader.AtomicFiles;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -44,7 +45,7 @@ public class HoconConfigurationLoaderTest {
 
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setSource(Resources.asCharSource(url, UTF8_CHARSET))
-                .setSink(Files.asCharSink(saveTest, UTF8_CHARSET)).build();
+                .setSink(AtomicFiles.asCharSink(saveTest, UTF8_CHARSET)).build();
         CommentedConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
