@@ -217,4 +217,41 @@ public class ConfigurationTransformationTest {
                     }
                 }).build().apply(node);
     }
+
+    @Test
+    public void testVersionedTransformation() {
+        final ConfigurationNode target = SimpleConfigurationNode.root();
+        target.getNode("dummy").setValue("whatever");
+        final List<Integer> updatedVersions = new ArrayList<>();
+
+        final ConfigurationTransformation versionTransform = ConfigurationTransformation.versionedBuilder()
+                .addVersion(0, ConfigurationTransformation.builder()
+                        .addAction(p("dummy"), new TransformAction() {
+                            @Override
+                            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                                updatedVersions.add(0);
+                                return null;
+                            }
+                        }).build())
+                .addVersion(2, ConfigurationTransformation.builder()
+                        .addAction(p("dummy"), new TransformAction() {
+                            @Override
+                            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                                updatedVersions.add(2);
+                                return null;
+                            }
+                        }).build())
+                .addVersion(1, ConfigurationTransformation.builder()
+                        .addAction(p("dummy"), new TransformAction() {
+                            @Override
+                            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                                updatedVersions.add(1);
+                                return null;
+                            }
+                        }).build())
+                .build();
+        versionTransform.apply(target);
+        assertEquals(2, target.getNode("version").getInt());
+        assertEquals(ImmutableList.of(0, 1, 2), updatedVersions);
+    }
 }

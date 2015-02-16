@@ -21,7 +21,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 public abstract class ConfigurationTransformation {
@@ -81,7 +81,7 @@ public abstract class ConfigurationTransformation {
 
     public static final class Builder {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
-        private final Map<Object[], TransformAction> actions;
+        private final SortedMap<Object[], TransformAction> actions;
 
         protected Builder() {
             this.actions = new TreeMap<>(new NodePathComparator());
@@ -106,8 +106,37 @@ public abstract class ConfigurationTransformation {
         }
     }
 
+    /**
+     * Create a new builder to create a basic configuration transformation
+     * @return
+     */
     public static Builder builder() {
         return new Builder();
+    }
+
+    public static final class VersionedBuilder {
+        private Object[] versionKey = new Object[] {"version"};
+        private final SortedMap<Integer, ConfigurationTransformation> versions = new TreeMap<>();
+
+        protected VersionedBuilder() {}
+
+        public VersionedBuilder setVersionKey(Object... versionKey) {
+            this.versionKey = Arrays.copyOf(versionKey, versionKey.length, Object[].class);
+            return this;
+        }
+
+        public VersionedBuilder addVersion(int version, ConfigurationTransformation transformation) {
+            versions.put(version, transformation);
+            return this;
+        }
+
+        public ConfigurationTransformation build() {
+            return new VersionedTransformation(versionKey, versions);
+        }
+    }
+
+    public static VersionedBuilder versionedBuilder() {
+        return new VersionedBuilder();
     }
 
     public static ConfigurationTransformation chain(ConfigurationTransformation... transformations) {
