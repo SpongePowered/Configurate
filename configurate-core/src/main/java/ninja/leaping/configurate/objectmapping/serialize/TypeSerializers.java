@@ -316,7 +316,9 @@ public class TypeSerializers {
 
         @Override
         public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
-            value.getNode("__class__").setValue(type.getRawType().getCanonicalName());
+            if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
+                value.getNode("__class__").setValue(type.getRawType().getCanonicalName());
+            }
             ObjectMapper.mapperForObject(obj).serializeObject(obj, value);
         }
     }
