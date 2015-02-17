@@ -40,12 +40,12 @@ import java.util.Map;
 public class ObjectMapper<T> {
     private final Class<T> clazz;
     private final Constructor<T> constructor;
-    private final List<Map.Entry<String[], FieldData>> cachedFields = new ArrayList<>();
+    private final List<Map.Entry<String, FieldData>> cachedFields = new ArrayList<>();
 
     /**
      * Holder for field-specific information
      */
-    private static class FieldData {
+    protected static class FieldData {
         private final Field field;
         private final TypeToken<?> fieldType;
         private final String comment;
@@ -108,21 +108,24 @@ public class ObjectMapper<T> {
         this.constructor = constructor;
         Class<? super T> collectClass = clazz;
         do {
-            collectFields(collectClass);
+            collectFields(cachedFields, collectClass);
         } while (!(collectClass = collectClass.getSuperclass()).equals(Object.class));
     }
 
-    private void collectFields(Class<? super T> clazz) throws ObjectMappingException {
+    protected void collectFields(List<Map.Entry<String, FieldData>> cachedFields, Class<? super T> clazz) throws ObjectMappingException {
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Setting.class)) {
                 Setting setting = field.getAnnotation(Setting.class);
-                String[] path = setting.value();
+                String path = setting.value();
+                if (path.isEmpty()) {
+                    path = field.getName();
+                }
+
                 FieldData data = new FieldData(field, setting.comment());
                 field.setAccessible(true);
                 cachedFields.add(Maps.immutableEntry(path, data));
             }
         }
-
     }
 
     /**
@@ -152,8 +155,8 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException If an error occurs while populating data
      */
     public T populateObject(T target, ConfigurationNode source) throws ObjectMappingException {
-        for (Map.Entry<String[], FieldData> ent : cachedFields) {
-            ConfigurationNode node = source.getNode((Object[]) ent.getKey());
+        for (Map.Entry<String, FieldData> ent : cachedFields) {
+            ConfigurationNode node = source.getNode(ent.getKey());
             ent.getValue().deserializeFrom(target, node);
         }
         return target;
@@ -206,8 +209,8 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException if serialization was not possible due to some error.
      */
     public void serializeObject(T object, ConfigurationNode target) throws ObjectMappingException {
-        for (Map.Entry<String[], FieldData> ent : cachedFields) {
-            ConfigurationNode node = target.getNode((Object[]) ent.getKey());
+        for (Map.Entry<String, FieldData> ent : cachedFields) {
+            ConfigurationNode node = target.getNode(ent.getKey());
             ent.getValue().serializeTo(object, node);
         }
     }

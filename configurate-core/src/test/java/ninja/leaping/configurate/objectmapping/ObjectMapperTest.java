@@ -31,14 +31,14 @@ public class ObjectMapperTest {
     public final ExpectedException expectedException = ExpectedException.none();
 
     private static class TestObject {
-        @Setting({"test", "key"}) protected String stringVal;
+        @Setting("test-key") protected String stringVal;
     }
 
     @Test
     public void testCreateFromNode() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.mapperForClass(TestObject.class);
         final ConfigurationNode source = SimpleConfigurationNode.root();
-        source.getNode("test", "key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
+        source.getNode("test-key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
 
         final TestObject obj = mapper.newInstance(source);
         assertEquals("some are born great, some achieve greatness, and some have greatness thrust upon them", obj.stringVal);
@@ -57,7 +57,7 @@ public class ObjectMapperTest {
         final ConfigurationNode source = SimpleConfigurationNode.root();
         final TestObject instance = new TestObject();
 
-        source.getNode("test", "key").setValue("boom");
+        source.getNode("test-key").setValue("boom");
 
         mapper.populateObject(instance, source);
         assertEquals("boom", instance.stringVal);
@@ -71,11 +71,11 @@ public class ObjectMapperTest {
 
         instance.stringVal = "hi";
         mapper.populateObject(instance, source);
-        assertEquals("hi", source.getNode("test", "key").getString());
+        assertEquals("hi", source.getNode("test-key").getString());
     }
 
     private static class CommentedObject {
-        @Setting(value = {"commented-key"}, comment = "You look nice today") private String color;
+        @Setting(value = "commented-key", comment = "You look nice today") private String color;
         @Setting("no-comment") private String politician;
     }
 
@@ -94,7 +94,7 @@ public class ObjectMapperTest {
 
 
     private static class NonZeroArgConstructorObject {
-        @Setting({"key"}) private long loaded;
+        @Setting private long key;
         private final String value;
 
         protected NonZeroArgConstructorObject(String value) {
@@ -120,11 +120,25 @@ public class ObjectMapperTest {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.mapperForClass(TestObjectChild.class);
         ConfigurationNode node = SimpleConfigurationNode.root();
         node.getNode("child-setting").setValue(true);
-        node.getNode("test", "key").setValue("Parents get populated too!");
+        node.getNode("test-key").setValue("Parents get populated too!");
 
         TestObjectChild instance = mapper.newInstance(node);
         assertEquals(true, instance.childSetting);
         assertEquals("Parents get populated too!", instance.stringVal);
+    }
+
+    private static class FieldNameObject {
+        @Setting private boolean loads;
+    }
+
+    @Test
+    public void testKeyFromFieldName() throws ObjectMappingException {
+        final ObjectMapper<FieldNameObject> mapper = ObjectMapper.mapperForClass(FieldNameObject.class);
+        final ConfigurationNode node = SimpleConfigurationNode.root();
+        node.getNode("loads").setValue(true);
+
+        FieldNameObject obj = mapper.newInstance(node);
+        assertTrue(obj.loads);
 
     }
 }

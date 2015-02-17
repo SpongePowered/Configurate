@@ -152,8 +152,8 @@ public class TypeSerializersTest {
 
     @ConfigSerializable
     private static class TestObject {
-        @Setting({"int"}) private int value;
-        @Setting({"name"}) private String name;
+        @Setting("int") private int value;
+        @Setting private String name;
     }
 
     @Test
