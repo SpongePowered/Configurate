@@ -62,6 +62,7 @@
         <module>configurate-yaml</module>
         <module>configurate-hocon</module>
         <module>configurate-json</module>
+        <module>configurate-gson</module>
     </modules>
 
     <properties>
