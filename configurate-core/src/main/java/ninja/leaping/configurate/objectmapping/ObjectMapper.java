@@ -239,7 +239,7 @@ public class ObjectMapper<T> {
 
     public Object getValue(T instance, String... path) throws ObjectMappingException {
         Preconditions.checkNotNull(instance, "instance");
-        if (path == null || path.length == 1) {
+        if (path == null || path.length == 0) {
             throw new ObjectMappingException("Null or empty path provided");
         }
         ObjectMapper<?> currentMapper = this;
@@ -267,7 +267,7 @@ public class ObjectMapper<T> {
 
     public boolean setValue(T instance, Object value, String... path) throws ObjectMappingException {
         Preconditions.checkNotNull(instance, "instance");
-        if (path == null || path.length == 1) {
+        if (path == null || path.length == 0) {
             throw new ObjectMappingException("Null or empty path provided");
         }
         ObjectMapper<?> currentMapper = this;
