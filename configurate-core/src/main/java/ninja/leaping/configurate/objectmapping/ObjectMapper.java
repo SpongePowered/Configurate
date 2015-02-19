@@ -237,9 +237,13 @@ public class ObjectMapper<T> {
         }
     }
 
-    public Object getValue(T object, String... path) throws ObjectMappingException {
+    public Object getValue(T instance, String... path) throws ObjectMappingException {
+        Preconditions.checkNotNull(instance, "instance");
+        if (path == null || path.length == 1) {
+            throw new ObjectMappingException("Null or empty path provided");
+        }
         ObjectMapper<?> currentMapper = this;
-        Object currentInstance = object;
+        Object currentInstance = instance;
         for (String el : path) {
             FieldData field = currentMapper.cachedFields.get(el);
             if (field == null) {
@@ -262,6 +266,9 @@ public class ObjectMapper<T> {
     }
 
     public boolean setValue(T instance, Object value, String... path) throws ObjectMappingException {
+        Preconditions.checkNotNull(instance, "instance");
+        if (path == null || path.length == 1) {
+            throw new ObjectMappingException("Null or empty path provided");
         ObjectMapper<?> currentMapper = this;
         Object currentInstance = instance;
         for (int i = 0; i < path.length - 1; ++i) {
