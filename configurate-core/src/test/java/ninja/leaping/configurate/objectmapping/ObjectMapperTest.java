@@ -147,22 +147,4 @@ public class ObjectMapperTest {
         assertTrue(obj.loads);
 
     }
-
-    private static class MultiValueObject {
-        @Setting private FieldNameObject child;
-    }
-
-    @Test
-    public void testGetValueAtKey() throws ObjectMappingException {
-        final ObjectMapper<MultiValueObject> mapper = ObjectMapper.forClass(MultiValueObject.class);
-        final ConfigurationNode node = SimpleConfigurationNode.root();
-        node.getNode("child", "loads").setValue(true);
-        final ObjectMapper<MultiValueObject>.BoundInstance bound = mapper.bindToNew();
-        final MultiValueObject instance = bound.populate(node);
-        assertEquals(true, instance.child.loads);
-        Object loads = bound.getValue("child", "loads");
-        assertEquals(true, loads);
-        bound.setValue(false, "child", "loads");
-        assertEquals(false, instance.child.loads);
-    }
 }

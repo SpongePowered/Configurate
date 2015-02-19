@@ -129,6 +129,9 @@ public class ObjectMapper<T> {
         }
     }
 
+    /**
+     * Represents an object mapper bound to a certain instance of the object
+     */
     public class BoundInstance {
         private final T boundInstance;
 
@@ -161,83 +164,6 @@ public class ObjectMapper<T> {
                 ConfigurationNode node = target.getNode(ent.getKey());
                 ent.getValue().serializeTo(boundInstance, node);
             }
-        }
-
-        /**
-         * Gets the field value at an object path -- used to traverse fields in an object
-         *
-         * WARNING: This method is fairly incomplete in what it traverses compared to a ConfigurationNode
-         * @param path The path to get at
-         * @return The new value
-         * @throws ObjectMappingException if any sort of error occurs
-         */
-        public Object getValue(String... path) throws ObjectMappingException {
-            if (path == null || path.length == 0) {
-                throw new ObjectMappingException("Null or empty path provided");
-            }
-            ObjectMapper<?> currentMapper = ObjectMapper.this;
-            Object currentInstance = boundInstance;
-            for (String el : path) {
-                FieldData field = currentMapper.cachedFields.get(el);
-                if (field == null) {
-                    return null;
-                }
-                Object newInstance;
-                try {
-                    newInstance = field.field.get(currentInstance);
-                    if (newInstance == null) {
-                        field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
-                        newInstance = field.field.get(currentInstance);
-                    }
-                } catch (IllegalAccessException e) {
-                    throw new ObjectMappingException("Unable to access field", e);
-                }
-                currentInstance = newInstance;
-                currentMapper = forClass(currentInstance.getClass());
-            }
-            return currentInstance;
-        }
-
-        /**
-         * Sets the field value at an object path -- used to traverse fields in an object
-         *
-         * WARNING: This method is fairly incomplete in what it traverses compared to a ConfigurationNode
-         * @param value The value to set
-         * @param path The path to set at
-         * @return The new value
-         * @throws ObjectMappingException if any sort of error occurs
-         */
-        public boolean setValue(Object value, String... path) throws ObjectMappingException {
-            if (path == null || path.length == 0) {
-                throw new ObjectMappingException("Null or empty path provided");
-            }
-            ObjectMapper<?> currentMapper = ObjectMapper.this;
-            Object currentInstance = boundInstance;
-            for (int i = 0; i < path.length - 1; ++i) {
-                FieldData field = currentMapper.cachedFields.get(path[i]);
-                if (field == null) {
-                    return false;
-                }
-                Object newInstance;
-                try {
-                    newInstance = field.field.get(currentInstance);
-                    if (newInstance == null) {
-                        field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
-                        newInstance = field.field.get(currentInstance);
-                    }
-                } catch (IllegalAccessException e) {
-                    throw new ObjectMappingException("Unable to access field", e);
-                }
-                currentInstance = newInstance;
-                currentMapper = forClass(currentInstance.getClass());
-            }
-
-            FieldData field = currentMapper.cachedFields.get(path[path.length - 1]);
-            if (field == null) {
-                return false;
-            }
-            field.deserializeFrom(currentInstance, SimpleConfigurationNode.root().setValue(value));
-            return true;
         }
 
         /**
