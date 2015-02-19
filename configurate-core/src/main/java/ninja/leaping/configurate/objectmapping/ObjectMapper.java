@@ -269,6 +269,7 @@ public class ObjectMapper<T> {
         Preconditions.checkNotNull(instance, "instance");
         if (path == null || path.length == 1) {
             throw new ObjectMappingException("Null or empty path provided");
+        }
         ObjectMapper<?> currentMapper = this;
         Object currentInstance = instance;
         for (int i = 0; i < path.length - 1; ++i) {
