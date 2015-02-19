@@ -17,9 +17,12 @@
 package ninja.leaping.configurate.objectmapping;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
@@ -27,9 +30,9 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This is the object mapper. It handles conversion between configuration nodes and
@@ -38,9 +41,44 @@ import java.util.Map;
  * @param <T> The type to work with
  */
 public class ObjectMapper<T> {
+    private static final LoadingCache<Class<?>, ObjectMapper<?>> MAPPER_CACHE = CacheBuilder.newBuilder().weakKeys().maximumSize(500).build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+        @Override
+        public ObjectMapper<?> load(Class<?> key) throws Exception {
+            return new ObjectMapper<>(key);
+        }
+    });
     private final Class<T> clazz;
     private final Constructor<T> constructor;
-    private final List<Map.Entry<String, FieldData>> cachedFields = new ArrayList<>();
+    private final Map<String, FieldData> cachedFields = new HashMap<>();
+
+
+    /**
+     * Create a new object mapper that can work with objects of the given class
+     *
+     * @param clazz The type of object
+     * @param <T> The type
+     * @return An appropriate object mapper instance. May be shared with other users.
+     * @throws ObjectMappingException If invalid annotated fields are presented
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> ObjectMapper<T> mapperForClass(Class<T> clazz) throws ObjectMappingException {
+        Preconditions.checkNotNull(clazz);
+        try {
+            return (ObjectMapper<T>) MAPPER_CACHE.get(clazz);
+        } catch (ExecutionException e) {
+            if (e.getCause() instanceof ObjectMappingException) {
+                throw (ObjectMappingException) e.getCause();
+            } else {
+                throw new ObjectMappingException(e);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> ObjectMapper<T> mapperForObject(T obj) throws ObjectMappingException {
+        Preconditions.checkNotNull(obj);
+        return mapperForClass((Class<T>) obj.getClass());
+    }
 
     /**
      * Holder for field-specific information
@@ -112,7 +150,7 @@ public class ObjectMapper<T> {
         } while (!(collectClass = collectClass.getSuperclass()).equals(Object.class));
     }
 
-    protected void collectFields(List<Map.Entry<String, FieldData>> cachedFields, Class<? super T> clazz) throws ObjectMappingException {
+    protected void collectFields(Map<String, FieldData> cachedFields, Class<? super T> clazz) throws ObjectMappingException {
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Setting.class)) {
                 Setting setting = field.getAnnotation(Setting.class);
@@ -123,29 +161,13 @@ public class ObjectMapper<T> {
 
                 FieldData data = new FieldData(field, setting.comment());
                 field.setAccessible(true);
-                cachedFields.add(Maps.immutableEntry(path, data));
+                if (!cachedFields.containsKey(path)) {
+                    cachedFields.put(path, data);
+                }
             }
         }
     }
 
-    /**
-     * Create a new object mapper that can work with objects of the given class
-     *
-     * @param clazz The type of object
-     * @param <T> The type
-     * @return An appropriate object mapper instance. May be shared with other users.
-     * @throws ObjectMappingException If invalid annotated fields are presented
-     */
-    public static <T> ObjectMapper<T> mapperForClass(Class<T> clazz) throws ObjectMappingException {
-        Preconditions.checkNotNull(clazz);
-        return new ObjectMapper<>(clazz);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T> mapperForObject(T obj) throws ObjectMappingException {
-        Preconditions.checkNotNull(obj);
-        return new ObjectMapper<>((Class) obj.getClass());
-    }
 
     /**
      * Populate the annotated fields in a pre-created object
@@ -155,7 +177,7 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException If an error occurs while populating data
      */
     public T populateObject(T target, ConfigurationNode source) throws ObjectMappingException {
-        for (Map.Entry<String, FieldData> ent : cachedFields) {
+        for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
             ConfigurationNode node = source.getNode(ent.getKey());
             ent.getValue().deserializeFrom(target, node);
         }
@@ -209,10 +231,64 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException if serialization was not possible due to some error.
      */
     public void serializeObject(T object, ConfigurationNode target) throws ObjectMappingException {
-        for (Map.Entry<String, FieldData> ent : cachedFields) {
+        for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
             ConfigurationNode node = target.getNode(ent.getKey());
             ent.getValue().serializeTo(object, node);
         }
+    }
+
+    public Object getValue(T object, String... path) throws ObjectMappingException {
+        ObjectMapper<?> currentMapper = this;
+        Object currentInstance = object;
+        for (String el : path) {
+            FieldData field = currentMapper.cachedFields.get(el);
+            if (field == null) {
+                return null;
+            }
+            Object newInstance;
+            try {
+                newInstance = field.field.get(currentInstance);
+                if (newInstance == null) {
+                    field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
+                    newInstance = field.field.get(currentInstance);
+                }
+            } catch (IllegalAccessException e) {
+                throw new ObjectMappingException("Unable to access field", e);
+            }
+            currentInstance = newInstance;
+            currentMapper = ObjectMapper.mapperForObject(currentInstance);
+        }
+        return currentInstance;
+    }
+
+    public boolean setValue(T instance, Object value, String... path) throws ObjectMappingException {
+        ObjectMapper<?> currentMapper = this;
+        Object currentInstance = instance;
+        for (int i = 0; i < path.length - 1; ++i) {
+            FieldData field = currentMapper.cachedFields.get(path[i]);
+            if (field == null) {
+                return false;
+            }
+            Object newInstance;
+            try {
+                newInstance = field.field.get(currentInstance);
+                if (newInstance == null) {
+                    field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
+                    newInstance = field.field.get(currentInstance);
+                }
+            } catch (IllegalAccessException e) {
+                throw new ObjectMappingException("Unable to access field", e);
+            }
+            currentInstance = newInstance;
+            currentMapper = ObjectMapper.mapperForObject(currentInstance);
+        }
+
+        FieldData field = currentMapper.cachedFields.get(path[path.length - 1]);
+        if (field == null) {
+            return false;
+        }
+        field.deserializeFrom(currentInstance, SimpleConfigurationNode.root().setValue(value));
+        return true;
     }
 
 }

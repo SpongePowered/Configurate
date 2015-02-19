@@ -20,6 +20,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -30,6 +31,7 @@ public class ObjectMapperTest {
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
 
+    @ConfigSerializable
     private static class TestObject {
         @Setting("test-key") protected String stringVal;
     }
@@ -74,6 +76,7 @@ public class ObjectMapperTest {
         assertEquals("hi", source.getNode("test-key").getString());
     }
 
+    @ConfigSerializable
     private static class CommentedObject {
         @Setting(value = "commented-key", comment = "You look nice today") private String color;
         @Setting("no-comment") private String politician;
@@ -93,6 +96,7 @@ public class ObjectMapperTest {
     }
 
 
+    @ConfigSerializable
     private static class NonZeroArgConstructorObject {
         @Setting private long key;
         private final String value;
@@ -111,6 +115,7 @@ public class ObjectMapperTest {
         mapper.newInstance(SimpleConfigurationNode.root());
     }
 
+    @ConfigSerializable
     private static class TestObjectChild extends TestObject {
         @Setting("child-setting") private boolean childSetting;
     }
@@ -127,6 +132,7 @@ public class ObjectMapperTest {
         assertEquals("Parents get populated too!", instance.stringVal);
     }
 
+    @ConfigSerializable
     private static class FieldNameObject {
         @Setting private boolean loads;
     }
@@ -140,5 +146,22 @@ public class ObjectMapperTest {
         FieldNameObject obj = mapper.newInstance(node);
         assertTrue(obj.loads);
 
+    }
+
+    private static class MultiValueObject {
+        @Setting private FieldNameObject child;
+    }
+
+    @Test
+    public void testGetValueAtKey() throws ObjectMappingException {
+        final ObjectMapper<MultiValueObject> mapper = ObjectMapper.mapperForClass(MultiValueObject.class);
+        final ConfigurationNode node = SimpleConfigurationNode.root();
+        node.getNode("child", "loads").setValue(true);
+        final MultiValueObject instance = mapper.newInstance(node);
+        assertEquals(true, instance.child.loads);
+        Object loads = mapper.getValue(instance, "child", "loads");
+        assertEquals(true, loads);
+        mapper.setValue(instance, false, "child", "loads");
+        assertEquals(false, instance.child.loads);
     }
 }
