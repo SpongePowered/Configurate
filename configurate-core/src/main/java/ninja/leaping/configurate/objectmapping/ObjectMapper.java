@@ -330,9 +330,9 @@ public class ObjectMapper<T> {
     /**
      * Returns a view on this mapper that is bound to a newly created object instance
      *
-     * @see #bind(T)
+     * @see #bind(Object)
      * @return Bound mapper attached to a new object instance
-     * @throws ObjectMappingException
+     * @throws ObjectMappingException If the object could not be constructed correctly
      */
     public BoundInstance bindToNew() throws ObjectMappingException {
         return new BoundInstance(constructObject());
