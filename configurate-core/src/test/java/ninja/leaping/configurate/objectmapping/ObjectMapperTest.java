@@ -38,41 +38,41 @@ public class ObjectMapperTest {
 
     @Test
     public void testCreateFromNode() throws ObjectMappingException {
-        final ObjectMapper<TestObject> mapper = ObjectMapper.mapperForClass(TestObject.class);
+        final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
         final ConfigurationNode source = SimpleConfigurationNode.root();
         source.getNode("test-key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
 
-        final TestObject obj = mapper.newInstance(source);
+        final TestObject obj = mapper.bindToNew().populate(source);
         assertEquals("some are born great, some achieve greatness, and some have greatness thrust upon them", obj.stringVal);
     }
 
     @Test
     public void testNullsPreserved() throws ObjectMappingException {
-        final ObjectMapper<TestObject> mapper = ObjectMapper.mapperForClass(TestObject.class);
-        final TestObject obj = mapper.newInstance(SimpleConfigurationNode.root());
+        final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
+        final TestObject obj = mapper.bindToNew().populate(SimpleConfigurationNode.root());
         assertNull(obj.stringVal);
     }
 
     @Test
     public void testLoadExistingObject() throws ObjectMappingException {
-        final ObjectMapper<TestObject> mapper = ObjectMapper.mapperForClass(TestObject.class);
+        final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
         final ConfigurationNode source = SimpleConfigurationNode.root();
         final TestObject instance = new TestObject();
 
         source.getNode("test-key").setValue("boom");
 
-        mapper.populateObject(instance, source);
+        mapper.bind(instance).populate(source);
         assertEquals("boom", instance.stringVal);
     }
 
     @Test
     public void testDefaultsApplied() throws ObjectMappingException {
-        final ObjectMapper<TestObject> mapper = ObjectMapper.mapperForClass(TestObject.class);
+        final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
         final ConfigurationNode source = SimpleConfigurationNode.root();
         final TestObject instance = new TestObject();
 
         instance.stringVal = "hi";
-        mapper.populateObject(instance, source);
+        mapper.bind(instance).populate(source);
         assertEquals("hi", source.getNode("test-key").getString());
     }
 
@@ -84,12 +84,12 @@ public class ObjectMapperTest {
 
     @Test
     public void testCommentsApplied() throws ObjectMappingException {
-        ObjectMapper<CommentedObject> mapper = ObjectMapper.mapperForClass(CommentedObject.class);
         CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
-        CommentedObject obj = mapper.newInstance(node);
+        ObjectMapper<CommentedObject>.BoundInstance mapper = ObjectMapper.forClass(CommentedObject.class).bindToNew();
+        CommentedObject obj = mapper.populate(node);
         obj.color = "fuchsia";
         obj.politician = "All of them";
-        mapper.serializeObject(obj, node);
+        mapper.serialize(node);
         assertEquals("You look nice today", node.getNode("commented-key").getComment().orNull());
         assertEquals("fuchsia", node.getNode("commented-key").getString());
         assertFalse(node.getNode("no-comment").getComment().isPresent());
@@ -108,11 +108,11 @@ public class ObjectMapperTest {
 
     @Test
     public void testNoArglessConstructor() throws ObjectMappingException {
-        ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.mapperForClass(NonZeroArgConstructorObject.class);
+        ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.forClass(NonZeroArgConstructorObject.class);
         assertFalse(mapper.canCreateInstances());
         expectedException.expect(ObjectMappingException.class);
         expectedException.expectMessage("No zero-arg constructor");
-        mapper.newInstance(SimpleConfigurationNode.root());
+        mapper.bindToNew();
     }
 
     @ConfigSerializable
@@ -122,12 +122,12 @@ public class ObjectMapperTest {
 
     @Test
     public void testSuperclassFieldsIncluded() throws ObjectMappingException {
-        final ObjectMapper<TestObjectChild> mapper = ObjectMapper.mapperForClass(TestObjectChild.class);
+        final ObjectMapper<TestObjectChild> mapper = ObjectMapper.forClass(TestObjectChild.class);
         ConfigurationNode node = SimpleConfigurationNode.root();
         node.getNode("child-setting").setValue(true);
         node.getNode("test-key").setValue("Parents get populated too!");
 
-        TestObjectChild instance = mapper.newInstance(node);
+        TestObjectChild instance = mapper.bindToNew().populate(node);
         assertEquals(true, instance.childSetting);
         assertEquals("Parents get populated too!", instance.stringVal);
     }
@@ -139,11 +139,11 @@ public class ObjectMapperTest {
 
     @Test
     public void testKeyFromFieldName() throws ObjectMappingException {
-        final ObjectMapper<FieldNameObject> mapper = ObjectMapper.mapperForClass(FieldNameObject.class);
+        final ObjectMapper<FieldNameObject> mapper = ObjectMapper.forClass(FieldNameObject.class);
         final ConfigurationNode node = SimpleConfigurationNode.root();
         node.getNode("loads").setValue(true);
 
-        FieldNameObject obj = mapper.newInstance(node);
+        FieldNameObject obj = mapper.bindToNew().populate(node);
         assertTrue(obj.loads);
 
     }
@@ -154,14 +154,15 @@ public class ObjectMapperTest {
 
     @Test
     public void testGetValueAtKey() throws ObjectMappingException {
-        final ObjectMapper<MultiValueObject> mapper = ObjectMapper.mapperForClass(MultiValueObject.class);
+        final ObjectMapper<MultiValueObject> mapper = ObjectMapper.forClass(MultiValueObject.class);
         final ConfigurationNode node = SimpleConfigurationNode.root();
         node.getNode("child", "loads").setValue(true);
-        final MultiValueObject instance = mapper.newInstance(node);
+        final ObjectMapper<MultiValueObject>.BoundInstance bound = mapper.bindToNew();
+        final MultiValueObject instance = bound.populate(node);
         assertEquals(true, instance.child.loads);
-        Object loads = mapper.getValue(instance, "child", "loads");
+        Object loads = bound.getValue("child", "loads");
         assertEquals(true, loads);
-        mapper.setValue(instance, false, "child", "loads");
+        bound.setValue(false, "child", "loads");
         assertEquals(false, instance.child.loads);
     }
 }

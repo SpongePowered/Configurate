@@ -61,7 +61,7 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException If invalid annotated fields are presented
      */
     @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T> mapperForClass(Class<T> clazz) throws ObjectMappingException {
+    public static <T> ObjectMapper<T> forClass(Class<T> clazz) throws ObjectMappingException {
         Preconditions.checkNotNull(clazz);
         try {
             return (ObjectMapper<T>) MAPPER_CACHE.get(clazz);
@@ -75,9 +75,9 @@ public class ObjectMapper<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T> mapperForObject(T obj) throws ObjectMappingException {
+    public static <T> ObjectMapper<T>.BoundInstance forObject(T obj) throws ObjectMappingException {
         Preconditions.checkNotNull(obj);
-        return mapperForClass((Class<T>) obj.getClass());
+        return forClass((Class<T>) obj.getClass()).bind(obj);
     }
 
     /**
@@ -129,6 +129,127 @@ public class ObjectMapper<T> {
         }
     }
 
+    public class BoundInstance {
+        private final T boundInstance;
+
+        protected BoundInstance(T boundInstance) {
+            this.boundInstance = boundInstance;
+        }
+
+        /**
+         * Populate the annotated fields in a pre-created object
+         * @param source The source to get data from
+         * @return The object provided, for easier chaining
+         * @throws ObjectMappingException If an error occurs while populating data
+         */
+        public T populate(ConfigurationNode source) throws ObjectMappingException {
+            for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
+                ConfigurationNode node = source.getNode(ent.getKey());
+                ent.getValue().deserializeFrom(boundInstance, node);
+            }
+            return boundInstance;
+        }
+
+        /**
+         * Serialize the data contained in annotated fields to the configuration node.
+         *
+         * @param target The target node to serialize to
+         * @throws ObjectMappingException if serialization was not possible due to some error.
+         */
+        public void serialize(ConfigurationNode target) throws ObjectMappingException {
+            for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
+                ConfigurationNode node = target.getNode(ent.getKey());
+                ent.getValue().serializeTo(boundInstance, node);
+            }
+        }
+
+        /**
+         * Gets the field value at an object path -- used to traverse fields in an object
+         *
+         * WARNING: This method is fairly incomplete in what it traverses compared to a ConfigurationNode
+         * @param path The path to get at
+         * @return The new value
+         * @throws ObjectMappingException if any sort of error occurs
+         */
+        public Object getValue(String... path) throws ObjectMappingException {
+            if (path == null || path.length == 0) {
+                throw new ObjectMappingException("Null or empty path provided");
+            }
+            ObjectMapper<?> currentMapper = ObjectMapper.this;
+            Object currentInstance = boundInstance;
+            for (String el : path) {
+                FieldData field = currentMapper.cachedFields.get(el);
+                if (field == null) {
+                    return null;
+                }
+                Object newInstance;
+                try {
+                    newInstance = field.field.get(currentInstance);
+                    if (newInstance == null) {
+                        field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
+                        newInstance = field.field.get(currentInstance);
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new ObjectMappingException("Unable to access field", e);
+                }
+                currentInstance = newInstance;
+                currentMapper = forClass(currentInstance.getClass());
+            }
+            return currentInstance;
+        }
+
+        /**
+         * Sets the field value at an object path -- used to traverse fields in an object
+         *
+         * WARNING: This method is fairly incomplete in what it traverses compared to a ConfigurationNode
+         * @param value The value to set
+         * @param path The path to set at
+         * @return The new value
+         * @throws ObjectMappingException if any sort of error occurs
+         */
+        public boolean setValue(Object value, String... path) throws ObjectMappingException {
+            if (path == null || path.length == 0) {
+                throw new ObjectMappingException("Null or empty path provided");
+            }
+            ObjectMapper<?> currentMapper = ObjectMapper.this;
+            Object currentInstance = boundInstance;
+            for (int i = 0; i < path.length - 1; ++i) {
+                FieldData field = currentMapper.cachedFields.get(path[i]);
+                if (field == null) {
+                    return false;
+                }
+                Object newInstance;
+                try {
+                    newInstance = field.field.get(currentInstance);
+                    if (newInstance == null) {
+                        field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
+                        newInstance = field.field.get(currentInstance);
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new ObjectMappingException("Unable to access field", e);
+                }
+                currentInstance = newInstance;
+                currentMapper = forClass(currentInstance.getClass());
+            }
+
+            FieldData field = currentMapper.cachedFields.get(path[path.length - 1]);
+            if (field == null) {
+                return false;
+            }
+            field.deserializeFrom(currentInstance, SimpleConfigurationNode.root().setValue(value));
+            return true;
+        }
+
+        /**
+         * Return the instance this mapper is bound to.
+         *
+         * @return The active instance
+         */
+        public T getInstance() {
+            return boundInstance;
+        }
+    }
+
     /**
      * Create a new object mapper of a given type
      *
@@ -168,22 +289,6 @@ public class ObjectMapper<T> {
         }
     }
 
-
-    /**
-     * Populate the annotated fields in a pre-created object
-     * @param target The target object to populate fields in
-     * @param source The source to get data from
-     * @return The object provided, for easier chaining
-     * @throws ObjectMappingException If an error occurs while populating data
-     */
-    public T populateObject(T target, ConfigurationNode source) throws ObjectMappingException {
-        for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
-            ConfigurationNode node = source.getNode(ent.getKey());
-            ent.getValue().deserializeFrom(target, node);
-        }
-        return target;
-    }
-
     /**
      * Create a new instance of an object of the appropriate type. This method is not
      * responsible for any population.
@@ -213,90 +318,23 @@ public class ObjectMapper<T> {
     }
 
     /**
-     * Creates a new instance of this object mapper's type and populates it with data from the given configuration node
+     * Return a view on this mapper that is bound to a single object instance
      *
-     * @param source The node to source data from
-     * @return The newly created object
-     * @throws ObjectMappingException if any errors occurred along the way.
+     * @param instance The instance to bind to
+     * @return A view referencing this mapper and the bound instance
      */
-    public T newInstance(ConfigurationNode source) throws ObjectMappingException {
-        return populateObject(constructObject(), source);
+    public BoundInstance bind(T instance) {
+        return new BoundInstance(instance);
     }
 
     /**
-     * Serialize the data contained in annotated fields to the configuration node.
+     * Returns a view on this mapper that is bound to a newly created object instance
      *
-     * @param object The object to serialize
-     * @param target The target node to serialize to
-     * @throws ObjectMappingException if serialization was not possible due to some error.
+     * @see #bind(T)
+     * @return Bound mapper attached to a new object instance
+     * @throws ObjectMappingException
      */
-    public void serializeObject(T object, ConfigurationNode target) throws ObjectMappingException {
-        for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
-            ConfigurationNode node = target.getNode(ent.getKey());
-            ent.getValue().serializeTo(object, node);
-        }
+    public BoundInstance bindToNew() throws ObjectMappingException {
+        return new BoundInstance(constructObject());
     }
-
-    public Object getValue(T instance, String... path) throws ObjectMappingException {
-        Preconditions.checkNotNull(instance, "instance");
-        if (path == null || path.length == 0) {
-            throw new ObjectMappingException("Null or empty path provided");
-        }
-        ObjectMapper<?> currentMapper = this;
-        Object currentInstance = instance;
-        for (String el : path) {
-            FieldData field = currentMapper.cachedFields.get(el);
-            if (field == null) {
-                return null;
-            }
-            Object newInstance;
-            try {
-                newInstance = field.field.get(currentInstance);
-                if (newInstance == null) {
-                    field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
-                    newInstance = field.field.get(currentInstance);
-                }
-            } catch (IllegalAccessException e) {
-                throw new ObjectMappingException("Unable to access field", e);
-            }
-            currentInstance = newInstance;
-            currentMapper = ObjectMapper.mapperForObject(currentInstance);
-        }
-        return currentInstance;
-    }
-
-    public boolean setValue(T instance, Object value, String... path) throws ObjectMappingException {
-        Preconditions.checkNotNull(instance, "instance");
-        if (path == null || path.length == 0) {
-            throw new ObjectMappingException("Null or empty path provided");
-        }
-        ObjectMapper<?> currentMapper = this;
-        Object currentInstance = instance;
-        for (int i = 0; i < path.length - 1; ++i) {
-            FieldData field = currentMapper.cachedFields.get(path[i]);
-            if (field == null) {
-                return false;
-            }
-            Object newInstance;
-            try {
-                newInstance = field.field.get(currentInstance);
-                if (newInstance == null) {
-                    field.deserializeFrom(currentInstance, SimpleConfigurationNode.root());
-                    newInstance = field.field.get(currentInstance);
-                }
-            } catch (IllegalAccessException e) {
-                throw new ObjectMappingException("Unable to access field", e);
-            }
-            currentInstance = newInstance;
-            currentMapper = ObjectMapper.mapperForObject(currentInstance);
-        }
-
-        FieldData field = currentMapper.cachedFields.get(path[path.length - 1]);
-        if (field == null) {
-            return false;
-        }
-        field.deserializeFrom(currentInstance, SimpleConfigurationNode.root().setValue(value));
-        return true;
-    }
-
 }

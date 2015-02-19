@@ -293,7 +293,7 @@ public class TypeSerializers {
                 throw new InvalidTypeException(type);
             }
             Class<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
-            return ObjectMapper.mapperForClass(clazz).newInstance(value);
+            return ObjectMapper.forClass(clazz).bindToNew().populate(value);
         }
 
         private Class<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
@@ -319,7 +319,7 @@ public class TypeSerializers {
             if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
                 value.getNode("__class__").setValue(type.getRawType().getCanonicalName());
             }
-            ObjectMapper.mapperForObject(obj).serializeObject(obj, value);
+            ObjectMapper.forObject(obj).serialize(value);
         }
     }
 }
