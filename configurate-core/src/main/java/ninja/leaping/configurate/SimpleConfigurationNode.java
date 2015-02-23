@@ -368,13 +368,13 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return this.parent;
     }
 
+    @Override
+    public ConfigurationOptions getOptions() {
+        return this.options;
+    }
     // }}}
 
     // {{{ Internal methods
-    protected ConfigurationOptions getOptions() {
-        return this.options;
-    }
-
     SimpleConfigurationNode getParentInternal() {
         SimpleConfigurationNode parent = this.parent;
         if (parent.isVirtual()) {

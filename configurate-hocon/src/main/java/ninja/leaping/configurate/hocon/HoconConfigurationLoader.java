@@ -28,6 +28,8 @@ import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import ninja.leaping.configurate.loader.CommentHandler;
+import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -96,8 +98,13 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         }
 
         @Override
+        public AbstractConfigurationLoader.Builder setPreservesHeader(boolean preservesHeader) {
+            return super.setPreservesHeader(preservesHeader);
+        }
+
+        @Override
         public HoconConfigurationLoader build() {
-            return new HoconConfigurationLoader(source, sink, render, parse);
+            return new HoconConfigurationLoader(source, sink, render, parse, preserveHeader);
         }
     }
 
@@ -106,8 +113,8 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     }
 
     protected HoconConfigurationLoader(CharSource source, CharSink sink, ConfigRenderOptions render,
-                                       ConfigParseOptions parse) {
-        super(source, sink, true, "#");
+                                       ConfigParseOptions parse, boolean preservesHeader) {
+        super(source, sink, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH}, preservesHeader);
         this.render = render;
         this.parse = parse;
     }

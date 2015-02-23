@@ -22,6 +22,8 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import ninja.leaping.configurate.loader.CommentHandler;
+import ninja.leaping.configurate.loader.CommentHandlers;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -97,8 +99,14 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
 
         @Override
+        public Builder setPreservesHeader(boolean preservesHeader) {
+            super.setPreservesHeader(preservesHeader);
+            return this;
+        }
+
+        @Override
         public YAMLConfigurationLoader build() {
-            return new YAMLConfigurationLoader(source, sink, options);
+            return new YAMLConfigurationLoader(source, sink, options, preserveHeader);
         }
     }
 
@@ -106,8 +114,9 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    public YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options) {
-        super(source, sink, true, "#");
+    public YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options, boolean
+            preservesHeader) {
+        super(source, sink, new CommentHandler[] {CommentHandlers.HASH}, preservesHeader);
         this.yaml = new ThreadLocal<Yaml>() {
             @Override
             protected Yaml initialValue() {

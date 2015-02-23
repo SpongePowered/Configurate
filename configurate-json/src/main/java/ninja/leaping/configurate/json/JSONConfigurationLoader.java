@@ -23,6 +23,8 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import ninja.leaping.configurate.loader.CommentHandler;
+import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -87,8 +89,14 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
 
         @Override
+        public Builder setPreservesHeader(boolean preservesHeader) {
+            super.setPreservesHeader(preservesHeader);
+            return this;
+        }
+
+        @Override
         public JSONConfigurationLoader build() {
-            return new JSONConfigurationLoader(source, sink, factory, prettyPrint);
+            return new JSONConfigurationLoader(source, sink, factory, prettyPrint, preserveHeader);
         }
     }
 
@@ -96,8 +104,11 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory, boolean prettyPrint) {
-        super(source, sink, true, "//");
+    protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory, boolean prettyPrint,
+                                      boolean preservesHeader) {
+        super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
+                        CommentHandlers.HASH},
+        preservesHeader);
         this.factory = factory;
         this.prettyPrint = prettyPrint;
     }

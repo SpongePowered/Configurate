@@ -31,6 +31,7 @@ public class AtomicFileOutputStream extends FilterOutputStream {
         super(null);
         writeFile = File.createTempFile(file.getCanonicalPath(), null);
         targetFile = file;
+        //writeFile = new File(targetFile.getName() + ".tmp");
         oldFile = new File(targetFile.getName() + ".old");
         this.out = new FileOutputStream(writeFile);
     }
@@ -48,7 +49,8 @@ public class AtomicFileOutputStream extends FilterOutputStream {
             oldFile.delete();
             if (!targetFile.exists() || targetFile.renameTo(oldFile)) {
                 if (!writeFile.renameTo(targetFile)) {
-                    throw new IOException("Unable to overwrite file with temporary file! New config is at " + writeFile + ", old config at" + oldFile);
+                    throw new IOException("Unable to overwrite file with temporary file! New file is at " +
+                            writeFile + ", old config at " + oldFile + ", target at " + targetFile);
                 } else {
                     if (!oldFile.delete()) {
                         throw new IOException("Unable to delete old file " + oldFile);

@@ -35,7 +35,6 @@ public interface ConfigurationNode {
      */
     public Object getKey();
 
-
     /**
      * The full path from the root to this node.
      *
@@ -51,6 +50,13 @@ public interface ConfigurationNode {
      * @return The appropriate parent
      */
     public ConfigurationNode getParent();
+
+    /**
+     * Return the options that currently apply to this node
+     *
+     * @return The ConfigurationOptions instance that governs the functionality of this node
+     */
+    public ConfigurationOptions getOptions();
 
     /**
      * Get the current value associated with this node.

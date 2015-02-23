@@ -26,9 +26,11 @@ import java.util.Comparator;
  */
 public class ConfigurationOptions {
     private final Comparator<Object> nodeKeySort;
+    private final String header;
 
-    private ConfigurationOptions(Comparator<Object> nodeKeySort) {
+    private ConfigurationOptions(Comparator<Object> nodeKeySort, String header) {
         this.nodeKeySort = nodeKeySort;
+        this.header = header;
     }
 
     /**
@@ -37,7 +39,7 @@ public class ConfigurationOptions {
      * @return A new default options object
      */
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(null);
+        return new ConfigurationOptions(null, null);
     }
 
     /**
@@ -56,6 +58,24 @@ public class ConfigurationOptions {
      * @return The new options object
      */
     public ConfigurationOptions setKeyComparator(Comparator<Object> keyComparator) {
-        return new ConfigurationOptions(keyComparator);
+        return new ConfigurationOptions(keyComparator, header);
+    }
+
+    /**
+     * Get the header used for this configuration
+     *
+     * @return The current header. Lines are split by \n,
+     */
+    public String getHeader() {
+        return this.header;
+    }
+
+    /**
+     * Set the header that will be written to a file if
+     * @param header
+     * @return
+     */
+    public ConfigurationOptions setHeader(String header) {
+        return new ConfigurationOptions(nodeKeySort, header);
     }
 }

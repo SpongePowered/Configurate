@@ -17,8 +17,8 @@
 package ninja.leaping.configurate.loader;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
@@ -26,7 +26,6 @@ import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,10 +51,11 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     }
     protected final CharSource source;
     private final CharSink sink;
-    protected final String commentPrefix;
-    private final boolean writeRootCommentAsHeader;
+    private final CommentHandler[] commentHandlers;
+    private final boolean preservesHeader;
 
     protected static abstract class Builder {
+        protected boolean preserveHeader = true;
         protected CharSource source;
         protected CharSink sink;
 
@@ -80,14 +80,24 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             return this;
         }
 
+        public Builder setPreservesHeader(boolean preservesHeader) {
+            this.preserveHeader = preservesHeader;
+            return this;
+        }
+
         public abstract AbstractConfigurationLoader build();
     }
 
-    protected AbstractConfigurationLoader(CharSource source, CharSink sink, boolean writeRootCommentAsHeader, String commentPrefix) {
+    protected AbstractConfigurationLoader(CharSource source, CharSink sink, CommentHandler[] commentHandlers, boolean
+            preservesHeader) {
         this.source = source;
         this.sink = sink;
-        this.writeRootCommentAsHeader = writeRootCommentAsHeader;
-        this.commentPrefix = commentPrefix;
+        this.commentHandlers = commentHandlers;
+        this.preservesHeader = preservesHeader;
+    }
+
+    public CommentHandler getDefaultCommentHandler() {
+        return this.commentHandlers[0];
     }
 
     @Override
@@ -100,13 +110,21 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         if (!canLoad()) {
             throw new IOException("No source present to read from!");
         }
-        NodeType node = createEmptyNode(options);
         try (BufferedReader reader = source.openBufferedStream()) {
+            NodeType node;
+            if (preservesHeader) {
+                String comment = CommentHandlers.extractComment(reader, commentHandlers);
+                if (comment != null && comment.length() > 0) {
+                    options = options.setHeader(comment);
+                }
+            }
+            node = createEmptyNode(options);
             loadInternal(node, reader);
+            return node;
         } catch (FileNotFoundException e) {
             // Squash -- there's nothing to read
         }
-        return node;
+        return createEmptyNode(options);
     }
 
     protected abstract void loadInternal(NodeType node, BufferedReader reader) throws IOException;
@@ -117,15 +135,13 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             throw new IOException("No sink present to write to!");
         }
         try (Writer writer = sink.openBufferedStream()) {
-            if (writeRootCommentAsHeader && node instanceof CommentedConfigurationNode) {
-                Optional<String> comment = ((CommentedConfigurationNode) node).getComment();
-                if (comment.isPresent() && !comment.get().isEmpty()) {
-                    for (String line : commentPrefixed(LINE_SPLITTER.omitEmptyStrings().split(comment.get()))) {
-                        writer.write(line);
-                        writer.write(LINE_SEPARATOR);
-                    }
+            String header = node.getOptions().getHeader();
+            if (header != null && !header.isEmpty()) {
+                for (String line : getDefaultCommentHandler().toComment(ImmutableList.copyOf(LINE_SPLITTER.split(header)))) {
+                    writer.write(line);
                     writer.write(LINE_SEPARATOR);
                 }
+                writer.write(LINE_SEPARATOR);
             }
             saveInternal(node, writer);
         }
@@ -139,19 +155,6 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     public boolean canSave() {
         return this.sink != null;
-    }
-
-    protected Iterable<String> commentPrefixed(Iterable<String> input) {
-        return Iterables.transform(input, new Function<String, String>() {
-            @Override
-            public String apply(String s) {
-                if (s.startsWith(" ")) {
-                    return commentPrefix + s;
-                } else {
-                    return commentPrefix + " " + s;
-                }
-            }
-        });
     }
 
 }

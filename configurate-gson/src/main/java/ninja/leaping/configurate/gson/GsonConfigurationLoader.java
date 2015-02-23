@@ -27,6 +27,8 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import ninja.leaping.configurate.loader.CommentHandler;
+import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -87,8 +89,14 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
 
         @Override
+        public Builder setPreservesHeader(boolean preservesHeader) {
+            super.setPreservesHeader(preservesHeader);
+            return this;
+        }
+
+        @Override
         public GsonConfigurationLoader build() {
-            return new GsonConfigurationLoader(source, sink, indent, lenient);
+            return new GsonConfigurationLoader(source, sink, indent, lenient, preserveHeader);
         }
     }
 
@@ -96,8 +104,10 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected GsonConfigurationLoader(CharSource source, CharSink sink, int indent, boolean lenient) {
-        super(source, sink, true, "//");
+    protected GsonConfigurationLoader(CharSource source, CharSink sink, int indent, boolean lenient, boolean
+            preservesHeader) {
+        super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
+                        CommentHandlers.HASH}, preservesHeader);
         this.lenient = lenient;
         this.indent = Strings.repeat(" ", indent);
     }
