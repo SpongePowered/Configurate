@@ -17,6 +17,7 @@
 package ninja.leaping.configurate;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -32,7 +33,7 @@ class MapConfigValue extends ConfigValue {
 
     @Override
     public Object getValue() {
-        Map<Object, Object> value = new HashMap<>();
+        Map<Object, Object> value = new LinkedHashMap<>();
         for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : values.get().entrySet()) {
             value.put(ent.getKey(), ent.getValue().getValue());
         }
