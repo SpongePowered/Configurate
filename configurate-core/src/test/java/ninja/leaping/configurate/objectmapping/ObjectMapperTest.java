@@ -145,6 +145,25 @@ public class ObjectMapperTest {
 
         FieldNameObject obj = mapper.bindToNew().populate(node);
         assertTrue(obj.loads);
+    }
 
+    private static class ParentObject {
+        @Setting(comment = "Comment on parent") private InnerObject inner = new InnerObject();
+    }
+
+    @ConfigSerializable
+    private static class InnerObject {
+        @Setting(comment = "Something") private String test = "Default value";
+    }
+
+    @Test
+    public void testNestedObjectWithComments() throws ObjectMappingException {
+        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        final ObjectMapper<ParentObject>.BoundInstance mapper = ObjectMapper.forObject(new ParentObject());
+        mapper.populate(node);
+        assertEquals("Comment on parent", node.getNode("inner").getComment().get());
+        assertTrue(node.getNode("inner").hasMapChildren());
+        assertEquals("Default value", node.getNode("inner", "test").getString());
+        assertEquals("Something", node.getNode("inner", "test").getComment().get());
     }
 }

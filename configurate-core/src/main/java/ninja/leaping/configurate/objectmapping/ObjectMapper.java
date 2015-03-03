@@ -22,7 +22,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
@@ -100,7 +99,7 @@ public class ObjectMapper<T> {
         }
 
         public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            Object newVal = this.fieldSerializer.deserialize(this.fieldType, node);
+            Object newVal = node.isVirtual() ? null : this.fieldSerializer.deserialize(this.fieldType, node);
             try {
                 if (newVal == null) {
                     Object existingVal = field.get(instance);

@@ -375,13 +375,48 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     // }}}
 
     // {{{ Internal methods
-    SimpleConfigurationNode getParentInternal() {
+    SimpleConfigurationNode getParentAttached() {
         SimpleConfigurationNode parent = this.parent;
         if (parent.isVirtual()) {
-            parent = parent.getParentInternal().getChild(parent.key, true);
+            parent = parent.getParentAttached().attachChildIfAbsent(parent);
 
         }
         return this.parent = parent;
+    }
+
+    private SimpleConfigurationNode attachChildIfAbsent(SimpleConfigurationNode child) {
+        if (isVirtual()) {
+            throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
+        }
+        if (!child.getParentAttached().equals(this)) {
+            throw new IllegalStateException("Child " +  child +
+                    " path is not a direct parent of me (" + this + "), cannot attach");
+        }
+        final ConfigValue oldValue = value.get();
+        ConfigValue newValue = oldValue;
+        do {
+            if (!(oldValue instanceof MapConfigValue)) {
+                if (child.key instanceof Integer) {
+                    if (oldValue instanceof NullConfigValue) {
+                        newValue = new ListConfigValue(this);
+
+                    } else if (!(oldValue instanceof ListConfigValue)) {
+                        newValue = new ListConfigValue(this, oldValue.getValue());
+                    }
+                } else {
+                    newValue = new MapConfigValue(this);
+                }
+            }
+            SimpleConfigurationNode oldChild = newValue.putChildIfAbsent(child.key, child);
+            if (oldChild != null) {
+                return oldChild;
+            }
+        } while (!value.compareAndSet(oldValue, newValue));
+        if (newValue != oldValue) {
+            oldValue.clear();
+        }
+        child.attached = true;
+        return child;
     }
 
     protected SimpleConfigurationNode createNode(Object path) {
@@ -390,7 +425,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     protected void attachIfNecessary() {
         if (!attached) {
-            getParentInternal().attachChild(this);
+            getParentAttached().attachChild(this);
         }
     }
 
@@ -398,7 +433,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         if (isVirtual()) {
             throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
         }
-        if (!child.getParentInternal().equals(this)) {
+        if (!child.getParentAttached().equals(this)) {
             throw new IllegalStateException("Child " +  child +
                     " path is not a direct parent of me (" + this + "), cannot attach");
         }
