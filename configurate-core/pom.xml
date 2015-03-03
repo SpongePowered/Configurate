@@ -45,6 +45,11 @@
             <version>1.13</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
+            <artifactId>concurrentlinkedhashmap-lru</artifactId>
+            <version>1.4.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

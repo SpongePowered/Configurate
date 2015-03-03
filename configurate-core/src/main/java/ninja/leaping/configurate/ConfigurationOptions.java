@@ -16,20 +16,22 @@
  */
 package ninja.leaping.configurate;
 
+import com.google.common.base.Supplier;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.util.MapFactories;
 
-import java.util.Comparator;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * This object is a holder for general configuration options. This is meant to hold options
  * that are used in configuring how the configuration data structures are handled, rather than the serialization configuration that is located in {@link ConfigurationLoader}s
  */
 public class ConfigurationOptions {
-    private final Comparator<Object> nodeKeySort;
+    private final Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier;
     private final String header;
 
-    private ConfigurationOptions(Comparator<Object> nodeKeySort, String header) {
-        this.nodeKeySort = nodeKeySort;
+    private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header) {
+        this.mapSupplier = mapSupplier;
         this.header = header;
     }
 
@@ -39,7 +41,7 @@ public class ConfigurationOptions {
      * @return A new default options object
      */
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(null, null);
+        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null);
     }
 
     /**
@@ -47,18 +49,20 @@ public class ConfigurationOptions {
      *
      * @return The active key comparator
      */
-    public Comparator<Object> getKeyComparator() {
-        return nodeKeySort;
+    @SuppressWarnings("unchecked")
+    public Supplier<ConcurrentMap<Object, ? extends ConfigurationNode>> getMapFactory() {
+        return (Supplier) mapSupplier;
     }
 
     /**
      * Return a new options object with the provided option set.
      *
-     * @param keyComparator The new comparator to be used. Set to null to use natural ordering.
+     * @param factory The new factory to use to create a map
      * @return The new options object
      */
-    public ConfigurationOptions setKeyComparator(Comparator<Object> keyComparator) {
-        return new ConfigurationOptions(keyComparator, header);
+    @SuppressWarnings("unchecked")
+    public ConfigurationOptions setMapFactory(Supplier<ConcurrentMap<Object, ConfigurationNode>> factory) {
+        return new ConfigurationOptions((Supplier) factory, header);
     }
 
     /**
@@ -72,10 +76,10 @@ public class ConfigurationOptions {
 
     /**
      * Set the header that will be written to a file if
-     * @param header
-     * @return
+     * @param header The new header to use for the configuration
+     * @return The map's header
      */
     public ConfigurationOptions setHeader(String header) {
-        return new ConfigurationOptions(nodeKeySort, header);
+        return new ConfigurationOptions(mapSupplier, header);
     }
 }

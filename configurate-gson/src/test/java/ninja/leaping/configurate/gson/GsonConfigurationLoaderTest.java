@@ -19,8 +19,10 @@ package ninja.leaping.configurate.gson;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.util.MapFactories;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -46,7 +48,7 @@ public class GsonConfigurationLoaderTest {
         ConfigurationLoader loader = GsonConfigurationLoader.builder()
                 .setSource(Resources.asCharSource(url, UTF8_CHARSET))
                 .setSink(AtomicFiles.asCharSink(tempFile, UTF8_CHARSET)).build();
-        ConfigurationNode node = loader.load();
+        ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());

@@ -16,6 +16,10 @@
  */
 package ninja.leaping.configurate;
 
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+import com.googlecode.concurrentlinkedhashmap.Weighers;
+import sun.java2d.pipe.SpanShapeRenderer;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -97,7 +101,8 @@ class MapConfigValue extends ConfigValue {
         detachChildren(values.getAndSet(newMap()));
     }
 
+    @SuppressWarnings("unchecked")
     private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
-        return new ConcurrentSkipListMap<>(this.holder.getOptions().getKeyComparator());
+        return (ConcurrentMap) holder.getOptions().getMapFactory().get();
     }
 }
