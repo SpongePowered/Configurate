@@ -19,7 +19,6 @@ package ninja.leaping.configurate.hocon;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.typesafe.config.*;
@@ -31,12 +30,16 @@ import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 
@@ -208,7 +211,9 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
             ORIGIN_SET_COMMENTS = ORIGIN_CLASS.getDeclaredMethod("setComments", List.class);
             VALUE_ORIGIN.setAccessible(true);
             ORIGIN_SET_COMMENTS.setAccessible(true);
-        } catch (NoSuchFieldException | NoSuchMethodException e) {
+        } catch (NoSuchFieldException e) {
+            throw new ExceptionInInitializerError(e);
+        } catch (NoSuchMethodException e) {
             throw new ExceptionInInitializerError(e);
         }
 
@@ -225,7 +230,9 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         try {
             Object o = ORIGIN_SET_COMMENTS.invoke(value.origin(), ImmutableList.copyOf(LINE_SPLITTER.split(comment.get())));
             VALUE_ORIGIN.set(value, o);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException e) {
+            throw new IOException("Unable to set comments for config value" + value);
+        } catch (InvocationTargetException e) {
             throw new IOException("Unable to set comments for config value" + value);
         }
         return value;
