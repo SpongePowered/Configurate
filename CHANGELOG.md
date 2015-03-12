@@ -1,3 +1,16 @@
+1.0
+---
+- Bug fixes
+- Add merging of config values
+- Add getKey, getParent, and getPath
+- Add merged and versioned transformers
+- Refactor ObjectMapper to be fancier and work better
+- Add gson-backed JSON configuration loader
+- Implement header loading
+- Add support for atomic writing
+- Allow choosing between serveal map implementations for nodes with map children
+- Polishing
+
 0.2
 ---
 - Implemented object mapper system
