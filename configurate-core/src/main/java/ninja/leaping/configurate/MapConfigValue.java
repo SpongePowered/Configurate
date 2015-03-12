@@ -16,29 +16,22 @@
  */
 package ninja.leaping.configurate;
 
-import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
-import com.googlecode.concurrentlinkedhashmap.Weighers;
-import sun.java2d.pipe.SpanShapeRenderer;
-
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 class MapConfigValue extends ConfigValue {
-    AtomicReference<ConcurrentMap<Object, SimpleConfigurationNode>> values = new AtomicReference<>();
+    volatile ConcurrentMap<Object, SimpleConfigurationNode> values;
 
     public MapConfigValue(SimpleConfigurationNode holder) {
         super(holder);
-        this.values.set(newMap());
+        values = newMap();
     }
 
     @Override
     public Object getValue() {
         Map<Object, Object> value = new LinkedHashMap<>();
-        for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : values.get().entrySet()) {
+        for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : values.entrySet()) {
             value.put(ent.getKey(), ent.getValue().getValue());
         }
         return value;
@@ -54,7 +47,11 @@ class MapConfigValue extends ConfigValue {
                 child.attached = true;
                 child.setValue(ent.getValue());
             }
-            detachChildren(this.values.getAndSet(newValue));
+            synchronized (this) {
+                ConcurrentMap<Object, SimpleConfigurationNode> oldMap = this.values;
+                this.values = newValue;
+                detachChildren(oldMap);
+            }
         } else {
             throw new IllegalArgumentException("Map configuration values can only be set to values of type Map");
         }
@@ -64,29 +61,29 @@ class MapConfigValue extends ConfigValue {
     @Override
     SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value) {
         if (value == null) {
-            return values.get().remove(key);
+            return values.remove(key);
         } else {
-            return values.get().put(key, value);
+            return values.put(key, value);
         }
     }
 
     @Override
     SimpleConfigurationNode putChildIfAbsent(Object key, SimpleConfigurationNode value) {
         if (value == null) {
-            return values.get().remove(key);
+            return values.remove(key);
         } else {
-            return values.get().putIfAbsent(key, value);
+            return values.putIfAbsent(key, value);
         }
     }
 
     @Override
     public SimpleConfigurationNode getChild(Object key) {
-        return values.get().get(key);
+        return values.get(key);
     }
 
     @Override
     public Iterable<SimpleConfigurationNode> iterateChildren() {
-        return values.get().values();
+        return values.values();
     }
 
     private void detachChildren(Map<Object, SimpleConfigurationNode> map) {
@@ -98,7 +95,11 @@ class MapConfigValue extends ConfigValue {
 
     @Override
     public void clear() {
-        detachChildren(values.getAndSet(newMap()));
+        synchronized (this) {
+            ConcurrentMap<Object, SimpleConfigurationNode> oldMap = this.values;
+            this.values = newMap();
+            detachChildren(oldMap);
+        }
     }
 
     @SuppressWarnings("unchecked")

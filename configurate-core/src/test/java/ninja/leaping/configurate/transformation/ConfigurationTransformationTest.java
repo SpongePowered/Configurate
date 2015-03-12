@@ -92,8 +92,8 @@ public class ConfigurationTransformationTest {
                         "f")
         ), populatedResults = new ArrayList<>(), expectedResult = Arrays.asList(
                 p("a", "c", "c"),
-                p("a", "b", "c"),
                 p("a", "c", "c"),
+                p("a", "b", "c"),
                 p("a", "d", "c"),
                 p("b", "c", "d", "e", "f"),
                 p("b", "c", "d", "f", "f"),

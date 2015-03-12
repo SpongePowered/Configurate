@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate;
 
-
 import com.google.common.base.Function;
 
 import java.util.List;

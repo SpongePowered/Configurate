@@ -16,10 +16,8 @@
  */
 package ninja.leaping.configurate.loader;
 
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;

@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
@@ -42,7 +41,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
      */
     volatile Object key;
     private SimpleConfigurationNode parent;
-    private final AtomicReference<ConfigValue> value = new AtomicReference<>();
+    private volatile ConfigValue value;
 
     public static SimpleConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
@@ -60,13 +59,13 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         this.options = options;
         this.parent = parent == null ? null : parent;
 
-        value.set(new NullConfigValue(this));
+        value = new NullConfigValue(this);
 
     }
 
     @Override
     public Object getValue() {
-        return value.get().getValue();
+        return value.getValue();
     }
 
     @Override
@@ -91,15 +90,16 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public <T> List<T> getList(Function<Object, T> transformer) {
         final ImmutableList.Builder<T> build = ImmutableList.builder();
-        if (hasListChildren()) {
-            for (SimpleConfigurationNode o : value.get().iterateChildren()) {
+        ConfigValue value = this.value;
+        if (value instanceof ListConfigValue) {
+            for (SimpleConfigurationNode o : value.iterateChildren()) {
                 T transformed = transformer.apply(o.getValue());
                 if (transformed != null) {
                     build.add(transformed);
                 }
             }
         } else {
-            T transformed = transformer.apply(getValue());
+            T transformed = transformer.apply(value.getValue());
             if (transformed != null) {
                 build.add(transformed);
             }
@@ -203,12 +203,11 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     private void insertNewValue(Object newValue, boolean onlyIfNull) {
         attachIfNecessary();
-        ConfigValue value, oldValue;
-        do {
-            value = this.value.get();
-            oldValue = value;
-            if (onlyIfNull && !(oldValue instanceof NullConfigValue)) {
-                break;
+        synchronized (this) {
+            ConfigValue oldValue, value;
+            oldValue = value = this.value;
+            if (onlyIfNull && !(oldValue instanceof NullConfigValue)){
+                return;
             }
             if (newValue instanceof Collection) {
                 if (!(value instanceof ListConfigValue)) {
@@ -222,8 +221,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 value = new ScalarConfigValue(this);
             }
             value.setValue(newValue);
-        } while (!this.value.compareAndSet(oldValue, value));
-
+            this.value = value;
+        }
     }
 
     @Override
@@ -245,13 +244,13 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
         } else */if (other.hasMapChildren()) {
             ConfigValue oldValue, newValue;
-            do {
-                oldValue = newValue = value.get();
+            synchronized (this) {
+                oldValue = newValue = value;
                 if (!(oldValue instanceof MapConfigValue)) {
                     if (oldValue instanceof NullConfigValue) {
                         newValue = new MapConfigValue(this);
                     } else {
-                        break;
+                        return this;
                     }
                 }
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : other.getChildrenMap().entrySet()) {
@@ -263,7 +262,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                         existing.mergeValuesFrom(newChild);
                     }
                 }
-            } while (!this.value.compareAndSet(oldValue, newValue));
+                this.value = newValue;
+            }
         } else if (other.getValue() != null) {
             insertNewValue(other.getValue(), true);
         }
@@ -287,18 +287,18 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public boolean hasListChildren() {
-        return this.value.get() instanceof ListConfigValue;
+        return this.value instanceof ListConfigValue;
     }
 
     @Override
     public boolean hasMapChildren() {
-        return this.value.get() instanceof MapConfigValue;
+        return this.value instanceof MapConfigValue;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<? extends SimpleConfigurationNode> getChildrenList() {
-        ConfigValue value = this.value.get();
+        ConfigValue value = this.value;
         return value instanceof ListConfigValue ? ImmutableList.copyOf(((ListConfigValue) value).values.get()) : Collections
                 .<SimpleConfigurationNode>emptyList();
     }
@@ -306,24 +306,24 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     @SuppressWarnings("unchecked")
     public Map<Object, ? extends SimpleConfigurationNode> getChildrenMap() {
-        ConfigValue value = this.value.get();
-        return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue) value).values.get()) : Collections
+        ConfigValue value = this.value;
+        return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue) value).values) : Collections
                 .<Object, SimpleConfigurationNode>emptyMap();
     }
 
     protected SimpleConfigurationNode getChild(Object key, boolean attach) {
-        SimpleConfigurationNode child = value.get().getChild(key);
+        SimpleConfigurationNode child = value.getChild(key);
 
-        if (attach) {
-            attachIfNecessary();
-            SimpleConfigurationNode existingChild = value.get().putChildIfAbsent(key, (child = createNode(key)));
-            if (existingChild != null) {
-                child = existingChild;
+        if (child == null) { // Does not currently exist!
+            if (attach) {
+                attachIfNecessary();
+                SimpleConfigurationNode existingChild = value.putChildIfAbsent(key, (child = createNode(key)));
+                if (existingChild != null) {
+                    child = existingChild;
+                } else {
+                    attachChild(child);
+                }
             } else {
-                attachChild(child);
-            }
-        } else {
-            if (child == null) { // Does not currently exist!
                 child = createNode(key);
             }
         }
@@ -333,7 +333,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public boolean removeChild(Object key) {
-        return possiblyDetach(value.get().putChild(key, null)) != null;
+        return possiblyDetach(value.putChild(key, null)) != null;
     }
 
     private SimpleConfigurationNode possiblyDetach(SimpleConfigurationNode node) {
@@ -392,9 +392,9 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             throw new IllegalStateException("Child " +  child +
                     " path is not a direct parent of me (" + this + "), cannot attach");
         }
-        final ConfigValue oldValue = value.get();
-        ConfigValue newValue = oldValue;
-        do {
+        ConfigValue oldValue, newValue;
+        synchronized (this) {
+            newValue = oldValue = this.value;
             if (!(oldValue instanceof MapConfigValue)) {
                 if (child.key instanceof Integer) {
                     if (oldValue instanceof NullConfigValue) {
@@ -411,7 +411,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             if (oldChild != null) {
                 return oldChild;
             }
-        } while (!value.compareAndSet(oldValue, newValue));
+            value = newValue;
+        }
         if (newValue != oldValue) {
             oldValue.clear();
         }
@@ -437,23 +438,24 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             throw new IllegalStateException("Child " +  child +
                     " path is not a direct parent of me (" + this + "), cannot attach");
         }
-        final ConfigValue oldValue = value.get();
-        ConfigValue newValue = oldValue;
-        do {
-            if (!(oldValue instanceof MapConfigValue)) {
-                if (child.key instanceof Integer) {
-                    if (oldValue instanceof NullConfigValue) {
-                        newValue = new ListConfigValue(this);
+        ConfigValue oldValue, newValue;
+        synchronized (this) {
+            newValue = oldValue = this.value;
+                if (!(oldValue instanceof MapConfigValue)) {
+                    if (child.key instanceof Integer) {
+                        if (oldValue instanceof NullConfigValue) {
+                            newValue = new ListConfigValue(this);
 
-                    } else if (!(oldValue instanceof ListConfigValue)) {
-                        newValue = new ListConfigValue(this, oldValue.getValue());
+                        } else if (!(oldValue instanceof ListConfigValue)) {
+                            newValue = new ListConfigValue(this, oldValue.getValue());
+                        }
+                    } else {
+                        newValue = new MapConfigValue(this);
                     }
-                } else {
-                    newValue = new MapConfigValue(this);
                 }
-            }
-            possiblyDetach(newValue.putChild(child.key, child));
-        } while (!value.compareAndSet(oldValue, newValue));
+                possiblyDetach(newValue.putChild(child.key, child));
+            value = newValue;
+        }
         if (newValue != oldValue) {
             oldValue.clear();
         }
@@ -461,7 +463,11 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     protected void clear() {
-        value.getAndSet(new NullConfigValue(this)).clear();
+        synchronized (this) {
+            ConfigValue oldValue = this.value;
+            value = new NullConfigValue(this);
+            oldValue.clear();
+        }
     }
     // }}}
 }
