@@ -117,9 +117,18 @@ public class ObjectMapper<T> {
 
         public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
             try {
-                this.fieldSerializer.serialize(this.fieldType, this.field.get(instance), node);
+                Object fieldVal = this.field.get(instance);
+                if (fieldVal == null) {
+                    node.setValue(null);
+                } else {
+                    this.fieldSerializer.serialize(this.fieldType, fieldVal, node);
+                }
+
                 if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
-                    ((CommentedConfigurationNode) node).setComment(this.comment);
+                    CommentedConfigurationNode commentNode = ((CommentedConfigurationNode) node);
+                    if (!commentNode.getComment().isPresent()) {
+                        commentNode.setComment(this.comment);
+                    }
                 }
             } catch (IllegalAccessException e) {
                 throw new ObjectMappingException("Unable to serialize field " + field.getName(), e);
