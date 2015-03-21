@@ -1,3 +1,9 @@
+1.0.1
+-----
+- Handle objects with null fields being serialized
+- Handle concurrent removal of nodes while saving in HoconConfigurationLoader
+- Fix node path comparator to correctly handle paths with wildcards in a few cases
+
 1.0
 ---
 - Bug fixes
