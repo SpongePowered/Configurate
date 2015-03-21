@@ -38,6 +38,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -180,7 +181,11 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         switch (value.valueType()) {
             case OBJECT:
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-                    traverseForComments(((ConfigObject) value).get(ent.getKey().toString()), ent.getValue());
+                    ConfigValue child = ((ConfigObject) value).get(ent.getKey().toString());
+                    if (child != null) { // Accept the fact that nodes may disappear after the initial config value
+                    // is generated
+                        traverseForComments(child, ent.getValue());
+                    }
                 }
                 break;
             case LIST:
