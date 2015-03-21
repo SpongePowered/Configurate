@@ -87,14 +87,17 @@ public class ConfigurationTransformationTest {
     public void testWildcardMatching() {
         final List<Object[]> wildcardMatch = Arrays.asList(
                 p("a", ConfigurationTransformation.WILDCARD_OBJECT, "c"),
+                p("a", ConfigurationTransformation.WILDCARD_OBJECT, "d"),
                 p("a", "c", "c"),
                 p("b", ConfigurationTransformation.WILDCARD_OBJECT, "d", ConfigurationTransformation.WILDCARD_OBJECT,
                         "f")
         ), populatedResults = new ArrayList<>(), expectedResult = Arrays.asList(
                 p("a", "c", "c"),
                 p("a", "c", "c"),
-                p("a", "b", "c"),
                 p("a", "d", "c"),
+                p("a", "b", "c"),
+                p("a", "c", "d"),
+                p("a", "d", "d"),
                 p("b", "c", "d", "e", "f"),
                 p("b", "c", "d", "f", "f"),
                 p("b", "d", "d", "e", "f"),

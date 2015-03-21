@@ -25,9 +25,7 @@ class NodePathComparator implements Comparator<Object[]> {
     public int compare(Object[] a, Object[] b) {
         for (int i = 0; i < Math.min(a.length, b.length); ++i) {
             if (a[i] == WILDCARD_OBJECT || b[i] == WILDCARD_OBJECT) {
-                if (a[i] == WILDCARD_OBJECT && b[i] == WILDCARD_OBJECT) {
-                    return 0;
-                } else {
+                if (a[i] != WILDCARD_OBJECT || b[i] != WILDCARD_OBJECT) {
                     return a[i] == WILDCARD_OBJECT ? 1 : -1;
                 }
 
