@@ -236,7 +236,11 @@ public class ObjectMapper<T> {
         }
         try {
             return constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (InstantiationException e) { // JDK6 compat
+            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
+        } catch (IllegalAccessException e) {
+            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
+        } catch (InvocationTargetException e) {
             throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
         }
     }
