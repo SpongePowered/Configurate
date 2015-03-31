@@ -470,4 +470,43 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
     }
     // }}}
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SimpleConfigurationNode)) return false;
+
+        SimpleConfigurationNode that = (SimpleConfigurationNode) o;
+
+        if (attached != that.attached) return false;
+        if (key != null ? !key.equals(that.key) : that.key != null) return false;
+        if (!options.equals(that.options)) return false;
+        if (parent != null ? !parent.equals(that.parent) : that.parent != null)
+            return false;
+        if (!value.equals(that.value)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = options.hashCode();
+        result = 31 * result + (attached ? 1 : 0);
+        result = 31 * result + (key != null ? key.hashCode() : 0);
+        result = 31 * result + (parent != null ? parent.hashCode() : 0);
+        result = 31 * result + value.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleConfigurationNode{" +
+                "options=" + options +
+                ", attached=" + attached +
+                ", key=" + key +
+                ", parent=" + parent +
+                ", value=" + value +
+                '}';
+    }
 }

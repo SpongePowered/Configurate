@@ -106,4 +106,32 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     public SimpleCommentedConfigurationNode getAppendedNode() {
         return (SimpleCommentedConfigurationNode) super.getAppendedNode();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SimpleCommentedConfigurationNode)) return false;
+        if (!super.equals(o)) return false;
+
+        SimpleCommentedConfigurationNode that = (SimpleCommentedConfigurationNode) o;
+
+        if (!comment.equals(that.comment)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + comment.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleCommentedConfigurationNode{" +
+                "super=" + super.toString() +
+                "comment=" + comment +
+                '}';
+    }
 }
