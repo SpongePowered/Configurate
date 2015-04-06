@@ -16,7 +16,7 @@ Make sure Maven is installed and from the project's directory (the root of this 
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-yaml</artifactId>
-    <version>1.0</version> <!-- Update this with the most recent version -->
+    <version>1.1</version> <!-- Update this with the most recent version -->
 </dependency>
 ```
 This dependency statement is for the yaml format implementation. Other formats managed in this repository use the same group id and versioning.

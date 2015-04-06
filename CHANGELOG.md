@@ -1,3 +1,10 @@
+1.1
+---
+- core: Fix jdk6 compatibility
+- core: Add equals, hashCode, and toString to node objects
+- json: Bump jackson dependency to 2.5.2
+- json: Make pretty printing more flexible with new methods on Builder
+
 1.0.1
 -----
 - Handle objects with null fields being serialized
