@@ -1,9 +1,9 @@
 {
-  "other" : {
-    "location" : "dog park",
-    "op-level" : "dragon"
+  "other": {
+    "location": "dog park",
+    "op-level": "dragon"
   },
-  "test" : {
-    "op-level" : "unicorn"
+  "test": {
+    "op-level": "unicorn"
   }
 }

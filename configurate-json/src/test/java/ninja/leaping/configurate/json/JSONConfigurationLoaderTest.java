@@ -52,8 +52,14 @@ public class JSONConfigurationLoaderTest {
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
+        /*CommentedConfigurationNode commentNode = SimpleCommentedConfigurationNode.root();
+        commentNode.getNode("childOne").setValue("a").setComment("Test comment");
+        commentNode.getNode("childTwo", "something").setValue("b").setComment("Test comment 2");
+        commentNode.getNode("childTwo", "another").setValue("b").setComment("Test comment 3");
+        */
         loader.save(node);
         assertEquals(Resources.toString(url, UTF8_CHARSET), Files
                 .toString(tempFile, UTF8_CHARSET));
+
     }
 }

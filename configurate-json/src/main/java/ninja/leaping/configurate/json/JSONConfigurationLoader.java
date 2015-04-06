@@ -21,7 +21,8 @@ import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.SimpleConfigurationNode;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
@@ -40,11 +41,13 @@ import java.util.Map;
  */
 public class JSONConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
     private final JsonFactory factory;
-    private final boolean prettyPrint;
+    private final int indent;
+    private final FieldValueSeparatorStyle fieldValueSeparatorStyle;
 
     public static class Builder extends AbstractConfigurationLoader.Builder {
         private final JsonFactory factory = new JsonFactory();
-        private boolean prettyPrint = true;
+        private int indent = 2;
+        private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
 
         protected Builder() {
             factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
@@ -61,8 +64,33 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
             return this.factory;
         }
 
+        /**
+         * Sets pretty printing using default options.
+         * As of Configurate 1.1, it is recommended to use the {@link #setIndent(int)} and
+         * {@link #setFieldValueSeparatorStyle(FieldValueSeparatorStyle)} methods
+         * instead as they provide more control.
+         * @param prettyPrint Whether to pretty print
+         * @return this
+         */
+        @Deprecated
         public Builder setPrettyPrint(boolean prettyPrint) {
-            this.prettyPrint = prettyPrint;
+            if (prettyPrint) {
+                this.indent = 2;
+                this.fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
+            } else {
+                this.indent = 0;
+                this.fieldValueSeparatorStyle = FieldValueSeparatorStyle.NO_SPACE;
+            }
+            return this;
+        }
+
+        public Builder setIndent(int indent) {
+            this.indent = indent;
+            return this;
+        }
+
+        public Builder setFieldValueSeparatorStyle(FieldValueSeparatorStyle style) {
+            this.fieldValueSeparatorStyle = style;
             return this;
         }
 
@@ -96,7 +124,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
 
         @Override
         public JSONConfigurationLoader build() {
-            return new JSONConfigurationLoader(source, sink, factory, prettyPrint, preserveHeader);
+            return new JSONConfigurationLoader(source, sink, factory, indent, fieldValueSeparatorStyle, preserveHeader);
         }
     }
 
@@ -104,13 +132,15 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory, boolean prettyPrint,
+    protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory,
+                                      int indent, FieldValueSeparatorStyle fieldValueSeparatorStyle,
                                       boolean preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
                         CommentHandlers.HASH},
         preservesHeader);
         this.factory = factory;
-        this.prettyPrint = prettyPrint;
+        this.indent = indent;
+        this.fieldValueSeparatorStyle = fieldValueSeparatorStyle;
     }
 
     @Override
@@ -182,9 +212,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     @Override
     public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         try (JsonGenerator generator = factory.createGenerator(writer)) {
-            if (prettyPrint) {
-                generator.useDefaultPrettyPrinter();
-            }
+            generator.setPrettyPrinter(new ConfiguratePrettyPrinter(indent, fieldValueSeparatorStyle));
             generateValue(generator, node);
             generator.flush();
             writer.write(LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
@@ -192,8 +220,8 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     @Override
-    public ConfigurationNode createEmptyNode(ConfigurationOptions options) {
-        return SimpleConfigurationNode.root(options);
+    public CommentedConfigurationNode createEmptyNode(ConfigurationOptions options) {
+        return SimpleCommentedConfigurationNode.root(options);
     }
 
     private void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {
@@ -221,12 +249,39 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
+    /*private void generateComment(JsonGenerator generator, ConfigurationNode node, boolean inArray) throws IOException {
+        if (node instanceof CommentedConfigurationNode) {
+            final Optional<String> comment = ((CommentedConfigurationNode) node).getComment();
+            if (comment.isPresent()) {
+                if (indent == 0) {
+                    generator.writeRaw("/*");
+                    generator.writeRaw(comment.get().replaceAll("\\* /", ""));
+                    generator.writeRaw("* /");
+                } else {
+                    for (Iterator<String> it = LINE_SPLITTER.split(comment.get()).iterator(); it.hasNext();) {
+                        generator.writeRaw("// ");
+                        generator.writeRaw(it.next());
+                        generator.getPrettyPrinter().beforeObjectEntries(generator);
+                        if (it.hasNext()) {
+                            generator.writeRaw(LINE_SEPARATOR);
+                        }
+                    }
+                    if (inArray) {
+                        generator.writeRaw(LINE_SEPARATOR);
+                    }
+                }
+            }
+        }
+
+    }*/
+
     private void generateObject(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (!node.hasMapChildren()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
         generator.writeStartObject();
         for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
+            //generateComment(generator, ent.getValue(), false);
             generator.writeFieldName(ent.getKey().toString());
             generateValue(generator, ent.getValue());
         }
@@ -241,6 +296,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         List<? extends ConfigurationNode> children = node.getChildrenList();
         generator.writeStartArray(children.size());
         for (ConfigurationNode child : children) {
+            //generateComment(generator, child, true);
             generateValue(generator, child);
         }
         generator.writeEndArray();
