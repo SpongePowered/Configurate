@@ -46,7 +46,7 @@
         </developer>
     </developers>
     <properties>
-        <gitUrl>LeapingNinja/configurate</gitUrl>
+        <gitUrl>zml2008/configurate</gitUrl>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
