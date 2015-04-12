@@ -135,6 +135,11 @@ public abstract class ConfigurationTransformation {
         }
     }
 
+    /**
+     * This creates a builder for versioned transformations -- transformations that contain
+     *
+     * @return A new builder for versioned transformations
+     */
     public static VersionedBuilder versionedBuilder() {
         return new VersionedBuilder();
     }

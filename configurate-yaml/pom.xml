@@ -30,6 +30,7 @@
     <packaging>jar</packaging>
 
     <artifactId>configurate-yaml</artifactId>
+    <name>Configurate YAML</name>
 
     <dependencies>
         <dependency>

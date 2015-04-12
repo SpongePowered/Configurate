@@ -27,7 +27,7 @@
 
   <artifactId>configurate-core</artifactId>
   <packaging>jar</packaging>
-  <name>configurate-core</name>
+  <name>Configurate Core</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

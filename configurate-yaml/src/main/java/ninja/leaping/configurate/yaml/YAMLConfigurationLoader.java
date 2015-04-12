@@ -105,6 +105,7 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
 
         @Override
+        @SuppressWarnings("deprecation")
         public YAMLConfigurationLoader build() {
             return new YAMLConfigurationLoader(source, sink, options, preserveHeader);
         }
@@ -114,6 +115,17 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
+    /**
+     * Use {@link ninja.leaping.configurate.yaml.YAMLConfigurationLoader.Builder} instead
+     *
+     *
+     * @param source The source to load from
+     * @param sink
+     * @param options
+     * @param preservesHeader
+     * @deprecated Do not use this
+     */
+    @Deprecated
     public YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options, boolean
             preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.HASH}, preservesHeader);
