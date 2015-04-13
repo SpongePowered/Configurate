@@ -119,10 +119,10 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
      * Use {@link ninja.leaping.configurate.yaml.YAMLConfigurationLoader.Builder} instead
      *
      *
-     * @param source The source to load from
-     * @param sink
-     * @param options
-     * @param preservesHeader
+     * @param source do not use this
+     * @param sink do not use this
+     * @param options do not use this
+     * @param preservesHeader do not use this
      * @deprecated Do not use this
      */
     @Deprecated

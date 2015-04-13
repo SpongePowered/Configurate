@@ -107,8 +107,9 @@ public abstract class ConfigurationTransformation {
     }
 
     /**
-     * Create a new builder to create a basic configuration transformation
-     * @return
+     * Create a new builder to create a basic configuration transformation.
+     *
+     * @return a new transformation builder.
      */
     public static Builder builder() {
         return new Builder();

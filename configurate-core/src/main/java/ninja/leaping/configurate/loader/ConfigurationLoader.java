@@ -53,6 +53,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     /**
      * Return an empty node of the most appropriate type for this loader
      *
+     * @param options The options to use with this node. Must not be null (take a look at {@link ConfigurationOptions#defaults()})
      * @return The appropriate node type
      */
     public NodeType createEmptyNode(ConfigurationOptions options);

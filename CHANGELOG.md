@@ -1,3 +1,7 @@
+Changelog
+========
+
+
 1.1.1
 ----
 - core: Fix jdk6&windows compatibility

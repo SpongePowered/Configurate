@@ -60,6 +60,8 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
 
         /**
          * @see JsonReader#setLenient(boolean)
+         * @param lenient Whether the parser should parse leniently
+         * @return this
          */
         public Builder setLenient(boolean lenient) {
             this.lenient = lenient;

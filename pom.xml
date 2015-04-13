@@ -26,7 +26,7 @@
     <name>Configurate Parent</name>
     <description>A simple configuration library for Java applications that can handle a variety of formats and
         provides a node-based data structure able to handle a wide variety of configuration schemas</description>
-    <url>http://leaping.ninja/configurate/${project.version}</url>
+    <url>http://${gitUser}.github.io/${gitProject}/</url>
     <organization>
         <name>Leaping Ninja</name>
         <url>http://leaping.ninja</url>
@@ -45,13 +45,15 @@
         </developer>
     </developers>
     <properties>
-        <gitUrl>zml2008/configurate</gitUrl>
+        <gitUser>zml2008</gitUser>
+        <gitProject>configurate</gitProject>
+        <gitUrl>${gitUser}/${gitProject}</gitUrl>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <scm>
-        <connection>scm:git:https://github.com/${gitUrl}.git</connection>
-        <developerConnection>scm:git:git@github.com:${gitUrl}.git</developerConnection>
+        <connection>scm:git:https://github.com/${gitUrl}.git#</connection>
+        <developerConnection>scm:git:git@github.com:${gitUrl}.git#</developerConnection>
         <url>https://github.com/${gitUrl}</url>
       <tag>HEAD</tag>
   </scm>
@@ -64,7 +66,8 @@
         <site>
             <id>gh-pages</id>
             <name>Configurate GitHub Pages</name>
-            <url>git:ssh://git@github.com/${gitUrl}.git?gh-pages#</url>
+            <url>github:${project.url}</url>
+            <!--<url>git:ssh://git@github.com/${gitUrl}.git?gh-pages#</url>-->
         </site>
     </distributionManagement>
 
@@ -97,6 +100,11 @@
                         </reports>
                     </reportSet>
                 </reportSets>
+                <configuration>
+                    <links>
+                        <link>http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc</link>
+                    </links>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
@@ -166,11 +174,25 @@
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
+                <executions>
+                    <execution>
+                        <inherited>no</inherited>
+                        <goals>
+                            <goal>attach-descriptor</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>net.trajano.wagon</groupId>
                         <artifactId>wagon-git</artifactId>
                         <version>2.0.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.maven.doxia</groupId>
+                        <artifactId>doxia-module-markdown</artifactId>
+                        <version>1.6</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -181,6 +203,7 @@
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <scmCommentPrefix xml:space="preserve">[RELEASE] </scmCommentPrefix>
+                    <goals>install deploy site-deploy</goals>
                     <releaseProfiles>release</releaseProfiles>
                 </configuration>
             </plugin>

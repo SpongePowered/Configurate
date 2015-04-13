@@ -1,0 +1,3 @@
+[submodule "src/site/markdown/wiki"]
+	path = src/site/markdown/wiki
+	url = git@github.com:zml2008/configurate.wiki.git
