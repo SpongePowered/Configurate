@@ -18,6 +18,7 @@ package ninja.leaping.configurate.objectmapping.serialize;
 
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
+
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.Types;
@@ -26,6 +27,8 @@ import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -80,6 +83,7 @@ public class TypeSerializers {
         registerSerializer(new ListSerializer());
         registerSerializer(new AnnotatedObjectSerializer());
         registerSerializer(new StringSerializer());
+        registerSerializer(new URLSerializer());
     }
 
 
@@ -321,5 +325,40 @@ public class TypeSerializers {
             }
             ObjectMapper.forObject(obj).serialize(value);
         }
+    }
+    
+    private static class URLSerializer implements TypeSerializer {
+
+        @Override
+        public boolean isApplicable(TypeToken<?> type) {
+            return TypeToken.of(URL.class).isAssignableFrom(type);
+        }
+
+        @Override
+        public Object deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+            if (!isApplicable(type)) {
+                throw new InvalidTypeException(type);
+            }
+
+            String plainUrl = value.getString();
+            if (plainUrl == null) {
+                throw new ObjectMappingException("No value present in node " + value);
+            }
+
+            URL url;
+            try {
+                url = new URL(plainUrl);
+            } catch (MalformedURLException e) {
+                throw new ObjectMappingException("Invalid URL string provided for " + value.getKey() + ": got " + plainUrl);
+            }
+
+            return url;
+        }
+
+        @Override
+        public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
+            value.setValue(((URL) obj).toString());
+        }
+
     }
 }
