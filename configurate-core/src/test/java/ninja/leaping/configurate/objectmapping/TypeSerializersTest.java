@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -171,6 +172,21 @@ public class TypeSerializersTest {
         TestObject object = (TestObject) testObjectSerializer.deserialize(testNodeType, node);
         assertEquals(42, object.value);
         assertEquals("Bob", object.name);
+    }
+
+    @Test
+    public void testURISerializer() throws ObjectMappingException {
+         final TypeToken<URI> uriType = TypeToken.of(URI.class);
+         final TypeSerializer uriSerializer = TypeSerializers.getSerializer(uriType);
+
+         final String uriString = "http://google.com";
+         final URI testUri = URI.create(uriString);
+
+         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(uriString);
+         assertEquals(testUri, uriSerializer.deserialize(uriType, node));
+
+         uriSerializer.serialize(uriType, testUri, node);
+         assertEquals(uriString, node.getValue());
     }
 
     @Test
