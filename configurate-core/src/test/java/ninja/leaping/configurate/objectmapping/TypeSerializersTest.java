@@ -18,15 +18,20 @@ package ninja.leaping.configurate.objectmapping;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
+
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -167,5 +172,35 @@ public class TypeSerializersTest {
         TestObject object = (TestObject) testObjectSerializer.deserialize(testNodeType, node);
         assertEquals(42, object.value);
         assertEquals("Bob", object.name);
+    }
+
+    @Test
+    public void testURISerializer() throws ObjectMappingException {
+         final TypeToken<URI> uriType = TypeToken.of(URI.class);
+         final TypeSerializer uriSerializer = TypeSerializers.getSerializer(uriType);
+
+         final String uriString = "http://google.com";
+         final URI testUri = URI.create(uriString);
+
+         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(uriString);
+         assertEquals(testUri, uriSerializer.deserialize(uriType, node));
+
+         uriSerializer.serialize(uriType, testUri, node);
+         assertEquals(uriString, node.getValue());
+    }
+
+    @Test
+    public void testURLSerializer() throws ObjectMappingException, MalformedURLException {
+         final TypeToken<URL> urlType = TypeToken.of(URL.class);
+         final TypeSerializer urlSerializer = TypeSerializers.getSerializer(urlType);
+
+         final String urlString = "http://google.com";
+         final URL testUrl = new URL(urlString);
+
+         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(urlString);
+         assertEquals(testUrl, urlSerializer.deserialize(urlType, node));
+
+         urlSerializer.serialize(urlType, testUrl, node);
+         assertEquals(urlString, node.getValue());
     }
 }
