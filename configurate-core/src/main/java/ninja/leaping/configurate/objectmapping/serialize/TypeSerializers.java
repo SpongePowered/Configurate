@@ -27,6 +27,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,6 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class TypeSerializers {
     private static final LinkedList<TypeSerializer> SERIALIZERS = new LinkedList<>();
@@ -87,6 +89,7 @@ public class TypeSerializers {
         registerSerializer(new StringSerializer());
         registerSerializer(new URISerializer());
         registerSerializer(new URLSerializer());
+        registerSerializer(new UUIDSerializer());
     }
 
 
@@ -398,5 +401,33 @@ public class TypeSerializers {
             value.setValue(((URL) obj).toString());
         }
 
+    }
+
+    private static class UUIDSerializer implements TypeSerializer {
+
+        @Override
+        public boolean isApplicable(TypeToken<?> type) {
+            return type.getRawType().equals(UUID.class);
+        }
+
+        @Override
+        public Object deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+            if (!isApplicable(type)) {
+                throw new InvalidTypeException(type);
+            }
+            try {
+                return UUID.fromString(value.getString());
+            } catch (IllegalArgumentException ex) {
+                throw new ObjectMappingException("Value not a UUID", ex);
+            }
+        }
+
+        @Override
+        public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
+            if (!isApplicable(type)) {
+                throw new InvalidTypeException(type);
+            }
+            value.setValue(((UUID) obj).toString());
+        }
     }
 }

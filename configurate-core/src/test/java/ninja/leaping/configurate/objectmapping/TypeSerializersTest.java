@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -202,5 +203,20 @@ public class TypeSerializersTest {
 
          urlSerializer.serialize(urlType, testUrl, node);
          assertEquals(urlString, node.getValue());
+    }
+
+    @Test
+    public void testUUIDSerializer() throws ObjectMappingException {
+        final TypeToken<UUID> uuidType = TypeToken.of(UUID.class);
+        final TypeSerializer uuidSerializer = TypeSerializers.getSerializer(uuidType);
+
+        final UUID testUuid = UUID.randomUUID();
+
+        SimpleConfigurationNode serializeTo = SimpleConfigurationNode.root();
+        uuidSerializer.serialize(uuidType, testUuid, serializeTo);
+        assertEquals(testUuid.toString(), serializeTo.getValue());
+
+        assertEquals(testUuid, uuidSerializer.deserialize(uuidType, serializeTo));
+
     }
 }
