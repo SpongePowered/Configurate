@@ -53,8 +53,8 @@
     </properties>
 
     <scm>
-        <connection>scm:git:https://github.com/${gitUrl}.git#</connection>
-        <developerConnection>scm:git:git@github.com:${gitUrl}.git#</developerConnection>
+        <connection>scm:git:https://github.com/${gitUrl}.git</connection>
+        <developerConnection>scm:git:git@github.com:${gitUrl}.git</developerConnection>
         <url>https://github.com/${gitUrl}</url>
       <tag>HEAD</tag>
   </scm>
