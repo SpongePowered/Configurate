@@ -48,7 +48,7 @@
         <gitUser>zml2008</gitUser>
         <gitProject>configurate</gitProject>
         <gitUrl>${gitUser}/${gitProject}</gitUrl>
-        <siteUrlSuffix>${project.version}</siteUrlSuffix>
+        <siteUrlSuffix></siteUrlSuffix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
