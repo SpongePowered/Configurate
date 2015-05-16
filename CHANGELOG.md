@@ -1,6 +1,12 @@
 Changelog
 ========
 
+1.2
+---
+- core: add url and uri serializers
+- core: add uuid serializers
+- dependency version bumps (minor versions)
+
 
 1.1.1
 ----
