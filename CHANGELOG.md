@@ -1,6 +1,12 @@
 Changelog
 ========
 
+1.2.1
+-----
+- core: Properly remove values removed from maps while reserializing data
+- gson: Downgrade gson dependency to 2.2.4 for expanded compatibility
+- hocon: Properly load empty maps and lists
+
 1.2
 ---
 - core: add url and uri serializers
