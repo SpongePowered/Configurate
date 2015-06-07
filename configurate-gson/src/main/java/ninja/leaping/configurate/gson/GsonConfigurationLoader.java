@@ -144,8 +144,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             case NAME:
                 break;
             default:
-                throw new IOException("Unsupported token type: " + token + " (at " + parser.getPath()
-                        + ")");
+                throw new IOException("Unsupported token type: " + token);
         }
     }
 
@@ -161,7 +160,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                     parseValue(parser, node.getAppendedNode());
             }
         }
-        throw new JsonParseException("Reached end of stream with unclosed array at " + parser.getPath() + "!");
+        throw new JsonParseException("Reached end of stream with unclosed array at!");
 
     }
 
@@ -178,10 +177,10 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                     parseValue(parser, node.getNode(parser.nextName()));
                     break;
                 default:
-                    throw new JsonParseException("Received improper object value " + token + " while at " + parser.getPath());
+                    throw new JsonParseException("Received improper object value " + token);
             }
         }
-        throw new JsonParseException("Reached end of stream with unclosed object at " + parser.getPath() + "!");
+        throw new JsonParseException("Reached end of stream with unclosed object!");
     }
 
     @Override
