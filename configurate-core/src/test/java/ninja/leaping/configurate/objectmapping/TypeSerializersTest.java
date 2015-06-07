@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TypeSerializersTest {
@@ -154,6 +155,25 @@ public class TypeSerializersTest {
         assertEquals(5, value.getNode("fish").getInt());
         assertEquals(124880, value.getNode("bugs").getInt());
         assertEquals(-1, value.getNode("time").getInt());
+    }
+
+    @Test
+    public void testMapSerializerRemovesDeletedKeys() throws ObjectMappingException {
+        final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
+        final TypeSerializer mapStringIntSerializer = TypeSerializers.getSerializer(mapStringIntType);
+
+        final ConfigurationNode value = SimpleConfigurationNode.root();
+        value.getNode("fish").setValue(5);
+        value.getNode("bugs").setValue("124880");
+        value.getNode("time").setValue("-1");
+
+        @SuppressWarnings("unchecked")
+        final Map<String, Integer> deserialized = (Map<String, Integer>) mapStringIntSerializer.deserialize(mapStringIntType, value);
+        deserialized.remove("fish");
+
+        mapStringIntSerializer.serialize(mapStringIntType, deserialized, value);
+        assertTrue(value.getNode("fish").isVirtual());
+        assertFalse(value.getNode("bugs").isVirtual());
     }
 
     @ConfigSerializable

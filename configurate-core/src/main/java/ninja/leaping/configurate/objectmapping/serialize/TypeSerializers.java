@@ -244,6 +244,13 @@ public class TypeSerializers {
             TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
             TypeSerializer keySerial = getSerializer(key);
             TypeSerializer valueSerial = getSerializer(value);
+            node.setValue(null);
+            /**
+             * ok, preserving data.
+             * We con do this:
+             * keep track of all keys
+             */
+
             for (Map.Entry<?, ?> ent : origMap.entrySet()) {
                 SimpleConfigurationNode keyNode = SimpleConfigurationNode.root();
                 keySerial.serialize(value, ent.getKey(), keyNode);

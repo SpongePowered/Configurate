@@ -37,6 +37,8 @@ import java.util.concurrent.ExecutionException;
  * This is the object mapper. It handles conversion between configuration nodes and
  * fields annotated with {@link Setting} in objects.
  *
+ * Values in the node not used by the mapped object will be preserved.
+ *
  * @param <T> The type to work with
  */
 public class ObjectMapper<T> {
