@@ -19,6 +19,7 @@ package ninja.leaping.configurate.hocon;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.typesafe.config.*;
@@ -38,6 +39,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -102,8 +104,9 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         }
 
         @Override
-        public AbstractConfigurationLoader.Builder setPreservesHeader(boolean preservesHeader) {
-            return super.setPreservesHeader(preservesHeader);
+        public Builder setPreservesHeader(boolean preservesHeader) {
+            super.setPreservesHeader(preservesHeader);
+            return this;
         }
 
         @Override
@@ -137,8 +140,12 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         }
         switch (value.valueType()) {
             case OBJECT:
-                for (Map.Entry<String, ConfigValue> ent : ((ConfigObject) value).entrySet()) {
-                    readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
+                if (((ConfigObject) value).isEmpty()) {
+                    node.setValue(ImmutableMap.of());
+                } else {
+                    for (Map.Entry<String, ConfigValue> ent : ((ConfigObject) value).entrySet()) {
+                        readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
+                    }
                 }
                 break;
             case LIST:
