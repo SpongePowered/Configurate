@@ -202,6 +202,9 @@ public class TypeSerializers {
 
         @Override
         public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
+            if (!isApplicable(type)) {
+                throw new InvalidTypeException(type);
+            }
             value.setValue(((Enum<?>) obj).name());
         }
     }
@@ -244,16 +247,19 @@ public class TypeSerializers {
             TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
             TypeSerializer keySerial = getSerializer(key);
             TypeSerializer valueSerial = getSerializer(value);
-            node.setValue(null);
-            /**
-             * ok, preserving data.
-             * We con do this:
-             * keep track of all keys
-             */
 
+            if (keySerial == null) {
+                throw new ObjectMappingException("No type serializer available for type " + key);
+            }
+
+            if (valueSerial == null) {
+                throw new ObjectMappingException("No type serializer available for type " + value);
+            }
+
+            node.setValue(null);
             for (Map.Entry<?, ?> ent : origMap.entrySet()) {
                 SimpleConfigurationNode keyNode = SimpleConfigurationNode.root();
-                keySerial.serialize(value, ent.getKey(), keyNode);
+                keySerial.serialize(key, ent.getKey(), keyNode);
                 valueSerial.serialize(value, ent.getValue(), node.getNode(keyNode.getValue()));
             }
         }

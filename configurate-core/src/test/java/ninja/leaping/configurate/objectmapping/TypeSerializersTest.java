@@ -158,6 +158,22 @@ public class TypeSerializersTest {
     }
 
     @Test
+    public void testInvalidMapValueTypes() throws ObjectMappingException {
+        final TypeToken<Map<TestEnum, Integer>> mapTestEnumIntType = new TypeToken<Map<TestEnum, Integer>>() {};
+        final TypeSerializer mapTestEnumIntSerializer = TypeSerializers.getSerializer(mapTestEnumIntType);
+
+        final ConfigurationNode value = SimpleConfigurationNode.root();
+        value.getNode("FIRST").setValue(5);
+        value.getNode("SECOND").setValue(8);
+
+        Object des = mapTestEnumIntSerializer.deserialize(mapTestEnumIntType, value);
+        final ConfigurationNode serialVal = SimpleConfigurationNode.root();
+        mapTestEnumIntSerializer.serialize(mapTestEnumIntType, des, serialVal);
+        assertEquals(value.getValue(), serialVal.getValue());
+        //assertEquals(value, serialVal);
+    }
+
+    @Test
     public void testMapSerializerRemovesDeletedKeys() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer mapStringIntSerializer = TypeSerializers.getSerializer(mapStringIntType);
