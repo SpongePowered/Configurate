@@ -56,4 +56,14 @@ class NullConfigValue extends ConfigValue {
     public void clear() {
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof NullConfigValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1009;
+    }
 }

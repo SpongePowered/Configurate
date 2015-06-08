@@ -16,6 +16,8 @@
  */
 package ninja.leaping.configurate;
 
+import com.google.common.base.Objects;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -105,5 +107,22 @@ class MapConfigValue extends ConfigValue {
     @SuppressWarnings("unchecked")
     private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
         return (ConcurrentMap) holder.getOptions().getMapFactory().get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MapConfigValue that = (MapConfigValue) o;
+        return Objects.equal(values, that.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(values);
     }
 }

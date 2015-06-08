@@ -151,10 +151,10 @@ public class SimpleConfigurationNodeTest {
         ConfigurationNode root = SimpleConfigurationNode.root();
         ConfigurationNode child = root.getNode("child").setValue("a");
         assertFalse(child.isVirtual());
-        assertEquals(child, root.getNode("child"));
+        assertTrue(child == root.getNode("child"));
         child.setValue(null);
         assertTrue(child.isVirtual());
-        assertNotEquals(child, root.getNode("child"));
+        assertFalse(child == root.getNode("child"));
     }
 
     @Test

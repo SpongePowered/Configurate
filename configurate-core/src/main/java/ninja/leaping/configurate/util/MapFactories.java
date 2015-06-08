@@ -174,7 +174,7 @@ public class MapFactories {
     }
 
     public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> unordered() {
-        return new Supplier<ConcurrentMap<Object, V>>() {
+        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
             @Override
             public ConcurrentMap<Object, V> get() {
                 return new ConcurrentHashMap<>();
@@ -184,7 +184,7 @@ public class MapFactories {
 
     public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> sorted(final Comparator<Object>
                                                                                             comparator) {
-        return new Supplier<ConcurrentMap<Object, V>>() {
+        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
             @Override
             public ConcurrentMap<Object, V> get() {
                 return new ConcurrentSkipListMap<>(comparator);
@@ -193,7 +193,7 @@ public class MapFactories {
     }
 
     public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> sortedNatural() {
-        return new Supplier<ConcurrentMap<Object, V>>() {
+        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
             @Override
             public ConcurrentMap<Object, V> get() {
                 return new ConcurrentSkipListMap<>();
@@ -202,12 +202,19 @@ public class MapFactories {
     }
 
     public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> insertionOrdered() {
-        return new Supplier<ConcurrentMap<Object, V>>() {
+        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
             @Override
             public ConcurrentMap<Object, V> get() {
                 return new SynchronizedWrapper<>(new LinkedHashMap<Object, V>());
             }
         };
+    }
+
+    private static abstract class EqualsSupplier<V> implements Supplier<V> {
+        @Override
+        public boolean equals(Object o) {
+            return o.getClass().equals(getClass());
+        }
     }
 
 

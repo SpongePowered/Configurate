@@ -16,6 +16,7 @@
  */
 package ninja.leaping.configurate;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import java.util.Collections;
@@ -61,5 +62,22 @@ class ScalarConfigValue extends ConfigValue {
     @Override
     public void clear() {
        this.value = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ScalarConfigValue that = (ScalarConfigValue) o;
+        return Objects.equal(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }

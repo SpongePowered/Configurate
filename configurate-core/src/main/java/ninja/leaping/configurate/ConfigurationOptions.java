@@ -16,6 +16,7 @@
  */
 package ninja.leaping.configurate;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.util.MapFactories;
@@ -81,5 +82,23 @@ public class ConfigurationOptions {
      */
     public ConfigurationOptions setHeader(String header) {
         return new ConfigurationOptions(mapSupplier, header);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ConfigurationOptions that = (ConfigurationOptions) o;
+        return Objects.equal(mapSupplier, that.mapSupplier) &&
+                Objects.equal(header, that.header);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(mapSupplier, header);
     }
 }

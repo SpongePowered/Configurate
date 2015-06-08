@@ -17,6 +17,7 @@
 package ninja.leaping.configurate;
 
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -150,5 +151,22 @@ class ListConfigValue extends ConfigValue {
     public void clear() {
         List<SimpleConfigurationNode> oldValues = values.getAndSet(new ArrayList<SimpleConfigurationNode>());
         detachNodes(oldValues);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ListConfigValue that = (ListConfigValue) o;
+        return Objects.equal(values, that.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(values);
     }
 }
