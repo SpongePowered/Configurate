@@ -1,6 +1,11 @@
 Changelog
 ========
 
+1.2.2
+-----
+- core: properly implement equals() and hashCode() for configuration nodes
+- core: correctly pass key type to key serializer in map type serializer
+
 1.2.1
 -----
 - core: Properly remove values removed from maps while reserializing data
