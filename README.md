@@ -2,6 +2,7 @@
 Configurate is a simple confiuration library released under the [Apache 2.0](LICENSE) that provides a node-tree representation of configurations in a variety of formats.
 
 *Build Status*: [![Travis CI](https://travis-ci.org/zml2008/configurate.svg)](https://travis-ci.org/zml2008/configurate)
+*Javadocs*: http://zml2008.github.io/configurate/apidocs
 
 
 ## Building
