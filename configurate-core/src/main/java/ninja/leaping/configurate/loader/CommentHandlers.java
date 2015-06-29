@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by zml on 20.02.15.
+ * Handlers for various comment formats
  */
 public enum CommentHandlers implements CommentHandler {
     HASH("#"),
@@ -63,8 +63,6 @@ public enum CommentHandlers implements CommentHandler {
             } else {
                 return Optional.absent();
             }
-
-
         }
 
         private boolean handleSingleLine(StringBuilder builder, String line) {
