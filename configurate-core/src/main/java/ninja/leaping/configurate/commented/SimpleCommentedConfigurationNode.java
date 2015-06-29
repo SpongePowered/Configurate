@@ -78,11 +78,9 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Override
     public SimpleCommentedConfigurationNode mergeValuesFrom(ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNode) {
-            System.out.println("Trying to get comment from " + Arrays.toString(other.getPath()));
             Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
-            System.out.println("Other comment is: " + otherComment);
             if (otherComment.isPresent()) {
-                System.out.println("CAS: I am " + comment.get() +", ret: " + comment.compareAndSet(null, otherComment.get()));
+                comment.compareAndSet(null, otherComment.get());
             }
         }
         return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);
