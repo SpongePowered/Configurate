@@ -47,11 +47,13 @@ public class GsonConfigurationLoaderTest {
         final File tempFile = folder.newFile();
         ConfigurationLoader loader = GsonConfigurationLoader.builder()
                 .setSource(Resources.asCharSource(url, UTF8_CHARSET))
-                .setSink(AtomicFiles.asCharSink(tempFile, UTF8_CHARSET)).build();
+                .setSink(AtomicFiles.asCharSink(tempFile, UTF8_CHARSET)).setLenient(true).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
+        assertTrue(node.getNode("int-val").getValue() instanceof Integer);
+        assertTrue(node.getNode("double-val").getValue() instanceof Double);
         loader.save(node);
         assertEquals(Resources.toString(url, UTF8_CHARSET), Files
                 .toString(tempFile, UTF8_CHARSET));

@@ -1,4 +1,6 @@
 {
+  "double-val": 3.141592654,
+  "int-val": 42,
   "other": {
     "location": "dog park",
     "op-level": "dragon"

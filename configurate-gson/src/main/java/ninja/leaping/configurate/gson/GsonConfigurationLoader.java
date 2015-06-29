@@ -132,7 +132,13 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                 parseArray(parser, node);
                 break;
             case NUMBER:
-                node.setValue(parser.nextDouble()); // They don't do much for us here in Gsonland
+                double nextDouble = parser.nextDouble();
+                int nextInt = (int) nextDouble;
+                if (nextInt == nextDouble) {
+                    node.setValue(nextInt); // They don't do much for us here in Gsonland
+                } else {
+                    node.setValue(nextDouble);
+                }
                 break;
             case STRING:
                 node.setValue(parser.nextString());
