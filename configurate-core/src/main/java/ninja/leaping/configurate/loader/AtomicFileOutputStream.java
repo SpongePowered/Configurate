@@ -45,7 +45,7 @@ public class AtomicFileOutputStream extends FilterOutputStream {
     private final File targetFile, writeFile, oldFile;
     public AtomicFileOutputStream(File file) throws IOException {
         super(null);
-        writeFile = File.createTempFile(file.getPath().replaceAll("\\\\|/|:", "-"), null, file.getParentFile());
+        writeFile = File.createTempFile(file.getPath().replaceAll("\\\\|/|:", "-"), null, file.getCanonicalFile().getParentFile());
         targetFile = file;
         //writeFile = new File(targetFile.getName() + ".tmp");
         oldFile = new File(targetFile.getName() + ".old");
