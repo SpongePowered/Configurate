@@ -19,6 +19,10 @@ package ninja.leaping.configurate;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -229,6 +233,45 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
 
         insertNewValue(newValue, false);
+        return this;
+    }
+
+    @Override
+    public <T> T getValue(TypeToken<T> type) throws ObjectMappingException {
+        return getValue(type, null);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException {
+        Object value = getValue();
+        if (value == null) {
+            return def;
+        }
+        TypeSerializer serial = TypeSerializers.getSerializer(type);
+        if (serial == null) {
+            if (type.getRawType().isInstance(value)) {
+                return (T) type.getRawType().cast(value);
+            } else {
+                return def;
+            }
+        }
+        return (T) serial.deserialize(type, this);
+    }
+
+    @Override
+    public <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException {
+        if (value == null) {
+            setValue(null);
+            return this;
+        }
+        TypeSerializer serial = TypeSerializers.getSerializer(type);
+        if (serial != null) {
+            serial.serialize(type, value, this);
+        } else {
+            setValue(value); // Just write if no applicable serializer exists?
+            // TODO: List of supported types by format
+        }
         return this;
     }
 

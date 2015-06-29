@@ -18,6 +18,8 @@ package ninja.leaping.configurate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -160,7 +163,7 @@ public class SimpleConfigurationNodeTest {
     @Test
     public void testGetPath() {
         ConfigurationNode root = SimpleConfigurationNode.root();
-        assertArrayEquals(new Object[] {"a", "b", "c"}, root.getNode("a", "b", "c").getPath());
+        assertArrayEquals(new Object[]{"a", "b", "c"}, root.getNode("a", "b", "c").getPath());
     }
 
     @Test
@@ -199,6 +202,16 @@ public class SimpleConfigurationNodeTest {
         assertTrue(subject.hasMapChildren());
         subject.setValue(ImmutableMap.of("na", "na", "eh", "eh", "bleugh", "bleugh"));
         assertTrue(subject.hasMapChildren());
+    }
+
+    @Test
+    public void testGetSetValueSerialized() throws ObjectMappingException {
+        SimpleConfigurationNode subject = SimpleConfigurationNode.root();
+        subject.setValue("48");
+        assertEquals((Object) 48, subject.getValue(TypeToken.of(Integer.class)));
+        UUID testId = UUID.randomUUID();
+        subject.setValue(TypeToken.of(UUID.class), testId);
+        assertEquals(testId.toString(), subject.getValue());
     }
 
 }

@@ -17,6 +17,8 @@
 package ninja.leaping.configurate;
 
 import com.google.common.base.Function;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.util.List;
 import java.util.Map;
@@ -231,6 +233,41 @@ public interface ConfigurationNode {
      * @return this
      */
     public ConfigurationNode setValue(Object value);
+
+    /**
+     * Get the current value associated with this node.
+     * If this node has children, this method will recursively unwrap them to construct a List or a Map.
+     * This method will also perform deserialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * @param type The type to deserialize to
+     * @param <T> the type to get
+     * @return the value if present and of the proper type, else null
+     */
+    public <T> T getValue(TypeToken<T> type) throws ObjectMappingException;
+    /**
+     * Get the current value associated with this node.
+     * If this node has children, this method will recursively unwrap them to construct a List or a Map.
+     * This method will also perform deserialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * @param type The type to deserialize to
+     * @param def The value to return if no value or
+     * @param <T> the type to get
+     * @return the value if of the proper type, else {@code def}
+     */
+    public <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException;
+
+    /**
+     * Set this node's value to the given value.
+     * If the provided value is a {@link java.util.Collection} or a {@link java.util.Map}, it will be unwrapped into
+     * the appropriate configuration node structure.
+     * This method will also perform serialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * @param type The type to use for serialization type information
+     * @param value The value to set
+     * @param <T> The type to serialize to
+     * @return this
+     */
+    public <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException;
 
     /**
      * Set all the values from the given node that are not present in this node
