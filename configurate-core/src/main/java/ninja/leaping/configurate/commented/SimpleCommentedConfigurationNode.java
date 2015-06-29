@@ -21,6 +21,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -77,9 +78,11 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Override
     public SimpleCommentedConfigurationNode mergeValuesFrom(ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNode) {
+            System.out.println("Trying to get comment from " + Arrays.toString(other.getPath()));
             Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
+            System.out.println("Other comment is: " + otherComment);
             if (otherComment.isPresent()) {
-                comment.compareAndSet(null, otherComment.get());
+                System.out.println("CAS: I am " + comment.get() +", ret: " + comment.compareAndSet(null, otherComment.get()));
             }
         }
         return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);

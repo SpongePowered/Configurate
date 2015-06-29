@@ -185,7 +185,38 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public SimpleConfigurationNode setValue(Object newValue) {
         if (newValue instanceof ConfigurationNode) {
-            newValue = ((ConfigurationNode) newValue).getValue(); // Unwrap existing nodes
+            ConfigurationNode newNode = (ConfigurationNode) newValue;
+            if (newNode.hasListChildren()) {
+                attachIfNecessary();
+                ListConfigValue newList = new ListConfigValue(this);
+                synchronized (newNode) {
+                    List<? extends ConfigurationNode> children = newNode.getChildrenList();
+                    for (int i = 0; i < children.size(); ++i) {
+                        SimpleConfigurationNode child = createNode(i);
+                        child.attached = true;
+                        newList.putChild(i, child);
+                        child.setValue(children.get(i));
+                    }
+                }
+                this.value = newList;
+                return this;
+            } else if (newNode.hasMapChildren()) {
+                attachIfNecessary();
+                MapConfigValue newMap = new MapConfigValue(this);
+                synchronized (newNode) {
+                    Map<Object, ? extends ConfigurationNode> children = newNode.getChildrenMap();
+                    for (Map.Entry<Object, ? extends ConfigurationNode> ent : children.entrySet()) {
+                        SimpleConfigurationNode child = createNode(ent.getKey());
+                        child.attached = true;
+                        newMap.putChild(ent.getKey(), child);
+                        child.setValue(ent.getValue());
+                    }
+                }
+                this.value = newMap;
+                return this;
+            } else {
+                newValue = newNode.getValue();
+            }
         }
 
         if (newValue == null) {
@@ -221,6 +252,10 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 value = new ScalarConfigValue(this);
             }
             value.setValue(newValue);
+
+            /*if (oldValue != null && oldValue != value) {
+                oldValue.clear();
+            }*/
             this.value = value;
         }
     }
@@ -358,6 +393,10 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public Object[] getPath() {
         LinkedList<Object> pathElements = new LinkedList<>();
         ConfigurationNode ptr = this;
+        if (ptr.getParent() == null) {
+            return new Object[] {this.getKey()};
+        }
+
         do {
             pathElements.addFirst(ptr.getKey());
         } while ((ptr = ptr.getParent()).getParent() != null);

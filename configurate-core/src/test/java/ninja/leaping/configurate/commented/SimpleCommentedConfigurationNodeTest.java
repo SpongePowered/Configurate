@@ -28,6 +28,7 @@ public class SimpleCommentedConfigurationNodeTest {
         firstChild.setValue("test value");
         firstChild.setComment("Such comment. Very wow.");
 
+
         CommentedConfigurationNode secondChild = subject.getNode("second");
         secondChild.setValue("test value's evil twin");
 
@@ -39,6 +40,26 @@ public class SimpleCommentedConfigurationNodeTest {
     }
 
     @Test
+    public void testNestedCommentsTransferred() {
+        CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode firstChild = subject.getNode("first");
+        CommentedConfigurationNode firstChildChild = firstChild.getNode("child");
+        firstChildChild.setValue("test value");
+        firstChildChild.setComment("Such comment. Very wow.");
+
+
+        CommentedConfigurationNode secondChild = subject.getNode("second");
+        secondChild.setValue("test value's evil twin");
+
+        assertFalse(secondChild.isVirtual());
+
+        secondChild.setValue(firstChild);
+        assertEquals("test value", secondChild.getNode("child").getValue());
+        assertEquals("Such comment. Very wow.", secondChild.getNode("child").getComment().orNull());
+
+    }
+
+    @Test
     public void testCommentsMerged() {
         CommentedConfigurationNode source = SimpleCommentedConfigurationNode.root();
         CommentedConfigurationNode target = SimpleCommentedConfigurationNode.root();
@@ -46,6 +67,7 @@ public class SimpleCommentedConfigurationNodeTest {
         source.getNode("no-value").setValue("a").setComment("yeah");
         source.getNode("existing-value-no-comment").setValue("orig").setComment("maybe");
         source.getNode("existing-value").setValue("a").setComment("yeah");
+        source.getNode("no-parent", "child").setValue("x").setComment("always");
         target.getNode("existing-value-no-comment").setValue("new");
         target.getNode("existing-value").setValue("b").setComment("nope");
 
@@ -54,5 +76,6 @@ public class SimpleCommentedConfigurationNodeTest {
         assertEquals("maybe", target.getNode("existing-value-no-comment").getComment().orNull());
         assertEquals("new", target.getNode("existing-value-no-comment").getString());
         assertEquals("nope", target.getNode("existing-value").getComment().orNull());
+        assertEquals("always", target.getNode("no-parent", "child").getComment().orNull());
     }
 }
