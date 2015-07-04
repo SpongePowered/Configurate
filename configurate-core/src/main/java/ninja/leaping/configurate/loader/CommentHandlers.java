@@ -89,7 +89,7 @@ public enum CommentHandlers implements CommentHandler {
             if (builder.length() > 0) {
                 builder.append(AbstractConfigurationLoader.LINE_SEPARATOR);
             }
-            builder.append(line);
+            builder.append(line.replace("\r", "").replace("\n", "").replace("\r\n", ""));
             return moreLines;
         }
 
