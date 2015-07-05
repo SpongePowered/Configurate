@@ -44,6 +44,12 @@
             <version>1.14</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

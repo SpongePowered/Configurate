@@ -277,4 +277,8 @@ public class ObjectMapper<T> {
     public BoundInstance bindToNew() throws ObjectMappingException {
         return new BoundInstance(constructObject());
     }
+
+    public Class<T> getMappedType() {
+        return this.clazz;
+    }
 }
