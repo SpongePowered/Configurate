@@ -28,10 +28,8 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URL;
 
 
 /**
@@ -40,7 +38,7 @@ import java.net.URL;
 public class YAMLConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
     private final ThreadLocal<Yaml> yaml;
 
-    public static class Builder extends AbstractConfigurationLoader.Builder {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private final DumperOptions options = new DumperOptions();
 
         protected Builder() {
@@ -76,36 +74,8 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
             return this;
         }
 
-        @Override
-        public Builder setFile(File file) {
-            super.setFile(file);
-            return this;
-        }
 
         @Override
-        public Builder setURL(URL url) {
-            super.setURL(url);
-            return this;
-        }
-
-        public Builder setSource(CharSource source) {
-            super.setSource(source);
-            return this;
-        }
-
-        public Builder setSink(CharSink sink) {
-            super.setSink(sink);
-            return this;
-        }
-
-        @Override
-        public Builder setPreservesHeader(boolean preservesHeader) {
-            super.setPreservesHeader(preservesHeader);
-            return this;
-        }
-
-        @Override
-        @SuppressWarnings("deprecation")
         public YAMLConfigurationLoader build() {
             return new YAMLConfigurationLoader(source, sink, options, preserveHeader);
         }
@@ -115,18 +85,7 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    /**
-     * Use {@link ninja.leaping.configurate.yaml.YAMLConfigurationLoader.Builder} instead
-     *
-     *
-     * @param source do not use this
-     * @param sink do not use this
-     * @param options do not use this
-     * @param preservesHeader do not use this
-     * @deprecated Do not use this
-     */
-    @Deprecated
-    public YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options, boolean
+    private YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options, boolean
             preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.HASH}, preservesHeader);
         this.yaml = new ThreadLocal<Yaml>() {

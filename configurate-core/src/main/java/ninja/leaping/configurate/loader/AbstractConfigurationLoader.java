@@ -52,35 +52,40 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     private final CommentHandler[] commentHandlers;
     private final boolean preservesHeader;
 
-    protected static abstract class Builder {
+    protected static abstract class Builder<T extends Builder> {
         protected boolean preserveHeader = true;
         protected CharSource source;
         protected CharSink sink;
 
-        public Builder setFile(File file) {
+        @SuppressWarnings("unchecked")
+        private T self() {
+            return (T) this;
+        }
+
+        public T setFile(File file) {
             this.source = Files.asCharSource(file, UTF8_CHARSET);
             this.sink = AtomicFiles.asCharSink(file, UTF8_CHARSET);
-            return this;
+            return self();
         }
 
-        public Builder setURL(URL url) {
+        public T setURL(URL url) {
             this.source = Resources.asCharSource(url, UTF8_CHARSET);
-            return this;
+            return self();
         }
 
-        public Builder setSource(CharSource source) {
+        public T setSource(CharSource source) {
             this.source = source;
-            return this;
+            return self();
         }
 
-        public Builder setSink(CharSink sink) {
+        public T setSink(CharSink sink) {
             this.sink = sink;
-            return this;
+            return self();
         }
 
-        public Builder setPreservesHeader(boolean preservesHeader) {
+        public T setPreservesHeader(boolean preservesHeader) {
             this.preserveHeader = preservesHeader;
-            return this;
+            return self();
         }
 
         public abstract AbstractConfigurationLoader build();

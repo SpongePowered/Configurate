@@ -28,10 +28,8 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +42,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     private final int indent;
     private final FieldValueSeparatorStyle fieldValueSeparatorStyle;
 
-    public static class Builder extends AbstractConfigurationLoader.Builder {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private final JsonFactory factory = new JsonFactory();
         private int indent = 2;
         private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
@@ -91,34 +89,6 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
 
         public Builder setFieldValueSeparatorStyle(FieldValueSeparatorStyle style) {
             this.fieldValueSeparatorStyle = style;
-            return this;
-        }
-
-        @Override
-        public Builder setFile(File file) {
-            super.setFile(file);
-            return this;
-        }
-
-        @Override
-        public Builder setURL(URL url) {
-            super.setURL(url);
-            return this;
-        }
-
-        public Builder setSource(CharSource source) {
-            super.setSource(source);
-            return this;
-        }
-
-        public Builder setSink(CharSink sink) {
-            super.setSink(sink);
-            return this;
-        }
-
-        @Override
-        public Builder setPreservesHeader(boolean preservesHeader) {
-            super.setPreservesHeader(preservesHeader);
             return this;
         }
 

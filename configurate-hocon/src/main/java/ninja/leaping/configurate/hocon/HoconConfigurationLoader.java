@@ -32,15 +32,11 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -54,7 +50,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     private final ConfigRenderOptions render;
     private final ConfigParseOptions parse;
 
-    public static class Builder extends AbstractConfigurationLoader.Builder {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private ConfigRenderOptions render = ConfigRenderOptions.defaults()
                 .setOriginComments(false)
                 .setJson(false);
@@ -71,18 +67,6 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
             return parse;
         }
 
-        @Override
-        public Builder setFile(File file) {
-            super.setFile(file);
-            return this;
-        }
-
-        @Override
-        public Builder setURL(URL url) {
-            super.setURL(url);
-            return this;
-        }
-
         public Builder setRenderOptions(ConfigRenderOptions options) {
             this.render = options;
             return this;
@@ -90,22 +74,6 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
 
         public Builder setParseOptions(ConfigParseOptions options) {
             this.parse = options;
-            return this;
-        }
-
-        public Builder setSource(CharSource source) {
-            super.setSource(source);
-            return this;
-        }
-
-        public Builder setSink(CharSink sink) {
-            super.setSink(sink);
-            return this;
-        }
-
-        @Override
-        public Builder setPreservesHeader(boolean preservesHeader) {
-            super.setPreservesHeader(preservesHeader);
             return this;
         }
 
@@ -119,7 +87,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         return new Builder();
     }
 
-    protected HoconConfigurationLoader(CharSource source, CharSink sink, ConfigRenderOptions render,
+    private HoconConfigurationLoader(CharSource source, CharSink sink, ConfigRenderOptions render,
                                        ConfigParseOptions parse, boolean preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH}, preservesHeader);
         this.render = render;
