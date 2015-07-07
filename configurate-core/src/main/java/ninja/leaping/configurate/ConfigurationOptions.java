@@ -19,6 +19,8 @@ package ninja.leaping.configurate;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
 
 import java.util.concurrent.ConcurrentMap;
@@ -30,10 +32,13 @@ import java.util.concurrent.ConcurrentMap;
 public class ConfigurationOptions {
     private final Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier;
     private final String header;
+    private final TypeSerializerCollection serializers;
 
-    private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header) {
+    private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header,
+     TypeSerializerCollection serializers) {
         this.mapSupplier = mapSupplier;
         this.header = header;
+        this.serializers = serializers;
     }
 
     /**
@@ -42,7 +47,7 @@ public class ConfigurationOptions {
      * @return A new default options object
      */
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null);
+        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null, TypeSerializers.getDefaultSerializers());
     }
 
     /**
@@ -63,7 +68,7 @@ public class ConfigurationOptions {
      */
     @SuppressWarnings("unchecked")
     public ConfigurationOptions setMapFactory(Supplier<ConcurrentMap<Object, ConfigurationNode>> factory) {
-        return new ConfigurationOptions((Supplier) factory, header);
+        return new ConfigurationOptions((Supplier) factory, header, serializers);
     }
 
     /**
@@ -81,7 +86,21 @@ public class ConfigurationOptions {
      * @return The map's header
      */
     public ConfigurationOptions setHeader(String header) {
-        return new ConfigurationOptions(mapSupplier, header);
+        return new ConfigurationOptions(mapSupplier, header, serializers);
+    }
+
+    public TypeSerializerCollection getSerializers() {
+        return this.serializers;
+    }
+
+    /**
+     * Set the collection of TypeSerializers to be used for lookups
+     *
+     * @param serializers The serializers to use
+     * @return updated options object
+     */
+    public ConfigurationOptions setSerializers(TypeSerializerCollection serializers) {
+        return new ConfigurationOptions(mapSupplier, header, serializers);
     }
 
     @Override

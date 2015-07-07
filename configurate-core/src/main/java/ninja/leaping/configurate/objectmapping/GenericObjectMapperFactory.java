@@ -20,43 +20,38 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.inject.Injector;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.concurrent.ExecutionException;
 
 /**
- * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided. This class is
- * intended to be constructed through Guice dependency injection.
+ * Factory for a basic {@link ObjectMapper}
  */
-@Singleton
-public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
-    private final LoadingCache<Class<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder().weakKeys().maximumSize
-            (512).build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
-        @Override
-        public ObjectMapper<?> load(Class<?> key) throws Exception {
-            return new GuiceObjectMapper<>(injector, key);
-        }
-    });
-    private final Injector injector;
-    @Inject
-    protected GuiceObjectMapperFactory(Injector baseInjector) {
-        this.injector = baseInjector;
-    }
+public class GenericObjectMapperFactory implements ObjectMapperFactory {
+    private static final ObjectMapperFactory INSTANCE = new GenericObjectMapperFactory();
+    private final LoadingCache<Class<?>, ObjectMapper<?>> mapperCache = CacheBuilder.newBuilder().weakKeys()
+            .maximumSize(500).build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+                @Override
+                public ObjectMapper<?> load(Class<?> key) throws Exception {
+                    return new ObjectMapper<>(key);
+                }
+            });
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> ObjectMapper<T> getMapper(Class<T> type) throws ObjectMappingException {
         Preconditions.checkNotNull(type, "type");
         try {
-            return (ObjectMapper<T>) cache.get(type);
+            return (ObjectMapper<T>) mapperCache.get(type);
         } catch (ExecutionException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();
             } else {
-                throw new RuntimeException(e);
+                throw new ObjectMappingException(e);
             }
         }
+    }
+
+    public static ObjectMapperFactory getInstance() {
+        return INSTANCE;
     }
 }

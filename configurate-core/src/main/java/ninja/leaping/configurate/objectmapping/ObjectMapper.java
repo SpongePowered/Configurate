@@ -17,14 +17,10 @@
 package ninja.leaping.configurate.objectmapping;
 
 import com.google.common.base.Preconditions;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -42,12 +38,6 @@ import java.util.concurrent.ExecutionException;
  * @param <T> The type to work with
  */
 public class ObjectMapper<T> {
-    private static final LoadingCache<Class<?>, ObjectMapper<?>> MAPPER_CACHE = CacheBuilder.newBuilder().weakKeys().maximumSize(500).build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
-        @Override
-        public ObjectMapper<?> load(Class<?> key) throws Exception {
-            return new ObjectMapper<>(key);
-        }
-    });
     private final Class<T> clazz;
     private final Constructor<T> constructor;
     private final Map<String, FieldData> cachedFields = new HashMap<>();
@@ -63,16 +53,7 @@ public class ObjectMapper<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> ObjectMapper<T> forClass(Class<T> clazz) throws ObjectMappingException {
-        Preconditions.checkNotNull(clazz);
-        try {
-            return (ObjectMapper<T>) MAPPER_CACHE.get(clazz);
-        } catch (ExecutionException e) {
-            if (e.getCause() instanceof ObjectMappingException) {
-                throw (ObjectMappingException) e.getCause();
-            } else {
-                throw new ObjectMappingException(e);
-            }
-        }
+        return GenericObjectMapperFactory.getInstance().getMapper(clazz);
     }
 
     @SuppressWarnings("unchecked")
@@ -88,20 +69,18 @@ public class ObjectMapper<T> {
         private final Field field;
         private final TypeToken<?> fieldType;
         private final String comment;
-        private TypeSerializer fieldSerializer;
 
-        public FieldData(Field field, String comment) throws ObjectMappingException {
+        public FieldData(Field field, String comment) throws
+                ObjectMappingException {
             this.field = field;
             this.comment = comment;
             this.fieldType = TypeToken.of(field.getGenericType());
-            this.fieldSerializer = TypeSerializers.getSerializer(fieldType);
-            if (this.fieldSerializer == null) {
-                throw new ObjectMappingException("No serializer available for field " + field.getName() + " of type " + fieldType);
-            }
         }
 
         public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            Object newVal = node.isVirtual() ? null : this.fieldSerializer.deserialize(this.fieldType, node);
+            Object newVal = node.isVirtual() ? null : node.getOptions().getSerializers().get(this.fieldType).deserialize(this
+                            .fieldType,
+                    node);
             try {
                 if (newVal == null) {
                     Object existingVal = field.get(instance);
@@ -123,7 +102,8 @@ public class ObjectMapper<T> {
                 if (fieldVal == null) {
                     node.setValue(null);
                 } else {
-                    this.fieldSerializer.serialize(this.fieldType, fieldVal, node);
+                    ((TypeSerializer) node.getOptions().getSerializers().get(this.fieldType))
+                            .serialize(this.fieldType, fieldVal, node);
                 }
 
                 if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {

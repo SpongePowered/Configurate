@@ -248,7 +248,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         if (value == null) {
             return def;
         }
-        TypeSerializer serial = TypeSerializers.getSerializer(type);
+        TypeSerializer serial = getOptions().getSerializers().get(type);
         if (serial == null) {
             if (type.getRawType().isInstance(value)) {
                 return (T) type.getRawType().cast(value);
@@ -265,7 +265,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             setValue(null);
             return this;
         }
-        TypeSerializer serial = TypeSerializers.getSerializer(type);
+        TypeSerializer serial = getOptions().getSerializers().get(type);
         if (serial != null) {
             serial.serialize(type, value, this);
         } else {

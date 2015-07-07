@@ -20,15 +20,7 @@ import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
-public interface TypeSerializer {
-    /**
-     * Check if this serializer can handle values of the given type.
-     *
-     * @param type The type to check
-     * @return Whether this serializer is applicable to the given type
-     */
-    boolean isApplicable(TypeToken<?> type);
-
+public interface TypeSerializer<T> {
     /**
      * Deserialize an object required to be of a given type from the given configuration node
      * @param type The type of return value required
@@ -36,7 +28,7 @@ public interface TypeSerializer {
      * @return An object
      * @throws ObjectMappingException If the presented data is somehow invalid
      */
-    public Object deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException;
+    T deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException;
 
-    public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException;
+    void serialize(TypeToken<?> type, T obj, ConfigurationNode value) throws ObjectMappingException;
 }
