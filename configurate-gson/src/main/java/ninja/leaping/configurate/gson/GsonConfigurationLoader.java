@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.gson;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.google.gson.JsonParseException;
@@ -172,6 +173,8 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
 
     @Override
     public ConfigurationNode createEmptyNode(ConfigurationOptions options) {
+        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+                Long.class, Integer.class, Boolean.class, String.class));
         return SimpleConfigurationNode.root(options);
     }
 

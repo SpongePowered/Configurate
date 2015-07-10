@@ -17,8 +17,10 @@
 package ninja.leaping.configurate;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
@@ -56,6 +58,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     protected SimpleConfigurationNode(Object key, SimpleConfigurationNode parent, ConfigurationOptions options) {
+        Preconditions.checkNotNull(options, "options");
+
         this.key = key;
         if (parent == null) {
             attached = true;
@@ -115,6 +119,17 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public <T> List<T> getList(Function<Object, T> transformer, List<T> def) {
         List<T> ret = getList(transformer);
+        return ret.isEmpty() ? def : ret;
+    }
+
+    @Override
+    public <T> List<T> getList(TypeToken<T> type) throws ObjectMappingException {
+        return getList(type, ImmutableList.<T>of());
+    }
+
+    @Override
+    public <T> List<T> getList(TypeToken<T> type, List<T> def) throws ObjectMappingException {
+        List<T> ret = getValue(new TypeToken<List<T>>() {}.where(new TypeParameter<T>() {}, type), def);
         return ret.isEmpty() ? def : ret;
     }
 
@@ -268,9 +283,10 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         TypeSerializer serial = getOptions().getSerializers().get(type);
         if (serial != null) {
             serial.serialize(type, value, this);
-        } else {
+        } else if (getOptions().acceptsType(value.getClass())) {
             setValue(value); // Just write if no applicable serializer exists?
-            // TODO: List of supported types by format
+        } else {
+            throw new ObjectMappingException("No serializer available for type " + type);
         }
         return this;
     }

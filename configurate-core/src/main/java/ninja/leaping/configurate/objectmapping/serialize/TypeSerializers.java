@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.objectmapping.serialize;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -201,18 +202,24 @@ public class TypeSerializers {
 
         @Override
         public List<?> deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+            TypeToken<?> entryType = type.resolveType(List.class.getTypeParameters()[0]);
+            TypeSerializer entrySerial = value.getOptions().getSerializers().get(entryType);
+            if (entrySerial == null) {
+                throw new ObjectMappingException("No applicable type serializer for type " + entryType);
+            }
+
             if (value.hasListChildren()) {
                 List<? extends ConfigurationNode> values = value.getChildrenList();
                 List<Object> ret = new ArrayList<>(values.size());
-                TypeToken<?> entryType = type.resolveType(List.class.getTypeParameters()[0]);
-                TypeSerializer entrySerial = value.getOptions().getSerializers().get(entryType);
-                if (entrySerial == null) {
-                    throw new ObjectMappingException("No applicable type serializer for type " + entryType);
-                }
                 for (ConfigurationNode ent : values) {
                     ret.add(entrySerial.deserialize(entryType, ent));
                 }
                 return ret;
+            } else {
+                Object unwrappedVal = value.getValue();
+                if (unwrappedVal != null) {
+                    return Lists.newArrayList(entrySerial.deserialize(entryType, value));
+                }
             }
             return new ArrayList<>();
         }
@@ -237,6 +244,10 @@ public class TypeSerializers {
             Class<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
             return ObjectMapper.forClass(clazz).bindToNew().populate(value); // TODO: Handle GuiceObjectMapper
             // correctly here
+
+            // where do we get an ObjectMapper type from in here?
+            // do we change the recommended way of dealing with object mappers by adding a fatory to the
+            // ConfigurationOptions?
         }
 
         private Class<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {

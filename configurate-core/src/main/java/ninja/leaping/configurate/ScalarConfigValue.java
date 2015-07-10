@@ -36,6 +36,12 @@ class ScalarConfigValue extends ConfigValue {
     @Override
     public void setValue(Object value) {
         Preconditions.checkNotNull(value);
+
+        if (!holder.getOptions().acceptsType(value.getClass())) {
+            throw new IllegalArgumentException("Configuration does not accept objects of type " + value
+                    .getClass());
+        }
+
         this.value = value;
     }
 

@@ -123,6 +123,30 @@ public interface ConfigurationNode {
     public <T> List<T> getList(Function<Object, T> transformer, List<T> def);
 
     /**
+     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
+     * provided type.
+     * If this node has a scalar value, this function treats it as a list with one value
+     *
+     * @param type The expected type
+     * @param <T> The expected type
+     * @return An immutable copy of the values contained
+     */
+    <T> List<T> getList(TypeToken<T> type) throws ObjectMappingException;
+
+    /**
+     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
+     * provided type.
+     * If this node has a scalar value, this function treats it as a list with one value
+     *
+     * @param type The expected type
+     * @param def The default value if no appropriate value is set
+     * @param <T> The expected type
+     * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
+     * values could be converted
+     */
+    <T> List<T> getList(TypeToken<T> type, List<T> def) throws ObjectMappingException;
+
+    /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
      *
      * @see #getValue()

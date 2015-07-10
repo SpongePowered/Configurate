@@ -20,6 +20,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import com.typesafe.config.*;
@@ -148,6 +149,8 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
 
     @Override
     public CommentedConfigurationNode createEmptyNode(ConfigurationOptions options) {
+        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
+                Long.class, Integer.class, Boolean.class, String.class, Number.class));
         return SimpleCommentedConfigurationNode.root(options);
     }
 

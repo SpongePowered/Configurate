@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.json;
 
 import com.fasterxml.jackson.core.*;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharSink;
 import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -60,26 +61,6 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
 
         public JsonFactory getFactory() {
             return this.factory;
-        }
-
-        /**
-         * Sets pretty printing using default options.
-         * As of Configurate 1.1, it is recommended to use the {@link #setIndent(int)} and
-         * {@link #setFieldValueSeparatorStyle(FieldValueSeparatorStyle)} methods
-         * instead as they provide more control.
-         * @param prettyPrint Whether to pretty print
-         * @return this
-         */
-        @Deprecated
-        public Builder setPrettyPrint(boolean prettyPrint) {
-            if (prettyPrint) {
-                this.indent = 2;
-                this.fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
-            } else {
-                this.indent = 0;
-                this.fieldValueSeparatorStyle = FieldValueSeparatorStyle.NO_SPACE;
-            }
-            return this;
         }
 
         public Builder setIndent(int indent) {
@@ -191,6 +172,8 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
 
     @Override
     public CommentedConfigurationNode createEmptyNode(ConfigurationOptions options) {
+        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+                Long.class, Integer.class, Boolean.class, String.class, byte[].class));
         return SimpleCommentedConfigurationNode.root(options);
     }
 

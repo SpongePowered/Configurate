@@ -18,11 +18,14 @@ package ninja.leaping.configurate;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -33,12 +36,14 @@ public class ConfigurationOptions {
     private final Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier;
     private final String header;
     private final TypeSerializerCollection serializers;
+    private final ImmutableSet<Class<?>> acceptedTypes;
 
     private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header,
-     TypeSerializerCollection serializers) {
+     TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes) {
         this.mapSupplier = mapSupplier;
         this.header = header;
         this.serializers = serializers;
+        this.acceptedTypes = acceptedTypes == null ? null : ImmutableSet.copyOf(acceptedTypes);
     }
 
     /**
@@ -47,7 +52,8 @@ public class ConfigurationOptions {
      * @return A new default options object
      */
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null, TypeSerializers.getDefaultSerializers());
+        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null, TypeSerializers
+                .getDefaultSerializers(), null);
     }
 
     /**
@@ -68,7 +74,7 @@ public class ConfigurationOptions {
      */
     @SuppressWarnings("unchecked")
     public ConfigurationOptions setMapFactory(Supplier<ConcurrentMap<Object, ConfigurationNode>> factory) {
-        return new ConfigurationOptions((Supplier) factory, header, serializers);
+        return new ConfigurationOptions((Supplier) factory, header, serializers, acceptedTypes);
     }
 
     /**
@@ -86,7 +92,7 @@ public class ConfigurationOptions {
      * @return The map's header
      */
     public ConfigurationOptions setHeader(String header) {
-        return new ConfigurationOptions(mapSupplier, header, serializers);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes);
     }
 
     public TypeSerializerCollection getSerializers() {
@@ -100,7 +106,33 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     public ConfigurationOptions setSerializers(TypeSerializerCollection serializers) {
-        return new ConfigurationOptions(mapSupplier, header, serializers);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes);
+    }
+
+    public boolean acceptsType(Class<?> type) {
+        if (this.acceptedTypes == null) {
+            return true;
+        }
+        if (this.acceptedTypes.contains(type)) {
+            return true;
+        }
+
+        for (Class<?> clazz : this.acceptedTypes) {
+            if (clazz.isAssignableFrom(type)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Set types that will be accepted as native values for this configuration
+     * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
+     * @return updated options object
+     */
+    public ConfigurationOptions setAcceptedTypes(Set<Class<?>> acceptedTypes) {
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes);
     }
 
     @Override
