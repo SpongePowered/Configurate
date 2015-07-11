@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -258,5 +259,17 @@ public class TypeSerializersTest {
 
         assertEquals(testUuid, uuidSerializer.deserialize(uuidType, serializeTo));
 
+    }
+
+    @Test
+    public void testPatternSerializer() throws ObjectMappingException {
+        final TypeToken<Pattern> patternType = TypeToken.of(Pattern.class);
+        final TypeSerializer<Pattern> patternSerializer = SERIALIZERS.get(patternType);
+
+        final Pattern testPattern = Pattern.compile("(na )+batman");
+        SimpleConfigurationNode serializeTo = SimpleConfigurationNode.root();
+        patternSerializer.serialize(patternType, testPattern, serializeTo);
+        assertEquals("(na )+batman", serializeTo.getValue());
+        assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());
     }
 }

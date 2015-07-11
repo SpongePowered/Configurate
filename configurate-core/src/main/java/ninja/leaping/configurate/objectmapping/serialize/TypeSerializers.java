@@ -37,6 +37,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class TypeSerializers {
     private static final TypeSerializerCollection DEFAULT_SERIALIZERS = new TypeSerializerCollection(null);
@@ -62,6 +64,7 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.registerType(new TypeToken<List<?>>() {
         }, new ListSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Enum<?>>() {}, new EnumValueSerializer());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(Pattern.class), new PatternSerializer());
     }
 
 
@@ -340,7 +343,24 @@ public class TypeSerializers {
 
         @Override
         public void serialize(TypeToken<?> type, UUID obj, ConfigurationNode value) throws ObjectMappingException {
-            value.setValue(((UUID) obj).toString());
+            value.setValue(obj.toString());
+        }
+    }
+
+    private static class PatternSerializer implements TypeSerializer<Pattern> {
+
+        @Override
+        public Pattern deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+            try {
+                return Pattern.compile(value.getString());
+            } catch (PatternSyntaxException ex) {
+                throw new ObjectMappingException(ex);
+            }
+        }
+
+        @Override
+        public void serialize(TypeToken<?> type, Pattern obj, ConfigurationNode value) throws ObjectMappingException {
+            value.setValue(obj.pattern());
         }
     }
 }
