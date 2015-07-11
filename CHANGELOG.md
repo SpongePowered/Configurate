@@ -1,6 +1,16 @@
 Changelog
 ========
 
+2.0
+---
+- [BREAKING] core: Refactor TypeSerializer to use registry, be more specific about how registries are handled
+- Fix atomic output stream's temporary file locations in some cases
+- Fix transferring of comments to nested values
+- Fix gson loader reading all numbers as doubles
+- Add support for working with typed values using a TypeSerializer
+- Add a type serializer for Patterns
+- Allow configuration nodes to specify a limited list of acceptable types
+
 1.2.2
 -----
 - core: properly implement equals() and hashCode() for configuration nodes
