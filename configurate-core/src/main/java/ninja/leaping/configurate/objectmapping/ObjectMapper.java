@@ -27,7 +27,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * This is the object mapper. It handles conversion between configuration nodes and
@@ -53,7 +52,7 @@ public class ObjectMapper<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> ObjectMapper<T> forClass(Class<T> clazz) throws ObjectMappingException {
-        return GenericObjectMapperFactory.getInstance().getMapper(clazz);
+        return DefaultObjectMapperFactory.getInstance().getMapper(clazz);
     }
 
     @SuppressWarnings("unchecked")

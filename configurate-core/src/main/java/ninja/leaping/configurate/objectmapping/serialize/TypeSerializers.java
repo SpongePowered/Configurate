@@ -245,12 +245,7 @@ public class TypeSerializers {
         @Override
         public Object deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
             Class<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
-            return ObjectMapper.forClass(clazz).bindToNew().populate(value); // TODO: Handle GuiceObjectMapper
-            // correctly here
-
-            // where do we get an ObjectMapper type from in here?
-            // do we change the recommended way of dealing with object mappers by adding a fatory to the
-            // ConfigurationOptions?
+            return value.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(value);
         }
 
         private Class<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
@@ -272,11 +267,13 @@ public class TypeSerializers {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
             if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
                 value.getNode("__class__").setValue(type.getRawType().getCanonicalName());
             }
-            ObjectMapper.forObject(obj).serialize(value);
+            ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(obj.getClass()))
+                    .bind(obj).serialize(value);
         }
     }
 

@@ -26,8 +26,8 @@ import java.util.concurrent.ExecutionException;
 /**
  * Factory for a basic {@link ObjectMapper}
  */
-public class GenericObjectMapperFactory implements ObjectMapperFactory {
-    private static final ObjectMapperFactory INSTANCE = new GenericObjectMapperFactory();
+public class DefaultObjectMapperFactory implements ObjectMapperFactory {
+    private static final ObjectMapperFactory INSTANCE = new DefaultObjectMapperFactory();
     private final LoadingCache<Class<?>, ObjectMapper<?>> mapperCache = CacheBuilder.newBuilder().weakKeys()
             .maximumSize(500).build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
                 @Override

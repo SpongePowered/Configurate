@@ -17,10 +17,12 @@
 package ninja.leaping.configurate;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.objectmapping.DefaultObjectMapperFactory;
+import ninja.leaping.configurate.objectmapping.ObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
@@ -37,13 +39,15 @@ public class ConfigurationOptions {
     private final String header;
     private final TypeSerializerCollection serializers;
     private final ImmutableSet<Class<?>> acceptedTypes;
+    private final ObjectMapperFactory objectMapperFactory;
 
     private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header,
-     TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes) {
+     TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes, ObjectMapperFactory objectMapperFactory) {
         this.mapSupplier = mapSupplier;
         this.header = header;
         this.serializers = serializers;
         this.acceptedTypes = acceptedTypes == null ? null : ImmutableSet.copyOf(acceptedTypes);
+        this.objectMapperFactory = objectMapperFactory;
     }
 
     /**
@@ -53,7 +57,7 @@ public class ConfigurationOptions {
      */
     public static ConfigurationOptions defaults() {
         return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null, TypeSerializers
-                .getDefaultSerializers(), null);
+                .getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance());
     }
 
     /**
@@ -74,7 +78,8 @@ public class ConfigurationOptions {
      */
     @SuppressWarnings("unchecked")
     public ConfigurationOptions setMapFactory(Supplier<ConcurrentMap<Object, ConfigurationNode>> factory) {
-        return new ConfigurationOptions((Supplier) factory, header, serializers, acceptedTypes);
+        Preconditions.checkNotNull(factory, "factory");
+        return new ConfigurationOptions((Supplier) factory, header, serializers, acceptedTypes, objectMapperFactory);
     }
 
     /**
@@ -92,7 +97,7 @@ public class ConfigurationOptions {
      * @return The map's header
      */
     public ConfigurationOptions setHeader(String header) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory);
     }
 
     public TypeSerializerCollection getSerializers() {
@@ -106,9 +111,35 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     public ConfigurationOptions setSerializers(TypeSerializerCollection serializers) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory);
     }
 
+    /**
+     * Get the current object mapper factory that is most appropriate to this configuration.
+     *
+     * @return The factory used to construct ObjectMapper instances
+     */
+    public ObjectMapperFactory getObjectMapperFactory() {
+        return this.objectMapperFactory;
+    }
+
+    /**
+     * Set the factory to use to produce object mapper instances for this configuration
+     *
+     * @param factory The factory to use to produce object mapper instances. Must not be null
+     * @return updated options object
+     */
+    public ConfigurationOptions setObjectMapperFactory(ObjectMapperFactory factory) {
+        Preconditions.checkNotNull(factory, "factory");
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, factory);
+    }
+
+    /**
+     * Return whether objects of the provided type are accepted as values for nodes with this as their options object.
+     *
+     * @param type The type to check
+     * @return Whether the type is accepted
+     */
     public boolean acceptsType(Class<?> type) {
         if (this.acceptedTypes == null) {
             return true;
@@ -132,7 +163,7 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     public ConfigurationOptions setAcceptedTypes(Set<Class<?>> acceptedTypes) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory);
     }
 
     @Override
