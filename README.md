@@ -25,7 +25,7 @@ The only dependency Configurate has is on Guava (check the pom for info on which
 
 Now, to load:
 ```java
-ConfigurationLoader loader = new YAMLConfigurationLoader(file); // Create the loader
+ConfigurationLoader loader = YAMLConfigurationLoader.builder().setFile(file); // Create the loader
 ConfigurationNode node = loader.load(); // Load the configuration into memory
 
 node.getNode("some", "value").getValue(); // Get the value
