@@ -58,4 +58,16 @@ public class GsonConfigurationLoaderTest {
         assertEquals(Resources.toString(url, UTF8_CHARSET), Files
                 .toString(tempFile, UTF8_CHARSET));
     }
+
+    @Test
+    public void testLoadingEmptyFile() throws IOException {
+        final File tempFile = folder.newFile();
+        tempFile.createNewFile();
+
+        ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder()
+                .setFile(tempFile)
+                .build();
+
+        loader.load();
+    }
 }

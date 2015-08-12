@@ -84,6 +84,11 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
 
     @Override
     protected void loadInternal(ConfigurationNode node, BufferedReader reader) throws IOException {
+        reader.mark(1);
+        if (reader.read() == -1) {
+            return;
+        }
+        reader.reset();
         try (JsonReader parser = new JsonReader(reader)) {
             parser.setLenient(lenient);
             parseValue(parser, node);
