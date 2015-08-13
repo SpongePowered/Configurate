@@ -40,14 +40,16 @@ public class ConfigurationOptions {
     private final TypeSerializerCollection serializers;
     private final ImmutableSet<Class<?>> acceptedTypes;
     private final ObjectMapperFactory objectMapperFactory;
+    private final boolean shouldCopyDefaults;
 
     private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header,
-     TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes, ObjectMapperFactory objectMapperFactory) {
+                                 TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes, ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
         this.mapSupplier = mapSupplier;
         this.header = header;
         this.serializers = serializers;
         this.acceptedTypes = acceptedTypes == null ? null : ImmutableSet.copyOf(acceptedTypes);
         this.objectMapperFactory = objectMapperFactory;
+        this.shouldCopyDefaults = shouldCopyDefaults;
     }
 
     /**
@@ -57,7 +59,7 @@ public class ConfigurationOptions {
      */
     public static ConfigurationOptions defaults() {
         return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null, TypeSerializers
-                .getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance());
+                .getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance(), false);
     }
 
     /**
@@ -79,7 +81,7 @@ public class ConfigurationOptions {
     @SuppressWarnings("unchecked")
     public ConfigurationOptions setMapFactory(Supplier<ConcurrentMap<Object, ConfigurationNode>> factory) {
         Preconditions.checkNotNull(factory, "factory");
-        return new ConfigurationOptions((Supplier) factory, header, serializers, acceptedTypes, objectMapperFactory);
+        return new ConfigurationOptions((Supplier) factory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
@@ -97,7 +99,7 @@ public class ConfigurationOptions {
      * @return The map's header
      */
     public ConfigurationOptions setHeader(String header) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     public TypeSerializerCollection getSerializers() {
@@ -111,7 +113,7 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     public ConfigurationOptions setSerializers(TypeSerializerCollection serializers) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
@@ -131,7 +133,7 @@ public class ConfigurationOptions {
      */
     public ConfigurationOptions setObjectMapperFactory(ObjectMapperFactory factory) {
         Preconditions.checkNotNull(factory, "factory");
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, factory);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, factory, shouldCopyDefaults);
     }
 
     /**
@@ -163,24 +165,44 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     public ConfigurationOptions setAcceptedTypes(Set<Class<?>> acceptedTypes) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory);
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    }
+
+    /**
+     * Return whether or not default parameters provided to {@link ConfigurationNode} getter methods should be set to the node when used.
+     *
+     * @return Whether defaults should be copied into value
+     */
+    public boolean shouldCopyDefaults() {
+        return shouldCopyDefaults;
+    }
+
+    /**
+     * Set whether defaults should be set when used.
+     *
+     * @see #shouldCopyDefaults() for information on what this method does
+     * @param shouldCopyDefaults whether to copy defaults
+     * @return updated options object
+     */
+    public ConfigurationOptions setShouldCopyDefaults(boolean shouldCopyDefaults) {
+        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof ConfigurationOptions)) return false;
         ConfigurationOptions that = (ConfigurationOptions) o;
-        return Objects.equal(mapSupplier, that.mapSupplier) &&
-                Objects.equal(header, that.header);
+        return Objects.equal(shouldCopyDefaults, that.shouldCopyDefaults) &&
+                Objects.equal(mapSupplier, that.mapSupplier) &&
+                Objects.equal(header, that.header) &&
+                Objects.equal(serializers, that.serializers) &&
+                Objects.equal(acceptedTypes, that.acceptedTypes) &&
+                Objects.equal(objectMapperFactory, that.objectMapperFactory);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mapSupplier, header);
+        return Objects.hashCode(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 }

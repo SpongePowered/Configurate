@@ -79,7 +79,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public Object getValue(Object def) {
         Object ret = getValue();
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (def != null && getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     // {{{ Typed values
@@ -92,7 +99,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public <T> T getValue(Function<Object, T> transformer, T def) {
         T ret = transformer.apply(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (def != null && getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     @Override
@@ -129,7 +143,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public <T> List<T> getList(TypeToken<T> type, List<T> def) throws ObjectMappingException {
-        List<T> ret = getValue(new TypeToken<List<T>>() {}.where(new TypeParameter<T>() {}, type), def);
+        List<T> ret = getValue(new TypeToken<List<T>>() {}
+                .where(new TypeParameter<T>() {}, type), def);
         return ret.isEmpty() ? def : ret;
     }
 
@@ -141,7 +156,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public String getString(String def) {
         final String ret = Types.asString(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (def != null && getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     @Override
@@ -152,7 +174,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public float getFloat(float def) {
         final Float ret = Types.asFloat(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     @Override
@@ -163,7 +192,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public double getDouble(double def) {
         final Double ret = Types.asDouble(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     @Override
@@ -174,7 +210,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public int getInt(int def) {
         final Integer ret = Types.asInt(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     @Override
@@ -185,7 +228,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public long getLong(long def) {
         final Long ret = Types.asLong(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+            if (getOptions().shouldCopyDefaults()) {
+                setValue(def);
+            }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     @Override
@@ -196,7 +246,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Override
     public boolean getBoolean(boolean def) {
         final Boolean ret = Types.asBoolean(getValue());
-        return ret == null ? def : ret;
+        if (ret == null) {
+           if (getOptions().shouldCopyDefaults()) {
+               setValue(def);
+           }
+            return def;
+        } else {
+            return ret;
+        }
     }
 
     // }}}
@@ -261,6 +318,9 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException {
         Object value = getValue();
         if (value == null) {
+            if (def != null && getOptions().shouldCopyDefaults()) {
+                setValue(type, def);
+            }
             return def;
         }
         TypeSerializer serial = getOptions().getSerializers().get(type);
@@ -268,6 +328,9 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             if (type.getRawType().isInstance(value)) {
                 return (T) type.getRawType().cast(value);
             } else {
+                if (def != null && getOptions().shouldCopyDefaults()) {
+                    setValue(type, def);
+                }
                 return def;
             }
         }
