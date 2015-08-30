@@ -44,6 +44,9 @@ class MapConfigValue extends ConfigValue {
         if (value instanceof Map) {
             final ConcurrentMap<Object, SimpleConfigurationNode> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
+                if (ent.getValue() == null) {
+                    continue;
+                }
                 SimpleConfigurationNode child = holder.createNode(ent.getKey());
                 newValue.put(ent.getKey(), child);
                 child.attached = true;

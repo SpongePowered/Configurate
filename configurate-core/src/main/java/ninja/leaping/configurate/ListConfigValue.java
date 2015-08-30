@@ -64,6 +64,9 @@ class ListConfigValue extends ConfigValue {
         final List<SimpleConfigurationNode> newValue = new ArrayList<>(valueList.size());
         int count = 0;
         for (Object o : valueList) {
+            if (o == null) {
+                continue;
+            }
             SimpleConfigurationNode child = holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
