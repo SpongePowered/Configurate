@@ -1,6 +1,11 @@
 Changelog
 ========
 
+2.1
+---
+- gson: Fix GsonConfigurationLoader's handling of empty files
+- core: Add a new field to ConfigurationOptions that allows default values used to be set to the config if no value is present.
+
 2.0
 ---
 - [BREAKING] core: Refactor TypeSerializer to use registry, be more specific about how registries are handled
