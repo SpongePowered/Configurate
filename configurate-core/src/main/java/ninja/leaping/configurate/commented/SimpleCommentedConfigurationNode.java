@@ -16,12 +16,11 @@
  */
 package ninja.leaping.configurate.commented;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -47,7 +46,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
 
     @Override
     public Optional<String> getComment() {
-        return Optional.fromNullable(comment.get());
+        return Optional.ofNullable(comment.get());
     }
 
     @Override

@@ -31,7 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Base class for many stream-based configuration loaders. This class provides conversion from a variety of input
@@ -42,11 +42,7 @@ import java.nio.charset.Charset;
  */
 public abstract class AbstractConfigurationLoader<NodeType extends ConfigurationNode> implements ConfigurationLoader<NodeType> {
     protected static final Splitter LINE_SPLITTER = Splitter.on('\n');
-    protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    public static final Charset UTF8_CHARSET = Charset.forName("utf-8");
-    static {
-        assert UTF8_CHARSET != null; // If it is, there is a serious problem w/ this user's jdk installation
-    }
+    protected static final String LINE_SEPARATOR = System.lineSeparator();
     protected final CharSource source;
     private final CharSink sink;
     private final CommentHandler[] commentHandlers;
@@ -63,13 +59,13 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
 
         public T setFile(File file) {
-            this.source = Files.asCharSource(file, UTF8_CHARSET);
-            this.sink = AtomicFiles.asCharSink(file, UTF8_CHARSET);
+            this.source = Files.asCharSource(file, StandardCharsets.UTF_8);
+            this.sink = AtomicFiles.asCharSink(file, StandardCharsets.UTF_8);
             return self();
         }
 
         public T setURL(URL url) {
-            this.source = Resources.asCharSource(url, UTF8_CHARSET);
+            this.source = Resources.asCharSource(url, StandardCharsets.UTF_8);
             return self();
         }
 

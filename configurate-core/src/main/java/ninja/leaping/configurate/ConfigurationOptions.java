@@ -18,7 +18,6 @@ package ninja.leaping.configurate;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.DefaultObjectMapperFactory;
@@ -29,6 +28,7 @@ import ninja.leaping.configurate.util.MapFactories;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Supplier;
 
 /**
  * This object is a holder for general configuration options. This is meant to hold options

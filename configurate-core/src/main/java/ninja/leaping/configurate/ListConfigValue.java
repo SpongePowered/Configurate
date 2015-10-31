@@ -31,12 +31,12 @@ class ListConfigValue extends ConfigValue {
 
     ListConfigValue(SimpleConfigurationNode holder) {
         super(holder);
-        values.set(new ArrayList<SimpleConfigurationNode>());
+        values.set(new ArrayList<>());
     }
 
     ListConfigValue(SimpleConfigurationNode holder, Object startValue) {
         super(holder);
-        this.values.set(new ArrayList<SimpleConfigurationNode>());
+        this.values.set(new ArrayList<>());
         SimpleConfigurationNode child = holder.createNode(0);
         child.attached = true;
         child.setValue(startValue);
@@ -152,7 +152,7 @@ class ListConfigValue extends ConfigValue {
 
     @Override
     public void clear() {
-        List<SimpleConfigurationNode> oldValues = values.getAndSet(new ArrayList<SimpleConfigurationNode>());
+        List<SimpleConfigurationNode> oldValues = values.getAndSet(new ArrayList<>());
         detachNodes(oldValues);
     }
 

@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.hocon;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -40,6 +39,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 
@@ -178,9 +178,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     // -- Comment handling -- this might have to be updated as the hocon dep changes (But tests should detect this
     // breakage
     private static final Class<? extends ConfigValue> VALUE_CLASS;
-    private static final Class<? extends ConfigOrigin> ORIGIN_CLASS;
     private static final Field VALUE_ORIGIN;
-    private static final Method ORIGIN_SET_COMMENTS;
     static {
         try {
             VALUE_CLASS = Class.forName("com.typesafe.config.impl.AbstractConfigValue").asSubclass(ConfigValue.class);
@@ -188,15 +186,10 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
             throw new ExceptionInInitializerError(e);
         }
 
-        ORIGIN_CLASS = ConfigValueFactory.fromAnyRef("a").origin().getClass();
         try {
             VALUE_ORIGIN = VALUE_CLASS.getDeclaredField("origin");
-            ORIGIN_SET_COMMENTS = ORIGIN_CLASS.getDeclaredMethod("setComments", List.class);
             VALUE_ORIGIN.setAccessible(true);
-            ORIGIN_SET_COMMENTS.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            throw new ExceptionInInitializerError(e);
-        } catch (NoSuchMethodException e) {
             throw new ExceptionInInitializerError(e);
         }
 
@@ -211,11 +204,9 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
             return value;
         }
         try {
-            Object o = ORIGIN_SET_COMMENTS.invoke(value.origin(), ImmutableList.copyOf(LINE_SPLITTER.split(comment.get())));
-            VALUE_ORIGIN.set(value, o);
+
+            VALUE_ORIGIN.set(value, value.origin().withComments(ImmutableList.copyOf(LINE_SPLITTER.split(comment.get()))));
         } catch (IllegalAccessException e) {
-            throw new IOException("Unable to set comments for config value" + value);
-        } catch (InvocationTargetException e) {
             throw new IOException("Unable to set comments for config value" + value);
         }
         return value;

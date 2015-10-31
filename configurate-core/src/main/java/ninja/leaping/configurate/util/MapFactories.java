@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.util;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -29,6 +28,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.Supplier;
 
 /**
  * Factories to create map implementations commonly used for maps

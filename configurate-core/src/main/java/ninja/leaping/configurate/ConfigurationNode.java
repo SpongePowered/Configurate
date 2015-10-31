@@ -16,12 +16,12 @@
  */
 package ninja.leaping.configurate;
 
-import com.google.common.base.Function;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * A node in the configuration tree. This is more or less the main class of configurate, providing the methods to
@@ -34,7 +34,7 @@ public interface ConfigurationNode {
      *
      * @return The key for this node
      */
-    public Object getKey();
+    Object getKey();
 
     /**
      * The full path from the root to this node.
@@ -43,21 +43,21 @@ public interface ConfigurationNode {
      *
      * @return An array compiled from the keys for each node up the hierarchy
      */
-    public Object[] getPath();
+    Object[] getPath();
 
     /**
      * Returns the current parent for this node.
      * If this node is currently virtual, this method's result may be inaccurate.
      * @return The appropriate parent
      */
-    public ConfigurationNode getParent();
+    ConfigurationNode getParent();
 
     /**
      * Return the options that currently apply to this node
      *
      * @return The ConfigurationOptions instance that governs the functionality of this node
      */
-    public ConfigurationOptions getOptions();
+    ConfigurationOptions getOptions();
 
     /**
      * Get the current value associated with this node.
@@ -66,7 +66,7 @@ public interface ConfigurationNode {
      * @see #getValue(Object)
      * @return This configuration's current value, or null if there is none
      */
-    public Object getValue();
+    Object getValue();
 
     /**
      * Get the current value associated with this node.
@@ -75,7 +75,7 @@ public interface ConfigurationNode {
      * @param def The default value to return if this node has no set value
      * @return This configuration's current value, or {@code def} if there is none
      */
-    public Object getValue(Object def);
+    Object getValue(Object def);
 
     /**
      * Gets the appropriately transformed typed version of this node's value from the provided transformation function
@@ -85,7 +85,7 @@ public interface ConfigurationNode {
      * @return A transformed value of the correct type, or null either if no value is present or the value could not
      * be converted
      */
-    public <T> T getValue(Function<Object, T> transformer);
+    <T> T getValue(Function<Object, T> transformer);
 
     /**
      * Gets the appropriately transformed typed version of this node's value from the provided transformation function
@@ -96,7 +96,7 @@ public interface ConfigurationNode {
      * @return A transformed value of the correct type, or {@code def} either if no value is present or the value
      * could not be converted
      */
-    public <T> T getValue(Function<Object, T> transformer, T def);
+    <T> T getValue(Function<Object, T> transformer, T def);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
@@ -107,7 +107,7 @@ public interface ConfigurationNode {
      * @param <T> The expected type
      * @return An immutable copy of the values contained
      */
-    public <T> List<T> getList(Function<Object, T> transformer);
+    <T> List<T> getList(Function<Object, T> transformer);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
@@ -120,7 +120,7 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    public <T> List<T> getList(Function<Object, T> transformer, List<T> def);
+    <T> List<T> getList(Function<Object, T> transformer, List<T> def);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
@@ -152,7 +152,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, null if no appropriate value is available
      */
-    public String getString();
+    String getString();
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -161,7 +161,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    public String getString(String def);
+    String getString(String def);
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -169,7 +169,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
      */
-    public float getFloat();
+    float getFloat();
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -178,7 +178,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    public float getFloat(float def);
+    float getFloat(float def);
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -186,7 +186,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
      */
-    public double getDouble();
+    double getDouble();
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -195,7 +195,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    public double getDouble(double def);
+    double getDouble(double def);
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -203,7 +203,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
      */
-    public int getInt();
+    int getInt();
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -212,7 +212,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    public int getInt(int def);
+    int getInt(int def);
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -220,7 +220,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
      */
-    public long getLong();
+    long getLong();
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -229,7 +229,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    public long getLong(long def);
+    long getLong(long def);
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -237,7 +237,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
      */
-    public boolean getBoolean();
+    boolean getBoolean();
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -246,7 +246,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    public boolean getBoolean(boolean def);
+    boolean getBoolean(boolean def);
 
     /**
      * Set this node's value to the given value.
@@ -256,7 +256,7 @@ public interface ConfigurationNode {
      * @param value The value to set
      * @return this
      */
-    public ConfigurationNode setValue(Object value);
+    ConfigurationNode setValue(Object value);
 
     /**
      * Get the current value associated with this node.
@@ -267,7 +267,7 @@ public interface ConfigurationNode {
      * @param <T> the type to get
      * @return the value if present and of the proper type, else null
      */
-    public <T> T getValue(TypeToken<T> type) throws ObjectMappingException;
+    <T> T getValue(TypeToken<T> type) throws ObjectMappingException;
     /**
      * Get the current value associated with this node.
      * If this node has children, this method will recursively unwrap them to construct a List or a Map.
@@ -278,7 +278,7 @@ public interface ConfigurationNode {
      * @param <T> the type to get
      * @return the value if of the proper type, else {@code def}
      */
-    public <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException;
+    <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
@@ -291,7 +291,7 @@ public interface ConfigurationNode {
      * @param <T> The type to serialize to
      * @return this
      */
-    public <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException;
+    <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException;
 
     /**
      * Set all the values from the given node that are not present in this node
@@ -302,31 +302,31 @@ public interface ConfigurationNode {
      * @param other The node to merge values from
      * @return this
      */
-    public ConfigurationNode mergeValuesFrom(ConfigurationNode other);
+    ConfigurationNode mergeValuesFrom(ConfigurationNode other);
 
     /**
      * @return if this node has children in the form of a list
      */
-    public boolean hasListChildren();
+    boolean hasListChildren();
 
     /**
      * @return if this node has children in the form of a map
      */
-    public boolean hasMapChildren();
+    boolean hasMapChildren();
 
     /**
      * Return an immutable copy of the list of children this node is aware of
      *
      * @return The children currently attached to this node
      */
-    public List<? extends ConfigurationNode> getChildrenList();
+    List<? extends ConfigurationNode> getChildrenList();
 
     /**
      * Return an immutable copy of the mapping from key to node of every child this node is aware of
      *
      * @return Child nodes currently attached
      */
-    public Map<Object, ? extends ConfigurationNode> getChildrenMap();
+    Map<Object, ? extends ConfigurationNode> getChildrenMap();
 
     /**
      * Removes a direct child of this node
@@ -334,12 +334,12 @@ public interface ConfigurationNode {
      * @param key The key of the node to remove
      * @return if an actual node was removed
      */
-    public boolean removeChild(Object key);
+    boolean removeChild(Object key);
 
     /**
      * @return a new child created as the next entry in the list when it is attached
      */
-    public ConfigurationNode getAppendedNode();
+    ConfigurationNode getAppendedNode();
 
 
     /**
@@ -348,12 +348,12 @@ public interface ConfigurationNode {
      * @param path The path to fetch the node at
      * @return The node at the given path, possibly virtual
      */
-    public ConfigurationNode getNode(Object... path);
+    ConfigurationNode getNode(Object... path);
 
     /**
      * Whether this node does not currently exist in the configuration structure.
      *
      * @return true if this node is not attached (this occurs primarily when the node has no set value)
      */
-    public boolean isVirtual();
+    boolean isVirtual();
 }

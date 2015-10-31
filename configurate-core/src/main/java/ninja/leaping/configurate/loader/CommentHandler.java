@@ -16,7 +16,7 @@
  */
 package ninja.leaping.configurate.loader;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import java.io.BufferedReader;
 import java.io.IOException;

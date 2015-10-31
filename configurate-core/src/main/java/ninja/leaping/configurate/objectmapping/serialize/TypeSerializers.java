@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.objectmapping.serialize;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 
@@ -51,18 +50,12 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(URI.class), new URISerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(URL.class), new URLSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(UUID.class), new UUIDSerializer());
-        DEFAULT_SERIALIZERS.registerPredicate(new Predicate<TypeToken<Object>>() {
-            @Override
-            public boolean apply(TypeToken<Object> input) {
-                return input.getRawType().isAnnotationPresent(ConfigSerializable.class);
-            }
-        }, new AnnotatedObjectSerializer());
+        DEFAULT_SERIALIZERS.registerPredicate(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Number.class), new NumberSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(String.class), new StringSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Boolean.class), new BooleanSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Map<?, ?>>() {}, new MapSerializer());
-        DEFAULT_SERIALIZERS.registerType(new TypeToken<List<?>>() {
-        }, new ListSerializer());
+        DEFAULT_SERIALIZERS.registerType(new TypeToken<List<?>>() {}, new ListSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Enum<?>>() {}, new EnumValueSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Pattern.class), new PatternSerializer());
     }

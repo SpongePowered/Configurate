@@ -16,7 +16,7 @@
  */
 package ninja.leaping.configurate.commented;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.List;
@@ -31,28 +31,28 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
      *
      * @return the configuration's current comment
      */
-    public Optional<String> getComment();
+    Optional<String> getComment();
 
     /**
      * Sets the comment for this configuration.
      * @param comment The comment to set. Line breaks should be represented as LFs (\n)
      * @return this
      */
-    public CommentedConfigurationNode setComment(String comment);
+    CommentedConfigurationNode setComment(String comment);
 
     // Methods from superclass overridden to have correct return types
 
-    public CommentedConfigurationNode getParent();
+    CommentedConfigurationNode getParent();
     @Override
-    public List<? extends CommentedConfigurationNode> getChildrenList();
+    List<? extends CommentedConfigurationNode> getChildrenList();
     @Override
-    public Map<Object, ? extends CommentedConfigurationNode> getChildrenMap();
+    Map<Object, ? extends CommentedConfigurationNode> getChildrenMap();
     @Override
-    public CommentedConfigurationNode setValue(Object value);
+    CommentedConfigurationNode setValue(Object value);
     @Override
-    public CommentedConfigurationNode mergeValuesFrom(ConfigurationNode other);
+    CommentedConfigurationNode mergeValuesFrom(ConfigurationNode other);
     @Override
-    public CommentedConfigurationNode getAppendedNode();
+    CommentedConfigurationNode getAppendedNode();
     @Override
-    public CommentedConfigurationNode getNode(Object... path);
+    CommentedConfigurationNode getNode(Object... path);
 }

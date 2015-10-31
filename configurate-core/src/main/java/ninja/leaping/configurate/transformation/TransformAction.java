@@ -21,6 +21,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 /**
  * Represents an action to be performed that transforms a node in the configuration tree
  */
+@FunctionalInterface
 public interface TransformAction {
     /**
      * Called at a certain path, with the node at that path
@@ -28,5 +29,5 @@ public interface TransformAction {
      * @param valueAtPath The node at the input path. May be modified
      * @return A modified path, or null if the path is to stay the same
      */
-    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath);
+    Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath);
 }

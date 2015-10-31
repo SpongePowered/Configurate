@@ -16,8 +16,6 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
-import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
-
 /**
  * Exception thrown on errors encountered while mapping objects
  */
@@ -38,7 +36,6 @@ public class ObjectMappingException extends Exception {
         super(cause);
     }
 
-    @IgnoreJRERequirement
     protected ObjectMappingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }

@@ -50,7 +50,7 @@ public class HoconConfigurationLoaderTest {
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         CommentedConfigurationNode testNode = node.getNode("test");
-        assertEquals(" Test node", testNode.getComment().orNull());
+        assertEquals(" Test node", testNode.getComment().orElse(null));
         assertEquals("dog park", node.getNode("other", "location").getValue());
         loader.save(node);
         assertEquals(Resources.toString(getClass().getResource("/roundtrip-test.conf"), UTF8_CHARSET), Files

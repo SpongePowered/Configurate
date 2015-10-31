@@ -17,7 +17,7 @@
 package ninja.leaping.configurate.loader;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.google.common.collect.Collections2;
 
 import java.io.BufferedReader;
@@ -40,10 +40,10 @@ public enum CommentHandlers implements CommentHandler {
             final StringBuilder build = new StringBuilder();
             String line = reader.readLine();
             if (line == null) {
-                return Optional.absent();
+                return Optional.empty();
             }
             if (!line.trim().startsWith("/*")) {
-                return Optional.absent();
+                return Optional.empty();
             }
             line = line.substring(line.indexOf("/*") + 2);
             if (handleSingleLine(build, line)) {
@@ -55,13 +55,13 @@ public enum CommentHandlers implements CommentHandler {
             }
             line = reader.readLine();
             if (!(line == null || line.trim().isEmpty())) { // Require a blank line after a comment to make it a header
-                return Optional.absent();
+                return Optional.empty();
             }
 
             if (build.length() > 0) {
                 return Optional.of(build.toString());
             } else {
-                return Optional.absent();
+                return Optional.empty();
             }
         }
 
@@ -146,12 +146,12 @@ public enum CommentHandlers implements CommentHandler {
                 if (line.trim().isEmpty()) {
                     break;
                 } else {
-                    return Optional.absent();
+                    return Optional.empty();
                 }
             }
         }
         // We've reached the end of the document?
-        return build.length() > 0 ? Optional.fromNullable(build.toString()) : Optional.<String>absent();
+        return build.length() > 0 ? Optional.ofNullable(build.toString()) : Optional.<String>empty();
     }
 
     @Override

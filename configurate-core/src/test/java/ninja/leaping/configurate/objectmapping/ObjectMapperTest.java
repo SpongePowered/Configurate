@@ -90,7 +90,7 @@ public class ObjectMapperTest {
         obj.color = "fuchsia";
         obj.politician = "All of them";
         mapper.serialize(node);
-        assertEquals("You look nice today", node.getNode("commented-key").getComment().orNull());
+        assertEquals("You look nice today", node.getNode("commented-key").getComment().orElse(null));
         assertEquals("fuchsia", node.getNode("commented-key").getString());
         assertFalse(node.getNode("no-comment").getComment().isPresent());
     }

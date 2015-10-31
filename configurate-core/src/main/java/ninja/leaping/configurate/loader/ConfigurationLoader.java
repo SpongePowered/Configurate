@@ -31,7 +31,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      * @return The newly constructed node
      * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
      */
-    public NodeType load() throws IOException;
+    NodeType load() throws IOException;
 
     /**
      * Create a new configuration node populated with the appropriate data, structured with the provided options
@@ -40,7 +40,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      * @return The newly constructed node
      * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
      */
-    public NodeType load(ConfigurationOptions options) throws IOException;
+    NodeType load(ConfigurationOptions options) throws IOException;
 
     /**
      * Save the contents of the given node tree to
@@ -48,7 +48,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      * @param node The node a save is being requested for
      * @throws java.io.IOException if any sort of error occurs with writing or generating the configuration
      */
-    public void save(ConfigurationNode node) throws IOException;
+    void save(ConfigurationNode node) throws IOException;
 
     /**
      * Return an empty node of the most appropriate type for this loader
@@ -56,5 +56,5 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      * @param options The options to use with this node. Must not be null (take a look at {@link ConfigurationOptions#defaults()})
      * @return The appropriate node type
      */
-    public NodeType createEmptyNode(ConfigurationOptions options);
+    NodeType createEmptyNode(ConfigurationOptions options);
 }

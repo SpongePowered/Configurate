@@ -17,7 +17,7 @@
 package ninja.leaping.configurate.loader;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import org.junit.Test;
 
 import java.io.BufferedReader;

@@ -36,7 +36,7 @@ public class SimpleCommentedConfigurationNodeTest {
 
         secondChild.setValue(firstChild);
         assertEquals("test value", secondChild.getValue());
-        assertEquals("Such comment. Very wow.", secondChild.getComment().orNull());
+        assertEquals("Such comment. Very wow.", secondChild.getComment().orElse(null));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class SimpleCommentedConfigurationNodeTest {
 
         secondChild.setValue(firstChild);
         assertEquals("test value", secondChild.getNode("child").getValue());
-        assertEquals("Such comment. Very wow.", secondChild.getNode("child").getComment().orNull());
+        assertEquals("Such comment. Very wow.", secondChild.getNode("child").getComment().orElse(null));
 
     }
 
@@ -72,10 +72,10 @@ public class SimpleCommentedConfigurationNodeTest {
         target.getNode("existing-value").setValue("b").setComment("nope");
 
         target.mergeValuesFrom(source);
-        assertEquals("yeah", target.getNode("no-value").getComment().orNull());
-        assertEquals("maybe", target.getNode("existing-value-no-comment").getComment().orNull());
+        assertEquals("yeah", target.getNode("no-value").getComment().orElse(null));
+        assertEquals("maybe", target.getNode("existing-value-no-comment").getComment().orElse(null));
         assertEquals("new", target.getNode("existing-value-no-comment").getString());
-        assertEquals("nope", target.getNode("existing-value").getComment().orNull());
-        assertEquals("always", target.getNode("no-parent", "child").getComment().orNull());
+        assertEquals("nope", target.getNode("existing-value").getComment().orElse(null));
+        assertEquals("always", target.getNode("no-parent", "child").getComment().orElse(null));
     }
 }

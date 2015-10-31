@@ -39,46 +39,10 @@
             <version>17.0</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>animal-sniffer-annotations</artifactId>
-            <version>1.14</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>4.0</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jboss.seven2six</groupId>
-                <artifactId>seven2six</artifactId>
-                <version>1.1.Final</version>
-                <executions>
-                    <!-- run after "compile", lets your artifact work on 1.6 -->
-                    <execution>
-                        <id>weave</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>transform</goal>
-                        </goals>
-                    </execution>
-                    <!-- run after "test-compile", lets you run your tests on 1.6 -->
-                    <execution>
-                        <id>weave-tests</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>transform</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

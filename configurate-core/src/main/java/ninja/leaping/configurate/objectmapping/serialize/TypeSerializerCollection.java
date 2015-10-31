@@ -17,11 +17,11 @@
 package ninja.leaping.configurate.objectmapping.serialize;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
 import com.google.common.reflect.TypeToken;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 /**
  * A calculated collection of {@link TypeSerializer}s
@@ -52,7 +52,7 @@ public class TypeSerializerCollection {
 
         if (serial == null) {
             for (Map.Entry<Predicate<TypeToken<?>>, TypeSerializer<?>> ent : functionMatches.entrySet()) {
-                if (ent.getKey().apply(type)) {
+                if (ent.getKey().test(type)) {
                     serial = ent.getValue();
                     typeMatches.put(type, serial);
                     break;
