@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.hocon;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharSink;
@@ -34,12 +33,11 @@ import ninja.leaping.configurate.loader.CommentHandlers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Field;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 
@@ -140,10 +138,55 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
                 throw new IOException("HOCON cannot write nodes not in map format!");
             }
         }
-        final ConfigValue value = ConfigValueFactory.fromAnyRef(node.getValue(), "configurate-hocon");
-        traverseForComments(value, node);
+        final ConfigValue value = fromValue(node);
         final String renderedValue = value.render(render);
         writer.write(renderedValue);
+    }
+
+    private static final ConfigOrigin CONFIGURATE_ORIGIN = ConfigOriginFactory.newSimple("configurate-hocon");
+
+    private ConfigValue fromValue(ConfigurationNode node) {
+        ConfigValue ret;
+        if (node.hasMapChildren()) {
+            Map<String, ConfigValue> children = node.getOptions().getMapFactory().create();
+            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
+                children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));
+            }
+            ret = newConfigObject(children);
+        } else if (node.hasListChildren()) {
+            List<ConfigValue> children = new ArrayList<>();
+            for (ConfigurationNode ent : node.getChildrenList()) {
+                children.add(fromValue(ent));
+            }
+            ret = newConfigList(children);
+
+        } else {
+            ret = ConfigValueFactory.fromAnyRef(node.getValue(), "configurate-hocon");
+        }
+        if (node instanceof CommentedConfigurationNode) {
+            CommentedConfigurationNode commentedNode = ((CommentedConfigurationNode) node);
+            final ConfigValue finalRet = ret;
+            ret = commentedNode.getComment().map(comment -> finalRet.withOrigin(finalRet.origin().withComments(LINE_SPLITTER.splitToList(comment)))).orElse(ret);
+        }
+        return ret;
+    }
+
+    ConfigValue newConfigObject(Map<String, ConfigValue> vals) {
+        try {
+            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e); // Again,rethrow
+        }
+
+    }
+
+    ConfigValue newConfigList(List<ConfigValue> vals) {
+        try {
+            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e); // Should be rethrown
+        }
+
     }
 
 
@@ -154,61 +197,27 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         return SimpleCommentedConfigurationNode.root(options);
     }
 
-    private void traverseForComments(ConfigValue value, ConfigurationNode node) throws IOException {
-        potentialComment(value, node);
-        switch (value.valueType()) {
-            case OBJECT:
-                for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-                    ConfigValue child = ((ConfigObject) value).get(ent.getKey().toString());
-                    if (child != null) { // Accept the fact that nodes may disappear after the initial config value
-                    // is generated
-                        traverseForComments(child, ent.getValue());
-                    }
-                }
-                break;
-            case LIST:
-                List<? extends ConfigurationNode> nodes = node.getChildrenList();
-                for (int i = 0; i < nodes.size(); ++i) {
-                    traverseForComments(((ConfigList) value).get(i), nodes.get(i));
-                }
-                break;
-        }
-    }
-
     // -- Comment handling -- this might have to be updated as the hocon dep changes (But tests should detect this
     // breakage
-    private static final Class<? extends ConfigValue> VALUE_CLASS;
-    private static final Field VALUE_ORIGIN;
+    private static final Constructor<? extends ConfigValue> CONFIG_OBJECT_CONSTRUCTOR;
+    private static final Constructor<? extends ConfigValue> CONFIG_LIST_CONSTRUCTOR;
     static {
+        Class<? extends ConfigValue> objectClass, listClass;
         try {
-            VALUE_CLASS = Class.forName("com.typesafe.config.impl.AbstractConfigValue").asSubclass(ConfigValue.class);
+            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);
+            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);
         } catch (ClassNotFoundException e) {
             throw new ExceptionInInitializerError(e);
         }
 
         try {
-            VALUE_ORIGIN = VALUE_CLASS.getDeclaredField("origin");
-            VALUE_ORIGIN.setAccessible(true);
-        } catch (NoSuchFieldException e) {
+            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);
+            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);
+            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);
+            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);
+        } catch (NoSuchMethodException e) {
             throw new ExceptionInInitializerError(e);
         }
 
-    }
-    private ConfigValue potentialComment(ConfigValue value, ConfigurationNode node) throws IOException {
-        if (!(node instanceof CommentedConfigurationNode)) {
-            return value;
-        }
-        CommentedConfigurationNode commentedNode = (CommentedConfigurationNode) node;
-        Optional<String> comment = commentedNode.getComment();
-        if (!comment.isPresent()) {
-            return value;
-        }
-        try {
-
-            VALUE_ORIGIN.set(value, value.origin().withComments(ImmutableList.copyOf(LINE_SPLITTER.split(comment.get()))));
-        } catch (IllegalAccessException e) {
-            throw new IOException("Unable to set comments for config value" + value);
-        }
-        return value;
     }
 }

@@ -16,8 +16,12 @@
  */
 package ninja.leaping.configurate.hocon;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
+import com.typesafe.config.ConfigValue;
+import com.typesafe.config.ConfigValueFactory;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AtomicFiles;
@@ -28,9 +32,11 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
-import static ninja.leaping.configurate.loader.AbstractConfigurationLoader.UTF8_CHARSET;
 
 /**
  * Basic sanity checks for the loader
@@ -44,8 +50,8 @@ public class HoconConfigurationLoaderTest {
         final File saveTest = folder.newFile();
 
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setSource(Resources.asCharSource(url, UTF8_CHARSET))
-                .setSink(AtomicFiles.asCharSink(saveTest, UTF8_CHARSET)).build();
+                .setSource(Resources.asCharSource(url, UTF_8))
+                .setSink(AtomicFiles.asCharSink(saveTest, UTF_8)).build();
         CommentedConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
@@ -53,8 +59,8 @@ public class HoconConfigurationLoaderTest {
         assertEquals(" Test node", testNode.getComment().orElse(null));
         assertEquals("dog park", node.getNode("other", "location").getValue());
         loader.save(node);
-        assertEquals(Resources.toString(getClass().getResource("/roundtrip-test.conf"), UTF8_CHARSET), Files
-                .toString(saveTest, UTF8_CHARSET));
+        assertEquals(Resources.toString(getClass().getResource("/roundtrip-test.conf"), UTF_8), Files
+                .toString(saveTest, UTF_8));
     }
 
     @Test
@@ -68,7 +74,7 @@ public class HoconConfigurationLoaderTest {
         System.out.println(node.getOptions().getHeader());
         loader.save(node);
 
-        assertEquals(Resources.toString(getClass().getResource("/splitline-comment-output.conf"), UTF8_CHARSET), Files.toString(saveTo, UTF8_CHARSET));
+        assertEquals(Resources.toString(getClass().getResource("/splitline-comment-output.conf"), UTF_8), Files.toString(saveTo, UTF_8));
     }
 
     @Test
@@ -82,7 +88,7 @@ public class HoconConfigurationLoaderTest {
         node.getNode("node").setComment("I have a comment").getNode("party").setValue("now");
 
         loader.save(node);
-        assertEquals(Resources.toString(getClass().getResource("/header.conf"), UTF8_CHARSET), Files.toString(saveTo, UTF8_CHARSET));
+        assertEquals(Resources.toString(getClass().getResource("/header.conf"), UTF_8), Files.toString(saveTo, UTF_8));
 
     }
 
@@ -100,6 +106,22 @@ public class HoconConfigurationLoaderTest {
         node.getNode("test", "guacamole").setValue(true).setComment("and chips?");
 
         loader.save(node);
-        assertEquals(Resources.toString(url, UTF8_CHARSET), Files.toString(saveTo, UTF8_CHARSET));
+        assertEquals(Resources.toString(url, UTF_8), Files.toString(saveTo, UTF_8));
+    }
+
+    @Test
+    public void testNewConfigObject() {
+        HoconConfigurationLoader subject = HoconConfigurationLoader.builder().build();
+
+        Map<String, ConfigValue> entries = ImmutableMap.of("a", ConfigValueFactory.fromAnyRef("hi"), "b", ConfigValueFactory.fromAnyRef("bye"));
+        subject.newConfigObject(entries);
+    }
+
+    @Test
+    public void testNewConfigList() {
+        HoconConfigurationLoader subject = HoconConfigurationLoader.builder().build();
+
+        List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
+        subject.newConfigList(entries);
     }
 }

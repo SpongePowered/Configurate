@@ -31,8 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
-import static ninja.leaping.configurate.loader.AbstractConfigurationLoader.UTF8_CHARSET;
 
 /**
  * Basic sanity checks for the loader
@@ -46,8 +46,8 @@ public class GsonConfigurationLoaderTest {
         URL url = getClass().getResource("/example.json");
         final File tempFile = folder.newFile();
         ConfigurationLoader loader = GsonConfigurationLoader.builder()
-                .setSource(Resources.asCharSource(url, UTF8_CHARSET))
-                .setSink(AtomicFiles.asCharSink(tempFile, UTF8_CHARSET)).setLenient(true).build();
+                .setSource(Resources.asCharSource(url, UTF_8))
+                .setSink(AtomicFiles.asCharSink(tempFile, UTF_8)).setLenient(true).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
@@ -55,8 +55,8 @@ public class GsonConfigurationLoaderTest {
         assertTrue(node.getNode("int-val").getValue() instanceof Integer);
         assertTrue(node.getNode("double-val").getValue() instanceof Double);
         loader.save(node);
-        assertEquals(Resources.toString(url, UTF8_CHARSET), Files
-                .toString(tempFile, UTF8_CHARSET));
+        assertEquals(Resources.toString(url, UTF_8), Files
+                .toString(tempFile, UTF_8));
     }
 
     @Test

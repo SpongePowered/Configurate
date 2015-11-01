@@ -18,7 +18,6 @@ package ninja.leaping.configurate.util;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
-import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -28,7 +27,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.function.Supplier;
 
 /**
  * Factories to create map implementations commonly used for maps
@@ -173,44 +171,43 @@ public class MapFactories {
         }
     }
 
-    public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> unordered() {
-        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
+    public static MapFactory  unordered() {
+        return new EqualsSupplier() {
             @Override
-            public ConcurrentMap<Object, V> get() {
+            public <K, V> ConcurrentMap<K, V> create() {
                 return new ConcurrentHashMap<>();
             }
         };
     }
 
-    public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> sorted(final Comparator<Object>
-                                                                                            comparator) {
-        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
+    public static MapFactory sorted(final Comparator<Object> comparator) {
+        return new EqualsSupplier() {
             @Override
-            public ConcurrentMap<Object, V> get() {
+            public <K, V> ConcurrentMap<K, V> create() {
                 return new ConcurrentSkipListMap<>(comparator);
             }
         };
     }
 
-    public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> sortedNatural() {
-        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
+    public static MapFactory sortedNatural() {
+        return new EqualsSupplier() {
             @Override
-            public ConcurrentMap<Object, V> get() {
+            public <K, V> ConcurrentMap<K, V> create() {
                 return new ConcurrentSkipListMap<>();
             }
         };
     }
 
-    public static <V extends ConfigurationNode> Supplier<ConcurrentMap<Object, V>> insertionOrdered() {
-        return new EqualsSupplier<ConcurrentMap<Object,V>>() {
+    public static MapFactory insertionOrdered() {
+        return new EqualsSupplier() {
             @Override
-            public ConcurrentMap<Object, V> get() {
-                return new SynchronizedWrapper<>(new LinkedHashMap<Object, V>());
+            public <K, V> ConcurrentMap<K, V> create() {
+                return new SynchronizedWrapper<>(new LinkedHashMap<>());
             }
         };
     }
 
-    private static abstract class EqualsSupplier<V> implements Supplier<V> {
+    private static abstract class EqualsSupplier implements MapFactory {
         @Override
         public boolean equals(Object o) {
             return o.getClass().equals(getClass());

@@ -31,8 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
-import static ninja.leaping.configurate.loader.AbstractConfigurationLoader.UTF8_CHARSET;
 
 /**
  * Basic sanity checks for the loader
@@ -46,8 +46,8 @@ public class JSONConfigurationLoaderTest {
         URL url = getClass().getResource("/example.json");
         final File tempFile = folder.newFile();
         ConfigurationLoader loader = JSONConfigurationLoader.builder()
-                .setSource(Resources.asCharSource(url, UTF8_CHARSET))
-                .setSink(AtomicFiles.asCharSink(tempFile, UTF8_CHARSET)).build();
+                .setSource(Resources.asCharSource(url, UTF_8))
+                .setSink(AtomicFiles.asCharSink(tempFile, UTF_8)).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
@@ -58,8 +58,8 @@ public class JSONConfigurationLoaderTest {
         commentNode.getNode("childTwo", "another").setValue("b").setComment("Test comment 3");
         */
         loader.save(node);
-        assertEquals(Resources.toString(url, UTF8_CHARSET), Files
-                .toString(tempFile, UTF8_CHARSET));
+        assertEquals(Resources.toString(url, UTF_8), Files
+                .toString(tempFile, UTF_8));
 
     }
 }

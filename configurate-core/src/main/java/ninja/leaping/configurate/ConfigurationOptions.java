@@ -25,24 +25,23 @@ import ninja.leaping.configurate.objectmapping.ObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
+import ninja.leaping.configurate.util.MapFactory;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.Supplier;
 
 /**
  * This object is a holder for general configuration options. This is meant to hold options
  * that are used in configuring how the configuration data structures are handled, rather than the serialization configuration that is located in {@link ConfigurationLoader}s
  */
 public class ConfigurationOptions {
-    private final Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier;
+    private final MapFactory mapSupplier;
     private final String header;
     private final TypeSerializerCollection serializers;
     private final ImmutableSet<Class<?>> acceptedTypes;
     private final ObjectMapperFactory objectMapperFactory;
     private final boolean shouldCopyDefaults;
 
-    private ConfigurationOptions(Supplier<ConcurrentMap<Object, SimpleConfigurationNode>> mapSupplier, String header,
+    private ConfigurationOptions(MapFactory mapSupplier, String header,
                                  TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes, ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
         this.mapSupplier = mapSupplier;
         this.header = header;
@@ -67,9 +66,8 @@ public class ConfigurationOptions {
      *
      * @return The active key comparator
      */
-    @SuppressWarnings("unchecked")
-    public Supplier<ConcurrentMap<Object, ? extends ConfigurationNode>> getMapFactory() {
-        return (Supplier) mapSupplier;
+    public MapFactory getMapFactory() {
+        return mapSupplier;
     }
 
     /**
@@ -78,10 +76,9 @@ public class ConfigurationOptions {
      * @param factory The new factory to use to create a map
      * @return The new options object
      */
-    @SuppressWarnings("unchecked")
-    public ConfigurationOptions setMapFactory(Supplier<ConcurrentMap<Object, ConfigurationNode>> factory) {
+    public ConfigurationOptions setMapFactory(MapFactory factory) {
         Preconditions.checkNotNull(factory, "factory");
-        return new ConfigurationOptions((Supplier) factory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+        return new ConfigurationOptions(factory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**

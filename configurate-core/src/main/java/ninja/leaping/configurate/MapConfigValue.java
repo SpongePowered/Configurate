@@ -109,7 +109,7 @@ class MapConfigValue extends ConfigValue {
 
     @SuppressWarnings("unchecked")
     private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
-        return (ConcurrentMap) holder.getOptions().getMapFactory().get();
+        return holder.getOptions().getMapFactory().create();
     }
 
     @Override
