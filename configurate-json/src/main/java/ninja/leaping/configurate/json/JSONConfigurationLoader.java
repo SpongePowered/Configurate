@@ -16,10 +16,12 @@
  */
 package ninja.leaping.configurate.json;
 
-import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -29,10 +31,12 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -83,7 +87,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected JSONConfigurationLoader(CharSource source, CharSink sink, JsonFactory factory,
+    protected JSONConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, JsonFactory factory,
                                       int indent, FieldValueSeparatorStyle fieldValueSeparatorStyle,
                                       boolean preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,

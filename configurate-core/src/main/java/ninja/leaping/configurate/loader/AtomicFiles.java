@@ -16,34 +16,45 @@
  */
 package ninja.leaping.configurate.loader;
 
-import com.google.common.io.ByteSink;
-import com.google.common.io.CharSink;
+import com.google.common.base.Preconditions;
 
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FilterWriter;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.concurrent.Callable;
 
 public class AtomicFiles {
+    private AtomicFiles() {}
 
-    public static ByteSink asByteSink(File file) {
-        return new AtomicFileByteSink(file);
+    public static Callable<BufferedWriter> createAtomicWriterFactory(Path path, Charset charset) {
+        Preconditions.checkNotNull(path, "path");
+        return () -> createAtomicBufferedWriter(path, charset);
     }
 
-    public static CharSink asCharSink(File file, Charset charset) {
-        return asByteSink(file).asCharSink(charset);
+    public static BufferedWriter createAtomicBufferedWriter(Path path, Charset charset) throws IOException {
+        Path writePath = Files.createTempFile(path.getParent(), path.getFileName().toString().replaceAll("\\\\|/|:", "-"), null);
+        BufferedWriter output = Files.newBufferedWriter(writePath, charset);
+        return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
     }
 
-    private static class AtomicFileByteSink extends ByteSink {
-        private final File file;
+    private static class AtomicFileWriter extends FilterWriter {
+        private final Path targetPath, writePath;
 
-        private AtomicFileByteSink(File file) {
-            this.file = file;
+        protected AtomicFileWriter(Path writePath, Path targetPath, Writer wrapping) throws IOException {
+            super(wrapping);
+            this.writePath = writePath;
+            this.targetPath = targetPath;
         }
 
         @Override
-        public OutputStream openStream() throws IOException {
-            return new AtomicFileOutputStream(this.file);
+        public void close() throws IOException {
+            super.close();
+            Files.move(writePath, targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         }
     }
 }

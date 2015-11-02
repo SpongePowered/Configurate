@@ -18,20 +18,22 @@ package ninja.leaping.configurate.loader;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
-import com.google.common.io.Files;
-import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.Callable;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Base class for many stream-based configuration loaders. This class provides conversion from a variety of input
@@ -43,15 +45,15 @@ import java.nio.charset.StandardCharsets;
 public abstract class AbstractConfigurationLoader<NodeType extends ConfigurationNode> implements ConfigurationLoader<NodeType> {
     protected static final Splitter LINE_SPLITTER = Splitter.on('\n');
     protected static final String LINE_SEPARATOR = System.lineSeparator();
-    protected final CharSource source;
-    private final CharSink sink;
+    protected final Callable<BufferedReader> source;
+    private final Callable<BufferedWriter> sink;
     private final CommentHandler[] commentHandlers;
     private final boolean preservesHeader;
 
     protected static abstract class Builder<T extends Builder> {
         protected boolean preserveHeader = true;
-        protected CharSource source;
-        protected CharSink sink;
+        protected Callable<BufferedReader> source;
+        protected Callable<BufferedWriter> sink;
 
         @SuppressWarnings("unchecked")
         private T self() {
@@ -59,22 +61,26 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
 
         public T setFile(File file) {
-            this.source = Files.asCharSource(file, StandardCharsets.UTF_8);
-            this.sink = AtomicFiles.asCharSink(file, StandardCharsets.UTF_8);
+            return setPath(file.toPath());
+        }
+
+        public T setPath(Path path) {
+            this.source = () -> Files.newBufferedReader(path, UTF_8);
+            this.sink = AtomicFiles.createAtomicWriterFactory(path, UTF_8);
             return self();
         }
 
         public T setURL(URL url) {
-            this.source = Resources.asCharSource(url, StandardCharsets.UTF_8);
+            this.source = () -> new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
             return self();
         }
 
-        public T setSource(CharSource source) {
+        public T setSource(Callable<BufferedReader> source) {
             this.source = source;
             return self();
         }
 
-        public T setSink(CharSink sink) {
+        public T setSink(Callable<BufferedWriter> sink) {
             this.sink = sink;
             return self();
         }
@@ -87,7 +93,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         public abstract AbstractConfigurationLoader build();
     }
 
-    protected AbstractConfigurationLoader(CharSource source, CharSink sink, CommentHandler[] commentHandlers, boolean
+    protected AbstractConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, CommentHandler[] commentHandlers, boolean
             preservesHeader) {
         this.source = source;
         this.sink = sink;
@@ -109,7 +115,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         if (!canLoad()) {
             throw new IOException("No source present to read from!");
         }
-        try (BufferedReader reader = source.openBufferedStream()) {
+        try (BufferedReader reader = source.call()) {
             NodeType node;
             if (preservesHeader) {
                 String comment = CommentHandlers.extractComment(reader, commentHandlers);
@@ -122,6 +128,12 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             return node;
         } catch (FileNotFoundException e) {
             // Squash -- there's nothing to read
+        } catch (Exception e) {
+            if (e instanceof IOException) {
+                throw (IOException) e;
+            } else {
+                throw new IOException(e);
+            }
         }
         return createEmptyNode(options);
     }
@@ -133,7 +145,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         if (!canSave()) {
             throw new IOException("No sink present to write to!");
         }
-        try (Writer writer = sink.openBufferedStream()) {
+        try (Writer writer = sink.call()) {
             String header = node.getOptions().getHeader();
             if (header != null && !header.isEmpty()) {
                 for (String line : getDefaultCommentHandler().toComment(ImmutableList.copyOf(LINE_SPLITTER.split(header)))) {
@@ -143,6 +155,12 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
                 writer.write(LINE_SEPARATOR);
             }
             saveInternal(node, writer);
+        } catch (Exception e) {
+            if (e instanceof IOException) {
+                throw (IOException) e;
+            } else {
+                throw new IOException(e);
+            }
         }
     }
 

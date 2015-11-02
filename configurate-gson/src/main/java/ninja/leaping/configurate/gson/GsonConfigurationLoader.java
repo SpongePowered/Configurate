@@ -18,8 +18,6 @@ package ninja.leaping.configurate.gson;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -32,10 +30,12 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -74,7 +74,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected GsonConfigurationLoader(CharSource source, CharSink sink, int indent, boolean lenient, boolean
+    protected GsonConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, int indent, boolean lenient, boolean
             preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
                         CommentHandlers.HASH}, preservesHeader);

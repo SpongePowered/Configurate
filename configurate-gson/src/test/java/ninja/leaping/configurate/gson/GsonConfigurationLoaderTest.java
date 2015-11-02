@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.gson;
 
-import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
@@ -27,9 +26,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
@@ -44,10 +47,10 @@ public class GsonConfigurationLoaderTest {
     @Test
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.json");
-        final File tempFile = folder.newFile();
+        final Path tempFile = folder.newFile().toPath();
         ConfigurationLoader loader = GsonConfigurationLoader.builder()
-                .setSource(Resources.asCharSource(url, UTF_8))
-                .setSink(AtomicFiles.asCharSink(tempFile, UTF_8)).setLenient(true).build();
+                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
+                .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).setLenient(true).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
@@ -55,8 +58,7 @@ public class GsonConfigurationLoaderTest {
         assertTrue(node.getNode("int-val").getValue() instanceof Integer);
         assertTrue(node.getNode("double-val").getValue() instanceof Double);
         loader.save(node);
-        assertEquals(Resources.toString(url, UTF_8), Files
-                .toString(tempFile, UTF_8));
+        assertEquals(Resources.readLines(url, UTF_8), Files.readAllLines(tempFile, UTF_8));
     }
 
     @Test

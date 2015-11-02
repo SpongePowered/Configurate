@@ -16,8 +16,6 @@
  */
 package ninja.leaping.configurate.yaml;
 
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
@@ -28,8 +26,10 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -85,7 +85,7 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    private YAMLConfigurationLoader(CharSource source, CharSink sink, final DumperOptions options, boolean
+    private YAMLConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, final DumperOptions options, boolean
             preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.HASH}, preservesHeader);
         this.yaml = new ThreadLocal<Yaml>() {

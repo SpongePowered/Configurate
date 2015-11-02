@@ -19,9 +19,16 @@ package ninja.leaping.configurate.hocon;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
-import com.typesafe.config.*;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigList;
+import com.typesafe.config.ConfigObject;
+import com.typesafe.config.ConfigOrigin;
+import com.typesafe.config.ConfigOriginFactory;
+import com.typesafe.config.ConfigParseOptions;
+import com.typesafe.config.ConfigRenderOptions;
+import com.typesafe.config.ConfigValue;
+import com.typesafe.config.ConfigValueFactory;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -31,6 +38,7 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -38,6 +46,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
 
@@ -86,7 +95,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         return new Builder();
     }
 
-    private HoconConfigurationLoader(CharSource source, CharSink sink, ConfigRenderOptions render,
+    private HoconConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, ConfigRenderOptions render,
                                        ConfigParseOptions parse, boolean preservesHeader) {
         super(source, sink, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH}, preservesHeader);
         this.render = render;

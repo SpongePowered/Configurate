@@ -27,8 +27,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -46,8 +48,8 @@ public class JSONConfigurationLoaderTest {
         URL url = getClass().getResource("/example.json");
         final File tempFile = folder.newFile();
         ConfigurationLoader loader = JSONConfigurationLoader.builder()
-                .setSource(Resources.asCharSource(url, UTF_8))
-                .setSink(AtomicFiles.asCharSink(tempFile, UTF_8)).build();
+                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
+                        .setSink(AtomicFiles.createAtomicWriterFactory(tempFile.toPath(), UTF_8)).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
