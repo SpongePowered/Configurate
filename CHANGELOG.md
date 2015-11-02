@@ -1,6 +1,13 @@
 Changelog
 ========
 
+3.0
+---
+- Update to require java8
+- Change map factory system to allow constructing a map with any key or value type
+- Switch from Guava's CharSource/Sink to Callable factories.
+- Improve HOCON's preservation of configuration element order (only when writing configurations)
+
 2.1
 ---
 - gson: Fix GsonConfigurationLoader's handling of empty files

@@ -8,7 +8,7 @@ Configurate is a simple confiuration library released under the [Apache 2.0](LIC
 ## Building
 We use Maven, so this part is pretty easy. 
 
-Configurate requires JDK 7 to build but is at runtime compatible with JDK 6 and above.
+Configurate requires JDK 8 to build and run.
 
 Make sure Maven is installed and from the project's directory (the root of this repository), run `mvn clean install` to build Configuate and install its artifacts to the local Maven repository.
 
@@ -17,7 +17,7 @@ Make sure Maven is installed and from the project's directory (the root of this 
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-yaml</artifactId>
-    <version>1.1</version> <!-- Update this with the most recent version -->
+    <version>3.0</version> <!-- Update this with the most recent version -->
 </dependency>
 ```
 This dependency statement is for the yaml format implementation. Other formats managed in this repository use the same group id and versioning.
