@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
@@ -126,7 +127,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             node = createEmptyNode(options);
             loadInternal(node, reader);
             return node;
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
         } catch (Exception e) {
             if (e instanceof IOException) {
