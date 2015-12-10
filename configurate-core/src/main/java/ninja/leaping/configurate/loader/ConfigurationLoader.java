@@ -26,15 +26,24 @@ import java.io.IOException;
  */
 public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     /**
-     * Create a new configuration node populated with the appropriate data
+     * Get the default options that any new nodes will be created with if no options object is passed.
+     *
+     * @return The default options
+     */
+    ConfigurationOptions getDefaultOptions();
+
+    /**
+     * Create a new configuration node populated with the appropriate data.
      *
      * @return The newly constructed node
      * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
      */
-    NodeType load() throws IOException;
+    default NodeType load() throws IOException {
+        return load(getDefaultOptions());
+    }
 
     /**
-     * Create a new configuration node populated with the appropriate data, structured with the provided options
+     * Create a new configuration node populated with the appropriate data, structured with the provided options.
      *
      * @param options The options to load with
      * @return The newly constructed node
@@ -43,12 +52,21 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     NodeType load(ConfigurationOptions options) throws IOException;
 
     /**
-     * Save the contents of the given node tree to
+     * Save the contents of the given node tree to this loader.
      *
      * @param node The node a save is being requested for
      * @throws java.io.IOException if any sort of error occurs with writing or generating the configuration
      */
     void save(ConfigurationNode node) throws IOException;
+
+    /**
+     * Return an empty node of the most appropriate type for this loader, using the default options.
+     *
+     * @return The appropriate node type
+     */
+    default NodeType createEmptyNode() {
+        return createEmptyNode(getDefaultOptions());
+    }
 
     /**
      * Return an empty node of the most appropriate type for this loader

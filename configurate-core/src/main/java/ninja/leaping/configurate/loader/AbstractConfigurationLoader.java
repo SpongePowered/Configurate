@@ -32,6 +32,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -50,11 +51,15 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     private final Callable<BufferedWriter> sink;
     private final CommentHandler[] commentHandlers;
     private final boolean preservesHeader;
+    private final ConfigurationOptions defaultOptions;
 
     protected static abstract class Builder<T extends Builder> {
         protected boolean preserveHeader = true;
         protected Callable<BufferedReader> source;
         protected Callable<BufferedWriter> sink;
+        protected ConfigurationOptions defaultOptions = ConfigurationOptions.defaults();
+
+        protected Builder() {}
 
         @SuppressWarnings("unchecked")
         private T self() {
@@ -86,29 +91,45 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             return self();
         }
 
+        public Callable<BufferedReader> getSource() {
+            return this.source;
+        }
+
+        public Callable<BufferedWriter> getSink() {
+            return this.sink;
+        }
+
         public T setPreservesHeader(boolean preservesHeader) {
             this.preserveHeader = preservesHeader;
             return self();
         }
 
+        public boolean preservesHeader() {
+            return this.preserveHeader;
+        }
+
+        public T setDefaultOptions(ConfigurationOptions defaultOptions) {
+            this.defaultOptions = Objects.requireNonNull(defaultOptions, "defaultOptions");
+            return self();
+        }
+
+        public ConfigurationOptions getDefaultOptions() {
+            return this.defaultOptions;
+        }
+
         public abstract AbstractConfigurationLoader build();
     }
 
-    protected AbstractConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, CommentHandler[] commentHandlers, boolean
-            preservesHeader) {
-        this.source = source;
-        this.sink = sink;
+    protected AbstractConfigurationLoader(Builder<?> builder, CommentHandler[] commentHandlers) {
+        this.source = builder.getSource();
+        this.sink = builder.getSink();
+        this.preservesHeader = builder.preservesHeader();
+        this.defaultOptions = builder.getDefaultOptions();
         this.commentHandlers = commentHandlers;
-        this.preservesHeader = preservesHeader;
     }
 
     public CommentHandler getDefaultCommentHandler() {
         return this.commentHandlers[0];
-    }
-
-    @Override
-    public NodeType load() throws IOException {
-        return load(ConfigurationOptions.defaults());
     }
 
     @Override
@@ -166,6 +187,16 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     }
 
     protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;
+
+    /**
+     * Get the default options that any new nodes will be created with if no options object is passed.
+     *
+     * @return The default options
+     */
+    @Override
+    public ConfigurationOptions getDefaultOptions() {
+        return this.defaultOptions;
+    }
 
     public boolean canLoad() {
         return this.source != null;

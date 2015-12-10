@@ -38,7 +38,6 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -46,7 +45,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
 
@@ -87,7 +85,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
 
         @Override
         public HoconConfigurationLoader build() {
-            return new HoconConfigurationLoader(source, sink, render, parse, preserveHeader);
+            return new HoconConfigurationLoader(this);
         }
     }
 
@@ -95,11 +93,10 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         return new Builder();
     }
 
-    private HoconConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, ConfigRenderOptions render,
-                                       ConfigParseOptions parse, boolean preservesHeader) {
-        super(source, sink, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH}, preservesHeader);
-        this.render = render;
-        this.parse = parse;
+    private HoconConfigurationLoader(Builder build) {
+        super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});
+        this.render = build.getRenderOptions();
+        this.parse = build.getParseOptions();
     }
 
     @Override

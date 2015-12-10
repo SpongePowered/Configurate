@@ -26,10 +26,8 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.concurrent.Callable;
 
 
 /**
@@ -77,7 +75,7 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
 
         @Override
         public YAMLConfigurationLoader build() {
-            return new YAMLConfigurationLoader(source, sink, options, preserveHeader);
+            return new YAMLConfigurationLoader(this);
         }
     }
 
@@ -85,13 +83,13 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    private YAMLConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, final DumperOptions options, boolean
-            preservesHeader) {
-        super(source, sink, new CommentHandler[] {CommentHandlers.HASH}, preservesHeader);
+    private YAMLConfigurationLoader(Builder builder) {
+        super(builder, new CommentHandler[] {CommentHandlers.HASH});
+        final DumperOptions opts = builder.options;
         this.yaml = new ThreadLocal<Yaml>() {
             @Override
             protected Yaml initialValue() {
-                return new Yaml(options);
+                return new Yaml(opts);
             }
         };
     }

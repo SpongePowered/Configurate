@@ -30,12 +30,10 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 
 /**
@@ -54,6 +52,10 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             return this;
         }
 
+        public int getIndent() {
+            return this.indent;
+        }
+
         /**
          * @see JsonReader#setLenient(boolean)
          * @param lenient Whether the parser should parse leniently
@@ -64,9 +66,13 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             return this;
         }
 
+        public boolean isLenient() {
+            return this.lenient;
+        }
+
         @Override
         public GsonConfigurationLoader build() {
-            return new GsonConfigurationLoader(source, sink, indent, lenient, preserveHeader);
+            return new GsonConfigurationLoader(this);
         }
     }
 
@@ -74,12 +80,11 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected GsonConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, int indent, boolean lenient, boolean
-            preservesHeader) {
-        super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
-                        CommentHandlers.HASH}, preservesHeader);
-        this.lenient = lenient;
-        this.indent = Strings.repeat(" ", indent);
+    protected GsonConfigurationLoader(Builder builder) {
+        super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
+                        CommentHandlers.HASH});
+        this.lenient = builder.isLenient();
+        this.indent = Strings.repeat(" ", builder.getIndent());
     }
 
     @Override

@@ -31,12 +31,10 @@ import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 
 /**
@@ -79,7 +77,15 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
 
         @Override
         public JSONConfigurationLoader build() {
-            return new JSONConfigurationLoader(source, sink, factory, indent, fieldValueSeparatorStyle, preserveHeader);
+            return new JSONConfigurationLoader(this);
+        }
+
+        public int getIndent() {
+            return indent;
+        }
+
+        public FieldValueSeparatorStyle getFieldValueSeparatorStyle() {
+            return fieldValueSeparatorStyle;
         }
     }
 
@@ -87,15 +93,12 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         return new Builder();
     }
 
-    protected JSONConfigurationLoader(Callable<BufferedReader> source, Callable<BufferedWriter> sink, JsonFactory factory,
-                                      int indent, FieldValueSeparatorStyle fieldValueSeparatorStyle,
-                                      boolean preservesHeader) {
-        super(source, sink, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
-                        CommentHandlers.HASH},
-        preservesHeader);
-        this.factory = factory;
-        this.indent = indent;
-        this.fieldValueSeparatorStyle = fieldValueSeparatorStyle;
+    protected JSONConfigurationLoader(Builder builder) {
+        super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
+                CommentHandlers.HASH});
+        this.factory = builder.getFactory();
+        this.indent = builder.getIndent();
+        this.fieldValueSeparatorStyle = builder.getFieldValueSeparatorStyle();
     }
 
     @Override
