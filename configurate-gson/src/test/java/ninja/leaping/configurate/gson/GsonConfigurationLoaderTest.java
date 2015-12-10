@@ -22,6 +22,7 @@ import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.util.MapFactories;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -33,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
@@ -48,10 +50,10 @@ public class GsonConfigurationLoaderTest {
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.json");
         final Path tempFile = folder.newFile().toPath();
-        ConfigurationLoader loader = GsonConfigurationLoader.builder()
+        ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).setLenient(true).build();
-        ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode node = loader.load(loader.getDefaultOptions().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
@@ -71,5 +73,22 @@ public class GsonConfigurationLoaderTest {
                 .build();
 
         loader.load();
+    }
+
+    private static final long TEST_LONG_VAL = 584895858588588888l;
+
+    @Test
+    @Ignore("Gson currently makes it rather difficult to get the correct number type")
+    public void testRoundtrippingLong() throws IOException {
+        final Path tempFile = folder.newFile().toPath();
+        ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode start = loader.createEmptyNode();
+        start.getNode("long-num").setValue(TEST_LONG_VAL);
+        loader.save(start);
+        System.out.println(Files.readAllLines(tempFile));
+
+        ConfigurationNode ret = loader.load();
+        System.out.println(ret.getNode("long-num").getValue().getClass());
+        assertEquals(TEST_LONG_VAL, ret.getNode("long-num").getValue());
     }
 }

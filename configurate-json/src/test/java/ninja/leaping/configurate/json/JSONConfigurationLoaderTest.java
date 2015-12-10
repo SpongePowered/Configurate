@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.json;
 
-import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
@@ -32,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
@@ -46,10 +47,10 @@ public class JSONConfigurationLoaderTest {
     @Test
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.json");
-        final File tempFile = folder.newFile();
+        final Path tempFile = folder.newFile().toPath();
         ConfigurationLoader loader = JSONConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
-                        .setSink(AtomicFiles.createAtomicWriterFactory(tempFile.toPath(), UTF_8)).build();
+                        .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
@@ -60,8 +61,32 @@ public class JSONConfigurationLoaderTest {
         commentNode.getNode("childTwo", "another").setValue("b").setComment("Test comment 3");
         */
         loader.save(node);
-        assertEquals(Resources.toString(url, UTF_8), Files
-                .toString(tempFile, UTF_8));
+        assertEquals(Resources.readLines(url, UTF_8), Files
+                .readAllLines(tempFile, UTF_8));
 
+    }
+
+    private static final long TEST_LONG_VAL = 584895858588588888l;
+    private static final double TEST_DOUBLE_VAL = 595859682984428959583045732020572045273498409257349587.85485884287387d;
+
+    private void testRoundtripValue(Object value) throws IOException {
+        final Path tempFile = folder.newFile().toPath();
+        ConfigurationLoader<ConfigurationNode> loader = JSONConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode start = loader.createEmptyNode();
+        start.getNode("value").setValue(value);
+        loader.save(start);
+
+        ConfigurationNode ret = loader.load();
+        assertEquals(value, ret.getNode("value").getValue());
+    }
+
+    @Test
+    public void testRoundtrippingLong() throws IOException {
+        testRoundtripValue(TEST_LONG_VAL);
+    }
+
+    @Test
+    public void testRoundtripDouble() throws IOException {
+        testRoundtripValue(TEST_DOUBLE_VAL);
     }
 }

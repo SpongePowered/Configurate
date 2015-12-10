@@ -119,10 +119,20 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                 parseArray(parser, node);
                 break;
             case VALUE_NUMBER_FLOAT:
-                node.setValue(parser.getFloatValue());
+                double doubleVal = parser.getDoubleValue();
+                if ((float)doubleVal != doubleVal) {
+                    node.setValue(parser.getDoubleValue());
+                } else {
+                    node.setValue(parser.getFloatValue());
+                }
                 break;
             case VALUE_NUMBER_INT:
-                node.setValue(parser.getIntValue());
+                long longVal = parser.getLongValue();
+                if ((int)longVal != longVal) {
+                    node.setValue(parser.getLongValue());
+                } else {
+                    node.setValue(parser.getIntValue());
+                }
                 break;
             case VALUE_STRING:
                 node.setValue(parser.getText());
