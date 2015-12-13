@@ -1,6 +1,14 @@
 Changelog
 ========
 
+3.1
+---
+- gson: Correct handling of long/double numbers
+- core: Correctly silence NoSuchFileException when loading
+- core: Allow specifying the default options to be used in a loader
+- all: Refactor AbstractConfigurationLoader's constructor to take a Builder, making future extensibility easier
+- core: Add function-requesting default methods for non-primitive type methods (using a Supplier)
+
 3.0
 ---
 - Update to require java8
