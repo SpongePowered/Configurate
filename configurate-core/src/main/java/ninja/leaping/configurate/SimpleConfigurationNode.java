@@ -227,8 +227,29 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T getValue(TypeToken<T> type, Supplier<T> defSupplier) throws ObjectMappingException {
-        return null;
+        Object value = getValue();
+        if (value == null) {
+            T def = defSupplier.get();
+            if (def != null && getOptions().shouldCopyDefaults()) {
+                setValue(type, def);
+            }
+            return def;
+        }
+        TypeSerializer serial = getOptions().getSerializers().get(type);
+        if (serial == null) {
+            if (type.getRawType().isInstance(value)) {
+                return (T) type.getRawType().cast(value);
+            } else {
+                T def = defSupplier.get();
+                if (def != null && getOptions().shouldCopyDefaults()) {
+                    setValue(type, def);
+                }
+                return def;
+            }
+        }
+        return (T) serial.deserialize(type, this);
     }
 
     @Override
