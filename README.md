@@ -16,8 +16,8 @@ Make sure Maven is installed and from the project's directory (the root of this 
 ```xml
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
-    <artifactId>configurate-yaml</artifactId>
-    <version>3.0</version> <!-- Update this with the most recent version -->
+    <artifactId>configurate-hocon</artifactId>
+    <version>3.1</version> <!-- Update this with the most recent version -->
 </dependency>
 ```
 This dependency statement is for the yaml format implementation. Other formats managed in this repository use the same group id and versioning.
@@ -25,8 +25,8 @@ The only dependency Configurate has is on Guava (check the pom for info on which
 
 Now, to load:
 ```java
-ConfigurationLoader loader = YAMLConfigurationLoader.builder().setFile(file).build(); // Create the loader
-ConfigurationNode node = loader.load(); // Load the configuration into memory
+ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(file).build(); // Create the loader
+CommentedConfigurationNode node = loader.load(); // Load the configuration into memory
 
 node.getNode("some", "value").getValue(); // Get the value
 ```
