@@ -252,23 +252,6 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return (T) serial.deserialize(type, this);
     }
 
-    @Override
-    public <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException {
-        if (value == null) {
-            setValue(null);
-            return this;
-        }
-        TypeSerializer serial = getOptions().getSerializers().get(type);
-        if (serial != null) {
-            serial.serialize(type, value, this);
-        } else if (getOptions().acceptsType(value.getClass())) {
-            setValue(value); // Just write if no applicable serializer exists?
-        } else {
-            throw new ObjectMappingException("No serializer available for type " + type);
-        }
-        return this;
-    }
-
     private void insertNewValue(Object newValue, boolean onlyIfNull) {
         attachIfNecessary();
         synchronized (this) {

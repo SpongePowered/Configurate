@@ -19,6 +19,7 @@ package ninja.leaping.configurate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 
 import java.util.List;
 import java.util.Map;
@@ -391,7 +392,21 @@ public interface ConfigurationNode {
      * @param <T> The type to serialize to
      * @return this
      */
-    <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException;
+    default <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException {
+        if (value == null) {
+            setValue(null);
+            return this;
+        }
+        TypeSerializer serial = getOptions().getSerializers().get(type);
+        if (serial != null) {
+            serial.serialize(type, value, this);
+        } else if (getOptions().acceptsType(value.getClass())) {
+            setValue(value); // Just write if no applicable serializer exists?
+        } else {
+            throw new ObjectMappingException("No serializer available for type " + type);
+        }
+        return this;
+    }
 
     /**
      * Set all the values from the given node that are not present in this node
