@@ -16,6 +16,8 @@
  */
 package ninja.leaping.configurate.objectmapping.serialize;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 
@@ -184,7 +186,7 @@ public class TypeSerializers {
                 throw new ObjectMappingException("No type serializer available for type " + value);
             }
 
-            node.setValue(null);
+            node.setValue(ImmutableMap.of());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
                 SimpleConfigurationNode keyNode = SimpleConfigurationNode.root();
                 keySerial.serialize(key, ent.getKey(), keyNode);
@@ -227,7 +229,7 @@ public class TypeSerializers {
             if (entrySerial == null) {
                 throw new ObjectMappingException("No applicable type serializer for type " + entryType);
             }
-            value.setValue(null);
+            value.setValue(ImmutableList.of());
             for (Object ent : obj) {
                 entrySerial.serialize(entryType, ent, value.getAppendedNode());
             }

@@ -16,6 +16,7 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 
@@ -137,6 +138,19 @@ public class TypeSerializersTest {
         assertEquals("lame", value.getNode(2).getString());
         assertEquals("people", value.getNode(3).getString());
     }
+    @Test
+
+    public void testListSerializerPreservesEmptyList() throws ObjectMappingException {
+        final TypeToken<List<String>> listStringType = new TypeToken<List<String>>() {};
+        final TypeSerializer<List<String>> listStringSerializer =
+                SERIALIZERS.get(listStringType);
+
+        final ConfigurationNode value = SimpleConfigurationNode.root();
+
+        listStringSerializer.serialize(listStringType, ImmutableList.of(), value);
+
+        assertTrue(value.hasListChildren());
+    }
 
     @Test
     public void testMapSerializer() throws ObjectMappingException {
@@ -195,6 +209,19 @@ public class TypeSerializersTest {
         mapStringIntSerializer.serialize(mapStringIntType, deserialized, value);
         assertTrue(value.getNode("fish").isVirtual());
         assertFalse(value.getNode("bugs").isVirtual());
+    }
+
+    @Test
+    public void testMapSerializerPreservesEmptyMap() throws ObjectMappingException {
+        final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
+        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
+                SERIALIZERS.get(mapStringIntType);
+
+        final ConfigurationNode value = SimpleConfigurationNode.root();
+
+        mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of(), value);
+
+        assertTrue(value.hasMapChildren());
     }
 
     @ConfigSerializable
