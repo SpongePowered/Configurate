@@ -77,7 +77,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
 
         public T setURL(URL url) {
-            this.source = () -> new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
+            this.source = () -> new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), UTF_8));
             return self();
         }
 
