@@ -1,6 +1,12 @@
 Changelog
 ========
 
+3.1.1
+-----
+- Correctly use UTF-8 when loading from a URL
+- Make setValue(TypeToken, T) be a default method in ConfigurationNode
+- Correct TypeSerializer handling of empty maps and lists
+
 3.1
 ---
 - gson: Correct handling of long/double numbers
