@@ -196,6 +196,9 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             generateObject(generator, node);
         } else if (node.hasListChildren()) {
             generateArray(generator, node);
+        } else if (node.getKey() == null && node.getValue() == null) {
+            generator.beginObject();
+            generator.endObject();
         } else {
             Object value = node.getValue();
             if (value instanceof Double) {

@@ -18,7 +18,7 @@ package ninja.leaping.configurate.gson;
 
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.util.MapFactories;
@@ -34,7 +34,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
@@ -64,6 +63,19 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
+    public void testSavingEmptyFile() throws IOException {
+        final File tempFile = folder.newFile();
+        tempFile.createNewFile();
+
+        ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder()
+                .setFile(tempFile)
+                .build();
+
+        ConfigurationNode n = SimpleConfigurationNode.root();
+        loader.save(n);
+    }
+
+    @Test
     public void testLoadingEmptyFile() throws IOException {
         final File tempFile = folder.newFile();
         tempFile.createNewFile();
@@ -73,6 +85,19 @@ public class GsonConfigurationLoaderTest {
                 .build();
 
         loader.load();
+    }
+
+    @Test
+    public void testLoadingFileWithEmptyObject() throws IOException {
+        URL url = getClass().getResource("/emptyObject.json");
+        final Path tempFile = folder.newFile().toPath();
+        ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder()
+                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
+                .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).setLenient(true).build();
+
+        ConfigurationNode node = loader.load(loader.getDefaultOptions().setMapFactory(MapFactories.sortedNatural()));
+        assertNull(node.getValue());
+        assertFalse(node.hasMapChildren());
     }
 
     private static final long TEST_LONG_VAL = 584895858588588888l;
