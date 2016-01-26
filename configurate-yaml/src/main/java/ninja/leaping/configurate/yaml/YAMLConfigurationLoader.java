@@ -56,7 +56,7 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
          * </code>
          *
          * Block: expanded, traditional YAML<br>
-         * Emample: <code>
+         * Example: <code>
          *     value:
          *     - list
          *     - of
