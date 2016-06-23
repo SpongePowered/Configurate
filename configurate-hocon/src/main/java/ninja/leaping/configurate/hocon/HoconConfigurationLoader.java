@@ -27,6 +27,7 @@ import com.typesafe.config.ConfigOrigin;
 import com.typesafe.config.ConfigOriginFactory;
 import com.typesafe.config.ConfigParseOptions;
 import com.typesafe.config.ConfigRenderOptions;
+import com.typesafe.config.ConfigResolveOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -102,6 +103,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     @Override
     public void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {
         Config hoconConfig = ConfigFactory.parseReader(reader, parse);
+        hoconConfig = hoconConfig.resolve();
         for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
             readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
         }
