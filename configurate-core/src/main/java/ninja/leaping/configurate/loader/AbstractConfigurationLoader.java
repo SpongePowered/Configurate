@@ -71,8 +71,9 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
 
         public T setPath(Path path) {
-            this.source = () -> Files.newBufferedReader(path, UTF_8);
-            this.sink = AtomicFiles.createAtomicWriterFactory(path, UTF_8);
+            Path absPath = Objects.requireNonNull(path, "path").toAbsolutePath();
+            this.source = () -> Files.newBufferedReader(absPath, UTF_8);
+            this.sink = AtomicFiles.createAtomicWriterFactory(absPath, UTF_8);
             return self();
         }
 

@@ -37,6 +37,7 @@ public class AtomicFiles {
     }
 
     public static BufferedWriter createAtomicBufferedWriter(Path path, Charset charset) throws IOException {
+        path = path.toAbsolutePath();
         Path writePath = Files.createTempFile(path.getParent(), path.getFileName().toString().replaceAll("\\\\|/|:", "-"), null);
         BufferedWriter output = Files.newBufferedWriter(writePath, charset);
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
