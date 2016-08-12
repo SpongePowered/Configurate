@@ -26,9 +26,11 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileAttribute;
 import java.util.concurrent.Callable;
 
 public class AtomicFiles {
+    private static final FileAttribute<?>[] EMPTY_ATTRIBUTE_ARR = new FileAttribute[0];
     private AtomicFiles() {}
 
     public static Callable<BufferedWriter> createAtomicWriterFactory(Path path, Charset charset) {
@@ -36,9 +38,20 @@ public class AtomicFiles {
         return () -> createAtomicBufferedWriter(path, charset);
     }
 
+    private static Path getTemporaryPath(Path parent, String key) {
+        String fileName = System.currentTimeMillis() + Preconditions.checkNotNull(key, "key").replaceAll("\\\\|/|:",
+                "-") + ".tmp";
+        return parent.resolve(fileName);
+    }
+
     public static BufferedWriter createAtomicBufferedWriter(Path path, Charset charset) throws IOException {
         path = path.toAbsolutePath();
-        Path writePath = Files.createTempFile(path.getParent(), path.getFileName().toString().replaceAll("\\\\|/|:", "-"), null);
+
+        Path writePath = getTemporaryPath(path.getParent(), path.getFileName().toString());
+        if (Files.exists(path)) {
+            Files.copy(path, writePath, StandardCopyOption.COPY_ATTRIBUTES);
+        }
+
         BufferedWriter output = Files.newBufferedWriter(writePath, charset);
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
     }
