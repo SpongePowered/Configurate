@@ -27,6 +27,8 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 
+import org.hamcrest.MatcherAssert;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -138,8 +140,8 @@ public class TypeSerializersTest {
         assertEquals("lame", value.getNode(2).getString());
         assertEquals("people", value.getNode(3).getString());
     }
-    @Test
 
+    @Test
     public void testListSerializerPreservesEmptyList() throws ObjectMappingException {
         final TypeToken<List<String>> listStringType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> listStringSerializer =
@@ -150,6 +152,21 @@ public class TypeSerializersTest {
         listStringSerializer.serialize(listStringType, ImmutableList.of(), value);
 
         assertTrue(value.hasListChildren());
+    }
+
+    @Test
+    public void testListRawTypes() throws ObjectMappingException {
+        final TypeToken<List> rawType = TypeToken.of(List.class);
+        final TypeSerializer<List> serial = SERIALIZERS.get(rawType);
+
+        final ConfigurationNode value = SimpleConfigurationNode.root();
+
+        value.getAppendedNode().setValue(1);
+        value.getAppendedNode().setValue("dog");
+        value.getAppendedNode().setValue(2.4);
+
+        expectedException.expectMessage("Raw types");
+        serial.deserialize(rawType, value);
     }
 
     @Test

@@ -29,6 +29,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -144,6 +145,9 @@ public class TypeSerializers {
         public Map<?, ?> deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
             Map<Object, Object> ret = new LinkedHashMap<>();
             if (node.hasMapChildren()) {
+                if (!(type.getType() instanceof ParameterizedType)) {
+                    throw new ObjectMappingException("Raw types are not supported for collections");
+                }
                 TypeToken<?> key = type.resolveType(Map.class.getTypeParameters()[0]);
                 TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
                 TypeSerializer keySerial = node.getOptions().getSerializers().get(key);
@@ -173,6 +177,9 @@ public class TypeSerializers {
         @Override
         @SuppressWarnings("rawtypes")
         public void serialize(TypeToken<?> type, Map<?, ?> obj, ConfigurationNode node) throws ObjectMappingException {
+            if (!(type.getType() instanceof ParameterizedType)) {
+                throw new ObjectMappingException("Raw types are not supported for collections");
+            }
             TypeToken<?> key = type.resolveType(Map.class.getTypeParameters()[0]);
             TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
             TypeSerializer keySerial = node.getOptions().getSerializers().get(key);
@@ -200,6 +207,9 @@ public class TypeSerializers {
 
         @Override
         public List<?> deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+            if (!(type.getType() instanceof ParameterizedType)) {
+                throw new ObjectMappingException("Raw types are not supported for collections");
+            }
             TypeToken<?> entryType = type.resolveType(List.class.getTypeParameters()[0]);
             TypeSerializer entrySerial = value.getOptions().getSerializers().get(entryType);
             if (entrySerial == null) {
@@ -224,6 +234,9 @@ public class TypeSerializers {
 
         @Override
         public void serialize(TypeToken<?> type, List<?> obj, ConfigurationNode value) throws ObjectMappingException {
+            if (!(type.getType() instanceof ParameterizedType)) {
+                throw new ObjectMappingException("Raw types are not supported for collections");
+            }
             TypeToken<?> entryType = type.resolveType(List.class.getTypeParameters()[0]);
             TypeSerializer entrySerial = value.getOptions().getSerializers().get(entryType);
             if (entrySerial == null) {
