@@ -77,9 +77,12 @@ public class ObjectMapper<T> {
         }
 
         public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            Object newVal = node.isVirtual() ? null : node.getOptions().getSerializers().get(this.fieldType).deserialize(this
-                            .fieldType,
-                    node);
+            TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
+            if (serial == null) {
+                throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
+                        + this.fieldType);
+            }
+            Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
             try {
                 if (newVal == null) {
                     Object existingVal = field.get(instance);
@@ -95,14 +98,19 @@ public class ObjectMapper<T> {
 
         }
 
+        @SuppressWarnings("rawtypes")
         public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
             try {
                 Object fieldVal = this.field.get(instance);
                 if (fieldVal == null) {
                     node.setValue(null);
                 } else {
-                    ((TypeSerializer) node.getOptions().getSerializers().get(this.fieldType))
-                            .serialize(this.fieldType, fieldVal, node);
+                    TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType);
+                    if (serial == null) {
+                        throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
+                                + this.fieldType);
+                    }
+                    serial.serialize(this.fieldType, fieldVal, node);
                 }
 
                 if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
