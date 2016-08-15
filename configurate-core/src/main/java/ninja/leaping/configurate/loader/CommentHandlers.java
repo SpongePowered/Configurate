@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.loader;
 
-import com.google.common.base.Function;
 import java.util.Optional;
 import com.google.common.collect.Collections2;
 
@@ -87,7 +86,7 @@ public enum CommentHandlers implements CommentHandler {
             }
 
             if (builder.length() > 0) {
-                builder.append(AbstractConfigurationLoader.LINE_SEPARATOR);
+                builder.append(AbstractConfigurationLoader.CONFIGURATE_LINE_SEPARATOR);
             }
             builder.append(line.replace("\r", "").replace("\n", "").replace("\r\n", ""));
             return moreLines;
@@ -96,21 +95,11 @@ public enum CommentHandlers implements CommentHandler {
         @Override
         public Collection<String> toComment(Collection<String> lines) {
             if (lines.size() == 1) {
-                return Collections2.transform(lines, new Function<String, String>() {
-                    @Override
-                    public String apply(String input) {
-                        return "/* " + input + " */";
-                    }
-                });
+                return Collections2.transform(lines, input -> "/* " + input + " */");
             } else {
                 Collection<String> ret = new ArrayList<>();
                 ret.add("/*");
-                ret.addAll(Collections2.transform(lines, new Function<String, String>() {
-                    @Override
-                    public String apply(String input) {
-                        return " * " + input;
-                    }
-                }));
+                ret.addAll(Collections2.transform(lines, input -> " * " + input));
                 ret.add(" */");
                 return ret;
             }
@@ -139,7 +128,7 @@ public enum CommentHandlers implements CommentHandler {
                     line = line.substring(1);
                 }
                 if (build.length() > 0) {
-                    build.append(AbstractConfigurationLoader.LINE_SEPARATOR);
+                    build.append(AbstractConfigurationLoader.CONFIGURATE_LINE_SEPARATOR);
                 }
                 build.append(line);
             } else {
@@ -156,14 +145,11 @@ public enum CommentHandlers implements CommentHandler {
 
     @Override
     public Collection<String> toComment(Collection<String> lines) {
-        return Collections2.transform(lines, new Function<String, String>() {
-            @Override
-            public String apply(String s) {
-                if (s.startsWith(" ")) {
-                    return commentPrefix + s;
-                } else {
-                    return commentPrefix + " " + s;
-                }
+        return Collections2.transform(lines, s -> {
+            if (s.startsWith(" ")) {
+                return commentPrefix + s;
+            } else {
+                return commentPrefix + " " + s;
             }
         });
     }

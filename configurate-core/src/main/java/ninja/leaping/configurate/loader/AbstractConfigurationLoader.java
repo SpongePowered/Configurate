@@ -45,8 +45,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * this case, implementing classes are expected to throw an IOException.
  */
 public abstract class AbstractConfigurationLoader<NodeType extends ConfigurationNode> implements ConfigurationLoader<NodeType> {
-    protected static final Splitter LINE_SPLITTER = Splitter.on('\n');
-    protected static final String LINE_SEPARATOR = System.lineSeparator();
+    public static final String CONFIGURATE_LINE_SEPARATOR = "\n";
+    protected static final Splitter LINE_SPLITTER = Splitter.on(CONFIGURATE_LINE_SEPARATOR);
+    protected static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator();
     protected final Callable<BufferedReader> source;
     private final Callable<BufferedWriter> sink;
     private final CommentHandler[] commentHandlers;

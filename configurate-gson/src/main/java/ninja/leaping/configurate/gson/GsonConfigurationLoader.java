@@ -180,7 +180,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             generator.setLenient(lenient);
             generateValue(generator, node);
             generator.flush();
-            writer.write(LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
+            writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }
 

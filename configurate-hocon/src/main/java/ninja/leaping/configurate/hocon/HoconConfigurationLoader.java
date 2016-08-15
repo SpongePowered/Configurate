@@ -27,7 +27,6 @@ import com.typesafe.config.ConfigOrigin;
 import com.typesafe.config.ConfigOriginFactory;
 import com.typesafe.config.ConfigParseOptions;
 import com.typesafe.config.ConfigRenderOptions;
-import com.typesafe.config.ConfigResolveOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -111,7 +110,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
 
     private void readConfigValue(ConfigValue value, CommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
-            node.setComment(CRLF_MATCH.matcher(Joiner.on('\n').join(value.origin().comments())).replaceAll("\n"));
+            node.setComment(CRLF_MATCH.matcher(Joiner.on('\n').join(value.origin().comments())).replaceAll(""));
         }
         switch (value.valueType()) {
             case OBJECT:
@@ -140,7 +139,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         if (!node.hasMapChildren()) {
             if (node.getValue() == null) {
-                writer.write(LINE_SEPARATOR);
+                writer.write(SYSTEM_LINE_SEPARATOR);
                 return;
             } else {
                 throw new IOException("HOCON cannot write nodes not in map format!");

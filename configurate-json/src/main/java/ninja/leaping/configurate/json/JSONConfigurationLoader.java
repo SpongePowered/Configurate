@@ -183,7 +183,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
             generator.setPrettyPrinter(new ConfiguratePrettyPrinter(indent, fieldValueSeparatorStyle));
             generateValue(generator, node);
             generator.flush();
-            writer.write(LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
+            writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }
 
@@ -233,11 +233,11 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                         generator.writeRaw(it.next());
                         generator.getPrettyPrinter().beforeObjectEntries(generator);
                         if (it.hasNext()) {
-                            generator.writeRaw(LINE_SEPARATOR);
+                            generator.writeRaw(SYSTEM_LINE_SEPARATOR);
                         }
                     }
                     if (inArray) {
-                        generator.writeRaw(LINE_SEPARATOR);
+                        generator.writeRaw(SYSTEM_LINE_SEPARATOR);
                     }
                 }
             }
