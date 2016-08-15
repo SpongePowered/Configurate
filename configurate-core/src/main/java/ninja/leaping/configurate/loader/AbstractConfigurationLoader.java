@@ -51,11 +51,11 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     protected final Callable<BufferedReader> source;
     private final Callable<BufferedWriter> sink;
     private final CommentHandler[] commentHandlers;
-    private final boolean preservesHeader;
+    private final HeaderMode headerMode;
     private final ConfigurationOptions defaultOptions;
 
     protected static abstract class Builder<T extends Builder> {
-        protected boolean preserveHeader = true;
+        protected HeaderMode headerMode = HeaderMode.PRESERVE;
         protected Callable<BufferedReader> source;
         protected Callable<BufferedWriter> sink;
         protected ConfigurationOptions defaultOptions = ConfigurationOptions.defaults();
@@ -101,13 +101,24 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             return this.sink;
         }
 
+        @Deprecated
         public T setPreservesHeader(boolean preservesHeader) {
-            this.preserveHeader = preservesHeader;
+            this.headerMode = preservesHeader ? HeaderMode.PRESERVE : HeaderMode.PRESET;
             return self();
         }
 
+        @Deprecated
         public boolean preservesHeader() {
-            return this.preserveHeader;
+            return this.headerMode == HeaderMode.PRESERVE;
+        }
+
+        public T setHeaderMode(HeaderMode mode) {
+            this.headerMode = mode;
+            return self();
+        }
+
+        public HeaderMode getHeaderMode() {
+            return this.headerMode;
         }
 
         public T setDefaultOptions(ConfigurationOptions defaultOptions) {
@@ -120,12 +131,13 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
 
         public abstract AbstractConfigurationLoader build();
+
     }
 
     protected AbstractConfigurationLoader(Builder<?> builder, CommentHandler[] commentHandlers) {
         this.source = builder.getSource();
         this.sink = builder.getSink();
-        this.preservesHeader = builder.preservesHeader();
+        this.headerMode = builder.getHeaderMode();
         this.defaultOptions = builder.getDefaultOptions();
         this.commentHandlers = commentHandlers;
     }
@@ -141,7 +153,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
         try (BufferedReader reader = source.call()) {
             NodeType node;
-            if (preservesHeader) {
+            if (headerMode == HeaderMode.PRESERVE || headerMode == HeaderMode.NONE) {
                 String comment = CommentHandlers.extractComment(reader, commentHandlers);
                 if (comment != null && comment.length() > 0) {
                     options = options.setHeader(comment);
@@ -170,13 +182,15 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             throw new IOException("No sink present to write to!");
         }
         try (Writer writer = sink.call()) {
-            String header = node.getOptions().getHeader();
-            if (header != null && !header.isEmpty()) {
-                for (String line : getDefaultCommentHandler().toComment(ImmutableList.copyOf(LINE_SPLITTER.split(header)))) {
-                    writer.write(line);
-                    writer.write(LINE_SEPARATOR);
+            if (headerMode != HeaderMode.NONE) {
+                String header = node.getOptions().getHeader();
+                if (header != null && !header.isEmpty()) {
+                    for (String line : getDefaultCommentHandler().toComment(ImmutableList.copyOf(LINE_SPLITTER.split(header)))) {
+                        writer.write(line);
+                        writer.write(SYSTEM_LINE_SEPARATOR);
+                    }
+                    writer.write(SYSTEM_LINE_SEPARATOR);
                 }
-                writer.write(LINE_SEPARATOR);
             }
             saveInternal(node, writer);
         } catch (Exception e) {
