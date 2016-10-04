@@ -1,6 +1,15 @@
 Changelog
 ========
 
+3.2
+---
+- Allow Gson module to save empty files
+-  Resolve configuration variables for hocon
+- Fix various issues on Windows
+- Correct file permissions
+- Improve error message when unable to find an appropriate TypeSerializer or when using raw types
+- Allow stripping header from files entirely
+
 3.1.1
 -----
 - Correctly use UTF-8 when loading from a URL
