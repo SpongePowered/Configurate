@@ -21,7 +21,7 @@
   <parent>
       <groupId>ninja.leaping.configurate</groupId>
       <artifactId>configurate-parent</artifactId>
-      <version>3.1.2-SNAPSHOT</version>
+      <version>3.2</version>
   </parent>
 
   <artifactId>configurate-core</artifactId>
