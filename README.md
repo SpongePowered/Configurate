@@ -20,6 +20,16 @@ Make sure Maven is installed and from the project's directory (the root of this 
     <version>3.1</version> <!-- Update this with the most recent version -->
 </dependency>
 ```
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'ninja.leaping.configurate', name: 'configurate-hocon', version: '3.1'
+}
+```
 This dependency statement is for the hocon format implementation. Other formats managed in this repository use the same group id and versioning.
 The only dependency Configurate has is on Guava (check the pom for info on which version is currently being used)
 
