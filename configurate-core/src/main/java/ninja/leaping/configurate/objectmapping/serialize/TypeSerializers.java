@@ -127,7 +127,7 @@ public class TypeSerializers {
 
             Enum ret;
             try {
-                ret = Enum.valueOf(type.getRawType().asSubclass(Enum.class), value.getString().toUpperCase());
+                ret = Enum.valueOf((Class) type.getRawType().asSubclass(Enum.class), value.getString().toUpperCase());
             } catch (IllegalArgumentException e) {
                 throw new ObjectMappingException("Invalid enum constant provided for " + value.getKey() + ": Expected a value of enum " + type + ", got " + enumConstant);
             }

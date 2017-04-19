@@ -42,7 +42,7 @@ public class TypeSerializerCollection {
         TypeSerializer<?> serial = typeMatches.get(type);
         if (serial == null) {
             for (Map.Entry<TypeToken<?>, TypeSerializer<?>> ent : typeMatches.entrySet()) {
-                if (ent.getKey().isAssignableFrom(type)) {
+                if (ent.getKey().isSupertypeOf(type)) {
                     serial = ent.getValue();
                     typeMatches.put(type, serial);
                     break;
