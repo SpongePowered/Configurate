@@ -3,8 +3,17 @@ Changelog
 
 3.2
 ---
+- Update Maven and various Maven plugins
+- Update snakeyaml to 1.18 from 1.16 in YAML module
+- Update jackson to 2.8.8 from 2.6.3 in JSON module
+- Update typesafe config to 1.3.1 from 1.3.0 in HOCON module
+- Update gson to 2.8.0 from 2.2.4 in GSON module
+- Move usage of removed Guava method
+
+3.2
+---
 - Allow Gson module to save empty files
--  Resolve configuration variables for hocon
+- Resolve configuration variables for hocon
 - Fix various issues on Windows
 - Correct file permissions
 - Improve error message when unable to find an appropriate TypeSerializer or when using raw types
