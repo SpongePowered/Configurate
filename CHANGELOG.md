@@ -1,7 +1,7 @@
 Changelog
 ========
 
-3.2
+3.3
 ---
 - Update Maven and various Maven plugins
 - Update snakeyaml to 1.18 from 1.16 in YAML module
