@@ -17,7 +17,7 @@ Make sure Maven is installed and from the project's directory (the root of this 
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-hocon</artifactId>
-    <version>3.1</version> <!-- Update this with the most recent version -->
+    <version>3.2</version> <!-- Update this with the most recent version -->
 </dependency>
 ```
 This dependency statement is for the hocon format implementation. Other formats managed in this repository use the same group id and versioning.

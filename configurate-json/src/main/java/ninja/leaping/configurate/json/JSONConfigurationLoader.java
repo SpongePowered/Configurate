@@ -174,7 +174,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                     parseValue(parser, node.getNode(parser.getCurrentName()));
             }
         }
-            throw new JsonParseException("Reached end of stream with unclosed array!", parser.getCurrentLocation());
+            throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
     }
 
     @Override
