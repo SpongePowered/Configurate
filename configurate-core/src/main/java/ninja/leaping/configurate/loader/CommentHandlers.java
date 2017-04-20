@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Handlers for various comment formats
@@ -95,11 +96,11 @@ public enum CommentHandlers implements CommentHandler {
         @Override
         public Collection<String> toComment(Collection<String> lines) {
             if (lines.size() == 1) {
-                return Collections2.transform(lines, input -> "/* " + input + " */");
+                return lines.stream().map(i -> "/* " + i + " */").collect(Collectors.toList());
             } else {
                 Collection<String> ret = new ArrayList<>();
                 ret.add("/*");
-                ret.addAll(Collections2.transform(lines, input -> " * " + input));
+                ret.addAll(lines.stream().map(i -> " * " + i).collect(Collectors.toList()));
                 ret.add(" */");
                 return ret;
             }
