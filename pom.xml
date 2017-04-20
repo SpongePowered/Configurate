@@ -21,7 +21,7 @@
 
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-parent</artifactId>
-    <version>3.3</version>
+    <version>3.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Configurate Parent</name>
     <description>A simple configuration library for Java applications that can handle a variety of formats and

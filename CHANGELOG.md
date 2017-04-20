@@ -1,8 +1,8 @@
 Changelog
 ========
 
-3.3
----
+Next Release
+------------
 - Update Maven and various Maven plugins
 - Update snakeyaml to 1.18 from 1.16 in YAML module
 - Update jackson to 2.8.8 from 2.6.3 in JSON module
