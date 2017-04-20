@@ -8,6 +8,7 @@ Next Release
 - Update jackson to 2.8.8 from 2.6.3 in JSON module
 - Update typesafe config to 1.3.1 from 1.3.0 in HOCON module
 - Update gson to 2.8.0 from 2.2.4 in GSON module
+- Update optional guice dependency to 4.1 from 4.0 in core
 - Move usage of removed Guava method
 
 3.2
