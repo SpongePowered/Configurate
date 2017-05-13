@@ -39,7 +39,7 @@ public class AtomicFiles {
     }
 
     private static Path getTemporaryPath(Path parent, String key) {
-        String fileName = System.currentTimeMillis() + Preconditions.checkNotNull(key, "key").replaceAll("\\\\|/|:",
+        String fileName = System.nanoTime() + Preconditions.checkNotNull(key, "key").replaceAll("\\\\|/|:",
                 "-") + ".tmp";
         return parent.resolve(fileName);
     }
@@ -49,7 +49,7 @@ public class AtomicFiles {
 
         Path writePath = getTemporaryPath(path.getParent(), path.getFileName().toString());
         if (Files.exists(path)) {
-            Files.copy(path, writePath, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.copy(path, writePath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
         }
 
         BufferedWriter output = Files.newBufferedWriter(writePath, charset);
