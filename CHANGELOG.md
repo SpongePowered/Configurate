@@ -1,15 +1,14 @@
 Changelog
 ========
 
-Next Release
-------------
+3.3
+---
 - Update Maven and various Maven plugins
-- Update snakeyaml to 1.18 from 1.16 in YAML module
-- Update jackson to 2.8.8 from 2.6.3 in JSON module
-- Update typesafe config to 1.3.1 from 1.3.0 in HOCON module
-- Update gson to 2.8.0 from 2.2.4 in GSON module
-- Update optional guice dependency to 4.1 from 4.0 in core
-- Move usage of removed Guava method
+- Update snakeyaml to 1.18 from 1.16, jackson to 2.8.8 from 2.6.3, typesafe hocon config to 1.3.1 from 1.3.0, gson to 2.8.0 from 2.2.4, and optional guice dependency to 4.1 from 4.0 where used.
+- Move usage of removed Guava method, update Guava
+- Resolve some issues with atomic writes by using more fine-grained time when generating temp file names
+- Allow resolving enums that don't follow standard naming conventions. Lookup is case-insensitive and ignores underscores. If the enum has two fields that are equal except for case and underscores, an exact match will return the
+appropriate value, and any fuzzy matches will map to the first value in the enum that is applicable.
 
 3.2
 ---

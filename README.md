@@ -2,6 +2,7 @@
 Configurate is a simple configuration library released under the [Apache 2.0](LICENSE) that provides a node-tree representation of configurations in a variety of formats.
 
 *Build Status*: [![Travis CI](https://travis-ci.org/zml2008/configurate.svg)](https://travis-ci.org/zml2008/configurate)
+
 *Javadocs*: http://zml2008.github.io/configurate/apidocs
 
 
@@ -13,13 +14,27 @@ Configurate requires JDK 8 to build and run.
 Make sure Maven is installed and from the project's directory (the root of this repository), run `mvn clean install` to build Configuate and install its artifacts to the local Maven repository.
 
 ## Usage
+
+**Maven**:
 ```xml
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-hocon</artifactId>
     <version>3.2</version> <!-- Update this with the most recent version -->
 </dependency>
+``` 
+
+**Gradle**:
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'ninja.leaping.configurate:configurate-hocon:3.2'
+}
 ```
+
 This dependency statement is for the hocon format implementation. Other formats managed in this repository use the same group id and versioning.
 The only dependency Configurate has is on Guava (check the pom for info on which version is currently being used)
 
