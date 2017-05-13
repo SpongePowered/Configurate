@@ -3,7 +3,7 @@ Configurate is a simple configuration library released under the [Apache 2.0](LI
 
 *Build Status*: [![Travis CI](https://travis-ci.org/zml2008/configurate.svg)](https://travis-ci.org/zml2008/configurate)
 
-*Javadocs*: http://zml2008.github.io/configurate/apidocs
+*Javadocs*: http://configurate.aoeu.xyz/apidocs
 
 
 ## Building
@@ -20,7 +20,7 @@ Make sure Maven is installed and from the project's directory (the root of this 
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-hocon</artifactId>
-    <version>3.2</version> <!-- Update this with the most recent version -->
+    <version>3.3</version> <!-- Update this with the most recent version -->
 </dependency>
 ``` 
 
@@ -31,12 +31,13 @@ repositories {
 }
 
 dependencies {
-    compile 'ninja.leaping.configurate:configurate-hocon:3.2'
+    compile 'ninja.leaping.configurate:configurate-hocon:3.3'
 }
 ```
 
+For other build systems, take a look at the [full list on the Configurate site](http://configurate.aoeu.xyz/configurate-hocon/dependency-info.html)
+
 This dependency statement is for the hocon format implementation. Other formats managed in this repository use the same group id and versioning.
-The only dependency Configurate has is on Guava (check the pom for info on which version is currently being used)
 
 Now, to load:
 ```java

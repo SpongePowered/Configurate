@@ -26,15 +26,11 @@
     <name>Configurate Parent</name>
     <description>A simple configuration library for Java applications that can handle a variety of formats and
         provides a node-based data structure able to handle a wide variety of configuration schemas</description>
-    <url>http://${gitUser}.github.io/${gitProject}/${siteUrlSuffix}/</url>
-    <organization>
-        <name>Leaping Ninja</name>
-        <url>http://leaping.ninja</url>
-    </organization>
+    <url>http://configurate.aoeu.xyz/${siteUrlSuffix}/</url>
     <inceptionYear>2014</inceptionYear>
     <licenses>
         <license>
-            <name>The Apache License, Version 2.0</name>
+            <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
@@ -168,12 +164,12 @@
                     <dependency>
                         <groupId>net.trajano.wagon</groupId>
                         <artifactId>wagon-git</artifactId>
-                        <version>2.0.3</version>
+                        <version>2.0.4</version>
                     </dependency>
                     <dependency>
                         <groupId>org.apache.maven.doxia</groupId>
                         <artifactId>doxia-module-markdown</artifactId>
-                        <version>1.6</version>
+                        <version>1.7</version>
                     </dependency>
                 </dependencies>
             </plugin>
