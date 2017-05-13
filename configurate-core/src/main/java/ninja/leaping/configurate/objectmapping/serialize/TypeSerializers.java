@@ -27,6 +27,7 @@ import ninja.leaping.configurate.Types;
 import ninja.leaping.configurate.objectmapping.InvalidTypeException;
 import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.util.EnumLookup;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -118,20 +120,20 @@ public class TypeSerializers {
     private static class EnumValueSerializer implements TypeSerializer<Enum> {
 
         @Override
+        @SuppressWarnings("unchecked") // i continue to hate generics
         public Enum deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
             String enumConstant = value.getString();
             if (enumConstant == null) {
                 throw new ObjectMappingException("No value present in node " + value);
             }
-            enumConstant = enumConstant.toUpperCase();
 
-            Enum ret;
-            try {
-                ret = Enum.valueOf(type.getRawType().asSubclass(Enum.class), value.getString().toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new ObjectMappingException("Invalid enum constant provided for " + value.getKey() + ": Expected a value of enum " + type + ", got " + enumConstant);
+            Optional<Enum> ret = (Optional) EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class),
+                    enumConstant); // XXX: intellij says this cast is optional but it isnt
+            if (!ret.isPresent()) {
+                throw new ObjectMappingException("Invalid enum constant provided for " + value.getKey() + ": " +
+                        "Expected a value of enum " + type + ", got " + enumConstant);
             }
-            return ret;
+            return ret.get();
         }
 
         @Override

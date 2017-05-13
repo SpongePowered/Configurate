@@ -101,6 +101,8 @@ public class TypeSerializersTest {
     private enum TestEnum {
         FIRST,
         SECOND,
+        Third,
+        third
     }
 
     @Test
@@ -112,10 +114,14 @@ public class TypeSerializersTest {
         SimpleConfigurationNode node = SimpleConfigurationNode.root();
         node.getNode("present_val").setValue("first");
         node.getNode("another_present_val").setValue("SECOND");
+        node.getNode(("casematters_val")).setValue("tHiRd");
+        node.getNode(("casematters_val_lowercase")).setValue("third");
         node.getNode("invalid_val").setValue("3rd");
 
         assertEquals(TestEnum.FIRST, enumSerializer.deserialize(enumType, node.getNode("present_val")));
         assertEquals(TestEnum.SECOND, enumSerializer.deserialize(enumType, node.getNode("another_present_val")));
+        assertEquals(TestEnum.Third, enumSerializer.deserialize(enumType, node.getNode("casematters_val")));
+        assertEquals(TestEnum.third, enumSerializer.deserialize(enumType, node.getNode("casematters_val_lowercase")));
         expectedException.expect(ObjectMappingException.class);
         enumSerializer.deserialize(enumType, node.getNode("invalid_val"));
 
