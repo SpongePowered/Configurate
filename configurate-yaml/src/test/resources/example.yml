@@ -3,3 +3,6 @@ test:
 other:
     op-level: dragon
     location: dog park
+
+foo:
+    bar: []

@@ -22,6 +22,11 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 import static org.junit.Assert.*;
 
@@ -38,5 +43,10 @@ public class YAMLConfigurationLoaderTest {
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
+
+
+        Function<Object, Map<String, List>> f = o -> (HashMap<String, List>)o;
+        List<Map<String, List>> fooList = new ArrayList<>(node.getNode("foo").getList(f));
+        assertEquals(0, fooList.get(0).get("bar").size());
     }
 }
