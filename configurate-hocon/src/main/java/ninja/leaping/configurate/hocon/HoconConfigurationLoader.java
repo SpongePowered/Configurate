@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for parsing
  */
 public class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
-    public static final Pattern CRLF_MATCH = Pattern.compile("\r\n?");
+    private static final Pattern CRLF_MATCH = Pattern.compile("\r?");
     private final ConfigRenderOptions render;
     private final ConfigParseOptions parse;
 
