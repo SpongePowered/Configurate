@@ -1,6 +1,9 @@
-/**
- * Configurate
- * Copyright (C) zml and Configurate contributors
+/*
+ * This file is part of Configurate, licensed under the Apache-2.0 License.
+ *
+ * Copyright (C) zml
+ * Copyright (C) IchorPowered
+ * Copyright (C) Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package ninja.leaping.configurate.commented;
 
 import java.util.Optional;
@@ -24,7 +28,6 @@ import ninja.leaping.configurate.SimpleConfigurationNode;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-
 
 /**
  * Represents a configuration node containing comments

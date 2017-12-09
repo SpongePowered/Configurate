@@ -1,6 +1,9 @@
-/**
- * Configurate
- * Copyright (C) zml and Configurate contributors
+/*
+ * This file is part of Configurate, licensed under the Apache-2.0 License.
+ *
+ * Copyright (C) zml
+ * Copyright (C) IchorPowered
+ * Copyright (C) Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package ninja.leaping.configurate.objectmapping;
 
 import com.google.inject.AbstractModule;
@@ -24,9 +28,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by zml on 7/5/15.
- */
 public class GuiceObjectMapperTest {
 
     private static class TestModule extends AbstractModule {

@@ -1,0 +1,39 @@
+plugins {
+    id 'idea'
+    id 'net.minecrell.licenser' version '0.3'
+}
+
+license {
+    header = project.file('HEADER.txt')
+    include '**/*.java'
+}
+
+allprojects {
+    group = 'ninja.leaping.configurate'
+    version = '3.4-SNAPSHOT'
+
+    apply plugin: 'idea'
+    apply plugin: 'net.minecrell.licenser'
+
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    compileJava.options.encoding = 'UTF-8'
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+    license {
+        header = project.getRootProject().file('HEADER.txt')
+        include '**/*.java'
+    }
+}

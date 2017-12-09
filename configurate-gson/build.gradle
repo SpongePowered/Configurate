@@ -1,0 +1,5 @@
+description = 'Configurate Gson'
+dependencies {
+    compile project(':configurate-core')
+    compile 'com.google.code.gson:gson:2.8.0'
+}

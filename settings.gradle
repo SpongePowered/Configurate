@@ -1,0 +1,12 @@
+rootProject.name = 'configurate-parent'
+include ':configurate-core'
+include ':configurate-yaml'
+include ':configurate-hocon'
+include ':configurate-json'
+include ':configurate-gson'
+
+project(':configurate-core').projectDir = "$rootDir/configurate-core" as File
+project(':configurate-yaml').projectDir = "$rootDir/configurate-yaml" as File
+project(':configurate-hocon').projectDir = "$rootDir/configurate-hocon" as File
+project(':configurate-json').projectDir = "$rootDir/configurate-json" as File
+project(':configurate-gson').projectDir = "$rootDir/configurate-gson" as File
