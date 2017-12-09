@@ -1,0 +1,5 @@
+description = 'Configurate YAML'
+dependencies {
+    compile project(':configurate-core')
+    compile 'org.yaml:snakeyaml:1.19'
+}

@@ -1,9 +1,17 @@
-sudo: false
-cache:
-    directories:
-    - $HOME/.m2
 language: java
-dist: trusty
 jdk:
-    - oraclejdk8
-    - openjdk8
+  - oraclejdk8
+  - openjdk8
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+git:
+  depth: 3
+env:
+  matrix:
+    - GRADLE_OPTS="-Xms1g -Xmx3g"
+before_install:
+  - chmod +x gradlew
+install: true
+script: "./gradlew build --refresh-dependencies"
