@@ -53,14 +53,17 @@ import java.util.regex.Pattern;
  */
 public class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
     public static final Pattern CRLF_MATCH = Pattern.compile("\r\n?");
+    private static final ConfigRenderOptions DEFAULT_RENDER_OPTIONS = ConfigRenderOptions.defaults()
+            .setOriginComments(false)
+            .setJson(false);
+    private static final ConfigOrigin CONFIGURATE_ORIGIN = ConfigOriginFactory.newSimple("configurate-hocon");
+
     private final ConfigRenderOptions render;
     private final ConfigParseOptions parse;
 
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
-        private ConfigRenderOptions render = ConfigRenderOptions.defaults()
-                .setOriginComments(false)
-                .setJson(false);
-        private ConfigParseOptions parse = ConfigParseOptions.defaults();
+        private ConfigRenderOptions render = defaultRenderOptions();
+        private ConfigParseOptions parse = defaultParseOptions();
 
         protected Builder() {
         }
@@ -87,6 +90,14 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         public HoconConfigurationLoader build() {
             return new HoconConfigurationLoader(this);
         }
+    }
+
+    public static ConfigRenderOptions defaultRenderOptions() {
+        return DEFAULT_RENDER_OPTIONS;
+    }
+
+    public static ConfigParseOptions defaultParseOptions() {
+        return ConfigParseOptions.defaults();
     }
 
     public static Builder builder() {
@@ -150,7 +161,6 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         writer.write(renderedValue);
     }
 
-    private static final ConfigOrigin CONFIGURATE_ORIGIN = ConfigOriginFactory.newSimple("configurate-hocon");
 
     private ConfigValue fromValue(ConfigurationNode node) {
         ConfigValue ret;

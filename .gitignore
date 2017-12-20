@@ -3,6 +3,7 @@ target/
 .idea
 *.iml
 *.ipr
+idea/
 
 # Mac stuff
 .DS_Store
