@@ -51,7 +51,7 @@ class ListConfigValue extends ConfigValue {
             for (SimpleConfigurationNode obj : values) {
                 ret.add(obj.getValue());
             }
-            return ret.isEmpty() ? null : ret;
+            return ret;
         }
     }
 
