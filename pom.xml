@@ -41,7 +41,7 @@
         </developer>
     </developers>
     <properties>
-        <gitUser>zml2008</gitUser>
+        <gitUser>SpongePowered</gitUser>
         <gitProject>configurate</gitProject>
         <gitUrl>${gitUser}/${gitProject}</gitUrl>
         <siteUrlSuffix />
@@ -63,7 +63,7 @@
         <site>
             <id>gh-pages</id>
             <name>Configurate GitHub Pages</name>
-            <url>github:http://zml2008.github.io/configurate/${siteUrlSuffix}/</url>
+            <url>github:http://SpongePowered.github.io/configurate/${siteUrlSuffix}/</url> <!-- This is a lie but it's what the wagon-git plugin needs to deploy the site -->
         </site>
     </distributionManagement>
 

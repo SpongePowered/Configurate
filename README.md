@@ -1,9 +1,11 @@
 # Configurate
 Configurate is a simple configuration library released under the [Apache 2.0](LICENSE) that provides a node-tree representation of configurations in a variety of formats.
 
-*Build Status*: [![Travis CI](https://travis-ci.org/zml2008/configurate.svg)](https://travis-ci.org/zml2008/configurate)
+*Build Status*: [![Travis CI](https://travis-ci.org/SpongePowered/configurate.svg)](https://travis-ci.org/SpongePowered/configurate)
 
 *Javadocs*: http://configurate.aoeu.xyz/apidocs
+
+Want to talk to us about Configurate? Come to the `#dev-irc` channel in our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net` where people familiar with the project will hang around.
 
 
 ## Building
@@ -51,6 +53,7 @@ More detailed explanations of all the methods available in ConfigurationNode are
 ## Contributing
 We love PRs! However, when contributing, here are some things to keep in mind:
 
+- Take a look at open issues first before you get too far in -- someone might already be working on what you were planning on doing
 - In general, we follow the Oracle style guidelines for code style
-- Please, please, please test PRs. It makes the process a lot easier for everybody
+- Please, please, please test PRs. It makes the process a lot easier for everybody :)
 
