@@ -155,6 +155,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             throw new IOException("No sink present to write to!");
         }
         try (Writer writer = sink.call()) {
+            writeHeaderInternal(writer);
             if (headerMode != HeaderMode.NONE) {
                 String header = node.getOptions().getHeader();
                 if (header != null && !header.isEmpty()) {
@@ -173,6 +174,10 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
                 throw new IOException(e);
             }
         }
+    }
+
+    protected void writeHeaderInternal(Writer writer) throws IOException {
+
     }
 
     protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;

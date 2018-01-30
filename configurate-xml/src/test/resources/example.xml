@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages secret="false">
+    <note id="501">
+        <to>Tove</to>
+        <from>Jani</from>
+        <heading italic="true">Reminder</heading>
+        <body>Don't forget me this weekend!</body>
+    </note>
+    <note id="502">
+        <to>Jani</to>
+        <from>Tove</from>
+        <heading bold="true">Re: Reminder</heading>
+        <body>I will not</body>
+        <body>spooky second body element</body>
+    </note>
+</messages>
