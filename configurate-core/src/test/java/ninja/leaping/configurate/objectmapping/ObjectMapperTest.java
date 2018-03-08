@@ -25,6 +25,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ObjectMapperTest {
@@ -165,5 +168,55 @@ public class ObjectMapperTest {
         assertTrue(node.getNode("inner").hasMapChildren());
         assertEquals("Default value", node.getNode("inner", "test").getString());
         assertEquals("Something", node.getNode("inner", "test").getComment().get());
+    }
+
+    @ConfigSerializable
+    private interface ParentInterface {
+        String getTest();
+    }
+
+    private static class ChildObject implements ParentInterface {
+        @Setting(comment = "Something") private String test = "Default value";
+
+        @Override public String getTest() {
+            return test;
+        }
+    }
+
+    @ConfigSerializable
+    private static class ContainingObject {
+        @Setting ParentInterface inner = new ChildObject();
+        @Setting List<ParentInterface> list = new ArrayList<>();
+    }
+
+    @Test
+    public void testInterfaceSerialization() throws ObjectMappingException {
+        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+
+        final ChildObject childObject = new ChildObject();
+        childObject.test = "Changed value";
+
+        final ContainingObject containingObject = new ContainingObject();
+        containingObject.list.add(childObject);
+        containingObject.inner = childObject;
+
+        final ObjectMapper<ContainingObject> mapper = ObjectMapper.forClass(ContainingObject.class);
+        mapper.bind(containingObject).serialize(node);
+
+        final ContainingObject newContainingObject = mapper.bindToNew().populate(node);
+
+        // serialization
+        assertEquals(1, node.getNode("list").getChildrenList().size());
+        assertEquals("Changed value", node.getNode("inner").getNode("test").getString());
+        assertEquals("Changed value", node.getNode("list").getChildrenList().get(0).getNode("test").getString());
+        assertEquals("Something", node.getNode("inner").getNode("test").getComment().get());
+        assertEquals("Something", node.getNode("list").getChildrenList().get(0).getNode("test").getComment().get());
+        assertEquals(ChildObject.class.getName(), node.getNode("inner").getNode("__class__").getString());
+        assertEquals(ChildObject.class.getName(), node.getNode("list").getChildrenList().get(0).getNode("__class__").getString());
+
+        // deserialization
+        assertEquals(1, newContainingObject.list.size());
+        assertEquals("Changed value", newContainingObject.inner.getTest());
+        assertEquals("Changed value", newContainingObject.list.get(0).getTest());
     }
 }

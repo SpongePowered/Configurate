@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
-
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.Types;
@@ -35,12 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -269,6 +263,10 @@ public class TypeSerializers {
                     } catch (ClassNotFoundException e) {
                         throw new ObjectMappingException("Unknown class of object " + configuredName, e);
                     }
+                    if (!type.getRawType().isAssignableFrom(retClass)) {
+                        throw new ObjectMappingException("Configured type " + configuredName + " does not extend "
+                                + type.getRawType().getCanonicalName());
+                    }
                 }
             } else {
                 retClass = type.getRawType();
@@ -280,7 +278,8 @@ public class TypeSerializers {
         @SuppressWarnings("unchecked")
         public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
             if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
-                value.getNode("__class__").setValue(type.getRawType().getCanonicalName());
+                // serialize obj's concrete type rather than the interface/abstract class
+                value.getNode("__class__").setValue(obj.getClass().getName());
             }
             ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(obj.getClass()))
                     .bind(obj).serialize(value);
