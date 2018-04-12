@@ -140,6 +140,9 @@
                         <include>src/test/java/**</include>
                     </includes>
                     <useDefaultExcludes>true</useDefaultExcludes>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
                 </configuration>
                 <executions>
                     <execution>
