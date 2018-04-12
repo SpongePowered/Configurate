@@ -16,44 +16,87 @@
  */
 package ninja.leaping.configurate;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import java.util.Iterator;
 
+/**
+ * The value in a {@link ConfigurationNode}.
+ */
 abstract class ConfigValue {
+
+    /**
+     * The node this value "belongs" to.
+     */
+    @NonNull
     protected final SimpleConfigurationNode holder;
 
-    protected ConfigValue(SimpleConfigurationNode holder) {
+    protected ConfigValue(@NonNull SimpleConfigurationNode holder) {
         this.holder = holder;
     }
 
+    /**
+     * Gets the value encapsulated by this instance
+     *
+     * @return The value
+     */
+    @Nullable
     abstract Object getValue();
-    abstract void setValue(Object value);
 
     /**
-     * put a child, or null to remove value at key
+     * Sets the value encapsulated by this instance
      *
-     * @param key the key
-     * @param value the node to put at key
-     * @return existing node at key, if present
+     * @param value The value
      */
-    abstract SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value);
-    abstract SimpleConfigurationNode putChildIfAbsent(Object key, SimpleConfigurationNode value);
+    abstract void setValue(@Nullable Object value);
 
     /**
-     * gets the currently present child.
-     * returns null if no child is present
+     * Put a child value, or null to remove value at that key
      *
-     * @param key the key to get child at
-     * @return the child if any
+     * @param key The key
+     * @param value The node to put at key
+     * @return Existing node at key, if present
      */
-    abstract SimpleConfigurationNode getChild(Object key);
+    @Nullable
+    abstract SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value);
+
+    /**
+     * Put a child value, if one isn't already present at that key
+     *
+     * @param key The key
+     * @param value The node to put at key
+     * @return Existing node at key, if present
+     */
+    @Nullable
+    abstract SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value);
+
+    /**
+     * Gets the currently present child for the given key. Returns null if no child is present
+     *
+     * @param key The key to get child at
+     * @return The child if any
+     */
+    @Nullable
+    abstract SimpleConfigurationNode getChild(@Nullable Object key);
+
+    /**
+     * Returns an iterable over all child nodes
+     *
+     * @return An iterator
+     */
+    @NonNull
     abstract Iterable<SimpleConfigurationNode> iterateChildren();
 
+    /**
+     * Clears the set value (or any attached child values) from this value
+     */
     void clear() {
         for (Iterator<SimpleConfigurationNode> it = iterateChildren().iterator(); it.hasNext();) {
             SimpleConfigurationNode node = it.next();
             node.attached = false;
             it.remove();
-            if (node.getParentAttached().equals(holder)) {
+            if (node.getParentEnsureAttached().equals(holder)) {
                 node.clear();
             }
         }

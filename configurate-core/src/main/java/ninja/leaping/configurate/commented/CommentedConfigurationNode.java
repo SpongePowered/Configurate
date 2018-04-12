@@ -16,43 +16,44 @@
  */
 package ninja.leaping.configurate.commented;
 
-import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
- * A configuration node that is capable of having an attached comment
+ * A configuration node that can have a comment attached to it.
  */
 public interface CommentedConfigurationNode extends ConfigurationNode {
+
     /**
-     * Gets the current value for the comment. If the comment contains multiple lines, the lines will be split by \n
+     * Gets the current value for the comment.
      *
-     * @return the configuration's current comment
+     * <p>If the comment contains multiple lines, the lines will be split by \n</p>
+     *
+     * @return The configuration's current comment
      */
+    @NonNull
     Optional<String> getComment();
 
     /**
-     * Sets the comment for this configuration.
+     * Sets the comment for this configuration node.
+     *
      * @param comment The comment to set. Line breaks should be represented as LFs (\n)
      * @return this
      */
-    CommentedConfigurationNode setComment(String comment);
+    @NonNull
+    CommentedConfigurationNode setComment(@Nullable String comment);
 
     // Methods from superclass overridden to have correct return types
-
-    CommentedConfigurationNode getParent();
-    @Override
-    List<? extends CommentedConfigurationNode> getChildrenList();
-    @Override
-    Map<Object, ? extends CommentedConfigurationNode> getChildrenMap();
-    @Override
-    CommentedConfigurationNode setValue(Object value);
-    @Override
-    CommentedConfigurationNode mergeValuesFrom(ConfigurationNode other);
-    @Override
-    CommentedConfigurationNode getAppendedNode();
-    @Override
-    CommentedConfigurationNode getNode(Object... path);
+    @Nullable @Override CommentedConfigurationNode getParent();
+    @NonNull @Override List<? extends CommentedConfigurationNode> getChildrenList();
+    @NonNull @Override Map<Object, ? extends CommentedConfigurationNode> getChildrenMap();
+    @NonNull @Override CommentedConfigurationNode setValue(@Nullable Object value);
+    @NonNull @Override CommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
+    @NonNull @Override CommentedConfigurationNode getAppendedNode();
+    @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);
 }

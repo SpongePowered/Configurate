@@ -19,16 +19,35 @@ package ninja.leaping.configurate.objectmapping.serialize;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
+/**
+ * Represents an object which can serialize and deserialize objects of a given type.
+ *
+ * @param <T> The type
+ */
 public interface TypeSerializer<T> {
+
     /**
-     * Deserialize an object required to be of a given type from the given configuration node
+     * Deserialize an object (of the correct type) from the given configuration node.
+     *
      * @param type The type of return value required
      * @param value The node containing serialized data
      * @return An object
-     * @throws ObjectMappingException If the presented data is somehow invalid
+     * @throws ObjectMappingException If the presented data is invalid
      */
-    T deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException;
+    @Nullable
+    T deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException;
 
-    void serialize(TypeToken<?> type, T obj, ConfigurationNode value) throws ObjectMappingException;
+    /**
+     * Serialize an object to the given configuration node.
+     *
+     * @param type The type of the input object
+     * @param obj The object to be serialized
+     * @param value The node to write to
+     * @throws ObjectMappingException If the object cannot be serialized
+     */
+    void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull ConfigurationNode value) throws ObjectMappingException;
+
 }

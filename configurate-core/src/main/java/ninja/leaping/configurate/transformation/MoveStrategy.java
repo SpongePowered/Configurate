@@ -22,12 +22,20 @@ import ninja.leaping.configurate.ConfigurationNode;
  * Strategy to use when moving a node from one path to another
  */
 public enum MoveStrategy {
+
+    /**
+     * Moves nodes using {@link ConfigurationNode#mergeValuesFrom(ConfigurationNode)}.
+     */
     MERGE {
         @Override
         public void move(ConfigurationNode source, ConfigurationNode target) {
             target.mergeValuesFrom(source);
         }
     },
+
+    /**
+     * Moves nodes using {@link ConfigurationNode#setValue(Object)}.
+     */
     OVERWRITE {
         @Override
         public void move(ConfigurationNode source, ConfigurationNode target) {
@@ -35,5 +43,11 @@ public enum MoveStrategy {
         }
     };
 
+    /**
+     * Moves <code>source</code> to <code>target</code>.
+     *
+     * @param source The source node
+     * @param target The target node
+     */
     public abstract void move(ConfigurationNode source, ConfigurationNode target);
 }

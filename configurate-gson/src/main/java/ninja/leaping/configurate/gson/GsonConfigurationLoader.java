@@ -28,6 +28,7 @@ import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,54 +36,86 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * A loader for JSON-formatted configurations, using the jackson library for parsing and generation
+ * A loader for JSON-formatted configurations, using the GSON library for parsing and generation.
  */
 public class GsonConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
-    private final boolean lenient;
-    private final String indent;
 
+    /**
+     * Creates a new {@link GsonConfigurationLoader} builder.
+     *
+     * @return A new builder
+     */
+    @NonNull
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Builds a {@link GsonConfigurationLoader}.
+     */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private boolean lenient = true;
         private int indent = 2;
 
+        protected Builder() {
+        }
+
+        /**
+         * Sets the level of indentation the resultant loader should use.
+         *
+         * @param indent The indent level
+         * @return This builder (for chaining)
+         */
+        @NonNull
         public Builder setIndent(int indent) {
             this.indent = indent;
             return this;
         }
 
+        /**
+         * Gets the level of indentation to be used by the resultant loader.
+         *
+         * @return The indent level
+         */
         public int getIndent() {
             return this.indent;
         }
 
         /**
+         * Sets if the resultant loader should parse leniently.
+         *
          * @see JsonReader#setLenient(boolean)
          * @param lenient Whether the parser should parse leniently
-         * @return this
+         * @return This builder (for chaining)
          */
+        @NonNull
         public Builder setLenient(boolean lenient) {
             this.lenient = lenient;
             return this;
         }
 
+        /**
+         * Gets if the resultant loader should parse leniently.
+         *
+         * @return Whether the parser should parse leniently
+         */
         public boolean isLenient() {
             return this.lenient;
         }
 
+        @NonNull
         @Override
         public GsonConfigurationLoader build() {
             return new GsonConfigurationLoader(this);
         }
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
+    private final boolean lenient;
+    private final String indent;
 
-    protected GsonConfigurationLoader(Builder builder) {
-        super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
-                        CommentHandlers.HASH});
+    private GsonConfigurationLoader(Builder builder) {
+        super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
         this.lenient = builder.isLenient();
         this.indent = Strings.repeat(" ", builder.getIndent());
     }
@@ -184,14 +217,15 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
+    @NonNull
     @Override
-    public ConfigurationNode createEmptyNode(ConfigurationOptions options) {
+    public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
         return SimpleConfigurationNode.root(options);
     }
 
-    private void generateValue(JsonWriter generator, ConfigurationNode node) throws IOException {
+    private static void generateValue(JsonWriter generator, ConfigurationNode node) throws IOException {
         if (node.hasMapChildren()) {
             generateObject(generator, node);
         } else if (node.hasListChildren()) {
@@ -211,15 +245,13 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                 generator.value((Integer) value);
             } else if (value instanceof Boolean) {
                 generator.value((Boolean) value);
-            } else if (value instanceof byte[]) {
-                //generator.value((byte[]) value);
             } else {
                 generator.value(value.toString());
             }
         }
     }
 
-    private void generateObject(JsonWriter generator, ConfigurationNode node) throws IOException {
+    private static void generateObject(JsonWriter generator, ConfigurationNode node) throws IOException {
         if (!node.hasMapChildren()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
@@ -229,10 +261,9 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             generateValue(generator, ent.getValue());
         }
         generator.endObject();
-
     }
 
-    private void generateArray(JsonWriter generator, ConfigurationNode node) throws IOException {
+    private static void generateArray(JsonWriter generator, ConfigurationNode node) throws IOException {
         if (!node.hasListChildren()) {
             throw new IOException("Node passed to generateArray does not have list children!");
         }

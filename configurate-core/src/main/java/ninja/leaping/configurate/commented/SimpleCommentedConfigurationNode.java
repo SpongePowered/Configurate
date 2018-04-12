@@ -16,46 +16,54 @@
  */
 package ninja.leaping.configurate.commented;
 
-import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-
 /**
- * Represents a configuration node containing comments
+ * Basic implementation of {@link CommentedConfigurationNode}.
  */
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
     private final AtomicReference<String> comment = new AtomicReference<>();
 
+    @NonNull
     public static SimpleCommentedConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    public static SimpleCommentedConfigurationNode root(ConfigurationOptions options) {
+    @NonNull
+    public static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
         return new SimpleCommentedConfigurationNode(null, null, options);
     }
 
-    protected SimpleCommentedConfigurationNode(Object path, SimpleConfigurationNode parent, ConfigurationOptions options) {
+    protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);
     }
 
+    @NonNull
     @Override
     public Optional<String> getComment() {
         return Optional.ofNullable(comment.get());
     }
 
+    @NonNull
     @Override
-    public SimpleCommentedConfigurationNode setComment(String comment) {
+    public SimpleCommentedConfigurationNode setComment(@Nullable String comment) {
         attachIfNecessary();
         this.comment.set(comment);
         return this;
     }
 
+    // Methods from superclass overridden to have correct return types
+
+    @Nullable
     @Override
     public SimpleCommentedConfigurationNode getParent() {
         return (SimpleCommentedConfigurationNode) super.getParent();
@@ -66,16 +74,18 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         return new SimpleCommentedConfigurationNode(path, this, getOptions());
     }
 
+    @NonNull
     @Override
-    public SimpleCommentedConfigurationNode setValue(Object value) {
+    public SimpleCommentedConfigurationNode setValue(@Nullable Object value) {
         if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode) value).getComment().isPresent()) {
             setComment(((CommentedConfigurationNode) value).getComment().get());
         }
-        return (SimpleCommentedConfigurationNode)super.setValue(value);
+        return (SimpleCommentedConfigurationNode) super.setValue(value);
     }
 
+    @NonNull
     @Override
-    public SimpleCommentedConfigurationNode mergeValuesFrom(ConfigurationNode other) {
+    public SimpleCommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNode) {
             Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
             if (otherComment.isPresent()) {
@@ -85,23 +95,27 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);
     }
 
+    @NonNull
     @Override
-    public SimpleCommentedConfigurationNode getNode(Object... path) {
-        return (SimpleCommentedConfigurationNode)super.getNode(path);
+    public SimpleCommentedConfigurationNode getNode(@NonNull Object... path) {
+        return (SimpleCommentedConfigurationNode) super.getNode(path);
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public List<? extends SimpleCommentedConfigurationNode> getChildrenList() {
         return (List<SimpleCommentedConfigurationNode>) super.getChildrenList();
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public Map<Object, ? extends SimpleCommentedConfigurationNode> getChildrenMap() {
         return (Map<Object, SimpleCommentedConfigurationNode>) super.getChildrenMap();
     }
 
+    @NonNull
     @Override
     public SimpleCommentedConfigurationNode getAppendedNode() {
         return (SimpleCommentedConfigurationNode) super.getAppendedNode();
@@ -114,9 +128,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         if (!super.equals(o)) return false;
 
         SimpleCommentedConfigurationNode that = (SimpleCommentedConfigurationNode) o;
-
         if (!comment.equals(that.comment)) return false;
-
         return true;
     }
 
@@ -131,7 +143,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     public String toString() {
         return "SimpleCommentedConfigurationNode{" +
                 "super=" + super.toString() +
-                "comment=" + comment +
+                ", comment=" + comment +
                 '}';
     }
 }

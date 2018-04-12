@@ -16,10 +16,16 @@
  */
 package ninja.leaping.configurate.util;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * A factory which creates {@link ConcurrentMap} instances.
+ */
 @FunctionalInterface
 public interface MapFactory {
+
     /**
      * Create a new map instance for the given types
      *
@@ -27,5 +33,7 @@ public interface MapFactory {
      * @param <V> The value
      * @return A new map instance
      */
+    @NonNull
     <K, V> ConcurrentMap<K, V> create();
+
 }

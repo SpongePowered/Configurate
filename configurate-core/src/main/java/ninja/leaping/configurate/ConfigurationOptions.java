@@ -26,24 +26,30 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollectio
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
 import ninja.leaping.configurate.util.MapFactory;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Set;
 
 /**
- * This object is a holder for general configuration options. This is meant to hold options
- * that are used in configuring how the configuration data structures are handled, rather than the serialization configuration that is located in {@link ConfigurationLoader}s
+ * This object is a holder for general configuration options.
+ *
+ * <p>This is meant to hold options that are used in configuring how the configuration data
+ * structures are handled, rather than the serialization configuration that is located in
+ * {@link ConfigurationLoader}s.</p>
+ *
+ * <p>This class is immutable.</p>
  */
 public class ConfigurationOptions {
-    private final MapFactory mapSupplier;
-    private final String header;
-    private final TypeSerializerCollection serializers;
-    private final ImmutableSet<Class<?>> acceptedTypes;
-    private final ObjectMapperFactory objectMapperFactory;
+    @NonNull private final MapFactory mapFactory;
+    @Nullable private final String header;
+    @NonNull private final TypeSerializerCollection serializers;
+    @Nullable private final ImmutableSet<Class<?>> acceptedTypes;
+    @NonNull private final ObjectMapperFactory objectMapperFactory;
     private final boolean shouldCopyDefaults;
 
-    private ConfigurationOptions(MapFactory mapSupplier, String header,
-                                 TypeSerializerCollection serializers, Set<Class<?>> acceptedTypes, ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
-        this.mapSupplier = mapSupplier;
+    private ConfigurationOptions(@NonNull MapFactory mapFactory, @Nullable String header, @NonNull TypeSerializerCollection serializers, @Nullable Set<Class<?>> acceptedTypes, @NonNull ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
+        this.mapFactory = mapFactory;
         this.header = header;
         this.serializers = serializers;
         this.acceptedTypes = acceptedTypes == null ? null : ImmutableSet.copyOf(acceptedTypes);
@@ -56,90 +62,125 @@ public class ConfigurationOptions {
      *
      * @return A new default options object
      */
+    @NonNull
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null, TypeSerializers
-                .getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance(), false);
+        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null,
+                TypeSerializers.getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance(), false);
     }
 
     /**
-     * Get the key comparator currently being used for this configuration
+     * Gets the {@link MapFactory} specified in these options.
      *
-     * @return The active key comparator
+     * @return The map factory
      */
+    @NonNull
     public MapFactory getMapFactory() {
-        return mapSupplier;
+        return mapFactory;
     }
 
     /**
-     * Return a new options object with the provided option set.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link MapFactory}
+     * set, and all other settings copied from this instance.
      *
-     * @param factory The new factory to use to create a map
+     * @param mapFactory The new factory to use to create a map
      * @return The new options object
      */
-    public ConfigurationOptions setMapFactory(MapFactory factory) {
-        Preconditions.checkNotNull(factory, "factory");
-        return new ConfigurationOptions(factory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    @NonNull
+    public ConfigurationOptions setMapFactory(@NonNull MapFactory mapFactory) {
+        Preconditions.checkNotNull(mapFactory, "mapFactory");
+        if (this.mapFactory == mapFactory) {
+            return this;
+        }
+        return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
-     * Get the header used for this configuration
+     * Gets the header specified in these options.
      *
      * @return The current header. Lines are split by \n,
      */
+    @Nullable
     public String getHeader() {
         return this.header;
     }
 
     /**
-     * Set the header that will be written to a file if
-     * @param header The new header to use for the configuration
-     * @return The map's header
+     * Creates a new {@link ConfigurationOptions} instance, with the specified header
+     * set, and all other settings copied from this instance.
+     *
+     * @param header The new header to use
+     * @return The new options object
      */
-    public ConfigurationOptions setHeader(String header) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    @NonNull
+    public ConfigurationOptions setHeader(@Nullable String header) {
+        if (Objects.equal(this.header, header)) {
+            return this;
+        }
+        return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
+    /**
+     * Gets the {@link TypeSerializerCollection} specified in these options.
+     *
+     * @return The type serializers
+     */
+    @NonNull
     public TypeSerializerCollection getSerializers() {
         return this.serializers;
     }
 
     /**
-     * Set the collection of TypeSerializers to be used for lookups
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection}
+     * set, and all other settings copied from this instance.
      *
      * @param serializers The serializers to use
-     * @return updated options object
+     * @return The new options object
      */
-    public ConfigurationOptions setSerializers(TypeSerializerCollection serializers) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    @NonNull
+    public ConfigurationOptions setSerializers(@NonNull TypeSerializerCollection serializers) {
+        Preconditions.checkNotNull(serializers, "serializers");
+        if (this.serializers == serializers) {
+            return this;
+        }
+        return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
-     * Get the current object mapper factory that is most appropriate to this configuration.
+     * Gets the {@link ObjectMapperFactory} specified in these options.
      *
      * @return The factory used to construct ObjectMapper instances
      */
+    @NonNull
     public ObjectMapperFactory getObjectMapperFactory() {
         return this.objectMapperFactory;
     }
 
     /**
-     * Set the factory to use to produce object mapper instances for this configuration
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapperFactory}
+     * set, and all other settings copied from this instance.
      *
-     * @param factory The factory to use to produce object mapper instances. Must not be null
+     * @param objectMapperFactory The factory to use to produce object mapper instances. Must not be null
      * @return updated options object
      */
-    public ConfigurationOptions setObjectMapperFactory(ObjectMapperFactory factory) {
-        Preconditions.checkNotNull(factory, "factory");
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, factory, shouldCopyDefaults);
+    @NonNull
+    public ConfigurationOptions setObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
+        Preconditions.checkNotNull(objectMapperFactory, "factory");
+        if (this.objectMapperFactory == objectMapperFactory) {
+            return this;
+        }
+        return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
-     * Return whether objects of the provided type are accepted as values for nodes with this as their options object.
+     * Gets whether objects of the provided type are accepted as values for nodes with this as
+     * their options object.
      *
      * @param type The type to check
      * @return Whether the type is accepted
      */
-    public boolean acceptsType(Class<?> type) {
+    public boolean acceptsType(@NonNull Class<?> type) {
+        Preconditions.checkNotNull(type, "type");
+
         if (this.acceptedTypes == null) {
             return true;
         }
@@ -157,16 +198,27 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Set types that will be accepted as native values for this configuration
+     * Creates a new {@link ConfigurationOptions} instance, with the specified accepted types
+     * set, and all other settings copied from this instance.
+     *
+     * <p>'Accepted types' are types which are accepted as native values for the configuration.</p>
+     *
+     * <p>Null indicates that all types are accepted.</p>
+     *
      * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
      * @return updated options object
      */
-    public ConfigurationOptions setAcceptedTypes(Set<Class<?>> acceptedTypes) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    @NonNull
+    public ConfigurationOptions setAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
+        if (Objects.equal(this.acceptedTypes, acceptedTypes)) {
+            return this;
+        }
+        return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
-     * Return whether or not default parameters provided to {@link ConfigurationNode} getter methods should be set to the node when used.
+     * Gets whether or not default parameters provided to {@link ConfigurationNode} getter methods
+     * should be set to the node when used.
      *
      * @return Whether defaults should be copied into value
      */
@@ -175,14 +227,19 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Set whether defaults should be set when used.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting
+     * set, and all other settings copied from this instance.
      *
      * @see #shouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
      */
+    @NonNull
     public ConfigurationOptions setShouldCopyDefaults(boolean shouldCopyDefaults) {
-        return new ConfigurationOptions(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+        if (this.shouldCopyDefaults == shouldCopyDefaults) {
+            return this;
+        }
+        return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     @Override
@@ -191,7 +248,7 @@ public class ConfigurationOptions {
         if (!(o instanceof ConfigurationOptions)) return false;
         ConfigurationOptions that = (ConfigurationOptions) o;
         return Objects.equal(shouldCopyDefaults, that.shouldCopyDefaults) &&
-                Objects.equal(mapSupplier, that.mapSupplier) &&
+                Objects.equal(mapFactory, that.mapFactory) &&
                 Objects.equal(header, that.header) &&
                 Objects.equal(serializers, that.serializers) &&
                 Objects.equal(acceptedTypes, that.acceptedTypes) &&
@@ -200,6 +257,6 @@ public class ConfigurationOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mapSupplier, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+        return Objects.hashCode(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 }

@@ -19,6 +19,8 @@ package ninja.leaping.configurate.transformation;
 import com.google.common.collect.ImmutableList;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -54,8 +56,9 @@ public class ConfigurationTransformationTest {
         );
 
         final TransformAction action = new TransformAction() {
+            @Nullable
             @Override
-            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+            public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                 autoSortedKeys.add(inputPath.getArray());
                 return null;
             }
@@ -105,8 +108,9 @@ public class ConfigurationTransformationTest {
         );
 
         final TransformAction action = new TransformAction() {
+            @Nullable
             @Override
-            public Object[] visitPath(SingleConfigurationTransformation.NodePath path, ConfigurationNode valueAtPath) {
+            public Object[] visitPath(@NonNull NodePath path, @NonNull ConfigurationNode valueAtPath) {
                 populatedResults.add(path.getArray());
                 return null;
             }
@@ -128,8 +132,9 @@ public class ConfigurationTransformationTest {
     public void testMoveNode() {
         final ConfigurationTransformation transform = ConfigurationTransformation.builder()
                 .addAction(p("old", "path"), new TransformAction() {
+                    @Nullable
                     @Override
-                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                    public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                         return p("new", "path");
                     }
                 }).build();
@@ -148,14 +153,16 @@ public class ConfigurationTransformationTest {
         node.getNode("a").setValue("something?");
         final List<String> actualOutput = new ArrayList<>(), expectedOutput = ImmutableList.of("one", "two");
         ConfigurationTransformation.chain(ConfigurationTransformation.builder().addAction(p("a"), new TransformAction() {
+            @Nullable
             @Override
-            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+            public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                 actualOutput.add("one");
                 return null;
             }
         }).build(), ConfigurationTransformation.builder().addAction(p("a"), new TransformAction() {
+            @Nullable
             @Override
-            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+            public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                 actualOutput.add("two");
                 return null;
             }
@@ -167,8 +174,9 @@ public class ConfigurationTransformationTest {
     public void testMoveToBase() {
         final ConfigurationTransformation transform = ConfigurationTransformation.builder()
                 .addAction(p("sub"), new TransformAction() {
+                    @Nullable
                     @Override
-                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                    public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                         return new Object[0];
                     }
                 }).build();
@@ -185,8 +193,9 @@ public class ConfigurationTransformationTest {
     public void testMoveStrategy() {
         final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder()
                 .addAction(p("one"), new TransformAction() {
+                    @Nullable
                     @Override
-                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                    public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                         return p("two");
                     }
                 });
@@ -213,8 +222,9 @@ public class ConfigurationTransformationTest {
         final ConfigurationNode child = node.getNode("childNode").setValue("something");
         ConfigurationTransformation.builder()
                 .addAction(p("childNode"), new TransformAction() {
+                    @Nullable
                     @Override
-                    public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                    public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                         assertEquals(child, valueAtPath);
                         return null;
                     }
@@ -230,24 +240,27 @@ public class ConfigurationTransformationTest {
         final ConfigurationTransformation versionTransform = ConfigurationTransformation.versionedBuilder()
                 .addVersion(0, ConfigurationTransformation.builder()
                         .addAction(p("dummy"), new TransformAction() {
+                            @Nullable
                             @Override
-                            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                            public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                                 updatedVersions.add(0);
                                 return null;
                             }
                         }).build())
                 .addVersion(2, ConfigurationTransformation.builder()
                         .addAction(p("dummy"), new TransformAction() {
+                            @Nullable
                             @Override
-                            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                            public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                                 updatedVersions.add(2);
                                 return null;
                             }
                         }).build())
                 .addVersion(1, ConfigurationTransformation.builder()
                         .addAction(p("dummy"), new TransformAction() {
+                            @Nullable
                             @Override
-                            public Object[] visitPath(SingleConfigurationTransformation.NodePath inputPath, ConfigurationNode valueAtPath) {
+                            public Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath) {
                                 updatedVersions.add(1);
                                 return null;
                             }

@@ -18,8 +18,14 @@ package ninja.leaping.configurate.objectmapping;
 
 import com.google.common.reflect.TypeToken;
 
+/**
+ * Extension of {@link ObjectMappingException} for instances where the present {@link TypeToken type}
+ * is invalid.
+ */
 public class InvalidTypeException extends ObjectMappingException {
+
     public InvalidTypeException(TypeToken<?> received) {
         super("Invalid type presented to serializer: " + received);
     }
+
 }

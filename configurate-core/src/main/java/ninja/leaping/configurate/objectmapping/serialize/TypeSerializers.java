@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
-
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.Types;
@@ -28,6 +27,8 @@ import ninja.leaping.configurate.objectmapping.InvalidTypeException;
 import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.util.EnumLookup;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -44,9 +45,17 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * A number of {@link TypeSerializer}s provided by configurate.
+ */
 public class TypeSerializers {
     private static final TypeSerializerCollection DEFAULT_SERIALIZERS = new TypeSerializerCollection(null);
 
+    /**
+     * Gets the default {@link TypeSerializer}s.
+     *
+     * @return The default serializers
+     */
     public static TypeSerializerCollection getDefaultSerializers() {
         return DEFAULT_SERIALIZERS;
     }
@@ -65,22 +74,21 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Pattern.class), new PatternSerializer());
     }
 
-
     private static class StringSerializer implements TypeSerializer<String> {
         @Override
-        public String deserialize(TypeToken<?> type, ConfigurationNode value) throws InvalidTypeException {
+        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws InvalidTypeException {
             return value.getString();
         }
 
         @Override
-        public void serialize(TypeToken<?> type, String obj, ConfigurationNode value) {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable String obj, @NonNull ConfigurationNode value) {
             value.setValue(obj);
         }
     }
 
     private static class NumberSerializer implements TypeSerializer<Number> {
         @Override
-        public Number deserialize(TypeToken<?> type, ConfigurationNode value) throws InvalidTypeException {
+        public Number deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws InvalidTypeException {
             type = type.wrap();
             Class<?> clazz = type.getRawType();
             if (Integer.class.equals(clazz)) {
@@ -100,25 +108,24 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, Number obj, ConfigurationNode value) {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull ConfigurationNode value) {
             value.setValue(obj);
         }
     }
 
     private static class BooleanSerializer implements TypeSerializer<Boolean> {
         @Override
-        public Boolean deserialize(TypeToken<?> type, ConfigurationNode value) throws InvalidTypeException {
+        public Boolean deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws InvalidTypeException {
             return value.getBoolean();
         }
 
         @Override
-        public void serialize(TypeToken<?> type, Boolean obj, ConfigurationNode value) {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Boolean obj, @NonNull ConfigurationNode value) {
             value.setValue(Types.asBoolean(obj));
         }
     }
 
     private static class EnumValueSerializer implements TypeSerializer<Enum> {
-
         @Override
         @SuppressWarnings("unchecked") // i continue to hate generics
         public Enum deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
@@ -137,14 +144,14 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, Enum obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Enum obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             value.setValue(obj.name());
         }
     }
 
     private static class MapSerializer implements TypeSerializer<Map<?, ?>> {
         @Override
-        public Map<?, ?> deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+        public Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) throws ObjectMappingException {
             Map<Object, Object> ret = new LinkedHashMap<>();
             if (node.hasMapChildren()) {
                 if (!(type.getType() instanceof ParameterizedType)) {
@@ -152,8 +159,8 @@ public class TypeSerializers {
                 }
                 TypeToken<?> key = type.resolveType(Map.class.getTypeParameters()[0]);
                 TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
-                TypeSerializer keySerial = node.getOptions().getSerializers().get(key);
-                TypeSerializer valueSerial = node.getOptions().getSerializers().get(value);
+                TypeSerializer<?> keySerial = node.getOptions().getSerializers().get(key);
+                TypeSerializer<?> valueSerial = node.getOptions().getSerializers().get(value);
 
                 if (keySerial == null) {
                     throw new ObjectMappingException("No type serializer available for type " + key);
@@ -177,8 +184,8 @@ public class TypeSerializers {
         }
 
         @Override
-        @SuppressWarnings("rawtypes")
-        public void serialize(TypeToken<?> type, Map<?, ?> obj, ConfigurationNode node) throws ObjectMappingException {
+        @SuppressWarnings({"rawtypes", "unchecked"})
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Map<?, ?> obj, @NonNull ConfigurationNode node) throws ObjectMappingException {
             if (!(type.getType() instanceof ParameterizedType)) {
                 throw new ObjectMappingException("Raw types are not supported for collections");
             }
@@ -206,9 +213,8 @@ public class TypeSerializers {
 
 
     private static class ListSerializer implements TypeSerializer<List<?>> {
-
         @Override
-        public List<?> deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+        public List<?> deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
             if (!(type.getType() instanceof ParameterizedType)) {
                 throw new ObjectMappingException("Raw types are not supported for collections");
             }
@@ -235,7 +241,7 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, List<?> obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable List<?> obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             if (!(type.getType() instanceof ParameterizedType)) {
                 throw new ObjectMappingException("Raw types are not supported for collections");
             }
@@ -253,7 +259,7 @@ public class TypeSerializers {
 
     private static class AnnotatedObjectSerializer implements TypeSerializer<Object> {
         @Override
-        public Object deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+        public Object deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
             Class<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
             return value.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(value);
         }
@@ -278,18 +284,17 @@ public class TypeSerializers {
 
         @Override
         @SuppressWarnings("unchecked")
-        public void serialize(TypeToken<?> type, Object obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Object obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
                 value.getNode("__class__").setValue(type.getRawType().getCanonicalName());
             }
-            ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(obj.getClass()))
-                    .bind(obj).serialize(value);
+            ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(obj.getClass())).bind(obj).serialize(value);
         }
     }
 
     private static class URISerializer implements TypeSerializer<URI> {
         @Override
-        public URI deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+        public URI deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
             String plainUri = value.getString();
             if (plainUri == null) {
                 throw new ObjectMappingException("No value present in node " + value);
@@ -306,16 +311,14 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, URI obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable URI obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             value.setValue(obj.toString());
         }
-
     }
 
     private static class URLSerializer implements TypeSerializer<URL> {
-
         @Override
-        public URL deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+        public URL deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
             String plainUrl = value.getString();
             if (plainUrl == null) {
                 throw new ObjectMappingException("No value present in node " + value);
@@ -332,15 +335,14 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, URL obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable URL obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             value.setValue(obj.toString());
         }
-
     }
 
     private static class UUIDSerializer implements TypeSerializer<UUID> {
         @Override
-        public UUID deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+        public UUID deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
             try {
                 return UUID.fromString(value.getString());
             } catch (IllegalArgumentException ex) {
@@ -349,15 +351,14 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, UUID obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable UUID obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             value.setValue(obj.toString());
         }
     }
 
     private static class PatternSerializer implements TypeSerializer<Pattern> {
-
         @Override
-        public Pattern deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+        public Pattern deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
             try {
                 return Pattern.compile(value.getString());
             } catch (PatternSyntaxException ex) {
@@ -366,7 +367,7 @@ public class TypeSerializers {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, Pattern obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             value.setValue(obj.pattern());
         }
     }

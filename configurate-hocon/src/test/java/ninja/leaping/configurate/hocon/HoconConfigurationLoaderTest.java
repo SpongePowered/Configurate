@@ -113,17 +113,13 @@ public class HoconConfigurationLoaderTest {
 
     @Test
     public void testNewConfigObject() {
-        HoconConfigurationLoader subject = HoconConfigurationLoader.builder().build();
-
         Map<String, ConfigValue> entries = ImmutableMap.of("a", ConfigValueFactory.fromAnyRef("hi"), "b", ConfigValueFactory.fromAnyRef("bye"));
-        subject.newConfigObject(entries);
+        HoconConfigurationLoader.newConfigObject(entries);
     }
 
     @Test
     public void testNewConfigList() {
-        HoconConfigurationLoader subject = HoconConfigurationLoader.builder().build();
-
         List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
-        subject.newConfigList(entries);
+        HoconConfigurationLoader.newConfigList(entries);
     }
 }

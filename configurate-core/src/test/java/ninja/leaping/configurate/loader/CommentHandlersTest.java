@@ -17,12 +17,12 @@
 package ninja.leaping.configurate.loader;
 
 import com.google.common.base.Joiner;
-import java.util.Optional;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 

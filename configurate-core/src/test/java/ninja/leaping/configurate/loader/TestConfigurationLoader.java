@@ -19,6 +19,7 @@ package ninja.leaping.configurate.loader;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<Configu
     private ConfigurationNode result;
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder> {
 
+        @NonNull
         @Override
         public TestConfigurationLoader build() {
             return new TestConfigurationLoader(this);
@@ -69,8 +71,9 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<Configu
      * @param options The options to use with this node. Must not be null (take a look at {@link ConfigurationOptions#defaults()})
      * @return The appropriate node type
      */
+    @NonNull
     @Override
-    public ConfigurationNode createEmptyNode(ConfigurationOptions options) {
+    public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         return SimpleConfigurationNode.root(options);
     }
 }

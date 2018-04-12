@@ -16,37 +16,48 @@
  */
 package ninja.leaping.configurate;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
 
+/**
+ * A {@link ConfigValue} which holds no value.
+ */
 class NullConfigValue extends ConfigValue {
     NullConfigValue(SimpleConfigurationNode holder) {
         super(holder);
     }
+
+    @Nullable
     @Override
     public Object getValue() {
         return null;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value) {
+    SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
         return null;
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(Object key, SimpleConfigurationNode value) {
+    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
         return null;
     }
 
+    @Nullable
     @Override
-    public SimpleConfigurationNode getChild(Object key) {
+    public SimpleConfigurationNode getChild(@Nullable Object key) {
         return null;
     }
 
+    @NonNull
     @Override
     public Iterable<SimpleConfigurationNode> iterateChildren() {
         return Collections.emptySet();

@@ -18,52 +18,71 @@ package ninja.leaping.configurate.loader;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.IOException;
 
 /**
- * Loader for a specific configuration format
+ * Represents an object which can load and save {@link ConfigurationNode} objects in a specific
+ * configuration format.
+ *
+ * <p>An abstract implementation is provided by {@link AbstractConfigurationLoader}.</p>
+ *
+ * @param <NodeType> The {@link ConfigurationNode} type produced by the loader
  */
 public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
+
     /**
-     * Get the default options that any new nodes will be created with if no options object is passed.
+     * Gets the default {@link ConfigurationOptions} used by the loader.
+     *
+     * <p>New nodes will be created using the default options if a specific set is not defined.</p>
      *
      * @return The default options
      */
+    @NonNull
     ConfigurationOptions getDefaultOptions();
 
     /**
-     * Create a new configuration node populated with the appropriate data.
+     * Attempts to load a {@link ConfigurationNode} using this loader, from the defined source.
+     *
+     * <p>The resultant node represents the root of the configuration being loaded.</p>
+     *
+     * <p>The {@link #getDefaultOptions() default options} will be used to construct the resultant
+     * configuration nodes.</p>
      *
      * @return The newly constructed node
-     * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
+     * @throws IOException if any sort of error occurs with reading or parsing the configuration
      */
+    @NonNull
     default NodeType load() throws IOException {
         return load(getDefaultOptions());
     }
 
     /**
-     * Create a new configuration node populated with the appropriate data, structured with the provided options.
+     * Attempts to load a {@link ConfigurationNode} using this loader, from the defined source.
+     *
+     * <p>The resultant node represents the root of the configuration being loaded.</p>
      *
      * @param options The options to load with
      * @return The newly constructed node
-     * @throws java.io.IOException if any sort of error occurs with reading or parsing the configuration
+     * @throws IOException if any sort of error occurs with reading or parsing the configuration
      */
-    NodeType load(ConfigurationOptions options) throws IOException;
+    @NonNull
+    NodeType load(@NonNull ConfigurationOptions options) throws IOException;
 
     /**
-     * Save the contents of the given node tree to this loader.
+     * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.
      *
-     * @param node The node a save is being requested for
-     * @throws java.io.IOException if any sort of error occurs with writing or generating the configuration
+     * @throws IOException if any sort of error occurs with writing or generating the configuration
      */
-    void save(ConfigurationNode node) throws IOException;
+    void save(@NonNull ConfigurationNode node) throws IOException;
 
     /**
      * Return an empty node of the most appropriate type for this loader, using the default options.
      *
      * @return The appropriate node type
      */
+    @NonNull
     default NodeType createEmptyNode() {
         return createEmptyNode(getDefaultOptions());
     }
@@ -71,8 +90,27 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     /**
      * Return an empty node of the most appropriate type for this loader
      *
-     * @param options The options to use with this node. Must not be null (take a look at {@link ConfigurationOptions#defaults()})
+     * @param options The options to use with this node. Must not be null (see {@link ConfigurationOptions#defaults()})
      * @return The appropriate node type
      */
-    NodeType createEmptyNode(ConfigurationOptions options);
+    @NonNull
+    NodeType createEmptyNode(@NonNull ConfigurationOptions options);
+
+    /**
+     * Gets if this loader is capable of loading configurations.
+     *
+     * @return If this loader can load
+     */
+    default boolean canLoad() {
+        return true;
+    }
+
+    /**
+     * Gets if this loader is capable of saving configurations.
+     *
+     * @return If this loader can save
+     */
+    default boolean canSave() {
+        return true;
+    }
 }

@@ -19,21 +19,26 @@ package ninja.leaping.configurate.objectmapping;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * This subclass creates new object instances using a provided Injector to allow configuration objects to take
- * additional arguments with Guice. Instances of this object should be reached using a {@link GuiceObjectMapperFactory}.
+ * This subclass creates new object instances using a provided {@link Injector}.
+ *
+ * <p>This allows configuration objects to take additional arguments with Guice.</p>
+ *
+ * <p>Instances of this object should be reached using a {@link GuiceObjectMapperFactory}.</p>
  */
 class GuiceObjectMapper<T> extends ObjectMapper<T> {
     private final Injector injector;
     private final Key<T> typeKey;
+
     /**
      * Create a new object mapper of a given type
      *
      * @param clazz The type this object mapper will work with
      * @throws ObjectMappingException if the provided class is in someway invalid
      */
-    protected GuiceObjectMapper(Injector injector, Class<T> clazz) throws ObjectMappingException {
+    protected GuiceObjectMapper(@NonNull Injector injector, @NonNull Class<T> clazz) throws ObjectMappingException {
         super(clazz);
         this.injector = injector;
         this.typeKey = Key.get(clazz);

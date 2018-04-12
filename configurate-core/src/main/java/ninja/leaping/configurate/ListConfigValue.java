@@ -16,9 +16,10 @@
  */
 package ninja.leaping.configurate;
 
-
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,47 +27,52 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * A {@link ConfigValue} which holds a list of values.
+ */
 class ListConfigValue extends ConfigValue {
-    final AtomicReference<List<SimpleConfigurationNode>> values = new AtomicReference<>();
+    final AtomicReference<List<SimpleConfigurationNode>> values = new AtomicReference<>(new ArrayList<>());
 
     ListConfigValue(SimpleConfigurationNode holder) {
         super(holder);
-        values.set(new ArrayList<>());
     }
 
     ListConfigValue(SimpleConfigurationNode holder, Object startValue) {
         super(holder);
-        this.values.set(new ArrayList<>());
+
         SimpleConfigurationNode child = holder.createNode(0);
         child.attached = true;
         child.setValue(startValue);
         this.values.get().add(child);
     }
 
+    @Nullable
     @Override
     public Object getValue() {
         final List<SimpleConfigurationNode> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
             for (SimpleConfigurationNode obj : values) {
-                ret.add(obj.getValue());
+                ret.add(obj.getValue()); // unwrap
             }
             return ret;
         }
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         if (!(value instanceof Collection)) {
             value = Collections.singleton(value);
         }
-        final Collection<?> valueList = (Collection<?>) value;
-        final List<SimpleConfigurationNode> newValue = new ArrayList<>(valueList.size());
+        final Collection<?> valueAsList = (Collection<?>) value;
+        final List<SimpleConfigurationNode> newValue = new ArrayList<>(valueAsList.size());
+
         int count = 0;
-        for (Object o : valueList) {
+        for (Object o : valueAsList) {
             if (o == null) {
                 continue;
             }
+
             SimpleConfigurationNode child = holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
@@ -74,34 +80,37 @@ class ListConfigValue extends ConfigValue {
             ++count;
         }
         detachNodes(values.getAndSet(newValue));
-
     }
 
+    @Nullable
     @Override
-    public SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value) {
-        return putChild(key, value, false);
+    public SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+        return putChild((int) key, value, false);
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(Object key, SimpleConfigurationNode value) {
-        return putChild(key, value, true);
+    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+        return putChild((int) key, value, true);
     }
 
-    private SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value, boolean onlyIfAbsent) {
+    private SimpleConfigurationNode putChild(int index, @Nullable SimpleConfigurationNode value, boolean onlyIfAbsent) {
         SimpleConfigurationNode ret = null;
         List<SimpleConfigurationNode> values;
         do {
             values = this.values.get();
             synchronized (values) {
-                final int index = (Integer) key;
                 if (value == null) {
                     if (index < values.size()) {
+                        // remove the value
                         ret = values.remove(index);
+                        // update indexes for subsequent elements
                         for (int i = index; i < values.size(); ++i) {
                             values.get(i).key = index;
                         }
                     }
                 } else {
+                    // check if the index is in range
                     if (index >= 0 && index < values.size()) {
                         if (onlyIfAbsent) {
                             return values.get(index);
@@ -121,18 +130,24 @@ class ListConfigValue extends ConfigValue {
     }
 
 
+    @Nullable
     @Override
-    public SimpleConfigurationNode getChild(Object key) {
+    public SimpleConfigurationNode getChild(@Nullable Object key) {
+        Integer value = Types.asInt(key);
+        if (value == null || value < 0) {
+            return null;
+        }
+
         final List<SimpleConfigurationNode> values = this.values.get();
         synchronized (values) {
-            Integer value = Types.asInt(key);
-            if (value == null || value < 0 || value >= values.size()) {
+            if (value >= values.size()) {
                 return null;
             }
             return values.get(value);
         }
     }
 
+    @NonNull
     @Override
     public Iterable<SimpleConfigurationNode> iterateChildren() {
         List<SimpleConfigurationNode> values = this.values.get();
@@ -141,7 +156,7 @@ class ListConfigValue extends ConfigValue {
         }
     }
 
-    private void detachNodes(List<SimpleConfigurationNode> children) {
+    private static void detachNodes(List<SimpleConfigurationNode> children) {
         synchronized (children) {
             for (SimpleConfigurationNode node : children) {
                 node.attached = false;

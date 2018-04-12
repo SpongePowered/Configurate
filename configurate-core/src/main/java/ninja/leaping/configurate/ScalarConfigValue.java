@@ -18,9 +18,14 @@ package ninja.leaping.configurate;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
 
+/**
+ * A {@link ConfigValue} which holds a single ("scalar") value.
+ */
 class ScalarConfigValue extends ConfigValue {
     private volatile Object value;
 
@@ -28,38 +33,40 @@ class ScalarConfigValue extends ConfigValue {
         super(holder);
     }
 
+    @Nullable
     @Override
     public Object getValue() {
         return value;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         Preconditions.checkNotNull(value);
-
         if (!holder.getOptions().acceptsType(value.getClass())) {
-            throw new IllegalArgumentException("Configuration does not accept objects of type " + value
-                    .getClass());
+            throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
-
         this.value = value;
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value) {
+    SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
         return null;
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(Object key, SimpleConfigurationNode value) {
+    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
         return null;
     }
 
+    @Nullable
     @Override
-    public SimpleConfigurationNode getChild(Object key) {
+    public SimpleConfigurationNode getChild(@Nullable Object key) {
         return null;
     }
 
+    @NonNull
     @Override
     public Iterable<SimpleConfigurationNode> iterateChildren() {
         return Collections.emptySet();

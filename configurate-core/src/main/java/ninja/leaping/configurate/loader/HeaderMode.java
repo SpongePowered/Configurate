@@ -17,17 +17,20 @@
 package ninja.leaping.configurate.loader;
 
 /**
- * Options for header handling
+ * Modes which {@link ConfigurationLoader}s can use to manipulate headers when loading/saving.
  */
 public enum HeaderMode {
+
     /**
      * Use the header loaded from an existing file, replacing any header set in the options
      */
     PRESERVE,
+
     /**
-     * ignore any header present in input, and output a header if one has been set in options
+     * Ignore any header present in input, and output a header if one has been set in options
      */
     PRESET,
+
     /**
      * Ignore any header present in input, and do not output any header
      */

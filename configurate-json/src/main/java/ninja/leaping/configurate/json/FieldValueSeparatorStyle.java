@@ -16,10 +16,26 @@
  */
 package ninja.leaping.configurate.json;
 
+/**
+ * Enumeration of field value separator styles.
+ */
 public enum FieldValueSeparatorStyle {
+
+    /**
+     * Style which uses spaces either side of the <code>:</code> character.
+     */
     SPACE_BOTH_SIDES(" : "),
+
+    /**
+     * Style which uses a space after the <code>:</code> character.
+     */
     SPACE_AFTER(": "),
+
+    /**
+     * Style which uses no spaces.
+     */
     NO_SPACE(":");
+
     private final String decorationType;
 
     FieldValueSeparatorStyle(String decorationType) {

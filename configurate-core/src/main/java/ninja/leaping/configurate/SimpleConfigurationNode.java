@@ -23,80 +23,86 @@ import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-
 /**
- * Simple implementation of a configuration node
+ * Simple implementation of {@link ConfigurationNode}.
  */
 public class SimpleConfigurationNode implements ConfigurationNode {
+
+    /**
+     * The options determining the behaviour of this node
+     */
+    @NonNull
     private final ConfigurationOptions options;
+
+    /**
+     * If this node is attached to a wider configuration structure
+     */
     volatile boolean attached;
+
     /**
      * Path of this node.
      *
-     * Internally, may only be modified when an operation that adds or removes a node at the same or higher level in the node tree
+     * Internally, may only be modified when an operation that adds or removes a node at the same
+     * or higher level in the node tree
      */
+    @Nullable
     volatile Object key;
+
+    /**
+     * The parent of this node
+     */
+    @Nullable
     private SimpleConfigurationNode parent;
+
+    /**
+     * The current value of this node
+     */
+    @NonNull
     private volatile ConfigValue value;
 
+    @NonNull
     public static SimpleConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    public static SimpleConfigurationNode root(ConfigurationOptions options) {
+    @NonNull
+    public static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
         return new SimpleConfigurationNode(null, null, options);
     }
 
-    protected SimpleConfigurationNode(Object key, SimpleConfigurationNode parent, ConfigurationOptions options) {
+    protected SimpleConfigurationNode(@Nullable Object key, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
         Preconditions.checkNotNull(options, "options");
-
         this.key = key;
+        this.options = options;
+        this.parent = parent;
+        this.value = new NullConfigValue(this);
+
+        // if the parent is null, this node is a root node, and is therefore "attached"
         if (parent == null) {
             attached = true;
         }
-        this.options = options;
-        this.parent = parent == null ? null : parent;
-
-        value = new NullConfigValue(this);
-
     }
 
-    @Override
-    public Object getValue(Object def) {
-        Object ret = value.getValue();
-        return ret == null ? calculateDef(def) : ret;
-    }
-
-    @Override
-    public Object getValue(Supplier<Object> defSupplier) {
-        Object ret = value.getValue();
-        return ret == null ? calculateDef(defSupplier.get()) : ret;
-    }
-
-    // {{{ Typed values
-
-    @Override
-    public <T> T getValue(Function<Object, T> transformer, T def) {
-        T ret = transformer.apply(getValue());
-        return ret == null ? calculateDef(def) : ret;
-    }
-
-    @Override
-    public <T> T getValue(Function<Object, T> transformer, Supplier<T> defSupplier) {
-        T ret = transformer.apply(getValue());
-        return ret == null ? calculateDef(defSupplier.get()) : ret;
-    }
-
-    private <T> T calculateDef(T defValue) {
+    /**
+     * Handles the copying of applied defaults, if enabled.
+     *
+     * @param defValue the default value
+     * @param <T> the value type
+     * @return the same value
+     */
+    private <T> T storeDefault(T defValue) {
         if (defValue != null && getOptions().shouldCopyDefaults()) {
             setValue(defValue);
         }
@@ -104,91 +110,150 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     @Override
+    public Object getValue(Object def) {
+        Object ret = value.getValue();
+        return ret == null ? storeDefault(def) : ret;
+    }
+
+    @Override
+    public Object getValue(@NonNull Supplier<Object> defSupplier) {
+        Object ret = value.getValue();
+        return ret == null ? storeDefault(defSupplier.get()) : ret;
+    }
+
+    @Override
+    public <T> T getValue(@NonNull Function<Object, T> transformer, T def) {
+        T ret = transformer.apply(getValue());
+        return ret == null ? storeDefault(def) : ret;
+    }
+
+    @Override
+    public <T> T getValue(@NonNull Function<Object, T> transformer, @NonNull Supplier<T> defSupplier) {
+        T ret = transformer.apply(getValue());
+        return ret == null ? storeDefault(defSupplier.get()) : ret;
+    }
+
+    @NonNull
+    @Override
     public <T> List<T> getList(Function<Object, T> transformer) {
-        final ImmutableList.Builder<T> build = ImmutableList.builder();
+        final ImmutableList.Builder<T> ret = ImmutableList.builder();
         ConfigValue value = this.value;
         if (value instanceof ListConfigValue) {
+            // transform each value individually if the node is a list
             for (SimpleConfigurationNode o : value.iterateChildren()) {
                 T transformed = transformer.apply(o.getValue());
                 if (transformed != null) {
-                    build.add(transformed);
+                    ret.add(transformed);
                 }
             }
         } else {
+            // transfer the value as a whole
             T transformed = transformer.apply(value.getValue());
             if (transformed != null) {
-                build.add(transformed);
+                ret.add(transformed);
             }
         }
 
-        return build.build();
+        return ret.build();
     }
 
     @Override
-    public <T> List<T> getList(Function<Object, T> transformer, List<T> def) {
+    public <T> List<T> getList(@NonNull Function<Object, T> transformer, List<T> def) {
         List<T> ret = getList(transformer);
-        return ret.isEmpty() ? calculateDef(def) : ret;
+        return ret.isEmpty() ? storeDefault(def) : ret;
     }
 
     @Override
-    public <T> List<T> getList(Function<Object, T> transformer, Supplier<List<T>> defSupplier) {
+    public <T> List<T> getList(@NonNull Function<Object, T> transformer, @NonNull Supplier<List<T>> defSupplier) {
         List<T> ret = getList(transformer);
-        return ret.isEmpty() ? calculateDef(defSupplier.get()) : ret;
+        return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
     }
 
     @Override
-    public <T> List<T> getList(TypeToken<T> type, List<T> def) throws ObjectMappingException {
+    public <T> List<T> getList(@NonNull TypeToken<T> type, List<T> def) throws ObjectMappingException {
         List<T> ret = getValue(new TypeToken<List<T>>() {}
                 .where(new TypeParameter<T>() {}, type), def);
-        return ret.isEmpty() ? calculateDef(def) : ret;
+        return ret.isEmpty() ? storeDefault(def) : ret;
     }
 
     @Override
-    public <T> List<T> getList(TypeToken<T> type, Supplier<List<T>> defSupplier) throws ObjectMappingException {
-        List<T> ret = getValue(new TypeToken<List<T>>() {}
-                .where(new TypeParameter<T>() {}, type), defSupplier);
-        return ret.isEmpty() ? calculateDef(defSupplier.get()) : ret;
+    public <T> List<T> getList(@NonNull TypeToken<T> type, @NonNull Supplier<List<T>> defSupplier) throws ObjectMappingException {
+        List<T> ret = getValue(new TypeToken<List<T>>(){}.where(new TypeParameter<T>(){}, type), defSupplier);
+        return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
     }
 
-    // }}}
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(@NonNull TypeToken<T> type, T def) throws ObjectMappingException {
+        Object value = getValue();
+        if (value == null) {
+            return storeDefault(def);
+        }
+
+        TypeSerializer serial = getOptions().getSerializers().get(type);
+        if (serial == null) {
+            if (type.getRawType().isInstance(value)) {
+                return (T) type.getRawType().cast(value);
+            } else {
+                return storeDefault(def);
+            }
+        }
+        return (T) serial.deserialize(type, this);
+    }
 
     @Override
-    public SimpleConfigurationNode setValue(Object newValue) {
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(@NonNull TypeToken<T> type, @NonNull Supplier<T> defSupplier) throws ObjectMappingException {
+        Object value = getValue();
+        if (value == null) {
+            return storeDefault(defSupplier.get());
+        }
+
+        TypeSerializer serial = getOptions().getSerializers().get(type);
+        if (serial == null) {
+            if (type.getRawType().isInstance(value)) {
+                return (T) type.getRawType().cast(value);
+            } else {
+                return storeDefault(defSupplier.get());
+            }
+        }
+        return (T) serial.deserialize(type, this);
+    }
+
+    @NonNull
+    @Override
+    public SimpleConfigurationNode setValue(@Nullable Object newValue) {
+        // if the value to be set is a configuration node already, unwrap and store the raw data
         if (newValue instanceof ConfigurationNode) {
-            ConfigurationNode newNode = (ConfigurationNode) newValue;
-            if (newNode.hasListChildren()) {
+            ConfigurationNode newValueAsNode = (ConfigurationNode) newValue;
+
+            if (newValueAsNode.hasListChildren()) {
+                // handle list
                 attachIfNecessary();
                 ListConfigValue newList = new ListConfigValue(this);
-                synchronized (newNode) {
-                    List<? extends ConfigurationNode> children = newNode.getChildrenList();
-                    for (int i = 0; i < children.size(); ++i) {
-                        SimpleConfigurationNode child = createNode(i);
-                        child.attached = true;
-                        newList.putChild(i, child);
-                        child.setValue(children.get(i));
-                    }
+                synchronized (newValueAsNode) {
+                    newList.setValue(newValueAsNode.getChildrenList());
                 }
                 this.value = newList;
                 return this;
-            } else if (newNode.hasMapChildren()) {
+
+            } else if (newValueAsNode.hasMapChildren()) {
+                // handle map
                 attachIfNecessary();
                 MapConfigValue newMap = new MapConfigValue(this);
-                synchronized (newNode) {
-                    Map<Object, ? extends ConfigurationNode> children = newNode.getChildrenMap();
-                    for (Map.Entry<Object, ? extends ConfigurationNode> ent : children.entrySet()) {
-                        SimpleConfigurationNode child = createNode(ent.getKey());
-                        child.attached = true;
-                        newMap.putChild(ent.getKey(), child);
-                        child.setValue(ent.getValue());
-                    }
+                synchronized (newValueAsNode) {
+                    newMap.setValue(newValueAsNode.getChildrenMap());
                 }
                 this.value = newMap;
                 return this;
+
             } else {
-                newValue = newNode.getValue();
+                // handle scalar/null
+                newValue = newValueAsNode.getValue();
             }
         }
 
+        // if the new value is null, handle detaching from this nodes parent
         if (newValue == null) {
             if (parent == null) {
                 clear();
@@ -202,64 +267,24 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return this;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException {
-        Object value = getValue();
-        if (value == null) {
-            if (def != null && getOptions().shouldCopyDefaults()) {
-                setValue(type, def);
-            }
-            return def;
-        }
-        TypeSerializer serial = getOptions().getSerializers().get(type);
-        if (serial == null) {
-            if (type.getRawType().isInstance(value)) {
-                return (T) type.getRawType().cast(value);
-            } else {
-                if (def != null && getOptions().shouldCopyDefaults()) {
-                    setValue(type, def);
-                }
-                return def;
-            }
-        }
-        return (T) serial.deserialize(type, this);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getValue(TypeToken<T> type, Supplier<T> defSupplier) throws ObjectMappingException {
-        Object value = getValue();
-        if (value == null) {
-            T def = defSupplier.get();
-            if (def != null && getOptions().shouldCopyDefaults()) {
-                setValue(type, def);
-            }
-            return def;
-        }
-        TypeSerializer serial = getOptions().getSerializers().get(type);
-        if (serial == null) {
-            if (type.getRawType().isInstance(value)) {
-                return (T) type.getRawType().cast(value);
-            } else {
-                T def = defSupplier.get();
-                if (def != null && getOptions().shouldCopyDefaults()) {
-                    setValue(type, def);
-                }
-                return def;
-            }
-        }
-        return (T) serial.deserialize(type, this);
-    }
-
+    /**
+     * Handles the process of setting a new value for this node.
+     *
+     * @param newValue The new value
+     * @param onlyIfNull If the insertion should only take place if the current value is null
+     */
     private void insertNewValue(Object newValue, boolean onlyIfNull) {
         attachIfNecessary();
+
         synchronized (this) {
             ConfigValue oldValue, value;
             oldValue = value = this.value;
+
             if (onlyIfNull && !(oldValue instanceof NullConfigValue)){
                 return;
             }
+
+            // init new config value backing for the new value type if necessary
             if (newValue instanceof Collection) {
                 if (!(value instanceof ListConfigValue)) {
                     value = new ListConfigValue(this);
@@ -271,6 +296,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             } else if (!(value instanceof ScalarConfigValue)) {
                 value = new ScalarConfigValue(this);
             }
+
+            // insert the data into the config value
             value.setValue(newValue);
 
             /*if (oldValue != null && oldValue != value) {
@@ -280,27 +307,15 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
     }
 
+    @NonNull
     @Override
-    public ConfigurationNode mergeValuesFrom(ConfigurationNode other) {
-        /*if (other.hasListChildren()) {
-            ConfigValue oldValue, newValue;
-            do {
-                oldValue = newValue = value.get();
-                if (!(oldValue instanceof ListConfigValue)) {
-                    if (oldValue instanceof NullConfigValue) {
-                        oldValue = new ListConfigValue(this);
-                    } else {
-                        break;
-                    }
-                }
-               // TODO: How to merge list values?
-
-            } while (!this.value.compareAndSet(oldValue, newValue));
-
-        } else */if (other.hasMapChildren()) {
+    public ConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
+        if (other.hasMapChildren()) {
             ConfigValue oldValue, newValue;
             synchronized (this) {
                 oldValue = newValue = value;
+
+                // ensure the current type is applicable.
                 if (!(oldValue instanceof MapConfigValue)) {
                     if (oldValue instanceof NullConfigValue) {
                         newValue = new MapConfigValue(this);
@@ -308,11 +323,16 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                         return this;
                     }
                 }
+
+                // merge values from 'other'
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : other.getChildrenMap().entrySet()) {
+                    // create a new child node for the value
                     SimpleConfigurationNode newChild = createNode(ent.getKey());
                     newChild.attached = true;
                     newChild.setValue(ent.getValue());
+                    // replace the existing value, if absent
                     SimpleConfigurationNode existing = newValue.putChildIfAbsent(ent.getKey(), newChild);
+                    // if an existing value was present, attempt to merge the new value into it
                     if (existing != null) {
                         existing.mergeValuesFrom(newChild);
                     }
@@ -320,19 +340,20 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 this.value = newValue;
             }
         } else if (other.getValue() != null) {
+            // otherwise, replace the value of this node, only if currently null
             insertNewValue(other.getValue(), true);
         }
         return this;
     }
 
-    // {{{ Children
+    @NonNull
     @Override
-    public SimpleConfigurationNode getNode(Object... path) {
-        SimpleConfigurationNode ret = this;
+    public SimpleConfigurationNode getNode(@NonNull Object... path) {
+        SimpleConfigurationNode pointer = this;
         for (Object el : path) {
-            ret = ret.getChild(el, false);
+            pointer = pointer.getChild(el, false);
         }
-        return ret;
+        return pointer;
     }
 
     @Override
@@ -350,28 +371,38 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return this.value instanceof MapConfigValue;
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public List<? extends SimpleConfigurationNode> getChildrenList() {
         ConfigValue value = this.value;
-        return value instanceof ListConfigValue ? ImmutableList.copyOf(((ListConfigValue) value).values.get()) : Collections
-                .<SimpleConfigurationNode>emptyList();
+        return value instanceof ListConfigValue ? ImmutableList.copyOf(((ListConfigValue) value).values.get()) : Collections.emptyList();
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public Map<Object, ? extends SimpleConfigurationNode> getChildrenMap() {
         ConfigValue value = this.value;
-        return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue) value).values) : Collections
-                .<Object, SimpleConfigurationNode>emptyMap();
+        return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue) value).values) : Collections.emptyMap();
     }
 
+    /**
+     * Gets a child node, relative to this.
+     *
+     * @param key The key
+     * @param attach If the resultant node should be automatically attached
+     * @return The child node
+     */
     protected SimpleConfigurationNode getChild(Object key, boolean attach) {
         SimpleConfigurationNode child = value.getChild(key);
 
-        if (child == null) { // Does not currently exist!
+        // child doesn't currently exist
+        if (child == null) {
             if (attach) {
+                // attach ourselves first
                 attachIfNecessary();
+                // insert the child node into the value
                 SimpleConfigurationNode existingChild = value.putChildIfAbsent(key, (child = createNode(key)));
                 if (existingChild != null) {
                     child = existingChild;
@@ -379,6 +410,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                     attachChild(child);
                 }
             } else {
+                // just create a new virtual (detached) node
                 child = createNode(key);
             }
         }
@@ -387,11 +419,11 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     @Override
-    public boolean removeChild(Object key) {
-        return possiblyDetach(value.putChild(key, null)) != null;
+    public boolean removeChild(@NonNull Object key) {
+        return detachIfNonNull(value.putChild(key, null)) != null;
     }
 
-    private SimpleConfigurationNode possiblyDetach(SimpleConfigurationNode node) {
+    private static SimpleConfigurationNode detachIfNonNull(SimpleConfigurationNode node) {
         if (node != null) {
             node.attached = false;
             node.clear();
@@ -399,126 +431,137 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return node;
     }
 
+    @NonNull
     @Override
     public SimpleConfigurationNode getAppendedNode() {
+        // the appended node can have a key of -1
+        // the "real" key will be determined when the node is inserted into a list config value
         return getChild(-1, false);
     }
 
+    @Nullable
     @Override
     public Object getKey() {
         return this.key;
     }
 
+    @NonNull
     @Override
     public Object[] getPath() {
         LinkedList<Object> pathElements = new LinkedList<>();
-        ConfigurationNode ptr = this;
-        if (ptr.getParent() == null) {
-            return new Object[] {this.getKey()};
+        ConfigurationNode pointer = this;
+        if (pointer.getParent() == null) {
+            return new Object[]{this.getKey()};
         }
 
         do {
-            pathElements.addFirst(ptr.getKey());
-        } while ((ptr = ptr.getParent()).getParent() != null);
+            pathElements.addFirst(pointer.getKey());
+        } while ((pointer = pointer.getParent()).getParent() != null);
         return pathElements.toArray();
     }
 
+    @Nullable
     public SimpleConfigurationNode getParent() {
         return this.parent;
     }
 
+    @NonNull
     @Override
     public ConfigurationOptions getOptions() {
         return this.options;
     }
-    // }}}
 
-    // {{{ Internal methods
-    SimpleConfigurationNode getParentAttached() {
+    /**
+     * The same as {@link #getParent()} - but ensuring that 'parent' is attached via
+     * {@link #attachChildIfAbsent(SimpleConfigurationNode)}.
+     *
+     * @return The parent
+     */
+    SimpleConfigurationNode getParentEnsureAttached() {
         SimpleConfigurationNode parent = this.parent;
         if (parent.isVirtual()) {
-            parent = parent.getParentAttached().attachChildIfAbsent(parent);
+            parent = parent.getParentEnsureAttached().attachChildIfAbsent(parent);
 
         }
         return this.parent = parent;
     }
 
-    private SimpleConfigurationNode attachChildIfAbsent(SimpleConfigurationNode child) {
-        if (isVirtual()) {
-            throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
+    protected void attachIfNecessary() {
+        if (!attached) {
+            getParentEnsureAttached().attachChild(this);
         }
-        if (!child.getParentAttached().equals(this)) {
-            throw new IllegalStateException("Child " +  child +
-                    " path is not a direct parent of me (" + this + "), cannot attach");
-        }
-        ConfigValue oldValue, newValue;
-        synchronized (this) {
-            newValue = oldValue = this.value;
-            if (!(oldValue instanceof MapConfigValue)) {
-                if (child.key instanceof Integer) {
-                    if (oldValue instanceof NullConfigValue) {
-                        newValue = new ListConfigValue(this);
-
-                    } else if (!(oldValue instanceof ListConfigValue)) {
-                        newValue = new ListConfigValue(this, oldValue.getValue());
-                    }
-                } else {
-                    newValue = new MapConfigValue(this);
-                }
-            }
-            SimpleConfigurationNode oldChild = newValue.putChildIfAbsent(child.key, child);
-            if (oldChild != null) {
-                return oldChild;
-            }
-            value = newValue;
-        }
-        if (newValue != oldValue) {
-            oldValue.clear();
-        }
-        child.attached = true;
-        return child;
     }
 
     protected SimpleConfigurationNode createNode(Object path) {
         return new SimpleConfigurationNode(path, this, options);
     }
 
-    protected void attachIfNecessary() {
-        if (!attached) {
-            getParentAttached().attachChild(this);
-        }
+    protected SimpleConfigurationNode attachChildIfAbsent(SimpleConfigurationNode child) {
+        return attachChild(child, true);
     }
 
-    protected void attachChild(SimpleConfigurationNode child) {
+    private void attachChild(SimpleConfigurationNode child) {
+        attachChild(child, false);
+    }
+
+    /**
+     * Attaches a child to this node
+     *
+     * @param child The child
+     * @return The resultant value
+     */
+    private SimpleConfigurationNode attachChild(SimpleConfigurationNode child, boolean onlyIfAbsent) {
+        // ensure this node is attached
         if (isVirtual()) {
             throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
         }
-        if (!child.getParentAttached().equals(this)) {
-            throw new IllegalStateException("Child " +  child +
-                    " path is not a direct parent of me (" + this + "), cannot attach");
+
+        // ensure the child actually is a child
+        if (!child.getParentEnsureAttached().equals(this)) {
+            throw new IllegalStateException("Child " +  child + " path is not a direct parent of me (" + this + "), cannot attach");
         }
+
+        // update the value
         ConfigValue oldValue, newValue;
         synchronized (this) {
             newValue = oldValue = this.value;
-                if (!(oldValue instanceof MapConfigValue)) {
-                    if (child.key instanceof Integer) {
-                        if (oldValue instanceof NullConfigValue) {
-                            newValue = new ListConfigValue(this);
 
-                        } else if (!(oldValue instanceof ListConfigValue)) {
-                            newValue = new ListConfigValue(this, oldValue.getValue());
-                        }
-                    } else {
-                        newValue = new MapConfigValue(this);
+            // if the existing value isn't a map, we need to update it's type
+            if (!(oldValue instanceof MapConfigValue)) {
+                if (child.key instanceof Integer) {
+                    // if child.key is an integer, we can infer that the type of this node should be a list
+                    if (oldValue instanceof NullConfigValue) {
+                        // if the oldValue was null, we can just replace it with an empty list
+                        newValue = new ListConfigValue(this);
+                    } else if (!(oldValue instanceof ListConfigValue)) {
+                        // if the oldValue contained a value, we add it as the first element of the
+                        // new list
+                        newValue = new ListConfigValue(this, oldValue.getValue());
                     }
+                } else {
+                    // if child.key isn't an integer, assume map
+                    newValue = new MapConfigValue(this);
                 }
-                possiblyDetach(newValue.putChild(child.key, child));
-            value = newValue;
+            }
+
+            /// now the value has been updated to an appropriate type, we can insert the value
+            if (onlyIfAbsent) {
+                SimpleConfigurationNode oldChild = newValue.putChildIfAbsent(child.key, child);
+                if (oldChild != null) {
+                    return oldChild;
+                }
+                this.value = newValue;
+            } else {
+                detachIfNonNull(newValue.putChild(child.key, child));
+                value = newValue;
+            }
         }
+
         if (newValue != oldValue) {
             oldValue.clear();
         }
         child.attached = true;
+        return child;
     }
 
     protected void clear() {
@@ -528,24 +571,18 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             oldValue.clear();
         }
     }
-    // }}}
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SimpleConfigurationNode)) return false;
-
         SimpleConfigurationNode that = (SimpleConfigurationNode) o;
 
-        if (attached != that.attached) return false;
-        if (key != null ? !key.equals(that.key) : that.key != null) return false;
-        if (!options.equals(that.options)) return false;
-        if (parent != null ? !parent.equals(that.parent) : that.parent != null)
-            return false;
-        if (!value.equals(that.value)) return false;
-
-        return true;
+        return this.attached == that.attached &&
+                Objects.equals(this.key, that.key) &&
+                this.options.equals(that.options) &&
+                Objects.equals(this.parent, that.parent) &&
+                this.value.equals(that.value);
     }
 
     @Override
