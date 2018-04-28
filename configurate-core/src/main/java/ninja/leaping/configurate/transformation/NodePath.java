@@ -16,25 +16,43 @@
  */
 package ninja.leaping.configurate.transformation;
 
-import ninja.leaping.configurate.ConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Arrays;
+import java.util.Iterator;
 
 /**
- * Implements a chain of {@link ConfigurationTransformation}s.
+ * Represents the path to a given node.
  */
-class ChainedConfigurationTransformation extends ConfigurationTransformation {
-    private final ConfigurationTransformation[] transformations;
+public interface NodePath extends Iterable<Object> {
 
-    ChainedConfigurationTransformation(ConfigurationTransformation[] transformations) {
-        this.transformations = Arrays.copyOf(transformations, transformations.length);
-    }
+    /**
+     * Gets a specific element from the path array
+     *
+     * @param i The index to get
+     * @return Object at the index
+     */
+    Object get(int i);
 
+    /**
+     * Gets the length of the path
+     *
+     * @return Length of the path array
+     */
+    int size();
+
+    /**
+     * Returns a copy of the original path array
+     *
+     * @return the copied array
+     */
+    Object[] getArray();
+
+    /**
+     * Returns an iterator over the path.
+     *
+     * @return An iterator of the path
+     */
+    @NonNull
     @Override
-    public void apply(@NonNull ConfigurationNode node) {
-        for (ConfigurationTransformation transformation : transformations) {
-            transformation.apply(node);
-        }
-    }
+    Iterator<Object> iterator();
 }

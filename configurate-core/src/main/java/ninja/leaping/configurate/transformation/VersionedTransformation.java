@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -17,9 +17,14 @@
 package ninja.leaping.configurate.transformation;
 
 import ninja.leaping.configurate.ConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.SortedMap;
 
+/**
+ * Implements a number of child {@link ConfigurationTransformation}s which are only applied if required,
+ * according to the configurations current version.
+ */
 class VersionedTransformation extends ConfigurationTransformation {
     private final Object[] versionPath;
     private final SortedMap<Integer, ConfigurationTransformation> versionTransformations;
@@ -30,7 +35,7 @@ class VersionedTransformation extends ConfigurationTransformation {
     }
 
     @Override
-    public void apply(ConfigurationNode node) {
+    public void apply(@NonNull ConfigurationNode node) {
         ConfigurationNode versionNode = node.getNode(versionPath);
         int currentVersion = versionNode.getInt(-1);
         for (SortedMap.Entry<Integer, ConfigurationTransformation> entry : versionTransformations.entrySet()) {

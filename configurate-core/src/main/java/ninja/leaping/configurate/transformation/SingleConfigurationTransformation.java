@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -16,51 +16,53 @@
  */
 package ninja.leaping.configurate.transformation;
 
+import com.google.common.collect.Iterators;
 import ninja.leaping.configurate.ConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Utility to perform bulk transformations of configuration data
- * Transformations are executed from deepest in the configuration hierarchy outwards
+ * Base implementation of {@link ConfigurationTransformation}.
+ *
+ * <p>Transformations are executed from deepest in the configuration hierarchy outwards.</p>
  */
 class SingleConfigurationTransformation extends ConfigurationTransformation {
     private final MoveStrategy strategy;
     private final Map<Object[], TransformAction> actions;
-    private final ThreadLocal<NodePath> sharedPath = new ThreadLocal<NodePath>() {
-        @Override
-        protected NodePath initialValue() {
-            return new NodePath();
-        }
-    };
 
-    protected SingleConfigurationTransformation(Map<Object[], TransformAction> actions, MoveStrategy strategy) {
+    /**
+     * Thread local {@link NodePath} instance - used so we don't have to create lots of NodePath
+     * instances.
+     *
+     * As such, data within paths is only guaranteed to be the same during a run of
+     * a transform function.
+     */
+    private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
+
+    SingleConfigurationTransformation(Map<Object[], TransformAction> actions, MoveStrategy strategy) {
         this.actions = actions;
         this.strategy = strategy;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     @Override
-    public void apply(ConfigurationNode node) {
+    public void apply(@NonNull ConfigurationNode node) {
         for (Map.Entry<Object[], TransformAction> ent : actions.entrySet()) {
             applySingleAction(node, ent.getKey(), 0, node, ent.getValue());
         }
     }
 
-    protected void applySingleAction(ConfigurationNode start, Object[] path, int startIdx, ConfigurationNode node,
-                                     TransformAction action) {
+    private void applySingleAction(ConfigurationNode start, Object[] path, int startIdx, ConfigurationNode node, TransformAction action) {
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.hasListChildren()) {
                     List<? extends ConfigurationNode> children = node.getChildrenList();
-                    for (int cI = 0; cI < children.size(); ++cI) {
-                        path[i] = cI;
-                        applySingleAction(start, path, i + 1, children.get(cI), action);
+                    for (int di = 0; di < children.size(); ++di) {
+                        path[i] = di;
+                        applySingleAction(start, path, i + 1, children.get(di), action);
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else if (node.hasMapChildren()) {
@@ -81,12 +83,46 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
                 }
             }
         }
-        NodePath immutablePath = sharedPath.get();
-        immutablePath.arr = path;
-        Object[] transformedPath = action.visitPath(immutablePath, node);
+
+        // apply action
+        NodePathImpl nodePath = sharedPath.get();
+        nodePath.arr = path;
+
+        Object[] transformedPath = action.visitPath(nodePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
             this.strategy.move(node, start.getNode(transformedPath));
             node.setValue(null);
+        }
+    }
+
+    /**
+     * Implementation of {@link NodePath} used by this class.
+     */
+    static class NodePathImpl implements NodePath {
+        Object[] arr;
+
+        NodePathImpl() {
+        }
+
+        @Override
+        public Object get(int i) {
+            return arr[i];
+        }
+
+        @Override
+        public int size() {
+            return arr.length;
+        }
+
+        @Override
+        public Object[] getArray() {
+            return Arrays.copyOf(arr, arr.length);
+        }
+
+        @NonNull
+        @Override
+        public Iterator<Object> iterator() {
+            return Iterators.forArray(arr);
         }
     }
 }

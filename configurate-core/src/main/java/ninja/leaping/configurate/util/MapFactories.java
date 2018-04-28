@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -17,7 +17,9 @@
 package ninja.leaping.configurate.util;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -29,11 +31,96 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Factories to create map implementations commonly used for maps
+ * Default implementations of {@link MapFactory}.
  */
-public class MapFactories {
-    private MapFactories() {
-        // Nope
+public final class MapFactories {
+    private MapFactories() {}
+
+    /**
+     * Returns a {@link MapFactory} which creates maps without an order.
+     *
+     * @return A map factory which produces unordered maps
+     */
+    public static MapFactory unordered() {
+        return DefaultFactory.UNORDERED;
+    }
+
+    /**
+     * Returns a {@link MapFactory} which creates maps which are sorted using the given comparator.
+     *
+     * @param comparator The comparator used to sort the map keys
+     * @return A map factory which produces sorted maps
+     */
+    public static MapFactory sorted(Comparator<Object> comparator) {
+        Preconditions.checkNotNull(comparator, "comparator");
+        return new SortedMapFactory(comparator);
+    }
+
+    /**
+     * Returns a {@link MapFactory} which creates maps which are naturally sorted.
+     *
+     * @return A map factory which produces naturally sorted maps
+     * @see Comparator#naturalOrder()
+     */
+    public static MapFactory sortedNatural() {
+        return DefaultFactory.SORTED_NATURAL;
+    }
+
+    /**
+     * Returns a {@link MapFactory} which creates maps which are sorted by insertion order.
+     *
+     * @return A map factory which produces maps sorted by insertion order
+     */
+    public static MapFactory insertionOrdered() {
+        return DefaultFactory.INSERTION_ORDERED;
+    }
+
+    private enum DefaultFactory implements MapFactory {
+        UNORDERED {
+            @NonNull
+            @Override
+            public <K, V> ConcurrentMap<K, V> create() {
+                return new ConcurrentHashMap<>();
+            }
+        },
+        SORTED_NATURAL {
+            @NonNull
+            @Override
+            public <K, V> ConcurrentMap<K, V> create() {
+                return new ConcurrentSkipListMap<>();
+            }
+        },
+        INSERTION_ORDERED {
+            @NonNull
+            @Override
+            public <K, V> ConcurrentMap<K, V> create() {
+                return new SynchronizedWrapper<>(new LinkedHashMap<>());
+            }
+        }
+    }
+
+    private static final class SortedMapFactory implements MapFactory {
+        private final Comparator<Object> comparator;
+
+        private SortedMapFactory(Comparator<Object> comparator) {
+            this.comparator = comparator;
+        }
+
+        @NonNull
+        @Override
+        public <K, V> ConcurrentMap<K, V> create() {
+            return new ConcurrentSkipListMap<>(comparator);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof SortedMapFactory && comparator.equals(((SortedMapFactory) obj).comparator);
+        }
+
+        @Override
+        public int hashCode() {
+            return comparator.hashCode();
+        }
     }
 
     private static class SynchronizedWrapper<K, V> implements ConcurrentMap<K, V> {
@@ -170,49 +257,5 @@ public class MapFactories {
             }
         }
     }
-
-    public static MapFactory  unordered() {
-        return new EqualsSupplier() {
-            @Override
-            public <K, V> ConcurrentMap<K, V> create() {
-                return new ConcurrentHashMap<>();
-            }
-        };
-    }
-
-    public static MapFactory sorted(final Comparator<Object> comparator) {
-        return new EqualsSupplier() {
-            @Override
-            public <K, V> ConcurrentMap<K, V> create() {
-                return new ConcurrentSkipListMap<>(comparator);
-            }
-        };
-    }
-
-    public static MapFactory sortedNatural() {
-        return new EqualsSupplier() {
-            @Override
-            public <K, V> ConcurrentMap<K, V> create() {
-                return new ConcurrentSkipListMap<>();
-            }
-        };
-    }
-
-    public static MapFactory insertionOrdered() {
-        return new EqualsSupplier() {
-            @Override
-            public <K, V> ConcurrentMap<K, V> create() {
-                return new SynchronizedWrapper<>(new LinkedHashMap<>());
-            }
-        };
-    }
-
-    private static abstract class EqualsSupplier implements MapFactory {
-        @Override
-        public boolean equals(Object o) {
-            return o.getClass().equals(getClass());
-        }
-    }
-
 
 }

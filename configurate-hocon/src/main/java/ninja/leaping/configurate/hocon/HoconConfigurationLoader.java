@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -36,6 +36,7 @@ import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,20 +48,60 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-
 /**
- * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for parsing
+ * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for
+ * parsing and generation.
  */
 public class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
+
+    /**
+     * The pattern used to match newlines.
+     */
     public static final Pattern CRLF_MATCH = Pattern.compile("\r?");
+
+    /**
+     * The default render options used by configurate.
+     */
     private static final ConfigRenderOptions DEFAULT_RENDER_OPTIONS = ConfigRenderOptions.defaults()
             .setOriginComments(false)
             .setJson(false);
+
+    /**
+     * An instance of {@link ConfigOrigin} for configurate.
+     */
     private static final ConfigOrigin CONFIGURATE_ORIGIN = ConfigOriginFactory.newSimple("configurate-hocon");
 
-    private final ConfigRenderOptions render;
-    private final ConfigParseOptions parse;
+    /**
+     * Gets the default {@link ConfigRenderOptions} used by configurate.
+     *
+     * @return The default render options
+     */
+    public static ConfigRenderOptions defaultRenderOptions() {
+        return DEFAULT_RENDER_OPTIONS;
+    }
 
+    /**
+     * Gets the default {@link ConfigParseOptions} used by configurate.
+     *
+     * @return The default parse options
+     */
+    public static ConfigParseOptions defaultParseOptions() {
+        return ConfigParseOptions.defaults();
+    }
+
+    /**
+     * Creates a new {@link HoconConfigurationLoader} builder.
+     *
+     * @return A new builder
+     */
+    @NonNull
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Builds a {@link HoconConfigurationLoader}.
+     */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private ConfigRenderOptions render = defaultRenderOptions();
         private ConfigParseOptions parse = defaultParseOptions();
@@ -68,41 +109,59 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         protected Builder() {
         }
 
-        public ConfigRenderOptions getRenderOptions() {
-            return render;
-        }
-
-        public ConfigParseOptions getParseOptions() {
-            return parse;
-        }
-
-        public Builder setRenderOptions(ConfigRenderOptions options) {
+        /**
+         * Sets the {@link ConfigRenderOptions} the resultant loader should use.
+         *
+         * @param options The render options
+         * @return This builder (for chaining)
+         */
+        @NonNull
+        public Builder setRenderOptions(@NonNull ConfigRenderOptions options) {
             this.render = options;
             return this;
         }
 
+        /**
+         * Gets the {@link ConfigRenderOptions} to be used by the resultant loader.
+         *
+         * @return The render options
+         */
+        @NonNull
+        public ConfigRenderOptions getRenderOptions() {
+            return render;
+        }
+
+        /**
+         * Sets the {@link ConfigParseOptions} the resultant loader should use.
+         *
+         * @param options The parse options
+         * @return This builder (for chaining)
+         */
+        @NonNull
         public Builder setParseOptions(ConfigParseOptions options) {
             this.parse = options;
             return this;
         }
 
+        /**
+         * Gets the {@link ConfigRenderOptions} to be used by the resultant loader.
+         *
+         * @return The render options
+         */
+        @NonNull
+        public ConfigParseOptions getParseOptions() {
+            return parse;
+        }
+
+        @NonNull
         @Override
         public HoconConfigurationLoader build() {
             return new HoconConfigurationLoader(this);
         }
     }
 
-    public static ConfigRenderOptions defaultRenderOptions() {
-        return DEFAULT_RENDER_OPTIONS;
-    }
-
-    public static ConfigParseOptions defaultParseOptions() {
-        return ConfigParseOptions.defaults();
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
+    private final ConfigRenderOptions render;
+    private final ConfigParseOptions parse;
 
     private HoconConfigurationLoader(Builder build) {
         super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});
@@ -119,7 +178,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         }
     }
 
-    private void readConfigValue(ConfigValue value, CommentedConfigurationNode node) {
+    private static void readConfigValue(ConfigValue value, CommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
             node.setComment(CRLF_MATCH.matcher(Joiner.on('\n').join(value.origin().comments())).replaceAll(""));
         }
@@ -161,8 +220,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         writer.write(renderedValue);
     }
 
-
-    private ConfigValue fromValue(ConfigurationNode node) {
+    private static ConfigValue fromValue(ConfigurationNode node) {
         ConfigValue ret;
         if (node.hasMapChildren()) {
             Map<String, ConfigValue> children = node.getOptions().getMapFactory().create();
@@ -188,27 +246,26 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         return ret;
     }
 
-    ConfigValue newConfigObject(Map<String, ConfigValue> vals) {
+    static ConfigValue newConfigObject(Map<String, ConfigValue> vals) {
         try {
             return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e); // Again,rethrow
+            throw new RuntimeException(e); // rethrow
         }
 
     }
 
-    ConfigValue newConfigList(List<ConfigValue> vals) {
+    static ConfigValue newConfigList(List<ConfigValue> vals) {
         try {
             return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e); // Should be rethrown
+            throw new RuntimeException(e); // rethrow
         }
-
     }
 
-
+    @NonNull
     @Override
-    public CommentedConfigurationNode createEmptyNode(ConfigurationOptions options) {
+    public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
                 Long.class, Integer.class, Boolean.class, String.class, Number.class));
         return SimpleCommentedConfigurationNode.root(options);
@@ -235,6 +292,5 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         } catch (NoSuchMethodException e) {
             throw new ExceptionInInitializerError(e);
         }
-
     }
 }

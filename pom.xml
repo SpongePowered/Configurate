@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Configurate
@@ -22,24 +23,37 @@
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-parent</artifactId>
     <version>3.4-SNAPSHOT</version>
-    <packaging>pom</packaging>
+
+    <modules>
+        <module>configurate-core</module>
+        <module>configurate-yaml</module>
+        <module>configurate-hocon</module>
+        <module>configurate-json</module>
+        <module>configurate-gson</module>
+    </modules>
+
     <name>Configurate Parent</name>
     <description>A simple configuration library for Java applications that can handle a variety of formats and
         provides a node-based data structure able to handle a wide variety of configuration schemas</description>
     <url>http://configurate.aoeu.xyz/${siteUrlSuffix}/</url>
     <inceptionYear>2014</inceptionYear>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <name>zml</name>
             <email>zml@aoeu.xyz</email>
         </developer>
     </developers>
+
+    <packaging>pom</packaging>
+
     <properties>
         <gitUser>SpongePowered</gitUser>
         <gitProject>configurate</gitProject>
@@ -52,8 +66,8 @@
         <connection>scm:git:https://github.com/${gitUrl}.git</connection>
         <developerConnection>scm:git:git@github.com:${gitUrl}.git</developerConnection>
         <url>https://github.com/${gitUrl}</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
@@ -66,14 +80,6 @@
             <url>github:http://SpongePowered.github.io/configurate/${siteUrlSuffix}/</url> <!-- This is a lie but it's what the wagon-git plugin needs to deploy the site -->
         </site>
     </distributionManagement>
-
-    <modules>
-        <module>configurate-core</module>
-        <module>configurate-yaml</module>
-        <module>configurate-hocon</module>
-        <module>configurate-json</module>
-        <module>configurate-gson</module>
-    </modules>
 
     <reporting>
         <plugins>
@@ -111,7 +117,14 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker-qual</artifactId>
+            <version>2.4.0</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -133,6 +146,9 @@
                         <include>src/test/java/**</include>
                     </includes>
                     <useDefaultExcludes>true</useDefaultExcludes>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
                 </configuration>
                 <executions>
                     <execution>
@@ -213,6 +229,7 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>release</id>

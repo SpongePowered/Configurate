@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -23,8 +23,10 @@ import com.google.common.base.Strings;
 
 import java.io.IOException;
 
+/**
+ * An extension of {@link DefaultPrettyPrinter} which can be customised by loader settings.
+ */
 class ConfiguratePrettyPrinter extends DefaultPrettyPrinter {
-
     private final FieldValueSeparatorStyle style;
 
     public ConfiguratePrettyPrinter(int indent, FieldValueSeparatorStyle style) {

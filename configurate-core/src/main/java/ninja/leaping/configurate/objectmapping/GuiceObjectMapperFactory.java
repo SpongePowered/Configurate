@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -21,33 +21,39 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Injector;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.concurrent.ExecutionException;
 
 /**
- * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided. This class is
- * intended to be constructed through Guice dependency injection.
+ * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided.
+ *
+ * <p>This class is intended to be constructed through Guice dependency injection.</p>
  */
 @Singleton
 public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
-    private final LoadingCache<Class<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder().weakKeys().maximumSize
-            (512).build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
-        @Override
-        public ObjectMapper<?> load(Class<?> key) throws Exception {
-            return new GuiceObjectMapper<>(injector, key);
-        }
-    });
+    private final LoadingCache<Class<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
+            .weakKeys().maximumSize(512)
+            .build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+                @Override
+                public ObjectMapper<?> load(Class<?> key) throws Exception {
+                    return new GuiceObjectMapper<>(injector, key);
+                }
+            });
+
     private final Injector injector;
+
     @Inject
     protected GuiceObjectMapperFactory(Injector baseInjector) {
         this.injector = baseInjector;
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(Class<T> type) throws ObjectMappingException {
+    public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
         Preconditions.checkNotNull(type, "type");
         try {
             return (ObjectMapper<T>) cache.get(type);

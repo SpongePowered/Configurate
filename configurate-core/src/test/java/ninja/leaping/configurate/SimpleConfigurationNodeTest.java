@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -70,8 +70,8 @@ public class SimpleConfigurationNodeTest {
         nodeOne.setValue("one");
         nodeTwo.setValue("lilac");
         ConfigurationNode attachedParent = config.getNode("uncreated", "step");
-        assertEquals(attachedParent, nodeOne.getParentAttached());
-        assertEquals(attachedParent, nodeTwo.getParentAttached());
+        assertEquals(attachedParent, nodeOne.getParentEnsureAttached());
+        assertEquals(attachedParent, nodeTwo.getParentEnsureAttached());
     }
 
     @Test

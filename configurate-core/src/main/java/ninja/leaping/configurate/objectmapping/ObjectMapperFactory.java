@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -16,9 +16,22 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * A factory to produce {@link ObjectMapper} instances
  */
 public interface ObjectMapperFactory {
-    <T> ObjectMapper<T> getMapper(Class<T> type) throws ObjectMappingException;
+
+    /**
+     * Creates an {@link ObjectMapper} for the given type.
+     *
+     * @param type The type
+     * @param <T> The type
+     * @return An object mapper
+     * @throws ObjectMappingException If an exception occured whilst mapping
+     */
+    @NonNull
+    <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException;
+
 }

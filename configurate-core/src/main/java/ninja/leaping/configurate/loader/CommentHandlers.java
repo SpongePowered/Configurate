@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -16,27 +16,39 @@
  */
 package ninja.leaping.configurate.loader;
 
-import java.util.Optional;
 import com.google.common.collect.Collections2;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Handlers for various comment formats
+ * Defines a number of default {@link CommentHandler}s.
  */
 public enum CommentHandlers implements CommentHandler {
-    HASH("#"),
-    DOUBLE_SLASH("//"),
+
     /**
-     * Block comments delineated by
+     * {@link CommentHandler} for comments prefixed by the <code>#</code> character.
+     */
+    HASH("#"),
+
+    /**
+     * {@link CommentHandler} for comments prefixed by a <code>//</code> escape.
+     */
+    DOUBLE_SLASH("//"),
+
+    /**
+     * {@link CommentHandler} for comments delineated using <code>/* *\/</code>.
      */
     SLASH_BLOCK() {
+        @NonNull
         @Override
-        public Optional<String> extractHeader(BufferedReader reader) throws IOException {
+        public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
             final StringBuilder build = new StringBuilder();
             String line = reader.readLine();
             if (line == null) {
@@ -93,8 +105,9 @@ public enum CommentHandlers implements CommentHandler {
             return moreLines;
         }
 
+        @NonNull
         @Override
-        public Collection<String> toComment(Collection<String> lines) {
+        public Collection<String> toComment(@NonNull Collection<String> lines) {
             if (lines.size() == 1) {
                 return lines.stream().map(i -> "/* " + i + " */").collect(Collectors.toList());
             } else {
@@ -105,22 +118,27 @@ public enum CommentHandlers implements CommentHandler {
                 return ret;
             }
         }
-    }
-    ;
+    };
 
+    /**
+     * Limit on the number of characters that may be read by a comment handler while still
+     * preserving the mark.
+     */
     private static final int READAHEAD_LEN = 4096;
 
     private final String commentPrefix;
 
-    private CommentHandlers() {
-        this.commentPrefix = null;
-    }
-
-    private CommentHandlers(String commentPrefix) {
+    CommentHandlers(String commentPrefix) {
         this.commentPrefix = commentPrefix;
     }
 
-    public Optional<String> extractHeader(BufferedReader reader) throws IOException {
+    CommentHandlers() {
+        this(null);
+    }
+
+    @NonNull
+    @Override
+    public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
         StringBuilder build = new StringBuilder();
         for (String line = reader.readLine(); line != null; line = reader.readLine()) {
             if (line.trim().startsWith(commentPrefix)) {
@@ -141,11 +159,12 @@ public enum CommentHandlers implements CommentHandler {
             }
         }
         // We've reached the end of the document?
-        return build.length() > 0 ? Optional.ofNullable(build.toString()) : Optional.<String>empty();
+        return build.length() > 0 ? Optional.of(build.toString()) : Optional.empty();
     }
 
+    @NonNull
     @Override
-    public Collection<String> toComment(Collection<String> lines) {
+    public Collection<String> toComment(@NonNull Collection<String> lines) {
         return Collections2.transform(lines, s -> {
             if (s.startsWith(" ")) {
                 return commentPrefix + s;
@@ -155,7 +174,16 @@ public enum CommentHandlers implements CommentHandler {
         });
     }
 
-    public static String extractComment(BufferedReader reader, CommentHandler... allowedHeaderTypes) throws IOException {
+    /**
+     * Uses provided comment handlers to extract a comment from the reader.
+     *
+     * @param reader The reader
+     * @param allowedHeaderTypes The handlers to try
+     * @return The extracted comment, or null if a comment could not be extracted
+     * @throws IOException If an IO error occurs
+     */
+    @Nullable
+    public static String extractComment(@NonNull BufferedReader reader, @NonNull CommentHandler... allowedHeaderTypes) throws IOException {
         reader.mark(READAHEAD_LEN);
         for (CommentHandler handler : allowedHeaderTypes) {
             Optional<String> comment = handler.extractHeader(reader);

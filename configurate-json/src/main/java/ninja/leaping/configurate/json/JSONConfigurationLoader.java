@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -29,6 +29,7 @@ import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,15 +37,24 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * A loader for JSON-formatted configurations, using the jackson library for parsing and generation
+ * A loader for JSON-formatted configurations, using the jackson library for parsing and generation.
  */
 public class JSONConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
-    private final JsonFactory factory;
-    private final int indent;
-    private final FieldValueSeparatorStyle fieldValueSeparatorStyle;
 
+    /**
+     * Creates a new {@link JSONConfigurationLoader} builder.
+     *
+     * @return A new builder
+     */
+    @NonNull
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Builds a {@link JSONConfigurationLoader}.
+     */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private final JsonFactory factory = new JsonFactory();
         private int indent = 2;
@@ -61,41 +71,72 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
             factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
         }
 
+        /**
+         * Gets the {@link JsonFactory} used to configure the implementation.
+         *
+         * @return The json factory
+         */
+        @NonNull
         public JsonFactory getFactory() {
             return this.factory;
         }
 
+        /**
+         * Sets the level of indentation the resultant loader should use.
+         *
+         * @param indent The indent level
+         * @return This builder (for chaining)
+         */
+        @NonNull
         public Builder setIndent(int indent) {
             this.indent = indent;
             return this;
         }
 
-        public Builder setFieldValueSeparatorStyle(FieldValueSeparatorStyle style) {
+        /**
+         * Gets the level of indentation to be used by the resultant loader.
+         *
+         * @return The indent level
+         */
+        public int getIndent() {
+            return this.indent;
+        }
+
+        /**
+         * Sets the field value separator style the resultant loader should use.
+         *
+         * @param style The style
+         * @return  This builder (for chaining)
+         */
+        @NonNull
+        public Builder setFieldValueSeparatorStyle(@NonNull FieldValueSeparatorStyle style) {
             this.fieldValueSeparatorStyle = style;
             return this;
         }
 
+        /**
+         * Gets the field value separator style to be used by the resultant loader.
+         *
+         * @return The style
+         */
+        @NonNull
+        public FieldValueSeparatorStyle getFieldValueSeparatorStyle() {
+            return fieldValueSeparatorStyle;
+        }
+
+        @NonNull
         @Override
         public JSONConfigurationLoader build() {
             return new JSONConfigurationLoader(this);
         }
-
-        public int getIndent() {
-            return indent;
-        }
-
-        public FieldValueSeparatorStyle getFieldValueSeparatorStyle() {
-            return fieldValueSeparatorStyle;
-        }
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
+    private final JsonFactory factory;
+    private final int indent;
+    private final FieldValueSeparatorStyle fieldValueSeparatorStyle;
 
-    protected JSONConfigurationLoader(Builder builder) {
-        super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK,
-                CommentHandlers.HASH});
+    private JSONConfigurationLoader(Builder builder) {
+        super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
         this.factory = builder.getFactory();
         this.indent = builder.getIndent();
         this.fieldValueSeparatorStyle = builder.getFieldValueSeparatorStyle();
@@ -109,7 +150,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
-    private void parseValue(JsonParser parser, ConfigurationNode node) throws IOException {
+    private static void parseValue(JsonParser parser, ConfigurationNode node) throws IOException {
         JsonToken token = parser.getCurrentToken();
         switch (token) {
             case START_OBJECT:
@@ -145,12 +186,11 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
             case FIELD_NAME:
                 break;
             default:
-                throw new IOException("Unsupported token type: " + token + " (at " + parser.getTokenLocation()
-                        + ")");
+                throw new IOException("Unsupported token type: " + token + " (at " + parser.getTokenLocation() + ")");
         }
     }
 
-    private void parseArray(JsonParser parser, ConfigurationNode node) throws IOException {
+    private static void parseArray(JsonParser parser, ConfigurationNode node) throws IOException {
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
             switch (token) {
@@ -160,11 +200,10 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                     parseValue(parser, node.getAppendedNode());
             }
         }
-        throw new JsonParseException("Reached end of stream with unclosed array!", parser.getCurrentLocation());
-
+        throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
     }
 
-    private void parseObject(JsonParser parser, ConfigurationNode node) throws IOException {
+    private static void parseObject(JsonParser parser, ConfigurationNode node) throws IOException {
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
             switch (token) {
@@ -174,7 +213,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                     parseValue(parser, node.getNode(parser.getCurrentName()));
             }
         }
-            throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
+        throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
     }
 
     @Override
@@ -187,14 +226,15 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
+    @NonNull
     @Override
-    public CommentedConfigurationNode createEmptyNode(ConfigurationOptions options) {
+    public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
         return SimpleCommentedConfigurationNode.root(options);
     }
 
-    private void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {
+    private static void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (node.hasMapChildren()) {
             generateObject(generator, node);
         } else if (node.hasListChildren()) {
@@ -242,10 +282,9 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                 }
             }
         }
-
     }*/
 
-    private void generateObject(JsonGenerator generator, ConfigurationNode node) throws IOException {
+    private static void generateObject(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (!node.hasMapChildren()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
@@ -256,10 +295,9 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
             generateValue(generator, ent.getValue());
         }
         generator.writeEndObject();
-
     }
 
-    private void generateArray(JsonGenerator generator, ConfigurationNode node) throws IOException {
+    private static void generateArray(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (!node.hasListChildren()) {
             throw new IOException("Node passed to generateArray does not have list children!");
         }

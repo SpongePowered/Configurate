@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -18,132 +18,254 @@ package ninja.leaping.configurate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * A node in the configuration tree. This is more or less the main class of configurate, providing the methods to
- * navigate through the configuration tree and get values
+ * A node in the configuration tree.
+ *
+ * <p>All aspects of a configurations structure are represented using instances of
+ * {@link ConfigurationNode}, and the links between them.</p>
+ *
+ * <p>{@link ConfigurationNode}s can:</p>
+ * <p>
+ * <ul>
+ *     <li>Hold a single "scalar" value</li>
+ *     <li>Represent a "list" of child {@link ConfigurationNode}s - see {@link #hasListChildren()}</li>
+ *     <li>Represent a "map" of child {@link ConfigurationNode}s - see {@link #hasMapChildren()}</li>
+ *     <li>Hold no value at all</li>
+ * </ul>
+ *
+ * <p>The overall configuration stems from a single "root" node, which is provided by the
+ * {@link ConfigurationLoader}, or by other means programmatically.</p>
+ *
+ * <p>This is effectively the main class of configurate.</p>
  */
 public interface ConfigurationNode {
     int NUMBER_DEF = 0;
+
     /**
-     * The key for this node.
-     * If this node is currently virtual, this method's result may be inaccurate.
+     * Gets the "key" of this node.
      *
-     * @return The key for this node
+     * <p>The key determines this {@link ConfigurationNode}s position within the overall
+     * configuration structure.</p>
+     *
+     * <p>If this node is currently {@link #isVirtual() virtual}, this method's result may be
+     * inaccurate.</p>
+     *
+     * <p>Note that this method only returns the nearest "link" in the hierarchy, and does not
+     * return a representation of the full path. See {@link #getPath()} for that.</p>
+     *
+     * <p>The {@link ConfigurationNode}s returned as values from {@link #getChildrenMap()} will
+     * have keys derived from their pairing in the map node.</p>
+     *
+     * <p>The {@link ConfigurationNode}s returned from {@link #getChildrenList()} will have keys
+     * derived from their position (index) in the list node.</p>
+     *
+     * @return The key of this node
      */
+    @Nullable
     Object getKey();
 
     /**
-     * The full path from the root to this node.
+     * Gets the full path of {@link #getKey() keys} from the root node to this node.
      *
-     * Node implementations may keep a full path for each node, so this method may involve some object churn.
+     * <p>Node implementations may not keep a full path for each node, so this method may be
+     * somewhat complex to calculate.</p>
      *
      * @return An array compiled from the keys for each node up the hierarchy
      */
+    @NonNull
     Object[] getPath();
 
     /**
-     * Returns the current parent for this node.
-     * If this node is currently virtual, this method's result may be inaccurate.
-     * @return The appropriate parent
+     * Gets the parent of this node.
+     *
+     * <p>If this node is currently {@link #isVirtual() virtual}, this method's result may be
+     * inaccurate.</p>
+     *
+     * @return The nodes parent
      */
+    @Nullable
     ConfigurationNode getParent();
 
     /**
-     * Return the options that currently apply to this node
+     * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
+     *
+     * <p>This is the main method used to navigate through the configuration.</p>
+     *
+     * <p>The path parameter effectively consumes an array of keys, which locate the unique position
+     * of a given node within the structure.</p>
+     *
+     * <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
+     * structure, a {@link #isVirtual() virtual} node will be returned which represents the
+     * position.</p>
+     *
+     * @param path The path to fetch the node at
+     * @return The node at the given path, possibly virtual
+     */
+    @NonNull
+    ConfigurationNode getNode(@NonNull Object... path);
+
+    /**
+     * Gets if this node is virtual.
+     *
+     * <p>Virtual nodes are nodes which are not attached to a wider configuration structure.</p>
+     *
+     * <p>A node is primarily "virtual" when it has no set value.</p>
+     *
+     * @return true if this node is virtual
+     */
+    boolean isVirtual();
+
+    /**
+     * Gets the options that currently apply to this node
      *
      * @return The ConfigurationOptions instance that governs the functionality of this node
      */
+    @NonNull
     ConfigurationOptions getOptions();
 
     /**
+     * Gets if this node has "list children".
+     *
+     * @return if this node has children in the form of a list
+     */
+    boolean hasListChildren();
+
+    /**
+     * Gets if this node has "map children".
+     *
+     * @return if this node has children in the form of a map
+     */
+    boolean hasMapChildren();
+
+    /**
+     * Gets the "list children" attached to this node, if it has any.
+     *
+     * <p>If this node does not {@link #hasListChildren() have list children}, an empty list is
+     * returned.</p>
+     *
+     * @return The list children currently attached to this node
+     */
+    @NonNull
+    List<? extends ConfigurationNode> getChildrenList();
+
+    /**
+     * Gets the "map children" attached to this node, if it has any.
+     *
+     * <p>If this node does not {@link #hasMapChildren() have map children}, an empty map
+     * returned.</p>
+     *
+     * @return The map children currently attached to this node
+     */
+    @NonNull
+    Map<Object, ? extends ConfigurationNode> getChildrenMap();
+
+    /**
      * Get the current value associated with this node.
-     * If this node has children, this method will recursively unwrap them to construct a List or a Map
+     *
+     * <p>If this node has children, this method will recursively unwrap them to construct a List
+     * or a Map.</p>
      *
      * @see #getValue(Object)
      * @return This configuration's current value, or null if there is none
      */
+    @Nullable
     default Object getValue() {
         return getValue((Object) null);
     }
 
     /**
      * Get the current value associated with this node.
-     * If this node has children, this method will recursively unwrap them to construct a List or a Map
+     *
+     * <p>If this node has children, this method will recursively unwrap them to construct a List
+     * or a Map.</p>
      *
      * @param def The default value to return if this node has no set value
      * @return This configuration's current value, or {@code def} if there is none
      */
-    Object getValue(Object def);
+    Object getValue(@Nullable Object def);
 
     /**
      * Get the current value associated with this node.
-     * If this node has children, this method will recursively unwrap them to construct a List or a Map
      *
-     * @param defSupplier The function that will be called to calculate a default value only if there is no existing
-     *                    value
+     * <p>If this node has children, this method will recursively unwrap them to construct a List
+     * or a Map.</p>
+     *
+     * @param defSupplier The function that will be called to calculate a default value only if
+     *                    there is no existing value
      * @return This configuration's current value, or {@code def} if there is none
      */
-
-    Object getValue(Supplier<Object> defSupplier);
+    Object getValue(@NonNull Supplier<Object> defSupplier);
 
     /**
-     * Gets the appropriately transformed typed version of this node's value from the provided transformation function
+     * Gets the appropriately transformed typed version of this node's value from the provided
+     * transformation function.
      *
      * @param transformer The transformation function
      * @param <T> The expected type
-     * @return A transformed value of the correct type, or null either if no value is present or the value could not
-     * be converted
+     * @return A transformed value of the correct type, or null either if no value is present or the
+     * value could not be converted
      */
-    default <T> T getValue(Function<Object, T> transformer) {
+    @Nullable
+    default <T> T getValue(@NonNull Function<Object, T> transformer) {
         return getValue(transformer, (T) null);
     }
 
     /**
-     * Gets the appropriately transformed typed version of this node's value from the provided transformation function
+     * Gets the appropriately transformed typed version of this node's value from the provided
+     * transformation function.
      *
      * @param transformer The transformation function
-     * @param def The default value to return if this node has no set value or is not of a convertable type
+     * @param def The default value to return if this node has no set value or is not of a
+     *            convertible type
      * @param <T> The expected type
-     * @return A transformed value of the correct type, or {@code def} either if no value is present or the value
-     * could not be converted
+     * @return A transformed value of the correct type, or {@code def} either if no value is present
+     * or the value could not be converted
      */
-    <T> T getValue(Function<Object, T> transformer, T def);
+    <T> T getValue(@NonNull Function<Object, T> transformer, @Nullable T def);
 
     /**
-     * Gets the appropriately transformed typed version of this node's value from the provided transformation function
+     * Gets the appropriately transformed typed version of this node's value from the provided
+     * transformation function.
      *
      * @param transformer The transformation function
-     * @param defSupplier The function that will be called to calculate a default value only if there is no existing
-     *                    value of the correct type
+     * @param defSupplier The function that will be called to calculate a default value only if
+     *                    there is no existing value of the correct type
      * @param <T> The expected type
-     * @return A transformed value of the correct type, or {@code def} either if no value is present or the value
-     * could not be converted
+     * @return A transformed value of the correct type, or {@code def} either if no value is present
+     * or the value could not be converted
      */
-    <T> T getValue(Function<Object, T> transformer, Supplier<T> defSupplier);
+    <T> T getValue(@NonNull Function<Object, T> transformer, @NonNull Supplier<T> defSupplier);
 
     /**
-     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
-     * provided function.
-     * If this node has a scalar value, this function treats it as a list with one value
+     * If this node has list values, this function unwraps them and converts them to an appropriate
+     * type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list with one value</p>
      *
      * @param transformer The transformation function
      * @param <T> The expected type
      * @return An immutable copy of the values contained
      */
-    <T> List<T> getList(Function<Object, T> transformer);
+    @NonNull
+    <T> List<T> getList(@NonNull Function<Object, T> transformer);
 
     /**
-     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
-     * provided function.
-     * If this node has a scalar value, this function treats it as a list with one value
+     * If this node has list values, this function unwraps them and converts them to an appropriate
+     * type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list with one value.</p>
      *
      * @param transformer The transformation function
      * @param def The default value if no appropriate value is set
@@ -151,12 +273,13 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(Function<Object, T> transformer, List<T> def);
+    <T> List<T> getList(@NonNull Function<Object, T> transformer, @Nullable List<T> def);
 
     /**
-     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
-     * provided function.
-     * If this node has a scalar value, this function treats it as a list with one value
+     * If this node has list values, this function unwraps them and converts them to an appropriate
+     * type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list with one value.</p>
      *
      * @param transformer The transformation function
      * @param defSupplier The function that will be called to calculate a default value only if there is no existing
@@ -165,25 +288,28 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(Function<Object, T> transformer, Supplier<List<T>> defSupplier);
+    <T> List<T> getList(@NonNull Function<Object, T> transformer, @NonNull Supplier<List<T>> defSupplier);
 
     /**
-     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
-     * provided type.
-     * If this node has a scalar value, this function treats it as a list with one value
+     * If this node has list values, this function unwraps them and converts them to an appropriate
+     * type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list with one value.</p>
      *
      * @param type The expected type
      * @param <T> The expected type
      * @return An immutable copy of the values contained
      */
-    default <T> List<T> getList(TypeToken<T> type) throws ObjectMappingException {
+    @NonNull
+    default <T> List<T> getList(@NonNull TypeToken<T> type) throws ObjectMappingException {
         return getList(type, ImmutableList.of());
     }
 
     /**
-     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
-     * provided type.
-     * If this node has a scalar value, this function treats it as a list with one value
+     * If this node has list values, this function unwraps them and converts them to an appropriate
+     * type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list with one value.</p>
      *
      * @param type The expected type
      * @param def The default value if no appropriate value is set
@@ -191,12 +317,13 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(TypeToken<T> type, List<T> def) throws ObjectMappingException;
+    <T> List<T> getList(@NonNull TypeToken<T> type, @Nullable List<T> def) throws ObjectMappingException;
 
     /**
-     * If this node has list values, this function unwraps them and converts them to an appropriate type based on the
-     * provided type.
-     * If this node has a scalar value, this function treats it as a list with one value
+     * If this node has list values, this function unwraps them and converts them to an appropriate
+     * type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list with one value.</p>
      *
      * @param type The expected type
      * @param defSupplier The function that will be called to calculate a default value only if there is no existing
@@ -205,7 +332,7 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(TypeToken<T> type, Supplier<List<T>> defSupplier) throws ObjectMappingException;
+    <T> List<T> getList(@NonNull TypeToken<T> type, @NonNull Supplier<List<T>> defSupplier) throws ObjectMappingException;
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -213,6 +340,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, null if no appropriate value is available
      */
+    @Nullable
     default String getString() {
         return getString(null);
     }
@@ -224,7 +352,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    default String getString(String def) {
+    default String getString(@Nullable String def) {
         return getValue(Types::asString, def);
     }
 
@@ -334,44 +462,47 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Set this node's value to the given value.
-     * If the provided value is a {@link java.util.Collection} or a {@link java.util.Map}, it will be unwrapped into
-     * the appropriate configuration node structure
-     *
-     * @param value The value to set
-     * @return this
-     */
-    ConfigurationNode setValue(Object value);
-
-    /**
      * Get the current value associated with this node.
-     * If this node has children, this method will recursively unwrap them to construct a List or a Map.
-     * This method will also perform deserialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * <p>If this node has children, this method will recursively unwrap them to construct a
+     * List or a Map.</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate TypeSerializer for
+     * the given type, or casting if no type serializer is found.</p>
      *
      * @param type The type to deserialize to
      * @param <T> the type to get
      * @return the value if present and of the proper type, else null
      */
-    default <T> T getValue(TypeToken<T> type) throws ObjectMappingException {
+    @Nullable
+    default <T> T getValue(@NonNull TypeToken<T> type) throws ObjectMappingException {
         return getValue(type, (T) null);
     }
 
     /**
      * Get the current value associated with this node.
-     * If this node has children, this method will recursively unwrap them to construct a List or a Map.
-     * This method will also perform deserialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * <p>If this node has children, this method will recursively unwrap them to construct a
+     * List or a Map.</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate TypeSerializer for
+     * the given type, or casting if no type serializer is found.</p>
      *
      * @param type The type to deserialize to
      * @param def The value to return if no value or value is not of appropriate type
      * @param <T> the type to get
      * @return the value if of the proper type, else {@code def}
      */
-    <T> T getValue(TypeToken<T> type, T def) throws ObjectMappingException;
+    <T> T getValue(@NonNull TypeToken<T> type, T def) throws ObjectMappingException;
 
     /**
      * Get the current value associated with this node.
-     * If this node has children, this method will recursively unwrap them to construct a List or a Map.
-     * This method will also perform deserialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * <p>If this node has children, this method will recursively unwrap them to construct a
+     * List or a Map.</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate TypeSerializer for
+     * the given type, or casting if no type serializer is found.</p>
      *
      * @param type The type to deserialize to
      * @param defSupplier The function that will be called to calculate a default value only if there is no existing
@@ -379,25 +510,42 @@ public interface ConfigurationNode {
      * @param <T> the type to get
      * @return the value if of the proper type, else {@code def}
      */
-    <T> T getValue(TypeToken<T> type, Supplier<T> defSupplier) throws ObjectMappingException;
+    <T> T getValue(@NonNull TypeToken<T> type, @NonNull Supplier<T> defSupplier) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
-     * If the provided value is a {@link java.util.Collection} or a {@link java.util.Map}, it will be unwrapped into
-     * the appropriate configuration node structure.
-     * This method will also perform serialization using the appropriate TypeSerializer for the given type, or casting if no type serializer is found.
+     *
+     * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
+     * the appropriate configuration node structure.</p>
+     *
+     * @param value The value to set
+     * @return this
+     */
+    @NonNull
+    ConfigurationNode setValue(@Nullable Object value);
+
+    /**
+     * Set this node's value to the given value.
+     *
+     * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
+     * the appropriate configuration node structure.</p>
+     *
+     * <p>This method will also perform serialization using the appropriate TypeSerializer for the
+     * given type, or casting if no type serializer is found.</p>
      *
      * @param type The type to use for serialization type information
      * @param value The value to set
      * @param <T> The type to serialize to
      * @return this
      */
-    default <T> ConfigurationNode setValue(TypeToken<T> type, T value) throws ObjectMappingException {
+    @NonNull
+    default <T> ConfigurationNode setValue(@NonNull TypeToken<T> type, @Nullable T value) throws ObjectMappingException {
         if (value == null) {
             setValue(null);
             return this;
         }
-        TypeSerializer serial = getOptions().getSerializers().get(type);
+
+        TypeSerializer<T> serial = getOptions().getSerializers().get(type);
         if (serial != null) {
             serial.serialize(type, value, this);
         } else if (getOptions().acceptsType(value.getClass())) {
@@ -412,36 +560,13 @@ public interface ConfigurationNode {
      * Set all the values from the given node that are not present in this node
      * to their values in the provided node.
      *
-     * Map keys will be merged. Lists and scalar values will be replaced.
+     * <p>Map keys will be merged. Lists and scalar values will be replaced.</p>
      *
      * @param other The node to merge values from
      * @return this
      */
-    ConfigurationNode mergeValuesFrom(ConfigurationNode other);
-
-    /**
-     * @return if this node has children in the form of a list
-     */
-    boolean hasListChildren();
-
-    /**
-     * @return if this node has children in the form of a map
-     */
-    boolean hasMapChildren();
-
-    /**
-     * Return an immutable copy of the list of children this node is aware of
-     *
-     * @return The children currently attached to this node
-     */
-    List<? extends ConfigurationNode> getChildrenList();
-
-    /**
-     * Return an immutable copy of the mapping from key to node of every child this node is aware of
-     *
-     * @return Child nodes currently attached
-     */
-    Map<Object, ? extends ConfigurationNode> getChildrenMap();
+    @NonNull
+    ConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
 
     /**
      * Removes a direct child of this node
@@ -449,26 +574,14 @@ public interface ConfigurationNode {
      * @param key The key of the node to remove
      * @return if an actual node was removed
      */
-    boolean removeChild(Object key);
+    boolean removeChild(@NonNull Object key);
 
     /**
+     * Gets a new child node created as the next entry in the list.
+     *
      * @return a new child created as the next entry in the list when it is attached
      */
+    @NonNull
     ConfigurationNode getAppendedNode();
 
-
-    /**
-     * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes
-     *
-     * @param path The path to fetch the node at
-     * @return The node at the given path, possibly virtual
-     */
-    ConfigurationNode getNode(Object... path);
-
-    /**
-     * Whether this node does not currently exist in the configuration structure.
-     *
-     * @return true if this node is not attached (this occurs primarily when the node has no set value)
-     */
-    boolean isVirtual();
 }

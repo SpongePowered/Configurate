@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -17,11 +17,16 @@
 package ninja.leaping.configurate;
 
 import com.google.common.base.Objects;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * A {@link ConfigValue} which holds a map of values.
+ */
 class MapConfigValue extends ConfigValue {
     volatile ConcurrentMap<Object, SimpleConfigurationNode> values;
 
@@ -30,17 +35,22 @@ class MapConfigValue extends ConfigValue {
         values = newMap();
     }
 
+    private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
+        return holder.getOptions().getMapFactory().create();
+    }
+
+    @Nullable
     @Override
     public Object getValue() {
         Map<Object, Object> value = new LinkedHashMap<>();
         for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : values.entrySet()) {
-            value.put(ent.getKey(), ent.getValue().getValue());
+            value.put(ent.getKey(), ent.getValue().getValue()); // unwrap key from the backing node
         }
         return value;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         if (value instanceof Map) {
             final ConcurrentMap<Object, SimpleConfigurationNode> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
@@ -60,11 +70,11 @@ class MapConfigValue extends ConfigValue {
         } else {
             throw new IllegalArgumentException("Map configuration values can only be set to values of type Map");
         }
-
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChild(Object key, SimpleConfigurationNode value) {
+    SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
         if (value == null) {
             return values.remove(key);
         } else {
@@ -72,8 +82,9 @@ class MapConfigValue extends ConfigValue {
         }
     }
 
+    @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(Object key, SimpleConfigurationNode value) {
+    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
         if (value == null) {
             return values.remove(key);
         } else {
@@ -81,17 +92,19 @@ class MapConfigValue extends ConfigValue {
         }
     }
 
+    @Nullable
     @Override
-    public SimpleConfigurationNode getChild(Object key) {
+    public SimpleConfigurationNode getChild(@Nullable Object key) {
         return values.get(key);
     }
 
+    @NonNull
     @Override
     public Iterable<SimpleConfigurationNode> iterateChildren() {
         return values.values();
     }
 
-    private void detachChildren(Map<Object, SimpleConfigurationNode> map) {
+    private static void detachChildren(Map<Object, SimpleConfigurationNode> map) {
         for (SimpleConfigurationNode value : map.values()) {
             value.attached = false;
             value.clear();
@@ -105,11 +118,6 @@ class MapConfigValue extends ConfigValue {
             this.values = newMap();
             detachChildren(oldMap);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
-        return holder.getOptions().getMapFactory().create();
     }
 
     @Override

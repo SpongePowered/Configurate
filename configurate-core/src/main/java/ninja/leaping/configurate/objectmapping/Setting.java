@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -23,18 +23,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Fields with this annotation are
+ * Marks a field to be mapped by an {@link ObjectMapper}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
 public @interface Setting {
+
     /**
      * The path this setting is located at
      *
      * @return The path
      */
-    public String value() default "";
+    String value() default "";
 
     /**
      * The default comment associated with this configuration node
@@ -42,5 +43,6 @@ public @interface Setting {
      *
      * @return The comment
      */
-    public String comment() default "";
+    String comment() default "";
+
 }

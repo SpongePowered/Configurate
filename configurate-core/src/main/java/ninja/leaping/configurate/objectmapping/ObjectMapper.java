@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -21,6 +21,7 @@ import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -43,7 +44,8 @@ public class ObjectMapper<T> {
 
 
     /**
-     * Create a new object mapper that can work with objects of the given class
+     * Create a new object mapper that can work with objects of the given class using the
+     * {@link DefaultObjectMapperFactory}.
      *
      * @param clazz The type of object
      * @param <T> The type
@@ -51,12 +53,20 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException If invalid annotated fields are presented
      */
     @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T> forClass(Class<T> clazz) throws ObjectMappingException {
+    public static <T> ObjectMapper<T> forClass(@NonNull Class<T> clazz) throws ObjectMappingException {
         return DefaultObjectMapperFactory.getInstance().getMapper(clazz);
     }
 
+    /**
+     * Creates a new object mapper bound to the given object.
+     *
+     * @param obj The object
+     * @param <T> The object type
+     * @return An appropriate object mapper instance.
+     * @throws ObjectMappingException
+     */
     @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T>.BoundInstance forObject(T obj) throws ObjectMappingException {
+    public static <T> ObjectMapper<T>.BoundInstance forObject(@NonNull T obj) throws ObjectMappingException {
         Preconditions.checkNotNull(obj);
         return forClass((Class<T>) obj.getClass()).bind(obj);
     }
@@ -69,8 +79,7 @@ public class ObjectMapper<T> {
         private final TypeToken<?> fieldType;
         private final String comment;
 
-        public FieldData(Field field, String comment) throws
-                ObjectMappingException {
+        public FieldData(Field field, String comment) throws ObjectMappingException {
             this.field = field;
             this.comment = comment;
             this.fieldType = TypeToken.of(field.getGenericType());
@@ -95,7 +104,6 @@ public class ObjectMapper<T> {
             } catch (IllegalAccessException e) {
                 throw new ObjectMappingException("Unable to deserialize field " + field.getName(), e);
             }
-
         }
 
         @SuppressWarnings("rawtypes")
@@ -107,8 +115,7 @@ public class ObjectMapper<T> {
                 } else {
                     TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType);
                     if (serial == null) {
-                        throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
-                                + this.fieldType);
+                        throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type " + this.fieldType);
                     }
                     serial.serialize(this.fieldType, fieldVal, node);
                 }
@@ -122,7 +129,6 @@ public class ObjectMapper<T> {
             } catch (IllegalAccessException e) {
                 throw new ObjectMappingException("Unable to serialize field " + field.getName(), e);
             }
-
         }
     }
 
@@ -138,6 +144,7 @@ public class ObjectMapper<T> {
 
         /**
          * Populate the annotated fields in a pre-created object
+         *
          * @param source The source to get data from
          * @return The object provided, for easier chaining
          * @throws ObjectMappingException If an error occurs while populating data
@@ -225,11 +232,7 @@ public class ObjectMapper<T> {
         }
         try {
             return constructor.newInstance();
-        } catch (InstantiationException e) { // JDK6 compat
-            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
-        } catch (IllegalAccessException e) {
-            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
-        } catch (InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
         }
     }

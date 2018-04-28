@@ -1,4 +1,4 @@
-/**
+/*
  * Configurate
  * Copyright (C) zml and Configurate contributors
  *
@@ -19,16 +19,12 @@ package ninja.leaping.configurate.objectmapping;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
-
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
-
-import org.hamcrest.MatcherAssert;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -42,9 +38,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TypeSerializersTest {
     private static final TypeSerializerCollection SERIALIZERS = TypeSerializers.getDefaultSerializers();
