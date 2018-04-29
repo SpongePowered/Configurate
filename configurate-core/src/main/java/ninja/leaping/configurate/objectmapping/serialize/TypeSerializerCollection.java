@@ -19,7 +19,9 @@ package ninja.leaping.configurate.objectmapping.serialize;
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 
+import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
@@ -76,8 +78,7 @@ public class TypeSerializerCollection {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T>
-            serializer) {
+    public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
         Preconditions.checkNotNull(test, "test");
         Preconditions.checkNotNull(serializer, "serializer");
         serializers.add(new RegisteredSerializer((Predicate) test, serializer));
@@ -99,12 +100,50 @@ public class TypeSerializerCollection {
         }
 
         private RegisteredSerializer(TypeToken<?> type, TypeSerializer<?> serializer) {
-            this(type::isSupertypeOf, serializer);
+            this(new SuperTypePredicate(type), serializer);
         }
     }
 
-    private final class SerializerList extends CopyOnWriteArrayList<RegisteredSerializer>
-            implements Function<TypeToken<?>, TypeSerializer<?>> {
+    /**
+     * Effectively a predicate which is <code>type::isSupertypeOf</code>.
+     *
+     * <p>The isSupertypeOf method was only added in Guava 19.0, and was previously named
+     * isAssignableFrom.</p>
+     */
+    private static final class SuperTypePredicate implements Predicate<TypeToken<?>> {
+        private static final Method SUPERTYPE_TEST;
+        static {
+            Method supertypeTest;
+            try {
+                supertypeTest = TypeToken.class.getMethod("isSupertypeOf", TypeToken.class);
+            } catch (NoSuchMethodException e1) {
+                try {
+                    supertypeTest = TypeToken.class.getMethod("isAssignableFrom", TypeToken.class);
+                } catch (NoSuchMethodException e2) {
+                    throw new RuntimeException("Unable to get TypeToken#isSupertypeOf or TypeToken#isAssignableFrom method");
+                }
+            }
+            SUPERTYPE_TEST = supertypeTest;
+        }
+
+        private final TypeToken<?> type;
+
+        SuperTypePredicate(TypeToken<?> type) {
+            this.type = type;
+        }
+
+        @Override
+        public boolean test(TypeToken<?> t) {
+            try {
+                return (boolean) SUPERTYPE_TEST.invoke(type, t);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    private static final class SerializerList extends CopyOnWriteArrayList<RegisteredSerializer> implements Function<TypeToken<?>, TypeSerializer<?>> {
 
         @Override
         public TypeSerializer<?> apply(TypeToken<?> type) {
