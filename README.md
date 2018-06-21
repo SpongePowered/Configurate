@@ -9,22 +9,13 @@ Want to talk to us about Configurate? Come to the `#dev-irc` channel in our [Dis
 
 
 ## Building
-We use Maven, so this part is pretty easy. 
+We use Gradle, so this part is pretty easy. 
 
 Configurate requires JDK 8 to build and run.
 
-Make sure Maven is installed and from the project's directory (the root of this repository), run `mvn clean install` to build Configuate and install its artifacts to the local Maven repository.
+From the project's directory (the root of this repository), run `gradle clean build` to build Configurate. Its artifacts will be located at `./build/libs/`.
 
 ## Usage
-
-**Maven**:
-```xml
-<dependency>
-    <groupId>ninja.leaping.configurate</groupId>
-    <artifactId>configurate-hocon</artifactId>
-    <version>3.3</version> <!-- Update this with the most recent version -->
-</dependency>
-``` 
 
 **Gradle**:
 ```groovy
@@ -36,6 +27,15 @@ dependencies {
     compile 'ninja.leaping.configurate:configurate-hocon:3.3'
 }
 ```
+
+**Maven**:
+```xml
+<dependency>
+    <groupId>ninja.leaping.configurate</groupId>
+    <artifactId>configurate-hocon</artifactId>
+    <version>3.3</version> <!-- Update this with the most recent version -->
+</dependency>
+``` 
 
 For other build systems, take a look at the [full list on the Configurate site](http://configurate.aoeu.xyz/configurate-hocon/dependency-info.html)
 
