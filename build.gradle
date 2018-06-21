@@ -15,7 +15,7 @@ subprojects {
   apply plugin: 'maven'
   apply plugin: 'net.minecrell.licenser'
 
-  group 'ninja.leaping.configurate'
+  group 'org.spongepowered'
   version '3.4-SNAPSHOT'
 
   sourceCompatibility = 1.8
