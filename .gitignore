@@ -1,3 +1,15 @@
+/.gradle/
+/configurate-core/build/
+/configurate-core/out/
+/configurate-gson/build/
+/configurate-gson/out/
+/configurate-hocon/build/
+/configurate-hocon/out/
+/configurate-json/build/
+/configurate-json/out/
+/configurate-yaml/build/
+/configurate-yaml/out/
+
 target/
 # IntelliJ project data
 .idea

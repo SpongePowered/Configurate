@@ -1,0 +1,114 @@
+buildscript {
+  repositories {
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+
+  dependencies {
+    classpath 'gradle.plugin.net.minecrell:licenser:0.3'
+  }
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'maven'
+  apply plugin: 'net.minecrell.licenser'
+
+  group 'ninja.leaping.configurate'
+  version '3.4-SNAPSHOT'
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+
+  tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
+    options.deprecation = true
+    options.encoding = 'UTF-8'
+  }
+
+  javadoc {
+    options.links(
+      'http://google.github.io/guava/releases/21.0/api/docs/'
+    )
+  }
+
+  license {
+    header rootProject.file('LICENSE_HEADER')
+    include '**/*.java'
+    newLine false
+  }
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+
+  dependencies {
+    testCompile 'junit:junit:4.12'
+  }
+
+  task javadocJar(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
+  }
+
+  task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+  }
+
+  artifacts {
+    archives javadocJar
+    archives sourcesJar
+  }
+
+  if(project.hasProperty('spongeRepo') && project.hasProperty('spongeUsername') && project.hasProperty('spongePassword')) {
+    uploadArchives {
+      repositories {
+        mavenDeployer {
+          repository(url: spongeRepo) {
+            authentication(userName: spongeUsername, password: spongePassword)
+          }
+
+          snapshotRepository(url: spongeRepo) {
+            authentication(userName: spongeUsername, password: spongePassword)
+          }
+
+          pom.project {
+            description 'A simple configuration library for Java applications that can handle a variety of formats and provides a node-based data structure able to handle a wide variety of configuration schemas'
+            name project.name
+            url 'https://github.com/SpongePowered/configurate/'
+
+            inceptionYear '2014'
+
+            developers {
+              developer {
+                name 'zml'
+                email 'zml@aoeu.xyz'
+              }
+            }
+
+            issueManagement {
+              system 'GitHub Issues'
+              url 'https://github.com/SpongePowered/configurate/issues'
+            }
+
+            licenses {
+              license {
+                name 'Apache License, Version 2.0'
+                url 'https://opensource.org/licenses/Apache-2.0'
+              }
+            }
+
+            scm {
+              connection 'scm:git@github.com:SpongePowered/configurate.git'
+              developerConnection 'scm:git@github.com:SpongePowered/configurate.git'
+              url 'https://github.com/SpongePowered/configurate/'
+            }
+          }
+        }
+      }
+    }
+  }
+}
