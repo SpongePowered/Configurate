@@ -71,8 +71,8 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>spongepowered</id>
+            <url>${env.spongeRepo}</url>
         </snapshotRepository>
         <site>
             <id>gh-pages</id>
