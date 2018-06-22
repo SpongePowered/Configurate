@@ -63,6 +63,12 @@ class NullConfigValue extends ConfigValue {
         return Collections.emptySet();
     }
 
+    @NonNull
+    @Override
+    NullConfigValue copy(@NonNull SimpleConfigurationNode holder) {
+        return new NullConfigValue(holder);
+    }
+
     @Override
     public void clear() {
 
@@ -76,5 +82,10 @@ class NullConfigValue extends ConfigValue {
     @Override
     public int hashCode() {
         return 1009;
+    }
+
+    @Override
+    public String toString() {
+        return "NullConfigValue{}";
     }
 }

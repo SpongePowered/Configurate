@@ -572,16 +572,36 @@ public interface ConfigurationNode {
      * Removes a direct child of this node
      *
      * @param key The key of the node to remove
-     * @return if an actual node was removed
+     * @return If a node was removed
      */
     boolean removeChild(@NonNull Object key);
 
     /**
      * Gets a new child node created as the next entry in the list.
      *
-     * @return a new child created as the next entry in the list when it is attached
+     * @return A new child created as the next entry in the list when it is attached
      */
     @NonNull
     ConfigurationNode getAppendedNode();
+
+    /**
+     * Creates a deep copy of this node.
+     *
+     * <p>If this node has child nodes (is a list or map), the child nodes will
+     * also be copied. This action is performed recursively.</p>
+     *
+     * <p>The resultant node will (initially) contain the same value(s) as this node,
+     * and will therefore be {@link Object#equals(Object) equal}, however, changes made to
+     * the original will not be reflected in the copy, and vice versa.</p>
+     *
+     * <p>The actual scalar values that back the configuration will
+     * <strong>not</strong> be copied - only the node structure that forms the
+     * configuration. This is not a problem in most cases, as the scalar values
+     * stored in configurations are usually immutable. (e.g. strings, numbers, booleans).</p>
+     *
+     * @return A copy of this node
+     */
+    @NonNull
+    ConfigurationNode copy();
 
 }

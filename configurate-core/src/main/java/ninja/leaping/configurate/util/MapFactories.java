@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -254,6 +255,30 @@ public final class MapFactories {
         public Set<Entry<K, V>> entrySet() {
             synchronized (wrapped) {
                 return ImmutableSet.copyOf(wrapped.entrySet());
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            synchronized (wrapped) {
+                return wrapped.equals(obj);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            synchronized (wrapped) {
+                return wrapped.hashCode();
+            }
+        }
+
+        @Override
+        public String toString() {
+            synchronized (wrapped) {
+                return "SynchronizedWrapper{backing=" + wrapped.toString() + '}';
             }
         }
     }

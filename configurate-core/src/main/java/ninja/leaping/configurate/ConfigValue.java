@@ -89,6 +89,14 @@ abstract class ConfigValue {
     abstract Iterable<SimpleConfigurationNode> iterateChildren();
 
     /**
+     * Creates a copy of this node
+     *
+     * @return A copy
+     */
+    @NonNull
+    abstract ConfigValue copy(@NonNull SimpleConfigurationNode holder);
+
+    /**
      * Clears the set value (or any attached child values) from this value
      */
     void clear() {
