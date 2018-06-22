@@ -7,24 +7,22 @@ Configurate is a simple configuration library released under the [Apache 2.0](LI
 
 Want to talk to us about Configurate? Come to the `#dev-irc` channel in our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net` where people familiar with the project will hang around.
 
+## Prerequisites
+
+- [Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 8
+
+## Clone
+The following steps will ensure your project is cloned properly.
+
+1. `git clone https://github.com/SpongePowered/configurate.git`
+2. `cd configurate`
 
 ## Building
-We use Maven, so this part is pretty easy. 
+**Note:** If you do not have [Gradle](https://www.gradle.org/) installed then use ./gradlew for Unix systems or Git Bash and gradlew.bat for Windows systems in place of any 'gradle' command.
 
-Configurate requires JDK 8 to build and run.
-
-Make sure Maven is installed and from the project's directory (the root of this repository), run `mvn clean install` to build Configuate and install its artifacts to the local Maven repository.
+In order to build Configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in each subproject) labeled similarly to 'configurate-subproject-x.x-SNAPSHOT.jar'.
 
 ## Usage
-
-**Maven**:
-```xml
-<dependency>
-    <groupId>ninja.leaping.configurate</groupId>
-    <artifactId>configurate-hocon</artifactId>
-    <version>3.3</version> <!-- Update this with the most recent version -->
-</dependency>
-``` 
 
 **Gradle**:
 ```groovy
@@ -36,6 +34,15 @@ dependencies {
     compile 'ninja.leaping.configurate:configurate-hocon:3.3'
 }
 ```
+
+**Maven**:
+```xml
+<dependency>
+    <groupId>ninja.leaping.configurate</groupId>
+    <artifactId>configurate-hocon</artifactId>
+    <version>3.3</version> <!-- Update this with the most recent version -->
+</dependency>
+``` 
 
 For other build systems, take a look at the [full list on the Configurate site](http://configurate.aoeu.xyz/configurate-hocon/dependency-info.html)
 
