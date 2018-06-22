@@ -63,6 +63,7 @@ public class TypeSerializerCollection {
         Preconditions.checkNotNull(type, "type");
         Preconditions.checkNotNull(serializer, "serializer");
         serializers.add(new RegisteredSerializer(type, serializer));
+        typeMatches.clear();
         return this;
     }
 
@@ -80,6 +81,7 @@ public class TypeSerializerCollection {
         Preconditions.checkNotNull(test, "test");
         Preconditions.checkNotNull(serializer, "serializer");
         serializers.add(new RegisteredSerializer((Predicate) test, serializer));
+        typeMatches.clear();
         return this;
     }
 
