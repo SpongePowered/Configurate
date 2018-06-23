@@ -47,7 +47,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         super(path, parent, options);
     }
 
-    protected SimpleCommentedConfigurationNode(SimpleConfigurationNode parent, SimpleConfigurationNode copyOf) {
+    protected SimpleCommentedConfigurationNode(@Nullable SimpleConfigurationNode parent, @NonNull SimpleConfigurationNode copyOf) {
         super(parent, copyOf);
     }
 

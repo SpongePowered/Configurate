@@ -21,6 +21,8 @@ import com.google.common.collect.ImmutableMap;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -28,6 +30,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Basic implementation of {@link AttributedConfigurationNode}.
@@ -53,7 +56,12 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
 
     protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable Object path, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);
-        this.tagName = tagName;
+        setTagName(tagName);
+    }
+
+    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable SimpleConfigurationNode parent, @NonNull SimpleConfigurationNode copyOf) {
+        super(parent, copyOf);
+        setTagName(tagName);
     }
 
     @NonNull
@@ -183,6 +191,20 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
     @Override
     public SimpleAttributedConfigurationNode getAppendedNode() {
         return (SimpleAttributedConfigurationNode) super.getAppendedNode();
+    }
+
+    @NonNull
+    @Override
+    public SimpleAttributedConfigurationNode copy() {
+        return copy(null);
+    }
+
+    @NonNull
+    @Override
+    protected SimpleAttributedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
+        SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
+        copy.attributes.putAll(this.attributes);
+        return copy;
     }
 
     @Override
