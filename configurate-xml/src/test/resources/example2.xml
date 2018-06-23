@@ -1,0 +1,18 @@
+<data>
+    <list1 configurate-type="list">
+        <element>one element</element>
+    </list1>
+    <list2 configurate-type="list">
+        <element>one element</element>
+        <element>another element</element>
+        <element>a third element</element>
+    </list2>
+    <map1>
+        <name>configurate</name>
+    </map1>
+    <map2>
+        <name>configurate</name>
+        <language>Java</language>
+        <open-source>true</open-source>
+    </map2>
+</data>
