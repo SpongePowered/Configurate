@@ -156,6 +156,24 @@ class ListConfigValue extends ConfigValue {
         }
     }
 
+    @NonNull
+    @Override
+    ListConfigValue copy(@NonNull SimpleConfigurationNode holder) {
+        ListConfigValue copy = new ListConfigValue(holder);
+        List<SimpleConfigurationNode> copyValues;
+
+        final List<SimpleConfigurationNode> values = this.values.get();
+        synchronized (values) {
+            copyValues = new ArrayList<>(values.size());
+            for (SimpleConfigurationNode obj : values) {
+                copyValues.add(obj.copy(holder)); // recursively copy
+            }
+        }
+
+        copy.values.set(copyValues);
+        return copy;
+    }
+
     private static void detachNodes(List<SimpleConfigurationNode> children) {
         synchronized (children) {
             for (SimpleConfigurationNode node : children) {
@@ -180,11 +198,16 @@ class ListConfigValue extends ConfigValue {
             return false;
         }
         ListConfigValue that = (ListConfigValue) o;
-        return Objects.equal(values, that.values);
+        return Objects.equal(values.get(), that.values.get());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(values);
+        return values.get().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ListConfigValue{values=" + this.values.get().toString() + '}';
     }
 }

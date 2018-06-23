@@ -72,6 +72,14 @@ class ScalarConfigValue extends ConfigValue {
         return Collections.emptySet();
     }
 
+    @NonNull
+    @Override
+    ScalarConfigValue copy(@NonNull SimpleConfigurationNode holder) {
+        ScalarConfigValue copy = new ScalarConfigValue(holder);
+        copy.value = this.value;
+        return copy;
+    }
+
     @Override
     public void clear() {
        this.value = null;
@@ -92,5 +100,10 @@ class ScalarConfigValue extends ConfigValue {
     @Override
     public int hashCode() {
         return Objects.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return "ScalarConfigValue{value=" + this.value + '}';
     }
 }

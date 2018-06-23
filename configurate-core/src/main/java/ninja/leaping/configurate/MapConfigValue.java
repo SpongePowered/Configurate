@@ -20,7 +20,9 @@ import com.google.common.base.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -104,6 +106,16 @@ class MapConfigValue extends ConfigValue {
         return values.values();
     }
 
+    @NonNull
+    @Override
+    MapConfigValue copy(@NonNull SimpleConfigurationNode holder) {
+        MapConfigValue copy = new MapConfigValue(holder);
+        for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : this.values.entrySet()) {
+            copy.values.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy
+        }
+        return copy;
+    }
+
     private static void detachChildren(Map<Object, SimpleConfigurationNode> map) {
         for (SimpleConfigurationNode value : map.values()) {
             value.attached = false;
@@ -134,6 +146,11 @@ class MapConfigValue extends ConfigValue {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(values);
+        return values.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "MapConfigValue{values=" + this.values + '}';
     }
 }

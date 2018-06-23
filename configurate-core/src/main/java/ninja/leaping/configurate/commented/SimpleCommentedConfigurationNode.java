@@ -47,6 +47,10 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         super(path, parent, options);
     }
 
+    protected SimpleCommentedConfigurationNode(SimpleConfigurationNode parent, SimpleConfigurationNode copyOf) {
+        super(parent, copyOf);
+    }
+
     @NonNull
     @Override
     public Optional<String> getComment() {
@@ -119,6 +123,20 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Override
     public SimpleCommentedConfigurationNode getAppendedNode() {
         return (SimpleCommentedConfigurationNode) super.getAppendedNode();
+    }
+
+    @NonNull
+    @Override
+    public SimpleCommentedConfigurationNode copy() {
+        return copy(null);
+    }
+
+    @NonNull
+    @Override
+    protected SimpleCommentedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
+        SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
+        copy.comment.set(this.comment.get());
+        return copy;
     }
 
     @Override

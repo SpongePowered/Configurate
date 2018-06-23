@@ -95,6 +95,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
     }
 
+    protected SimpleConfigurationNode(SimpleConfigurationNode parent, SimpleConfigurationNode copyOf) {
+        this.options = copyOf.options;
+        this.attached = true; // copies are always attached
+        this.key = copyOf.key;
+        this.parent = parent;
+        this.value = copyOf.value.copy(this);
+    }
+
     /**
      * Handles the copying of applied defaults, if enabled.
      *
@@ -471,6 +479,17 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return this.options;
     }
 
+    @NonNull
+    @Override
+    public SimpleConfigurationNode copy() {
+        return copy(null);
+    }
+
+    @NonNull
+    protected SimpleConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
+        return new SimpleConfigurationNode(parent, this);
+    }
+
     /**
      * The same as {@link #getParent()} - but ensuring that 'parent' is attached via
      * {@link #attachChildIfAbsent(SimpleConfigurationNode)}.
@@ -578,19 +597,15 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         if (!(o instanceof SimpleConfigurationNode)) return false;
         SimpleConfigurationNode that = (SimpleConfigurationNode) o;
 
-        return this.attached == that.attached &&
-                Objects.equals(this.key, that.key) &&
+        return Objects.equals(this.key, that.key) &&
                 this.options.equals(that.options) &&
-                Objects.equals(this.parent, that.parent) &&
                 this.value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
         int result = options.hashCode();
-        result = 31 * result + (attached ? 1 : 0);
-        result = 31 * result + (key != null ? key.hashCode() : 0);
-        result = 31 * result + (parent != null ? parent.hashCode() : 0);
+        result = 31 * result + Objects.hashCode(key);
         result = 31 * result + value.hashCode();
         return result;
     }
