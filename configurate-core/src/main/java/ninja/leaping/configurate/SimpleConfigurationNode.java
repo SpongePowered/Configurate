@@ -21,10 +21,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -612,12 +614,6 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public String toString() {
-        return "SimpleConfigurationNode{" +
-                "options=" + options +
-                ", attached=" + attached +
-                ", key=" + key +
-                ", parent=" + parent +
-                ", value=" + value +
-                '}';
+        return "SimpleConfigurationNode{key=" + key + ", value=" + value + '}';
     }
 }
