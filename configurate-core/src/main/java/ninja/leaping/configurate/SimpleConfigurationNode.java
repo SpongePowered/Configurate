@@ -371,14 +371,10 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return !attached;
     }
 
+    @NonNull
     @Override
-    public boolean hasListChildren() {
-        return this.value instanceof ListConfigValue;
-    }
-
-    @Override
-    public boolean hasMapChildren() {
-        return this.value instanceof MapConfigValue;
+    public ValueType getValueType() {
+        return this.value.getType();
     }
 
     @NonNull

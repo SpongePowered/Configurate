@@ -36,13 +36,13 @@ import java.util.function.Supplier;
  * <p>All aspects of a configurations structure are represented using instances of
  * {@link ConfigurationNode}, and the links between them.</p>
  *
- * <p>{@link ConfigurationNode}s can:</p>
+ * <p>{@link ConfigurationNode}s can hold different types of {@link ValueType values}. They can:</p>
  * <p>
  * <ul>
- *     <li>Hold a single "scalar" value</li>
- *     <li>Represent a "list" of child {@link ConfigurationNode}s - see {@link #hasListChildren()}</li>
- *     <li>Represent a "map" of child {@link ConfigurationNode}s - see {@link #hasMapChildren()}</li>
- *     <li>Hold no value at all</li>
+ *     <li>Hold a single "scalar" value ({@link ValueType#SCALAR})</li>
+ *     <li>Represent a "list" of child {@link ConfigurationNode}s ({@link ValueType#LIST})</li>
+ *     <li>Represent a "map" of child {@link ConfigurationNode}s ({@link ValueType#MAP})</li>
+ *     <li>Hold no value at all ({@link ValueType#NULL})</li>
  * </ul>
  *
  * <p>The overall configuration stems from a single "root" node, which is provided by the
@@ -136,18 +136,30 @@ public interface ConfigurationNode {
     ConfigurationOptions getOptions();
 
     /**
+     * Gets the value type of this node.
+     *
+     * @return The value type
+     */
+    @NonNull
+    ValueType getValueType();
+
+    /**
      * Gets if this node has "list children".
      *
      * @return if this node has children in the form of a list
      */
-    boolean hasListChildren();
+    default boolean hasListChildren() {
+        return getValueType() == ValueType.LIST;
+    }
 
     /**
      * Gets if this node has "map children".
      *
      * @return if this node has children in the form of a map
      */
-    boolean hasMapChildren();
+    default boolean hasMapChildren() {
+        return getValueType() == ValueType.MAP;
+    }
 
     /**
      * Gets the "list children" attached to this node, if it has any.
