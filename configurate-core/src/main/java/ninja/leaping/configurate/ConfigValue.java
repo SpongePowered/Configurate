@@ -36,6 +36,8 @@ abstract class ConfigValue {
         this.holder = holder;
     }
 
+    abstract ValueType getType();
+
     /**
      * Gets the value encapsulated by this instance
      *

@@ -29,6 +29,11 @@ class NullConfigValue extends ConfigValue {
         super(holder);
     }
 
+    @Override
+    ValueType getType() {
+        return ValueType.NULL;
+    }
+
     @Nullable
     @Override
     public Object getValue() {

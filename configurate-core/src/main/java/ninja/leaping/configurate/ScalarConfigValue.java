@@ -33,6 +33,11 @@ class ScalarConfigValue extends ConfigValue {
         super(holder);
     }
 
+    @Override
+    ValueType getType() {
+        return ValueType.SCALAR;
+    }
+
     @Nullable
     @Override
     public Object getValue() {

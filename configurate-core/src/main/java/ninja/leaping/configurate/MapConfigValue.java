@@ -20,9 +20,7 @@ import com.google.common.base.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -35,6 +33,11 @@ class MapConfigValue extends ConfigValue {
     public MapConfigValue(SimpleConfigurationNode holder) {
         super(holder);
         values = newMap();
+    }
+
+    @Override
+    ValueType getType() {
+        return ValueType.MAP;
     }
 
     private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {

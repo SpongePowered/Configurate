@@ -37,6 +37,11 @@ class ListConfigValue extends ConfigValue {
         super(holder);
     }
 
+    @Override
+    ValueType getType() {
+        return ValueType.LIST;
+    }
+
     ListConfigValue(SimpleConfigurationNode holder, Object startValue) {
         super(holder);
 
