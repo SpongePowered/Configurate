@@ -24,8 +24,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
@@ -146,14 +146,14 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         if (!super.equals(o)) return false;
 
         SimpleCommentedConfigurationNode that = (SimpleCommentedConfigurationNode) o;
-        if (!comment.equals(that.comment)) return false;
+        if (!Objects.equals(comment, that.comment)) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + comment.hashCode();
+        result = 31 * result + Objects.hashCode(comment);
         return result;
     }
 
