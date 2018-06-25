@@ -19,10 +19,10 @@ package ninja.leaping.configurate.util;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -121,6 +121,11 @@ public final class MapFactories {
         @Override
         public int hashCode() {
             return comparator.hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "SortedMapFactory{comparator=" + comparator + '}';
         }
     }
 

@@ -19,6 +19,10 @@ package ninja.leaping.configurate;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.DefaultObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.ObjectMapperFactory;
@@ -26,8 +30,6 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollectio
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
 import ninja.leaping.configurate.util.MapFactory;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Set;
 
@@ -258,5 +260,17 @@ public class ConfigurationOptions {
     @Override
     public int hashCode() {
         return Objects.hashCode(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    }
+
+    @Override
+    public String toString() {
+        return "ConfigurationOptions{" +
+                "mapFactory=" + mapFactory +
+                ", header='" + header + '\'' +
+                ", serializers=" + serializers +
+                ", acceptedTypes=" + acceptedTypes +
+                ", objectMapperFactory=" + objectMapperFactory +
+                ", shouldCopyDefaults=" + shouldCopyDefaults +
+                '}';
     }
 }

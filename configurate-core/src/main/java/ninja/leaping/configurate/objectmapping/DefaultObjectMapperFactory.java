@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.concurrent.ExecutionException;
@@ -59,5 +60,10 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
                 throw new ObjectMappingException(e);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultObjectMapperFactory{}";
     }
 }
