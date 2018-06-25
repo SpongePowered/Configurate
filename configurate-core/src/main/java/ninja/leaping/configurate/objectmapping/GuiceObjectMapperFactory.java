@@ -21,13 +21,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Injector;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided.

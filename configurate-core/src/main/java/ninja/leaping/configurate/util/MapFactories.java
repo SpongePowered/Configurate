@@ -19,7 +19,6 @@ package ninja.leaping.configurate.util;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Collection;

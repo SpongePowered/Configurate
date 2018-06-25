@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
-    private final AtomicReference<String> comment = new AtomicReference<>();
+    private String comment =null;
 
     @NonNull
     public static SimpleCommentedConfigurationNode root() {
@@ -54,14 +54,14 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @NonNull
     @Override
     public Optional<String> getComment() {
-        return Optional.ofNullable(comment.get());
+        return Optional.ofNullable(comment);
     }
 
     @NonNull
     @Override
     public SimpleCommentedConfigurationNode setComment(@Nullable String comment) {
         attachIfNecessary();
-        this.comment.set(comment);
+        this.comment = comment;
         return this;
     }
 
@@ -92,8 +92,8 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     public SimpleCommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNode) {
             Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
-            if (otherComment.isPresent()) {
-                comment.compareAndSet(null, otherComment.get());
+            if (comment == null && otherComment.isPresent()) {
+                comment = otherComment.get();
             }
         }
         return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);
@@ -135,7 +135,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Override
     protected SimpleCommentedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
         SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
-        copy.comment.set(this.comment.get());
+        copy.comment = this.comment;
         return copy;
     }
 
