@@ -9,6 +9,8 @@
 /configurate-json/out/
 /configurate-yaml/build/
 /configurate-yaml/out/
+/configurate-xml/build/
+/configurate-xml/out/
 
 target/
 # IntelliJ project data
