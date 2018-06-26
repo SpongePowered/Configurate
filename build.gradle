@@ -16,7 +16,7 @@ subprojects {
   apply plugin: 'net.minecrell.licenser'
 
   group 'org.spongepowered'
-  version '3.5'
+  version '3.6-SNAPSHOT'
 
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
