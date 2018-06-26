@@ -37,6 +37,6 @@ public interface TransformAction {
      * @return A modified path, or null if the path is to stay the same
      */
     @Nullable
-    Object[] visitPath(@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath);
+    Object[] visitPath(ConfigurationTransformation.@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath);
 
 }

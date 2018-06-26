@@ -16,12 +16,10 @@
  */
 package ninja.leaping.configurate.transformation;
 
-import com.google.common.collect.Iterators;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -35,13 +33,13 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
     private final Map<Object[], TransformAction> actions;
 
     /**
-     * Thread local {@link NodePath} instance - used so we don't have to create lots of NodePath
+     * Thread local {@link ConfigurationTransformation.NodePath} instance - used so we don't have to create lots of NodePath
      * instances.
      *
      * As such, data within paths is only guaranteed to be the same during a run of
      * a transform function.
      */
-    private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
+    private final ThreadLocal<ConfigurationTransformation.NodePath> sharedPath = ThreadLocal.withInitial(ConfigurationTransformation.NodePath::new);
 
     SingleConfigurationTransformation(Map<Object[], TransformAction> actions, MoveStrategy strategy) {
         this.actions = actions;
@@ -85,44 +83,13 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
         }
 
         // apply action
-        NodePathImpl nodePath = sharedPath.get();
+        ConfigurationTransformation.NodePath nodePath = sharedPath.get();
         nodePath.arr = path;
 
         Object[] transformedPath = action.visitPath(nodePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
             this.strategy.move(node, start.getNode(transformedPath));
             node.setValue(null);
-        }
-    }
-
-    /**
-     * Implementation of {@link NodePath} used by this class.
-     */
-    static class NodePathImpl implements NodePath {
-        Object[] arr;
-
-        NodePathImpl() {
-        }
-
-        @Override
-        public Object get(int i) {
-            return arr[i];
-        }
-
-        @Override
-        public int size() {
-            return arr.length;
-        }
-
-        @Override
-        public Object[] getArray() {
-            return Arrays.copyOf(arr, arr.length);
-        }
-
-        @NonNull
-        @Override
-        public Iterator<Object> iterator() {
-            return Iterators.forArray(arr);
         }
     }
 }

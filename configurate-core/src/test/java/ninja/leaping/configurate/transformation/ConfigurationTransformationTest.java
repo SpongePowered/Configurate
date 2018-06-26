@@ -19,6 +19,7 @@ package ninja.leaping.configurate.transformation;
 import com.google.common.collect.ImmutableList;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import ninja.leaping.configurate.transformation.ConfigurationTransformation.NodePath;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Test;
