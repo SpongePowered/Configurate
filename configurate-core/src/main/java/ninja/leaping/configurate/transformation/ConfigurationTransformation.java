@@ -16,10 +16,12 @@
  */
 package ninja.leaping.configurate.transformation;
 
+import com.google.common.collect.Iterators;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -170,6 +172,38 @@ public abstract class ConfigurationTransformation {
         @NonNull
         public ConfigurationTransformation build() {
             return new VersionedTransformation(versionKey, versions);
+        }
+    }
+
+    /**
+     * Implementation of {@link ninja.leaping.configurate.transformation.NodePath} used by this class.
+     */
+    // TODO Remove usages of this class in favour of the NodePath interface (breaking change for 4.0)
+    public static final class NodePath implements ninja.leaping.configurate.transformation.NodePath {
+        Object[] arr;
+
+        NodePath() {
+        }
+
+        @Override
+        public Object get(int i) {
+            return arr[i];
+        }
+
+        @Override
+        public int size() {
+            return arr.length;
+        }
+
+        @Override
+        public Object[] getArray() {
+            return Arrays.copyOf(arr, arr.length);
+        }
+
+        @NonNull
+        @Override
+        public Iterator<Object> iterator() {
+            return Iterators.forArray(arr);
         }
     }
 }
