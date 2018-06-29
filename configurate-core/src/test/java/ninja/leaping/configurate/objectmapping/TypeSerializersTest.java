@@ -25,6 +25,8 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,10 +34,7 @@ import org.junit.rules.ExpectedException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
@@ -315,5 +314,40 @@ public class TypeSerializersTest {
         patternSerializer.serialize(patternType, testPattern, serializeTo);
         assertEquals("(na )+batman", serializeTo.getValue());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());
+    }
+
+    @Test
+    public void testSerializerInheritance() throws ObjectMappingException {
+        TypeSerializer<Collection<?>> collectionSerializer = new TypeSerializer<Collection<?>>() {
+            @Override
+            public Collection<?> deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
+                return Collections.emptyList();
+            }
+
+            @Override
+            public void serialize(@NonNull TypeToken<?> type, @Nullable Collection<?> obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
+
+            }
+        };
+
+        TypeSerializer<Set<?>> setSerializer = new TypeSerializer<Set<?>>() {
+            @Override
+            public Set<?> deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
+                return Collections.emptySet();
+            }
+
+            @Override
+            public void serialize(@NonNull TypeToken<?> type, @Nullable Set<?> obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
+
+            }
+        };
+        TypeToken<Collection<?>> collectionToken = new TypeToken<Collection<?>>() {};
+        TypeToken<Set<?>> setToken = new TypeToken<Set<?>>() {};
+        TypeSerializerCollection collection = SERIALIZERS.newChild()
+                .registerType(collectionToken, collectionSerializer)
+                .registerType(setToken, setSerializer);
+
+        assertSame(collection.get(collectionToken), collectionSerializer);
+        assertSame(collection.get(setToken), setSerializer);
     }
 }
