@@ -595,17 +595,12 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         if (!(o instanceof SimpleConfigurationNode)) return false;
         SimpleConfigurationNode that = (SimpleConfigurationNode) o;
 
-        return Objects.equals(this.key, that.key) &&
-                this.options.equals(that.options) &&
-                this.value.equals(that.value);
+        return Objects.equals(this.key, that.key) && Objects.equals(this.value, that.value);
     }
 
     @Override
     public int hashCode() {
-        int result = options.hashCode();
-        result = 31 * result + Objects.hashCode(key);
-        result = 31 * result + value.hashCode();
-        return result;
+        return Objects.hashCode(key) ^ Objects.hashCode(value);
     }
 
     @Override
