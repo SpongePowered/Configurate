@@ -601,9 +601,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(key);
-        result = 31 * result + value.hashCode();
-        return result;
+        return Objects.hashCode(key) ^ value.hashCode();
     }
 
     @Override
