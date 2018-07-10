@@ -596,7 +596,6 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         SimpleConfigurationNode that = (SimpleConfigurationNode) o;
 
         return Objects.equals(this.key, that.key) &&
-                this.options.equals(that.options) &&
                 this.value.equals(that.value);
     }
 
