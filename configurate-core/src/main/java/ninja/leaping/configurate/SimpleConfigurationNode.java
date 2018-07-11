@@ -119,6 +119,13 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return defValue;
     }
 
+    private <T> T storeDefault(TypeToken<T> type, T defValue) throws ObjectMappingException {
+        if (defValue != null && getOptions().shouldCopyDefaults()) {
+            setValue(type, defValue);
+        }
+        return defValue;
+    }
+
     @Override
     public Object getValue(Object def) {
         Object ret = value.getValue();
@@ -197,7 +204,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public <T> T getValue(@NonNull TypeToken<T> type, T def) throws ObjectMappingException {
         Object value = getValue();
         if (value == null) {
-            return storeDefault(def);
+            return storeDefault(type, def);
         }
 
         TypeSerializer serial = getOptions().getSerializers().get(type);
@@ -205,7 +212,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             if (type.getRawType().isInstance(value)) {
                 return (T) type.getRawType().cast(value);
             } else {
-                return storeDefault(def);
+                return storeDefault(type, def);
             }
         }
         return (T) serial.deserialize(type, this);
@@ -216,7 +223,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public <T> T getValue(@NonNull TypeToken<T> type, @NonNull Supplier<T> defSupplier) throws ObjectMappingException {
         Object value = getValue();
         if (value == null) {
-            return storeDefault(defSupplier.get());
+            return storeDefault(type, defSupplier.get());
         }
 
         TypeSerializer serial = getOptions().getSerializers().get(type);
@@ -224,7 +231,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             if (type.getRawType().isInstance(value)) {
                 return (T) type.getRawType().cast(value);
             } else {
-                return storeDefault(defSupplier.get());
+                return storeDefault(type, defSupplier.get());
             }
         }
         return (T) serial.deserialize(type, this);
