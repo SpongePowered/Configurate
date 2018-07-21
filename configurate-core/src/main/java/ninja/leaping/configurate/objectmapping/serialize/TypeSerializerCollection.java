@@ -147,12 +147,18 @@ public class TypeSerializerCollection {
 
         @Override
         public TypeSerializer<?> apply(TypeToken<?> type) {
+            TypeSerializer<?> firstMatching = null; // to save old behaviour, first matching
             for (RegisteredSerializer ent : this) {
                 if (ent.predicate.test(type)) {
-                    return ent.serializer;
+                    if (ent.predicate instanceof SuperTypePredicate) {
+                        if (((SuperTypePredicate) ent.predicate).type.equals(type)) {
+                            return ent.serializer; // best matching
+                        }
+                    }
+                    if (firstMatching == null) firstMatching = ent.serializer;
                 }
             }
-            return null;
+            return firstMatching;
         }
     }
 
