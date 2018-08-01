@@ -16,9 +16,11 @@
  */
 package ninja.leaping.configurate.yaml;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,12 +30,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static org.junit.Assert.*;
-
 /**
  * Basic sanity checks for the loader
  */
 public class YAMLConfigurationLoaderTest {
+
     @Test
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.yml");

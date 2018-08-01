@@ -16,11 +16,13 @@
  */
 package ninja.leaping.configurate.commented;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 public class SimpleCommentedConfigurationNodeTest {
+
     @Test
     public void testCommentsTransferred() {
         CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
@@ -56,7 +58,6 @@ public class SimpleCommentedConfigurationNodeTest {
         secondChild.setValue(firstChild);
         assertEquals("test value", secondChild.getNode("child").getValue());
         assertEquals("Such comment. Very wow.", secondChild.getNode("child").getComment().orElse(null));
-
     }
 
     @Test

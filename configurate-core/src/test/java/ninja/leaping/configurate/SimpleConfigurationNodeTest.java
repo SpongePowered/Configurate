@@ -16,11 +16,18 @@
  */
 package ninja.leaping.configurate;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,15 +36,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
-
 public class SimpleConfigurationNodeTest {
+
     @Test
     public void testUnattachedNodesTemporary() {
         ConfigurationNode config = SimpleConfigurationNode.root();
         ConfigurationNode node = config.getNode("some", "node");
         assertTrue(node.isVirtual());
-        assertEquals(null, node.getValue());
+        assertNull(node.getValue());
         assertFalse(node.hasListChildren());
         assertFalse(node.hasMapChildren());
         ConfigurationNode node2 = config.getNode("some", "node");

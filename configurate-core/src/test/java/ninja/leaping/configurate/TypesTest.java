@@ -16,14 +16,16 @@
  */
 package ninja.leaping.configurate;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class TypesTest {
+
     @Test
     public void testAsString() throws Exception {
         final String actualString = "actually a string";
@@ -40,8 +42,8 @@ public class TypesTest {
         final Integer number = 54;
         final List<Integer> list = Arrays.asList(4, 3, 8);
         assertEquals(actualString, Types.strictAsString(actualString));
-        assertEquals(null, Types.strictAsString(number));
-        assertEquals(null, Types.strictAsString(list));
+        assertNull(Types.strictAsString(number));
+        assertNull(Types.strictAsString(list));
     }
 
     @Test
@@ -60,7 +62,7 @@ public class TypesTest {
         final String floatString = "1.45";
         final int integer = 4;
         assertEquals((Float) actuallyFloat, Types.strictAsFloat(actuallyFloat));
-        assertEquals(null, Types.strictAsFloat(floatString));
+        assertNull(Types.strictAsFloat(floatString));
         assertEquals((Float) 4f, Types.strictAsFloat(integer));
 
     }
@@ -82,7 +84,7 @@ public class TypesTest {
         final String doubleString = "1.45";
         final int integer = 4;
         assertEquals((Double) actuallyDouble, Types.strictAsDouble(actuallyDouble));
-        assertEquals(null,  Types.strictAsDouble(doubleString));
+        assertNull(Types.strictAsDouble(doubleString));
         assertEquals((Double) 4d, Types.strictAsDouble(integer));
 
     }
@@ -103,8 +105,8 @@ public class TypesTest {
         final String doubleString = "42";
         final float integer = 4f;
         assertEquals((Integer) actuallyInt, Types.strictAsInt(actuallyInt));
-        assertEquals(null,  Types.strictAsInt(doubleString));
-        assertEquals(null, Types.strictAsInt(integer));
+        assertNull(Types.strictAsInt(doubleString));
+        assertNull(Types.strictAsInt(integer));
     }
 
     @Test
@@ -123,8 +125,8 @@ public class TypesTest {
         final String doubleString = "424338492842";
         final double integer = 4f;
         assertEquals((Long) actuallyInt, Types.strictAsLong(actuallyInt));
-        assertEquals(null,  Types.strictAsLong(doubleString));
-        assertEquals(null, Types.strictAsLong(integer));
+        assertNull(Types.strictAsLong(doubleString));
+        assertNull(Types.strictAsLong(integer));
     }
 
     @Test
@@ -149,11 +151,11 @@ public class TypesTest {
                 {"false", "no", "0", "f", "n"};
         assertEquals(actual, Types.strictAsBoolean(actual));
         for (String val : trueEvaluating) {
-            assertEquals(null, Types.strictAsBoolean(val));
+            assertNull(Types.strictAsBoolean(val));
         }
 
         for (String val : falseEvaluating) {
-            assertEquals(null, Types.strictAsBoolean(val));
+            assertNull(Types.strictAsBoolean(val));
         }
     }
 }

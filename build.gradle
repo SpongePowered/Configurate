@@ -41,11 +41,17 @@ subprojects {
 
   repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
   }
 
   dependencies {
-    testCompile 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testCompile 'org.junit-pioneer:junit-pioneer:0.1.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+  }
+
+  test {
+    useJUnitPlatform()
   }
 
   task javadocJar(type: Jar) {

@@ -18,10 +18,10 @@ package ninja.leaping.configurate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
-import org.junit.Test;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.util.ConfigurationNodeWalker;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConfigurationNodeWalkerTest {
 
