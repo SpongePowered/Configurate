@@ -1,4 +1,4 @@
 dependencies {
   compile project(':configurate-core')
-  compile 'com.typesafe:config:1.3.1'
+  compile 'com.typesafe:config:1.3.3'
 }
