@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compile 'ninja.leaping.configurate:configurate-hocon:3.3'
+    compile 'ninja.leaping.configurate:configurate-hocon:3.6'
 }
 ```
 
@@ -40,7 +40,7 @@ dependencies {
 <dependency>
     <groupId>ninja.leaping.configurate</groupId>
     <artifactId>configurate-hocon</artifactId>
-    <version>3.3</version> <!-- Update this with the most recent version -->
+    <version>3.6</version> <!-- Update this with the most recent version -->
 </dependency>
 ``` 
 

@@ -1,4 +1,4 @@
 dependencies {
   compile project(':configurate-core')
-  compile 'com.fasterxml.jackson.core:jackson-core:2.8.8'
+  compile 'com.fasterxml.jackson.core:jackson-core:2.8.11'
 }

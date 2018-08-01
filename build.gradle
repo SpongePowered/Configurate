@@ -6,7 +6,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'gradle.plugin.net.minecrell:licenser:0.3'
+    classpath 'gradle.plugin.net.minecrell:licenser:0.4.1'
   }
 }
 

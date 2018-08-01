@@ -1,6 +1,33 @@
 Changelog
 ========
 
+3.6
+---
+- Don't check for ConfigurationOptions equality during ConfigurationNode equality check
+- Pass the value type to #storeDefault so the default value can be serialized
+
+3.5
+---
+- Revert compatibility break with NodePath and ConfigurationTransformation
+
+3.4
+---
+
+**NOTE:** Use 3.5 instead due to an accidental API breakage.
+- Fix this bug: Lists in config get set to null
+- Expose customized default render and parse options
+- Fix reading of multi-line HOCON comments
+- Select from available type serializers in the order they were added
+- Change group to org.spongepowered
+- Implement XML configuration loader
+- Invalidate cached type matches when a new serializer is added
+- Add ConfigurationNode#copy
+- Only include the key + value in ConfigurationNode#toString
+- Fix CommentedConfigurationNode#equals never returning true
+- Implement NodeWalker utility for traversing configuration structures
+- Fix compatibility with older versions of guava
+- Switched to Gradle instead of Maven
+
 3.3
 ---
 - Update Maven and various Maven plugins
