@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
@@ -191,26 +193,38 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     private static void parseArray(JsonParser parser, ConfigurationNode node) throws IOException {
+        boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
             switch (token) {
                 case END_ARRAY:
+                    // ensure the type is preserved
+                    if (!written) {
+                        node.setValue(ImmutableList.of());
+                    }
                     return;
                 default:
                     parseValue(parser, node.getAppendedNode());
+                    written = true;
             }
         }
         throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
     }
 
     private static void parseObject(JsonParser parser, ConfigurationNode node) throws IOException {
+        boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
             switch (token) {
                 case END_OBJECT:
+                    // ensure the type is preserved
+                    if (!written) {
+                        node.setValue(ImmutableMap.of());
+                    }
                     return;
                 default:
                     parseValue(parser, node.getNode(parser.getCurrentName()));
+                    written = true;
             }
         }
         throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());

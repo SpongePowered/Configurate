@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.hocon;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.typesafe.config.Config;
@@ -184,18 +185,23 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         }
         switch (value.valueType()) {
             case OBJECT:
-                if (((ConfigObject) value).isEmpty()) {
+                ConfigObject object = (ConfigObject) value;
+                if (object.isEmpty()) {
                     node.setValue(ImmutableMap.of());
                 } else {
-                    for (Map.Entry<String, ConfigValue> ent : ((ConfigObject) value).entrySet()) {
+                    for (Map.Entry<String, ConfigValue> ent : object.entrySet()) {
                         readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
                     }
                 }
                 break;
             case LIST:
-                List<ConfigValue> values = (ConfigList) value;
-                for (int i = 0; i < values.size(); ++i) {
-                    readConfigValue(values.get(i), node.getNode(i));
+                ConfigList list = (ConfigList) value;
+                if (list.isEmpty()) {
+                    node.setValue(ImmutableList.of());
+                } else {
+                    for (int i = 0; i < list.size(); ++i) {
+                        readConfigValue(list.get(i), node.getNode(i));
+                    }
                 }
                 break;
             case NULL:
