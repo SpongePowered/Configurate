@@ -16,16 +16,17 @@
  */
 package org.spongepowered.configurate.gson;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.util.MapFactories;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,8 +38,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -98,8 +97,8 @@ public class GsonConfigurationLoaderTest {
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
 
         ConfigurationNode<?> node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
-        assertNull(node.getValue());
-        assertFalse(node.hasMapChildren());
+        assertEquals(ImmutableMap.of(), node.getValue());
+        assertTrue(node.hasMapChildren());
     }
 
     private static final long TEST_LONG_VAL = 584895858588588888l;

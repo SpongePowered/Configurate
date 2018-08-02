@@ -17,6 +17,8 @@
 package org.spongepowered.configurate.gson;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
@@ -170,14 +172,21 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
 
     private void parseArray(JsonReader parser, SimpleConfigurationNode node) throws IOException {
         parser.beginArray();
+
+        boolean written = false;
         JsonToken token;
         while ((token = parser.peek()) != null) {
             switch (token) {
                 case END_ARRAY:
                     parser.endArray();
+                    // ensure the type is preserved
+                    if (!written) {
+                        node.setValue(ImmutableList.of());
+                    }
                     return;
                 default:
                     parseValue(parser, node.appendListNode());
+                    written = true;
             }
         }
         throw new JsonParseException("Reached end of stream with unclosed array at!");
@@ -186,15 +195,22 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
 
     private void parseObject(JsonReader parser, SimpleConfigurationNode node) throws IOException {
         parser.beginObject();
+
+        boolean written = false;
         JsonToken token;
         while ((token = parser.peek()) != null) {
             switch (token) {
                 case END_OBJECT:
                 case END_DOCUMENT:
                     parser.endObject();
+                    // ensure the type is preserved
+                    if (!written) {
+                        node.setValue(ImmutableMap.of());
+                    }
                     return;
                 case NAME:
                     parseValue(parser, node.getNode(parser.nextName()));
+                    written = true;
                     break;
                 default:
                     throw new JsonParseException("Received improper object value " + token);
