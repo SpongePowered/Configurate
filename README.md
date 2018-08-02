@@ -1,66 +1,99 @@
-# Configurate
-Configurate is a simple configuration library released under the [Apache 2.0](LICENSE) that provides a node-tree representation of configurations in a variety of formats.
+# configurate [![Build Status](https://travis-ci.org/SpongePowered/configurate.svg)](https://travis-ci.org/SpongePowered/configurate)
+configurate is a simple configuration library for Java applications that provides a node-based representation of data, able to handle a wide variety of configuration formats.
 
-*Build Status*: [![Travis CI](https://travis-ci.org/SpongePowered/configurate.svg)](https://travis-ci.org/SpongePowered/configurate)
+Want to talk to us about configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net`.
 
-*Javadocs*: http://configurate.aoeu.xyz/apidocs
+The current supported formats are:
 
-Want to talk to us about Configurate? Come to the `#dev-irc` channel in our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net` where people familiar with the project will hang around.
+* [JSON](https://www.json.org/)
+* [HOCON](https://github.com/lightbend/config/blob/master/HOCON.md)
+* [YAML](http://yaml.org/)
+* [XML](https://www.w3.org/XML/)
 
-## Prerequisites
+## Project Structure
+The project is split into different modules.
 
-- [Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 8
+#### configurate core
+configurate-core is the base of the library, containing the main APIs used to manipulate configurations. It is generic, and does not depend on any specific format of configuration.
 
-## Clone
+#### configurate loaders
+Each distinct configuration format is implemented as a "configuration loader", in a separate module.
+
+A number of loader implementations are provided as standard in this project, however it is possible to implement a custom loader for a new format separately.
+
+The current supported loaders provided by the project are:
+
+* `configurate-json` - Implementation for the JSON format, using the [Jackson](https://github.com/FasterXML/jackson-core) library for parsing and generation
+* `configurate-gson` - Implementation for the JSON format, using the [Gson](https://github.com/google/gson) library for parsing and generation
+* `configurate-hocon` - Implementation for the HOCON format, using the [lightbend config](https://github.com/lightbend/config) library for parsing and generation
+* `configurate-yaml` - Implementation for the YAML format, using the [SnakeYAML](https://bitbucket.org/asomov/snakeyaml) library for parsing and generation
+* `configurate-xml` - Implementation for the YAML format, using the [JAXP](https://docs.oracle.com/javase/tutorial/jaxp/index.html) library for parsing and generation
+
+
+## Usage
+
+* To use configurate, your project must be configured to use Java 8 or higher.
+* Release and snapshot artifacts are hosted on SpongePowered's Maven Repository, available at https://repo.spongepowered.org/maven/.
+
+The latest release is: `3.6`
+
+If your project uses Maven or Gradle, just add the following to your build scripts.
+
+#### Gradle
+
+```groovy
+repositories {
+    mavenCentral()
+    maven {
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    // Modify this line to target the loader you wish to use.
+    compile 'org.spongepowered:configurate-hocon:3.6'
+}
+```
+
+#### Maven
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.spongepowered</groupId>
+        <!-- Modify this line to target the loader you wish to use. -->
+        <artifactId>configurate-hocon</artifactId>
+        <version>3.6</version>
+    </dependency>
+</dependencies>
+
+<repositories>
+    <repository>
+        <id>sponge</id>
+        <url>https://repo.spongepowered.org/maven</url>
+    </repository>
+</repositories>
+```
+
+More detailed usage instructions can be found in the [configurate wiki](https://github.com/SpongePowered/configurate/wiki).
+
+## Contributing
+
+#### Clone
 The following steps will ensure your project is cloned properly.
 
 1. `git clone https://github.com/SpongePowered/configurate.git`
 2. `cd configurate`
 
-## Building
+#### Building
 **Note:** If you do not have [Gradle](https://www.gradle.org/) installed then use ./gradlew for Unix systems or Git Bash and gradlew.bat for Windows systems in place of any 'gradle' command.
 
-In order to build Configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in each subproject) labeled similarly to 'configurate-subproject-x.x-SNAPSHOT.jar'.
+In order to build configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in each subproject) labeled similarly to 'configurate-subproject-x.x-SNAPSHOT.jar'.
 
-## Usage
-
-**Gradle**:
-```groovy
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'ninja.leaping.configurate:configurate-hocon:3.3'
-}
-```
-
-**Maven**:
-```xml
-<dependency>
-    <groupId>ninja.leaping.configurate</groupId>
-    <artifactId>configurate-hocon</artifactId>
-    <version>3.3</version> <!-- Update this with the most recent version -->
-</dependency>
-``` 
-
-For other build systems, take a look at the [full list on the Configurate site](http://configurate.aoeu.xyz/configurate-hocon/dependency-info.html)
-
-This dependency statement is for the hocon format implementation. Other formats managed in this repository use the same group id and versioning.
-
-Now, to load:
-```java
-ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(file).build(); // Create the loader
-CommentedConfigurationNode node = loader.load(); // Load the configuration into memory
-
-node.getNode("some", "value").getValue(); // Get the value
-```
-More detailed explanations of all the methods available in ConfigurationNode are available in the javadocs.
-
-## Contributing
+#### Pull Requests
 We love PRs! However, when contributing, here are some things to keep in mind:
 
 - Take a look at open issues first before you get too far in -- someone might already be working on what you were planning on doing
 - In general, we follow the Oracle style guidelines for code style
 - Please, please, please test PRs. It makes the process a lot easier for everybody :)
-
