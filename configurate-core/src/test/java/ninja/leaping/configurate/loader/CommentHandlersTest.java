@@ -16,9 +16,6 @@
  */
 package ninja.leaping.configurate.loader;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.google.common.base.Joiner;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +23,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommentHandlersTest {
 
