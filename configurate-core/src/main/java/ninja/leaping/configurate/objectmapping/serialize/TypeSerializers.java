@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -69,7 +70,7 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(URL.class), new URLSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(UUID.class), new UUIDSerializer());
         DEFAULT_SERIALIZERS.registerPredicate(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer());
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(Number.class), new NumberSerializer());
+        DEFAULT_SERIALIZERS.registerPredicate(NumberSerializer.getPredicate(), new NumberSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(String.class), new StringSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Boolean.class), new BooleanSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Map<?, ?>>() {}, new MapSerializer());
@@ -91,6 +92,20 @@ public class TypeSerializers {
     }
 
     private static class NumberSerializer implements TypeSerializer<Number> {
+
+        public static Predicate<TypeToken<Number>> getPredicate() {
+            return (type) -> {
+                type = type.wrap();
+                Class<?> clazz = type.getRawType();
+                return Integer.class.equals(clazz)
+                        || Long.class.equals(clazz)
+                        || Short.class.equals(clazz)
+                        || Byte.class.equals(clazz)
+                        || Float.class.equals(clazz)
+                        || Double.class.equals(clazz);
+            };
+        }
+
         @Override
         public Number deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws InvalidTypeException {
             type = type.wrap();
