@@ -80,6 +80,13 @@ public class TypeSerializersTest {
     }
 
     @Test
+    public void testSerializeCustomNumber() throws ObjectMappingException {
+        final TypeToken<CustomNumber> customNumberType = TypeToken.of(CustomNumber.class);
+        final TypeSerializer<?> serializer = SERIALIZERS.get(customNumberType);
+        assertNull("Type serializer for custom number class should be null!", serializer);
+    }
+
+    @Test
     public void testBooleanSerializer() throws ObjectMappingException {
         final TypeToken<Boolean> booleanType = TypeToken.of(Boolean.class);
 
@@ -315,5 +322,28 @@ public class TypeSerializersTest {
         patternSerializer.serialize(patternType, testPattern, serializeTo);
         assertEquals("(na )+batman", serializeTo.getValue());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());
+    }
+
+    private static class CustomNumber extends Number {
+
+        @Override
+        public int intValue() {
+            return 0;
+        }
+
+        @Override
+        public long longValue() {
+            return 0;
+        }
+
+        @Override
+        public float floatValue() {
+            return 0;
+        }
+
+        @Override
+        public double doubleValue() {
+            return 0;
+        }
     }
 }
