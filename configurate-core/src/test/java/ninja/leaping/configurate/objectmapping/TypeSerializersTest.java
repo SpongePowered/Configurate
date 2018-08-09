@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -84,7 +85,7 @@ public class TypeSerializersTest {
     public void testSerializeCustomNumber() throws ObjectMappingException {
         final TypeToken<CustomNumber> customNumberType = TypeToken.of(CustomNumber.class);
         final TypeSerializer<?> serializer = SERIALIZERS.get(customNumberType);
-        assertNull("Type serializer for custom number class should be null!", serializer);
+        assertNull(serializer, "Type serializer for custom number class should be null!");
     }
 
     @Test
