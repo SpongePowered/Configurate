@@ -22,9 +22,9 @@ import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.util.MapFactories;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,19 +34,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.nio.charset.StandardCharsets.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Basic sanity checks for the loader
  */
+@ExtendWith(TempDirectory.class)
 public class JSONConfigurationLoaderTest {
-    @Rule
-    public final TemporaryFolder folder = new TemporaryFolder();
 
     @Test
-    public void testSimpleLoading() throws IOException {
+    public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.json");
-        final Path tempFile = folder.newFile().toPath();
+        final Path tempFile = tempDir.resolve("text1.txt");
         ConfigurationLoader loader = JSONConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                         .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).build();
@@ -68,8 +67,8 @@ public class JSONConfigurationLoaderTest {
     private static final long TEST_LONG_VAL = 584895858588588888l;
     private static final double TEST_DOUBLE_VAL = 595859682984428959583045732020572045273498409257349587.85485884287387d;
 
-    private void testRoundtripValue(Object value) throws IOException {
-        final Path tempFile = folder.newFile().toPath();
+    private void testRoundtripValue(Path tempDir, Object value) throws IOException {
+        final Path tempFile = tempDir.resolve("text2.txt");
         ConfigurationLoader<ConfigurationNode> loader = JSONConfigurationLoader.builder().setPath(tempFile).build();
         ConfigurationNode start = loader.createEmptyNode();
         start.getNode("value").setValue(value);
@@ -80,12 +79,12 @@ public class JSONConfigurationLoaderTest {
     }
 
     @Test
-    public void testRoundtrippingLong() throws IOException {
-        testRoundtripValue(TEST_LONG_VAL);
+    public void testRoundtrippingLong(@TempDirectory.TempDir Path tempDir) throws IOException {
+        testRoundtripValue(tempDir, TEST_LONG_VAL);
     }
 
     @Test
-    public void testRoundtripDouble() throws IOException {
-        testRoundtripValue(TEST_DOUBLE_VAL);
+    public void testRoundtripDouble(@TempDirectory.TempDir Path tempDir) throws IOException {
+        testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
     }
 }

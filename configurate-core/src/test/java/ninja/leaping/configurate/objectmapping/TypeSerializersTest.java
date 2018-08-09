@@ -25,9 +25,8 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -38,13 +37,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class TypeSerializersTest {
+
     private static final TypeSerializerCollection SERIALIZERS = TypeSerializers.getDefaultSerializers();
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
     @Test
     public void testStringSerializer() throws ObjectMappingException {
         final TypeToken<String> stringType = TypeToken.of(String.class);
@@ -123,9 +124,9 @@ public class TypeSerializersTest {
         assertEquals(TestEnum.SECOND, enumSerializer.deserialize(enumType, node.getNode("another_present_val")));
         assertEquals(TestEnum.Third, enumSerializer.deserialize(enumType, node.getNode("casematters_val")));
         assertEquals(TestEnum.third, enumSerializer.deserialize(enumType, node.getNode("casematters_val_lowercase")));
-        expectedException.expect(ObjectMappingException.class);
-        enumSerializer.deserialize(enumType, node.getNode("invalid_val"));
-
+        Assertions.assertThrows(ObjectMappingException.class, () -> {
+            enumSerializer.deserialize(enumType, node.getNode("invalid_val"));
+        });
     }
 
     @Test
@@ -172,8 +173,9 @@ public class TypeSerializersTest {
         value.getAppendedNode().setValue("dog");
         value.getAppendedNode().setValue(2.4);
 
-        expectedException.expectMessage("Raw types");
-        serial.deserialize(rawType, value);
+        Assertions.assertTrue(Assertions.assertThrows(Exception.class, () -> {
+            serial.deserialize(rawType, value);
+        }).getMessage().startsWith("Raw types"));
     }
 
     @Test

@@ -16,13 +16,12 @@
  */
 package ninja.leaping.configurate.xml;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.attributed.AttributedConfigurationNode;
 import ninja.leaping.configurate.loader.AtomicFiles;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,20 +33,20 @@ import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Basic sanity checks for the loader
  */
+@ExtendWith(TempDirectory.class)
 public class XMLConfigurationLoaderTest {
 
-    @Rule
-    public final TemporaryFolder folder = new TemporaryFolder();
-
     @Test
-    public void testSimpleLoading() throws IOException {
+    public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.xml");
-        final Path saveTest = folder.newFile().toPath();
+        final Path saveTest = tempDir.resolve("text1.txt");
 
         XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
                 .setWriteExplicitType(false)
@@ -93,9 +92,9 @@ public class XMLConfigurationLoaderTest {
     }
 
     @Test
-    public void testExplicitTypes() throws IOException {
+    public void testExplicitTypes(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example2.xml");
-        final Path saveTest = folder.newFile().toPath();
+        final Path saveTest = tempDir.resolve("text2.txt");
 
         XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
                 .setWriteExplicitType(true)
@@ -124,9 +123,9 @@ public class XMLConfigurationLoaderTest {
     }
 
     @Test
-    public void testComments() throws IOException {
+    public void testComments(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example3.xml");
-        final Path saveTest = folder.newFile().toPath();
+        final Path saveTest = tempDir.resolve("text3.txt");
 
         XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
                 .setWriteExplicitType(true)

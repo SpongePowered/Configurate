@@ -16,28 +16,27 @@
  */
 package ninja.leaping.configurate.loader;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
+@ExtendWith(TempDirectory.class)
 public class AbstractConfigurationLoaderTest {
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Test
-    public void testLoadNonexistantPath() throws IOException {
-        Path tempPath = tempFolder.getRoot().toPath().resolve("does-not-exist-dont-edit-testdir");
+    public void testLoadNonexistantPath(@TempDirectory.TempDir Path tempDir) throws IOException {
+        Path tempPath = tempDir.resolve("text5.txt").getRoot().resolve("does-not-exist-dont-edit-testdir");
         TestConfigurationLoader loader = TestConfigurationLoader.builder().setPath(tempPath).build();
         loader.load();
     }
 
     @Test
-    public void testLoadNonexistantFile() throws IOException {
-        File tempFile = new File(tempFolder.getRoot(), "does-not-exist-dont-edit-testdir");
+    public void testLoadNonexistantFile(@TempDirectory.TempDir Path tempDir) throws IOException {
+        File tempFile = new File(tempDir.resolve("text5.txt").getRoot().toFile(), "does-not-exist-dont-edit-testdir");
         TestConfigurationLoader loader = TestConfigurationLoader.builder().setFile(tempFile).build();
         loader.load();
     }

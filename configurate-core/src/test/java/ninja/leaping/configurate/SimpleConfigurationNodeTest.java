@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,15 +29,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SimpleConfigurationNodeTest {
+
     @Test
     public void testUnattachedNodesTemporary() {
         ConfigurationNode config = SimpleConfigurationNode.root();
         ConfigurationNode node = config.getNode("some", "node");
         assertTrue(node.isVirtual());
-        assertEquals(null, node.getValue());
+        assertNull(node.getValue());
         assertFalse(node.hasListChildren());
         assertFalse(node.hasMapChildren());
         ConfigurationNode node2 = config.getNode("some", "node");
@@ -154,10 +161,10 @@ public class SimpleConfigurationNodeTest {
         ConfigurationNode root = SimpleConfigurationNode.root();
         ConfigurationNode child = root.getNode("child").setValue("a");
         assertFalse(child.isVirtual());
-        assertTrue(child == root.getNode("child"));
+        assertSame(child, root.getNode("child"));
         child.setValue(null);
         assertTrue(child.isVirtual());
-        assertFalse(child == root.getNode("child"));
+        assertNotSame(child, root.getNode("child"));
     }
 
     @Test

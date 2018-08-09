@@ -21,18 +21,18 @@ import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ObjectMapperTest {
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
 
     @ConfigSerializable
     private static class TestObject {
@@ -111,11 +111,11 @@ public class ObjectMapperTest {
 
     @Test
     public void testNoArglessConstructor() throws ObjectMappingException {
-        ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.forClass(NonZeroArgConstructorObject.class);
-        assertFalse(mapper.canCreateInstances());
-        expectedException.expect(ObjectMappingException.class);
-        expectedException.expectMessage("No zero-arg constructor");
-        mapper.bindToNew();
+        Assertions.assertTrue(Assertions.assertThrows(ObjectMappingException.class, () -> {
+            ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.forClass(NonZeroArgConstructorObject.class);
+            assertFalse(mapper.canCreateInstances());
+            mapper.bindToNew();
+        }).getMessage().startsWith("No zero-arg constructor"));
     }
 
     @ConfigSerializable

@@ -24,9 +24,9 @@ import com.typesafe.config.ConfigValueFactory;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AtomicFiles;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,18 +38,18 @@ import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Basic sanity checks for the loader
  */
+@ExtendWith(TempDirectory.class)
 public class HoconConfigurationLoaderTest {
-    @Rule
-    public final TemporaryFolder folder = new TemporaryFolder();
+
     @Test
-    public void testSimpleLoading() throws IOException {
+    public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.conf");
-        final Path saveTest = folder.newFile().toPath();
+        final Path saveTest = tempDir.resolve("text1.txt");
 
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
@@ -66,8 +66,8 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testSplitLineCommentInput() throws IOException {
-        final Path saveTo = folder.newFile().toPath();
+    public void testSplitLineCommentInput(@TempDirectory.TempDir Path tempDir) throws IOException {
+        final Path saveTo = tempDir.resolve("text2.txt");
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .setURL(getClass().getResource("/splitline-comment-input.conf"))
@@ -80,8 +80,8 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testHeaderSaved() throws IOException {
-        final Path saveTo = folder.newFile().toPath();
+    public void testHeaderSaved(@TempDirectory.TempDir Path tempDir) throws IOException {
+        final Path saveTo = tempDir.resolve("text3.txt");
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .build();
@@ -95,9 +95,9 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testBooleansNotShared() throws IOException {
+    public void testBooleansNotShared(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/comments-test.conf");
-        final Path saveTo = folder.newFile().toPath();
+        final Path saveTo = tempDir.resolve("text4.txt");
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo).setURL(url).build();
 
