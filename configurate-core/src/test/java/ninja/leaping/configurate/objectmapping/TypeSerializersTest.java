@@ -27,15 +27,16 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollectio
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.CollectionUtils;
 
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -255,6 +256,30 @@ public class TypeSerializersTest {
     private static class TestObject {
         @Setting("int") private int value;
         @Setting private String name;
+
+        @Setting @Adapter(Str2List.class) private String list;
+    }
+
+    public static class Str2List implements FieldAdapter<String> {
+
+        @Override
+        public String deserialize(ConfigurationNode node) {
+            try {
+                return node.getList(TypeToken.of(Integer.class)).stream().collect(StringBuilder::new, StringBuilder::appendCodePoint,StringBuilder::append).toString();
+            } catch (ObjectMappingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void serialize(String value, ConfigurationNode node) {
+            char[] charArray = value.toCharArray();
+            List<Integer> list = new ArrayList<>();
+            for (char c : charArray) {
+                list.add((int)c);
+            }
+            node.setValue(list);
+        }
     }
 
     @Test
@@ -264,10 +289,20 @@ public class TypeSerializersTest {
         final ConfigurationNode node = SimpleConfigurationNode.root();
         node.getNode("int").setValue("42");
         node.getNode("name").setValue("Bob");
-
+        List<Integer> list = Arrays.asList(72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100);
+        node.getNode("list").setValue(list);
         TestObject object = testObjectSerializer.deserialize(testNodeType, node);
         assertEquals(42, object.value);
         assertEquals("Bob", object.name);
+        assertEquals("Hello world", object.list);
+
+        ConfigurationNode node2 = SimpleConfigurationNode.root();
+        testObjectSerializer.serialize(TypeToken.of(TestObject.class), object, node2);
+        assertEquals(42, node2.getNode("int").getValue());
+        assertEquals("Bob", node2.getNode("name").getValue());
+        List<Integer> list2 = (List) node2.getNode("list").getValue();
+
+        assertTrue(Arrays.equals(list.toArray(), list2.toArray()));
     }
 
     @Test

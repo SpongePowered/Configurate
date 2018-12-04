@@ -48,7 +48,7 @@ public class ObjectMapper<T> {
      * {@link DefaultObjectMapperFactory}.
      *
      * @param clazz The type of object
-     * @param <T> The type
+     * @param <T>   The type
      * @return An appropriate object mapper instance. May be shared with other users.
      * @throws ObjectMappingException If invalid annotated fields are presented
      */
@@ -75,9 +75,9 @@ public class ObjectMapper<T> {
      * Holder for field-specific information
      */
     protected static class FieldData {
-        private final Field field;
-        private final TypeToken<?> fieldType;
-        private final String comment;
+        final Field field;
+        final TypeToken<?> fieldType;
+        protected final String comment;
 
         public FieldData(Field field, String comment) throws ObjectMappingException {
             this.field = field;
@@ -131,6 +131,50 @@ public class ObjectMapper<T> {
             }
         }
     }
+
+    /* Field (de)serialization if @Adapter annotation is present*/
+    protected static class AdaptedFieldInfo extends FieldData {
+        private FieldAdapter fieldAdapter;
+
+        public AdaptedFieldInfo(Field field, String comment, Class<? extends FieldAdapter> fieldAdapter) throws ObjectMappingException {
+            super(field, comment);
+            try {
+                this.fieldAdapter = fieldAdapter.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new ObjectMappingException("Unable to initialize field adapter " + fieldAdapter.getClass().getName());
+            }
+        }
+
+        public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
+            try {
+                Object newVal = node.isVirtual() ? null : fieldAdapter.deserialize(node);
+                field.set(instance, newVal);
+            } catch (IllegalAccessException e) {
+                throw new ObjectMappingException("Unable to deserialize field " + field.getName() + " via adapter " + fieldAdapter.getClass().getCanonicalName(), e);
+            }
+        }
+
+        public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
+            try {
+                Object fieldVal = this.field.get(instance);
+                if (fieldVal == null) {
+                    node.setValue(null);
+                } else {
+                    fieldAdapter.serialize(fieldVal, node);
+                }
+
+                if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
+                    CommentedConfigurationNode commentNode = ((CommentedConfigurationNode) node);
+                    if (!commentNode.getComment().isPresent()) {
+                        commentNode.setComment(this.comment);
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                throw new ObjectMappingException("Unable to serialize field " + field.getName() + " via adapter " + fieldAdapter.getClass().getCanonicalName(), e);
+            }
+        }
+    }
+
 
     /**
      * Represents an object mapper bound to a certain instance of the object
@@ -209,8 +253,12 @@ public class ObjectMapper<T> {
                 if (path.isEmpty()) {
                     path = field.getName();
                 }
-
-                FieldData data = new FieldData(field, setting.comment());
+                FieldData data = null;
+                if (field.isAnnotationPresent(Adapter.class)) {
+                    data = new AdaptedFieldInfo(field, setting.comment(), field.getAnnotation(Adapter.class).value());
+                } else {
+                    data = new FieldData(field, setting.comment());
+                }
                 field.setAccessible(true);
                 if (!cachedFields.containsKey(path)) {
                     cachedFields.put(path, data);
@@ -260,9 +308,9 @@ public class ObjectMapper<T> {
     /**
      * Returns a view on this mapper that is bound to a newly created object instance
      *
-     * @see #bind(Object)
      * @return Bound mapper attached to a new object instance
      * @throws ObjectMappingException If the object could not be constructed correctly
+     * @see #bind(Object)
      */
     public BoundInstance bindToNew() throws ObjectMappingException {
         return new BoundInstance(constructObject());
