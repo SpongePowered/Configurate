@@ -16,13 +16,19 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * An annotation which may be used to supply custom (de)serialization logic to specific field
+ * The field still has to be annotated via @Settings, otherwise custom field adapter will be ingored
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Adapter {
-    Class<? extends FieldAdapter<?>> value();
+    Class<? extends TypeSerializer<?>> value();
 }

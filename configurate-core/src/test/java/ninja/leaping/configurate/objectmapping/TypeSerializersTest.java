@@ -25,6 +25,8 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.CollectionUtils;
@@ -260,10 +262,11 @@ public class TypeSerializersTest {
         @Setting @Adapter(Str2List.class) private String list;
     }
 
-    public static class Str2List implements FieldAdapter<String> {
+    public static class Str2List implements TypeSerializer<String> {
 
+        @Nullable
         @Override
-        public String deserialize(ConfigurationNode node) {
+        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) throws ObjectMappingException {
             try {
                 return node.getList(TypeToken.of(Integer.class)).stream().collect(StringBuilder::new, StringBuilder::appendCodePoint,StringBuilder::append).toString();
             } catch (ObjectMappingException e) {
@@ -272,7 +275,7 @@ public class TypeSerializersTest {
         }
 
         @Override
-        public void serialize(String value, ConfigurationNode node) {
+        public void serialize(@NonNull TypeToken<?> type, @Nullable String value, @NonNull ConfigurationNode node) throws ObjectMappingException {
             char[] charArray = value.toCharArray();
             List<Integer> list = new ArrayList<>();
             for (char c : charArray) {

@@ -77,21 +77,29 @@ public class ObjectMapper<T> {
     protected static class FieldData {
         final Field field;
         final TypeToken<?> fieldType;
-        protected final String comment;
+        final TypeSerializer<?> customSerializer;
+        final String comment;
 
-        public FieldData(Field field, String comment) throws ObjectMappingException {
+        public FieldData(Field field, String comment, TypeSerializer<?> customSerializer) throws ObjectMappingException {
             this.field = field;
             this.comment = comment;
             this.fieldType = TypeToken.of(field.getGenericType());
+            this.customSerializer = customSerializer;
         }
 
         public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
-            if (serial == null) {
-                throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
-                        + this.fieldType);
+            Object newVal = null;
+            TypeSerializer<?> serial = null;
+            if (customSerializer != null) {
+                serial = customSerializer;
+            } else {
+                serial = node.getOptions().getSerializers().get(this.fieldType);
+                if (serial == null) {
+                    throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
+                            + this.fieldType);
+                }
             }
-            Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
+            newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
             try {
                 if (newVal == null) {
                     Object existingVal = field.get(instance);
@@ -113,7 +121,12 @@ public class ObjectMapper<T> {
                 if (fieldVal == null) {
                     node.setValue(null);
                 } else {
-                    TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType);
+                    TypeSerializer serial = null;
+                    if (customSerializer != null) {
+                        serial = customSerializer;
+                    } else {
+                        serial = node.getOptions().getSerializers().get(this.fieldType);
+                    }
                     if (serial == null) {
                         throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type " + this.fieldType);
                     }
@@ -126,52 +139,21 @@ public class ObjectMapper<T> {
                         commentNode.setComment(this.comment);
                     }
                 }
-            } catch (IllegalAccessException e) {
+            } catch (IllegalAccessException | ClassCastException e) {
                 throw new ObjectMappingException("Unable to serialize field " + field.getName(), e);
             }
         }
-    }
 
-    /* Field (de)serialization if @Adapter annotation is present*/
-    protected static class AdaptedFieldInfo extends FieldData {
-        private FieldAdapter fieldAdapter;
-
-        public AdaptedFieldInfo(Field field, String comment, Class<? extends FieldAdapter> fieldAdapter) throws ObjectMappingException {
-            super(field, comment);
-            try {
-                this.fieldAdapter = fieldAdapter.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                throw new ObjectMappingException("Unable to initialize field adapter " + fieldAdapter.getClass().getName());
-            }
+        protected String getComment() {
+            return comment;
         }
 
-        public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            try {
-                Object newVal = node.isVirtual() ? null : fieldAdapter.deserialize(node);
-                field.set(instance, newVal);
-            } catch (IllegalAccessException e) {
-                throw new ObjectMappingException("Unable to deserialize field " + field.getName() + " via adapter " + fieldAdapter.getClass().getCanonicalName(), e);
-            }
+        protected Field getField() {
+            return field;
         }
 
-        public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            try {
-                Object fieldVal = this.field.get(instance);
-                if (fieldVal == null) {
-                    node.setValue(null);
-                } else {
-                    fieldAdapter.serialize(fieldVal, node);
-                }
-
-                if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
-                    CommentedConfigurationNode commentNode = ((CommentedConfigurationNode) node);
-                    if (!commentNode.getComment().isPresent()) {
-                        commentNode.setComment(this.comment);
-                    }
-                }
-            } catch (IllegalAccessException e) {
-                throw new ObjectMappingException("Unable to serialize field " + field.getName() + " via adapter " + fieldAdapter.getClass().getCanonicalName(), e);
-            }
+        protected TypeToken<?> getFieldType() {
+            return fieldType;
         }
     }
 
@@ -253,12 +235,17 @@ public class ObjectMapper<T> {
                 if (path.isEmpty()) {
                     path = field.getName();
                 }
-                FieldData data = null;
+                TypeSerializer<?> custom = null;
                 if (field.isAnnotationPresent(Adapter.class)) {
-                    data = new AdaptedFieldInfo(field, setting.comment(), field.getAnnotation(Adapter.class).value());
-                } else {
-                    data = new FieldData(field, setting.comment());
+                    Adapter adapter = field.getAnnotation(Adapter.class);
+                    Class<? extends TypeSerializer<?>> value = adapter.value();
+                    try {
+                        custom = value.getConstructor().newInstance();
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        throw new ObjectMappingException("Could not create a new instance from " + value.getCanonicalName() + ". The default constructor is missing, or is not visible", e);
+                    }
                 }
+                FieldData data = new FieldData(field, setting.comment(), custom);
                 field.setAccessible(true);
                 if (!cachedFields.containsKey(path)) {
                     cachedFields.put(path, data);
