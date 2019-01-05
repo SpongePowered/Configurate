@@ -22,6 +22,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -77,10 +78,15 @@ public class ObjectMapper<T> {
     protected static class FieldData {
         final Field field;
         final TypeToken<?> fieldType;
-        final TypeSerializer<?> customSerializer;
-        final String comment;
+        @Nullable final TypeSerializer<?> customSerializer;
+        @Nullable final String comment;
 
-        public FieldData(Field field, String comment, TypeSerializer<?> customSerializer) throws ObjectMappingException {
+        @Deprecated
+        public FieldData(Field field, @Nullable  String comment) {
+            this(field, comment, null);
+        }
+
+        public FieldData(Field field, @Nullable  String comment, @Nullable TypeSerializer<?> customSerializer) {
             this.field = field;
             this.comment = comment;
             this.fieldType = TypeToken.of(field.getGenericType());

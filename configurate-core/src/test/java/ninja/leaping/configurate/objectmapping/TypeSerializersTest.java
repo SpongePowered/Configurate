@@ -16,6 +16,12 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
@@ -29,21 +35,16 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.CollectionUtils;
 
-import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class TypeSerializersTest {
@@ -128,7 +129,7 @@ public class TypeSerializersTest {
         assertEquals(TestEnum.SECOND, enumSerializer.deserialize(enumType, node.getNode("another_present_val")));
         assertEquals(TestEnum.Third, enumSerializer.deserialize(enumType, node.getNode("casematters_val")));
         assertEquals(TestEnum.third, enumSerializer.deserialize(enumType, node.getNode("casematters_val_lowercase")));
-        Assertions.assertThrows(ObjectMappingException.class, () -> {
+        assertThrows(ObjectMappingException.class, () -> {
             enumSerializer.deserialize(enumType, node.getNode("invalid_val"));
         });
     }
@@ -177,7 +178,7 @@ public class TypeSerializersTest {
         value.getAppendedNode().setValue("dog");
         value.getAppendedNode().setValue(2.4);
 
-        Assertions.assertTrue(Assertions.assertThrows(Exception.class, () -> {
+        Assertions.assertTrue(assertThrows(Exception.class, () -> {
             serial.deserialize(rawType, value);
         }).getMessage().startsWith("Raw types"));
     }
@@ -307,6 +308,54 @@ public class TypeSerializersTest {
 
         assertTrue(Arrays.equals(list.toArray(), list2.toArray()));
     }
+
+    @ConfigSerializable
+    private static class TestObject2 {
+        @Setting @Adapter(NoDefCtrTester.class) private String field;
+    }
+
+	@Test
+	public void testCustomFieldAdapterNoDefCtr() {
+		final TypeToken<TestObject2> testNodeType = TypeToken.of(TestObject2.class);
+		final TypeSerializer<TestObject2> testObjectSerializer = SERIALIZERS.get(testNodeType);
+		final ConfigurationNode node = SimpleConfigurationNode.root();
+		assertThrows(ObjectMappingException.class, () -> testObjectSerializer.deserialize(testNodeType, node));
+	}
+
+    public static class NoDefCtrTester implements TypeSerializer<String> {
+
+        public NoDefCtrTester(Void v) {}
+
+        @Nullable
+        @Override
+        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) {
+        	return "asdfghjkl";
+        }
+		@Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable String value, @NonNull ConfigurationNode node){
+        }
+
+    }
+
+    public static class TypeMissmatchTester extends NoDefCtrTester {
+
+		public TypeMissmatchTester() {
+			super(null);
+		}
+	}
+
+	@ConfigSerializable
+    public static class TestObject3 {
+    	@Setting @Adapter(TypeMissmatchTester.class) int i;
+	}
+
+	@Test
+	public void testCustomFieldAdapterTypeMissmatch() {
+		final TypeToken<TestObject3> testNodeType = TypeToken.of(TestObject3.class);
+		final TypeSerializer<TestObject3> testObjectSerializer = SERIALIZERS.get(testNodeType);
+		final ConfigurationNode node = SimpleConfigurationNode.root();
+		assertThrows(ObjectMappingException.class, () -> testObjectSerializer.deserialize(testNodeType, node));
+	}
 
     @Test
     public void testURISerializer() throws ObjectMappingException {
