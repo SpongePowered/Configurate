@@ -39,10 +39,32 @@ import java.util.Map;
  * @param <T> The type to work with
  */
 public class ObjectMapper<T> {
+
     private final Class<T> clazz;
     private final Constructor<T> constructor;
     private final Map<String, FieldData> cachedFields = new HashMap<>();
 
+
+    /**
+     * Create a new object mapper of a given type
+     *
+     * @param clazz The type this object mapper will work with
+     * @throws ObjectMappingException if the provided class is in someway invalid
+     */
+    protected ObjectMapper(Class<T> clazz) throws ObjectMappingException {
+        this.clazz = clazz;
+        Constructor<T> constructor = null;
+        try {
+            constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+        } catch (NoSuchMethodException ignore) {
+        }
+        this.constructor = constructor;
+        Class<? super T> collectClass = clazz;
+        do {
+            collectFields(cachedFields, collectClass);
+        } while (!(collectClass = collectClass.getSuperclass()).equals(Object.class));
+    }
 
     /**
      * Create a new object mapper that can work with objects of the given class using the
@@ -72,21 +94,106 @@ public class ObjectMapper<T> {
         return forClass((Class<T>) obj.getClass()).bind(obj);
     }
 
+    protected void collectFields(Map<String, FieldData> cachedFields, Class<? super T> clazz) throws ObjectMappingException {
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(Setting.class)) {
+                Setting setting = field.getAnnotation(Setting.class);
+                String path = setting.value();
+                if (path.isEmpty()) {
+                    path = field.getName();
+                }
+
+                TypeSerializer<?> custom = null;
+                if (field.isAnnotationPresent(Adapter.class)) {
+                    Adapter adapter = field.getAnnotation(Adapter.class);
+                    Class<? extends TypeSerializer<?>> value = adapter.value();
+                    try {
+                        custom = value.getConstructor().newInstance();
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        throw new ObjectMappingException("Could not create a new instance from " + value.getCanonicalName()
+                                + ". The default constructor is missing, or is not visible", e);
+                    }
+                }
+
+                FieldData data = new FieldData(field, setting.comment(), custom);
+                field.setAccessible(true);
+                if (!cachedFields.containsKey(path)) {
+                    cachedFields.put(path, data);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create a new instance of an object of the appropriate type. This method is not
+     * responsible for any population.
+     *
+     * @return The new object instance
+     * @throws ObjectMappingException If constructing a new instance was not possible
+     */
+    protected T constructObject() throws ObjectMappingException {
+        if (constructor == null) {
+            throw new ObjectMappingException(
+                    "No zero-arg constructor is available for class " + clazz + " but is required to construct new instances!");
+        }
+        try {
+            return constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
+        }
+    }
+
+    /**
+     * Returns whether this object mapper can create new object instances. This may be
+     * false if the provided class has no zero-argument constructors.
+     *
+     * @return Whether new object instances can be created
+     */
+    public boolean canCreateInstances() {
+        return constructor != null;
+    }
+
+    /**
+     * Return a view on this mapper that is bound to a single object instance
+     *
+     * @param instance The instance to bind to
+     * @return A view referencing this mapper and the bound instance
+     */
+    public BoundInstance bind(T instance) {
+        return new BoundInstance(instance);
+    }
+
+    /**
+     * Returns a view on this mapper that is bound to a newly created object instance
+     *
+     * @return Bound mapper attached to a new object instance
+     * @throws ObjectMappingException If the object could not be constructed correctly
+     * @see #bind(Object)
+     */
+    public BoundInstance bindToNew() throws ObjectMappingException {
+        return new BoundInstance(constructObject());
+    }
+
+    public Class<T> getMappedType() {
+        return this.clazz;
+    }
+
     /**
      * Holder for field-specific information
      */
     protected static class FieldData {
-        final Field field;
-        final TypeToken<?> fieldType;
-        @Nullable final TypeSerializer<?> customSerializer;
-        @Nullable final String comment;
+
+        private final Field field;
+        private final TypeToken<?> fieldType;
+        @Nullable private final TypeSerializer<?> customSerializer;
+        @Nullable private final String comment;
 
         @Deprecated
-        public FieldData(Field field, @Nullable  String comment) {
+        public FieldData(Field field, @Nullable String comment) {
             this(field, comment, null);
         }
 
-        public FieldData(Field field, @Nullable  String comment, @Nullable TypeSerializer<?> customSerializer) {
+        public FieldData(Field field, @Nullable String comment, @Nullable TypeSerializer<?> customSerializer) {
             this.field = field;
             this.comment = comment;
             this.fieldType = TypeToken.of(field.getGenericType());
@@ -132,9 +239,9 @@ public class ObjectMapper<T> {
                         serial = customSerializer;
                     } else {
                         serial = node.getOptions().getSerializers().get(this.fieldType);
-                    }
-                    if (serial == null) {
-                        throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type " + this.fieldType);
+                        if (serial == null) {
+                            throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type " + this.fieldType);
+                        }
                     }
                     serial.serialize(this.fieldType, fieldVal, node);
                 }
@@ -163,11 +270,11 @@ public class ObjectMapper<T> {
         }
     }
 
-
     /**
      * Represents an object mapper bound to a certain instance of the object
      */
     public class BoundInstance {
+
         private final T boundInstance;
 
         protected BoundInstance(T boundInstance) {
@@ -210,106 +317,5 @@ public class ObjectMapper<T> {
         public T getInstance() {
             return boundInstance;
         }
-    }
-
-    /**
-     * Create a new object mapper of a given type
-     *
-     * @param clazz The type this object mapper will work with
-     * @throws ObjectMappingException if the provided class is in someway invalid
-     */
-    protected ObjectMapper(Class<T> clazz) throws ObjectMappingException {
-        this.clazz = clazz;
-        Constructor<T> constructor = null;
-        try {
-            constructor = clazz.getDeclaredConstructor();
-            constructor.setAccessible(true);
-        } catch (NoSuchMethodException ignore) {
-        }
-        this.constructor = constructor;
-        Class<? super T> collectClass = clazz;
-        do {
-            collectFields(cachedFields, collectClass);
-        } while (!(collectClass = collectClass.getSuperclass()).equals(Object.class));
-    }
-
-    protected void collectFields(Map<String, FieldData> cachedFields, Class<? super T> clazz) throws ObjectMappingException {
-        for (Field field : clazz.getDeclaredFields()) {
-            if (field.isAnnotationPresent(Setting.class)) {
-                Setting setting = field.getAnnotation(Setting.class);
-                String path = setting.value();
-                if (path.isEmpty()) {
-                    path = field.getName();
-                }
-                TypeSerializer<?> custom = null;
-                if (field.isAnnotationPresent(Adapter.class)) {
-                    Adapter adapter = field.getAnnotation(Adapter.class);
-                    Class<? extends TypeSerializer<?>> value = adapter.value();
-                    try {
-                        custom = value.getConstructor().newInstance();
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                        throw new ObjectMappingException("Could not create a new instance from " + value.getCanonicalName() + ". The default constructor is missing, or is not visible", e);
-                    }
-                }
-                FieldData data = new FieldData(field, setting.comment(), custom);
-                field.setAccessible(true);
-                if (!cachedFields.containsKey(path)) {
-                    cachedFields.put(path, data);
-                }
-            }
-        }
-    }
-
-    /**
-     * Create a new instance of an object of the appropriate type. This method is not
-     * responsible for any population.
-     *
-     * @return The new object instance
-     * @throws ObjectMappingException If constructing a new instance was not possible
-     */
-    protected T constructObject() throws ObjectMappingException {
-        if (constructor == null) {
-            throw new ObjectMappingException("No zero-arg constructor is available for class " + clazz + " but is required to construct new instances!");
-        }
-        try {
-            return constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
-        }
-    }
-
-    /**
-     * Returns whether this object mapper can create new object instances. This may be
-     * false if the provided class has no zero-argument constructors.
-     *
-     * @return Whether new object instances can be created
-     */
-    public boolean canCreateInstances() {
-        return constructor != null;
-    }
-
-    /**
-     * Return a view on this mapper that is bound to a single object instance
-     *
-     * @param instance The instance to bind to
-     * @return A view referencing this mapper and the bound instance
-     */
-    public BoundInstance bind(T instance) {
-        return new BoundInstance(instance);
-    }
-
-    /**
-     * Returns a view on this mapper that is bound to a newly created object instance
-     *
-     * @return Bound mapper attached to a new object instance
-     * @throws ObjectMappingException If the object could not be constructed correctly
-     * @see #bind(Object)
-     */
-    public BoundInstance bindToNew() throws ObjectMappingException {
-        return new BoundInstance(constructObject());
-    }
-
-    public Class<T> getMappedType() {
-        return this.clazz;
     }
 }

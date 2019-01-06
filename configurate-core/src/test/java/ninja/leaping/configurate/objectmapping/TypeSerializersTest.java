@@ -16,12 +16,6 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
@@ -46,6 +40,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TypeSerializersTest {
 
@@ -103,13 +102,6 @@ public class TypeSerializersTest {
 
         assertEquals(true, booleanSerializer.deserialize(booleanType, node.getNode("direct")));
         assertEquals(true, booleanSerializer.deserialize(booleanType, node.getNode("fromstring")));
-    }
-
-    private enum TestEnum {
-        FIRST,
-        SECOND,
-        Third,
-        third
     }
 
     @Test
@@ -255,37 +247,6 @@ public class TypeSerializersTest {
         assertTrue(value.hasMapChildren());
     }
 
-    @ConfigSerializable
-    private static class TestObject {
-        @Setting("int") private int value;
-        @Setting private String name;
-
-        @Setting @Adapter(Str2List.class) private String list;
-    }
-
-    public static class Str2List implements TypeSerializer<String> {
-
-        @Nullable
-        @Override
-        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) throws ObjectMappingException {
-            try {
-                return node.getList(TypeToken.of(Integer.class)).stream().collect(StringBuilder::new, StringBuilder::appendCodePoint,StringBuilder::append).toString();
-            } catch (ObjectMappingException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        @Override
-        public void serialize(@NonNull TypeToken<?> type, @Nullable String value, @NonNull ConfigurationNode node) throws ObjectMappingException {
-            char[] charArray = value.toCharArray();
-            List<Integer> list = new ArrayList<>();
-            for (char c : charArray) {
-                list.add((int)c);
-            }
-            node.setValue(list);
-        }
-    }
-
     @Test
     public void testAnnotatedObjectSerializer() throws ObjectMappingException {
         final TypeToken<TestObject> testNodeType = TypeToken.of(TestObject.class);
@@ -309,82 +270,50 @@ public class TypeSerializersTest {
         assertTrue(Arrays.equals(list.toArray(), list2.toArray()));
     }
 
-    @ConfigSerializable
-    private static class TestObject2 {
-        @Setting @Adapter(NoDefCtrTester.class) private String field;
+    @Test
+    public void testCustomFieldAdapterNoDefCtr() {
+        final TypeToken<TestObject2> testNodeType = TypeToken.of(TestObject2.class);
+        final TypeSerializer<TestObject2> testObjectSerializer = SERIALIZERS.get(testNodeType);
+        final ConfigurationNode node = SimpleConfigurationNode.root();
+        assertThrows(ObjectMappingException.class, () -> testObjectSerializer.deserialize(testNodeType, node));
     }
 
-	@Test
-	public void testCustomFieldAdapterNoDefCtr() {
-		final TypeToken<TestObject2> testNodeType = TypeToken.of(TestObject2.class);
-		final TypeSerializer<TestObject2> testObjectSerializer = SERIALIZERS.get(testNodeType);
-		final ConfigurationNode node = SimpleConfigurationNode.root();
-		assertThrows(ObjectMappingException.class, () -> testObjectSerializer.deserialize(testNodeType, node));
-	}
-
-    public static class NoDefCtrTester implements TypeSerializer<String> {
-
-        public NoDefCtrTester(Void v) {}
-
-        @Nullable
-        @Override
-        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) {
-        	return "asdfghjkl";
-        }
-		@Override
-        public void serialize(@NonNull TypeToken<?> type, @Nullable String value, @NonNull ConfigurationNode node){
-        }
-
+    @Test
+    public void testCustomFieldAdapterTypeMissmatch() {
+        final TypeToken<TestObject3> testNodeType = TypeToken.of(TestObject3.class);
+        final TypeSerializer<TestObject3> testObjectSerializer = SERIALIZERS.get(testNodeType);
+        final ConfigurationNode node = SimpleConfigurationNode.root();
+        assertThrows(ObjectMappingException.class, () -> testObjectSerializer.deserialize(testNodeType, node));
     }
-
-    public static class TypeMissmatchTester extends NoDefCtrTester {
-
-		public TypeMissmatchTester() {
-			super(null);
-		}
-	}
-
-	@ConfigSerializable
-    public static class TestObject3 {
-    	@Setting @Adapter(TypeMissmatchTester.class) int i;
-	}
-
-	@Test
-	public void testCustomFieldAdapterTypeMissmatch() {
-		final TypeToken<TestObject3> testNodeType = TypeToken.of(TestObject3.class);
-		final TypeSerializer<TestObject3> testObjectSerializer = SERIALIZERS.get(testNodeType);
-		final ConfigurationNode node = SimpleConfigurationNode.root();
-		assertThrows(ObjectMappingException.class, () -> testObjectSerializer.deserialize(testNodeType, node));
-	}
 
     @Test
     public void testURISerializer() throws ObjectMappingException {
-         final TypeToken<URI> uriType = TypeToken.of(URI.class);
-         final TypeSerializer<URI> uriSerializer = SERIALIZERS.get(uriType);
+        final TypeToken<URI> uriType = TypeToken.of(URI.class);
+        final TypeSerializer<URI> uriSerializer = SERIALIZERS.get(uriType);
 
-         final String uriString = "http://google.com";
-         final URI testUri = URI.create(uriString);
+        final String uriString = "http://google.com";
+        final URI testUri = URI.create(uriString);
 
-         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(uriString);
-         assertEquals(testUri, uriSerializer.deserialize(uriType, node));
+        SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(uriString);
+        assertEquals(testUri, uriSerializer.deserialize(uriType, node));
 
-         uriSerializer.serialize(uriType, testUri, node);
-         assertEquals(uriString, node.getValue());
+        uriSerializer.serialize(uriType, testUri, node);
+        assertEquals(uriString, node.getValue());
     }
 
     @Test
     public void testURLSerializer() throws ObjectMappingException, MalformedURLException {
-         final TypeToken<URL> urlType = TypeToken.of(URL.class);
-         final TypeSerializer<URL> urlSerializer = SERIALIZERS.get(urlType);
+        final TypeToken<URL> urlType = TypeToken.of(URL.class);
+        final TypeSerializer<URL> urlSerializer = SERIALIZERS.get(urlType);
 
-         final String urlString = "http://google.com";
-         final URL testUrl = new URL(urlString);
+        final String urlString = "http://google.com";
+        final URL testUrl = new URL(urlString);
 
-         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(urlString);
-         assertEquals(testUrl, urlSerializer.deserialize(urlType, node));
+        SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(urlString);
+        assertEquals(testUrl, urlSerializer.deserialize(urlType, node));
 
-         urlSerializer.serialize(urlType, testUrl, node);
-         assertEquals(urlString, node.getValue());
+        urlSerializer.serialize(urlType, testUrl, node);
+        assertEquals(urlString, node.getValue());
     }
 
     @Test
@@ -412,6 +341,82 @@ public class TypeSerializersTest {
         patternSerializer.serialize(patternType, testPattern, serializeTo);
         assertEquals("(na )+batman", serializeTo.getValue());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());
+    }
+
+    private enum TestEnum {
+        FIRST,
+        SECOND,
+        Third,
+        third
+    }
+
+    @ConfigSerializable
+    private static class TestObject {
+
+        @Setting("int") private int value;
+        @Setting private String name;
+
+        @Setting @Adapter(Str2List.class) private String list;
+    }
+
+    public static class Str2List implements TypeSerializer<String> {
+
+        @Nullable
+        @Override
+        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) throws ObjectMappingException {
+            try {
+                return node.getList(TypeToken.of(Integer.class)).stream()
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+            } catch (ObjectMappingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable String value, @NonNull ConfigurationNode node) throws ObjectMappingException {
+            char[] charArray = value.toCharArray();
+            List<Integer> list = new ArrayList<>();
+            for (char c : charArray) {
+                list.add((int) c);
+            }
+            node.setValue(list);
+        }
+    }
+
+    @ConfigSerializable
+    private static class TestObject2 {
+
+        @Setting @Adapter(NoDefCtrTester.class) private String field;
+    }
+
+    public static class NoDefCtrTester implements TypeSerializer<String> {
+
+        public NoDefCtrTester(Void v) {
+        }
+
+        @Nullable
+        @Override
+        public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) {
+            return "asdfghjkl";
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable String value, @NonNull ConfigurationNode node) {
+        }
+
+    }
+
+    public static class TypeMissmatchTester extends NoDefCtrTester {
+
+        public TypeMissmatchTester() {
+            super(null);
+        }
+    }
+
+    @ConfigSerializable
+    public static class TestObject3 {
+
+        @Setting @Adapter(TypeMissmatchTester.class) int i;
     }
 
     private static class CustomNumber extends Number {
