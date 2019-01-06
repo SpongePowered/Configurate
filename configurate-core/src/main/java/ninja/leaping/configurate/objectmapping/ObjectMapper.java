@@ -201,8 +201,7 @@ public class ObjectMapper<T> {
         }
 
         public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
-            Object newVal = null;
-            TypeSerializer<?> serial = null;
+            TypeSerializer<?> serial;
             if (customSerializer != null) {
                 serial = customSerializer;
             } else {
@@ -212,7 +211,7 @@ public class ObjectMapper<T> {
                             + this.fieldType);
                 }
             }
-            newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
+            Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
             try {
                 if (newVal == null) {
                     Object existingVal = field.get(instance);
