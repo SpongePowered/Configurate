@@ -25,7 +25,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Factory for a basic {@link ObjectMapper}.
+ * Factory for a basic {@link ObjectMapperImpl}.
  */
 public class DefaultObjectMapperFactory implements ObjectMapperFactory {
     private static final ObjectMapperFactory INSTANCE = new DefaultObjectMapperFactory();
@@ -35,23 +35,23 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
         return INSTANCE;
     }
 
-    private final LoadingCache<Class<?>, ObjectMapper<?>> mapperCache = CacheBuilder.newBuilder()
+    private final LoadingCache<Class<?>, ObjectMapperImpl<?>> mapperCache = CacheBuilder.newBuilder()
             .weakKeys()
             .maximumSize(500)
-            .build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+            .build(new CacheLoader<Class<?>, ObjectMapperImpl<?>>() {
                 @Override
-                public ObjectMapper<?> load(Class<?> key) throws Exception {
-                    return new ObjectMapper<>(key);
+                public ObjectMapperImpl<?> load(Class<?> key) throws Exception {
+                    return new ObjectMapperImpl<>(key);
                 }
             });
 
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
+    public <T> ObjectMapperImpl<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
         Preconditions.checkNotNull(type, "type");
         try {
-            return (ObjectMapper<T>) mapperCache.get(type);
+            return (ObjectMapperImpl<T>) mapperCache.get(type);
         } catch (ExecutionException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();

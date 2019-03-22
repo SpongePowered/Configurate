@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Created by zml on 7/5/15.
  */
-public class GuiceObjectMapperTest {
+public class GuiceObjectMapperImplTest {
 
     private static class TestModule extends AbstractModule {
         @Override

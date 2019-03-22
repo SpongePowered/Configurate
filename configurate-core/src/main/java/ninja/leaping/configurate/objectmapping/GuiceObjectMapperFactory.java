@@ -28,17 +28,17 @@ import javax.inject.Singleton;
 import java.util.concurrent.ExecutionException;
 
 /**
- * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided.
+ * A factory for {@link ObjectMapperImpl}s that will inherit the injector from wherever it is provided.
  *
  * <p>This class is intended to be constructed through Guice dependency injection.</p>
  */
 @Singleton
 public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
-    private final LoadingCache<Class<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
+    private final LoadingCache<Class<?>, ObjectMapperImpl<?>> cache = CacheBuilder.newBuilder()
             .weakKeys().maximumSize(512)
-            .build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+            .build(new CacheLoader<Class<?>, ObjectMapperImpl<?>>() {
                 @Override
-                public ObjectMapper<?> load(Class<?> key) throws Exception {
+                public ObjectMapperImpl<?> load(Class<?> key) throws Exception {
                     return new GuiceObjectMapper<>(injector, key);
                 }
             });
@@ -53,10 +53,10 @@ public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
+    public <T> ObjectMapperImpl<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
         Preconditions.checkNotNull(type, "type");
         try {
-            return (ObjectMapper<T>) cache.get(type);
+            return (ObjectMapperImpl<T>) cache.get(type);
         } catch (ExecutionException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();

@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  *
  * <p>Instances of this object should be reached using a {@link GuiceObjectMapperFactory}.</p>
  */
-class GuiceObjectMapper<T> extends ObjectMapper<T> {
+class GuiceObjectMapper<T> extends ObjectMapperImpl<T> {
     private final Injector injector;
     private final Key<T> typeKey;
 
