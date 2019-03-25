@@ -170,15 +170,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     private static Number truncateLong(long value) {
-        if ((value | Byte.MAX_VALUE) == Byte.MAX_VALUE) {
-            return (byte)value;
-        }
-
-        if ((value | Short.MAX_VALUE) == Short.MAX_VALUE) {
-            return (short)value;
-        }
-
-        if ((value | Integer.MAX_VALUE) == Integer.MAX_VALUE) {
+        if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE) {
             return (int)value;
         }
 

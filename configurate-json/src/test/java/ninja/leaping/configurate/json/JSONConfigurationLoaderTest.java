@@ -91,6 +91,13 @@ public class JSONConfigurationLoaderTest {
 
     @Test
     public void testRoundtripShort(@TempDirectory.TempDir Path tempDir) throws IOException {
-        testRoundtripValue(tempDir, TEST_SHORT_VAL);
+        final Path tempFile = tempDir.resolve("text2.txt");
+        ConfigurationLoader<ConfigurationNode> loader = JSONConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode start = loader.createEmptyNode();
+        start.getNode("value").setValue(TEST_SHORT_VAL);
+        loader.save(start);
+
+        ConfigurationNode ret = loader.load();
+        assertEquals((int)TEST_SHORT_VAL, ret.getNode("value").getValue());
     }
 }

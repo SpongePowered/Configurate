@@ -143,8 +143,8 @@ public class GsonConfigurationLoaderTest {
         loader.save(start);
 
         ConfigurationNode ret = loader.load();
-        assertEquals(btval, ret.getNode("byte").getValue());
-        assertEquals(shval, ret.getNode("short").getValue());
+        assertEquals((int)btval, ret.getNode("byte").getValue());
+        assertEquals((int)shval, ret.getNode("short").getValue());
         assertEquals(ival, ret.getNode("int").getValue());
         assertEquals(lval, ret.getNode("long").getValue());
         assertEquals(fval, (double)ret.getNode("float").getValue(), 0.05);
