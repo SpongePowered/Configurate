@@ -180,14 +180,8 @@ public final class Types {
 
         if (value instanceof Integer) {
             return (Integer) value;
-        }
-
-        if (value instanceof Float
-            || value instanceof Double) {
-            double val = ((Number) value).doubleValue();
-            if (val == Math.floor(val)) {
-                return (int) val;
-            }
+        } else if (value instanceof Number) {
+            return ((Number) value).intValue();
         }
 
         try {

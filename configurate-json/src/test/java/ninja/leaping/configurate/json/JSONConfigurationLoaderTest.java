@@ -66,6 +66,7 @@ public class JSONConfigurationLoaderTest {
 
     private static final long TEST_LONG_VAL = 584895858588588888l;
     private static final double TEST_DOUBLE_VAL = 595859682984428959583045732020572045273498409257349587.85485884287387d;
+    private static final short TEST_SHORT_VAL = 23455;
 
     private void testRoundtripValue(Path tempDir, Object value) throws IOException {
         final Path tempFile = tempDir.resolve("text2.txt");
@@ -86,5 +87,10 @@ public class JSONConfigurationLoaderTest {
     @Test
     public void testRoundtripDouble(@TempDirectory.TempDir Path tempDir) throws IOException {
         testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
+    }
+
+    @Test
+    public void testRoundtripShort(@TempDirectory.TempDir Path tempDir) throws IOException {
+        testRoundtripValue(tempDir, TEST_SHORT_VAL);
     }
 }

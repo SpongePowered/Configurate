@@ -169,11 +169,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                 break;
             case VALUE_NUMBER_INT:
                 long longVal = parser.getLongValue();
-                if ((int)longVal != longVal) {
-                    node.setValue(parser.getLongValue());
-                } else {
-                    node.setValue(parser.getIntValue());
-                }
+                node.setValue(truncateLong(longVal));
                 break;
             case VALUE_STRING:
                 node.setValue(parser.getText());
@@ -188,6 +184,22 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
             default:
                 throw new IOException("Unsupported token type: " + token + " (at " + parser.getTokenLocation() + ")");
         }
+    }
+
+    private static Number truncateLong(long value) {
+        if ((value | Byte.MAX_VALUE) == Byte.MAX_VALUE) {
+            return (byte)value;
+        }
+
+        if ((value | Short.MAX_VALUE) == Short.MAX_VALUE) {
+            return (short)value;
+        }
+
+        if ((value | Integer.MAX_VALUE) == Integer.MAX_VALUE) {
+            return (int)value;
+        }
+
+        return value;
     }
 
     private static void parseArray(JsonParser parser, ConfigurationNode node) throws IOException {
@@ -230,7 +242,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     @Override
     public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
-                Long.class, Integer.class, Boolean.class, String.class, byte[].class));
+                Long.class, Integer.class, Boolean.class, String.class, Short.class, byte[].class));
         return SimpleCommentedConfigurationNode.root(options);
     }
 
@@ -249,6 +261,8 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
                 generator.writeNumber((Long) value);
             } else if (value instanceof Integer) {
                 generator.writeNumber((Integer) value);
+            } else if (value instanceof Short) {
+                generator.writeNumber((Short) value);
             } else if (value instanceof Boolean) {
                 generator.writeBoolean((Boolean) value);
             } else if (value instanceof byte[]) {
