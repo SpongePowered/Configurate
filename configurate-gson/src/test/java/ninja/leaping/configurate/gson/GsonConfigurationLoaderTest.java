@@ -115,4 +115,41 @@ public class GsonConfigurationLoaderTest {
         System.out.println(ret.getNode("long-num").getValue().getClass());
         assertEquals(Long.MAX_VALUE, ret.getNode("long-num").getValue());
     }
+
+    @Test
+    public void testPrimitiveTypes(@TempDirectory.TempDir Path tempDir) throws IOException {
+        final Path tempFile = tempDir.resolve("text6.txt");
+        ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode start = loader.createEmptyNode();
+
+        byte btval = 56;
+        short shval = 1552;
+        int ival = 452252;
+        long lval = 584895858588588888L;
+        float fval = 432.2234F;
+        double dval = 243.333333239413D;
+        boolean blval = true;
+        String stval = "Sphinx of black quartz, judge my vow";
+
+        start.getNode("byte").setValue(btval);
+        start.getNode("short").setValue(shval);
+        start.getNode("int").setValue(ival);
+        start.getNode("long").setValue(lval);
+        start.getNode("float").setValue(fval);
+        start.getNode("double").setValue(dval);
+        start.getNode("boolean").setValue(blval);
+        start.getNode("string").setValue(stval);
+
+        loader.save(start);
+
+        ConfigurationNode ret = loader.load();
+        assertEquals(btval, ret.getNode("byte").getValue());
+        assertEquals(shval, ret.getNode("short").getValue());
+        assertEquals(ival, ret.getNode("int").getValue());
+        assertEquals(lval, ret.getNode("long").getValue());
+        assertEquals(fval, (double)ret.getNode("float").getValue(), 0.05);
+        assertEquals(dval, ret.getNode("double").getValue());
+        assertEquals(blval, ret.getNode("boolean").getValue());
+        assertEquals(stval, ret.getNode("string").getValue());
+    }
 }

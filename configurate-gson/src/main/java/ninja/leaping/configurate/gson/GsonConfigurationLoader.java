@@ -144,11 +144,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                 break;
             case NUMBER:
                 String numString = parser.nextString();
-                try {
-                    node.setValue(Long.valueOf(numString));
-                } catch (NumberFormatException unused) {
-                    node.setValue(Double.valueOf(numString));
-                }
+                node.setValue(parseNumber(numString));
                 break;
             case STRING:
                 node.setValue(parser.nextString());
@@ -162,6 +158,31 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             default:
                 throw new IOException("Unsupported token type: " + token);
         }
+    }
+
+    private static Number parseNumber(String value) {
+        try {
+            long l = Long.parseLong(value);
+            return truncateLong(l);
+        } catch (NumberFormatException ex) {
+            return Double.valueOf(value);
+        }
+    }
+
+    private static Number truncateLong(long value) {
+        if ((value | Byte.MAX_VALUE) == Byte.MAX_VALUE) {
+            return (byte)value;
+        }
+
+        if ((value | Short.MAX_VALUE) == Short.MAX_VALUE) {
+            return (short)value;
+        }
+
+        if ((value | Integer.MAX_VALUE) == Integer.MAX_VALUE) {
+            return (int)value;
+        }
+
+        return value;
     }
 
     private void parseArray(JsonReader parser, ConfigurationNode node) throws IOException {
@@ -231,13 +252,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
             generator.endObject();
         } else {
             Object value = node.getValue();
-            if (value instanceof Double) {
-                generator.value((double) value);
-            } else if (value instanceof Float) {
-                generator.value((float) value);
-            } else if (value instanceof Long) {
-                generator.value((long) value);
-            } else if (value instanceof Number) {
+            if (value instanceof Number) {
                 generator.value((Number) value);
             } else if (value instanceof Boolean) {
                 generator.value((boolean) value);
