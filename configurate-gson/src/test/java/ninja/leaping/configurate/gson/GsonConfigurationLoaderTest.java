@@ -105,7 +105,6 @@ public class GsonConfigurationLoaderTest {
     private static final long TEST_LONG_VAL = 584895858588588888l;
 
     @Test
-    @Disabled("Gson currently makes it rather difficult to get the correct number type")
     public void testRoundtrippingLong(@TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
         ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();

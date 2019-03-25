@@ -143,15 +143,11 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                 parseArray(parser, node);
                 break;
             case NUMBER:
-                double nextDouble = parser.nextDouble();
-                int nextInt = (int) nextDouble;
-                long nextLong = (long) nextDouble;
-                if (nextInt == nextDouble) {
-                    node.setValue(nextInt); // They don't do much for us here in Gsonland
-                } else if (nextLong == nextDouble) {
-                    node.setValue(nextLong);
-                } else {
-                    node.setValue(nextDouble);
+                String numString = parser.nextString();
+                try {
+                    node.setValue(Long.valueOf(numString));
+                } catch (NumberFormatException unused) {
+                    node.setValue(Double.valueOf(numString));
                 }
                 break;
             case STRING:
@@ -220,8 +216,8 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
     @NonNull
     @Override
     public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
-                Long.class, Integer.class, Boolean.class, String.class));
+        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Boolean.class,
+                String.class, Number.class));
         return SimpleConfigurationNode.root(options);
     }
 
@@ -236,15 +232,15 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         } else {
             Object value = node.getValue();
             if (value instanceof Double) {
-                generator.value((Double) value);
+                generator.value((double) value);
             } else if (value instanceof Float) {
-                generator.value((Float) value);
+                generator.value((float) value);
             } else if (value instanceof Long) {
-                generator.value((Long) value);
-            } else if (value instanceof Integer) {
-                generator.value((Integer) value);
+                generator.value((long) value);
+            } else if (value instanceof Number) {
+                generator.value((Number) value);
             } else if (value instanceof Boolean) {
-                generator.value((Boolean) value);
+                generator.value((boolean) value);
             } else {
                 generator.value(value.toString());
             }
