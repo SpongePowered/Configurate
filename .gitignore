@@ -1,16 +1,22 @@
 /.gradle/
 /configurate-core/build/
 /configurate-core/out/
+/configurate-core/bin/
 /configurate-gson/build/
 /configurate-gson/out/
+/configurate-gson/bin/
 /configurate-hocon/build/
 /configurate-hocon/out/
+/configurate-hocon/bin/
 /configurate-json/build/
 /configurate-json/out/
+/configurate-json/bin/
 /configurate-yaml/build/
 /configurate-yaml/out/
+/configurate-yaml/bin/
 /configurate-xml/build/
 /configurate-xml/out/
+/configurate-xml/bin/
 
 target/
 # IntelliJ project data
@@ -18,6 +24,9 @@ target/
 *.iml
 *.ipr
 idea/
+
+# eclipse stuff
+*.project
 
 # Mac stuff
 .DS_Store
