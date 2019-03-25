@@ -102,19 +102,17 @@ public class GsonConfigurationLoaderTest {
         assertFalse(node.hasMapChildren());
     }
 
-    private static final long TEST_LONG_VAL = 584895858588588888l;
-
     @Test
-    public void testRoundtrippingLong(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testHugeLong(@TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
         ConfigurationLoader<ConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
         ConfigurationNode start = loader.createEmptyNode();
-        start.getNode("long-num").setValue(TEST_LONG_VAL);
+        start.getNode("long-num").setValue(Long.MAX_VALUE);
         loader.save(start);
         System.out.println(Files.readAllLines(tempFile));
 
         ConfigurationNode ret = loader.load();
         System.out.println(ret.getNode("long-num").getValue().getClass());
-        assertEquals(TEST_LONG_VAL, ret.getNode("long-num").getValue());
+        assertEquals(Long.MAX_VALUE, ret.getNode("long-num").getValue());
     }
 }
