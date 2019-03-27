@@ -20,8 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 
 import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
@@ -31,12 +30,81 @@ import java.util.function.Predicate;
  * A calculated collection of {@link TypeSerializer}s
  */
 public class TypeSerializerCollection {
+    /**
+     * Indicates that, when {@link TypeSerializer}s are scanned for a type
+     * match, the first serializer that was added to the collection will
+     * be selected.
+     *
+     * <p>This is the default strategy, and prevents serializers from being
+     * overriden without the use of {@link #newChild()}.</p>
+     */
+    public static final AdditionStrategy FIRST_WINS =
+            (registeredSerializer, serializerList) -> serializerList.add(registeredSerializer);
+
+    /**
+     * Indicates that, when {@link TypeSerializer}s are scanned for a type
+     * match, the last serializer that was added to the collection will
+     * be selected.
+     *
+     * <p>This allows for any serializer to be overriden.</p>
+     */
+    public static final AdditionStrategy LAST_WINS =
+            (registeredSerializer, serializerList) -> serializerList.add(0, registeredSerializer);
+
+    /**
+     * A strategy that:
+     * <ul>
+     *     <li>places any serializers that have predicate conditions at the end
+     *     of the collection, and</li>
+     *     <li>attempts to place serializers that have {@link TypeToken} based
+     *     conditions at an appropriate point in the collection such that a
+     *     serializer that works on a subtype of another serializer will be
+     *     given priority.</li>
+     * </ul>
+     *
+     * <p>The default behaviour is the same as {@link #FIRST_WINS}</p>
+     */
+    public static final AdditionStrategy DEPENDENCY_ORDER_OR_FIRST_WINS =
+            (registeredSerializer, serializerList) -> {
+                if (registeredSerializer.predicate instanceof SuperTypePredicate) {
+                    // We can get information out of this
+                    TypeToken<?> token = ((SuperTypePredicate) registeredSerializer.predicate).type;
+                    ListIterator<RegisteredSerializer> serializerIterator = serializerList.listIterator();
+                    while (serializerIterator.hasNext()) {
+                        RegisteredSerializer serializer = serializerIterator.next();
+                        boolean willSerialize = serializer.predicate.test(token);
+                        if (willSerialize) {
+                            // Now, check to see if it's the same type (if we can), if it is,
+                            // we don't override, else we do.
+                            if (serializer.predicate instanceof SuperTypePredicate) {
+                                if (((SuperTypePredicate) serializer.predicate).type.equals(token)) {
+                                    continue;
+                                }
+                            }
+
+                            // This needs to act before
+                            int indexToInsertAt = serializerIterator.previousIndex();
+                            serializerList.add(indexToInsertAt, registeredSerializer);
+                            return;
+                        }
+                    }
+                }
+
+                FIRST_WINS.addSerializer(registeredSerializer, serializerList);
+            };
+
     private final TypeSerializerCollection parent;
+    private final AdditionStrategy strategy;
     private final SerializerList serializers = new SerializerList();
     private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
     TypeSerializerCollection(TypeSerializerCollection parent) {
+        this(parent, FIRST_WINS);
+    }
+
+    TypeSerializerCollection(TypeSerializerCollection parent, AdditionStrategy strategy) {
         this.parent = parent;
+        this.strategy = strategy;
     }
 
     @SuppressWarnings("unchecked")
@@ -64,7 +132,7 @@ public class TypeSerializerCollection {
     public <T> TypeSerializerCollection registerType(TypeToken<T> type, TypeSerializer<? super T> serializer) {
         Preconditions.checkNotNull(type, "type");
         Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(new RegisteredSerializer(type, serializer));
+        this.strategy.addSerializer(new RegisteredSerializer(type, serializer), this.serializers);
         typeMatches.clear();
         return this;
     }
@@ -81,13 +149,59 @@ public class TypeSerializerCollection {
     public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
         Preconditions.checkNotNull(test, "test");
         Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(new RegisteredSerializer((Predicate) test, serializer));
+        this.strategy.addSerializer(new RegisteredSerializer((Predicate) test, serializer), this.serializers);
         typeMatches.clear();
         return this;
     }
 
+    /**
+     * Creates a new {@link TypeSerializerCollection} that uses the current
+     * collection as a parent, and uses the {@link #FIRST_WINS} strategy
+     * when adding new serializers.
+     *
+     * <p>Any {@link TypeSerializer}s that are added to the returned child
+     * will take precedence over any serializer registered in this parent
+     * collection.</p>
+     *
+     * <p>See also {@link #newChild(AdditionStrategy)}.</p>
+     *
+     * @return A new {@link TypeSerializerCollection} that uses this
+     *      {@link TypeSerializerCollection} as its parent.
+     */
     public TypeSerializerCollection newChild() {
         return new TypeSerializerCollection(this);
+    }
+
+    /**
+     * Creates a new {@link TypeSerializerCollection} that uses the current
+     * collection as a parent.
+     *
+     * <p>Any {@link TypeSerializer}s that are added to the returned child
+     * will take precedence over any serializer registered in this parent
+     * collection.</p>
+     *
+     * @param strategy The {@link AdditionStrategy} to use when adding
+     *                 new {@link TypeSerializer}s to this collection.
+     * @return A new {@link TypeSerializerCollection} that uses this
+     *      {@link TypeSerializerCollection} as its parent.
+     */
+    public TypeSerializerCollection newChild(AdditionStrategy strategy) {
+        return new TypeSerializerCollection(this, strategy);
+    }
+
+    /**
+     * Provides logic that enables a user to select how newly registered
+     * {@link TypeSerializer}s are registered. This influences which
+     * serializer takes precedence if more than one matches.
+     *
+     * <p>Note that this cannot be implemented outside of the
+     * {@link TypeSerializerCollection} class due to the use of private classes.
+     * </p>
+     */
+    @FunctionalInterface
+    public interface AdditionStrategy {
+
+        void addSerializer(RegisteredSerializer serializer, List<RegisteredSerializer> list);
     }
 
     private static final class RegisteredSerializer {

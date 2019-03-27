@@ -25,6 +25,8 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -45,6 +47,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TypeSerializersTest {
 
+    private static final TypeToken<CustomNumber> CUSTOM_NUMBER_TYPE_TOKEN = TypeToken.of(CustomNumber.class);
+    private static final TypeToken<Number> NUMBER_TYPE_TOKEN = TypeToken.of(Number.class);
     private static final TypeSerializerCollection SERIALIZERS = TypeSerializers.getDefaultSerializers();
 
     @Test
@@ -327,6 +331,40 @@ public class TypeSerializersTest {
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());
     }
 
+    @Test
+    public void testFirstWins() throws ObjectMappingException {
+        TypeSerializerCollection child = SERIALIZERS.newChild(TypeSerializerCollection.FIRST_WINS);
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(1));
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(2));
+        assertEquals(1, child.get(NUMBER_TYPE_TOKEN).deserialize(NUMBER_TYPE_TOKEN, SimpleConfigurationNode.root()));
+    }
+
+    @Test
+    public void testLastWins() throws ObjectMappingException {
+        TypeSerializerCollection child = SERIALIZERS.newChild(TypeSerializerCollection.LAST_WINS);
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(1));
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(2));
+        assertEquals(2, child.get(NUMBER_TYPE_TOKEN).deserialize(NUMBER_TYPE_TOKEN, SimpleConfigurationNode.root()));
+    }
+
+    @Test
+    public void testSimpleDependency() throws ObjectMappingException {
+        TypeSerializerCollection child = SERIALIZERS.newChild(TypeSerializerCollection.DEPENDENCY_ORDER_OR_FIRST_WINS);
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(1));
+        child.registerType(CUSTOM_NUMBER_TYPE_TOKEN, new DummyCustomNumberSerializer());
+        assertEquals(1, child.get(NUMBER_TYPE_TOKEN).deserialize(NUMBER_TYPE_TOKEN, SimpleConfigurationNode.root()));
+        assertEquals(0,
+                child.get(CUSTOM_NUMBER_TYPE_TOKEN).deserialize(CUSTOM_NUMBER_TYPE_TOKEN, SimpleConfigurationNode.root()).intValue());
+    }
+
+    @Test
+    public void testDependencyOrderFirstWinsIfSame() throws ObjectMappingException {
+        TypeSerializerCollection child = SERIALIZERS.newChild(TypeSerializerCollection.DEPENDENCY_ORDER_OR_FIRST_WINS);
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(1));
+        child.registerType(NUMBER_TYPE_TOKEN, new DummyNumberSerializer(2));
+        assertEquals(1, child.get(NUMBER_TYPE_TOKEN).deserialize(NUMBER_TYPE_TOKEN, SimpleConfigurationNode.root()));
+    }
+
     private static class CustomNumber extends Number {
 
         @Override
@@ -347,6 +385,40 @@ public class TypeSerializersTest {
         @Override
         public double doubleValue() {
             return 0;
+        }
+    }
+
+    private static class DummyNumberSerializer implements TypeSerializer<Number> {
+
+        private final int returnedNumber;
+
+        private DummyNumberSerializer(int returnedNumber) {
+            this.returnedNumber = returnedNumber;
+        }
+
+        @Nullable
+        @Override
+        public Number deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
+            return this.returnedNumber;
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
+
+        }
+    }
+
+    private static class DummyCustomNumberSerializer implements TypeSerializer<CustomNumber> {
+
+        @Nullable
+        @Override
+        public CustomNumber deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value) throws ObjectMappingException {
+            return new CustomNumber();
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable CustomNumber obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
+
         }
     }
 }
