@@ -26,7 +26,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -40,7 +40,7 @@ import java.util.Map;
 public class ObjectMapper<T> {
     private final Class<T> clazz;
     private final Constructor<T> constructor;
-    private final Map<String, FieldData> cachedFields = new HashMap<>();
+    private final Map<String, FieldData> cachedFields = new LinkedHashMap<>();
 
 
     /**
