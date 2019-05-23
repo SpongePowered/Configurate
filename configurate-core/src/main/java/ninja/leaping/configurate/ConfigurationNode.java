@@ -131,7 +131,7 @@ public interface ConfigurationNode {
     /**
      * Gets the node if it is not virtual
      *
-     * @return the ConfigurationNode if it is not virtual
+     * @param consumer to execute if the ConfigurationNode is not virtual
      */
     default void ifExists(Consumer<ConfigurationNode> action) {
         if(!isVirtual()) {
