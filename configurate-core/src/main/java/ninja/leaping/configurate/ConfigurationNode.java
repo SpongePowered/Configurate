@@ -27,6 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -126,6 +127,17 @@ public interface ConfigurationNode {
      * @return true if this node is virtual
      */
     boolean isVirtual();
+
+    /**
+     * Gets the node if it is not virtual
+     *
+     * @return the ConfigurationNode if it is not virtual
+     */
+    default void ifExists(Consumer<ConfigurationNode> action) {
+        if(!isVirtual()) {
+            action.accept(this);
+        }
+    }
 
     /**
      * Gets the options that currently apply to this node
