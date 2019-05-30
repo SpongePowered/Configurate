@@ -64,7 +64,7 @@ public class TypeSerializerCollection {
     public <T> TypeSerializerCollection registerType(TypeToken<T> type, TypeSerializer<? super T> serializer) {
         Preconditions.checkNotNull(type, "type");
         Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(0, new RegisteredSerializer(type, serializer));
+        serializers.add(new RegisteredSerializer(type, serializer));
         typeMatches.clear();
         return this;
     }
@@ -81,7 +81,7 @@ public class TypeSerializerCollection {
     public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
         Preconditions.checkNotNull(test, "test");
         Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(0, new RegisteredSerializer((Predicate) test, serializer));
+        serializers.add(new RegisteredSerializer((Predicate) test, serializer));
         typeMatches.clear();
         return this;
     }
