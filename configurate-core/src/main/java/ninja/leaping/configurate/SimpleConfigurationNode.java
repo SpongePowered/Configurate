@@ -343,8 +343,14 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
                 // merge values from 'other'
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : other.getChildrenMap().entrySet()) {
+                    SimpleConfigurationNode currentChild = newValue.getChild(ent.getKey());
+                    // Never allow null values to overwrite non-null values
+                    if ((currentChild != null && currentChild.getValue() != null) && ent.getValue().getValue() == null) {
+                        continue;
+                    }
+
                     // create a new child node for the value
-                    SimpleConfigurationNode newChild = createNode(ent.getKey());
+                    SimpleConfigurationNode newChild = this.createNode(ent.getKey());
                     newChild.attached = true;
                     newChild.setValue(ent.getValue());
                     // replace the existing value, if absent
