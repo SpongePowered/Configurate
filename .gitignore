@@ -5,8 +5,8 @@
 /configurate-gson/out/
 /configurate-hocon/build/
 /configurate-hocon/out/
-/configurate-json/build/
-/configurate-json/out/
+/configurate-jackson/build/
+/configurate-jackson/out/
 /configurate-yaml/build/
 /configurate-yaml/out/
 /configurate-xml/build/
