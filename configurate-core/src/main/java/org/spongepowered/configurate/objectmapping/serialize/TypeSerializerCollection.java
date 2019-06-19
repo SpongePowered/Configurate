@@ -20,11 +20,15 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 
-import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import static java.util.Objects.requireNonNull;
 
@@ -32,6 +36,24 @@ import static java.util.Objects.requireNonNull;
  * A calculated collection of {@link TypeSerializer}s
  */
 public class TypeSerializerCollection {
+    private static final TypeSerializerCollection DEFAULTS;
+
+    static {
+        DEFAULTS = TypeSerializerCollection.builder()
+                .register(TypeToken.of(URI.class), new URISerializer())
+                .register(TypeToken.of(URL.class), new URLSerializer())
+                .register(TypeToken.of(UUID.class), new UUIDSerializer())
+                .register(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer())
+                .register(NumberSerializer.getPredicate(), new NumberSerializer())
+                .register(TypeToken.of(String.class), new StringSerializer())
+                .register(TypeToken.of(Boolean.class), new BooleanSerializer())
+                .register(new TypeToken<Map<?, ?>>() {}, new MapSerializer())
+                .register(new TypeToken<List<?>>() {}, new ListSerializer())
+                .register(new TypeToken<Enum<?>>() {}, new EnumValueSerializer())
+                .register(TypeToken.of(Pattern.class), new PatternSerializer())
+                .build();
+    }
+
     private final TypeSerializerCollection parent;
     private final List<RegisteredSerializer> serializers;
     private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
@@ -85,10 +107,19 @@ public class TypeSerializerCollection {
      * If <em>any</em> of the standard serializers provided by Configurate are desired,
      * either the default collection or a collection inheriting from the default collection should be applied.
      *
-     * @return
+     * @return The builder
      */
     public static Builder builder() {
         return new Builder(null);
+    }
+
+    /**
+     * Get a collection containing all of Configurate's built-in type serializers.
+     *
+     * @return The collection
+     */
+    public static TypeSerializerCollection defaults() {
+        return DEFAULTS;
     }
 
     public static class Builder {
@@ -111,7 +142,7 @@ public class TypeSerializerCollection {
         public <T> Builder register(TypeToken<T> type, TypeSerializer<? super T> serializer) {
             Preconditions.checkNotNull(type, "type");
             Preconditions.checkNotNull(serializer, "serializer");
-            serializers.add(new RegisteredSerializer(type, serializer));
+            serializers.add(new RegisteredSerializer(new SuperTypePredicate(type), serializer));
             return this;
         }
 
@@ -148,49 +179,6 @@ public class TypeSerializerCollection {
         private RegisteredSerializer(Predicate<TypeToken<?>> predicate, TypeSerializer<?> serializer) {
             this.predicate = predicate;
             this.serializer = serializer;
-        }
-
-        private RegisteredSerializer(TypeToken<?> type, TypeSerializer<?> serializer) {
-            this(new SuperTypePredicate(type), serializer);
-        }
-    }
-
-    /**
-     * Effectively a predicate which is <code>type::isSupertypeOf</code>.
-     *
-     * <p>The isSupertypeOf method was only added in Guava 19.0, and was previously named
-     * isAssignableFrom.</p>
-     */
-    private static final class SuperTypePredicate implements Predicate<TypeToken<?>> {
-        private static final Method SUPERTYPE_TEST;
-        static {
-            Method supertypeTest;
-            try {
-                supertypeTest = TypeToken.class.getMethod("isSupertypeOf", TypeToken.class);
-            } catch (NoSuchMethodException e1) {
-                try {
-                    supertypeTest = TypeToken.class.getMethod("isAssignableFrom", TypeToken.class);
-                } catch (NoSuchMethodException e2) {
-                    throw new RuntimeException("Unable to get TypeToken#isSupertypeOf or TypeToken#isAssignableFrom method");
-                }
-            }
-            SUPERTYPE_TEST = supertypeTest;
-        }
-
-        private final TypeToken<?> type;
-
-        SuperTypePredicate(TypeToken<?> type) {
-            this.type = type;
-        }
-
-        @Override
-        public boolean test(TypeToken<?> t) {
-            try {
-                return (boolean) SUPERTYPE_TEST.invoke(type, t);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
         }
     }
 }

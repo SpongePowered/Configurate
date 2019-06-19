@@ -25,7 +25,6 @@ import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory;
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
 
@@ -65,7 +64,7 @@ public class ConfigurationOptions {
     @NonNull
     public static ConfigurationOptions defaults() {
         return new ConfigurationOptions(MapFactories.insertionOrdered(), null,
-                TypeSerializers.getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance(), false);
+                TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
     }
 
     /**

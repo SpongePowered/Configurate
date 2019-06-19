@@ -24,7 +24,6 @@ import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TypeSerializersTest {
 
-    private static final TypeSerializerCollection SERIALIZERS = TypeSerializers.getDefaultSerializers();
+    private static final TypeSerializerCollection SERIALIZERS = TypeSerializerCollection.defaults();
 
     @Test
     public void testStringSerializer() throws ObjectMappingException {
