@@ -18,6 +18,13 @@ package ninja.leaping.configurate;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.temporal.TemporalAccessor;
+
 /**
  * Contains functions useful for performing configuration type conversions.
  *
@@ -183,7 +190,7 @@ public final class Types {
         }
 
         if (value instanceof Float
-            || value instanceof Double) {
+                || value instanceof Double) {
             double val = ((Number) value).doubleValue();
             if (val == Math.floor(val)) {
                 return (int) val;
@@ -332,4 +339,187 @@ public final class Types {
 
         return value instanceof Boolean ? (Boolean) value : null;
     }
+
+    /**
+     * Attempts to convert {@code value} to a {@link LocalDateTime}.
+     * <ul>
+     *     <li>If {@code value} is a {@link LocalTime}, casts and returns
+     *     </li>
+     *     <li>If {@code value} is a {@link LocalDateTime}, returns the
+     *     time component</li>
+     *     <li>If {@code value} is a {@link TemporalAccessor}, attempts to
+     *     construct a {@link LocalTime} from it</li>
+     *     <li>Otherwise, attempts to parse {@code value} using
+     *     {@link LocalTime#parse(CharSequence)}</li>
+     * </ul>
+     *
+     * @param value The value
+     * @return {@code value} as a {@link LocalTime}, or null
+     */
+    @Nullable
+    public static LocalTime asLocalTime(@Nullable Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof LocalTime) {
+            return (LocalTime) value;
+        }
+        if (value instanceof LocalDateTime) {
+            return ((LocalDateTime) value).toLocalTime();
+        }
+        try {
+            if (value instanceof TemporalAccessor) {
+                return LocalTime.from((TemporalAccessor) value);
+            }
+            return LocalTime.parse(value.toString());
+        } catch (DateTimeException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns {@code value} if it is a {@link LocalTime}.
+     *
+     * @param value The value
+     * @return {@code value} as a {@link LocalTime}, or null
+     */
+    @Nullable
+    public static LocalTime strictAsLocalTime(@Nullable Object value) {
+        return value instanceof LocalTime ? (LocalTime) value : null;
+    }
+
+    /**
+     * Attempts to convert {@code value} to a {@link LocalDate}.
+     * <ul>
+     *     <li>If {@code value} is a {@link LocalDate}, casts and returns
+     *     </li>
+     *     <li>If {@code value} is a {@link LocalDateTime}, returns the
+     *     date component</li>
+     *     <li>If {@code value} is a {@link TemporalAccessor}, attempts to
+     *     construct a {@link LocalDate} from it</li>
+     *     <li>Otherwise, attempts to parse {@code value} using
+     *     {@link LocalDate#parse(CharSequence)}</li>
+     * </ul>
+     *
+     * @param value The value
+     * @return {@code value} as a {@link LocalTime}, or null
+     */
+    @Nullable
+    public static LocalDate asLocalDate(@Nullable Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof LocalDate) {
+            return (LocalDate) value;
+        }
+        if (value instanceof LocalDateTime) {
+            return ((LocalDateTime) value).toLocalDate();
+        }
+        try {
+            if (value instanceof TemporalAccessor) {
+                return LocalDate.from((TemporalAccessor) value);
+            }
+            return LocalDate.parse(value.toString());
+        } catch (DateTimeException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns {@code value} if it is a {@link LocalDate}.
+     *
+     * @param value The value
+     * @return {@code value} as a {@link LocalDate}, or null
+     */
+    @Nullable
+    public static LocalDate strictAsLocalDate(@Nullable Object value) {
+        return value instanceof LocalDate ? (LocalDate) value : null;
+    }
+
+    /**
+     * Attempts to convert {@code value} to a {@link LocalDateTime}.
+     * <ul>
+     *     <li>If {@code value} is a {@link LocalDateTime}, casts and
+     *     returns</li>
+     *     <li>If {@code value} is a {@link TemporalAccessor}, attempts
+     *     to construct a {@link LocalDateTime} from it</li>
+     *     <li>Otherwise, attempts to parse {@code value} using
+     *     {@link LocalDateTime#parse(CharSequence)}</li>
+     * </ul>
+     *
+     * @param value The value
+     * @return {@code value} as a {@link LocalTime}, or null
+     */
+    @Nullable
+    public static LocalDateTime asLocalDateTime(@Nullable Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof LocalDateTime) {
+            return (LocalDateTime) value;
+        }
+        try {
+            if (value instanceof TemporalAccessor) {
+                return LocalDateTime.from((TemporalAccessor) value);
+            }
+            return LocalDateTime.parse(value.toString());
+        } catch (DateTimeException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns {@code value} if it is a {@link LocalDateTime}.
+     *
+     * @param value The value
+     * @return {@code value} as a {@link LocalDateTime}, or null
+     */
+    @Nullable
+    public static LocalDateTime strictAsLocalDateTime(@Nullable Object value) {
+        return value instanceof LocalDateTime ? (LocalDateTime) value : null;
+    }
+
+    /**
+     * Attempts to convert {@code value} to a {@link OffsetDateTime}.
+     * <ul>
+     *     <li>If {@code value} is a {@link OffsetDateTime}, casts and
+     *     returns</li>
+     *     <li>If {@code value} is a {@link TemporalAccessor}, attempts to
+     *     construct an {@link OffsetDateTime} from it and returns</li>
+     *     <li>Otherwise, attempts to parse {@code value} using
+     *     {@link OffsetDateTime#parse(CharSequence)}</li>
+     * </ul>
+     * @param value The value
+     * @return {@code value} as an {@link OffsetDateTime}, or null
+     */
+    @Nullable
+    public static OffsetDateTime asOffsetDateTime(@Nullable Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof OffsetDateTime) {
+            return (OffsetDateTime) value;
+        }
+        try {
+            if (value instanceof TemporalAccessor) {
+                return OffsetDateTime.from((TemporalAccessor) value);
+            }
+            return OffsetDateTime.parse(value.toString());
+        } catch (DateTimeException ex) {
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns {@code value} if it is an {@link OffsetDateTime}.
+     *
+     * @param value The value
+     * @return {@code value} as an {@link OffsetDateTime}, or null
+     */
+    @Nullable
+    public static OffsetDateTime strictAsOffsetDateTime(@Nullable Object value) {
+        return value instanceof OffsetDateTime ? (OffsetDateTime) value : null;
+    }
+
 }

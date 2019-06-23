@@ -36,6 +36,10 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -77,6 +81,10 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.registerType(new TypeToken<List<?>>() {}, new ListSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Enum<?>>() {}, new EnumValueSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Pattern.class), new PatternSerializer());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(LocalDate.class), new LocalDateSerializer());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(LocalTime.class), new LocalTimeSerializer());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(LocalDateTime.class), new LocalDateTimeSerializer());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(OffsetDateTime.class), new OffsetDateTimeSerializer());
     }
 
     private static class StringSerializer implements TypeSerializer<String> {
@@ -394,5 +402,89 @@ public class TypeSerializers {
         public void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
             value.setValue(obj.pattern());
         }
+    }
+
+    private static class LocalDateSerializer implements TypeSerializer<LocalDate> {
+
+        @Nullable
+        @Override
+        public LocalDate deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            return Types.asLocalDate(value.getValue());
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable LocalDate obj, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            if (obj == null || value.getOptions().acceptsType(LocalDate.class)) {
+                value.setValue(obj);
+            } else {
+                value.setValue(obj.toString());
+            }
+        }
+
+    }
+
+    private static class LocalTimeSerializer implements TypeSerializer<LocalTime> {
+
+        @Nullable
+        @Override
+        public LocalTime deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            return Types.asLocalTime(value.getValue());
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable LocalTime obj, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            if (obj == null || value.getOptions().acceptsType(LocalTime.class)) {
+                value.setValue(obj);
+            } else {
+                value.setValue(obj.toString());
+            }
+        }
+
+    }
+
+    private static class LocalDateTimeSerializer implements TypeSerializer<LocalDateTime> {
+
+        @Nullable
+        @Override
+        public LocalDateTime deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            return Types.asLocalDateTime(value.getValue());
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable LocalDateTime obj, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            if (obj == null || value.getOptions().acceptsType(LocalDateTime.class)) {
+                value.setValue(obj);
+            } else {
+                value.setValue(obj.toString());
+            }
+        }
+
+    }
+
+    private static class OffsetDateTimeSerializer implements TypeSerializer<OffsetDateTime> {
+
+        @Nullable
+        @Override
+        public OffsetDateTime deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode value)
+                throws ObjectMappingException {
+            return Types.asOffsetDateTime(value.getValue());
+        }
+
+        @Override
+        public void serialize(@NonNull TypeToken<?> type, @Nullable OffsetDateTime obj,
+                              @NonNull ConfigurationNode value) throws ObjectMappingException {
+            if (obj == null || value.getOptions().acceptsType(OffsetDateTime.class)) {
+                value.setValue(obj);
+            } else {
+                value.setValue(obj.toString());
+            }
+        }
+
     }
 }

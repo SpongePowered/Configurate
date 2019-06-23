@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':configurate-core')
+    compile 'com.electronwill.night-config:toml:3.6.0'
+}
