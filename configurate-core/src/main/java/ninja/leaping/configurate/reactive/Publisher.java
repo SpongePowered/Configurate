@@ -16,22 +16,24 @@
  */
 package ninja.leaping.configurate.reactive;
 
-import java.util.function.Function;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.util.CheckedFunction;
+
+import java.util.concurrent.Executor;
 
 /**
  * Something that can publish events.
  * <p>
- * Each subscriber is responsible for removing itself from this stream, by using the Disposable
- * returned upon subscription
+ * Each subscriber is responsible for removing itself from this stream, by using the Disposable returned upon
+ * subscription
  *
  * @param <V> The type of notification received by subscribers
  */
 public interface Publisher<V> {
 
     /**
-     * Subscribe to updates from this Publisher. If this is already closed, the Subscriber will
-     * receive an error event with an IllegalStateException, and the returned {@link Disposable}
-     * will be a no-op.
+     * Subscribe to updates from this Publisher. If this is already closed, the Subscriber will receive an error event
+     * with an IllegalStateException, and the returned {@link Disposable} will be a no-op.
      *
      * @param subscriber The listener to register
      * @return A disposable that can be used to cancel this subscription
@@ -47,7 +49,45 @@ public interface Publisher<V> {
      */
     boolean hasSubscribers();
 
-    default <R> Publisher<R> map(Function<? super V, ? extends R> mapper) {
-        return new ProcessorBase.Mapped<>(mapper, this);
+    default <R> Publisher<R> map(CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
+        return new ProcessorMapped<>(mapper, this);
+    }
+
+    /**
+     * Return a publisher that will track its most recent value. The provided processor won't have a value until one is
+     * submitted to its owning publisher.
+     *
+     * @return A publisher based on this one
+     */
+    default Cached<V> cache() {
+        return cache(null);
+    }
+
+    /**
+     * A cached publisher with an initial value
+     *
+     * @param initialValue The value to
+     * @return The
+     */
+    default Cached<V> cache(@Nullable V initialValue) {
+        return new PublisherCached<>(this, initialValue);
+    }
+
+    /**
+     * Get the executor that will be used to handle published
+     *
+     * @return the executor
+     */
+    Executor getExecutor();
+
+    /**
+     * A publisher that caches the last value received
+     *
+     * @param <V> value type
+     */
+    interface Cached<V> extends Publisher<V> {
+        V get();
+
+        void submit(V value);
     }
 }

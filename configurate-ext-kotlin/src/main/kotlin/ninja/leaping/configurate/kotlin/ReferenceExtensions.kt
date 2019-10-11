@@ -14,21 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ninja.leaping.configurate.reactive;
+package ninja.leaping.configurate.kotlin
 
-import org.checkerframework.checker.interning.qual.InternedDistinct;
+import kotlinx.coroutines.flow.Flow
+import ninja.leaping.configurate.ConfigurationNode
+import ninja.leaping.configurate.reference.ConfigurationReference
+import ninja.leaping.configurate.reference.ValueReference
 
-/**
- * A Disposable that is used to indicate that the {@link Publisher} being subscribed to is no longer open.
- */
-class NoOpDisposable implements Disposable {
-    static final @InternedDistinct NoOpDisposable INSTANCE = new NoOpDisposable();
 
-    private NoOpDisposable() {
-
-    }
-    @Override
-    public void dispose() {
-
-    }
+inline fun <reified T: Any, N: ConfigurationNode> ConfigurationReference<N>.flowOf(vararg path: Any): Flow<T> {
+    return this.referenceTo<T>(typeTokenOf(), *path).asFlow()
 }
+
+inline fun <reified T: Any, N: ConfigurationNode> ConfigurationReference<N>.referenceTo(vararg path: Any):
+        ValueReference<T> {
+    return this.referenceTo(typeTokenOf(), *path)
+}
+

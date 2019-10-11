@@ -20,6 +20,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.reference.ConfigurationReference;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -117,6 +118,11 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     @NonNull
     public CommentHandler getDefaultCommentHandler() {
         return this.commentHandlers[0];
+    }
+
+    @Override
+    public ConfigurationReference<NodeType> loadToReference() throws IOException {
+        return ConfigurationReference.createFixed(this);
     }
 
     @NonNull

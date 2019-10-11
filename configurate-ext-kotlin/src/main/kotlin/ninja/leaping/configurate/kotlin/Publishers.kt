@@ -29,9 +29,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import ninja.leaping.configurate.reactive.Disposable
 import ninja.leaping.configurate.reactive.Publisher
 import ninja.leaping.configurate.reactive.Subscriber
+import ninja.leaping.configurate.reactive.TransactionFailedException
+import org.spongepowered.configurate.util.CheckedFunction
+import java.util.concurrent.Executor
 import java.util.function.Function
 
 /**
@@ -67,6 +71,9 @@ suspend fun <V : Any> Flow<V>.asPublisher(): Publisher<V> = coroutineScope {
 }
 
 private class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : Publisher<V> {
+    private val executor = Executor { task -> scope.launch { task.run() }}
+    override fun getExecutor(): Executor = this.executor
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun subscribe(subscriber: Subscriber<in V>): Disposable {
         val ret = flow
@@ -81,7 +88,7 @@ private class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : P
         return scope.coroutineContext.isActive
     }
 
-    override fun <R> map(mapper: Function<in V, out R>): Publisher<R> {
+    override fun <R> map(mapper: CheckedFunction<in V, out R, TransactionFailedException>): Publisher<R> {
         return FlowPublisher(flow.map { mapper.apply(it) }, scope)
     }
 }
