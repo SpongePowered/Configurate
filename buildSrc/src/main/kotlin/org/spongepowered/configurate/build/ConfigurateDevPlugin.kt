@@ -22,15 +22,18 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 apply(ConfiguratePublishingPlugin::class.java)
             }
 
-            tasks.withType(JavaCompile::class.java) {
+            tasks.withType(JavaCompile::class.java).configureEach {
                 with(it.options) {
                     compilerArgs.addAll(listOf("-Xlint:all", "-Xlint:-path", "-Xlint:-serial", "-parameters"))
+                    if (JavaVersion.toVersion(it.toolChain.version).isJava9Compatible) {
+                        compilerArgs.addAll(listOf("--release", "8"))
+                    }
                     isDeprecation = true
                     encoding = "UTF-8"
                 }
             }
 
-            tasks.withType(AbstractArchiveTask::class.java) {
+            tasks.withType(AbstractArchiveTask::class.java).configureEach {
                 it.isPreserveFileTimestamps = false
                 it.isReproducibleFileOrder = true
             }
@@ -42,7 +45,7 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 it.targetCompatibility = JavaVersion.VERSION_1_8
             }
 
-            tasks.withType(Javadoc::class.java) {
+            tasks.withType(Javadoc::class.java).configureEach {
                 val opts = it.options
                 if (opts is StandardJavadocDocletOptions) {
                     opts.links(
@@ -68,7 +71,7 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.2.0")
             }
 
-            tasks.withType(Test::class.java) {
+            tasks.withType(Test::class.java).configureEach {
                 it.useJUnitPlatform()
             }
 

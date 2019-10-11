@@ -98,6 +98,7 @@ public class ObjectMapper<T> {
     /**
      * Creates a new object mapper bound to the given object.
      *
+     * @param type The generic type of the object
      * @param obj The object
      * @param <T> The object type
      * @return An appropriate object mapper instance.

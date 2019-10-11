@@ -85,5 +85,10 @@ public interface NodePath extends Iterable<Object>, Cloneable {
         return new NodePathImpl(path.toArray(), false);
     }
 
+    /**
+     * Create a new node path with the same data as this path
+     *
+     * @return The resulting path
+     */
     NodePath clone();
 }

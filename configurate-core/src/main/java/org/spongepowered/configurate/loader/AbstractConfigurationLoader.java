@@ -22,6 +22,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.reference.ConfigurationReference;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,7 +49,7 @@ import java.util.concurrent.Callable;
  *
  * @param <N> The {@link ConfigurationNode} type produced by the loader
  */
-public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> implements ConfigurationLoader<N> {
+public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationNode<N>> implements ConfigurationLoader<N> {
 
     /**
      * The escape sequence used by Configurate to separate comment lines
@@ -116,6 +118,11 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
     @NonNull
     public CommentHandler getDefaultCommentHandler() {
         return this.commentHandlers[0];
+    }
+
+    @Override
+    public ConfigurationReference<N> loadToReference() throws IOException {
+        return ConfigurationReference.createFixed(this);
     }
 
     @NonNull
