@@ -17,21 +17,26 @@
 package org.spongepowered.configurate.reactive;
 
 import org.junit.jupiter.api.Test;
-import org.spongepowered.configurate.reactive.Disposable;
-import org.spongepowered.configurate.reactive.Processor;
-import org.spongepowered.configurate.reactive.Publisher;
-import org.spongepowered.configurate.reactive.Subscriber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ProcessorBaseTest {
+public class TestProcessorImpl {
+
+    /**
+     * Create a single-threaded processor for testing purposes
+     * @param <T> The value type
+     * @return new processor
+     */
+    private <T> Processor.Iso<T> create() {
+        return Processor.create(Runnable::run);
+    }
 
     @Test
     public void testSubmission() {
         final String[] result = new String[1];
-        Processor.Iso<String> proc = Processor.create();
+        Processor.Iso<String> proc = create();
         proc.subscribe(item -> {
             result[0] = item;
         });
@@ -43,7 +48,7 @@ public class ProcessorBaseTest {
     public void testUnsubscribe() {
         final String[] result = new String[1];
         final boolean[] closed = new boolean[1];
-        Processor.Iso<String> proc = Processor.create();
+        Processor.Iso<String> proc = create();
         Disposable disp = proc.subscribe(new Subscriber<String>() {
             @Override
             public void submit(String item) {
@@ -65,7 +70,7 @@ public class ProcessorBaseTest {
     @Test
     public void testClose() {
         final boolean[] result = new boolean[1];
-        Processor.Iso<String> proc = Processor.create();
+        Processor.Iso<String> proc = create();
         proc.subscribe(new Subscriber<String>() {
             @Override
             public void submit(String item) {
@@ -85,7 +90,7 @@ public class ProcessorBaseTest {
 
     @Test
     public void testCloseIfUnsubscribed() {
-        Processor.Iso<Boolean> proc = Processor.create();
+        Processor.Iso<Boolean> proc = create();
 
         Disposable disp = proc.subscribe(x -> {});
         assertFalse(proc.closeIfUnsubscribed());
@@ -99,7 +104,7 @@ public class ProcessorBaseTest {
     @Test
     public void testMap() {
         final String[] items = new String[2];
-        Processor.Iso<String> orig = Processor.create();
+        Processor.Iso<String> orig = create();
         Publisher<String> mapped = orig.map(x -> "2" + x);
         orig.subscribe(item -> items[0] = item);
         mapped.subscribe(item -> items[1] = item);
@@ -112,7 +117,7 @@ public class ProcessorBaseTest {
     @Test
     public void testErrorCloses() {
         final int[] callCount = new int[1];
-        Processor.Iso<String> subject = Processor.create();
+        Processor.Iso<String> subject = create();
         final RuntimeException testExc = new RuntimeException();
 
         subject.subscribe(new Subscriber<String>() {
@@ -141,7 +146,7 @@ public class ProcessorBaseTest {
     @Test
     public void testMappedUnsubscribedOnEmpty() {
         final String[] items = new String[2];
-        Processor.Iso<String> orig = Processor.create();
+        Processor.Iso<String> orig = create();
         Publisher<String> mapped = orig.map(x -> "2" + x);
 
         // initial state of unsubscribed
@@ -170,7 +175,7 @@ public class ProcessorBaseTest {
 
     @Test
     public void testFallbackHandler() {
-        Processor.Iso<String> handler = Processor.create();
+        Processor.Iso<String> handler = create();
         final String[] values = new String[2];
 
         handler.setFallbackHandler(val -> values[0] = val);

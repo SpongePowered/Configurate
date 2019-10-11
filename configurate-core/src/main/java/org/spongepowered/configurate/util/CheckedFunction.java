@@ -40,8 +40,6 @@ public interface CheckedFunction<I, O, E extends Exception> {
      */
     O apply(I one) throws E;
 
-
-
     /**
      * Convert a JDK {@link Function} into its checked variant
      *

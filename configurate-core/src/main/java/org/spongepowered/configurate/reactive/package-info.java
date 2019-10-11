@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 /**
- * This package contains a rudimentary implementation of a reactive programming API. It does not
- * intend to meet all the requirements of the Reactive Streams specification, but it is designed to
- * allow for easy migration to implementations based on JDK9's Flow API when Configurate targets Java 9.
+ * This package contains a rudimentary implementation of a reactive programming API. It does not intend to meet all the
+ * requirements of the Reactive Streams specification, but it is designed to allow for easy migration to implementations
+ * based on JDK9's Flow API when Configurate targets Java 9.
  * <p>
- * With {@link org.spongepowered.configurate.reactive.Publisher}, {@link
- * org.spongepowered.configurate.reactive.Subscriber}, and
- * {@link org.spongepowered.configurate.reactive.Processor},
- * a system can be easily built that allows the processing of a series of units of information.
+ * With {@link org.spongepowered.configurate.reactive.Publisher}, {@link org.spongepowered.configurate.reactive.Subscriber},
+ * and {@link org.spongepowered.configurate.reactive.Processor}, a system can be easily built that allows the processing
+ * of a series of units of information.
  * <p>
- * The origin of a system generally starts from
- * {@link org.spongepowered.configurate.reactive.Processor#create()
- * creating a processor}, and making it available for users to {@link
- * org.spongepowered.configurate.reactive.Subscriber subscribe} to. Then, any value {@link
- * org.spongepowered.configurate.reactive.Subscriber#submit(java.lang.Object) submitted} to the
- * Processor will be forwarded to every registered subscriber.
+ * The origin of a system generally starts from {@link org.spongepowered.configurate.reactive.Processor#create()
+ * creating a processor}, and making it available for users to {@link org.spongepowered.configurate.reactive.Subscriber
+ * subscribe} to. Then, any value {@link org.spongepowered.configurate.reactive.Subscriber#submit(java.lang.Object)
+ * submitted} to the Processor will be forwarded to every registered subscriber.
  * <p>
- * In many cases, it is best to only expose the
- * {@link org.spongepowered.configurate.reactive.Publisher}
- * side of the processor, so that the submission of values can be more easily controlled.
+ * A unique feature of Configurate's reactive listeners is the ability to have transactional subscribers. A {@link
+ * org.spongepowered.configurate.reactive.SubscriberTransactional} will receive a new value, followed by either a commit
+ * or rollback notification. When subscribing to a transactional processor, all subscribers must accept the new value before it's committed.
+ * <p>
+ * In many cases, it is best to only expose the {@link org.spongepowered.configurate.reactive.Publisher} side of the
+ * processor, so that the submission of values can be more easily controlled.
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.reactive;

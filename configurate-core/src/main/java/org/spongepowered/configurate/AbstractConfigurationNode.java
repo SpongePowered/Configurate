@@ -99,17 +99,17 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * Handles the copying of applied defaults, if enabled.
      *
      * @param defValue the default value
-     * @param <T> the value type
+     * @param <V> the value type
      * @return the same value
      */
-    private <T> T storeDefault(T defValue) {
+    private <V> V storeDefault(V defValue) {
         if (defValue != null && getOptions().shouldCopyDefaults()) {
             setValue(defValue);
         }
         return defValue;
     }
 
-    private <T> T storeDefault(TypeToken<T> type, T defValue) throws ObjectMappingException {
+    private <V> V storeDefault(TypeToken<V> type, V defValue) throws ObjectMappingException {
         if (defValue != null && getOptions().shouldCopyDefaults()) {
             setValue(type, defValue);
         }
@@ -233,6 +233,9 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         // if the value to be set is a configuration node already, unwrap and store the raw data
         if (newValue instanceof ConfigurationNode) {
             ConfigurationNode newValueAsNode = (ConfigurationNode) newValue;
+            if (newValueAsNode == this) { // this would be a no-op whoop
+                return self();
+            }
 
             if (newValueAsNode.isList()) {
                 // handle list

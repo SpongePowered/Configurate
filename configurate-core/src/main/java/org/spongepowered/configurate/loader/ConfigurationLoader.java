@@ -19,8 +19,11 @@ package org.spongepowered.configurate.loader;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.reference.ConfigurationReference;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.function.Function;
 
 /**
  * Represents an object which can load and save {@link ConfigurationNode} objects in a specific
@@ -57,6 +60,16 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
     default N load() throws IOException {
         return load(getDefaultOptions());
     }
+
+    /**
+     * Attempts to load data from the defined source into a {@link ConfigurationReference}.
+     * The returned reference will not reload automatically.
+     *
+     * @return The created reference
+     * @throws IOException when an error occurs within the loader
+     * @see org.spongepowered.configurate.reference.WatchServiceListener#listenToConfiguration(Function, Path) to create an auto-reloading configuration.
+     */
+    ConfigurationReference<N> loadToReference() throws IOException;
 
     /**
      * Attempts to load a {@link ConfigurationNode} using this loader, from the defined source.

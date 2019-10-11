@@ -17,8 +17,10 @@
 package org.spongepowered.configurate.reactive;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.util.CheckedFunction;
 
-import java.util.function.Function;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * A combination of an {@link Publisher} and {@link Subscriber}.
@@ -35,21 +37,47 @@ import java.util.function.Function;
 public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
     /**
      * Create a {@link Processor} instance that simply broadcasts submitted values to its
-     * subscribers
+     * subscribers. Broadcasts will occur on the common {@link ForkJoinPool}.
      *
      * @param <V> The type
      * @return A new processor instance
      */
     static <V> Processor.Iso<V> create() {
-        return new ProcessorBase<>();
+        return create(ForkJoinPool.commonPool());
+    }
+
+    /**
+     * Create a processor instance that is aware of transactions
+     *
+     * @param <V> The value type
+     * @return a new transactional processor
+     */
+    static <V> Processor.TransactionalIso<V> createTransactional() {
+        return createTransactional(ForkJoinPool.commonPool());
+    }
+
+    /**
+     * Create a {@link Processor} instance that simply broadcasts submitted values to its
+     * subscribers
+     *
+     * @param <V> The type
+     * @param executor task executor
+     * @return A new processor instance
+     */
+    static <V> Processor.Iso<V> create(Executor executor) {
+        return new ProcessorImpl<>(executor);
+    }
+
+    static <V> Processor.TransactionalIso<V> createTransactional(Executor exec) {
+        return new ProcessorTransactionalImpl<>(exec);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    default <R> Processor<O, R> map(Function<? super O, ? extends R> mapper) {
-        return new ProcessorBase.Mapped<>(mapper, this);
+    default <R> Processor<O, R> map(CheckedFunction<? super O, ? extends R, TransactionFailedException> mapper) {
+        return new ProcessorMapped<>(mapper, this);
     }
 
     /**
@@ -90,4 +118,12 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
             submit(element);
         }
     }
+    
+    interface Transactional<I, O> extends Processor<I, O>, Publisher<O>, SubscriberTransactional<I> {
+    }
+    
+    interface TransactionalIso<V> extends Transactional<V, V>, Iso<V> {
+
+    }
+    
 }
