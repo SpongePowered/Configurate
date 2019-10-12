@@ -24,7 +24,7 @@ import org.spongepowered.configurate.ConfigurationNode;
  * Represents an action to be performed that transforms a node in the configuration tree
  */
 @FunctionalInterface
-public interface TransformAction {
+public interface TransformAction<T extends ConfigurationNode<T>> {
 
     /**
      * Called at a certain path, with the node at that path.
@@ -37,6 +37,6 @@ public interface TransformAction {
      * @return A modified path, or null if the path is to stay the same
      */
     @Nullable
-    Object[] visitPath(ConfigurationTransformation.@NonNull NodePath inputPath, @NonNull ConfigurationNode valueAtPath);
+    Object[] visitPath(ConfigurationTransformation.@NonNull NodePath inputPath, @NonNull T valueAtPath);
 
 }

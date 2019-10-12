@@ -26,10 +26,10 @@ import java.util.Collections;
 /**
  * A {@link ConfigValue} which holds a single ("scalar") value.
  */
-class ScalarConfigValue extends ConfigValue {
+class ScalarConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
     private volatile Object value;
 
-    ScalarConfigValue(SimpleConfigurationNode holder) {
+    ScalarConfigValue(T holder) {
         super(holder);
     }
 
@@ -55,32 +55,32 @@ class ScalarConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChild(@NonNull Object key, @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    public SimpleConfigurationNode getChild(@Nullable Object key) {
+    public T getChild(@Nullable Object key) {
         return null;
     }
 
     @NonNull
     @Override
-    public Iterable<SimpleConfigurationNode> iterateChildren() {
+    public Iterable<T> iterateChildren() {
         return Collections.emptySet();
     }
 
     @NonNull
     @Override
-    ScalarConfigValue copy(@NonNull SimpleConfigurationNode holder) {
-        ScalarConfigValue copy = new ScalarConfigValue(holder);
+    ScalarConfigValue<T> copy(@NonNull T holder) {
+        ScalarConfigValue<T> copy = new ScalarConfigValue<>(holder);
         copy.value = this.value;
         return copy;
     }
@@ -98,7 +98,7 @@ class ScalarConfigValue extends ConfigValue {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ScalarConfigValue that = (ScalarConfigValue) o;
+        ScalarConfigValue<?> that = (ScalarConfigValue<?>) o;
         return Objects.equal(value, that.value);
     }
 

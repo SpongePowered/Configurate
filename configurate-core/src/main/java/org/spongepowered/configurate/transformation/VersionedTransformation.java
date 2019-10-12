@@ -25,20 +25,20 @@ import java.util.SortedMap;
  * Implements a number of child {@link ConfigurationTransformation}s which are only applied if required,
  * according to the configurations current version.
  */
-class VersionedTransformation extends ConfigurationTransformation {
+class VersionedTransformation<T extends ConfigurationNode<T>> extends ConfigurationTransformation<T> {
     private final Object[] versionPath;
-    private final SortedMap<Integer, ConfigurationTransformation> versionTransformations;
+    private final SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations;
 
-    VersionedTransformation(Object[] versionPath, SortedMap<Integer, ConfigurationTransformation> versionTransformations) {
+    VersionedTransformation(Object[] versionPath, SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
         this.versionPath = versionPath;
         this.versionTransformations = versionTransformations;
     }
 
     @Override
-    public void apply(@NonNull ConfigurationNode node) {
-        ConfigurationNode versionNode = node.getNode(versionPath);
+    public void apply(@NonNull T node) {
+        T versionNode = node.getNode(versionPath);
         int currentVersion = versionNode.getInt(-1);
-        for (SortedMap.Entry<Integer, ConfigurationTransformation> entry : versionTransformations.entrySet()) {
+        for (SortedMap.Entry<Integer, ConfigurationTransformation<? super T>> entry : versionTransformations.entrySet()) {
             if (entry.getKey() <= currentVersion) {
                 continue;
             }

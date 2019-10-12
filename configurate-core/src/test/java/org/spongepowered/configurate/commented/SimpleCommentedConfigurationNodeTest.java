@@ -25,13 +25,13 @@ public class SimpleCommentedConfigurationNodeTest {
 
     @Test
     public void testCommentsTransferred() {
-        CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
-        CommentedConfigurationNode firstChild = subject.getNode("first");
+        CommentedConfigurationNode<?> subject = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> firstChild = subject.getNode("first");
         firstChild.setValue("test value");
         firstChild.setComment("Such comment. Very wow.");
 
 
-        CommentedConfigurationNode secondChild = subject.getNode("second");
+        CommentedConfigurationNode<?> secondChild = subject.getNode("second");
         secondChild.setValue("test value's evil twin");
 
         assertFalse(secondChild.isVirtual());
@@ -43,14 +43,14 @@ public class SimpleCommentedConfigurationNodeTest {
 
     @Test
     public void testNestedCommentsTransferred() {
-        CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
-        CommentedConfigurationNode firstChild = subject.getNode("first");
-        CommentedConfigurationNode firstChildChild = firstChild.getNode("child");
+        CommentedConfigurationNode<?> subject = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> firstChild = subject.getNode("first");
+        CommentedConfigurationNode<?> firstChildChild = firstChild.getNode("child");
         firstChildChild.setValue("test value");
         firstChildChild.setComment("Such comment. Very wow.");
 
 
-        CommentedConfigurationNode secondChild = subject.getNode("second");
+        CommentedConfigurationNode<?> secondChild = subject.getNode("second");
         secondChild.setValue("test value's evil twin");
 
         assertFalse(secondChild.isVirtual());
@@ -62,8 +62,8 @@ public class SimpleCommentedConfigurationNodeTest {
 
     @Test
     public void testCommentsMerged() {
-        CommentedConfigurationNode source = SimpleCommentedConfigurationNode.root();
-        CommentedConfigurationNode target = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> source = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> target = SimpleCommentedConfigurationNode.root();
 
         source.getNode("no-value").setValue("a").setComment("yeah");
         source.getNode("existing-value-no-comment").setValue("orig").setComment("maybe");

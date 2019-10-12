@@ -47,7 +47,7 @@ import java.util.concurrent.Callable;
  *
  * @param <NodeType> The {@link ConfigurationNode} type produced by the loader
  */
-public abstract class AbstractConfigurationLoader<NodeType extends ConfigurationNode> implements ConfigurationLoader<NodeType> {
+public abstract class AbstractConfigurationLoader<NodeType extends ConfigurationNode<NodeType>> implements ConfigurationLoader<NodeType> {
 
     /**
      * The escape sequence used by Configurate to separate comment lines
@@ -61,7 +61,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     /**
      * The line separator used by the system
-     * @see System#lineSeparator
+     * @see System#lineSeparator()
      */
     protected static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator();
 
@@ -149,7 +149,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
     protected abstract void loadInternal(NodeType node, BufferedReader reader) throws IOException;
 
     @Override
-    public void save(@NonNull ConfigurationNode node) throws IOException {
+    public void save(@NonNull ConfigurationNode<?> node) throws IOException {
         if (sink == null) {
             throw new IOException("No sink present to write to!");
         }
@@ -179,7 +179,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     }
 
-    protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;
+    protected abstract void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException;
 
     @NonNull
     @Override
@@ -202,7 +202,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
      *
      * @param <T> The builders own type (for chaining using generic types)
      */
-    protected static abstract class Builder<T extends Builder> {
+    protected static abstract class Builder<T extends Builder<T>> {
         @NonNull protected HeaderMode headerMode = HeaderMode.PRESERVE;
         @Nullable protected Callable<BufferedReader> source;
         @Nullable protected Callable<BufferedWriter> sink;
@@ -391,7 +391,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
          * @return The loader
          */
         @NonNull
-        public abstract AbstractConfigurationLoader build();
+        public abstract AbstractConfigurationLoader<?> build();
 
     }
 

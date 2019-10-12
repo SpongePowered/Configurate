@@ -24,16 +24,16 @@ import java.util.Arrays;
 /**
  * Implements a chain of {@link ConfigurationTransformation}s.
  */
-class ChainedConfigurationTransformation extends ConfigurationTransformation {
-    private final ConfigurationTransformation[] transformations;
+class ChainedConfigurationTransformation<T extends ConfigurationNode<T>> extends ConfigurationTransformation<T> {
+    private final ConfigurationTransformation<? super T>[] transformations;
 
-    ChainedConfigurationTransformation(ConfigurationTransformation[] transformations) {
+    ChainedConfigurationTransformation(ConfigurationTransformation<? super T>[] transformations) {
         this.transformations = Arrays.copyOf(transformations, transformations.length);
     }
 
     @Override
-    public void apply(@NonNull ConfigurationNode node) {
-        for (ConfigurationTransformation transformation : transformations) {
+    public void apply(@NonNull T node) {
+        for (ConfigurationTransformation<? super T> transformation : transformations) {
             transformation.apply(node);
         }
     }

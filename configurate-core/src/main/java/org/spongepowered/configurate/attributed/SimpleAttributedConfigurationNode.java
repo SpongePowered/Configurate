@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.SimpleConfigurationNode;
+import org.spongepowered.configurate.AbstractConfigurationNode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * Basic implementation of {@link AttributedConfigurationNode}.
  */
-public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode implements AttributedConfigurationNode {
+public class SimpleAttributedConfigurationNode extends AbstractConfigurationNode<SimpleAttributedConfigurationNode> implements AttributedConfigurationNode<SimpleAttributedConfigurationNode> {
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
@@ -50,12 +50,12 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);
     }
 
-    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable Object path, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
+    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable Object path, @Nullable SimpleAttributedConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);
         setTagName(tagName);
     }
 
-    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable SimpleConfigurationNode parent, @NonNull SimpleConfigurationNode copyOf) {
+    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable SimpleAttributedConfigurationNode parent, @NonNull SimpleAttributedConfigurationNode copyOf) {
         super(parent, copyOf);
         setTagName(tagName);
     }
@@ -128,11 +128,6 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
 
     // Methods from superclass overridden to have correct return types
 
-    @Nullable
-    @Override
-    public SimpleAttributedConfigurationNode getParent() {
-        return (SimpleAttributedConfigurationNode) super.getParent();
-    }
 
     @Override
     protected SimpleAttributedConfigurationNode createNode(Object path) {
@@ -143,64 +138,37 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
     @Override
     public SimpleAttributedConfigurationNode setValue(@Nullable Object value) {
         if (value instanceof AttributedConfigurationNode) {
-            AttributedConfigurationNode node = (AttributedConfigurationNode) value;
+            AttributedConfigurationNode<?> node = (AttributedConfigurationNode<?>) value;
             setTagName(node.getTagName());
             setAttributes(node.getAttributes());
         }
-        return (SimpleAttributedConfigurationNode) super.setValue(value);
+        return super.setValue(value);
     }
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
+    public SimpleAttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
         if (other instanceof AttributedConfigurationNode) {
-            AttributedConfigurationNode node = (AttributedConfigurationNode) other;
+            AttributedConfigurationNode<?> node = (AttributedConfigurationNode<?>) other;
             setTagName(node.getTagName());
             for (Map.Entry<String, String> attribute : node.getAttributes().entrySet()) {
                 addAttribute(attribute.getKey(), attribute.getValue());
             }
         }
-        return (SimpleAttributedConfigurationNode) super.mergeValuesFrom(other);
+        return super.mergeValuesFrom(other);
     }
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode getNode(@NonNull Object... path) {
-        return (SimpleAttributedConfigurationNode) super.getNode(path);
-    }
-
-    @NonNull
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<? extends SimpleAttributedConfigurationNode> getChildrenList() {
-        return (List<SimpleAttributedConfigurationNode>) super.getChildrenList();
-    }
-
-    @NonNull
-    @Override
-    @SuppressWarnings("unchecked")
-    public Map<Object, ? extends SimpleAttributedConfigurationNode> getChildrenMap() {
-        return (Map<Object, SimpleAttributedConfigurationNode>) super.getChildrenMap();
-    }
-
-    @NonNull
-    @Override
-    public SimpleAttributedConfigurationNode getAppendedNode() {
-        return (SimpleAttributedConfigurationNode) super.getAppendedNode();
-    }
-
-    @NonNull
-    @Override
-    public SimpleAttributedConfigurationNode copy() {
-        return copy(null);
-    }
-
-    @NonNull
-    @Override
-    protected SimpleAttributedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
+    protected SimpleAttributedConfigurationNode copy(@Nullable SimpleAttributedConfigurationNode parent) {
         SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
         return copy;
+    }
+
+    @Override
+    public SimpleAttributedConfigurationNode self() {
+        return this;
     }
 
     @Override

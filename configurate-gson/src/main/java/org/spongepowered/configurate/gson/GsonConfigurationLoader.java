@@ -25,6 +25,7 @@ import com.google.gson.stream.JsonWriter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.AbstractConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
@@ -39,7 +40,7 @@ import java.util.Map;
 /**
  * A loader for JSON-formatted configurations, using the GSON library for parsing and generation.
  */
-public class GsonConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
+public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleConfigurationNode> {
 
     /**
      * Creates a new {@link GsonConfigurationLoader} builder.
@@ -121,7 +122,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     @Override
-    protected void loadInternal(ConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(SimpleConfigurationNode node, BufferedReader reader) throws IOException {
         reader.mark(1);
         if (reader.read() == -1) {
             return;
@@ -133,7 +134,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
-    private void parseValue(JsonReader parser, ConfigurationNode node) throws IOException {
+    private void parseValue(JsonReader parser, SimpleConfigurationNode node) throws IOException {
         JsonToken token = parser.peek();
         switch (token) {
             case BEGIN_OBJECT:
@@ -168,7 +169,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
-    private void parseArray(JsonReader parser, ConfigurationNode node) throws IOException {
+    private void parseArray(JsonReader parser, SimpleConfigurationNode node) throws IOException {
         parser.beginArray();
         JsonToken token;
         while ((token = parser.peek()) != null) {
@@ -184,7 +185,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
 
     }
 
-    private void parseObject(JsonReader parser, ConfigurationNode node) throws IOException {
+    private void parseObject(JsonReader parser, SimpleConfigurationNode node) throws IOException {
         parser.beginObject();
         JsonToken token;
         while ((token = parser.peek()) != null) {
@@ -204,7 +205,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     @Override
-    public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
+    public void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
         if (!lenient && !node.hasMapChildren()) {
             throw new IOException("Non-lenient json generators must have children of map type");
         }
@@ -219,13 +220,13 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
 
     @NonNull
     @Override
-    public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
         return SimpleConfigurationNode.root(options);
     }
 
-    private static void generateValue(JsonWriter generator, ConfigurationNode node) throws IOException {
+    private static void generateValue(JsonWriter generator, ConfigurationNode<?> node) throws IOException {
         if (node.hasMapChildren()) {
             generateObject(generator, node);
         } else if (node.hasListChildren()) {
@@ -251,25 +252,25 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
         }
     }
 
-    private static void generateObject(JsonWriter generator, ConfigurationNode node) throws IOException {
+    private static void generateObject(JsonWriter generator, ConfigurationNode<?> node) throws IOException {
         if (!node.hasMapChildren()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
         generator.beginObject();
-        for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
+        for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : node.getChildrenMap().entrySet()) {
             generator.name(ent.getKey().toString());
             generateValue(generator, ent.getValue());
         }
         generator.endObject();
     }
 
-    private static void generateArray(JsonWriter generator, ConfigurationNode node) throws IOException {
+    private static void generateArray(JsonWriter generator, ConfigurationNode<?> node) throws IOException {
         if (!node.hasListChildren()) {
             throw new IOException("Node passed to generateArray does not have list children!");
         }
-        List<? extends ConfigurationNode> children = node.getChildrenList();
+        List<? extends ConfigurationNode<?>> children = node.getChildrenList();
         generator.beginArray();
-        for (ConfigurationNode child : children) {
+        for (ConfigurationNode<?> child : children) {
             generateValue(generator, child);
         }
         generator.endArray();

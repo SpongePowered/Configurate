@@ -47,7 +47,7 @@ public abstract class ConfigurationNodeWalker {
     public static final ConfigurationNodeWalker BREADTH_FIRST = new ConfigurationNodeWalker() {
         @NonNull
         @Override
-        public <T extends ConfigurationNode> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
+        public <T extends ConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
             return new BreadthFirstIterator<>(start);
         }
     };
@@ -62,7 +62,7 @@ public abstract class ConfigurationNodeWalker {
     public static final ConfigurationNodeWalker DEPTH_FIRST_PRE_ORDER = new ConfigurationNodeWalker() {
         @NonNull
         @Override
-        public <T extends ConfigurationNode> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
+        public <T extends ConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
             return new DepthFirstPreOrderIterator<>(start);
         }
     };
@@ -77,7 +77,7 @@ public abstract class ConfigurationNodeWalker {
     public static final ConfigurationNodeWalker DEPTH_FIRST_POST_ORDER = new ConfigurationNodeWalker() {
         @NonNull
         @Override
-        public <T extends ConfigurationNode> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
+        public <T extends ConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
             return new DepthFirstPostOrderIterator<>(start);
         }
     };
@@ -91,7 +91,7 @@ public abstract class ConfigurationNodeWalker {
      * @return An iterator of {@link VisitedNode}s
      */
     @NonNull
-    public abstract <T extends ConfigurationNode> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start);
+    public abstract <T extends ConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start);
 
 
     /**
@@ -103,7 +103,7 @@ public abstract class ConfigurationNodeWalker {
      * @return An iterator of {@link ConfigurationNode}s
      */
     @NonNull
-    public <T extends ConfigurationNode> Iterator<T> walk(@NonNull T start) {
+    public <T extends ConfigurationNode<T>> Iterator<T> walk(@NonNull T start) {
         return Iterators.transform(walkWithPath(start), VisitedNode::getNode);
     }
 
@@ -115,7 +115,7 @@ public abstract class ConfigurationNodeWalker {
      * @param consumer The consumer to accept the visited nodes
      * @param <T> The node type
      */
-    public <T extends ConfigurationNode> void walk(@NonNull T start, @NonNull BiConsumer<? super NodePath, ? super T> consumer) {
+    public <T extends ConfigurationNode<T>> void walk(@NonNull T start, @NonNull BiConsumer<? super NodePath, ? super T> consumer) {
         Iterator<VisitedNode<T>> it = walkWithPath(start);
         while (it.hasNext()) {
             VisitedNode<T> next = it.next();
@@ -129,7 +129,7 @@ public abstract class ConfigurationNodeWalker {
      *
      * @param <T> The node type
      */
-    public interface VisitedNode<T extends ConfigurationNode> {
+    public interface VisitedNode<T extends ConfigurationNode<T>> {
 
         /**
          * Gets the node that was visited.
@@ -163,7 +163,7 @@ public abstract class ConfigurationNodeWalker {
         return childPath;
     }
 
-    private static <T extends ConfigurationNode> Iterator<VisitedNodeImpl<T>> getChildren(VisitedNodeImpl<T> from) {
+    private static <T extends ConfigurationNode<T>> Iterator<VisitedNodeImpl<T>> getChildren(VisitedNodeImpl<T> from) {
         T node = from.getNode();
         switch (node.getValueType()) {
             case LIST: {
@@ -171,11 +171,9 @@ public abstract class ConfigurationNodeWalker {
                 return Iterators.transform(node.getChildrenList().iterator(), child -> {
                     Objects.requireNonNull(child);
 
-                    //noinspection unchecked
-                    T castedChild = ((T) child);
                     Object[] childPath = calculatePath(path, child.getKey());
 
-                    return new VisitedNodeImpl<>(childPath, castedChild);
+                    return new VisitedNodeImpl<>(childPath, child);
                 });
             }
             case MAP: {
@@ -183,11 +181,9 @@ public abstract class ConfigurationNodeWalker {
                 return Iterators.transform(node.getChildrenMap().entrySet().iterator(), child -> {
                     Objects.requireNonNull(child);
 
-                    //noinspection unchecked
-                    T castedChild = ((T) child.getValue());
                     Object[] childPath = calculatePath(path, child.getKey());
 
-                    return new VisitedNodeImpl<>(childPath, castedChild);
+                    return new VisitedNodeImpl<>(childPath, child.getValue());
                 });
             }
             default:
@@ -195,7 +191,7 @@ public abstract class ConfigurationNodeWalker {
         }
     }
 
-    private static final class BreadthFirstIterator<N extends ConfigurationNode> implements Iterator<VisitedNode<N>> {
+    private static final class BreadthFirstIterator<N extends ConfigurationNode<N>> implements Iterator<VisitedNode<N>> {
         private final Queue<VisitedNodeImpl<N>> queue = new ArrayDeque<>();
 
         BreadthFirstIterator(N root) {
@@ -215,7 +211,7 @@ public abstract class ConfigurationNodeWalker {
         }
     }
 
-    private static final class DepthFirstPreOrderIterator<N extends ConfigurationNode> implements Iterator<VisitedNode<N>> {
+    private static final class DepthFirstPreOrderIterator<N extends ConfigurationNode<N>> implements Iterator<VisitedNode<N>> {
         private final Deque<Iterator<VisitedNodeImpl<N>>> stack = new ArrayDeque<>();
 
         DepthFirstPreOrderIterator(N root) {
@@ -242,7 +238,7 @@ public abstract class ConfigurationNodeWalker {
         }
     }
 
-    private static final class DepthFirstPostOrderIterator<N extends ConfigurationNode> extends AbstractIterator<VisitedNode<N>> {
+    private static final class DepthFirstPostOrderIterator<N extends ConfigurationNode<N>> extends AbstractIterator<VisitedNode<N>> {
         private final ArrayDeque<NodeAndChildren> stack = new ArrayDeque<>();
 
         DepthFirstPostOrderIterator(N root) {
@@ -277,7 +273,7 @@ public abstract class ConfigurationNodeWalker {
         }
     }
 
-    private static final class VisitedNodeImpl<T extends ConfigurationNode> implements VisitedNode<T>, NodePath {
+    private static final class VisitedNodeImpl<T extends ConfigurationNode<T>> implements VisitedNode<T>, NodePath {
         private final Object[] path;
         private final T node;
 

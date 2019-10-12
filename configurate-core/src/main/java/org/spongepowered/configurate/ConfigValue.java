@@ -24,15 +24,15 @@ import java.util.Iterator;
 /**
  * The value in a {@link ConfigurationNode}.
  */
-abstract class ConfigValue {
+abstract class ConfigValue<T extends AbstractConfigurationNode<T>> {
 
     /**
      * The node this value "belongs" to.
      */
     @NonNull
-    protected final SimpleConfigurationNode holder;
+    protected final T holder;
 
-    protected ConfigValue(@NonNull SimpleConfigurationNode holder) {
+    protected ConfigValue(@NonNull T holder) {
         this.holder = holder;
     }
 
@@ -61,7 +61,7 @@ abstract class ConfigValue {
      * @return Existing node at key, if present
      */
     @Nullable
-    abstract SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value);
+    abstract T putChild(@NonNull Object key, @Nullable T value);
 
     /**
      * Put a child value, if one isn't already present at that key
@@ -71,7 +71,7 @@ abstract class ConfigValue {
      * @return Existing node at key, if present
      */
     @Nullable
-    abstract SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value);
+    abstract T putChildIfAbsent(@NonNull Object key, @Nullable T value);
 
     /**
      * Gets the currently present child for the given key. Returns null if no child is present
@@ -80,7 +80,7 @@ abstract class ConfigValue {
      * @return The child if any
      */
     @Nullable
-    abstract SimpleConfigurationNode getChild(@Nullable Object key);
+    abstract T getChild(@Nullable Object key);
 
     /**
      * Returns an iterable over all child nodes
@@ -88,7 +88,7 @@ abstract class ConfigValue {
      * @return An iterator
      */
     @NonNull
-    abstract Iterable<SimpleConfigurationNode> iterateChildren();
+    abstract Iterable<T> iterateChildren();
 
     /**
      * Creates a copy of this node
@@ -96,14 +96,14 @@ abstract class ConfigValue {
      * @return A copy
      */
     @NonNull
-    abstract ConfigValue copy(@NonNull SimpleConfigurationNode holder);
+    abstract ConfigValue<T> copy(@NonNull T holder);
 
     /**
      * Clears the set value (or any attached child values) from this value
      */
     void clear() {
-        for (Iterator<SimpleConfigurationNode> it = iterateChildren().iterator(); it.hasNext();) {
-            SimpleConfigurationNode node = it.next();
+        for (Iterator<T> it = iterateChildren().iterator(); it.hasNext();) {
+            T node = it.next();
             node.attached = false;
             it.remove();
             if (node.getParentEnsureAttached().equals(holder)) {

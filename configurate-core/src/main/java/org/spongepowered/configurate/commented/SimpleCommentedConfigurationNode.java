@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.AbstractConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 
 import java.util.List;
@@ -30,8 +31,8 @@ import java.util.Optional;
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
-public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
-    private String comment =null;
+public class SimpleCommentedConfigurationNode extends AbstractConfigurationNode<SimpleCommentedConfigurationNode> implements CommentedConfigurationNode<SimpleCommentedConfigurationNode> {
+    private String comment = null;
 
     @NonNull
     public static SimpleCommentedConfigurationNode root() {
@@ -43,11 +44,11 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         return new SimpleCommentedConfigurationNode(null, null, options);
     }
 
-    protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
+    protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleCommentedConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);
     }
 
-    protected SimpleCommentedConfigurationNode(@Nullable SimpleConfigurationNode parent, @NonNull SimpleConfigurationNode copyOf) {
+    protected SimpleCommentedConfigurationNode(@Nullable SimpleCommentedConfigurationNode parent, @NonNull SimpleCommentedConfigurationNode copyOf) {
         super(parent, copyOf);
     }
 
@@ -67,12 +68,6 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
 
     // Methods from superclass overridden to have correct return types
 
-    @Nullable
-    @Override
-    public SimpleCommentedConfigurationNode getParent() {
-        return (SimpleCommentedConfigurationNode) super.getParent();
-    }
-
     @Override
     protected SimpleCommentedConfigurationNode createNode(Object path) {
         return new SimpleCommentedConfigurationNode(path, this, getOptions());
@@ -81,62 +76,34 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @NonNull
     @Override
     public SimpleCommentedConfigurationNode setValue(@Nullable Object value) {
-        if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode) value).getComment().isPresent()) {
-            setComment(((CommentedConfigurationNode) value).getComment().get());
+        if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode<?>) value).getComment().isPresent()) {
+            setComment(((CommentedConfigurationNode<?>) value).getComment().get());
         }
-        return (SimpleCommentedConfigurationNode) super.setValue(value);
+        return super.setValue(value);
     }
 
     @NonNull
     @Override
-    public SimpleCommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
+    public SimpleCommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
         if (other instanceof CommentedConfigurationNode) {
-            Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
+            Optional<String> otherComment = ((CommentedConfigurationNode<?>) other).getComment();
             if (comment == null && otherComment.isPresent()) {
                 comment = otherComment.get();
             }
         }
-        return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);
+        return super.mergeValuesFrom(other);
     }
-
     @NonNull
     @Override
-    public SimpleCommentedConfigurationNode getNode(@NonNull Object... path) {
-        return (SimpleCommentedConfigurationNode) super.getNode(path);
-    }
-
-    @NonNull
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<? extends SimpleCommentedConfigurationNode> getChildrenList() {
-        return (List<SimpleCommentedConfigurationNode>) super.getChildrenList();
-    }
-
-    @NonNull
-    @Override
-    @SuppressWarnings("unchecked")
-    public Map<Object, ? extends SimpleCommentedConfigurationNode> getChildrenMap() {
-        return (Map<Object, SimpleCommentedConfigurationNode>) super.getChildrenMap();
-    }
-
-    @NonNull
-    @Override
-    public SimpleCommentedConfigurationNode getAppendedNode() {
-        return (SimpleCommentedConfigurationNode) super.getAppendedNode();
-    }
-
-    @NonNull
-    @Override
-    public SimpleCommentedConfigurationNode copy() {
-        return copy(null);
-    }
-
-    @NonNull
-    @Override
-    protected SimpleCommentedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
+    protected SimpleCommentedConfigurationNode copy(@Nullable SimpleCommentedConfigurationNode parent) {
         SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
         copy.comment = this.comment;
         return copy;
+    }
+
+    @Override
+    public SimpleCommentedConfigurationNode self() {
+        return this;
     }
 
     @Override

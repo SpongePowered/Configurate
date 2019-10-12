@@ -27,7 +27,7 @@ import java.util.Optional;
 /**
  * A configuration node that can have a comment attached to it.
  */
-public interface CommentedConfigurationNode extends ConfigurationNode {
+public interface CommentedConfigurationNode<T extends CommentedConfigurationNode<T>> extends ConfigurationNode<T> {
 
     /**
      * Gets the current value for the comment.
@@ -46,15 +46,5 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
      * @return this
      */
     @NonNull
-    CommentedConfigurationNode setComment(@Nullable String comment);
-
-    // Methods from superclass overridden to have correct return types
-    @Nullable @Override CommentedConfigurationNode getParent();
-    @NonNull @Override List<? extends CommentedConfigurationNode> getChildrenList();
-    @NonNull @Override Map<Object, ? extends CommentedConfigurationNode> getChildrenMap();
-    @NonNull @Override CommentedConfigurationNode setValue(@Nullable Object value);
-    @NonNull @Override CommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
-    @NonNull @Override CommentedConfigurationNode getAppendedNode();
-    @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);
-    @NonNull @Override CommentedConfigurationNode copy();
+    T setComment(@Nullable String comment);
 }

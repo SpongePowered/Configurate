@@ -59,7 +59,7 @@ import java.util.Map;
  * A loader for XML (Extensible Markup Language), using the native javax library for parsing and
  * generation.
  */
-public class XMLConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
+public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAttributedConfigurationNode> {
 
     /**
      * The property used to mark how many spaces should be used to indent.
@@ -258,7 +258,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     @Override
-    public void loadInternal(AttributedConfigurationNode node, BufferedReader reader) throws IOException {
+    public void loadInternal(SimpleAttributedConfigurationNode node, BufferedReader reader) throws IOException {
         DocumentBuilder documentBuilder = newDocumentBuilder();
 
         Document document;
@@ -276,7 +276,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         MAP, LIST
     }
 
-    private void readElement(Node from, AttributedConfigurationNode to) {
+    private void readElement(Node from, SimpleAttributedConfigurationNode to) {
         NodeType type = null;
 
         // copy the name of the tag
@@ -343,7 +343,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
 
         // read out the elements
         for (Map.Entry<String, Node> entry : children.entries()) {
-            AttributedConfigurationNode child;
+            SimpleAttributedConfigurationNode child;
             if (type == NodeType.MAP) {
                 child = to.getNode(entry.getKey());
             } else {
@@ -363,7 +363,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
+    protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
         DocumentBuilder documentBuilder = newDocumentBuilder();
         Document document = documentBuilder.newDocument();
 
@@ -378,12 +378,12 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         }
     }
 
-    private Element writeNode(Document document, ConfigurationNode node, String forcedTag) {
+    private Element writeNode(Document document, ConfigurationNode<?> node, String forcedTag) {
         String tag = defaultTagName;
         Map<String, String> attributes = ImmutableMap.of();
 
         if (node instanceof AttributedConfigurationNode) {
-            AttributedConfigurationNode attributedNode = ((AttributedConfigurationNode) node);
+            AttributedConfigurationNode<?> attributedNode = ((AttributedConfigurationNode<?>) node);
             tag = attributedNode.getTagName();
             attributes = attributedNode.getAttributes();
         }
@@ -394,14 +394,14 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         }
 
         if (node.hasMapChildren()) {
-            for (Map.Entry<Object, ? extends ConfigurationNode> child : node.getChildrenMap().entrySet()) {
+            for (Map.Entry<Object, ? extends ConfigurationNode<?>> child : node.getChildrenMap().entrySet()) {
                 element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
             }
         } else if (node.hasListChildren()) {
             if (writeExplicitType) {
                 element.setAttribute("configurate-type", "list");
             }
-            for (ConfigurationNode child : node.getChildrenList()) {
+            for (ConfigurationNode<?> child : node.getChildrenList()) {
                 element.appendChild(writeNode(document, child, null));
             }
         } else {
@@ -413,7 +413,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
 
     @NonNull
     @Override
-    public AttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public SimpleAttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
                 Integer.class, Boolean.class, String.class, Number.class));
         return SimpleAttributedConfigurationNode.root("root", options);

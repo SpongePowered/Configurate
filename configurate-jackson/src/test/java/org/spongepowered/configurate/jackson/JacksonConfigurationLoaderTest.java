@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.util.MapFactories;
@@ -46,10 +47,10 @@ public class JacksonConfigurationLoaderTest {
     public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
-        ConfigurationLoader loader = JacksonConfigurationLoader.builder()
+        ConfigurationLoader<? extends ConfigurationNode<?>> loader = JacksonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                         .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).build();
-        ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode<?> node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
@@ -69,12 +70,12 @@ public class JacksonConfigurationLoaderTest {
 
     private void testRoundtripValue(Path tempDir, Object value) throws IOException {
         final Path tempFile = tempDir.resolve("text2.txt");
-        ConfigurationLoader<ConfigurationNode> loader = JacksonConfigurationLoader.builder().setPath(tempFile).build();
-        ConfigurationNode start = loader.createEmptyNode();
+        ConfigurationLoader<? extends ConfigurationNode<?>> loader = JacksonConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode<?> start = loader.createEmptyNode();
         start.getNode("value").setValue(value);
         loader.save(start);
 
-        ConfigurationNode ret = loader.load();
+        ConfigurationNode<?> ret = loader.load();
         assertEquals(value, ret.getNode("value").getValue());
     }
 

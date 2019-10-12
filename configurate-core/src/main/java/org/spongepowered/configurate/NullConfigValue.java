@@ -24,8 +24,8 @@ import java.util.Collections;
 /**
  * A {@link ConfigValue} which holds no value.
  */
-class NullConfigValue extends ConfigValue {
-    NullConfigValue(SimpleConfigurationNode holder) {
+class NullConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
+    NullConfigValue(T holder) {
         super(holder);
     }
 
@@ -46,32 +46,32 @@ class NullConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChild(@NonNull Object key, @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    public SimpleConfigurationNode getChild(@Nullable Object key) {
+    public T getChild(@Nullable Object key) {
         return null;
     }
 
     @NonNull
     @Override
-    public Iterable<SimpleConfigurationNode> iterateChildren() {
+    public Iterable<T> iterateChildren() {
         return Collections.emptySet();
     }
 
     @NonNull
     @Override
-    NullConfigValue copy(@NonNull SimpleConfigurationNode holder) {
-        return new NullConfigValue(holder);
+    NullConfigValue<T> copy(@NonNull T holder) {
+        return new NullConfigValue<T>(holder);
     }
 
     @Override

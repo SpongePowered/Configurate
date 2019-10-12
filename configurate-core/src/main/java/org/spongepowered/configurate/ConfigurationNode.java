@@ -50,7 +50,7 @@ import java.util.function.Supplier;
  *
  * <p>This is effectively the main class of configurate.</p>
  */
-public interface ConfigurationNode {
+public interface ConfigurationNode<T extends ConfigurationNode<T>> {
     int NUMBER_DEF = 0;
 
     /**
@@ -96,7 +96,7 @@ public interface ConfigurationNode {
      * @return The nodes parent
      */
     @Nullable
-    ConfigurationNode getParent();
+    T getParent();
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
@@ -114,7 +114,7 @@ public interface ConfigurationNode {
      * @return The node at the given path, possibly virtual
      */
     @NonNull
-    ConfigurationNode getNode(@NonNull Object... path);
+    T getNode(@NonNull Object... path);
 
     /**
      * Gets if this node is virtual.
@@ -170,7 +170,7 @@ public interface ConfigurationNode {
      * @return The list children currently attached to this node
      */
     @NonNull
-    List<? extends ConfigurationNode> getChildrenList();
+    List<T> getChildrenList();
 
     /**
      * Gets the "map children" attached to this node, if it has any.
@@ -181,7 +181,7 @@ public interface ConfigurationNode {
      * @return The map children currently attached to this node
      */
     @NonNull
-    Map<Object, ? extends ConfigurationNode> getChildrenMap();
+    Map<Object, T> getChildrenMap();
 
     /**
      * Get the current value associated with this node.
@@ -225,13 +225,13 @@ public interface ConfigurationNode {
      * transformation function.
      *
      * @param transformer The transformation function
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return A transformed value of the correct type, or null either if no value is present or the
      * value could not be converted
      */
     @Nullable
-    default <T> T getValue(@NonNull Function<Object, T> transformer) {
-        return getValue(transformer, (T) null);
+    default <V> V getValue(@NonNull Function<Object, V> transformer) {
+        return getValue(transformer, (V) null);
     }
 
     /**
@@ -241,11 +241,11 @@ public interface ConfigurationNode {
      * @param transformer The transformation function
      * @param def The default value to return if this node has no set value or is not of a
      *            convertible type
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return A transformed value of the correct type, or {@code def} either if no value is present
      * or the value could not be converted
      */
-    <T> T getValue(@NonNull Function<Object, T> transformer, @Nullable T def);
+    <V> V getValue(@NonNull Function<Object, V> transformer, @Nullable V def);
 
     /**
      * Gets the appropriately transformed typed version of this node's value from the provided
@@ -254,11 +254,11 @@ public interface ConfigurationNode {
      * @param transformer The transformation function
      * @param defSupplier The function that will be called to calculate a default value only if
      *                    there is no existing value of the correct type
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return A transformed value of the correct type, or {@code def} either if no value is present
      * or the value could not be converted
      */
-    <T> T getValue(@NonNull Function<Object, T> transformer, @NonNull Supplier<T> defSupplier);
+    <V> V getValue(@NonNull Function<Object, V> transformer, @NonNull Supplier<V> defSupplier);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -267,11 +267,11 @@ public interface ConfigurationNode {
      * <p>If this node has a scalar value, this function treats it as a list with one value</p>
      *
      * @param transformer The transformation function
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return An immutable copy of the values contained
      */
     @NonNull
-    <T> List<T> getList(@NonNull Function<Object, T> transformer);
+    <V> List<V> getList(@NonNull Function<Object, V> transformer);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -281,11 +281,11 @@ public interface ConfigurationNode {
      *
      * @param transformer The transformation function
      * @param def The default value if no appropriate value is set
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(@NonNull Function<Object, T> transformer, @Nullable List<T> def);
+    <V> List<V> getList(@NonNull Function<Object, V> transformer, @Nullable List<V> def);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -296,11 +296,11 @@ public interface ConfigurationNode {
      * @param transformer The transformation function
      * @param defSupplier The function that will be called to calculate a default value only if there is no existing
      *                    value of the correct type
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(@NonNull Function<Object, T> transformer, @NonNull Supplier<List<T>> defSupplier);
+    <V> List<V> getList(@NonNull Function<Object, V> transformer, @NonNull Supplier<List<V>> defSupplier);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -309,11 +309,11 @@ public interface ConfigurationNode {
      * <p>If this node has a scalar value, this function treats it as a list with one value.</p>
      *
      * @param type The expected type
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return An immutable copy of the values contained
      */
     @NonNull
-    default <T> List<T> getList(@NonNull TypeToken<T> type) throws ObjectMappingException {
+    default <V> List<V> getList(@NonNull TypeToken<V> type) throws ObjectMappingException {
         return getList(type, ImmutableList.of());
     }
 
@@ -325,11 +325,11 @@ public interface ConfigurationNode {
      *
      * @param type The expected type
      * @param def The default value if no appropriate value is set
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(@NonNull TypeToken<T> type, @Nullable List<T> def) throws ObjectMappingException;
+    <V> List<V> getList(@NonNull TypeToken<V> type, @Nullable List<V> def) throws ObjectMappingException;
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -340,11 +340,11 @@ public interface ConfigurationNode {
      * @param type The expected type
      * @param defSupplier The function that will be called to calculate a default value only if there is no existing
      *                    value of the correct type
-     * @param <T> The expected type
+     * @param <V> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <T> List<T> getList(@NonNull TypeToken<T> type, @NonNull Supplier<List<T>> defSupplier) throws ObjectMappingException;
+    <V> List<V> getList(@NonNull TypeToken<V> type, @NonNull Supplier<List<V>> defSupplier) throws ObjectMappingException;
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -483,12 +483,12 @@ public interface ConfigurationNode {
      * the given type, or casting if no type serializer is found.</p>
      *
      * @param type The type to deserialize to
-     * @param <T> the type to get
+     * @param <V> the type to get
      * @return the value if present and of the proper type, else null
      */
     @Nullable
-    default <T> T getValue(@NonNull TypeToken<T> type) throws ObjectMappingException {
-        return getValue(type, (T) null);
+    default <V> V getValue(@NonNull TypeToken<V> type) throws ObjectMappingException {
+        return getValue(type, (V) null);
     }
 
     /**
@@ -502,10 +502,10 @@ public interface ConfigurationNode {
      *
      * @param type The type to deserialize to
      * @param def The value to return if no value or value is not of appropriate type
-     * @param <T> the type to get
+     * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
      */
-    <T> T getValue(@NonNull TypeToken<T> type, T def) throws ObjectMappingException;
+    <V> V getValue(@NonNull TypeToken<V> type, V def) throws ObjectMappingException;
 
     /**
      * Get the current value associated with this node.
@@ -519,10 +519,10 @@ public interface ConfigurationNode {
      * @param type The type to deserialize to
      * @param defSupplier The function that will be called to calculate a default value only if there is no existing
      *                    value of the correct type
-     * @param <T> the type to get
+     * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
      */
-    <T> T getValue(@NonNull TypeToken<T> type, @NonNull Supplier<T> defSupplier) throws ObjectMappingException;
+    <V> V getValue(@NonNull TypeToken<V> type, @NonNull Supplier<V> defSupplier) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
@@ -534,7 +534,7 @@ public interface ConfigurationNode {
      * @return this
      */
     @NonNull
-    ConfigurationNode setValue(@Nullable Object value);
+    T setValue(@Nullable Object value);
 
     /**
      * Set this node's value to the given value.
@@ -547,17 +547,16 @@ public interface ConfigurationNode {
      *
      * @param type The type to use for serialization type information
      * @param value The value to set
-     * @param <T> The type to serialize to
+     * @param <V> The type to serialize to
      * @return this
      */
     @NonNull
-    default <T> ConfigurationNode setValue(@NonNull TypeToken<T> type, @Nullable T value) throws ObjectMappingException {
+    default <V> T setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
         if (value == null) {
-            setValue(null);
-            return this;
+            return setValue(null);
         }
 
-        TypeSerializer<T> serial = getOptions().getSerializers().get(type);
+        TypeSerializer<V> serial = getOptions().getSerializers().get(type);
         if (serial != null) {
             serial.serialize(type, value, this);
         } else if (getOptions().acceptsType(value.getClass())) {
@@ -565,7 +564,7 @@ public interface ConfigurationNode {
         } else {
             throw new ObjectMappingException("No serializer available for type " + type);
         }
-        return this;
+        return self();
     }
 
     /**
@@ -578,7 +577,7 @@ public interface ConfigurationNode {
      * @return this
      */
     @NonNull
-    ConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
+    T mergeValuesFrom(@NonNull ConfigurationNode<?> other);
 
     /**
      * Removes a direct child of this node
@@ -594,7 +593,7 @@ public interface ConfigurationNode {
      * @return A new child created as the next entry in the list when it is attached
      */
     @NonNull
-    ConfigurationNode getAppendedNode();
+    T getAppendedNode();
 
     /**
      * Creates a deep copy of this node.
@@ -614,6 +613,12 @@ public interface ConfigurationNode {
      * @return A copy of this node
      */
     @NonNull
-    ConfigurationNode copy();
+    T copy();
 
+    /**
+     * Get own instance. Primarily used for type-safety in implementations
+     *
+     * @return this
+     */
+    T self();
 }

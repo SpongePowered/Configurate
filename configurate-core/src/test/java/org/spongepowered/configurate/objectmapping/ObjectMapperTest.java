@@ -42,7 +42,7 @@ public class ObjectMapperTest {
     @Test
     public void testCreateFromNode() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final ConfigurationNode source = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> source = SimpleConfigurationNode.root();
         source.getNode("test-key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
 
         final TestObject obj = mapper.bindToNew().populate(source);
@@ -59,7 +59,7 @@ public class ObjectMapperTest {
     @Test
     public void testLoadExistingObject() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final ConfigurationNode source = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> source = SimpleConfigurationNode.root();
         final TestObject instance = new TestObject();
 
         source.getNode("test-key").setValue("boom");
@@ -71,7 +71,7 @@ public class ObjectMapperTest {
     @Test
     public void testDefaultsApplied() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final ConfigurationNode source = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> source = SimpleConfigurationNode.root();
         final TestObject instance = new TestObject();
 
         instance.stringVal = "hi";
@@ -87,7 +87,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testCommentsApplied() throws ObjectMappingException {
-        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> node = SimpleCommentedConfigurationNode.root();
         ObjectMapper<CommentedObject>.BoundInstance mapper = ObjectMapper.forClass(CommentedObject.class).bindToNew();
         CommentedObject obj = mapper.populate(node);
         obj.color = "fuchsia";
@@ -126,12 +126,12 @@ public class ObjectMapperTest {
     @Test
     public void testSuperclassFieldsIncluded() throws ObjectMappingException {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.forClass(TestObjectChild.class);
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode<?> node = SimpleConfigurationNode.root();
         node.getNode("child-setting").setValue(true);
         node.getNode("test-key").setValue("Parents get populated too!");
 
         TestObjectChild instance = mapper.bindToNew().populate(node);
-        assertEquals(true, instance.childSetting);
+        assertTrue(instance.childSetting);
         assertEquals("Parents get populated too!", instance.stringVal);
     }
 
@@ -143,7 +143,7 @@ public class ObjectMapperTest {
     @Test
     public void testKeyFromFieldName() throws ObjectMappingException {
         final ObjectMapper<FieldNameObject> mapper = ObjectMapper.forClass(FieldNameObject.class);
-        final ConfigurationNode node = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> node = SimpleConfigurationNode.root();
         node.getNode("loads").setValue(true);
 
         FieldNameObject obj = mapper.bindToNew().populate(node);
@@ -161,7 +161,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testNestedObjectWithComments() throws ObjectMappingException {
-        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> node = SimpleCommentedConfigurationNode.root();
         final ObjectMapper<ParentObject>.BoundInstance mapper = ObjectMapper.forObject(new ParentObject());
         mapper.populate(node);
         assertEquals("Comment on parent", node.getNode("inner").getComment().get());
@@ -191,7 +191,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testInterfaceSerialization() throws ObjectMappingException {
-        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode<?> node = SimpleCommentedConfigurationNode.root();
 
         final ChildObject childObject = new ChildObject();
         childObject.test = "Changed value";

@@ -30,7 +30,7 @@ import java.io.IOException;
  *
  * @param <NodeType> The {@link ConfigurationNode} type produced by the loader
  */
-public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
+public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType>> {
 
     /**
      * Gets the default {@link ConfigurationOptions} used by the loader.
@@ -75,7 +75,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      *
      * @throws IOException if any sort of error occurs with writing or generating the configuration
      */
-    void save(@NonNull ConfigurationNode node) throws IOException;
+    void save(@NonNull ConfigurationNode<?> node) throws IOException;
 
     /**
      * Return an empty node of the most appropriate type for this loader, using the default options.

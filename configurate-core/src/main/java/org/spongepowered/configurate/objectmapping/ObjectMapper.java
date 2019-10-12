@@ -85,7 +85,7 @@ public class ObjectMapper<T> {
             this.fieldType = TypeToken.of(field.getGenericType());
         }
 
-        public void deserializeFrom(Object instance, ConfigurationNode node) throws ObjectMappingException {
+        public void deserializeFrom(Object instance, ConfigurationNode<?> node) throws ObjectMappingException {
             TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
             if (serial == null) {
                 throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
@@ -107,7 +107,7 @@ public class ObjectMapper<T> {
         }
 
         @SuppressWarnings("rawtypes")
-        public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
+        public void serializeTo(Object instance, ConfigurationNode<?> node) throws ObjectMappingException {
             try {
                 Object fieldVal = this.field.get(instance);
                 if (fieldVal == null) {
@@ -121,7 +121,7 @@ public class ObjectMapper<T> {
                 }
 
                 if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
-                    CommentedConfigurationNode commentNode = ((CommentedConfigurationNode) node);
+                    CommentedConfigurationNode<?> commentNode = ((CommentedConfigurationNode<?>) node);
                     if (!commentNode.getComment().isPresent()) {
                         commentNode.setComment(this.comment);
                     }
@@ -149,9 +149,9 @@ public class ObjectMapper<T> {
          * @return The object provided, for easier chaining
          * @throws ObjectMappingException If an error occurs while populating data
          */
-        public T populate(ConfigurationNode source) throws ObjectMappingException {
+        public T populate(ConfigurationNode<?> source) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
-                ConfigurationNode node = source.getNode(ent.getKey());
+                ConfigurationNode<?> node = source.getNode(ent.getKey());
                 ent.getValue().deserializeFrom(boundInstance, node);
             }
             return boundInstance;
@@ -163,9 +163,9 @@ public class ObjectMapper<T> {
          * @param target The target node to serialize to
          * @throws ObjectMappingException if serialization was not possible due to some error.
          */
-        public void serialize(ConfigurationNode target) throws ObjectMappingException {
+        public void serialize(ConfigurationNode<?> target) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
-                ConfigurationNode node = target.getNode(ent.getKey());
+                ConfigurationNode<?> node = target.getNode(ent.getKey());
                 ent.getValue().serializeTo(boundInstance, node);
             }
         }

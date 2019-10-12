@@ -27,10 +27,10 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * A {@link ConfigValue} which holds a map of values.
  */
-class MapConfigValue extends ConfigValue {
-    volatile ConcurrentMap<Object, SimpleConfigurationNode> values;
+class MapConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
+    volatile ConcurrentMap<Object, T> values;
 
-    public MapConfigValue(SimpleConfigurationNode holder) {
+    public MapConfigValue(T holder) {
         super(holder);
         values = newMap();
     }
@@ -40,7 +40,7 @@ class MapConfigValue extends ConfigValue {
         return ValueType.MAP;
     }
 
-    private ConcurrentMap<Object, SimpleConfigurationNode> newMap() {
+    private ConcurrentMap<Object, T> newMap() {
         return holder.getOptions().getMapFactory().create();
     }
 
@@ -48,7 +48,7 @@ class MapConfigValue extends ConfigValue {
     @Override
     public Object getValue() {
         Map<Object, Object> value = new LinkedHashMap<>();
-        for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : values.entrySet()) {
+        for (Map.Entry<Object, T> ent : values.entrySet()) {
             value.put(ent.getKey(), ent.getValue().getValue()); // unwrap key from the backing node
         }
         return value;
@@ -57,18 +57,18 @@ class MapConfigValue extends ConfigValue {
     @Override
     public void setValue(@Nullable Object value) {
         if (value instanceof Map) {
-            final ConcurrentMap<Object, SimpleConfigurationNode> newValue = newMap();
+            final ConcurrentMap<Object, T> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
                 if (ent.getValue() == null) {
                     continue;
                 }
-                SimpleConfigurationNode child = holder.createNode(ent.getKey());
+                T child = holder.createNode(ent.getKey());
                 newValue.put(ent.getKey(), child);
                 child.attached = true;
                 child.setValue(ent.getValue());
             }
             synchronized (this) {
-                ConcurrentMap<Object, SimpleConfigurationNode> oldMap = this.values;
+                ConcurrentMap<Object, T> oldMap = this.values;
                 this.values = newValue;
                 detachChildren(oldMap);
             }
@@ -79,7 +79,7 @@ class MapConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChild(@NonNull Object key, @Nullable T value) {
         if (value == null) {
             return values.remove(key);
         } else {
@@ -89,7 +89,7 @@ class MapConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
         if (value == null) {
             return values.remove(key);
         } else {
@@ -99,28 +99,28 @@ class MapConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    public SimpleConfigurationNode getChild(@Nullable Object key) {
+    public T getChild(@Nullable Object key) {
         return values.get(key);
     }
 
     @NonNull
     @Override
-    public Iterable<SimpleConfigurationNode> iterateChildren() {
+    public Iterable<T> iterateChildren() {
         return values.values();
     }
 
     @NonNull
     @Override
-    MapConfigValue copy(@NonNull SimpleConfigurationNode holder) {
-        MapConfigValue copy = new MapConfigValue(holder);
-        for (Map.Entry<Object, ? extends SimpleConfigurationNode> ent : this.values.entrySet()) {
+    MapConfigValue<T> copy(@NonNull T holder) {
+        MapConfigValue<T> copy = new MapConfigValue<>(holder);
+        for (Map.Entry<Object, T> ent : this.values.entrySet()) {
             copy.values.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy
         }
         return copy;
     }
 
-    private static void detachChildren(Map<Object, SimpleConfigurationNode> map) {
-        for (SimpleConfigurationNode value : map.values()) {
+    private static void detachChildren(Map<Object, ? extends AbstractConfigurationNode<?>> map) {
+        for (AbstractConfigurationNode<?> value : map.values()) {
             value.attached = false;
             value.clear();
         }
@@ -129,7 +129,7 @@ class MapConfigValue extends ConfigValue {
     @Override
     public void clear() {
         synchronized (this) {
-            ConcurrentMap<Object, SimpleConfigurationNode> oldMap = this.values;
+            ConcurrentMap<Object, T> oldMap = this.values;
             this.values = newMap();
             detachChildren(oldMap);
         }
@@ -143,7 +143,7 @@ class MapConfigValue extends ConfigValue {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        MapConfigValue that = (MapConfigValue) o;
+        MapConfigValue<?> that = (MapConfigValue<?>) o;
         return Objects.equal(values, that.values);
     }
 

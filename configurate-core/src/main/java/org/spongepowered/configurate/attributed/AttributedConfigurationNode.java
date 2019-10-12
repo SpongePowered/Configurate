@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * A configuration node that can have attributes attached to it.
  */
-public interface AttributedConfigurationNode extends ConfigurationNode {
+public interface AttributedConfigurationNode<T extends AttributedConfigurationNode<T>> extends ConfigurationNode<T> {
 
     /**
      * Gets the tag name of this node.
@@ -47,7 +47,7 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
      * @return this
      */
     @NonNull
-    AttributedConfigurationNode setTagName(@NonNull String name);
+    T setTagName(@NonNull String name);
 
     /**
      * Adds an attribute to this node.
@@ -57,7 +57,7 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
      * @return this
      */
     @NonNull
-    AttributedConfigurationNode addAttribute(@NonNull String name, @NonNull String value);
+    T addAttribute(@NonNull String name, @NonNull String value);
 
     /**
      * Removes an attribute from this node.
@@ -66,7 +66,7 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
      * @return this
      */
     @NonNull
-    AttributedConfigurationNode removeAttribute(@NonNull String name);
+    T removeAttribute(@NonNull String name);
 
     /**
      * Sets the attributes of this node.
@@ -75,7 +75,7 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
      * @return this
      */
     @NonNull
-    AttributedConfigurationNode setAttributes(@NonNull Map<String, String> attributes);
+    T setAttributes(@NonNull Map<String, String> attributes);
 
     /**
      * Gets if this node has any attributes.
@@ -103,14 +103,4 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
      */
     @NonNull
     Map<String, String> getAttributes();
-
-    // Methods from superclass overridden to have correct return types
-    @Nullable @Override AttributedConfigurationNode getParent();
-    @NonNull @Override List<? extends AttributedConfigurationNode> getChildrenList();
-    @NonNull @Override Map<Object, ? extends AttributedConfigurationNode> getChildrenMap();
-    @NonNull @Override AttributedConfigurationNode setValue(@Nullable Object value);
-    @NonNull @Override AttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
-    @NonNull @Override AttributedConfigurationNode getAppendedNode();
-    @NonNull @Override AttributedConfigurationNode getNode(@NonNull Object... path);
-    @NonNull @Override AttributedConfigurationNode copy();
 }

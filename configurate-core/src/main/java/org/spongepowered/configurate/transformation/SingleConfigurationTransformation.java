@@ -28,9 +28,9 @@ import java.util.Map;
  *
  * <p>Transformations are executed from deepest in the configuration hierarchy outwards.</p>
  */
-class SingleConfigurationTransformation extends ConfigurationTransformation {
+class SingleConfigurationTransformation<T extends ConfigurationNode<T>> extends ConfigurationTransformation<T> {
     private final MoveStrategy strategy;
-    private final Map<Object[], TransformAction> actions;
+    private final Map<Object[], TransformAction<? super T>> actions;
 
     /**
      * Thread local {@link ConfigurationTransformation.NodePath} instance - used so we don't have to create lots of NodePath
@@ -41,30 +41,30 @@ class SingleConfigurationTransformation extends ConfigurationTransformation {
      */
     private final ThreadLocal<ConfigurationTransformation.NodePath> sharedPath = ThreadLocal.withInitial(ConfigurationTransformation.NodePath::new);
 
-    SingleConfigurationTransformation(Map<Object[], TransformAction> actions, MoveStrategy strategy) {
+    SingleConfigurationTransformation(Map<Object[], TransformAction<? super T>> actions, MoveStrategy strategy) {
         this.actions = actions;
         this.strategy = strategy;
     }
 
     @Override
-    public void apply(@NonNull ConfigurationNode node) {
-        for (Map.Entry<Object[], TransformAction> ent : actions.entrySet()) {
+    public void apply(@NonNull T node) {
+        for (Map.Entry<Object[], TransformAction<? super T>> ent : actions.entrySet()) {
             applySingleAction(node, ent.getKey(), 0, node, ent.getValue());
         }
     }
 
-    private void applySingleAction(ConfigurationNode start, Object[] path, int startIdx, ConfigurationNode node, TransformAction action) {
+    private void applySingleAction(T start, Object[] path, int startIdx, T node, TransformAction<? super T> action) {
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.hasListChildren()) {
-                    List<? extends ConfigurationNode> children = node.getChildrenList();
+                    List<T> children = node.getChildrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
                         applySingleAction(start, path, i + 1, children.get(di), action);
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else if (node.hasMapChildren()) {
-                    for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
+                    for (Map.Entry<Object, T> ent : node.getChildrenMap().entrySet()) {
                         path[i] = ent.getKey();
                         applySingleAction(start, path, i + 1, ent.getValue(), action);
                     }

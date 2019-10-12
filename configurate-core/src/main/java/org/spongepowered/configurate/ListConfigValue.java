@@ -30,10 +30,10 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A {@link ConfigValue} which holds a list of values.
  */
-class ListConfigValue extends ConfigValue {
-    final AtomicReference<List<SimpleConfigurationNode>> values = new AtomicReference<>(new ArrayList<>());
+class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
+    final AtomicReference<List<T>> values = new AtomicReference<>(new ArrayList<>());
 
-    ListConfigValue(SimpleConfigurationNode holder) {
+    ListConfigValue(T holder) {
         super(holder);
     }
 
@@ -42,10 +42,10 @@ class ListConfigValue extends ConfigValue {
         return ValueType.LIST;
     }
 
-    ListConfigValue(SimpleConfigurationNode holder, Object startValue) {
+    ListConfigValue(T holder, Object startValue) {
         super(holder);
 
-        SimpleConfigurationNode child = holder.createNode(0);
+        T child = holder.createNode(0);
         child.attached = true;
         child.setValue(startValue);
         this.values.get().add(child);
@@ -54,10 +54,10 @@ class ListConfigValue extends ConfigValue {
     @Nullable
     @Override
     public Object getValue() {
-        final List<SimpleConfigurationNode> values = this.values.get();
+        final List<T> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
-            for (SimpleConfigurationNode obj : values) {
+            for (T obj : values) {
                 ret.add(obj.getValue()); // unwrap
             }
             return ret;
@@ -70,7 +70,7 @@ class ListConfigValue extends ConfigValue {
             value = Collections.singleton(value);
         }
         final Collection<?> valueAsList = (Collection<?>) value;
-        final List<SimpleConfigurationNode> newValue = new ArrayList<>(valueAsList.size());
+        final List<T> newValue = new ArrayList<>(valueAsList.size());
 
         int count = 0;
         for (Object o : valueAsList) {
@@ -78,7 +78,7 @@ class ListConfigValue extends ConfigValue {
                 continue;
             }
 
-            SimpleConfigurationNode child = holder.createNode(count);
+            T child = holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
             child.setValue(o);
@@ -89,19 +89,19 @@ class ListConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    public SimpleConfigurationNode putChild(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    public T putChild(@NonNull Object key, @Nullable T value) {
         return putChild((int) key, value, false);
     }
 
     @Nullable
     @Override
-    SimpleConfigurationNode putChildIfAbsent(@NonNull Object key, @Nullable SimpleConfigurationNode value) {
+    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
         return putChild((int) key, value, true);
     }
 
-    private SimpleConfigurationNode putChild(int index, @Nullable SimpleConfigurationNode value, boolean onlyIfAbsent) {
-        SimpleConfigurationNode ret = null;
-        List<SimpleConfigurationNode> values;
+    private T putChild(int index, @Nullable T value, boolean onlyIfAbsent) {
+        T ret = null;
+        List<T> values;
         do {
             values = this.values.get();
             synchronized (values) {
@@ -137,13 +137,13 @@ class ListConfigValue extends ConfigValue {
 
     @Nullable
     @Override
-    public SimpleConfigurationNode getChild(@Nullable Object key) {
+    public T getChild(@Nullable Object key) {
         Integer value = Types.asInt(key);
         if (value == null || value < 0) {
             return null;
         }
 
-        final List<SimpleConfigurationNode> values = this.values.get();
+        final List<T> values = this.values.get();
         synchronized (values) {
             if (value >= values.size()) {
                 return null;
@@ -154,8 +154,8 @@ class ListConfigValue extends ConfigValue {
 
     @NonNull
     @Override
-    public Iterable<SimpleConfigurationNode> iterateChildren() {
-        List<SimpleConfigurationNode> values = this.values.get();
+    public Iterable<T> iterateChildren() {
+        List<T> values = this.values.get();
         synchronized (values) {
             return ImmutableList.copyOf(values);
         }
@@ -163,14 +163,14 @@ class ListConfigValue extends ConfigValue {
 
     @NonNull
     @Override
-    ListConfigValue copy(@NonNull SimpleConfigurationNode holder) {
-        ListConfigValue copy = new ListConfigValue(holder);
-        List<SimpleConfigurationNode> copyValues;
+    ListConfigValue<T> copy(@NonNull T holder) {
+        ListConfigValue<T> copy = new ListConfigValue<T>(holder);
+        List<T> copyValues;
 
-        final List<SimpleConfigurationNode> values = this.values.get();
+        final List<T> values = this.values.get();
         synchronized (values) {
             copyValues = new ArrayList<>(values.size());
-            for (SimpleConfigurationNode obj : values) {
+            for (T obj : values) {
                 copyValues.add(obj.copy(holder)); // recursively copy
             }
         }
@@ -179,9 +179,9 @@ class ListConfigValue extends ConfigValue {
         return copy;
     }
 
-    private static void detachNodes(List<SimpleConfigurationNode> children) {
+    private static void detachNodes(List<? extends AbstractConfigurationNode<?>> children) {
         synchronized (children) {
-            for (SimpleConfigurationNode node : children) {
+            for (AbstractConfigurationNode<?> node : children) {
                 node.attached = false;
                 node.clear();
             }
@@ -190,7 +190,7 @@ class ListConfigValue extends ConfigValue {
 
     @Override
     public void clear() {
-        List<SimpleConfigurationNode> oldValues = values.getAndSet(new ArrayList<>());
+        List<T> oldValues = values.getAndSet(new ArrayList<>());
         detachNodes(oldValues);
     }
 
@@ -202,7 +202,7 @@ class ListConfigValue extends ConfigValue {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ListConfigValue that = (ListConfigValue) o;
+        ListConfigValue<?> that = (ListConfigValue<?>) o;
         return Objects.equal(values.get(), that.values.get());
     }
 

@@ -51,7 +51,7 @@ public class TypeSerializersTest {
     public void testStringSerializer() throws ObjectMappingException {
         final TypeToken<String> stringType = TypeToken.of(String.class);
         final TypeSerializer<String> stringSerializer = SERIALIZERS.get(stringType);
-        final ConfigurationNode node = SimpleConfigurationNode.root().setValue("foobar");
+        final ConfigurationNode<?> node = SimpleConfigurationNode.root().setValue("foobar");
 
         assertEquals("foobar", stringSerializer.deserialize(stringType, node));
         stringSerializer.serialize(stringType, "foobarbaz", node);
@@ -66,18 +66,19 @@ public class TypeSerializersTest {
         final TypeToken<?> primitiveIntType = TypeToken.of(int.class);
 
         // They must all be the same serializer
-        final TypeSerializer<Integer> numberSerializer = SERIALIZERS.get(intType);
+        final TypeSerializer<? extends Number> numberSerializer = SERIALIZERS.get(intType);
         assertEquals(numberSerializer, SERIALIZERS.get(longType));
         assertEquals(numberSerializer, SERIALIZERS.get(floatType));
         assertEquals(numberSerializer, SERIALIZERS.get(primitiveIntType));
 
-        SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(45f);
-        assertEquals((Object) 45, numberSerializer.deserialize(intType, node));
-        assertEquals((Object) 45L, numberSerializer.deserialize(longType, node));
-        assertEquals((Object) 45f, numberSerializer.deserialize(floatType, node));
-        assertEquals((Object) 45, numberSerializer.deserialize(primitiveIntType, node));
+        ConfigurationNode<?> node = SimpleConfigurationNode.root().setValue(45f);
+        assertEquals(45, numberSerializer.deserialize(intType, node));
+        assertEquals(45L, numberSerializer.deserialize(longType, node));
+        assertEquals(45f, numberSerializer.deserialize(floatType, node));
+        assertEquals(45, numberSerializer.deserialize(primitiveIntType, node));
 
-        numberSerializer.serialize(intType, 42, node);
+        //noinspection unchecked
+        ((TypeSerializer) numberSerializer).serialize(intType, 42, node);
         assertEquals(42, node.getValue());
     }
 
@@ -93,7 +94,7 @@ public class TypeSerializersTest {
         final TypeToken<Boolean> booleanType = TypeToken.of(Boolean.class);
 
         final TypeSerializer<Boolean> booleanSerializer = SERIALIZERS.get(booleanType);
-        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode<?> node = SimpleConfigurationNode.root();
         node.getNode("direct").setValue(true);
         node.getNode("fromstring").setValue("true");
 
@@ -114,7 +115,7 @@ public class TypeSerializersTest {
 
         final TypeSerializer<TestEnum> enumSerializer = SERIALIZERS.get(enumType);
 
-        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode<?> node = SimpleConfigurationNode.root();
         node.getNode("present_val").setValue("first");
         node.getNode("another_present_val").setValue("SECOND");
         node.getNode(("casematters_val")).setValue("tHiRd");
@@ -134,7 +135,7 @@ public class TypeSerializersTest {
     public void testListSerializer() throws ObjectMappingException {
         final TypeToken<List<String>> stringListType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> stringListSerializer = SERIALIZERS.get(stringListType);
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
         value.getAppendedNode().setValue("hi");
         value.getAppendedNode().setValue("there");
         value.getAppendedNode().setValue("beautiful");
@@ -156,7 +157,7 @@ public class TypeSerializersTest {
         final TypeSerializer<List<String>> listStringSerializer =
                 SERIALIZERS.get(listStringType);
 
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
 
         listStringSerializer.serialize(listStringType, ImmutableList.of(), value);
 
@@ -168,7 +169,7 @@ public class TypeSerializersTest {
         final TypeToken<List> rawType = TypeToken.of(List.class);
         final TypeSerializer<List> serial = SERIALIZERS.get(rawType);
 
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
 
         value.getAppendedNode().setValue(1);
         value.getAppendedNode().setValue("dog");
@@ -185,7 +186,7 @@ public class TypeSerializersTest {
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
                 SERIALIZERS.get(mapStringIntType);
 
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
         value.getNode("fish").setValue(5);
         value.getNode("bugs").setValue("124880");
         value.getNode("time").setValue("-1");
@@ -208,12 +209,12 @@ public class TypeSerializersTest {
         final TypeSerializer<Map<TestEnum, Integer>> mapTestEnumIntSerializer =
                 SERIALIZERS.get(mapTestEnumIntType);
 
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
         value.getNode("FIRST").setValue(5);
         value.getNode("SECOND").setValue(8);
 
         Map<TestEnum, Integer> des = mapTestEnumIntSerializer.deserialize(mapTestEnumIntType, value);
-        final ConfigurationNode serialVal = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> serialVal = SimpleConfigurationNode.root();
         mapTestEnumIntSerializer.serialize(mapTestEnumIntType, des, serialVal);
         assertEquals(value.getValue(), serialVal.getValue());
         //assertEquals(value, serialVal);
@@ -224,7 +225,7 @@ public class TypeSerializersTest {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer = SERIALIZERS.get(mapStringIntType);
 
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
         value.getNode("fish").setValue(5);
         value.getNode("bugs").setValue("124880");
         value.getNode("time").setValue("-1");
@@ -244,7 +245,7 @@ public class TypeSerializersTest {
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
                 SERIALIZERS.get(mapStringIntType);
 
-        final ConfigurationNode value = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> value = SimpleConfigurationNode.root();
 
         mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of(), value);
 
@@ -261,7 +262,7 @@ public class TypeSerializersTest {
     public void testAnnotatedObjectSerializer() throws ObjectMappingException {
         final TypeToken<TestObject> testNodeType = TypeToken.of(TestObject.class);
         final TypeSerializer<TestObject> testObjectSerializer = SERIALIZERS.get(testNodeType);
-        final ConfigurationNode node = SimpleConfigurationNode.root();
+        final ConfigurationNode<?> node = SimpleConfigurationNode.root();
         node.getNode("int").setValue("42");
         node.getNode("name").setValue("Bob");
 
@@ -278,7 +279,7 @@ public class TypeSerializersTest {
          final String uriString = "http://google.com";
          final URI testUri = URI.create(uriString);
 
-         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(uriString);
+         ConfigurationNode<?> node = SimpleConfigurationNode.root().setValue(uriString);
          assertEquals(testUri, uriSerializer.deserialize(uriType, node));
 
          uriSerializer.serialize(uriType, testUri, node);
@@ -293,7 +294,7 @@ public class TypeSerializersTest {
          final String urlString = "http://google.com";
          final URL testUrl = new URL(urlString);
 
-         SimpleConfigurationNode node = SimpleConfigurationNode.root().setValue(urlString);
+         ConfigurationNode<?> node = SimpleConfigurationNode.root().setValue(urlString);
          assertEquals(testUrl, urlSerializer.deserialize(urlType, node));
 
          urlSerializer.serialize(urlType, testUrl, node);
@@ -307,7 +308,7 @@ public class TypeSerializersTest {
 
         final UUID testUuid = UUID.randomUUID();
 
-        SimpleConfigurationNode serializeTo = SimpleConfigurationNode.root();
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
         uuidSerializer.serialize(uuidType, testUuid, serializeTo);
         assertEquals(testUuid.toString(), serializeTo.getValue());
 
@@ -321,7 +322,7 @@ public class TypeSerializersTest {
         final TypeSerializer<Pattern> patternSerializer = SERIALIZERS.get(patternType);
 
         final Pattern testPattern = Pattern.compile("(na )+batman");
-        SimpleConfigurationNode serializeTo = SimpleConfigurationNode.root();
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
         patternSerializer.serialize(patternType, testPattern, serializeTo);
         assertEquals("(na )+batman", serializeTo.getValue());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());

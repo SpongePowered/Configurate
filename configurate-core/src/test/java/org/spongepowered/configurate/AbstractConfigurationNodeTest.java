@@ -37,34 +37,34 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SimpleConfigurationNodeTest {
+public class AbstractConfigurationNodeTest {
 
     @Test
     public void testUnattachedNodesTemporary() {
-        ConfigurationNode config = SimpleConfigurationNode.root();
-        ConfigurationNode node = config.getNode("some", "node");
+        ConfigurationNode<?> config = SimpleConfigurationNode.root();
+        ConfigurationNode<?> node = config.getNode("some", "node");
         assertTrue(node.isVirtual());
         assertNull(node.getValue());
         assertFalse(node.hasListChildren());
         assertFalse(node.hasMapChildren());
-        ConfigurationNode node2 = config.getNode("some", "node");
+        ConfigurationNode<?> node2 = config.getNode("some", "node");
         assertNotSame(node, node2);
 
 
-        ConfigurationNode node3 = config.getNode("some").getNode("node");
+        ConfigurationNode<?> node3 = config.getNode("some").getNode("node");
         assertNotSame(node, node3);
     }
 
     @Test
     public void testNodeCreation() {
-        ConfigurationNode config = SimpleConfigurationNode.root();
-        ConfigurationNode uncreatedNode = config.getNode("uncreated", "node");
+        ConfigurationNode<?> config = SimpleConfigurationNode.root();
+        ConfigurationNode<?> uncreatedNode = config.getNode("uncreated", "node");
         assertTrue(uncreatedNode.isVirtual()); // Just in case
         uncreatedNode.setValue("test string for cool people");
         assertFalse(uncreatedNode.isVirtual());
         assertEquals("test string for cool people", uncreatedNode.getValue());
 
-        ConfigurationNode fetchedAfterCreation = config.getNode("uncreated", "node");
+        ConfigurationNode<?> fetchedAfterCreation = config.getNode("uncreated", "node");
         assertEquals(uncreatedNode, fetchedAfterCreation);
         assertEquals(uncreatedNode, config.getNode("uncreated").getNode("node"));
     }
@@ -72,35 +72,33 @@ public class SimpleConfigurationNodeTest {
     @Test
     public void testTraversingNodeCreation() {
         SimpleConfigurationNode config = SimpleConfigurationNode.root();
-        SimpleConfigurationNode nodeOne = config.getNode("uncreated", "step", "node");
-        SimpleConfigurationNode nodeTwo = config.getNode("uncreated", "step", "color");
-        nodeOne.setValue("one");
-        nodeTwo.setValue("lilac");
-        ConfigurationNode attachedParent = config.getNode("uncreated", "step");
+        SimpleConfigurationNode nodeOne = config.getNode("uncreated", "step", "node").setValue("one");
+        SimpleConfigurationNode nodeTwo = config.getNode("uncreated", "step", "color").setValue("lilac");
+        SimpleConfigurationNode attachedParent = config.getNode("uncreated", "step");
         assertEquals(attachedParent, nodeOne.getParentEnsureAttached());
         assertEquals(attachedParent, nodeTwo.getParentEnsureAttached());
     }
 
     @Test
     public void testGetDefaultValue() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
         final Object testObj = new Object();
         assertEquals(testObj, root.getNode("nonexistent").getValue(testObj));
     }
 
     @Test
     public void testGetChildrenMap() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
-        ConfigurationNode a = root.getNode("a").setValue("one");
-        ConfigurationNode b = root.getNode("b").setValue("two");
-        assertEquals(ImmutableMap.<Object, ConfigurationNode>of("a", a, "b", b), root.getChildrenMap());
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> a = root.getNode("a").setValue("one");
+        ConfigurationNode<?> b = root.getNode("b").setValue("two");
+        assertEquals(ImmutableMap.<Object, ConfigurationNode<?>>of("a", a, "b", b), root.getChildrenMap());
     }
 
     @Test
     public void testGetChildrenList() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
-        ConfigurationNode a = root.getAppendedNode().setValue("one");
-        ConfigurationNode b = root.getAppendedNode().setValue("two");
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> a = root.getAppendedNode().setValue("one");
+        ConfigurationNode<?> b = root.getAppendedNode().setValue("two");
         assertEquals(ImmutableList.of(a, b), root.getChildrenList());
     }
 
@@ -115,7 +113,7 @@ public class SimpleConfigurationNodeTest {
     }
     @Test
     public void testMapUnpacking() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
         root.setValue(TEST_MAP);
         assertEquals("value", root.getNode("key").getValue());
         assertEquals(true, root.getNode("fabulous").getValue());
@@ -123,7 +121,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testMapPacking() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
         root.getNode("key").setValue("value");
         root.getNode("fabulous").setValue(true);
 
@@ -132,7 +130,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testListUnpacking() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
         root.setValue(TEST_LIST);
         assertEquals("test1", root.getNode(0).getValue());
         assertEquals("test2", root.getNode(1).getValue());
@@ -140,7 +138,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testListPacking() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
         root.getAppendedNode().setValue("test1");
         root.getAppendedNode().setValue("test2");
         assertEquals(TEST_LIST, root.getValue());
@@ -148,18 +146,18 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testSingleListConversion() {
-        ConfigurationNode config = SimpleConfigurationNode.root();
-        ConfigurationNode node = config.getNode("test", "value");
+        ConfigurationNode<?> config = SimpleConfigurationNode.root();
+        ConfigurationNode<?> node = config.getNode("test", "value");
         node.setValue("test");
-        ConfigurationNode secondChild = node.getAppendedNode();
+        ConfigurationNode<?> secondChild = node.getAppendedNode();
         secondChild.setValue("test2");
         assertEquals(Arrays.asList("test", "test2"), node.getValue());
     }
 
     @Test
     public void testSettingNullRemoves() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
-        ConfigurationNode child = root.getNode("child").setValue("a");
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> child = root.getNode("child").setValue("a");
         assertFalse(child.isVirtual());
         assertSame(child, root.getNode("child"));
         child.setValue(null);
@@ -169,24 +167,24 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testGetPath() {
-        ConfigurationNode root = SimpleConfigurationNode.root();
+        ConfigurationNode<?> root = SimpleConfigurationNode.root();
         assertArrayEquals(new Object[]{"a", "b", "c"}, root.getNode("a", "b", "c").getPath());
     }
 
     @Test
     public void testMergeValues() {
-        SimpleConfigurationNode first = SimpleConfigurationNode.root();
-        SimpleConfigurationNode second = SimpleConfigurationNode.root();
+        ConfigurationNode<?> first = SimpleConfigurationNode.root();
+        ConfigurationNode<?> second = SimpleConfigurationNode.root();
         first.getNode("scalar").setValue("one");
         first.getNode("absent").setValue("butmerged");
         second.getNode("scalar").setValue("two");
 
-        ConfigurationNode firstAbsentMap = first.getNode("absent-map");
+        ConfigurationNode<?> firstAbsentMap = first.getNode("absent-map");
         firstAbsentMap.getNode("a").setValue("one");
         firstAbsentMap.getNode("b").setValue("two");
 
-        ConfigurationNode firstMergedMap = first.getNode("merged-map");
-        ConfigurationNode secondMergedMap = second.getNode("merged-map");
+        ConfigurationNode<?> firstMergedMap = first.getNode("merged-map");
+        ConfigurationNode<?> secondMergedMap = second.getNode("merged-map");
         firstMergedMap.getNode("source").setValue("first");
         secondMergedMap.getNode("source").setValue("second");
         firstMergedMap.getNode("first-only").setValue("yeah");
@@ -204,7 +202,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testSettingMultipleTimesWorks() {
-        SimpleConfigurationNode subject = SimpleConfigurationNode.root();
+        ConfigurationNode<?> subject = SimpleConfigurationNode.root();
         subject.setValue(ImmutableMap.of("a", "b", "b", "c", "c", "d"));
         assertTrue(subject.hasMapChildren());
         subject.setValue(ImmutableMap.of("na", "na", "eh", "eh", "bleugh", "bleugh"));
@@ -213,9 +211,9 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testGetSetValueSerialized() throws ObjectMappingException {
-        SimpleConfigurationNode subject = SimpleConfigurationNode.root();
+        ConfigurationNode<?> subject = SimpleConfigurationNode.root();
         subject.setValue("48");
-        assertEquals((Object) 48, subject.getValue(TypeToken.of(Integer.class)));
+        assertEquals(Integer.valueOf(48), subject.getValue(TypeToken.of(Integer.class)));
         UUID testId = UUID.randomUUID();
         subject.setValue(TypeToken.of(UUID.class), testId);
         assertEquals(testId.toString(), subject.getValue());
@@ -223,7 +221,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testDefaultsCopied() {
-        SimpleConfigurationNode subject = SimpleConfigurationNode.root(ConfigurationOptions.defaults().setShouldCopyDefaults(true));
+        ConfigurationNode<?> subject = SimpleConfigurationNode.root(ConfigurationOptions.defaults().setShouldCopyDefaults(true));
         assertNull(subject.getValue());
         assertEquals("default value", subject.getValue("default value"));
         assertEquals("default value", subject.getValue());

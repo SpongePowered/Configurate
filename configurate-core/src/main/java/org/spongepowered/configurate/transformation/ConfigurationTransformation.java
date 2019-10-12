@@ -28,7 +28,7 @@ import java.util.TreeMap;
 /**
  * Represents a set of transformations on a configuration.
  */
-public abstract class ConfigurationTransformation {
+public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>> {
 
     /**
      * A special object that represents a wildcard in a path provided to a configuration transformer
@@ -38,32 +38,36 @@ public abstract class ConfigurationTransformation {
     /**
      * Create a new builder to create a basic configuration transformation.
      *
+     *
+     * @param <T> the type of node being processed
      * @return a new transformation builder.
      */
     @NonNull
-    public static Builder builder() {
-        return new Builder();
+    public static <T extends ConfigurationNode<T>> Builder<T> builder() {
+        return new Builder<>();
     }
 
     /**
      * This creates a builder for versioned transformations.
      *
+     * @param <T> the type of node being processed
      * @return A new builder for versioned transformations
      */
     @NonNull
-    public static VersionedBuilder versionedBuilder() {
-        return new VersionedBuilder();
+    public static <T extends ConfigurationNode<T>> VersionedBuilder<T> versionedBuilder() {
+        return new VersionedBuilder<>();
     }
 
     /**
      * Creates a chain of {@link ConfigurationTransformation}s.
      *
+     * @param <T> the type of node being processed
      * @param transformations The transformations
      * @return The resultant transformation chain
      */
     @NonNull
-    public static ConfigurationTransformation chain(ConfigurationTransformation... transformations) {
-        return new ChainedConfigurationTransformation(transformations);
+    public static <T extends ConfigurationNode<T>> ConfigurationTransformation<T> chain(ConfigurationTransformation<? super T>... transformations) {
+        return new ChainedConfigurationTransformation<>(transformations);
     }
 
     /**
@@ -71,14 +75,14 @@ public abstract class ConfigurationTransformation {
      *
      * @param node The target node
      */
-    public abstract void apply(@NonNull ConfigurationNode node);
+    public abstract void apply(@NonNull T node);
 
     /**
      * Builds a basic {@link ConfigurationTransformation}.
      */
-    public static final class Builder {
+    public static final class Builder<T extends ConfigurationNode<T>> {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
-        private final SortedMap<Object[], TransformAction> actions;
+        private final SortedMap<Object[], TransformAction<? super T>> actions;
 
         protected Builder() {
             this.actions = new TreeMap<>(new NodePathComparator());
@@ -92,7 +96,7 @@ public abstract class ConfigurationTransformation {
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder addAction(Object[] path, TransformAction action) {
+        public Builder<T> addAction(Object[] path, TransformAction<? super T> action) {
             actions.put(path, action);
             return this;
         }
@@ -114,7 +118,7 @@ public abstract class ConfigurationTransformation {
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setMoveStrategy(@NonNull MoveStrategy strategy) {
+        public Builder<T> setMoveStrategy(@NonNull MoveStrategy strategy) {
             this.strategy = strategy;
             return this;
         }
@@ -125,17 +129,17 @@ public abstract class ConfigurationTransformation {
          * @return The transformation
          */
         @NonNull
-        public ConfigurationTransformation build() {
-            return new SingleConfigurationTransformation(actions, strategy);
+        public ConfigurationTransformation<T> build() {
+            return new SingleConfigurationTransformation<>(actions, strategy);
         }
     }
 
     /**
      * Builds a versioned {@link ConfigurationTransformation}.
      */
-    public static final class VersionedBuilder {
+    public static final class VersionedBuilder<T extends ConfigurationNode<T>> {
         private Object[] versionKey = new Object[] {"version"};
-        private final SortedMap<Integer, ConfigurationTransformation> versions = new TreeMap<>();
+        private final SortedMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
 
         protected VersionedBuilder() {}
 
@@ -146,7 +150,7 @@ public abstract class ConfigurationTransformation {
          * @return This builder (for chaining)
          */
         @NonNull
-        public VersionedBuilder setVersionKey(@NonNull Object... versionKey) {
+        public VersionedBuilder<T> setVersionKey(@NonNull Object... versionKey) {
             this.versionKey = Arrays.copyOf(versionKey, versionKey.length, Object[].class);
             return this;
         }
@@ -159,7 +163,7 @@ public abstract class ConfigurationTransformation {
          * @return This builder (for chaining)
          */
         @NonNull
-        public VersionedBuilder addVersion(int version, @NonNull ConfigurationTransformation transformation) {
+        public VersionedBuilder<T> addVersion(int version, @NonNull ConfigurationTransformation<? super T> transformation) {
             versions.put(version, transformation);
             return this;
         }
@@ -170,8 +174,8 @@ public abstract class ConfigurationTransformation {
          * @return The transformation
          */
         @NonNull
-        public ConfigurationTransformation build() {
-            return new VersionedTransformation(versionKey, versions);
+        public ConfigurationTransformation<T> build() {
+            return new VersionedTransformation<>(versionKey, versions);
         }
     }
 

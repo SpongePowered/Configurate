@@ -64,7 +64,7 @@ public class ConfigurationOptions {
      */
     @NonNull
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null,
+        return new ConfigurationOptions(MapFactories.insertionOrdered(), null,
                 TypeSerializers.getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance(), false);
     }
 

@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for
  * parsing and generation.
  */
-public class HOCONConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
+public class HOCONConfigurationLoader extends AbstractConfigurationLoader<SimpleCommentedConfigurationNode> {
 
     /**
      * The pattern used to match newlines.
@@ -170,7 +170,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
     }
 
     @Override
-    public void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {
+    public void loadInternal(SimpleCommentedConfigurationNode node, BufferedReader reader) throws IOException {
         Config hoconConfig = ConfigFactory.parseReader(reader, parse);
         hoconConfig = hoconConfig.resolve();
         for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
@@ -178,7 +178,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
         }
     }
 
-    private static void readConfigValue(ConfigValue value, CommentedConfigurationNode node) {
+    private static void readConfigValue(ConfigValue value, SimpleCommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
             node.setComment(CRLF_MATCH.matcher(Joiner.on('\n').join(value.origin().comments())).replaceAll(""));
         }
@@ -206,7 +206,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
+    protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
         if (!node.hasMapChildren()) {
             if (node.getValue() == null) {
                 writer.write(SYSTEM_LINE_SEPARATOR);
@@ -220,17 +220,17 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
         writer.write(renderedValue);
     }
 
-    private static ConfigValue fromValue(ConfigurationNode node) {
+    private static ConfigValue fromValue(ConfigurationNode<?> node) {
         ConfigValue ret;
         if (node.hasMapChildren()) {
             Map<String, ConfigValue> children = node.getOptions().getMapFactory().create();
-            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
+            for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : node.getChildrenMap().entrySet()) {
                 children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));
             }
             ret = newConfigObject(children);
         } else if (node.hasListChildren()) {
             List<ConfigValue> children = new ArrayList<>();
-            for (ConfigurationNode ent : node.getChildrenList()) {
+            for (ConfigurationNode<?> ent : node.getChildrenList()) {
                 children.add(fromValue(ent));
             }
             ret = newConfigList(children);
@@ -239,7 +239,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
             ret = ConfigValueFactory.fromAnyRef(node.getValue(), "configurate-hocon");
         }
         if (node instanceof CommentedConfigurationNode) {
-            CommentedConfigurationNode commentedNode = ((CommentedConfigurationNode) node);
+            CommentedConfigurationNode<?> commentedNode = ((CommentedConfigurationNode<?>) node);
             final ConfigValue finalRet = ret;
             ret = commentedNode.getComment().map(comment -> finalRet.withOrigin(finalRet.origin().withComments(LINE_SPLITTER.splitToList(comment)))).orElse(ret);
         }
@@ -265,7 +265,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
 
     @NonNull
     @Override
-    public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public SimpleCommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
                 Long.class, Integer.class, Boolean.class, String.class, Number.class));
         return SimpleCommentedConfigurationNode.root(options);
