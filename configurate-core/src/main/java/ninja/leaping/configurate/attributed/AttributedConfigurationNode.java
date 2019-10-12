@@ -110,7 +110,7 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
     @NonNull @Override Map<Object, ? extends AttributedConfigurationNode> getChildrenMap();
     @NonNull @Override AttributedConfigurationNode setValue(@Nullable Object value);
     @NonNull @Override AttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
-    @NonNull @Override AttributedConfigurationNode getAppendedNode();
+    @NonNull @Override @Deprecated AttributedConfigurationNode getAppendedNode();
     @NonNull @Override AttributedConfigurationNode appendListNode();
     @NonNull @Override AttributedConfigurationNode getNode(@NonNull Object... path);
     @NonNull @Override AttributedConfigurationNode copy();

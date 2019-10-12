@@ -171,7 +171,7 @@ public abstract class ConfigurationNodeWalker {
                 return Iterators.transform(node.getChildrenList().iterator(), child -> {
                     Objects.requireNonNull(child);
 
-                    //noinspection unchecked
+                    @SuppressWarnings("unchecked")
                     T castedChild = ((T) child);
                     Object[] childPath = calculatePath(path, child.getKey());
 
@@ -183,7 +183,7 @@ public abstract class ConfigurationNodeWalker {
                 return Iterators.transform(node.getChildrenMap().entrySet().iterator(), child -> {
                     Objects.requireNonNull(child);
 
-                    //noinspection unchecked
+                    @SuppressWarnings("unchecked")
                     T castedChild = ((T) child.getValue());
                     Object[] childPath = calculatePath(path, child.getKey());
 

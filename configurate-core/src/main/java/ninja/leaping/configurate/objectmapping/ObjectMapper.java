@@ -83,7 +83,7 @@ public class ObjectMapper<T> {
         private final TypeToken<?> fieldType;
         private final String comment;
 
-        public FieldData(Field field, String comment) throws ObjectMappingException {
+        public FieldData(Field field, String comment) {
             this.field = field;
             this.comment = comment;
             this.fieldType = TypeToken.of(field.getGenericType());
@@ -188,7 +188,7 @@ public class ObjectMapper<T> {
      * Create a new object mapper of a given type
      *
      * @param clazz The type this object mapper will work with
-     * @throws ObjectMappingException if the provided class is in someway invalid
+     * @throws ObjectMappingException When errors occur discovering fields in the class
      */
     protected ObjectMapper(Class<T> clazz) throws ObjectMappingException {
         this.clazz = clazz;

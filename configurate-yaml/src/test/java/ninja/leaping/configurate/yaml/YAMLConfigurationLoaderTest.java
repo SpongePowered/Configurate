@@ -38,7 +38,7 @@ public class YAMLConfigurationLoaderTest {
     @Test
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.yml");
-        ConfigurationLoader loader = YAMLConfigurationLoader.builder()
+        ConfigurationLoader<ConfigurationNode> loader = YAMLConfigurationLoader.builder()
                 .setURL(url).build();
         ConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());

@@ -23,6 +23,7 @@ import com.google.common.reflect.TypeToken;
  * is invalid.
  */
 public class InvalidTypeException extends ObjectMappingException {
+    public static final long serialVersionUID = -3446168595121609794L;
 
     public InvalidTypeException(TypeToken<?> received) {
         super("Invalid type presented to serializer: " + received);

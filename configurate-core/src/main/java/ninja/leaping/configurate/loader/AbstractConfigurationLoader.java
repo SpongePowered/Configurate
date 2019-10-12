@@ -62,7 +62,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     /**
      * The line separator used by the system
-     * @see System#lineSeparator
+     * @see System#lineSeparator()
      */
     protected static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator();
 
@@ -203,7 +203,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
      *
      * @param <T> The builders own type (for chaining using generic types)
      */
-    protected static abstract class Builder<T extends Builder> {
+    protected static abstract class Builder<T extends Builder<T>> {
         @NonNull protected HeaderMode headerMode = HeaderMode.PRESERVE;
         @Nullable protected Callable<BufferedReader> source;
         @Nullable protected Callable<BufferedWriter> sink;
@@ -392,7 +392,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
          * @return The loader
          */
         @NonNull
-        public abstract AbstractConfigurationLoader build();
+        public abstract AbstractConfigurationLoader<?> build();
 
     }
 

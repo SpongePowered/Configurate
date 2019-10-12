@@ -27,6 +27,7 @@ import java.io.IOException;
  * An extension of {@link DefaultPrettyPrinter} which can be customised by loader settings.
  */
 class ConfiguratePrettyPrinter extends DefaultPrettyPrinter {
+    private static final long serialVersionUID = -3322746834998470769L;
     private final FieldValueSeparatorStyle style;
 
     public ConfiguratePrettyPrinter(int indent, FieldValueSeparatorStyle style) {

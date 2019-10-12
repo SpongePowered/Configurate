@@ -46,7 +46,7 @@ public class JSONConfigurationLoaderTest {
     public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
-        ConfigurationLoader loader = JSONConfigurationLoader.builder()
+        ConfigurationLoader<ConfigurationNode> loader = JSONConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                         .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).build();
         ConfigurationNode node = loader.load(ConfigurationOptions.defaults().withMapFactory(MapFactories.sortedNatural()));

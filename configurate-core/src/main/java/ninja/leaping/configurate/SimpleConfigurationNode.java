@@ -208,7 +208,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             return storeDefault(type, def);
         }
 
-        TypeSerializer serial = getOptions().getSerializers().get(type);
+        TypeSerializer<?> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
             if (type.getRawType().isInstance(value)) {
                 return (T) type.getRawType().cast(value);
@@ -227,7 +227,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
             return storeDefault(type, defSupplier.get());
         }
 
-        TypeSerializer serial = getOptions().getSerializers().get(type);
+        TypeSerializer<?> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
             if (type.getRawType().isInstance(value)) {
                 return (T) type.getRawType().cast(value);
@@ -458,6 +458,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @NonNull
     @Override
+    @Deprecated
     public SimpleConfigurationNode getAppendedNode() {
         // the appended node can have a key of -1
         // the "real" key will be determined when the node is inserted into a list config value

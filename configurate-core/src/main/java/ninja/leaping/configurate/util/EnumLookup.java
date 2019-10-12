@@ -33,6 +33,7 @@ import static java.util.Objects.requireNonNull;
  * Utility class to cache more flexible enum lookup.
  *
  * <p>While normally case and punctuation have to match exactly, this method performs lookup that:</p>
+ *
  * <ul>
  *     <li>is case-insensitive</li>
  *     <li>ignores underscores</li>
