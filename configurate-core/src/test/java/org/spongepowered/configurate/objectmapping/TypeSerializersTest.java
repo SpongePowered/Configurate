@@ -374,6 +374,7 @@ public class TypeSerializersTest {
     }
 
     private static class CustomNumber extends Number {
+        public static final long serialVersionUID = 4647727438607023527L;
 
         @Override
         public int intValue() {
