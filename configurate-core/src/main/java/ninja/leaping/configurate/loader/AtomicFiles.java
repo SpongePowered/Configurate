@@ -91,6 +91,7 @@ public final class AtomicFiles {
         @Override
         public void close() throws IOException {
             super.close();
+            Files.createDirectories(targetPath.getParent());
             Files.move(writePath, targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         }
     }
