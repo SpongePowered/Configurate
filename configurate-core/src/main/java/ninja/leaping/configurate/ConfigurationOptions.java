@@ -16,8 +16,6 @@
  */
 package ninja.leaping.configurate;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.DefaultObjectMapperFactory;
@@ -29,7 +27,10 @@ import ninja.leaping.configurate.util.MapFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Objects;
 import java.util.Set;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * This object is a holder for general configuration options.
@@ -87,7 +88,7 @@ public class ConfigurationOptions {
      */
     @NonNull
     public ConfigurationOptions setMapFactory(@NonNull MapFactory mapFactory) {
-        Preconditions.checkNotNull(mapFactory, "mapFactory");
+        requireNonNull(mapFactory, "mapFactory");
         if (this.mapFactory == mapFactory) {
             return this;
         }
@@ -113,7 +114,7 @@ public class ConfigurationOptions {
      */
     @NonNull
     public ConfigurationOptions setHeader(@Nullable String header) {
-        if (Objects.equal(this.header, header)) {
+        if (Objects.equals(this.header, header)) {
             return this;
         }
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
@@ -138,7 +139,7 @@ public class ConfigurationOptions {
      */
     @NonNull
     public ConfigurationOptions setSerializers(@NonNull TypeSerializerCollection serializers) {
-        Preconditions.checkNotNull(serializers, "serializers");
+        requireNonNull(serializers, "serializers");
         if (this.serializers == serializers) {
             return this;
         }
@@ -164,7 +165,7 @@ public class ConfigurationOptions {
      */
     @NonNull
     public ConfigurationOptions setObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
-        Preconditions.checkNotNull(objectMapperFactory, "factory");
+        requireNonNull(objectMapperFactory, "factory");
         if (this.objectMapperFactory == objectMapperFactory) {
             return this;
         }
@@ -179,7 +180,7 @@ public class ConfigurationOptions {
      * @return Whether the type is accepted
      */
     public boolean acceptsType(@NonNull Class<?> type) {
-        Preconditions.checkNotNull(type, "type");
+        requireNonNull(type, "type");
 
         if (this.acceptedTypes == null) {
             return true;
@@ -210,7 +211,7 @@ public class ConfigurationOptions {
      */
     @NonNull
     public ConfigurationOptions setAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
-        if (Objects.equal(this.acceptedTypes, acceptedTypes)) {
+        if (Objects.equals(this.acceptedTypes, acceptedTypes)) {
             return this;
         }
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
@@ -247,17 +248,17 @@ public class ConfigurationOptions {
         if (this == o) return true;
         if (!(o instanceof ConfigurationOptions)) return false;
         ConfigurationOptions that = (ConfigurationOptions) o;
-        return Objects.equal(shouldCopyDefaults, that.shouldCopyDefaults) &&
-                Objects.equal(mapFactory, that.mapFactory) &&
-                Objects.equal(header, that.header) &&
-                Objects.equal(serializers, that.serializers) &&
-                Objects.equal(acceptedTypes, that.acceptedTypes) &&
-                Objects.equal(objectMapperFactory, that.objectMapperFactory);
+        return Objects.equals(shouldCopyDefaults, that.shouldCopyDefaults) &&
+                Objects.equals(mapFactory, that.mapFactory) &&
+                Objects.equals(header, that.header) &&
+                Objects.equals(serializers, that.serializers) &&
+                Objects.equals(acceptedTypes, that.acceptedTypes) &&
+                Objects.equals(objectMapperFactory, that.objectMapperFactory);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+        return Objects.hash(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     @Override

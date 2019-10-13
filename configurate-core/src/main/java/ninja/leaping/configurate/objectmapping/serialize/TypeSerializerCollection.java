@@ -16,16 +16,16 @@
  */
 package ninja.leaping.configurate.objectmapping.serialize;
 
-import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A calculated collection of {@link TypeSerializer}s
@@ -41,8 +41,7 @@ public class TypeSerializerCollection {
 
     @SuppressWarnings("unchecked")
     public <T> TypeSerializer<T> get(TypeToken<T> type) {
-        Preconditions.checkNotNull(type, "type");
-        type = type.wrap();
+        type = requireNonNull(type).wrap();
 
         TypeSerializer<?> serial = typeMatches.computeIfAbsent(type, serializers);
         if (serial == null && parent != null) {
@@ -62,9 +61,7 @@ public class TypeSerializerCollection {
      * @return this
      */
     public <T> TypeSerializerCollection registerType(TypeToken<T> type, TypeSerializer<? super T> serializer) {
-        Preconditions.checkNotNull(type, "type");
-        Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(new RegisteredSerializer(type, serializer));
+        serializers.add(new RegisteredSerializer(requireNonNull(type, "type"), requireNonNull(serializer)));
         typeMatches.clear();
         return this;
     }
@@ -79,9 +76,7 @@ public class TypeSerializerCollection {
      */
     @SuppressWarnings("unchecked")
     public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
-        Preconditions.checkNotNull(test, "test");
-        Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(new RegisteredSerializer((Predicate) test, serializer));
+        serializers.add(new RegisteredSerializer((Predicate) requireNonNull(test, "test"), requireNonNull(serializer, "serializer")));
         typeMatches.clear();
         return this;
     }

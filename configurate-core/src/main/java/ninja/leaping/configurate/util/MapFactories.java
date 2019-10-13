@@ -16,8 +16,6 @@
  */
 package ninja.leaping.configurate.util;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -25,10 +23,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Default implementations of {@link MapFactory}.
@@ -52,8 +53,7 @@ public final class MapFactories {
      * @return A map factory which produces sorted maps
      */
     public static MapFactory sorted(Comparator<Object> comparator) {
-        Preconditions.checkNotNull(comparator, "comparator");
-        return new SortedMapFactory(comparator);
+        return new SortedMapFactory(requireNonNull(comparator, "comparator"));
     }
 
     /**
@@ -150,7 +150,7 @@ public final class MapFactories {
         @Override
         public boolean remove(Object key, Object expected) {
             synchronized (wrapped) {
-                if (Objects.equal(expected, wrapped.get(key))) {
+                if (Objects.equals(expected, wrapped.get(key))) {
                     return wrapped.remove(key) != null;
                 }
             }
@@ -160,7 +160,7 @@ public final class MapFactories {
         @Override
         public boolean replace(K key, V old, V replace) {
             synchronized (wrapped) {
-                if (Objects.equal(old, wrapped.get(key))) {
+                if (Objects.equals(old, wrapped.get(key))) {
                     wrapped.put(key, replace);
                     return true;
                 }

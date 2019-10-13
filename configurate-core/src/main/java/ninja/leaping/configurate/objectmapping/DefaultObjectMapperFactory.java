@@ -16,13 +16,14 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
-import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.concurrent.ExecutionException;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Factory for a basic {@link ObjectMapper}.
@@ -49,7 +50,7 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
     @Override
     @SuppressWarnings("unchecked")
     public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
-        Preconditions.checkNotNull(type, "type");
+        requireNonNull(type, "type");
         try {
             return (ObjectMapper<T>) mapperCache.get(type);
         } catch (ExecutionException e) {

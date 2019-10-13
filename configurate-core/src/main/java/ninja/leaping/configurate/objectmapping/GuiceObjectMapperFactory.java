@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
-import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -26,6 +25,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.concurrent.ExecutionException;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided.
@@ -54,7 +55,7 @@ public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
     @Override
     @SuppressWarnings("unchecked")
     public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
-        Preconditions.checkNotNull(type, "type");
+        requireNonNull(type, "type");
         try {
             return (ObjectMapper<T>) cache.get(type);
         } catch (ExecutionException e) {

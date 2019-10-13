@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
-import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -28,6 +27,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * This is the object mapper. It handles conversion between configuration nodes and
@@ -67,8 +68,7 @@ public class ObjectMapper<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> ObjectMapper<T>.BoundInstance forObject(@NonNull T obj) throws ObjectMappingException {
-        Preconditions.checkNotNull(obj);
-        return forClass((Class<T>) obj.getClass()).bind(obj);
+        return forClass((Class<T>) requireNonNull(obj).getClass()).bind(obj);
     }
 
     /**

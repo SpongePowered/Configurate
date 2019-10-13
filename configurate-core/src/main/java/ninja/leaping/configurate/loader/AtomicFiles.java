@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.loader;
 
-import com.google.common.base.Preconditions;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedWriter;
@@ -28,6 +27,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Callable;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A utility for creating "atomic" file writers.
@@ -48,7 +49,7 @@ public final class AtomicFiles {
      */
     @NonNull
     public static Callable<BufferedWriter> createAtomicWriterFactory(@NonNull Path path, @NonNull Charset charset) {
-        Preconditions.checkNotNull(path, "path");
+        requireNonNull(path, "path");
         return () -> createAtomicBufferedWriter(path, charset);
     }
 
@@ -74,7 +75,7 @@ public final class AtomicFiles {
 
     @NonNull
     private static Path getTemporaryPath(@NonNull Path parent, @NonNull String key) {
-        String fileName = System.nanoTime() + Preconditions.checkNotNull(key, "key").replaceAll("\\\\|/|:",
+        String fileName = System.nanoTime() + requireNonNull(key, "key").replaceAll("\\\\|/|:",
                 "-") + ".tmp";
         return parent.resolve(fileName);
     }

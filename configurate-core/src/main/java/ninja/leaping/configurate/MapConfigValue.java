@@ -16,12 +16,12 @@
  */
 package ninja.leaping.configurate;
 
-import com.google.common.base.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -144,7 +144,7 @@ class MapConfigValue extends ConfigValue {
             return false;
         }
         MapConfigValue that = (MapConfigValue) o;
-        return Objects.equal(values, that.values);
+        return Objects.equals(values, that.values);
     }
 
     @Override

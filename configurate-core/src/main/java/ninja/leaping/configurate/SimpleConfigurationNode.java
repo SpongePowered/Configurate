@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeParameter;
@@ -36,6 +35,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Simple implementation of {@link ConfigurationNode}.
@@ -85,7 +86,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     protected SimpleConfigurationNode(@Nullable Object key, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
-        Preconditions.checkNotNull(options, "options");
+        requireNonNull(options, "options");
         this.key = key;
         this.options = options;
         this.parent = parent;

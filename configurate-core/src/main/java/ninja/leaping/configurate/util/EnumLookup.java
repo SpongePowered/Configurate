@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utility class to cache more flexible enum lookup.
@@ -72,11 +72,9 @@ public final class EnumLookup {
     @SuppressWarnings("unchecked")
     @NonNull
     public static <T extends Enum<T>> Optional<T> lookupEnum(@NonNull Class<T> clazz, @NonNull String key) {
-        checkNotNull(clazz, "clazz");
-        checkNotNull(key, "key");
         try {
-            Map<String, Enum<?>> vals = ENUM_FIELD_CACHE.get(clazz);
-            Enum<?> possibleRet = vals.get(key);
+            Map<String, Enum<?>> vals = ENUM_FIELD_CACHE.get(requireNonNull(clazz, "clazz"));
+            Enum<?> possibleRet = vals.get(requireNonNull(key, "key"));
             if (possibleRet != null) {
                 return Optional.of((T) possibleRet);
             }

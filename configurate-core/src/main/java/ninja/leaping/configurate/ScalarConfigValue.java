@@ -16,12 +16,13 @@
  */
 package ninja.leaping.configurate;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A {@link ConfigValue} which holds a single ("scalar") value.
@@ -46,8 +47,7 @@ class ScalarConfigValue extends ConfigValue {
 
     @Override
     public void setValue(@Nullable Object value) {
-        Preconditions.checkNotNull(value);
-        if (!holder.getOptions().acceptsType(value.getClass())) {
+        if (!holder.getOptions().acceptsType(requireNonNull(value).getClass())) {
             throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
         this.value = value;
@@ -99,12 +99,12 @@ class ScalarConfigValue extends ConfigValue {
             return false;
         }
         ScalarConfigValue that = (ScalarConfigValue) o;
-        return Objects.equal(value, that.value);
+        return Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(value);
+        return 7 + Objects.hashCode(value);
     }
 
     @Override

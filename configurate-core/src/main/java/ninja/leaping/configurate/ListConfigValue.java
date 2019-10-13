@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -203,7 +203,7 @@ class ListConfigValue extends ConfigValue {
             return false;
         }
         ListConfigValue that = (ListConfigValue) o;
-        return Objects.equal(values.get(), that.values.get());
+        return Objects.equals(values.get(), that.values.get());
     }
 
     @Override
