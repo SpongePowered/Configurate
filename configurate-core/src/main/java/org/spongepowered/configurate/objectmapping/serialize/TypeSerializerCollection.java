@@ -17,33 +17,52 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A calculated collection of {@link TypeSerializer}s
  */
 public class TypeSerializerCollection {
     private final TypeSerializerCollection parent;
-    private final SerializerList serializers = new SerializerList();
+    private final List<RegisteredSerializer> serializers;
     private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
-    TypeSerializerCollection(TypeSerializerCollection parent) {
+    private TypeSerializerCollection(TypeSerializerCollection parent, List<RegisteredSerializer> serializers) {
         this.parent = parent;
+        this.serializers = ImmutableList.copyOf(serializers);
     }
 
+    /**
+     * Resolve a type serializer. First, all registered serializers from this collection are queried,
+     * then if a parent collection is set that collection is queried.
+     *
+     * @param type The type a serializer is required for
+     * @param <T> The type to serialize
+     * @return A serializer if any is present, or null if no applicable serializer is found
+     */
     @SuppressWarnings("unchecked")
     public <T> TypeSerializer<T> get(TypeToken<T> type) {
         Preconditions.checkNotNull(type, "type");
         type = type.wrap();
 
-        TypeSerializer<?> serial = typeMatches.computeIfAbsent(type, serializers);
+        TypeSerializer<?> serial = typeMatches.computeIfAbsent(type, token -> {
+            for (RegisteredSerializer ent : serializers) {
+                if (ent.predicate.test(token)) {
+                    return ent.serializer;
+                }
+            }
+            return null;
+        });
+
         if (serial == null && parent != null) {
             serial = parent.get(type);
         }
@@ -52,41 +71,74 @@ public class TypeSerializerCollection {
     }
 
     /**
-     * Register a type serializer for a given type. Serializers registered will match all subclasses of the provided
-     * type, as well as unwrapped primitive equivalents of the type.
+     * Create a new builder to begin building a collection of type serializers that inherits from this collection
      *
-     * @param type The type to accept
-     * @param serializer The serializer that will be serialized with
-     * @param <T> The type to generify around
-     * @return this
+     * @return The new builder
      */
-    public <T> TypeSerializerCollection registerType(TypeToken<T> type, TypeSerializer<? super T> serializer) {
-        Preconditions.checkNotNull(type, "type");
-        Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(new RegisteredSerializer(type, serializer));
-        typeMatches.clear();
-        return this;
+    public Builder childBuilder() {
+        return new Builder(this);
     }
 
     /**
-     * Register a type serializer matching against a given predicate.
+     * Create a builder for a new type serializer collection without a parent set.
      *
-     * @param test The predicate to match types against
-     * @param serializer The serializer to serialize matching types with
-     * @param <T> The type parameter
-     * @return this
+     * If <em>any</em> of the standard serializers provided by Configurate are desired,
+     * either the default collection or a collection inheriting from the default collection should be applied.
+     *
+     * @return
      */
-    @SuppressWarnings("unchecked")
-    public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
-        Preconditions.checkNotNull(test, "test");
-        Preconditions.checkNotNull(serializer, "serializer");
-        serializers.add(new RegisteredSerializer((Predicate) test, serializer));
-        typeMatches.clear();
-        return this;
+    public static Builder builder() {
+        return new Builder(null);
     }
 
-    public TypeSerializerCollection newChild() {
-        return new TypeSerializerCollection(this);
+    public static class Builder {
+        private final TypeSerializerCollection parent;
+        private final ImmutableList.Builder<RegisteredSerializer> serializers = ImmutableList.builder();
+
+        Builder(TypeSerializerCollection parent) {
+            this.parent = parent;
+        }
+
+        /**
+         * Register a type serializer for a given type. Serializers registered will match all subclasses of the provided
+         * type, as well as unwrapped primitive equivalents of the type.
+         *
+         * @param type The type to accept
+         * @param serializer The serializer that will be serialized with
+         * @param <T> The type to generify around
+         * @return this
+         */
+        public <T> Builder register(TypeToken<T> type, TypeSerializer<? super T> serializer) {
+            Preconditions.checkNotNull(type, "type");
+            Preconditions.checkNotNull(serializer, "serializer");
+            serializers.add(new RegisteredSerializer(type, serializer));
+            return this;
+        }
+
+        /**
+         * Register a type serializer matching against a given predicate.
+         *
+         * @param test The predicate to match types against
+         * @param serializer The serializer to serialize matching types with
+         * @param <T> The type parameter
+         * @return this
+         */
+        @SuppressWarnings("unchecked")
+        public <T> Builder register(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
+            requireNonNull(test, "test");
+            requireNonNull(serializer, "serializer");
+            serializers.add(new RegisteredSerializer((Predicate) test, serializer));
+            return this;
+        }
+
+        /**
+         * Create a new type serializer collection
+         *
+         * @return The resulting collection
+         */
+        public TypeSerializerCollection build() {
+            return new TypeSerializerCollection(this.parent, this.serializers.build());
+        }
     }
 
     private static final class RegisteredSerializer {
@@ -141,18 +193,4 @@ public class TypeSerializerCollection {
             }
         }
     }
-
-    private static final class SerializerList extends CopyOnWriteArrayList<RegisteredSerializer> implements Function<TypeToken<?>, TypeSerializer<?>> {
-
-        @Override
-        public TypeSerializer<?> apply(TypeToken<?> type) {
-            for (RegisteredSerializer ent : this) {
-                if (ent.predicate.test(type)) {
-                    return ent.serializer;
-                }
-            }
-            return null;
-        }
-    }
-
 }

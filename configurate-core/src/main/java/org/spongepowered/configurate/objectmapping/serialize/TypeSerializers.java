@@ -50,7 +50,7 @@ import java.util.regex.PatternSyntaxException;
  * A number of {@link TypeSerializer}s provided by configurate.
  */
 public class TypeSerializers {
-    private static final TypeSerializerCollection DEFAULT_SERIALIZERS = new TypeSerializerCollection(null);
+    private static final TypeSerializerCollection DEFAULT_SERIALIZERS;
 
     /**
      * Gets the default {@link TypeSerializer}s.
@@ -61,22 +61,20 @@ public class TypeSerializers {
         return DEFAULT_SERIALIZERS;
     }
 
-    public static TypeSerializerCollection newCollection() {
-        return DEFAULT_SERIALIZERS.newChild();
-    }
-
     static {
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(URI.class), new URISerializer());
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(URL.class), new URLSerializer());
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(UUID.class), new UUIDSerializer());
-        DEFAULT_SERIALIZERS.registerPredicate(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer());
-        DEFAULT_SERIALIZERS.registerPredicate(NumberSerializer.getPredicate(), new NumberSerializer());
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(String.class), new StringSerializer());
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(Boolean.class), new BooleanSerializer());
-        DEFAULT_SERIALIZERS.registerType(new TypeToken<Map<?, ?>>() {}, new MapSerializer());
-        DEFAULT_SERIALIZERS.registerType(new TypeToken<List<?>>() {}, new ListSerializer());
-        DEFAULT_SERIALIZERS.registerType(new TypeToken<Enum<?>>() {}, new EnumValueSerializer());
-        DEFAULT_SERIALIZERS.registerType(TypeToken.of(Pattern.class), new PatternSerializer());
+        DEFAULT_SERIALIZERS = TypeSerializerCollection.builder()
+                .register(TypeToken.of(URI.class), new URISerializer())
+                .register(TypeToken.of(URL.class), new URLSerializer())
+                .register(TypeToken.of(UUID.class), new UUIDSerializer())
+                .register(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer())
+                .register(NumberSerializer.getPredicate(), new NumberSerializer())
+                .register(TypeToken.of(String.class), new StringSerializer())
+                .register(TypeToken.of(Boolean.class), new BooleanSerializer())
+                .register(new TypeToken<Map<?, ?>>() {}, new MapSerializer())
+                .register(new TypeToken<List<?>>() {}, new ListSerializer())
+                .register(new TypeToken<Enum<?>>() {}, new EnumValueSerializer())
+                .register(TypeToken.of(Pattern.class), new PatternSerializer())
+                .build();
     }
 
     private static class StringSerializer implements TypeSerializer<String> {
