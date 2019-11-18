@@ -85,7 +85,7 @@ public class HoconConfigurationLoaderTest {
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .build();
-        CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults().setHeader("Hi! I am a header!\n" +
+        CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n" +
                         "Look at meeeeeee!!!"));
         node.getNode("node").setComment("I have a comment").getNode("party").setValue("now");
 

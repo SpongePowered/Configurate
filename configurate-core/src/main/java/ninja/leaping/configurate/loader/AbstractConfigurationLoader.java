@@ -129,7 +129,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
             if (headerMode == HeaderMode.PRESERVE || headerMode == HeaderMode.NONE) {
                 String comment = CommentHandlers.extractComment(reader, commentHandlers);
                 if (comment != null && comment.length() > 0) {
-                    options = options.setHeader(comment);
+                    options = options.withHeader(comment);
                 }
             }
             NodeType node = createEmptyNode(options);

@@ -85,9 +85,23 @@ public class ConfigurationOptions {
      *
      * @param mapFactory The new factory to use to create a map
      * @return The new options object
+     * @deprecated USe {@link #withMapFactory(MapFactory)} instead
      */
     @NonNull
+    @Deprecated
     public ConfigurationOptions setMapFactory(@NonNull MapFactory mapFactory) {
+        return withMapFactory(mapFactory);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link MapFactory}
+     * set, and all other settings copied from this instance.
+     *
+     * @param mapFactory The new factory to use to create a map
+     * @return The new options object
+     */
+    @NonNull
+    public ConfigurationOptions withMapFactory(@NonNull MapFactory mapFactory) {
         requireNonNull(mapFactory, "mapFactory");
         if (this.mapFactory == mapFactory) {
             return this;
@@ -114,6 +128,18 @@ public class ConfigurationOptions {
      */
     @NonNull
     public ConfigurationOptions setHeader(@Nullable String header) {
+        return withHeader(header);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified header
+     * set, and all other settings copied from this instance.
+     *
+     * @param header The new header to use
+     * @return The new options object
+     */
+    @NonNull
+    public ConfigurationOptions withHeader(@Nullable String header) {
         if (Objects.equals(this.header, header)) {
             return this;
         }
@@ -136,9 +162,23 @@ public class ConfigurationOptions {
      *
      * @param serializers The serializers to use
      * @return The new options object
+     * @deprecated Use {@link #withSerializers(TypeSerializerCollection)} instead
      */
     @NonNull
+    @Deprecated
     public ConfigurationOptions setSerializers(@NonNull TypeSerializerCollection serializers) {
+        return withSerializers(serializers);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection}
+     * set, and all other settings copied from this instance.
+     *
+     * @param serializers The serializers to use
+     * @return The new options object
+     */
+    @NonNull
+    public ConfigurationOptions withSerializers(@NonNull TypeSerializerCollection serializers) {
         requireNonNull(serializers, "serializers");
         if (this.serializers == serializers) {
             return this;
@@ -162,9 +202,23 @@ public class ConfigurationOptions {
      *
      * @param objectMapperFactory The factory to use to produce object mapper instances. Must not be null
      * @return updated options object
+     * @deprecated Use {@link #withObjectMapperFactory(ObjectMapperFactory)} instead
      */
     @NonNull
+    @Deprecated
     public ConfigurationOptions setObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
+        return withObjectMapperFactory(objectMapperFactory);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapperFactory}
+     * set, and all other settings copied from this instance.
+     *
+     * @param objectMapperFactory The factory to use to produce object mapper instances. Must not be null
+     * @return updated options object
+     */
+    @NonNull
+    public ConfigurationOptions withObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
         requireNonNull(objectMapperFactory, "factory");
         if (this.objectMapperFactory == objectMapperFactory) {
             return this;
@@ -208,9 +262,27 @@ public class ConfigurationOptions {
      *
      * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
      * @return updated options object
+     * @deprecated Use {@link #withAcceptedTypes(Set)} instead
      */
     @NonNull
+    @Deprecated
     public ConfigurationOptions setAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
+        return withAcceptedTypes(acceptedTypes);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified accepted types
+     * set, and all other settings copied from this instance.
+     *
+     * <p>'Accepted types' are types which are accepted as native values for the configuration.</p>
+     *
+     * <p>Null indicates that all types are accepted.</p>
+     *
+     * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
+     * @return updated options object
+     */
+    @NonNull
+    public ConfigurationOptions withAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
         if (Objects.equals(this.acceptedTypes, acceptedTypes)) {
             return this;
         }
@@ -234,9 +306,24 @@ public class ConfigurationOptions {
      * @see #shouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
+     * @deprecated Use {@link #withShouldCopyDefaults(boolean)}
      */
     @NonNull
+    @Deprecated
     public ConfigurationOptions setShouldCopyDefaults(boolean shouldCopyDefaults) {
+        return withShouldCopyDefaults(shouldCopyDefaults);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting
+     * set, and all other settings copied from this instance.
+     *
+     * @see #shouldCopyDefaults() for information on what this method does
+     * @param shouldCopyDefaults whether to copy defaults
+     * @return updated options object
+     */
+    @NonNull
+    public ConfigurationOptions withShouldCopyDefaults(boolean shouldCopyDefaults) {
         if (this.shouldCopyDefaults == shouldCopyDefaults) {
             return this;
         }

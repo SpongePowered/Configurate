@@ -49,7 +49,7 @@ public class JSONConfigurationLoaderTest {
         ConfigurationLoader loader = JSONConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                         .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, UTF_8)).build();
-        ConfigurationNode node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode node = loader.load(ConfigurationOptions.defaults().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());

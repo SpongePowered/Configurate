@@ -414,7 +414,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     @NonNull
     @Override
     public AttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.setAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
+        options = options.withAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
                 Integer.class, Boolean.class, String.class, Number.class));
         return SimpleAttributedConfigurationNode.root("root", options);
     }
