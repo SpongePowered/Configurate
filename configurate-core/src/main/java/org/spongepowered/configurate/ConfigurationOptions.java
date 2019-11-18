@@ -19,6 +19,7 @@ package org.spongepowered.configurate;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -184,6 +185,14 @@ public class ConfigurationOptions {
             return true;
         }
         if (this.acceptedTypes.contains(type)) {
+            return true;
+        }
+
+        if (type.isPrimitive() && this.acceptedTypes.contains(Primitives.wrap(type))) {
+            return true;
+        }
+
+        if (Primitives.isWrapperType(type) && this.acceptedTypes.contains(Primitives.unwrap(type))) {
             return true;
         }
 

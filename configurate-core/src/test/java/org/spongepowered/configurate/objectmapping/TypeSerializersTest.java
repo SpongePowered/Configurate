@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -349,4 +350,135 @@ public class TypeSerializersTest {
             return 0;
         }
     }
+
+    @Test
+    public void testCharSerializer() throws ObjectMappingException {
+        final TypeToken<Character> charType = TypeToken.of(Character.class);
+        final TypeSerializer<Character> charSerializer = SERIALIZERS.get(charType);
+
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+
+        assertNull(charSerializer.deserialize(charType, serializeTo));
+
+        serializeTo.setValue("e");
+        assertEquals(Character.valueOf('e'), charSerializer.deserialize(charType, serializeTo));
+
+        serializeTo.setValue('P');
+        assertEquals(Character.valueOf('P'), charSerializer.deserialize(charType, serializeTo));
+
+        serializeTo.setValue(0x2a);
+        assertEquals(Character.valueOf('*'), charSerializer.deserialize(charType, serializeTo));
+
+        charSerializer.serialize(charType, 'z', serializeTo);
+        assertEquals('z', serializeTo.getValue());
+    }
+
+    @Test
+    public void testArraySerializer() throws ObjectMappingException {
+        final TypeToken<String[]> arrayType = TypeToken.of(String[].class);
+        final TypeSerializer<String[]> arraySerializer = SERIALIZERS.get(arrayType);
+
+        final String[] testArray = new String[] {"hello", "world"};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        arraySerializer.serialize(arrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of("hello", "world"), serializeTo.getValue());
+        assertArrayEquals(testArray, arraySerializer.deserialize(arrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerBooleanPrimitive() throws ObjectMappingException {
+        final TypeToken<boolean[]> booleanArrayType = TypeToken.of(boolean[].class);
+        final TypeSerializer<boolean[]> booleanArraySerializer = SERIALIZERS.get(booleanArrayType);
+
+        final boolean[] testArray = new boolean[] {true, false, true, true, false};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        booleanArraySerializer.serialize(booleanArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of(true, false, true, true, false), serializeTo.getValue());
+        assertArrayEquals(testArray, booleanArraySerializer.deserialize(booleanArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerBytePrimitive() throws ObjectMappingException {
+        final TypeToken<byte[]> byteArrayType = TypeToken.of(byte[].class);
+        final TypeSerializer<byte[]> byteArraySerializer = SERIALIZERS.get(byteArrayType);
+
+        final byte[] testArray = new byte[] {1, 5, 3, -7, 9, 0};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        byteArraySerializer.serialize(byteArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of((byte) 1, (byte) 5, (byte) 3, (byte) -7, (byte) 9, (byte) 0), serializeTo.getValue());
+        assertArrayEquals(testArray, byteArraySerializer.deserialize(byteArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerCharPrimitive() throws ObjectMappingException {
+        final TypeToken<char[]> charArrayType = TypeToken.of(char[].class);
+        final TypeSerializer<char[]> charArraySerializer = SERIALIZERS.get(charArrayType);
+
+        final char[] testArray = new char[] {'s', 'l', 'e', 'e', 'p'};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        charArraySerializer.serialize(charArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of('s', 'l', 'e', 'e', 'p'), serializeTo.getValue());
+        assertArrayEquals(testArray, charArraySerializer.deserialize(charArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerShortPrimitive() throws ObjectMappingException {
+        final TypeToken<short[]> shortArrayType = TypeToken.of(short[].class);
+        final TypeSerializer<short[]> shortArraySerializer = SERIALIZERS.get(shortArrayType);
+
+        final short[] testArray = new short[] {1, 5, 3, 7, 9};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        shortArraySerializer.serialize(shortArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of((short) 1, (short) 5, (short) 3, (short) 7, (short) 9), serializeTo.getValue());
+        assertArrayEquals(testArray, shortArraySerializer.deserialize(shortArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerIntPrimitive() throws ObjectMappingException {
+        final TypeToken<int[]> intArrayType = TypeToken.of(int[].class);
+        final TypeSerializer<int[]> intArraySerializer = SERIALIZERS.get(intArrayType);
+
+        final int[] testArray = new int[] {1, 5, 3, 7, 9};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        intArraySerializer.serialize(intArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of(1, 5, 3, 7, 9), serializeTo.getValue());
+        assertArrayEquals(testArray, intArraySerializer.deserialize(intArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerLongPrimitive() throws ObjectMappingException {
+        final TypeToken<long[]> longArrayType = TypeToken.of(long[].class);
+        final TypeSerializer<long[]> longArraySerializer = SERIALIZERS.get(longArrayType);
+
+        final long[] testArray = new long[] {1, 5, 3, 7, 9};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        longArraySerializer.serialize(longArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of(1L, 5L, 3L, 7L, 9L), serializeTo.getValue());
+        assertArrayEquals(testArray, longArraySerializer.deserialize(longArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerFloatPrimitive() throws ObjectMappingException {
+        final TypeToken<float[]> floatArrayType = TypeToken.of(float[].class);
+        final TypeSerializer<float[]> floatArraySerializer = SERIALIZERS.get(floatArrayType);
+
+        final float[] testArray = new float[] {1.02f, 5.66f, 3.2f, 7.9f, 9f};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        floatArraySerializer.serialize(floatArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of(1.02f, 5.66f, 3.2f, 7.9f, 9f), serializeTo.getValue());
+        assertArrayEquals(testArray, floatArraySerializer.deserialize(floatArrayType, serializeTo));
+    }
+
+    @Test
+    public void testArraySerializerDoublePrimitive() throws ObjectMappingException {
+        final TypeToken<double[]> doubleArrayType = TypeToken.of(double[].class);
+        final TypeSerializer<double[]> doubleArraySerializer = SERIALIZERS.get(doubleArrayType);
+
+        final double[] testArray = new double[] {1.02d, 5.66d, 3.2d, 7.9d, 9d};
+        ConfigurationNode<?> serializeTo = SimpleConfigurationNode.root();
+        doubleArraySerializer.serialize(doubleArrayType, testArray, serializeTo);
+        assertEquals(ImmutableList.of(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.getValue());
+        assertArrayEquals(testArray, doubleArraySerializer.deserialize(doubleArrayType, serializeTo));
+    }
+
 }

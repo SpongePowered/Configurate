@@ -40,17 +40,27 @@ public class TypeSerializerCollection {
 
     static {
         DEFAULTS = TypeSerializerCollection.builder()
-                .register(TypeToken.of(URI.class), new URISerializer())
-                .register(TypeToken.of(URL.class), new URLSerializer())
-                .register(TypeToken.of(UUID.class), new UUIDSerializer())
-                .register(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer())
-                .register(NumberSerializer.getPredicate(), new NumberSerializer())
                 .register(TypeToken.of(String.class), new StringSerializer())
                 .register(TypeToken.of(Boolean.class), new BooleanSerializer())
                 .register(new TypeToken<Map<?, ?>>() {}, new MapSerializer())
                 .register(new TypeToken<List<?>>() {}, new ListSerializer())
+                .register(NumberSerializer.getPredicate(), new NumberSerializer())
+                .register(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer())
                 .register(new TypeToken<Enum<?>>() {}, new EnumValueSerializer())
+                .register(CharSerializer.predicate(), new CharSerializer())
+                .register(TypeToken.of(URI.class), new URISerializer())
+                .register(TypeToken.of(URL.class), new URLSerializer())
+                .register(TypeToken.of(UUID.class), new UUIDSerializer())
                 .register(TypeToken.of(Pattern.class), new PatternSerializer())
+                .register(ArraySerializer.Objects.predicate(), new ArraySerializer.Objects())
+                .register(TypeToken.of(boolean[].class), new ArraySerializer.Booleans())
+                .register(TypeToken.of(byte[].class), new ArraySerializer.Bytes())
+                .register(TypeToken.of(char[].class), new ArraySerializer.Chars())
+                .register(TypeToken.of(short[].class), new ArraySerializer.Shorts())
+                .register(TypeToken.of(int[].class), new ArraySerializer.Ints())
+                .register(TypeToken.of(long[].class), new ArraySerializer.Longs())
+                .register(TypeToken.of(float[].class), new ArraySerializer.Floats())
+                .register(TypeToken.of(double[].class), new ArraySerializer.Doubles())
                 .build();
     }
 
