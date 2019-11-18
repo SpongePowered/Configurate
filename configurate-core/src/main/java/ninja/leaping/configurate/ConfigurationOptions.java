@@ -24,6 +24,7 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollectio
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
 import ninja.leaping.configurate.util.MapFactory;
+import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -243,6 +244,14 @@ public class ConfigurationOptions {
             return true;
         }
 
+        if (type.isPrimitive() && this.acceptedTypes.contains(Primitives.wrap(type))) {
+            return true;
+        }
+
+        if (Primitives.isWrapperType(type) && this.acceptedTypes.contains(Primitives.unwrap(type))) {
+            return true;
+        }
+
         for (Class<?> clazz : this.acceptedTypes) {
             if (clazz.isAssignableFrom(type)) {
                 return true;
@@ -319,7 +328,7 @@ public class ConfigurationOptions {
      * set, and all other settings copied from this instance.
      *
      * @see #shouldCopyDefaults() for information on what this method does
-     * @param shouldCopyDefaults whether to copy defaults
+     * @param shouldCopyDefaults wether to copy defaults
      * @return updated options object
      */
     @NonNull

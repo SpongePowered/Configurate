@@ -71,12 +71,22 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(UUID.class), new UUIDSerializer());
         DEFAULT_SERIALIZERS.registerPredicate(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer());
         DEFAULT_SERIALIZERS.registerPredicate(NumberSerializer.getPredicate(), new NumberSerializer());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(Character.class), new CharSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(String.class), new StringSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Boolean.class), new BooleanSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Map<?, ?>>() {}, new MapSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<List<?>>() {}, new ListSerializer());
         DEFAULT_SERIALIZERS.registerType(new TypeToken<Enum<?>>() {}, new EnumValueSerializer());
         DEFAULT_SERIALIZERS.registerType(TypeToken.of(Pattern.class), new PatternSerializer());
+        DEFAULT_SERIALIZERS.registerPredicate(ArraySerializer.Objects.predicate(), new ArraySerializer.Objects());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(boolean[].class), new ArraySerializer.Booleans());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(byte[].class), new ArraySerializer.Bytes());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(char[].class), new ArraySerializer.Chars());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(short[].class), new ArraySerializer.Shorts());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(int[].class), new ArraySerializer.Ints());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(long[].class), new ArraySerializer.Longs());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(float[].class), new ArraySerializer.Floats());
+        DEFAULT_SERIALIZERS.registerType(TypeToken.of(double[].class), new ArraySerializer.Doubles());
     }
 
     private static class StringSerializer implements TypeSerializer<String> {
