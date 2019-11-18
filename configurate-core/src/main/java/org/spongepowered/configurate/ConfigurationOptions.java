@@ -85,7 +85,7 @@ public class ConfigurationOptions {
      * @return The new options object
      */
     @NonNull
-    public ConfigurationOptions setMapFactory(@NonNull MapFactory mapFactory) {
+    public ConfigurationOptions withMapFactory(@NonNull MapFactory mapFactory) {
         Preconditions.checkNotNull(mapFactory, "mapFactory");
         if (this.mapFactory == mapFactory) {
             return this;
@@ -111,7 +111,7 @@ public class ConfigurationOptions {
      * @return The new options object
      */
     @NonNull
-    public ConfigurationOptions setHeader(@Nullable String header) {
+    public ConfigurationOptions withHeader(@Nullable String header) {
         if (Objects.equal(this.header, header)) {
             return this;
         }
@@ -136,7 +136,7 @@ public class ConfigurationOptions {
      * @return The new options object
      */
     @NonNull
-    public ConfigurationOptions setSerializers(@NonNull TypeSerializerCollection serializers) {
+    public ConfigurationOptions withSerializers(@NonNull TypeSerializerCollection serializers) {
         Preconditions.checkNotNull(serializers, "serializers");
         if (this.serializers == serializers) {
             return this;
@@ -162,7 +162,7 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     @NonNull
-    public ConfigurationOptions setObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
+    public ConfigurationOptions withObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
         Preconditions.checkNotNull(objectMapperFactory, "factory");
         if (this.objectMapperFactory == objectMapperFactory) {
             return this;
@@ -208,7 +208,7 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     @NonNull
-    public ConfigurationOptions setAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
+    public ConfigurationOptions withAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
         if (Objects.equal(this.acceptedTypes, acceptedTypes)) {
             return this;
         }
@@ -234,7 +234,7 @@ public class ConfigurationOptions {
      * @return updated options object
      */
     @NonNull
-    public ConfigurationOptions setShouldCopyDefaults(boolean shouldCopyDefaults) {
+    public ConfigurationOptions withShouldCopyDefaults(boolean shouldCopyDefaults) {
         if (this.shouldCopyDefaults == shouldCopyDefaults) {
             return this;
         }

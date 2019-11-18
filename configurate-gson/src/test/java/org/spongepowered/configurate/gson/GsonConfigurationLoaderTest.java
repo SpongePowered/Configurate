@@ -18,7 +18,6 @@ package org.spongepowered.configurate.gson;
 
 import com.google.common.io.Resources;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.AbstractConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -55,7 +54,7 @@ public class GsonConfigurationLoaderTest {
         ConfigurationLoader<SimpleConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
-        ConfigurationNode<?> node = loader.load(loader.getDefaultOptions().setMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode<?> node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
@@ -98,7 +97,7 @@ public class GsonConfigurationLoaderTest {
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
 
-        ConfigurationNode<?> node = loader.load(loader.getDefaultOptions().setMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode<?> node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertNull(node.getValue());
         assertFalse(node.hasMapChildren());
     }

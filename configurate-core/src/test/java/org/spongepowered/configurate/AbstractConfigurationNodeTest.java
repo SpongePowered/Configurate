@@ -221,7 +221,7 @@ public class AbstractConfigurationNodeTest {
 
     @Test
     public void testDefaultsCopied() {
-        ConfigurationNode<?> subject = SimpleConfigurationNode.root(ConfigurationOptions.defaults().setShouldCopyDefaults(true));
+        ConfigurationNode<?> subject = SimpleConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         assertNull(subject.getValue());
         assertEquals("default value", subject.getValue("default value"));
         assertEquals("default value", subject.getValue());

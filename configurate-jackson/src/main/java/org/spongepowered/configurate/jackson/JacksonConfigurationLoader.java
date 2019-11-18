@@ -228,7 +228,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
     @NonNull
     @Override
     public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
         return SimpleConfigurationNode.root(options);
     }

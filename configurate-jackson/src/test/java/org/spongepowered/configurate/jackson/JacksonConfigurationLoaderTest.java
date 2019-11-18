@@ -22,7 +22,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.util.MapFactories;
@@ -50,7 +49,7 @@ public class JacksonConfigurationLoaderTest {
         ConfigurationLoader<? extends ConfigurationNode<?>> loader = JacksonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                         .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).build();
-        ConfigurationNode<?> node = loader.load(ConfigurationOptions.defaults().setMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode<?> node = loader.load(ConfigurationOptions.defaults().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());

@@ -137,7 +137,7 @@ public class XMLConfigurationLoaderTest {
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
 
         AttributedConfigurationNode<?> node = loader.createEmptyNode(
-                loader.getDefaultOptions().setHeader("test header\ndo multiple lines work\nyes they do!!")
+                loader.getDefaultOptions().withHeader("test header\ndo multiple lines work\nyes they do!!")
         );
 
         node.setValue("something").setTagName("test");

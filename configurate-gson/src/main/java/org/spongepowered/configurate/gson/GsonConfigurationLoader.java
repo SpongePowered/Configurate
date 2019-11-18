@@ -25,7 +25,6 @@ import com.google.gson.stream.JsonWriter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.AbstractConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
@@ -221,7 +220,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     @NonNull
     @Override
     public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.setAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
         return SimpleConfigurationNode.root(options);
     }
