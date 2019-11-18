@@ -18,12 +18,13 @@ package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
  * Represents the path to a given node.
  */
-public interface NodePath extends Iterable<Object> {
+public interface NodePath extends Iterable<Object>, Cloneable {
 
     /**
      * Gets a specific element from the path array
@@ -48,6 +49,14 @@ public interface NodePath extends Iterable<Object> {
     Object[] getArray();
 
     /**
+     * Create a new path with the provided element appended to the end
+     *
+     * @param childKey The new key to append
+     * @return A new path object reflecting the extended path
+     */
+    NodePath withAppendedChild(@NonNull Object childKey);
+
+    /**
      * Returns an iterator over the path.
      *
      * @return An iterator of the path
@@ -55,4 +64,26 @@ public interface NodePath extends Iterable<Object> {
     @NonNull
     @Override
     Iterator<Object> iterator();
+
+    /**
+     * Create a node path reference
+     *
+     * @param path The path to reference. The provided array will be copied.
+     * @return The path instance
+     */
+    static NodePath create(Object[] path) {
+        return new NodePathImpl(path, true);
+    }
+
+    /**
+     * Create a node path reference
+     *
+     * @param path A collection containing elements of the path to reference
+     * @return The path instance
+     */
+    static NodePath create(Collection<?> path) {
+        return new NodePathImpl(path.toArray(), false);
+    }
+
+    NodePath clone();
 }

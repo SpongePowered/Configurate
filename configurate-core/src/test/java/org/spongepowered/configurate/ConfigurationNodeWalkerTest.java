@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConfigurationNodeWalkerTest {
 
-    private static final Function<ConfigurationNodeWalker.VisitedNode, String> PATH_TO_STRING = visitedNode -> {
+    private static final Function<ConfigurationNodeWalker.VisitedNode<? extends ConfigurationNode<?>>, String> PATH_TO_STRING = visitedNode -> {
         return StreamSupport.stream(visitedNode.getPath().spliterator(), false)
                 .map(o -> {
                     if (o == null) {

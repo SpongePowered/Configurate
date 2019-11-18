@@ -25,6 +25,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
+import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -368,6 +369,16 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         return pointer;
     }
 
+    @NonNull
+    @Override
+    public T getNode(@NonNull Iterable<Object> path) {
+        T pointer = self();
+        for (Object el : path) {
+            pointer = pointer.getChild(el, false);
+        }
+        return pointer;
+    }
+
     @Override
     public boolean isVirtual() {
         return !attached;
@@ -453,17 +464,17 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public Object[] getPath() {
-        LinkedList<Object> pathElements = new LinkedList<>();
+    public NodePath getPath() {
         T pointer = self();
         if (pointer.getParent() == null) {
-            return new Object[]{this.getKey()};
+            return NodePath.create(new Object[] {getKey()});
         }
 
+        LinkedList<Object> pathElements = new LinkedList<>();
         do {
             pathElements.addFirst(pointer.getKey());
         } while ((pointer = pointer.getParent()).getParent() != null);
-        return pathElements.toArray();
+        return NodePath.create(pathElements);
     }
 
     @Nullable

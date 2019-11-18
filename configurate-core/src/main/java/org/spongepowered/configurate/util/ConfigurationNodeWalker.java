@@ -23,7 +23,6 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.Iterator;
@@ -152,38 +151,22 @@ public abstract class ConfigurationNodeWalker {
 
     }
 
-    private static Object[] calculatePath(Object[] path, Object childKey) {
-        if (path.length == 1 && path[0] == null) {
-            return new Object[]{childKey};
-        }
-
-        Object[] childPath = Arrays.copyOf(path, path.length + 1);
-        childPath[childPath.length - 1] = childKey;
-
-        return childPath;
-    }
 
     private static <T extends ConfigurationNode<T>> Iterator<VisitedNodeImpl<T>> getChildren(VisitedNodeImpl<T> from) {
         T node = from.getNode();
         switch (node.getValueType()) {
             case LIST: {
-                Object[] path = from.getRawPath();
                 return Iterators.transform(node.getChildrenList().iterator(), child -> {
                     Objects.requireNonNull(child);
 
-                    Object[] childPath = calculatePath(path, child.getKey());
-
-                    return new VisitedNodeImpl<>(childPath, child);
+                    return new VisitedNodeImpl<>(from.getPath().withAppendedChild(child.getKey()), child);
                 });
             }
             case MAP: {
-                Object[] path = from.getRawPath();
                 return Iterators.transform(node.getChildrenMap().entrySet().iterator(), child -> {
                     Objects.requireNonNull(child);
 
-                    Object[] childPath = calculatePath(path, child.getKey());
-
-                    return new VisitedNodeImpl<>(childPath, child.getValue());
+                    return new VisitedNodeImpl<>(from.getPath().withAppendedChild(child.getKey()), child.getValue());
                 });
             }
             default:
@@ -273,20 +256,14 @@ public abstract class ConfigurationNodeWalker {
         }
     }
 
-    private static final class VisitedNodeImpl<T extends ConfigurationNode<T>> implements VisitedNode<T>, NodePath {
-        private final Object[] path;
+    private static final class VisitedNodeImpl<T extends ConfigurationNode<T>> implements VisitedNode<T> {
+        private final NodePath path;
         private final T node;
 
-        VisitedNodeImpl(Object[] path, T node) {
+        VisitedNodeImpl(NodePath path, T node) {
             this.path = path;
             this.node = node;
         }
-
-        Object[] getRawPath() {
-            return this.path;
-        }
-
-        // implement VisitedNode
 
         @NonNull
         public T getNode() {
@@ -296,30 +273,7 @@ public abstract class ConfigurationNodeWalker {
         @NonNull
         @Override
         public NodePath getPath() {
-            return this;
-        }
-
-        // implement NodePath
-
-        @Override
-        public Object get(int i) {
-            return this.path[i];
-        }
-
-        @Override
-        public int size() {
-            return this.path.length;
-        }
-
-        @Override
-        public Object[] getArray() {
-            return Arrays.copyOf(this.path, this.path.length);
-        }
-
-        @NonNull
-        @Override
-        public Iterator<Object> iterator() {
-            return Iterators.forArray(this.path);
+            return path;
         }
     }
 

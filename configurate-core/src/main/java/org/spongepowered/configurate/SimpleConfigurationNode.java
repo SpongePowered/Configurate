@@ -45,6 +45,7 @@ public class SimpleConfigurationNode extends AbstractConfigurationNode<SimpleCon
     }
 
     @Override
+    @NonNull
     public SimpleConfigurationNode self() {
         return this;
     }

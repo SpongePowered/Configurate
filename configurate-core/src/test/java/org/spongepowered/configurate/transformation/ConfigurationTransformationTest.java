@@ -17,13 +17,9 @@
 package org.spongepowered.configurate.transformation;
 
 import com.google.common.collect.ImmutableList;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.AbstractConfigurationNode;
-import org.spongepowered.configurate.SimpleConfigurationNode;
-import org.spongepowered.configurate.transformation.ConfigurationTransformation.NodePath;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.SimpleConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;

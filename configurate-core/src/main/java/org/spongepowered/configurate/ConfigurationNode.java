@@ -23,6 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
+import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Collection;
 import java.util.List;
@@ -85,7 +86,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return An array compiled from the keys for each node up the hierarchy
      */
     @NonNull
-    Object[] getPath();
+    NodePath getPath();
 
     /**
      * Gets the parent of this node.
@@ -115,6 +116,24 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      */
     @NonNull
     T getNode(@NonNull Object... path);
+
+    /**
+     * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
+     *
+     * <p>This is the main method used to navigate through the configuration.</p>
+     *
+     * <p>The path parameter effectively consumes an array of keys, which locate the unique position
+     * of a given node within the structure.</p>
+     *
+     * <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
+     * structure, a {@link #isVirtual() virtual} node will be returned which represents the
+     * position.</p>
+     *
+     * @param path The path to fetch the node at
+     * @return The node at the given path, possibly virtual
+     */
+    @NonNull
+    T getNode(@NonNull Iterable<Object> path);
 
     /**
      * Gets if this node is virtual.
@@ -620,5 +639,6 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      *
      * @return this
      */
+    @NonNull
     T self();
 }

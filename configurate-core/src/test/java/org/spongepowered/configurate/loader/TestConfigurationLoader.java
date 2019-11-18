@@ -16,10 +16,9 @@
  */
 package org.spongepowered.configurate.loader;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.AbstractConfigurationNode;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 
 import java.io.BufferedReader;
@@ -54,7 +53,7 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
+    protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
         result.setValue(node);
     }
 

@@ -33,13 +33,13 @@ class SingleConfigurationTransformation<T extends ConfigurationNode<T>> extends 
     private final Map<Object[], TransformAction<? super T>> actions;
 
     /**
-     * Thread local {@link ConfigurationTransformation.NodePath} instance - used so we don't have to create lots of NodePath
+     * Thread local {@link NodePath} instance - used so we don't have to create lots of NodePath
      * instances.
      *
      * As such, data within paths is only guaranteed to be the same during a run of
      * a transform function.
      */
-    private final ThreadLocal<ConfigurationTransformation.NodePath> sharedPath = ThreadLocal.withInitial(ConfigurationTransformation.NodePath::new);
+    private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
 
     SingleConfigurationTransformation(Map<Object[], TransformAction<? super T>> actions, MoveStrategy strategy) {
         this.actions = actions;
@@ -83,7 +83,7 @@ class SingleConfigurationTransformation<T extends ConfigurationNode<T>> extends 
         }
 
         // apply action
-        ConfigurationTransformation.NodePath nodePath = sharedPath.get();
+        NodePathImpl nodePath = sharedPath.get();
         nodePath.arr = path;
 
         Object[] transformedPath = action.visitPath(nodePath, node);

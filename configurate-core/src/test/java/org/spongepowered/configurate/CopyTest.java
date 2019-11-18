@@ -79,8 +79,8 @@ public class CopyTest {
         ConfigurationNode<?> originalVal = original.getNode("val1");
         ConfigurationNode<?> copyVal = copy.getNode("val1");
 
-        assertEquals(2, originalVal.getPath().length);
-        assertEquals(1, copyVal.getPath().length);
+        assertEquals(2, originalVal.getPath().size());
+        assertEquals(1, copyVal.getPath().size());
 
         assertNotNull(originalVal.getParent());
         assertNotNull(copyVal.getParent());

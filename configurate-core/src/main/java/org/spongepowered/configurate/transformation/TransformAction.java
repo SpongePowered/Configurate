@@ -29,14 +29,14 @@ public interface TransformAction<T extends ConfigurationNode<T>> {
     /**
      * Called at a certain path, with the node at that path.
      *
-     * <p>The state of the <code>inputPath</code> is only guaranteed to be accurate during a run of
-     * the transform function. Use {@link NodePath#getArray()} if it's state needs to be stored.</p>
+     * <p><strong>Caution:</strong> The state of the <code>inputPath</code> is only guaranteed to be accurate during a run of
+     * the transform function. Use {@link NodePath#getArray()} if the path's state needs to be stored.</p>
      *
      * @param inputPath The path of the given node
      * @param valueAtPath The node at the input path. May be modified
      * @return A modified path, or null if the path is to stay the same
      */
     @Nullable
-    Object[] visitPath(ConfigurationTransformation.@NonNull NodePath inputPath, @NonNull T valueAtPath);
+    Object[] visitPath(@NonNull NodePath inputPath, @NonNull T valueAtPath);
 
 }
