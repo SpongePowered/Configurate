@@ -41,6 +41,7 @@ subprojects {
   license {
     header rootProject.file('LICENSE_HEADER')
     include '**/*.java'
+    include '**/*.kt'
     newLine false
   }
 
