@@ -18,6 +18,7 @@ package ninja.leaping.configurate.objectmapping;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
@@ -145,6 +146,26 @@ public class TypeSerializersTest {
         value.setValue(null);
 
         stringListSerializer.serialize(stringListType, Arrays.asList("hi", "there", "lame", "people"), value);
+        assertEquals("hi", value.getNode(0).getString());
+        assertEquals("there", value.getNode(1).getString());
+        assertEquals("lame", value.getNode(2).getString());
+        assertEquals("people", value.getNode(3).getString());
+    }
+
+    @Test
+    public void testSetSerializer() throws ObjectMappingException {
+        final TypeToken<Set<String>> stringListType = new TypeToken<Set<String>>() {};
+        final TypeSerializer<Set<String>> stringListSerializer = SERIALIZERS.get(stringListType);
+        final ConfigurationNode value = SimpleConfigurationNode.root();
+        value.getAppendedNode().setValue("hi");
+        value.getAppendedNode().setValue("there");
+        value.getAppendedNode().setValue("beautiful");
+        value.getAppendedNode().setValue("people");
+
+        assertEquals(ImmutableSet.of("hi", "there", "beautiful", "people"), stringListSerializer.deserialize(stringListType, value));
+        value.setValue(null);
+
+        stringListSerializer.serialize(stringListType, ImmutableSet.of("hi", "there", "lame", "people"), value);
         assertEquals("hi", value.getNode(0).getString());
         assertEquals("there", value.getNode(1).getString());
         assertEquals("lame", value.getNode(2).getString());
