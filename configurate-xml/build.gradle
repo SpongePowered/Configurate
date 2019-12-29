@@ -1,3 +1,3 @@
 dependencies {
-  compile project(':configurate-core')
+  api project(':configurate-core')
 }

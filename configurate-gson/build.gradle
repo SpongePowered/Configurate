@@ -1,4 +1,4 @@
 dependencies {
-  compile project(':configurate-core')
-  compile 'com.google.code.gson:gson:2.8.0'
+  api project(':configurate-core')
+  implementation 'com.google.code.gson:gson:2.8.0'
 }
