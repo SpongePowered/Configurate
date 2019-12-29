@@ -10,9 +10,12 @@ buildscript {
   }
 }
 
+
+
 subprojects {
   apply plugin: 'java-library'
   apply plugin: 'maven-publish'
+  apply plugin: 'signing'
   apply plugin: 'net.minecrell.licenser'
 
   group 'org.spongepowered'
@@ -115,5 +118,14 @@ subprojects {
           }
         }
       }
+  }
+
+  signing {
+    useGpgCmd()
+    sign publishing.publications.maven
+  }
+
+  tasks.withType(Sign) {
+    onlyIf { !version.endsWith("-SNAPSHOT") }
   }
 }
