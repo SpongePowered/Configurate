@@ -24,9 +24,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -61,6 +61,7 @@ public class TypeSerializerCollection {
                 .register(TypeToken.of(long[].class), new ArraySerializer.Longs())
                 .register(TypeToken.of(float[].class), new ArraySerializer.Floats())
                 .register(TypeToken.of(double[].class), new ArraySerializer.Doubles())
+                .register(new TypeToken<Set<?>>() {}, new SetSerializer())
                 .build();
     }
 
