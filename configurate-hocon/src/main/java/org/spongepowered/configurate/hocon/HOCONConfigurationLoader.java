@@ -236,7 +236,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
             ret = newConfigList(children);
 
         } else {
-            ret = ConfigValueFactory.fromAnyRef(node.getValue(), "configurate-hocon");
+            ret = ConfigValueFactory.fromAnyRef(node.getValue(), CONFIGURATE_ORIGIN.description());
         }
         if (node instanceof CommentedConfigurationNode) {
             CommentedConfigurationNode<?> commentedNode = ((CommentedConfigurationNode<?>) node);
