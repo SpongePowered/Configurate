@@ -1,4 +1,4 @@
 dependencies {
-  compile project(':configurate-core')
-  compile 'org.yaml:snakeyaml:1.18'
+  api project(':configurate-core')
+  api 'org.yaml:snakeyaml:1.18'
 }
