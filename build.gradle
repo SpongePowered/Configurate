@@ -21,8 +21,6 @@ subprojects {
   group 'org.spongepowered'
   version '4.0.0-SNAPSHOT'
 
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
 
   tasks.withType(JavaCompile) {
     options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
@@ -33,12 +31,15 @@ subprojects {
   java {
     withJavadocJar()
     withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
   }
 
   javadoc {
     options.links(
       'http://google.github.io/guava/releases/21.0/api/docs/'
     )
+    options.addBooleanOption("html5")
   }
 
   license {

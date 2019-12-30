@@ -17,10 +17,12 @@
 package org.spongepowered.configurate.jackson;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonFactoryBuilder;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -55,19 +57,18 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
      * Builds a {@link JacksonConfigurationLoader}.
      */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
-        private final JsonFactory factory = new JsonFactory();
+        private final JsonFactoryBuilder factory = new JsonFactoryBuilder();
         private int indent = 2;
         private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
 
         protected Builder() {
-            factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-            factory.enable(JsonParser.Feature.ALLOW_COMMENTS);
-            factory.enable(JsonParser.Feature.ALLOW_YAML_COMMENTS);
-            factory.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-            factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-            factory.enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES);
-            factory.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
-            factory.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
+            factory.enable(JsonReadFeature.ALLOW_JAVA_COMMENTS);
+            factory.enable(JsonReadFeature.ALLOW_YAML_COMMENTS);
+            factory.enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
+            factory.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES);
+            factory.enable(JsonReadFeature.ALLOW_SINGLE_QUOTES);
+            factory.enable(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS);
+            factory.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS);
         }
 
         /**
@@ -76,7 +77,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
          * @return The json factory
          */
         @NonNull
-        public JsonFactory getFactory() {
+        public JsonFactoryBuilder getFactoryBuilder() {
             return this.factory;
         }
 
@@ -136,7 +137,8 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
 
     private JacksonConfigurationLoader(Builder builder) {
         super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
-        this.factory = builder.getFactory();
+        this.factory = builder.getFactoryBuilder().build();
+        this.factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
         this.indent = builder.getIndent();
         this.fieldValueSeparatorStyle = builder.getFieldValueSeparatorStyle();
     }
