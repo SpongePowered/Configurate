@@ -6,20 +6,21 @@ buildscript {
   }
 
   dependencies {
-    classpath 'gradle.plugin.net.minecrell:licenser:0.3'
+    classpath 'gradle.plugin.net.minecrell:licenser:0.4.1'
   }
 }
 
+
+
 subprojects {
-  apply plugin: 'java'
-  apply plugin: 'maven'
+  apply plugin: 'java-library'
+  apply plugin: 'maven-publish'
+  apply plugin: 'signing'
   apply plugin: 'net.minecrell.licenser'
 
   group 'org.spongepowered'
-  version '3.7-SNAPSHOT'
+  version '4.0.0-SNAPSHOT'
 
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
 
   tasks.withType(JavaCompile) {
     options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
@@ -27,15 +28,24 @@ subprojects {
     options.encoding = 'UTF-8'
   }
 
+  java {
+    withJavadocJar()
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+  }
+
   javadoc {
     options.links(
       'http://google.github.io/guava/releases/21.0/api/docs/'
     )
+    options.addBooleanOption("html5")
   }
 
   license {
     header rootProject.file('LICENSE_HEADER')
     include '**/*.java'
+    include '**/*.kt'
     newLine false
   }
 
@@ -47,7 +57,7 @@ subprojects {
 
   dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
-    testCompile 'org.junit-pioneer:junit-pioneer:0.1.2'
+    testImplementation 'org.junit-pioneer:junit-pioneer:0.1.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
   }
 
@@ -55,67 +65,68 @@ subprojects {
     useJUnitPlatform()
   }
 
-  task javadocJar(type: Jar) {
-    classifier 'javadoc'
-    from javadoc
-  }
 
-  task sourcesJar(type: Jar) {
-    classifier 'sources'
-    from sourceSets.main.allSource
-  }
+  publishing {
+    publications {
+      maven(MavenPublication) {
+        from components.java
 
-  artifacts {
-    archives javadocJar
-    archives sourcesJar
-  }
+        pom {
+          description 'A simple configuration library for Java applications that can handle a variety of formats and provides a node-based data structure able to handle a wide variety of configuration schemas'
+          name = project.name
+          url = 'https://github.com/SpongePowered/configurate/'
 
-  if(project.hasProperty('spongeRepo') && project.hasProperty('spongeUsername') && project.hasProperty('spongePassword')) {
-    uploadArchives {
-      repositories {
-        mavenDeployer {
-          repository(url: spongeRepo) {
-            authentication(userName: spongeUsername, password: spongePassword)
+          inceptionYear = '2014'
+
+          developers {
+            developer {
+              name = 'zml'
+              email = 'zml@aoeu.xyz'
+            }
           }
 
-          snapshotRepository(url: spongeRepo) {
-            authentication(userName: spongeUsername, password: spongePassword)
+          issueManagement {
+            system = 'GitHub Issues'
+            url = 'https://github.com/SpongePowered/configurate/issues'
           }
 
-          pom.project {
-            description 'A simple configuration library for Java applications that can handle a variety of formats and provides a node-based data structure able to handle a wide variety of configuration schemas'
-            name project.name
-            url 'https://github.com/SpongePowered/configurate/'
-
-            inceptionYear '2014'
-
-            developers {
-              developer {
-                name 'zml'
-                email 'zml@aoeu.xyz'
-              }
+          licenses {
+            license {
+              name = 'Apache License, Version 2.0'
+              url = 'https://opensource.org/licenses/Apache-2.0'
             }
+          }
 
-            issueManagement {
-              system 'GitHub Issues'
-              url 'https://github.com/SpongePowered/configurate/issues'
-            }
+          scm {
+            connection = 'scm:git@github.com:SpongePowered/configurate.git'
+            developerConnection = 'scm:git@github.com:SpongePowered/configurate.git'
+            url = 'https://github.com/SpongePowered/configurate/'
+          }
 
-            licenses {
-              license {
-                name 'Apache License, Version 2.0'
-                url 'https://opensource.org/licenses/Apache-2.0'
-              }
-            }
+        }
+      }
+    }
 
-            scm {
-              connection 'scm:git@github.com:SpongePowered/configurate.git'
-              developerConnection 'scm:git@github.com:SpongePowered/configurate.git'
-              url 'https://github.com/SpongePowered/configurate/'
+    if (project.hasProperty('spongeRepo') && project.hasProperty('spongeUsername') && project.hasProperty('spongePassword')) {
+        repositories {
+          maven {
+            name = 'spongeRepo'
+            url = spongeRepo
+            credentials {
+              username = spongeUsername
+              password = spongePassword
             }
           }
         }
       }
-    }
+  }
+
+  signing {
+    useGpgCmd()
+    sign publishing.publications.maven
+  }
+
+  tasks.withType(Sign) {
+    onlyIf { !version.endsWith("-SNAPSHOT") }
   }
 }
