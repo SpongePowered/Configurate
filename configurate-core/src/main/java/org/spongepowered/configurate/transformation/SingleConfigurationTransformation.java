@@ -56,14 +56,14 @@ class SingleConfigurationTransformation<T extends ConfigurationNode<T>> extends 
     private void applySingleAction(T start, Object[] path, int startIdx, T node, TransformAction<? super T> action) {
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
-                if (node.hasListChildren()) {
+                if (node.isList()) {
                     List<T> children = node.getChildrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
                         applySingleAction(start, path, i + 1, children.get(di), action);
                     }
                     path[i] = WILDCARD_OBJECT;
-                } else if (node.hasMapChildren()) {
+                } else if (node.isMap()) {
                     for (Map.Entry<Object, T> ent : node.getChildrenMap().entrySet()) {
                         path[i] = ent.getKey();
                         applySingleAction(start, path, i + 1, ent.getValue(), action);

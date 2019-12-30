@@ -98,7 +98,7 @@ public class GsonConfigurationLoaderTest {
 
         ConfigurationNode<?> node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals(ImmutableMap.of(), node.getValue());
-        assertTrue(node.hasMapChildren());
+        assertTrue(node.isMap());
     }
 
     private static final long TEST_LONG_VAL = 584895858588588888l;

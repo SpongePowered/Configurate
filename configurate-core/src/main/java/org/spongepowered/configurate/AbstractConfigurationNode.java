@@ -235,7 +235,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         if (newValue instanceof ConfigurationNode) {
             ConfigurationNode<?> newValueAsNode = (ConfigurationNode<?>) newValue;
 
-            if (newValueAsNode.hasListChildren()) {
+            if (newValueAsNode.isList()) {
                 // handle list
                 attachIfNecessary();
                 ListConfigValue<T> newList = new ListConfigValue<>(self());
@@ -245,7 +245,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
                 this.value = newList;
                 return self();
 
-            } else if (newValueAsNode.hasMapChildren()) {
+            } else if (newValueAsNode.isMap()) {
                 // handle map
                 attachIfNecessary();
                 MapConfigValue<T> newMap = new MapConfigValue<>(self());
@@ -318,7 +318,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
     @NonNull
     @Override
     public T mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
-        if (other.hasMapChildren()) {
+        if (other.isMap()) {
             ConfigValue<T> oldValue, newValue;
             synchronized (this) {
                 oldValue = newValue = value;

@@ -35,7 +35,7 @@ class CharSerializer implements TypeSerializer<Character> {
     @Nullable
     @Override
     public Character deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
-        if (value.hasListChildren() || value.hasMapChildren()) {
+        if (value.isList() || value.isMap()) {
             return null;
         }
 

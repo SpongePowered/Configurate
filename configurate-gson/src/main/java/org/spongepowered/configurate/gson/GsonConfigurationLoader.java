@@ -221,7 +221,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
 
     @Override
     public void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
-        if (!lenient && !node.hasMapChildren()) {
+        if (!lenient && !node.isMap()) {
             throw new IOException("Non-lenient json generators must have children of map type");
         }
         try (JsonWriter generator = new JsonWriter(writer)) {
@@ -242,9 +242,9 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     }
 
     private static void generateValue(JsonWriter generator, ConfigurationNode<?> node) throws IOException {
-        if (node.hasMapChildren()) {
+        if (node.isMap()) {
             generateObject(generator, node);
-        } else if (node.hasListChildren()) {
+        } else if (node.isList()) {
             generateArray(generator, node);
         } else if (node.getKey() == null && node.getValue() == null) {
             generator.beginObject();
@@ -268,7 +268,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     }
 
     private static void generateObject(JsonWriter generator, ConfigurationNode<?> node) throws IOException {
-        if (!node.hasMapChildren()) {
+        if (!node.isMap()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
         generator.beginObject();
@@ -280,7 +280,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     }
 
     private static void generateArray(JsonWriter generator, ConfigurationNode<?> node) throws IOException {
-        if (!node.hasListChildren()) {
+        if (!node.isList()) {
             throw new IOException("Node passed to generateArray does not have list children!");
         }
         List<? extends ConfigurationNode<?>> children = node.getChildrenList();

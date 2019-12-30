@@ -165,7 +165,7 @@ public class ObjectMapperTest {
         final ObjectMapper<ParentObject>.BoundInstance mapper = ObjectMapper.forObject(new ParentObject());
         mapper.populate(node);
         assertEquals("Comment on parent", node.getNode("inner").getComment().get());
-        assertTrue(node.getNode("inner").hasMapChildren());
+        assertTrue(node.getNode("inner").isMap());
         assertEquals("Default value", node.getNode("inner", "test").getString());
         assertEquals("Something", node.getNode("inner", "test").getComment().get());
     }

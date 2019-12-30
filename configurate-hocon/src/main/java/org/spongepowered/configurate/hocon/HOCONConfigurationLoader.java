@@ -213,7 +213,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
 
     @Override
     protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
-        if (!node.hasMapChildren()) {
+        if (!node.isMap()) {
             if (node.getValue() == null) {
                 writer.write(SYSTEM_LINE_SEPARATOR);
                 return;
@@ -228,13 +228,13 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
 
     private static ConfigValue fromValue(ConfigurationNode<?> node) {
         ConfigValue ret;
-        if (node.hasMapChildren()) {
+        if (node.isMap()) {
             Map<String, ConfigValue> children = node.getOptions().getMapFactory().create();
             for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : node.getChildrenMap().entrySet()) {
                 children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));
             }
             ret = newConfigObject(children);
-        } else if (node.hasListChildren()) {
+        } else if (node.isList()) {
             List<ConfigValue> children = new ArrayList<>();
             for (ConfigurationNode<?> ent : node.getChildrenList()) {
                 children.add(fromValue(ent));

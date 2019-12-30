@@ -60,15 +60,15 @@ public class XMLConfigurationLoaderTest {
 
         assertEquals("messages", node.getTagName());
         assertEquals("false", node.getAttribute("secret"));
-        assertTrue(node.hasListChildren());
+        assertTrue(node.isList());
 
         List<SimpleAttributedConfigurationNode> notes = node.getChildrenList();
         assertEquals(2, notes.size());
 
         AttributedConfigurationNode<?> firstNote = notes.get(0);
         assertEquals("501", firstNote.getAttribute("id"));
-        assertTrue(firstNote.hasMapChildren());
-        assertFalse(firstNote.hasListChildren());
+        assertTrue(firstNote.isMap());
+        assertFalse(firstNote.isList());
 
         Map<Object, ? extends AttributedConfigurationNode<?>> properties = firstNote.getChildrenMap();
         assertEquals("Tove", properties.get("to").getValue());
@@ -78,8 +78,8 @@ public class XMLConfigurationLoaderTest {
 
         AttributedConfigurationNode<?> secondNode = notes.get(1);
         assertEquals("502", secondNode.getAttribute("id"));
-        assertFalse(secondNode.hasMapChildren());
-        assertTrue(secondNode.hasListChildren());
+        assertFalse(secondNode.isMap());
+        assertTrue(secondNode.isList());
 
         List<? extends AttributedConfigurationNode<?>> subNodes = secondNode.getChildrenList();
         for (AttributedConfigurationNode<?> subNode : subNodes) {
@@ -108,16 +108,16 @@ public class XMLConfigurationLoaderTest {
         AttributedConfigurationNode<?> node = loader.load();
 
         AttributedConfigurationNode<?> list1 = node.getNode("list1");
-        assertTrue(list1.hasListChildren());
+        assertTrue(list1.isList());
 
         AttributedConfigurationNode<?> list2 = node.getNode("list2");
-        assertTrue(list2.hasListChildren());
+        assertTrue(list2.isList());
 
         AttributedConfigurationNode<?> map1 = node.getNode("map1");
-        assertTrue(map1.hasMapChildren());
+        assertTrue(map1.isMap());
 
         AttributedConfigurationNode<?> map2 = node.getNode("map2");
-        assertTrue(map2.hasMapChildren());
+        assertTrue(map2.isMap());
 
         // roundtrip!
         loader.save(node);

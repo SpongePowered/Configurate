@@ -166,7 +166,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      *
      * @return if this node has children in the form of a list
      */
-    default boolean hasListChildren() {
+    default boolean isList() {
         return getValueType() == ValueType.LIST;
     }
 
@@ -175,14 +175,14 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      *
      * @return if this node has children in the form of a map
      */
-    default boolean hasMapChildren() {
+    default boolean isMap() {
         return getValueType() == ValueType.MAP;
     }
 
     /**
      * Gets the "list children" attached to this node, if it has any.
      *
-     * <p>If this node does not {@link #hasListChildren() have list children}, an empty list is
+     * <p>If this node does not {@link #isList() have list children}, an empty list is
      * returned.</p>
      *
      * @return The list children currently attached to this node
@@ -193,7 +193,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
     /**
      * Gets the "map children" attached to this node, if it has any.
      *
-     * <p>If this node does not {@link #hasMapChildren() have map children}, an empty map
+     * <p>If this node does not {@link #isMap() have map children}, an empty map
      * returned.</p>
      *
      * @return The map children currently attached to this node
