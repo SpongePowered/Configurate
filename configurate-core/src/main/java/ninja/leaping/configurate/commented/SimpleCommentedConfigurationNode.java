@@ -121,8 +121,15 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
 
     @NonNull
     @Override
+    @Deprecated
     public SimpleCommentedConfigurationNode getAppendedNode() {
         return (SimpleCommentedConfigurationNode) super.getAppendedNode();
+    }
+
+    @NonNull
+    @Override
+    public SimpleCommentedConfigurationNode appendListNode() {
+        return (SimpleCommentedConfigurationNode) super.appendListNode();
     }
 
     @NonNull

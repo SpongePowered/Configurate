@@ -34,8 +34,8 @@ public class CopyTest {
         node.getNode("section", "val1").setValue(true);
         node.getNode("section", "val2").setValue("TEST");
         ConfigurationNode list = node.getNode("section2", "alist");
-        list.getAppendedNode().setValue("value1");
-        list.getAppendedNode().setValue("value2");
+        list.appendListNode().setValue("value1");
+        list.appendListNode().setValue("value2");
 
         ConfigurationNode copy = node.copy();
 

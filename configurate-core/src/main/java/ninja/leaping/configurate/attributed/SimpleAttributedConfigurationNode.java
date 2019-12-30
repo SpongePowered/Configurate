@@ -189,8 +189,15 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
 
     @NonNull
     @Override
+    @Deprecated
     public SimpleAttributedConfigurationNode getAppendedNode() {
         return (SimpleAttributedConfigurationNode) super.getAppendedNode();
+    }
+
+    @NonNull
+    @Override
+    public SimpleAttributedConfigurationNode appendListNode() {
+        return (SimpleAttributedConfigurationNode) super.appendListNode();
     }
 
     @NonNull

@@ -55,6 +55,7 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
     @NonNull @Override CommentedConfigurationNode setValue(@Nullable Object value);
     @NonNull @Override CommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
     @NonNull @Override CommentedConfigurationNode getAppendedNode();
+    @NonNull @Override CommentedConfigurationNode appendListNode();
     @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);
     @NonNull @Override CommentedConfigurationNode copy();
 }

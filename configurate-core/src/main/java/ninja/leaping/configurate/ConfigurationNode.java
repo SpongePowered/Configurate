@@ -598,9 +598,21 @@ public interface ConfigurationNode {
      * Gets a new child node created as the next entry in the list.
      *
      * @return A new child created as the next entry in the list when it is attached
+     * @deprecated Use {@link #appendListNode()} instead
      */
+    @Deprecated
     @NonNull
     ConfigurationNode getAppendedNode();
+
+    /**
+     * Gets a new child node created as the next entry in the list.
+     *
+     * @return A new child created as the next entry in the list when it is attached
+     */
+    @NonNull
+    default ConfigurationNode appendListNode() {
+        return getAppendedNode();
+    }
 
     /**
      * Creates a deep copy of this node.

@@ -347,7 +347,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
             if (type == NodeType.MAP) {
                 child = to.getNode(entry.getKey());
             } else {
-                child = to.getAppendedNode();
+                child = to.appendListNode();
             }
 
             readElement(entry.getValue(), child);
