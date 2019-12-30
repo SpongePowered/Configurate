@@ -38,7 +38,6 @@ import java.util.function.Supplier;
  * {@link ConfigurationNode}, and the links between them.</p>
  *
  * <p>{@link ConfigurationNode}s can hold different types of {@link ValueType values}. They can:</p>
- * <p>
  * <ul>
  *     <li>Hold a single "scalar" value ({@link ValueType#SCALAR})</li>
  *     <li>Represent a "list" of child {@link ConfigurationNode}s ({@link ValueType#LIST})</li>
@@ -330,6 +329,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @param type The expected type
      * @param <V> The expected type
      * @return An immutable copy of the values contained
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     @NonNull
     default <V> List<V> getList(@NonNull TypeToken<V> type) throws ObjectMappingException {
@@ -347,6 +347,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @param <V> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     <V> List<V> getList(@NonNull TypeToken<V> type, @Nullable List<V> def) throws ObjectMappingException;
 
@@ -362,6 +363,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @param <V> The expected type
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     <V> List<V> getList(@NonNull TypeToken<V> type, @NonNull Supplier<List<V>> defSupplier) throws ObjectMappingException;
 
@@ -504,6 +506,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @param type The type to deserialize to
      * @param <V> the type to get
      * @return the value if present and of the proper type, else null
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     @Nullable
     default <V> V getValue(@NonNull TypeToken<V> type) throws ObjectMappingException {
@@ -523,6 +526,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @param def The value to return if no value or value is not of appropriate type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     <V> V getValue(@NonNull TypeToken<V> type, V def) throws ObjectMappingException;
 
@@ -540,6 +544,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      *                    value of the correct type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     <V> V getValue(@NonNull TypeToken<V> type, @NonNull Supplier<V> defSupplier) throws ObjectMappingException;
 
@@ -568,6 +573,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @param value The value to set
      * @param <V> The type to serialize to
      * @return this
+     * @throws ObjectMappingException if an error occurs while mapping this node's data with the applicable {@link TypeSerializer}
      */
     @NonNull
     default <V> T setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException {

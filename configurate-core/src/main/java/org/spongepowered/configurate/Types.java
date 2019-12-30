@@ -22,7 +22,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Contains functions useful for performing configuration type conversions.
  *
  * <p>The naming scheme is as follows:</p>
- * <p>
  * <ul>
  *     <li><code>as</code> methods attempt to convert the data passed to the appropriate type</li>
  *     <li><code>strictAs</code> methods will only return values if the input value is already of an appropriate type</li>
@@ -274,7 +273,6 @@ public final class Types {
     /**
      * Attempts to convert <code>value</code> to a {@link Boolean}.
      *
-     * <p>
      * <ul>
      *     <li>If <code>value</code> is a {@link Boolean}, casts and returns</li>
      *     <li>If <code>value</code> is a {@link Number}, returns true if value is not 0</li>

@@ -79,9 +79,14 @@ public class TypeSerializersTest {
         assertEquals(45f, numberSerializer.deserialize(floatType, node));
         assertEquals(45, numberSerializer.deserialize(primitiveIntType, node));
 
-        //noinspection unchecked
-        ((TypeSerializer) numberSerializer).serialize(intType, 42, node);
+        serializeNumber(numberSerializer, intType, node); // separate method to quiet warnings
         assertEquals(42, node.getValue());
+    }
+
+    @SuppressWarnings("unchecked")
+    private void serializeNumber(TypeSerializer<? extends Number> serial, TypeToken<? extends Number> token, ConfigurationNode<?> node) throws ObjectMappingException {
+        ((TypeSerializer<Number>) serial).serialize(token, 42, node);
+
     }
 
     @Test
@@ -187,6 +192,7 @@ public class TypeSerializersTest {
     }
 
     @Test
+    @SuppressWarnings("rawtypes")
     public void testListRawTypes() throws ObjectMappingException {
         final TypeToken<List> rawType = TypeToken.of(List.class);
         final TypeSerializer<List> serial = SERIALIZERS.get(rawType);

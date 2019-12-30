@@ -25,17 +25,17 @@ import org.spongepowered.configurate.util.EnumLookup;
 
 import java.util.Optional;
 
-class EnumValueSerializer implements TypeSerializer<Enum> {
+class EnumValueSerializer implements TypeSerializer<Enum<?>> {
     @Override
-    @SuppressWarnings("unchecked") // i continue to hate generics
-    public Enum deserialize(TypeToken<?> type, ConfigurationNode<?> value) throws ObjectMappingException {
+    public Enum<?> deserialize(TypeToken<?> type, ConfigurationNode<?> value) throws ObjectMappingException {
         String enumConstant = value.getString();
         if (enumConstant == null) {
             throw new ObjectMappingException("No value present in node " + value);
         }
 
-        Optional<Enum> ret = (Optional) EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class),
-                enumConstant); // XXX: intellij says this cast is optional but it isnt
+        @SuppressWarnings("unchecked")
+        Optional<? extends Enum<?>> ret = EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class),
+                enumConstant);
         if (!ret.isPresent()) {
             throw new ObjectMappingException("Invalid enum constant provided for " + value.getKey() + ": " +
                     "Expected a value of enum " + type + ", got " + enumConstant);
@@ -44,7 +44,7 @@ class EnumValueSerializer implements TypeSerializer<Enum> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Enum obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
-        value.setValue(obj.name());
+    public void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+        value.setValue(obj == null ? null : obj.name());
     }
 }
