@@ -143,10 +143,10 @@ public class TypeSerializersTest {
         final TypeToken<List<String>> stringListType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> stringListSerializer = SERIALIZERS.get(stringListType);
         final ConfigurationNode<?> value = SimpleConfigurationNode.root();
-        value.getAppendedNode().setValue("hi");
-        value.getAppendedNode().setValue("there");
-        value.getAppendedNode().setValue("beautiful");
-        value.getAppendedNode().setValue("people");
+        value.appendListNode().setValue("hi");
+        value.appendListNode().setValue("there");
+        value.appendListNode().setValue("beautiful");
+        value.appendListNode().setValue("people");
 
         assertEquals(Arrays.asList("hi", "there", "beautiful", "people"), stringListSerializer.deserialize(stringListType, value));
         value.setValue(null);
@@ -163,10 +163,10 @@ public class TypeSerializersTest {
         final TypeToken<Set<String>> stringListType = new TypeToken<Set<String>>() {};
         final TypeSerializer<Set<String>> stringListSerializer = SERIALIZERS.get(stringListType);
         final ConfigurationNode<?> value = SimpleConfigurationNode.root();
-        value.getAppendedNode().setValue("hi");
-        value.getAppendedNode().setValue("there");
-        value.getAppendedNode().setValue("beautiful");
-        value.getAppendedNode().setValue("people");
+        value.appendListNode().setValue("hi");
+        value.appendListNode().setValue("there");
+        value.appendListNode().setValue("beautiful");
+        value.appendListNode().setValue("people");
 
         assertEquals(ImmutableSet.of("hi", "there", "beautiful", "people"), stringListSerializer.deserialize(stringListType, value));
         value.setValue(null);
@@ -199,9 +199,9 @@ public class TypeSerializersTest {
 
         final ConfigurationNode<?> value = SimpleConfigurationNode.root();
 
-        value.getAppendedNode().setValue(1);
-        value.getAppendedNode().setValue("dog");
-        value.getAppendedNode().setValue(2.4);
+        value.appendListNode().setValue(1);
+        value.appendListNode().setValue("dog");
+        value.appendListNode().setValue(2.4);
 
         Assertions.assertTrue(Assertions.assertThrows(Exception.class, () -> {
             serial.deserialize(rawType, value);

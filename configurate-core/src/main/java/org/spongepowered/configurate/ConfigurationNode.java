@@ -618,7 +618,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return A new child created as the next entry in the list when it is attached
      */
     @NonNull
-    T getAppendedNode();
+    T appendListNode();
 
     /**
      * Creates a deep copy of this node.

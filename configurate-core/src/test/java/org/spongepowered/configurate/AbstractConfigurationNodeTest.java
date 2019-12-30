@@ -97,8 +97,8 @@ public class AbstractConfigurationNodeTest {
     @Test
     public void testGetChildrenList() {
         ConfigurationNode<?> root = SimpleConfigurationNode.root();
-        ConfigurationNode<?> a = root.getAppendedNode().setValue("one");
-        ConfigurationNode<?> b = root.getAppendedNode().setValue("two");
+        ConfigurationNode<?> a = root.appendListNode().setValue("one");
+        ConfigurationNode<?> b = root.appendListNode().setValue("two");
         assertEquals(ImmutableList.of(a, b), root.getChildrenList());
     }
 
@@ -139,8 +139,8 @@ public class AbstractConfigurationNodeTest {
     @Test
     public void testListPacking() {
         ConfigurationNode<?> root = SimpleConfigurationNode.root();
-        root.getAppendedNode().setValue("test1");
-        root.getAppendedNode().setValue("test2");
+        root.appendListNode().setValue("test1");
+        root.appendListNode().setValue("test2");
         assertEquals(TEST_LIST, root.getValue());
     }
 
@@ -149,7 +149,7 @@ public class AbstractConfigurationNodeTest {
         ConfigurationNode<?> config = SimpleConfigurationNode.root();
         ConfigurationNode<?> node = config.getNode("test", "value");
         node.setValue("test");
-        ConfigurationNode<?> secondChild = node.getAppendedNode();
+        ConfigurationNode<?> secondChild = node.appendListNode();
         secondChild.setValue("test2");
         assertEquals(Arrays.asList("test", "test2"), node.getValue());
     }

@@ -451,7 +451,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public T getAppendedNode() {
+    public T appendListNode() {
         // the appended node can have a key of -1
         // the "real" key will be determined when the node is inserted into a list config value
         return getChild(-1, false);

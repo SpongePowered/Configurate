@@ -177,7 +177,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<SimpleC
                     parser.endArray();
                     return;
                 default:
-                    parseValue(parser, node.getAppendedNode());
+                    parseValue(parser, node.appendListNode());
             }
         }
         throw new JsonParseException("Reached end of stream with unclosed array at!");

@@ -66,7 +66,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
         value.setValue(ImmutableList.of());
         if (obj != null) {
             forEachElement(obj, el -> {
-                entrySerial.serialize(entryType, el, value.getAppendedNode());
+                entrySerial.serialize(entryType, el, value.appendListNode());
             });
         }
     }

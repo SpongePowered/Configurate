@@ -198,7 +198,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
                 case END_ARRAY:
                     return;
                 default:
-                    parseValue(parser, node.getAppendedNode());
+                    parseValue(parser, node.appendListNode());
             }
         }
         throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
