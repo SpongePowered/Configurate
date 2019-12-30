@@ -33,7 +33,6 @@ import static java.util.Objects.requireNonNull;
  * Utility class to cache more flexible enum lookup.
  *
  * <p>While normally case and punctuation have to match exactly, this method performs lookup that:</p>
- * <p>
  * <ul>
  *     <li>is case-insensitive</li>
  *     <li>ignores underscores</li>
@@ -53,7 +52,7 @@ public final class EnumLookup {
             .maximumSize(512)
             .build(new CacheLoader<Class<? extends Enum<?>>, Map<String, Enum<?>>>() {
                 @Override
-                public Map<String, Enum<?>> load(Class<? extends Enum<?>> key) {
+                public Map<String, Enum<?>> load(@NonNull Class<? extends Enum<?>> key) {
                     Map<String, Enum<?>> ret = new HashMap<>();
                     for (Enum<?> field : key.getEnumConstants()) {
                         ret.put(field.name(), field);

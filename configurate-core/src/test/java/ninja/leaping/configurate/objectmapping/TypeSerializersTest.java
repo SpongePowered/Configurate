@@ -186,6 +186,7 @@ public class TypeSerializersTest {
     }
 
     @Test
+    @SuppressWarnings("rawtypes")
     public void testListRawTypes() throws ObjectMappingException {
         final TypeToken<List> rawType = TypeToken.of(List.class);
         final TypeSerializer<List> serial = SERIALIZERS.get(rawType);

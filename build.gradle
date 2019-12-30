@@ -25,7 +25,7 @@ subprojects {
   targetCompatibility = 1.8
 
   tasks.withType(JavaCompile) {
-    options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-Xlint:-serial', '-parameters']
     options.deprecation = true
     options.encoding = 'UTF-8'
   }

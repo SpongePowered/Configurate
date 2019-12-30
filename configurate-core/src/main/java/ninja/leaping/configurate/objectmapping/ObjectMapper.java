@@ -53,7 +53,6 @@ public class ObjectMapper<T> {
      * @return An appropriate object mapper instance. May be shared with other users.
      * @throws ObjectMappingException If invalid annotated fields are presented
      */
-    @SuppressWarnings("unchecked")
     public static <T> ObjectMapper<T> forClass(@NonNull Class<T> clazz) throws ObjectMappingException {
         return DefaultObjectMapperFactory.getInstance().getMapper(clazz);
     }
@@ -64,7 +63,12 @@ public class ObjectMapper<T> {
      * @param obj The object
      * @param <T> The object type
      * @return An appropriate object mapper instance.
-     * @throws ObjectMappingException
+     * @throws ObjectMappingException when an object is provided that is not suitable for object mapping.
+     *                              Reasons may include but are not limited to:
+     *                              <ul>
+     *                                  <li>Not annotated with {@link ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable} annotation</li>
+     *                                  <li>Invalid field types</li>
+     *                              </ul>
      */
     @SuppressWarnings("unchecked")
     public static <T> ObjectMapper<T>.BoundInstance forObject(@NonNull T obj) throws ObjectMappingException {
@@ -106,7 +110,7 @@ public class ObjectMapper<T> {
             }
         }
 
-        @SuppressWarnings("rawtypes")
+        @SuppressWarnings({"rawtypes", "unchecked"})
         public void serializeTo(Object instance, ConfigurationNode node) throws ObjectMappingException {
             try {
                 Object fieldVal = this.field.get(instance);

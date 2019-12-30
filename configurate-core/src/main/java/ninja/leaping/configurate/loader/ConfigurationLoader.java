@@ -73,6 +73,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
     /**
      * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.
      *
+     * @param node The node to save
      * @throws IOException if any sort of error occurs with writing or generating the configuration
      */
     void save(@NonNull ConfigurationNode node) throws IOException;

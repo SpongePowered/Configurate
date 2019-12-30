@@ -48,7 +48,7 @@ public enum CommentHandlers implements CommentHandler {
     SLASH_BLOCK(new AbstractDelineatedHandler("/*", "*/", "*")),
 
     /**
-     * {@link CommentHandler} for comments delineated using <code><!--  --></code>.
+     * {@link CommentHandler} for comments delineated using <code>&lt;!--  --&gt;</code>.
      */
     XML_STYLE(new AbstractDelineatedHandler("<!--", "-->", "~"));
 
