@@ -37,7 +37,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
-        if (value.hasListChildren()) {
+        if (value.isList()) {
             List<? extends ConfigurationNode> values = value.getChildrenList();
             T ret = createNew(values.size(), entryType);
             for (int i = 0; i < values.size(); ++i) {

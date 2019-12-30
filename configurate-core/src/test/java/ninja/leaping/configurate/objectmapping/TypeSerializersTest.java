@@ -182,7 +182,7 @@ public class TypeSerializersTest {
 
         listStringSerializer.serialize(listStringType, ImmutableList.of(), value);
 
-        assertTrue(value.hasListChildren());
+        assertTrue(value.isList());
     }
 
     @Test
@@ -271,7 +271,7 @@ public class TypeSerializersTest {
 
         mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of(), value);
 
-        assertTrue(value.hasMapChildren());
+        assertTrue(value.isMap());
     }
 
     @ConfigSerializable

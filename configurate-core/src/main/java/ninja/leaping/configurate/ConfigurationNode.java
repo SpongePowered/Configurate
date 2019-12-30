@@ -147,7 +147,7 @@ public interface ConfigurationNode {
      *
      * @return if this node has children in the form of a list
      */
-    default boolean hasListChildren() {
+    default boolean isList() {
         return getValueType() == ValueType.LIST;
     }
 
@@ -156,14 +156,36 @@ public interface ConfigurationNode {
      *
      * @return if this node has children in the form of a map
      */
-    default boolean hasMapChildren() {
+    default boolean isMap() {
         return getValueType() == ValueType.MAP;
+    }
+
+    /**
+     * Gets if this node has "list children".
+     *
+     * @return if this node has children in the form of a list
+     * @deprecated Use {@link #isList()} instead
+     */
+    @Deprecated
+    default boolean hasListChildren() {
+        return isList();
+    }
+
+    /**
+     * Gets if this node has "map children"
+     *
+     * @return if this node has children in the form of a map
+     * @deprecated Use {@link #isMap()} instead
+     */
+    @Deprecated
+    default boolean hasMapChildren() {
+        return isMap();
     }
 
     /**
      * Gets the "list children" attached to this node, if it has any.
      *
-     * <p>If this node does not {@link #hasListChildren() have list children}, an empty list is
+     * <p>If this node does not {@link #isList() have list children}, an empty list is
      * returned.</p>
      *
      * @return The list children currently attached to this node
@@ -174,7 +196,7 @@ public interface ConfigurationNode {
     /**
      * Gets the "map children" attached to this node, if it has any.
      *
-     * <p>If this node does not {@link #hasMapChildren() have map children}, an empty map
+     * <p>If this node does not {@link #isMap() have map children}, an empty map
      * returned.</p>
      *
      * @return The map children currently attached to this node

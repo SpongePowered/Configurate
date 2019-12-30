@@ -45,8 +45,8 @@ public class SimpleConfigurationNodeTest {
         ConfigurationNode node = config.getNode("some", "node");
         assertTrue(node.isVirtual());
         assertNull(node.getValue());
-        assertFalse(node.hasListChildren());
-        assertFalse(node.hasMapChildren());
+        assertFalse(node.isList());
+        assertFalse(node.isMap());
         ConfigurationNode node2 = config.getNode("some", "node");
         assertNotSame(node, node2);
 
@@ -206,9 +206,9 @@ public class SimpleConfigurationNodeTest {
     public void testSettingMultipleTimesWorks() {
         SimpleConfigurationNode subject = SimpleConfigurationNode.root();
         subject.setValue(ImmutableMap.of("a", "b", "b", "c", "c", "d"));
-        assertTrue(subject.hasMapChildren());
+        assertTrue(subject.isMap());
         subject.setValue(ImmutableMap.of("na", "na", "eh", "eh", "bleugh", "bleugh"));
-        assertTrue(subject.hasMapChildren());
+        assertTrue(subject.isMap());
     }
 
     @Test

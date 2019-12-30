@@ -393,11 +393,11 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
             element.setAttribute(attribute.getKey(), attribute.getValue());
         }
 
-        if (node.hasMapChildren()) {
+        if (node.isMap()) {
             for (Map.Entry<Object, ? extends ConfigurationNode> child : node.getChildrenMap().entrySet()) {
                 element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
             }
-        } else if (node.hasListChildren()) {
+        } else if (node.isList()) {
             if (writeExplicitType) {
                 element.setAttribute("configurate-type", "list");
             }

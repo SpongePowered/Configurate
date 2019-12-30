@@ -32,7 +32,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
     @Override
     public Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode node) throws ObjectMappingException {
         Map<Object, Object> ret = new LinkedHashMap<>();
-        if (node.hasMapChildren()) {
+        if (node.isMap()) {
             if (!(type.getType() instanceof ParameterizedType)) {
                 throw new ObjectMappingException("Raw types are not supported for collections");
             }

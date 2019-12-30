@@ -245,7 +245,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         if (newValue instanceof ConfigurationNode) {
             ConfigurationNode newValueAsNode = (ConfigurationNode) newValue;
 
-            if (newValueAsNode.hasListChildren()) {
+            if (newValueAsNode.isList()) {
                 // handle list
                 attachIfNecessary();
                 ListConfigValue newList = new ListConfigValue(this);
@@ -255,7 +255,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 this.value = newList;
                 return this;
 
-            } else if (newValueAsNode.hasMapChildren()) {
+            } else if (newValueAsNode.isMap()) {
                 // handle map
                 attachIfNecessary();
                 MapConfigValue newMap = new MapConfigValue(this);
@@ -328,7 +328,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @NonNull
     @Override
     public ConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
-        if (other.hasMapChildren()) {
+        if (other.isMap()) {
             ConfigValue oldValue, newValue;
             synchronized (this) {
                 oldValue = newValue = value;

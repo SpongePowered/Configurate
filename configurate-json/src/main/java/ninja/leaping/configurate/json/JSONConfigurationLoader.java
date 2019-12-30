@@ -235,9 +235,9 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     private static void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {
-        if (node.hasMapChildren()) {
+        if (node.isMap()) {
             generateObject(generator, node);
-        } else if (node.hasListChildren()) {
+        } else if (node.isList()) {
             generateArray(generator, node);
         } else {
             Object value = node.getValue();
@@ -285,7 +285,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     }*/
 
     private static void generateObject(JsonGenerator generator, ConfigurationNode node) throws IOException {
-        if (!node.hasMapChildren()) {
+        if (!node.isMap()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
         generator.writeStartObject();
@@ -298,7 +298,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     }
 
     private static void generateArray(JsonGenerator generator, ConfigurationNode node) throws IOException {
-        if (!node.hasListChildren()) {
+        if (!node.isList()) {
             throw new IOException("Node passed to generateArray does not have list children!");
         }
         List<? extends ConfigurationNode> children = node.getChildrenList();
