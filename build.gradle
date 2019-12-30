@@ -37,7 +37,7 @@ subprojects {
 
   javadoc {
     options.links(
-      'http://google.github.io/guava/releases/21.0/api/docs/'
+      'https://guava.dev/releases/25.1-jre/api/docs/'
     )
     options.addBooleanOption("html5")
   }
