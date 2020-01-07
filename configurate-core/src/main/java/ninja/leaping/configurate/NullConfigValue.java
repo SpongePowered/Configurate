@@ -75,6 +75,11 @@ class NullConfigValue extends ConfigValue {
     }
 
     @Override
+    boolean isEmpty() {
+        return true;
+    }
+
+    @Override
     public void clear() {
 
     }

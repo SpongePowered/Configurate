@@ -119,6 +119,11 @@ class MapConfigValue extends ConfigValue {
         return copy;
     }
 
+    @Override
+    boolean isEmpty() {
+        return values.isEmpty();
+    }
+
     private static void detachChildren(Map<Object, SimpleConfigurationNode> map) {
         for (SimpleConfigurationNode value : map.values()) {
             value.attached = false;

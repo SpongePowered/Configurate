@@ -98,7 +98,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         }
     }
 
-    protected SimpleConfigurationNode(SimpleConfigurationNode parent, SimpleConfigurationNode copyOf) {
+    protected SimpleConfigurationNode(@Nullable  SimpleConfigurationNode parent, SimpleConfigurationNode copyOf) {
         this.options = copyOf.options;
         this.attached = true; // copies are always attached
         this.key = copyOf.key;
@@ -153,7 +153,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @NonNull
     @Override
-    public <T> List<T> getList(Function<Object, T> transformer) {
+    public <T> List<T> getList(@NonNull Function<Object, T> transformer) {
         final ImmutableList.Builder<T> ret = ImmutableList.builder();
         ConfigValue value = this.value;
         if (value instanceof ListConfigValue) {
@@ -407,6 +407,11 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue) value).values) : Collections.emptyMap();
     }
 
+    @Override
+    public boolean isEmpty() {
+        return this.value.isEmpty();
+    }
+
     /**
      * Gets a child node, relative to this.
      *
@@ -581,11 +586,10 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 if (oldChild != null) {
                     return oldChild;
                 }
-                this.value = newValue;
             } else {
                 detachIfNonNull(newValue.putChild(child.key, child));
-                value = newValue;
             }
+            this.value = newValue;
         }
 
         if (newValue != oldValue) {

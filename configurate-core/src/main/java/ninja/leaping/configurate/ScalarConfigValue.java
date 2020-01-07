@@ -19,6 +19,7 @@ package ninja.leaping.configurate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -83,6 +84,13 @@ class ScalarConfigValue extends ConfigValue {
         ScalarConfigValue copy = new ScalarConfigValue(holder);
         copy.value = this.value;
         return copy;
+    }
+
+    @Override
+    boolean isEmpty() {
+        final Object value = this.value;
+        return (value instanceof String && ((String) value).isEmpty())
+                || (value instanceof Collection<?> && ((Collection<?>) value).isEmpty());
     }
 
     @Override

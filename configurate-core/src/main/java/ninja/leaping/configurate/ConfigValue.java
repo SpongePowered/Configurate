@@ -99,6 +99,13 @@ abstract class ConfigValue {
     abstract ConfigValue copy(@NonNull SimpleConfigurationNode holder);
 
     /**
+     * Whether this value has any content
+     *
+     * @return The value
+     */
+    abstract boolean isEmpty();
+
+    /**
      * Clears the set value (or any attached child values) from this value
      */
     void clear() {

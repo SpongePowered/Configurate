@@ -179,6 +179,11 @@ class ListConfigValue extends ConfigValue {
         return copy;
     }
 
+    @Override
+    boolean isEmpty() {
+        return this.values.get().isEmpty();
+    }
+
     private static void detachNodes(List<SimpleConfigurationNode> children) {
         synchronized (children) {
             for (SimpleConfigurationNode node : children) {
