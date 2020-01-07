@@ -179,6 +179,11 @@ class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
         return copy;
     }
 
+    @Override
+    boolean isEmpty() {
+        return this.values.get().isEmpty();
+    }
+
     private static void detachNodes(List<? extends AbstractConfigurationNode<?>> children) {
         synchronized (children) {
             for (AbstractConfigurationNode<?> node : children) {

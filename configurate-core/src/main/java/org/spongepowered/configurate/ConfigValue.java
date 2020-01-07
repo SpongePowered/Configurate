@@ -99,6 +99,13 @@ abstract class ConfigValue<T extends AbstractConfigurationNode<T>> {
     abstract ConfigValue<T> copy(@NonNull T holder);
 
     /**
+     * Whether this value has any content
+     *
+     * @return The value
+     */
+    abstract boolean isEmpty();
+
+    /**
      * Clears the set value (or any attached child values) from this value
      */
     void clear() {

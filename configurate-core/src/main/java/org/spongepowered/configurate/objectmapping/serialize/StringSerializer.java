@@ -20,11 +20,10 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.InvalidTypeException;
 
 class StringSerializer implements TypeSerializer<String> {
     @Override
-    public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws InvalidTypeException {
+    public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) {
         return value.getString();
     }
 

@@ -180,6 +180,24 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
     }
 
     /**
+     * Return true when this node has a null or empty value. Values that may result in this method returning true include:
+     *
+     * <ul>
+     *     <li><code>null</code></li>
+     *     <li>the empty string</li>
+     *     <li>an empty map</li>
+     *     <li>an empty list</li>
+     *     <li>Any other type of empty collection</li>
+     * </ul>
+     *
+     * This is a distinct value from {@link #isVirtual()}. Emptiness refers to the value of this node itself,
+     * while virtuality refers to whether or not this node
+     *
+     * @return Whether this node is empty
+     */
+    boolean isEmpty();
+
+    /**
      * Gets the "list children" attached to this node, if it has any.
      *
      * <p>If this node does not {@link #isList() have list children}, an empty list is

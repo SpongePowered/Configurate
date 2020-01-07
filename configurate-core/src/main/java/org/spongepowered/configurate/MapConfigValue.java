@@ -119,6 +119,11 @@ class MapConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue
         return copy;
     }
 
+    @Override
+    boolean isEmpty() {
+        return values.isEmpty();
+    }
+
     private static void detachChildren(Map<Object, ? extends AbstractConfigurationNode<?>> map) {
         for (AbstractConfigurationNode<?> value : map.values()) {
             value.attached = false;

@@ -75,6 +75,11 @@ class NullConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
     }
 
     @Override
+    boolean isEmpty() {
+        return true;
+    }
+
+    @Override
     public void clear() {
 
     }

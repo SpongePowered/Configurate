@@ -88,7 +88,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         }
     }
 
-    protected AbstractConfigurationNode(T parent, T copyOf) {
+    protected AbstractConfigurationNode(@Nullable T parent, T copyOf) {
         this.options = copyOf.getOptions();
         this.attached = true; // copies are always attached
         this.key = copyOf.key;
@@ -143,7 +143,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public <V> List<V> getList(Function<Object, V> transformer) {
+    public <V> List<V> getList(@NonNull Function<Object, V> transformer) {
         final ImmutableList.Builder<V> ret = ImmutableList.builder();
         ConfigValue<T> value = this.value;
         if (value instanceof ListConfigValue) {
@@ -405,6 +405,11 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue<T>) value).values) : Collections.emptyMap();
     }
 
+    @Override
+    public boolean isEmpty() {
+        return this.value.isEmpty();
+    }
+
     /**
      * Gets a child node, relative to this.
      *
@@ -572,11 +577,10 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
                 if (oldChild != null) {
                     return oldChild;
                 }
-                this.value = newValue;
             } else {
                 detachIfNonNull(newValue.putChild(child.key, child));
-                value = newValue;
             }
+            this.value = newValue;
         }
 
         if (newValue != oldValue) {
