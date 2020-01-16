@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.SimpleConfigurationNode;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
@@ -272,6 +274,23 @@ public class TypeSerializersTest {
         mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of(), value);
 
         assertTrue(value.isMap());
+    }
+
+    @Test
+    public void testMapSerializerPreservesChildComments() throws ObjectMappingException {
+        final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
+        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
+                SERIALIZERS.get(mapStringIntType);
+
+        final CommentedConfigurationNode commentNode = SimpleCommentedConfigurationNode.root();
+
+        commentNode.getNode("hi").setComment("test").setValue(3);
+
+        mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of("hi", 5, "no", 2), commentNode);
+
+        assertEquals(5, commentNode.getNode("hi").getValue());
+        assertEquals("test", commentNode.getNode("hi").getComment().orElse(null));
+
     }
 
     @ConfigSerializable

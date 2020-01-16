@@ -25,8 +25,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+
+import static java.util.Objects.requireNonNull;
 
 class MapSerializer implements TypeSerializer<Map<?, ?>> {
     @Override
@@ -81,12 +85,20 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
             throw new ObjectMappingException("No type serializer available for type " + value);
         }
 
-        node.setValue(ImmutableMap.of());
-        if (obj != null) {
+        if (obj == null || obj.isEmpty()) {
+            node.setValue(ImmutableMap.of());
+        } else {
+            final Set<Object> unvisitedKeys = new HashSet<>(node.getChildrenMap().keySet());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
                 SimpleConfigurationNode keyNode = SimpleConfigurationNode.root();
                 keySerial.serialize(key, ent.getKey(), keyNode);
-                valueSerial.serialize(value, ent.getValue(), node.getNode(keyNode.getValue()));
+                Object keyObj = requireNonNull(keyNode.getValue(), "Key must not be null!");
+                valueSerial.serialize(value, ent.getValue(), node.getNode(keyObj));
+                unvisitedKeys.remove(keyObj);
+            }
+
+            for (Object unusedChild : unvisitedKeys) {
+                node.removeChild(unusedChild);
             }
         }
     }
