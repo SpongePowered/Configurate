@@ -26,7 +26,7 @@ import java.util.UUID;
 
 class UUIDSerializer implements TypeSerializer<UUID> {
     @Override
-    public UUID deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> UUID deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         try {
             return UUID.fromString(value.getString());
         } catch (IllegalArgumentException ex) {
@@ -35,7 +35,7 @@ class UUIDSerializer implements TypeSerializer<UUID> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable UUID obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable UUID obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj.toString());
     }
 }

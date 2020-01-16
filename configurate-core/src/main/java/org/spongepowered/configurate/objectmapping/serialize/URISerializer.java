@@ -27,7 +27,7 @@ import java.net.URISyntaxException;
 
 class URISerializer implements TypeSerializer<URI> {
     @Override
-    public URI deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> URI deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         String plainUri = value.getString();
         if (plainUri == null) {
             throw new ObjectMappingException("No value present in node " + value);
@@ -44,7 +44,7 @@ class URISerializer implements TypeSerializer<URI> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable URI obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable URI obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj.toString());
     }
 }

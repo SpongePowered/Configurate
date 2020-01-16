@@ -601,7 +601,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
 
         TypeSerializer<V> serial = getOptions().getSerializers().get(type);
         if (serial != null) {
-            serial.serialize(type, value, this);
+            serial.serialize(type, value, self());
         } else if (getOptions().acceptsType(value.getClass())) {
             setValue(value); // Just write if no applicable serializer exists?
         } else {

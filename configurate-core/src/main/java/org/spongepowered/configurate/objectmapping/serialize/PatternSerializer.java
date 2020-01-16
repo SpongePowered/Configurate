@@ -27,7 +27,7 @@ import java.util.regex.PatternSyntaxException;
 
 class PatternSerializer implements TypeSerializer<Pattern> {
     @Override
-    public Pattern deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         try {
             return Pattern.compile(value.getString());
         } catch (PatternSyntaxException ex) {
@@ -36,7 +36,7 @@ class PatternSerializer implements TypeSerializer<Pattern> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj.pattern());
     }
 }

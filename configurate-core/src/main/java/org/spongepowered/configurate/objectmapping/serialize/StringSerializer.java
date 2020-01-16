@@ -20,15 +20,16 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 class StringSerializer implements TypeSerializer<String> {
     @Override
-    public String deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) {
+    public <Node extends ConfigurationNode<Node>> String deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         return value.getString();
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable String obj, @NonNull ConfigurationNode<?> value) {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable String obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj);
     }
 }

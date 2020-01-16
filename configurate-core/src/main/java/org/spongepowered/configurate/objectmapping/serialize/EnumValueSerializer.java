@@ -27,7 +27,7 @@ import java.util.Optional;
 
 class EnumValueSerializer implements TypeSerializer<Enum<?>> {
     @Override
-    public Enum<?> deserialize(TypeToken<?> type, ConfigurationNode<?> value) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> Enum<?> deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         String enumConstant = value.getString();
         if (enumConstant == null) {
             throw new ObjectMappingException("No value present in node " + value);
@@ -44,7 +44,7 @@ class EnumValueSerializer implements TypeSerializer<Enum<?>> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj == null ? null : obj.name());
     }
 }

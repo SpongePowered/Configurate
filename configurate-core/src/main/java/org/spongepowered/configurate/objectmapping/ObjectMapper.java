@@ -89,7 +89,7 @@ public class ObjectMapper<T> {
             this.fieldType = TypeToken.of(field.getGenericType());
         }
 
-        public void deserializeFrom(Object instance, ConfigurationNode<?> node) throws ObjectMappingException {
+        public <Node extends ConfigurationNode<Node>> void deserializeFrom(Object instance, Node node) throws ObjectMappingException {
             TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
             if (serial == null) {
                 throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
@@ -149,13 +149,14 @@ public class ObjectMapper<T> {
         /**
          * Populate the annotated fields in a pre-created object
          *
+         * @param <Node> The type of node being populated
          * @param source The source to get data from
          * @return The object provided, for easier chaining
          * @throws ObjectMappingException If an error occurs while populating data
          */
-        public T populate(ConfigurationNode<?> source) throws ObjectMappingException {
+        public <Node extends ConfigurationNode<Node>> T populate(Node source) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
-                ConfigurationNode<?> node = source.getNode(ent.getKey());
+                Node node = source.getNode(ent.getKey());
                 ent.getValue().deserializeFrom(boundInstance, node);
             }
             return boundInstance;

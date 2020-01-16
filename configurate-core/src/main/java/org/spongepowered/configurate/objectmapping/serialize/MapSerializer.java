@@ -25,12 +25,16 @@ import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+
+import static java.util.Objects.requireNonNull;
 
 class MapSerializer implements TypeSerializer<Map<?, ?>> {
     @Override
-    public Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> node) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
             if (!(type.getType() instanceof ParameterizedType)) {
@@ -49,7 +53,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
                 throw new ObjectMappingException("No type serializer available for type " + value);
             }
 
-            for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : node.getChildrenMap().entrySet()) {
+            for (Map.Entry<Object, Node> ent : node.getChildrenMap().entrySet()) {
                 Object keyValue = keySerial.deserialize(key, SimpleConfigurationNode.root().setValue(ent.getKey()));
                 Object valueValue = valueSerial.deserialize(value, ent.getValue());
                 if (keyValue == null || valueValue == null) {
@@ -64,7 +68,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Map<?, ?> obj, @NonNull ConfigurationNode<?> node) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Map<?, ?> obj, @NonNull T node) throws ObjectMappingException {
         if (!(type.getType() instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }

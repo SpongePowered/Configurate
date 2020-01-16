@@ -206,7 +206,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
                 return storeDefault(type, def);
             }
         }
-        return serial.deserialize(type, this);
+        return serial.deserialize(type, self());
     }
 
     @Override
@@ -225,7 +225,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
                 return storeDefault(type, defSupplier.get());
             }
         }
-        return serial.deserialize(type, this);
+        return serial.deserialize(type, self());
     }
 
     @NonNull

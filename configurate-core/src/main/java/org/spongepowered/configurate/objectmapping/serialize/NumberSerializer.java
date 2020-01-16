@@ -20,7 +20,7 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.InvalidTypeException;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.function.Predicate;
 
@@ -40,7 +40,7 @@ class NumberSerializer implements TypeSerializer<Number> {
     }
 
     @Override
-    public Number deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws InvalidTypeException {
+    public <Node extends ConfigurationNode<Node>> Number deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         type = type.wrap();
         Class<?> clazz = type.getRawType();
         if (Integer.class.equals(clazz)) {
@@ -60,7 +60,7 @@ class NumberSerializer implements TypeSerializer<Number> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull ConfigurationNode<?> value) {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj);
     }
 }

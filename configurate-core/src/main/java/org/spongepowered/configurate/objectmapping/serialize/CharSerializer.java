@@ -34,7 +34,7 @@ class CharSerializer implements TypeSerializer<Character> {
 
     @Nullable
     @Override
-    public Character deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> Character deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         if (value.isList() || value.isMap()) {
             return null;
         }
@@ -54,7 +54,7 @@ class CharSerializer implements TypeSerializer<Character> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Character obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Character obj, @NonNull T value) throws ObjectMappingException {
         if (value.getOptions().acceptsType(char.class)) {
             value.setValue(obj);
         } else {

@@ -27,7 +27,7 @@ import java.net.URL;
 
 class URLSerializer implements TypeSerializer<URL> {
     @Override
-    public URL deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <Node extends ConfigurationNode<Node>> URL deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         String plainUrl = value.getString();
         if (plainUrl == null) {
             throw new ObjectMappingException("No value present in node " + value);
@@ -44,7 +44,7 @@ class URLSerializer implements TypeSerializer<URL> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable URL obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable URL obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj.toString());
     }
 }

@@ -21,16 +21,16 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.Types;
-import org.spongepowered.configurate.objectmapping.InvalidTypeException;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 class BooleanSerializer implements TypeSerializer<Boolean> {
     @Override
-    public Boolean deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws InvalidTypeException {
+    public <Node extends ConfigurationNode<Node>> Boolean deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         return value.getBoolean();
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Boolean obj, @NonNull ConfigurationNode<?> value) {
+    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Boolean obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(Types.asBoolean(obj));
     }
 }

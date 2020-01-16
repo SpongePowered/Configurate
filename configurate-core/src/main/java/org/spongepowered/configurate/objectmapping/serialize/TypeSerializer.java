@@ -38,7 +38,7 @@ public interface TypeSerializer<T> {
      * @throws ObjectMappingException If the presented data is invalid
      */
     @Nullable
-    T deserialize(@NonNull TypeToken<?> type, @NonNull ConfigurationNode<?> value) throws ObjectMappingException;
+    <Node extends ConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.
@@ -48,6 +48,6 @@ public interface TypeSerializer<T> {
      * @param value The node to write to
      * @throws ObjectMappingException If the object cannot be serialized
      */
-    void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull ConfigurationNode<?> value) throws ObjectMappingException;
+    <Node extends ConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException;
 
 }
