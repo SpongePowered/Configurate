@@ -22,8 +22,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
+import org.spongepowered.configurate.commented.SimpleCommentedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
@@ -278,6 +278,23 @@ public class TypeSerializersTest {
         mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of(), value);
 
         assertTrue(value.isMap());
+    }
+
+    @Test
+    public void testMapSerializerPreservesChildComments() throws ObjectMappingException {
+        final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
+        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
+                SERIALIZERS.get(mapStringIntType);
+
+        final SimpleCommentedConfigurationNode commentNode = SimpleCommentedConfigurationNode.root();
+
+        commentNode.getNode("hi").setComment("test").setValue(3);
+
+        mapStringIntSerializer.serialize(mapStringIntType, ImmutableMap.of("hi", 5, "no", 2), commentNode);
+
+        assertEquals(5, commentNode.getNode("hi").getValue());
+        assertEquals("test", commentNode.getNode("hi").getComment().orElse(null));
+
     }
 
     @ConfigSerializable
