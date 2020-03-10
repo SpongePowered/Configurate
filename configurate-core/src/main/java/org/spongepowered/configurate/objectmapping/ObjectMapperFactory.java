@@ -16,11 +16,13 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A factory to produce {@link ObjectMapper} instances
  */
+@SuppressWarnings({"UnstableApiUsage", "unchecked"})
 public interface ObjectMapperFactory {
 
     /**
@@ -34,4 +36,16 @@ public interface ObjectMapperFactory {
     @NonNull
     <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException;
 
+    /**
+     * Creates an {@link ObjectMapper} for the given type.
+     *
+     * @param type The type
+     * @param <T> The type
+     * @return An object mapper
+     * @throws ObjectMappingException If an exception occured whilst mapping
+     */
+    @NonNull
+    default <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException {
+        return this.getMapper((Class<T>) type.getRawType());
+    }
 }

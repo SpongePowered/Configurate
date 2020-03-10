@@ -28,28 +28,26 @@ import java.lang.reflect.Modifier;
 class AnnotatedObjectSerializer implements TypeSerializer<Object> {
     @Override
     public <Node extends ConfigurationNode<Node>> Object deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        Class<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
+        TypeToken<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
         return value.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(value);
     }
 
-    private Class<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
-        Class<?> retClass;
+    private TypeToken<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
+        TypeToken<?> retClass = type;
         if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
             if (configuredName == null) {
                 throw new ObjectMappingException("No available configured type for instances of " + type);
             } else {
                 try {
-                    retClass = Class.forName(configuredName);
+                    retClass = TypeToken.of(Class.forName(configuredName));
                 } catch (ClassNotFoundException e) {
                     throw new ObjectMappingException("Unknown class of object " + configuredName, e);
                 }
-                if (!type.getRawType().isAssignableFrom(retClass)) {
+                if (!type.isSupertypeOf(retClass)) {
                     throw new ObjectMappingException("Configured type " + configuredName + " does not extend "
                             + type.getRawType().getCanonicalName());
                 }
             }
-        } else {
-            retClass = type.getRawType();
         }
         return retClass;
     }
@@ -61,6 +59,6 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
             // serialize obj's concrete type rather than the interface/abstract class
             value.getNode("__class__").setValue(obj.getClass().getName());
         }
-        ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(obj.getClass())).bind(obj).serialize(value);
+        ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(type)).bind(obj).serialize(value);
     }
 }

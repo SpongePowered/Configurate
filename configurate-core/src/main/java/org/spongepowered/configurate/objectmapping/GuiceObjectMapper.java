@@ -16,9 +16,11 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import com.google.common.reflect.TypeToken;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
@@ -28,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  *
  * <p>Instances of this object should be reached using a {@link GuiceObjectMapperFactory}.</p>
  */
+@SuppressWarnings({"UnstableApiUsage", "unchecked"})
 class GuiceObjectMapper<T> extends ObjectMapper<T> {
     private final Injector injector;
     private final Key<T> typeKey;
@@ -42,6 +45,18 @@ class GuiceObjectMapper<T> extends ObjectMapper<T> {
         super(clazz);
         this.injector = injector;
         this.typeKey = Key.get(clazz);
+    }
+
+    /**
+     * Create a new object mapper of a given type
+     *
+     * @param type The type this object mapper will work with
+     * @throws ObjectMappingException if the provided class is in someway invalid
+     */
+    protected GuiceObjectMapper(@NonNull Injector injector, @NonNull TypeToken<T> type) throws ObjectMappingException {
+        super((Class<T>) type.getRawType());
+        this.injector = injector;
+        this.typeKey = Key.get((TypeLiteral<T>) TypeLiteral.get(type.getType()));
     }
 
     @Override
