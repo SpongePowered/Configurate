@@ -26,7 +26,7 @@ The current supported loaders provided by the project are:
 * `configurate-gson` - Implementation for the JSON format, using the [Gson](https://github.com/google/gson) library for parsing and generation
 * `configurate-hocon` - Implementation for the HOCON format, using the [lightbend config](https://github.com/lightbend/config) library for parsing and generation
 * `configurate-jackson` - Implementation for the JSON format, using the [Jackson](https://github.com/FasterXML/jackson-core) library for parsing and generation
-* `configurate-xml` - Implementation for the YAML format, using the [JAXP](https://docs.oracle.com/javase/tutorial/jaxp/index.html) library for parsing and generation
+* `configurate-xml` - Implementation for the XML format, using the [JAXP](https://docs.oracle.com/javase/tutorial/jaxp/index.html) library for parsing and generation
 * `configurate-yaml` - Implementation for the YAML format, using the [SnakeYAML](https://bitbucket.org/asomov/snakeyaml) library for parsing and generation
 
 
