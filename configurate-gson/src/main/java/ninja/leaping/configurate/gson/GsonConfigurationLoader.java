@@ -161,6 +161,9 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
                 node.setValue(parser.nextBoolean());
                 break;
             case NULL: // Ignored values
+                parser.nextNull();
+                node.setValue(null);
+                break;
             case NAME:
                 break;
             default:
