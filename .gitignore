@@ -9,6 +9,7 @@
 /configurate-hocon/out/
 /configurate-json/build/
 /configurate-json/out/
+/configurate-tool/out/
 /configurate-yaml/build/
 /configurate-yaml/out/
 /configurate-xml/build/

@@ -1,9 +1,10 @@
 rootProject.name = 'configurate-parent'
 
 include ':configurate-core'
+include ':configurate-ext-kotlin'
 include ':configurate-gson'
 include ':configurate-hocon'
 include ':configurate-json'
-include ':configurate-yaml'
+include ':configurate-tool'
 include ':configurate-xml'
-include ':configurate-ext-kotlin'
+include ':configurate-yaml'
