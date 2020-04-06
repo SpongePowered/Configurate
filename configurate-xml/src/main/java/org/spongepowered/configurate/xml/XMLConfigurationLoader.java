@@ -258,7 +258,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     }
 
     @Override
-    public void loadInternal(SimpleAttributedConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(SimpleAttributedConfigurationNode node, BufferedReader reader) throws IOException {
         DocumentBuilder documentBuilder = newDocumentBuilder();
 
         Document document;
