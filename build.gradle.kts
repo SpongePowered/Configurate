@@ -2,6 +2,7 @@ import net.minecrell.gradle.licenser.LicenseExtension
 
 plugins {
   id("net.minecrell.licenser") version "0.4.1" apply false
+  kotlin("jvm") version "1.3.71" apply false
 }
 
 
