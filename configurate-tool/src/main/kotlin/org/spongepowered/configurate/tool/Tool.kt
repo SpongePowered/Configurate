@@ -74,7 +74,7 @@ class Tool : CliktCommand(help = """
     override fun run() = Unit
 }
 
-sealed class FormatSubcommand<N: ConfigurationNode>: CliktCommand() {
+sealed class FormatSubcommand<N: ConfigurationNode>(formatName: String): CliktCommand(help = "Display files that are in $formatName format") {
     val path by argument(help="Location of the file to read").path(mustExist = true, canBeDir = false)
     val header by option("--header-mode", help="How to read a header from this file").enum<HeaderMode>().default(HeaderMode.PRESERVE)
 
@@ -88,6 +88,12 @@ sealed class FormatSubcommand<N: ConfigurationNode>: CliktCommand() {
         val loader = createLoader()
         try {
             val node = loader.load()
+            echo("Reading from ${t.brightBlue(path.toString())}")
+            val header = node.options.header
+            if (header != null) {
+                echo(heading("Header") + " $SPLIT " + header.replace("\n", "\n$CHILD_CONT "))
+                echo("")
+            }
             dumpTree(node, "")
         } catch (e: IOException) {
             throw CliktError("Unable to load configuration", e)
@@ -122,6 +128,7 @@ sealed class FormatSubcommand<N: ConfigurationNode>: CliktCommand() {
                 write(heading("Attributes"), SPLIT, attributes.map { (k, v) -> t.gray("\"${t.white(k)}\"=\"${t.white(v)}\"") }.joinToString(", "))
             }
         }
+
         if (node is CommentedConfigurationNode) {
             node.comment.ifPresent {
                 write(heading("Comment"), SPLIT, it)
@@ -143,13 +150,17 @@ sealed class FormatSubcommand<N: ConfigurationNode>: CliktCommand() {
                     dumpTree(value, nextPrefix)
                 }
             }
-            ValueType.SCALAR -> write(heading("Value"), SPLIT, node.value.toString().replace(Regex("(\r?\n)"), "$1$prefix    "))
+            ValueType.SCALAR -> {
+                val value = node.value!!
+                write(heading("Value"), SPLIT,
+                        value.toString().replace(Regex("(\r?\n)"), "$1$prefix    "), t.gray("(a ${value::class.qualifiedName})"))
+            }
             ValueType.NULL -> write(heading("Value: "), SPLIT, t.gray("(null)"))
         }
     }
 }
 
-class Xml : FormatSubcommand<AttributedConfigurationNode>() {
+class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(2)
     private val includeXmlDeclaration by option("-x", "--xml-declaration", help = "Whether to include the XML declaration").flag("-X", default = true)
     private val writeExplicitType by option("-t", "--explicit-type", help = "Include explicit type information").flag("-T", default = false)
@@ -167,31 +178,33 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>() {
     }
 }
 
-class Yaml: FormatSubcommand<ConfigurationNode>() {
+class Yaml: FormatSubcommand<ConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>().default(DumperOptions.FlowStyle.AUTO)
     override fun createLoader(): ConfigurationLoader<ConfigurationNode> {
         return YAMLConfigurationLoader.builder()
                 .setPath(path)
+                .setHeaderMode(header)
                 .setIndent(indent)
                 .setFlowStyle(flowStyle)
                 .build()
     }
 }
 
-class Json: FormatSubcommand<ConfigurationNode>() {
+class Json: FormatSubcommand<ConfigurationNode>("JSON") {
     private val lenient by option("-l", "--lenient", help = "Parse JSON leniently").flag("-L", "--strict", default = true)
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     override fun createLoader(): ConfigurationLoader<ConfigurationNode> {
         return GsonConfigurationLoader.builder()
                 .setPath(path)
+                .setHeaderMode(header)
                 .setLenient(lenient)
                 .setIndent(indent)
                 .build()
     }
 }
 
-class Hocon: FormatSubcommand<CommentedConfigurationNode>() {
+class Hocon: FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return HoconConfigurationLoader.builder()
