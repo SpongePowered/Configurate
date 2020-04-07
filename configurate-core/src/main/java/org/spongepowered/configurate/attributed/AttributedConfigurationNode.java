@@ -18,15 +18,14 @@ package org.spongepowered.configurate.attributed;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.commented.CommentedConfigurationNode;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * A configuration node that can have attributes attached to it.
+ * A configuration node that can have both comments and attributes attached to it.
  */
-public interface AttributedConfigurationNode<T extends AttributedConfigurationNode<T>> extends ConfigurationNode<T> {
+public interface AttributedConfigurationNode<T extends AttributedConfigurationNode<T>> extends CommentedConfigurationNode<T> {
 
     /**
      * Gets the tag name of this node.

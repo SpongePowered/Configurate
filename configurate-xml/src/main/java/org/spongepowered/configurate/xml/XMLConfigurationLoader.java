@@ -22,15 +22,16 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.math.DoubleMath;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.attributed.AttributedConfigurationNode;
 import org.spongepowered.configurate.attributed.SimpleAttributedConfigurationNode;
+import org.spongepowered.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -51,15 +52,30 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.NoSuchFileException;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A loader for XML (Extensible Markup Language), using the native javax library for parsing and
  * generation.
  */
 public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAttributedConfigurationNode> {
+    /**
+     * The prefix of lines within the header
+     */
+    private static final String HEADER_PREFIX = "~";
+
+    private static final String ATTRIBUTE_TYPE = "configurate-type";
+
+    /**
+     * The user data used to store comments on nodes
+     */
+    private static final String USER_DATA_COMMENT = "configurate-comment";
 
     /**
      * The property used to mark how many spaces should be used to indent.
@@ -258,18 +274,78 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     }
 
     @Override
-    protected void loadInternal(SimpleAttributedConfigurationNode node, BufferedReader reader) throws IOException {
-        DocumentBuilder documentBuilder = newDocumentBuilder();
+    public @NonNull SimpleAttributedConfigurationNode load(@NonNull ConfigurationOptions options) throws IOException {
+        if (source == null) {
+            throw new IOException("No source present to read from!");
+        }
+        try (BufferedReader reader = source.call()) {
+            DocumentBuilder documentBuilder = newDocumentBuilder();
 
-        Document document;
-        try {
-            document = documentBuilder.parse(new InputSource(reader));
-        } catch (SAXException e) {
+            Document document;
+            try {
+                document = documentBuilder.parse(new InputSource(reader));
+            } catch (SAXException e) {
+                throw new IOException(e);
+            }
+
+            NodeList children = document.getChildNodes();
+            for (int i = 0; i < children.getLength(); ++i) {
+                Node child = children.item(i);
+                System.out.println(child);
+                if (child.getNodeType() == Node.COMMENT_NODE) {
+                    options = options.withHeader(unwrapHeader(child.getTextContent().trim()));
+                } else if (child.getNodeType() == Node.ELEMENT_NODE) {
+                    SimpleAttributedConfigurationNode node = createEmptyNode(options);
+                    readElement(child, node);
+                    return node;
+                }
+            }
+            // empty document, fall through
+        } catch (FileNotFoundException | NoSuchFileException e) {
+            // Squash -- there's nothing to read
+        } catch (IOException e) {
+            throw e;
+        } catch (Exception e) {
             throw new IOException(e);
         }
+        return createEmptyNode(options);
+    }
 
-        Element root = document.getDocumentElement();
-        readElement(root, node);
+    /**
+     * Given a single comment node's comment, clear any prefix lines
+     * @param headerContent The content of a header
+     * @return A formatted header, with lines separated by {@link #CONFIGURATE_LINE_SEPARATOR}
+     */
+    private String unwrapHeader(String headerContent) {
+        if (headerContent.isEmpty()) {
+            return headerContent;
+        }
+        StringBuilder result = new StringBuilder();
+        for (Iterator<String> it = LINE_SPLITTER.split(headerContent).iterator(); it.hasNext();) {
+            String line = it.next();
+            final String trimmedLine = line.trim();
+            if (trimmedLine.startsWith(HEADER_PREFIX)) {
+                line = line.substring(line.indexOf(HEADER_PREFIX) + 1);
+            }
+
+            if (line.startsWith(" ")) {
+                line = line.substring(1);
+            }
+
+            if (it.hasNext() || !line.isEmpty()) {
+                result.append(line);
+            }
+
+            if (it.hasNext()) {
+                result.append(CONFIGURATE_LINE_SEPARATOR);
+            }
+        }
+        return result.toString();
+    }
+
+    @Override
+    protected void loadInternal(SimpleAttributedConfigurationNode node, BufferedReader reader) throws IOException {
+        throw new UnsupportedOperationException("XMLConfigurationLoader provides custom loading logic to handle headers");
     }
 
     private enum NodeType {
@@ -282,6 +358,11 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         // copy the name of the tag
         to.setTagName(from.getNodeName());
 
+        String potentialComment = (String) from.getUserData(USER_DATA_COMMENT);
+        if (potentialComment != null) {
+            to.setComment(potentialComment);
+        }
+
         // copy attributes
         if (from.hasAttributes()) {
             NamedNodeMap attributes = from.getAttributes();
@@ -291,7 +372,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
                 String value = attribute.getNodeValue();
 
                 // read the type of the node
-                if (key.equals("configurate-type")) {
+                if (key.equals(ATTRIBUTE_TYPE)) {
                     if (value.equals("map")) {
                         type = NodeType.MAP;
                     } else if (value.equals("list")) {
@@ -309,11 +390,22 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         // read out the child nodes into a multimap
         Multimap<String, Node> children = MultimapBuilder.linkedHashKeys().arrayListValues().build();
         if (from.hasChildNodes()) {
+            StringBuilder comment = new StringBuilder();
             NodeList childNodes = from.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node child = childNodes.item(i);
                 if (child.getNodeType() == Node.ELEMENT_NODE) {
                     children.put(child.getNodeName(), child);
+                    if (comment.length() > 0) {
+                        child.setUserData(USER_DATA_COMMENT, comment.toString(), null);
+                        comment.setLength(0);
+                    }
+                } else if (child.getNodeType() == Node.COMMENT_NODE) {
+                    if (comment.length() > 0) {
+                        comment.append('\n');
+                    }
+
+                    comment.append(child.getTextContent().trim());
                 }
             }
         }
@@ -367,6 +459,11 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         DocumentBuilder documentBuilder = newDocumentBuilder();
         Document document = documentBuilder.newDocument();
 
+        Node comment = createCommentNode(document, node);
+        if (comment != null) {
+            document.appendChild(comment);
+        }
+
         document.appendChild(writeNode(document, node, null));
 
         Transformer transformer = newTransformer();
@@ -378,11 +475,29 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         }
     }
 
+    private void appendCommentIfNecessary(Element parent, ConfigurationNode<?> node) {
+        Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
+        if (possibleComment != null) {
+            parent.appendChild(possibleComment);
+        }
+    }
+
+    @Nullable
+    private Node createCommentNode(Document doc, ConfigurationNode<?> node) {
+        if (node instanceof CommentedConfigurationNode<?>) {
+            String comment = ((CommentedConfigurationNode<?>) node).getComment().orElse(null);
+            if (comment != null) {
+                return doc.createComment(" " + comment.trim() + " ");
+            }
+        }
+        return null;
+    }
+
     private Element writeNode(Document document, ConfigurationNode<?> node, String forcedTag) {
         String tag = defaultTagName;
         Map<String, String> attributes = ImmutableMap.of();
 
-        if (node instanceof AttributedConfigurationNode) {
+        if (node instanceof AttributedConfigurationNode<?>) {
             AttributedConfigurationNode<?> attributedNode = ((AttributedConfigurationNode<?>) node);
             tag = attributedNode.getTagName();
             attributes = attributedNode.getAttributes();
@@ -395,17 +510,19 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
 
         if (node.isMap()) {
             for (Map.Entry<Object, ? extends ConfigurationNode<?>> child : node.getChildrenMap().entrySet()) {
+                appendCommentIfNecessary(element, child.getValue());
                 element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
             }
         } else if (node.isList()) {
             if (writeExplicitType) {
-                element.setAttribute("configurate-type", "list");
+                element.setAttribute(ATTRIBUTE_TYPE, "list");
             }
             for (ConfigurationNode<?> child : node.getChildrenList()) {
+                appendCommentIfNecessary(element, child);
                 element.appendChild(writeNode(document, child, null));
             }
         } else {
-            element.appendChild(document.createTextNode(node.getValue().toString()));
+            element.appendChild(document.createTextNode(Objects.toString(node.getValue())));
         }
 
         return element;

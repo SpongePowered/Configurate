@@ -17,12 +17,12 @@
 package org.spongepowered.configuate.xml;
 
 import com.google.common.io.Resources;
-import org.spongepowered.configurate.attributed.AttributedConfigurationNode;
-import org.spongepowered.configurate.attributed.SimpleAttributedConfigurationNode;
-import org.spongepowered.configurate.loader.AtomicFiles;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
+import org.spongepowered.configurate.attributed.AttributedConfigurationNode;
+import org.spongepowered.configurate.attributed.SimpleAttributedConfigurationNode;
+import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.xml.XMLConfigurationLoader;
 
 import java.io.BufferedReader;
@@ -138,11 +138,29 @@ public class XMLConfigurationLoaderTest {
 
         AttributedConfigurationNode<?> node = loader.createEmptyNode(
                 loader.getDefaultOptions().withHeader("test header\ndo multiple lines work\nyes they do!!")
-        );
+        ).setTagName("test");
 
-        node.setValue("something").setTagName("test");
+        node.getNode("test1").setValue("something");
+        node.getNode("test2").setValue("I have a comment!").setComment("Hi!");
 
         loader.save(node);
         assertEquals(Resources.readLines(url, UTF_8), Files.readAllLines(saveTest));
+    }
+
+    @Test
+    public void testCommentsRoundtrip(@TempDirectory.TempDir Path tempDir) throws IOException {
+        URL original = getClass().getResource("/example3.xml");
+        final Path destination = tempDir.resolve("test3-roundtrip.xml");
+
+        XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
+                .setIndent(4)
+                .setSource(() -> new BufferedReader(new InputStreamReader(original.openStream(), UTF_8)))
+                .setSink(AtomicFiles.createAtomicWriterFactory(destination, UTF_8))
+                .build();
+
+        AttributedConfigurationNode<?> node = loader.load();
+        loader.save(node);
+
+        assertEquals(Resources.readLines(original, UTF_8), Files.readAllLines(destination, UTF_8));
     }
 }

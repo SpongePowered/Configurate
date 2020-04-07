@@ -18,21 +18,12 @@ package org.spongepowered.configurate.commented;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.AbstractConfigurationNode;
-import org.spongepowered.configurate.SimpleConfigurationNode;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
-public class SimpleCommentedConfigurationNode extends AbstractConfigurationNode<SimpleCommentedConfigurationNode> implements CommentedConfigurationNode<SimpleCommentedConfigurationNode> {
-    private String comment = null;
+public class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<SimpleCommentedConfigurationNode> {
 
     @NonNull
     public static SimpleCommentedConfigurationNode root() {
@@ -52,20 +43,6 @@ public class SimpleCommentedConfigurationNode extends AbstractConfigurationNode<
         super(parent, copyOf);
     }
 
-    @NonNull
-    @Override
-    public Optional<String> getComment() {
-        return Optional.ofNullable(comment);
-    }
-
-    @NonNull
-    @Override
-    public SimpleCommentedConfigurationNode setComment(@Nullable String comment) {
-        attachIfNecessary();
-        this.comment = comment;
-        return this;
-    }
-
     // Methods from superclass overridden to have correct return types
 
     @Override
@@ -75,26 +52,6 @@ public class SimpleCommentedConfigurationNode extends AbstractConfigurationNode<
 
     @NonNull
     @Override
-    public SimpleCommentedConfigurationNode setValue(@Nullable Object value) {
-        if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode<?>) value).getComment().isPresent()) {
-            setComment(((CommentedConfigurationNode<?>) value).getComment().get());
-        }
-        return super.setValue(value);
-    }
-
-    @NonNull
-    @Override
-    public SimpleCommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
-        if (other instanceof CommentedConfigurationNode) {
-            Optional<String> otherComment = ((CommentedConfigurationNode<?>) other).getComment();
-            if (comment == null && otherComment.isPresent()) {
-                comment = otherComment.get();
-            }
-        }
-        return super.mergeValuesFrom(other);
-    }
-    @NonNull
-    @Override
     protected SimpleCommentedConfigurationNode copy(@Nullable SimpleCommentedConfigurationNode parent) {
         SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
         copy.comment = this.comment;
@@ -102,26 +59,9 @@ public class SimpleCommentedConfigurationNode extends AbstractConfigurationNode<
     }
 
     @Override
+    @NonNull
     public SimpleCommentedConfigurationNode self() {
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SimpleCommentedConfigurationNode)) return false;
-        if (!super.equals(o)) return false;
-
-        SimpleCommentedConfigurationNode that = (SimpleCommentedConfigurationNode) o;
-        if (!Objects.equals(comment, that.comment)) return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + Objects.hashCode(comment);
-        return result;
     }
 
     @Override

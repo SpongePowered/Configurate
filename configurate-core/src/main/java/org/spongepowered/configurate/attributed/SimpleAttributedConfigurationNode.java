@@ -22,16 +22,15 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.AbstractConfigurationNode;
+import org.spongepowered.configurate.commented.AbstractCommentedConfigurationNode;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Basic implementation of {@link AttributedConfigurationNode}.
  */
-public class SimpleAttributedConfigurationNode extends AbstractConfigurationNode<SimpleAttributedConfigurationNode> implements AttributedConfigurationNode<SimpleAttributedConfigurationNode> {
+public class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNode<SimpleAttributedConfigurationNode> implements AttributedConfigurationNode<SimpleAttributedConfigurationNode> {
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
@@ -163,6 +162,7 @@ public class SimpleAttributedConfigurationNode extends AbstractConfigurationNode
     protected SimpleAttributedConfigurationNode copy(@Nullable SimpleAttributedConfigurationNode parent) {
         SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
+        copy.comment = this.comment;
         return copy;
     }
 
@@ -192,6 +192,7 @@ public class SimpleAttributedConfigurationNode extends AbstractConfigurationNode
     public String toString() {
         return "SimpleAttributedConfigurationNode{" +
                 "super=" + super.toString() + ", " +
+                "comment=" + comment + ", " +
                 "tagName=" + tagName + ", " +
                 "attributes=" + attributes +
                 '}';
