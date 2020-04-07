@@ -26,7 +26,7 @@ The current supported loaders provided by the project are:
 * `configurate-gson` - Implementation for the JSON format, using the [Gson](https://github.com/google/gson) library for parsing and generation
 * `configurate-hocon` - Implementation for the HOCON format, using the [lightbend config](https://github.com/lightbend/config) library for parsing and generation
 * `configurate-jackson` - Implementation for the JSON format, using the [Jackson](https://github.com/FasterXML/jackson-core) library for parsing and generation
-* `configurate-xml` - Implementation for the YAML format, using the [JAXP](https://docs.oracle.com/javase/tutorial/jaxp/index.html) library for parsing and generation
+* `configurate-xml` - Implementation for the XML format, using the [JAXP](https://docs.oracle.com/javase/tutorial/jaxp/index.html) library for parsing and generation
 * `configurate-yaml` - Implementation for the YAML format, using the [SnakeYAML](https://bitbucket.org/asomov/snakeyaml) library for parsing and generation
 
 
@@ -35,7 +35,7 @@ The current supported loaders provided by the project are:
 * To use configurate, your project must be configured to use Java 8 or higher.
 * Release and snapshot artifacts are hosted on SpongePowered's Maven Repository, available at https://repo.spongepowered.org/maven/.
 
-The latest release is: `3.6`
+The latest release is: `3.6.1`
 
 If your project uses Maven or Gradle, just add the following to your build scripts.
 
@@ -52,7 +52,7 @@ repositories {
 
 dependencies {
     // Modify this line to target the loader you wish to use.
-    compile 'org.spongepowered:configurate-hocon:3.6'
+    compile 'org.spongepowered:configurate-hocon:3.6.1'
 }
 ```
 
@@ -64,7 +64,7 @@ dependencies {
         <groupId>org.spongepowered</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>configurate-hocon</artifactId>
-        <version>3.6</version>
+        <version>3.6.1</version>
     </dependency>
 </dependencies>
 
