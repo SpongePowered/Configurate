@@ -25,8 +25,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
+          key: ${{ runner.os }}-${{matrix.java}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-${{matrix.java}}-gradle
       - name: Build with Gradle
         run: ./gradlew build
       - name: Archive test results
