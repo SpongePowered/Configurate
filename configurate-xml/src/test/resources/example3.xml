@@ -5,4 +5,8 @@
  ~ yes they do!!
  -->
 
-<test>something</test>
+<test>
+    <test1>something</test1>
+    <!-- Hi! -->
+    <test2>I have a comment!</test2>
+</test>

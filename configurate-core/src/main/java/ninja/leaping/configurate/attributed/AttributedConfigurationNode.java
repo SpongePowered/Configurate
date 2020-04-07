@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.attributed;
 
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -24,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A configuration node that can have attributes attached to it.
+ * A configuration node that can have both comments and attributes attached to it.
  */
-public interface AttributedConfigurationNode extends ConfigurationNode {
+public interface AttributedConfigurationNode extends CommentedConfigurationNode {
 
     /**
      * Gets the tag name of this node.
@@ -108,6 +109,7 @@ public interface AttributedConfigurationNode extends ConfigurationNode {
     @Nullable @Override AttributedConfigurationNode getParent();
     @NonNull @Override List<? extends AttributedConfigurationNode> getChildrenList();
     @NonNull @Override Map<Object, ? extends AttributedConfigurationNode> getChildrenMap();
+    @NonNull @Override AttributedConfigurationNode setComment(@Nullable String value);
     @NonNull @Override AttributedConfigurationNode setValue(@Nullable Object value);
     @NonNull @Override AttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
     @NonNull @Override @Deprecated AttributedConfigurationNode getAppendedNode();

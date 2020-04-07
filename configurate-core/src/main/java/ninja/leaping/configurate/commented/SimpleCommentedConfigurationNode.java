@@ -31,7 +31,7 @@ import java.util.Optional;
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
-    private String comment =null;
+    private String comment = null;
 
     @NonNull
     public static SimpleCommentedConfigurationNode root() {

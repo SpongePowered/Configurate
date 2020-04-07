@@ -26,16 +26,14 @@ import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Basic implementation of {@link AttributedConfigurationNode}.
  */
-public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode implements AttributedConfigurationNode {
+public class SimpleAttributedConfigurationNode extends SimpleCommentedConfigurationNode implements AttributedConfigurationNode {
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
@@ -212,6 +210,11 @@ public class SimpleAttributedConfigurationNode extends SimpleConfigurationNode i
         SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
         return copy;
+    }
+
+    @Override
+    public @NonNull SimpleAttributedConfigurationNode setComment(@Nullable String comment) {
+        return (SimpleAttributedConfigurationNode) super.setComment(comment);
     }
 
     @Override
