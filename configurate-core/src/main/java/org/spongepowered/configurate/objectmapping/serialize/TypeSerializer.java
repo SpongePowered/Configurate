@@ -34,6 +34,7 @@ public interface TypeSerializer<T> {
      *
      * @param type The type of return value required
      * @param value The node containing serialized data
+     * @param <Node> The type of node to deserialize from
      * @return An object
      * @throws ObjectMappingException If the presented data is invalid
      */
@@ -46,6 +47,7 @@ public interface TypeSerializer<T> {
      * @param type The type of the input object
      * @param obj The object to be serialized
      * @param value The node to write to
+     * @param <Node> The type of node to serialize to
      * @throws ObjectMappingException If the object cannot be serialized
      */
     <Node extends ConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException;
