@@ -30,7 +30,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Archive test results
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2-preview
         with:
           name: test-results
           path: configurate-*/build/test-results/test
