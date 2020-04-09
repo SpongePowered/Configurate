@@ -1,5 +1,7 @@
+
 plugins {
     kotlin("jvm")
+    id("org.spongepowered.configurate-component")
 }
 
 dependencies {
