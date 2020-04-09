@@ -1,22 +1,9 @@
-/.gradle/
-/configurate-core/build/
-/configurate-core/out/
-/configurate-ext-kotlin/build/
-/configurate-ext-kotlin/out/
-/configurate-gson/build/
-/configurate-gson/out/
-/configurate-hocon/build/
-/configurate-hocon/out/
-/configurate-json/build/
-/configurate-json/out/
-/configurate-tool/build/
-/configurate-tool/out/
-/configurate-yaml/build/
-/configurate-yaml/out/
-/configurate-xml/build/
-/configurate-xml/out/
+.gradle/
+/configurate-*/build/
+/configurate-*/out/
+buildSrc/build/
+buildSrc/out/
 
-target/
 # IntelliJ project data
 .idea
 *.iml
