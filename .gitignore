@@ -3,6 +3,7 @@
 /configurate-*/out/
 buildSrc/build/
 buildSrc/out/
+/build/
 
 # IntelliJ project data
 .idea
