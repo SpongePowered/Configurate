@@ -18,7 +18,7 @@ dependencies {
     // Libraries
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.github.ajalt:clikt:2.6.0")
-    implementation("com.github.ajalt:mordant:1.2.1")
+    implementation("org.fusesource.jansi:jansi:1.18")
 }
 
 tasks.withType<KotlinCompile> {

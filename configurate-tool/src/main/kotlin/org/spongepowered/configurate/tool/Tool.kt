@@ -20,6 +20,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
@@ -28,7 +29,6 @@ import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
-import com.github.ajalt.mordant.TermColors
 import ninja.leaping.configurate.ConfigurationNode
 import ninja.leaping.configurate.ValueType
 import ninja.leaping.configurate.attributed.AttributedConfigurationNode
@@ -39,25 +39,53 @@ import ninja.leaping.configurate.loader.ConfigurationLoader
 import ninja.leaping.configurate.loader.HeaderMode
 import ninja.leaping.configurate.xml.XMLConfigurationLoader
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader
+import org.fusesource.jansi.AnsiConsole
+import org.fusesource.jansi.AnsiRenderer
 import org.yaml.snakeyaml.DumperOptions
+import java.io.Console
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystems
 
 
-private val t = TermColors()
-
 val HAS_UTF8 = Charset.defaultCharset() == StandardCharsets.UTF_8
 
 const val INDENT = "  "
 
-val CHILD_NODE = t.brightCyan(if (HAS_UTF8) "┣" else "+")
-val CHILD_CONT = t.brightCyan(if (HAS_UTF8) "┃" else "|")
-val CHILD_END = t.brightCyan(if (HAS_UTF8) "┗" else "L")
-val SPLIT = t.bold(if (HAS_UTF8) "╺" else "-")
+val CHILD_NODE = "@|bold,cyan ${if (HAS_UTF8) "┣" else "+"}|@"
+val CHILD_CONT = "@|bold,cyan ${if (HAS_UTF8) "┃" else "|"}|@"
+val CHILD_END = "@|bold,cyan ${if (HAS_UTF8) "┗" else "L"}|@"
+val SPLIT = "@|cyan ${if (HAS_UTF8) "╺" else "-"}|@"
 
-fun heading(text: String) = t.bold(t.brightBlue(text))
+fun heading(text: String) = "@|bold,blue $text|@"
+
+class JAnsiConsole(val console: Console? = System.console()): CliktConsole {
+    override val lineSeparator: String
+        get() = System.lineSeparator()
+
+    override fun print(text: String, error: Boolean) {
+        AnsiRenderer.render(text, if (error) {
+            System.err
+        } else {
+            System.out
+        })
+    }
+
+    override fun promptForLine(prompt: String, hideInput: Boolean): String? {
+        print(prompt, false)
+        return if (console != null) {
+            return if (hideInput) {
+                console.readPassword()?.contentToString()
+            } else {
+                console.readLine()
+            }
+        } else {
+            readLine()
+        }
+    }
+
+}
 
 class Tool : CliktCommand(help = """
     This tool displays the Configurate data structures read from a config file
@@ -65,9 +93,11 @@ class Tool : CliktCommand(help = """
     This helps to understand how Configurate understands its data
 """.trimIndent()) {
     init {
+        AnsiConsole.systemInstall()
         versionOption(this::class.java.`package`.implementationVersion)
         context {
             autoEnvvarPrefix = "CONFIGURATE"
+            console = JAnsiConsole()
         }
         subcommands(Xml(), Yaml(), Json(), Hocon())
     }
@@ -88,7 +118,7 @@ sealed class FormatSubcommand<N: ConfigurationNode>(formatName: String): CliktCo
         val loader = createLoader()
         try {
             val node = loader.load()
-            echo("Reading from ${t.brightBlue(path.toString())}")
+            echo("Reading from @|blue,bold ${path.toString()}|@")
             val header = node.options.header
             if (header != null) {
                 echo(heading("Header") + " $SPLIT " + header.replace("\n", "\n$CHILD_CONT "))
@@ -125,7 +155,7 @@ sealed class FormatSubcommand<N: ConfigurationNode>(formatName: String): CliktCo
             write(heading("Tag name"), SPLIT, node.tagName)
             val attributes = node.attributes
             if (!attributes.isEmpty()) {
-                write(heading("Attributes"), SPLIT, attributes.map { (k, v) -> t.gray("\"${t.white(k)}\"=\"${t.white(v)}\"") }.joinToString(", "))
+                write(heading("Attributes"), SPLIT, attributes.map { (k, v) -> "@|green \"$k\"|@=@|green \"$v\"|@" }.joinToString(", "))
             }
         }
 
@@ -153,9 +183,9 @@ sealed class FormatSubcommand<N: ConfigurationNode>(formatName: String): CliktCo
             ValueType.SCALAR -> {
                 val value = node.value!!
                 write(heading("Value"), SPLIT,
-                        value.toString().replace(Regex("(\r?\n)"), "$1$prefix    "), t.gray("(a ${value::class.qualifiedName})"))
+                        "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@", "@|black,bold (a ${value::class.qualifiedName}) |@")
             }
-            ValueType.NULL -> write(heading("Value: "), SPLIT, t.gray("(null)"))
+            ValueType.NULL -> write(heading("Value: "), SPLIT, "@|black,bold (null)|@")
         }
     }
 }
