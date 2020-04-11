@@ -5,9 +5,7 @@ import net.minecrell.gradle.licenser.Licenser
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.component.SoftwareComponent
 import org.gradle.api.plugins.JavaLibraryPlugin
-import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.api.tasks.compile.JavaCompile
@@ -57,8 +55,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
             extensions.configure(LicenseExtension::class.java) {
                 with(it) {
                     header = rootProject.file("LICENSE_HEADER")
-                    include("***.java")
-                    include("***.kt")
+                    include("**/*.java")
+                    include("**/*.kt")
                     newLine = false
                 }
             }
@@ -77,7 +75,6 @@ class ConfigurateDevPlugin : Plugin<Project> {
             extensions.configure(ConfiguratePublishingExtension::class.java) {
                 it.publish {
                     from(components.getByName("java"))
-
                 }
             }
         }
