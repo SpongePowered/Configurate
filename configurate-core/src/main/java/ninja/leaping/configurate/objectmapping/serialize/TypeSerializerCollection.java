@@ -74,8 +74,24 @@ public class TypeSerializerCollection {
      * @param serializer The serializer that will be serialized with
      * @param <T>        The type to generify around
      * @return this
+     * @deprecated Use #register(TypeToken, TypeSerializer) instead
      */
+    @Deprecated
     public <T> TypeSerializerCollection registerType(TypeToken<T> type, TypeSerializer<? super T> serializer) {
+        return register(type, serializer);
+
+    }
+
+    /**
+     * Register a type serializer for a given type. Serializers registered will match all subclasses
+     * of the provided type, as well as unwrapped primitive equivalents of the type.
+     *
+     * @param type       The type to accept
+     * @param serializer The serializer that will be serialized with
+     * @param <T>        The type to generify around
+     * @return this
+     */
+    public <T> TypeSerializerCollection register(TypeToken<T> type, TypeSerializer<? super T> serializer) {
         serializers.add(new RegisteredSerializer(requireNonNull(type, "type"), requireNonNull(serializer)));
         typeMatches.clear();
         return this;
@@ -88,9 +104,23 @@ public class TypeSerializerCollection {
      * @param serializer The serializer to serialize matching types with
      * @param <T>        The type parameter
      * @return this
+     * @deprecated Use {@link #register(Predicate, TypeSerializer)} instead
+     */
+    @Deprecated
+    public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
+        return register(test, serializer);
+    }
+
+    /**
+     * Register a type serializer matching against a given predicate.
+     *
+     * @param test       The predicate to match types against
+     * @param serializer The serializer to serialize matching types with
+     * @param <T>        The type parameter
+     * @return this
      */
     @SuppressWarnings("unchecked")
-    public <T> TypeSerializerCollection registerPredicate(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
+    public <T> TypeSerializerCollection register(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
         serializers.add(new RegisteredSerializer((Predicate) requireNonNull(test, "test"), requireNonNull(serializer, "serializer")));
         typeMatches.clear();
         return this;
