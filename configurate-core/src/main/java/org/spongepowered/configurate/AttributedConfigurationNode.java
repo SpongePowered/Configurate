@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.attributed;
+package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.commented.CommentedConfigurationNode;
 
 import java.util.Map;
 
@@ -26,6 +25,21 @@ import java.util.Map;
  * A configuration node that can have both comments and attributes attached to it.
  */
 public interface AttributedConfigurationNode<T extends AttributedConfigurationNode<T>> extends CommentedConfigurationNode<T> {
+
+    @NonNull
+    static SimpleAttributedConfigurationNode root() {
+        return root("root", ConfigurationOptions.defaults());
+    }
+
+    @NonNull
+    static SimpleAttributedConfigurationNode root(@NonNull String tagName) {
+        return root(tagName, ConfigurationOptions.defaults());
+    }
+
+    @NonNull
+    static SimpleAttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
+        return new SimpleAttributedConfigurationNode(tagName, null, null, options);
+    }
 
     /**
      * Gets the tag name of this node.

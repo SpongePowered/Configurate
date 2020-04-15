@@ -72,7 +72,7 @@ public class GsonConfigurationLoaderTest {
                 .setFile(tempFile)
                 .build();
 
-        ConfigurationNode<?> n = SimpleConfigurationNode.root();
+        ConfigurationNode<?> n = ConfigurationNode.root();
         loader.save(n);
     }
 

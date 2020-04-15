@@ -74,6 +74,6 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     @NonNull
     @Override
     public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        return SimpleConfigurationNode.root(options);
+        return ConfigurationNode.root(options);
     }
 }

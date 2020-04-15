@@ -19,7 +19,7 @@ package org.spongepowered.configurate.objectmapping;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.commented.CommentedConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 
 import java.lang.reflect.Constructor;

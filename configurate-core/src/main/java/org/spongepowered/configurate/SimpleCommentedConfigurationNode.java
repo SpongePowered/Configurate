@@ -14,26 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.commented;
+package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationOptions;
 
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
 public class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<SimpleCommentedConfigurationNode> {
-
-    @NonNull
-    public static SimpleCommentedConfigurationNode root() {
-        return root(ConfigurationOptions.defaults());
-    }
-
-    @NonNull
-    public static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleCommentedConfigurationNode(null, null, options);
-    }
 
     protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleCommentedConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);

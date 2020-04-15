@@ -14,15 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.attributed;
+package org.spongepowered.configurate;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.commented.AbstractCommentedConfigurationNode;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,21 +30,6 @@ import java.util.Map;
 public class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNode<SimpleAttributedConfigurationNode> implements AttributedConfigurationNode<SimpleAttributedConfigurationNode> {
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
-
-    @NonNull
-    public static SimpleAttributedConfigurationNode root() {
-        return root("root", ConfigurationOptions.defaults());
-    }
-
-    @NonNull
-    public static SimpleAttributedConfigurationNode root(@NonNull String tagName) {
-        return root(tagName, ConfigurationOptions.defaults());
-    }
-
-    @NonNull
-    public static SimpleAttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
-        return new SimpleAttributedConfigurationNode(tagName, null, null, options);
-    }
 
     protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable Object path, @Nullable SimpleAttributedConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);

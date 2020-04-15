@@ -246,7 +246,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
     public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
-        return SimpleConfigurationNode.root(options);
+        return ConfigurationNode.root(options);
     }
 
     private static void generateValue(JsonGenerator generator, ConfigurationNode<?> node) throws IOException {

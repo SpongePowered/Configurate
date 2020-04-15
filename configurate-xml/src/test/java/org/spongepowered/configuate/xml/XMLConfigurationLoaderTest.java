@@ -20,8 +20,8 @@ import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
-import org.spongepowered.configurate.attributed.AttributedConfigurationNode;
-import org.spongepowered.configurate.attributed.SimpleAttributedConfigurationNode;
+import org.spongepowered.configurate.AttributedConfigurationNode;
+import org.spongepowered.configurate.SimpleAttributedConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.xml.XMLConfigurationLoader;
 

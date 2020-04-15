@@ -34,10 +34,10 @@ import org.fusesource.jansi.AnsiRenderer
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.SimpleConfigurationNode
 import org.spongepowered.configurate.ValueType
-import org.spongepowered.configurate.attributed.AttributedConfigurationNode
-import org.spongepowered.configurate.attributed.SimpleAttributedConfigurationNode
-import org.spongepowered.configurate.commented.CommentedConfigurationNode
-import org.spongepowered.configurate.commented.SimpleCommentedConfigurationNode
+import org.spongepowered.configurate.AttributedConfigurationNode
+import org.spongepowered.configurate.SimpleAttributedConfigurationNode
+import org.spongepowered.configurate.CommentedConfigurationNode
+import org.spongepowered.configurate.SimpleCommentedConfigurationNode
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.hocon.HOCONConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader

@@ -18,7 +18,6 @@ package org.spongepowered.configurate.yaml;
 
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.AbstractConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
@@ -29,7 +28,6 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Writer;
 
 /**
@@ -142,6 +140,6 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     @NonNull
     @Override
     public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        return SimpleConfigurationNode.root(options);
+        return ConfigurationNode.root(options);
     }
 }

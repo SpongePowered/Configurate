@@ -29,16 +29,6 @@ public class SimpleConfigurationNode extends AbstractConfigurationNode<SimpleCon
     }
 
     @NonNull
-    public static SimpleConfigurationNode root() {
-        return root(ConfigurationOptions.defaults());
-    }
-
-    @NonNull
-    public static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleConfigurationNode(null, null, options);
-    }
-
-    @NonNull
     @Override
     protected SimpleConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
         return new SimpleConfigurationNode(parent, this);

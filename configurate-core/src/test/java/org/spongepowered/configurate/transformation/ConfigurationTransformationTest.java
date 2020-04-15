@@ -37,7 +37,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testComparator() {
-        doTestComparator(SimpleConfigurationNode.root());
+        doTestComparator(ConfigurationNode.root());
     }
 
     private <T extends ConfigurationNode<T>> void doTestComparator(T node) {
@@ -90,7 +90,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testWildcardMatching() {
-        doTestWildcardMatching(SimpleConfigurationNode.root());
+        doTestWildcardMatching(ConfigurationNode.root());
     }
 
     private <T extends ConfigurationNode<T>> void doTestWildcardMatching(T node) {
@@ -131,7 +131,7 @@ public class ConfigurationTransformationTest {
     @Test
     public void testMoveNode() {
 
-        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        SimpleConfigurationNode node = ConfigurationNode.root();
         final Object nodeValue = new Object();
         node.getNode("old", "path").setValue(nodeValue);
         transformMoveNode(node);
@@ -148,7 +148,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testChainedTransformations() {
-        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        SimpleConfigurationNode node = ConfigurationNode.root();
         node.getNode("a").setValue("something?");
         final List<String> actualOutput = new ArrayList<>(), expectedOutput = ImmutableList.of("one", "two");
         transformChained(actualOutput, node);
@@ -168,7 +168,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testMoveToBase() {
-        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        SimpleConfigurationNode node = ConfigurationNode.root();
         node.getNode("sub", "key").setValue("value");
         node.getNode("at-parent").setValue("until-change");
         transformMoveToBase(node);
@@ -198,7 +198,7 @@ public class ConfigurationTransformationTest {
     }
 
     private SimpleConfigurationNode createMoveNode() {
-        SimpleConfigurationNode ret = SimpleConfigurationNode.root();
+        SimpleConfigurationNode ret = ConfigurationNode.root();
         ret.getNode("one", "fun").setValue("always");
         ret.getNode("two", "evil").setValue("always");
         return ret;
@@ -206,7 +206,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testCorrectNodePassed() {
-        final SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        final SimpleConfigurationNode node = ConfigurationNode.root();
         final SimpleConfigurationNode child = node.getNode("childNode").setValue("something");
         transformTestCorrectNodePassed(node, child);
     }
@@ -221,7 +221,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testVersionedTransformation() {
-        final SimpleConfigurationNode target = SimpleConfigurationNode.root();
+        final SimpleConfigurationNode target = ConfigurationNode.root();
         target.getNode("dummy").setValue("whatever");
         final List<Integer> updatedVersions = new ArrayList<>();
         this.<SimpleConfigurationNode>buildVersionedTransformation(updatedVersions).apply(target);

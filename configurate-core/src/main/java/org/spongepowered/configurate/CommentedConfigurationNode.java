@@ -14,20 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.commented;
+package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
  * A configuration node that can have a comment attached to it.
  */
 public interface CommentedConfigurationNode<T extends CommentedConfigurationNode<T>> extends ConfigurationNode<T> {
+
+    @NonNull
+    static SimpleCommentedConfigurationNode root() {
+        return root(ConfigurationOptions.defaults());
+    }
+
+    @NonNull
+    static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
+        return new SimpleCommentedConfigurationNode(null, null, options);
+    }
 
     /**
      * Gets the current value for the comment.

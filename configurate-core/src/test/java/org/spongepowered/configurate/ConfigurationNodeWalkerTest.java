@@ -18,8 +18,6 @@ package org.spongepowered.configurate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
-import org.spongepowered.configurate.commented.CommentedConfigurationNode;
-import org.spongepowered.configurate.commented.SimpleCommentedConfigurationNode;
 import org.spongepowered.configurate.util.ConfigurationNodeWalker;
 import org.junit.jupiter.api.Test;
 
@@ -93,7 +91,7 @@ public class ConfigurationNodeWalkerTest {
 
     @Test
     public void testWalker() {
-        doTestWalker(SimpleCommentedConfigurationNode.root());
+        doTestWalker(CommentedConfigurationNode.root());
     }
 
     private <T extends CommentedConfigurationNode<T>> void doTestWalker(T node) {

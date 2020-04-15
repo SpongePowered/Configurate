@@ -33,8 +33,8 @@ import com.typesafe.config.ConfigValueFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.commented.CommentedConfigurationNode;
-import org.spongepowered.configurate.commented.SimpleCommentedConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.SimpleCommentedConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -274,7 +274,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
     public SimpleCommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
                 Long.class, Integer.class, Boolean.class, String.class, Number.class));
-        return SimpleCommentedConfigurationNode.root(options);
+        return CommentedConfigurationNode.root(options);
     }
 
     // -- Comment handling -- this might have to be updated as the hocon dep changes (But tests should detect this

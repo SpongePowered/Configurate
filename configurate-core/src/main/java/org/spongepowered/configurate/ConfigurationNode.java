@@ -49,10 +49,20 @@ import java.util.function.Supplier;
  * <p>The overall configuration stems from a single "root" node, which is provided by the
  * {@link ConfigurationLoader}, or by other means programmatically.</p>
  *
- * <p>This is effectively the main class of configurate.</p>
+ * <p>This is effectively the main class of Configurate.</p>
  */
 public interface ConfigurationNode<T extends ConfigurationNode<T>> {
     int NUMBER_DEF = 0;
+
+    @NonNull
+    static SimpleConfigurationNode root() {
+        return root(ConfigurationOptions.defaults());
+    }
+
+    @NonNull
+    static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
+        return new SimpleConfigurationNode(null, null, options);
+    }
 
     /**
      * Gets the "key" of this node.

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.commented.CommentedConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 
 import java.io.BufferedReader;

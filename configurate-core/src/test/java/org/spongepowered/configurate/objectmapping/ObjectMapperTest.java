@@ -18,8 +18,10 @@ package org.spongepowered.configurate.objectmapping;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.SimpleConfigurationNode;
-import org.spongepowered.configurate.commented.SimpleCommentedConfigurationNode;
+import org.spongepowered.configurate.SimpleCommentedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class ObjectMapperTest {
     @Test
     public void testCreateFromNode() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final SimpleConfigurationNode source = SimpleConfigurationNode.root();
+        final SimpleConfigurationNode source = ConfigurationNode.root();
         source.getNode("test-key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
 
         final TestObject obj = mapper.bindToNew().populate(source);
@@ -50,14 +52,14 @@ public class ObjectMapperTest {
     @Test
     public void testNullsPreserved() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final TestObject obj = mapper.bindToNew().populate(SimpleConfigurationNode.root());
+        final TestObject obj = mapper.bindToNew().populate(ConfigurationNode.root());
         assertNull(obj.stringVal);
     }
 
     @Test
     public void testLoadExistingObject() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final SimpleConfigurationNode source = SimpleConfigurationNode.root();
+        final SimpleConfigurationNode source = ConfigurationNode.root();
         final TestObject instance = new TestObject();
 
         source.getNode("test-key").setValue("boom");
@@ -69,7 +71,7 @@ public class ObjectMapperTest {
     @Test
     public void testDefaultsApplied() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
-        final SimpleConfigurationNode source = SimpleConfigurationNode.root();
+        final SimpleConfigurationNode source = ConfigurationNode.root();
         final TestObject instance = new TestObject();
 
         instance.stringVal = "hi";
@@ -85,7 +87,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testCommentsApplied() throws ObjectMappingException {
-        SimpleCommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        SimpleCommentedConfigurationNode node = CommentedConfigurationNode.root();
         ObjectMapper<CommentedObject>.BoundInstance mapper = ObjectMapper.forClass(CommentedObject.class).bindToNew();
         CommentedObject obj = mapper.populate(node);
         obj.color = "fuchsia";
@@ -124,7 +126,7 @@ public class ObjectMapperTest {
     @Test
     public void testSuperclassFieldsIncluded() throws ObjectMappingException {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.forClass(TestObjectChild.class);
-        SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        SimpleConfigurationNode node = ConfigurationNode.root();
         node.getNode("child-setting").setValue(true);
         node.getNode("test-key").setValue("Parents get populated too!");
 
@@ -141,7 +143,7 @@ public class ObjectMapperTest {
     @Test
     public void testKeyFromFieldName() throws ObjectMappingException {
         final ObjectMapper<FieldNameObject> mapper = ObjectMapper.forClass(FieldNameObject.class);
-        final SimpleConfigurationNode node = SimpleConfigurationNode.root();
+        final SimpleConfigurationNode node = ConfigurationNode.root();
         node.getNode("loads").setValue(true);
 
         FieldNameObject obj = mapper.bindToNew().populate(node);
@@ -159,7 +161,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testNestedObjectWithComments() throws ObjectMappingException {
-        SimpleCommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        SimpleCommentedConfigurationNode node = CommentedConfigurationNode.root();
         final ObjectMapper<ParentObject>.BoundInstance mapper = ObjectMapper.forObject(new ParentObject());
         mapper.populate(node);
         assertEquals("Comment on parent", node.getNode("inner").getComment().get());
@@ -189,7 +191,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testInterfaceSerialization() throws ObjectMappingException {
-        SimpleCommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        SimpleCommentedConfigurationNode node = CommentedConfigurationNode.root();
 
         final ChildObject childObject = new ChildObject();
         childObject.test = "Changed value";

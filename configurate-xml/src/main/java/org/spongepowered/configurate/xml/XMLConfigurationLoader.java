@@ -26,9 +26,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.attributed.AttributedConfigurationNode;
-import org.spongepowered.configurate.attributed.SimpleAttributedConfigurationNode;
-import org.spongepowered.configurate.commented.CommentedConfigurationNode;
+import org.spongepowered.configurate.AttributedConfigurationNode;
+import org.spongepowered.configurate.SimpleAttributedConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -533,7 +533,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     public SimpleAttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
                 Integer.class, Boolean.class, String.class, Number.class));
-        return SimpleAttributedConfigurationNode.root("root", options);
+        return AttributedConfigurationNode.root("root", options);
     }
 
     private static Object parseValue(String value) {

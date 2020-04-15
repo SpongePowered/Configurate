@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.commented;
+package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.AbstractConfigurationNode;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ConfigurationOptions;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractCommentedConfigurationNode<N extends AbstractCommentedConfigurationNode<N>> extends AbstractConfigurationNode<N> implements CommentedConfigurationNode<N> {
+abstract class AbstractCommentedConfigurationNode<N extends AbstractCommentedConfigurationNode<N>> extends AbstractConfigurationNode<N> implements CommentedConfigurationNode<N> {
     protected String comment = null;
 
     protected AbstractCommentedConfigurationNode(N parent, N copyOf) {
