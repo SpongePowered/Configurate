@@ -24,20 +24,20 @@ import java.util.Map;
 /**
  * A configuration node that can have both comments and attributes attached to it.
  */
-public interface AttributedConfigurationNode<T extends AttributedConfigurationNode<T>> extends CommentedConfigurationNode<T> {
+public interface AttributedConfigurationNode extends CommentedConfigurationNodeIntermediary<AttributedConfigurationNode> {
 
     @NonNull
-    static SimpleAttributedConfigurationNode root() {
+    static AttributedConfigurationNode root() {
         return root("root", ConfigurationOptions.defaults());
     }
 
     @NonNull
-    static SimpleAttributedConfigurationNode root(@NonNull String tagName) {
+    static AttributedConfigurationNode root(@NonNull String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
     }
 
     @NonNull
-    static SimpleAttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
+    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);
     }
 
@@ -60,7 +60,7 @@ public interface AttributedConfigurationNode<T extends AttributedConfigurationNo
      * @return this
      */
     @NonNull
-    T setTagName(@NonNull String name);
+    AttributedConfigurationNode setTagName(@NonNull String name);
 
     /**
      * Adds an attribute to this node.
@@ -70,7 +70,7 @@ public interface AttributedConfigurationNode<T extends AttributedConfigurationNo
      * @return this
      */
     @NonNull
-    T addAttribute(@NonNull String name, @NonNull String value);
+    AttributedConfigurationNode addAttribute(@NonNull String name, @NonNull String value);
 
     /**
      * Removes an attribute from this node.
@@ -79,7 +79,7 @@ public interface AttributedConfigurationNode<T extends AttributedConfigurationNo
      * @return this
      */
     @NonNull
-    T removeAttribute(@NonNull String name);
+    AttributedConfigurationNode removeAttribute(@NonNull String name);
 
     /**
      * Sets the attributes of this node.
@@ -88,7 +88,7 @@ public interface AttributedConfigurationNode<T extends AttributedConfigurationNo
      * @return this
      */
     @NonNull
-    T setAttributes(@NonNull Map<String, String> attributes);
+    AttributedConfigurationNode setAttributes(@NonNull Map<String, String> attributes);
 
     /**
      * Gets if this node has any attributes.

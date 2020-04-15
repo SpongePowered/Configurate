@@ -19,7 +19,7 @@ package org.spongepowered.configurate.objectmapping.serialize;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.EnumLookup;
 
@@ -27,7 +27,7 @@ import java.util.Optional;
 
 class EnumValueSerializer implements TypeSerializer<Enum<?>> {
     @Override
-    public <Node extends ConfigurationNode<Node>> Enum<?> deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> Enum<?> deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         String enumConstant = value.getString();
         if (enumConstant == null) {
             throw new ObjectMappingException("No value present in node " + value);
@@ -44,7 +44,7 @@ class EnumValueSerializer implements TypeSerializer<Enum<?>> {
     }
 
     @Override
-    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull T value) throws ObjectMappingException {
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull T value) throws ObjectMappingException {
         value.setValue(obj == null ? null : obj.name());
     }
 }

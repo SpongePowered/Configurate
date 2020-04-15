@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
-public class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<SimpleCommentedConfigurationNode> {
+class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<CommentedConfigurationNode, SimpleCommentedConfigurationNode> implements CommentedConfigurationNode {
 
     protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleCommentedConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(path, parent, options);
@@ -50,6 +50,11 @@ public class SimpleCommentedConfigurationNode extends AbstractCommentedConfigura
     @Override
     @NonNull
     public SimpleCommentedConfigurationNode self() {
+        return this;
+    }
+
+    @Override
+    protected SimpleCommentedConfigurationNode implSelf() {
         return this;
     }
 

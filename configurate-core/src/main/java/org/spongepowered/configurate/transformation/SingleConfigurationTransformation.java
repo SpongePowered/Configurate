@@ -16,8 +16,8 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import org.spongepowered.configurate.ConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +28,9 @@ import java.util.Map;
  *
  * <p>Transformations are executed from deepest in the configuration hierarchy outwards.</p>
  */
-class SingleConfigurationTransformation<T extends ConfigurationNode<T>> extends ConfigurationTransformation<T> {
+class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> extends ConfigurationTransformation<N> {
     private final MoveStrategy strategy;
-    private final Map<Object[], TransformAction<? super T>> actions;
+    private final Map<Object[], TransformAction<? super N>> actions;
 
     /**
      * Thread local {@link NodePath} instance - used so we don't have to create lots of NodePath
@@ -41,30 +41,30 @@ class SingleConfigurationTransformation<T extends ConfigurationNode<T>> extends 
      */
     private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
 
-    SingleConfigurationTransformation(Map<Object[], TransformAction<? super T>> actions, MoveStrategy strategy) {
+    SingleConfigurationTransformation(Map<Object[], TransformAction<? super N>> actions, MoveStrategy strategy) {
         this.actions = actions;
         this.strategy = strategy;
     }
 
     @Override
-    public void apply(@NonNull T node) {
-        for (Map.Entry<Object[], TransformAction<? super T>> ent : actions.entrySet()) {
+    public void apply(@NonNull N node) {
+        for (Map.Entry<Object[], TransformAction<? super N>> ent : actions.entrySet()) {
             applySingleAction(node, ent.getKey(), 0, node, ent.getValue());
         }
     }
 
-    private void applySingleAction(T start, Object[] path, int startIdx, T node, TransformAction<? super T> action) {
+    private void applySingleAction(N start, Object[] path, int startIdx, N node, TransformAction<? super N> action) {
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.isList()) {
-                    List<T> children = node.getChildrenList();
+                    List<N> children = node.getChildrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
                         applySingleAction(start, path, i + 1, children.get(di), action);
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else if (node.isMap()) {
-                    for (Map.Entry<Object, T> ent : node.getChildrenMap().entrySet()) {
+                    for (Map.Entry<Object, N> ent : node.getChildrenMap().entrySet()) {
                         path[i] = ent.getKey();
                         applySingleAction(start, path, i + 1, ent.getValue(), action);
                     }

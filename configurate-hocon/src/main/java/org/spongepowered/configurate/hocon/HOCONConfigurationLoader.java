@@ -31,10 +31,7 @@ import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.SimpleCommentedConfigurationNode;
+import org.spongepowered.configurate.*;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -53,7 +50,7 @@ import java.util.regex.Pattern;
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for
  * parsing and generation.
  */
-public class HOCONConfigurationLoader extends AbstractConfigurationLoader<SimpleCommentedConfigurationNode> {
+public class HOCONConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
     /**
      * The pattern used to match newlines.
@@ -171,7 +168,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
     }
 
     @Override
-    public void loadInternal(SimpleCommentedConfigurationNode node, BufferedReader reader) throws IOException {
+    public void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {
         Config hoconConfig = ConfigFactory.parseReader(reader, parse);
         hoconConfig = hoconConfig.resolve();
         for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
@@ -179,7 +176,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
         }
     }
 
-    private static void readConfigValue(ConfigValue value, SimpleCommentedConfigurationNode node) {
+    private static void readConfigValue(ConfigValue value, CommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
             node.setComment(CRLF_MATCH.matcher(Joiner.on('\n').join(value.origin().comments())).replaceAll(""));
         }
@@ -212,7 +209,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
+    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         if (!node.isMap()) {
             if (node.getValue() == null) {
                 writer.write(SYSTEM_LINE_SEPARATOR);
@@ -226,17 +223,17 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
         writer.write(renderedValue);
     }
 
-    private static ConfigValue fromValue(ConfigurationNode<?> node) {
+    private static ConfigValue fromValue(ConfigurationNode node) {
         ConfigValue ret;
         if (node.isMap()) {
             Map<String, ConfigValue> children = node.getOptions().getMapFactory().create();
-            for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : node.getChildrenMap().entrySet()) {
+            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
                 children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));
             }
             ret = newConfigObject(children);
         } else if (node.isList()) {
             List<ConfigValue> children = new ArrayList<>();
-            for (ConfigurationNode<?> ent : node.getChildrenList()) {
+            for (ConfigurationNode ent : node.getChildrenList()) {
                 children.add(fromValue(ent));
             }
             ret = newConfigList(children);
@@ -244,8 +241,8 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
         } else {
             ret = ConfigValueFactory.fromAnyRef(node.getValue(), CONFIGURATE_ORIGIN.description());
         }
-        if (node instanceof CommentedConfigurationNode) {
-            CommentedConfigurationNode<?> commentedNode = ((CommentedConfigurationNode<?>) node);
+        if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
+            CommentedConfigurationNodeIntermediary<?> commentedNode = ((CommentedConfigurationNodeIntermediary<?>) node);
             final ConfigValue finalRet = ret;
             ret = commentedNode.getComment().map(comment -> finalRet.withOrigin(finalRet.origin().withComments(LINE_SPLITTER.splitToList(comment)))).orElse(ret);
         }
@@ -271,7 +268,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Simple
 
     @NonNull
     @Override
-    public SimpleCommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
                 Long.class, Integer.class, Boolean.class, String.class, Number.class));
         return CommentedConfigurationNode.root(options);

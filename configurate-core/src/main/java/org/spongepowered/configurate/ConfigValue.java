@@ -24,7 +24,7 @@ import java.util.Iterator;
 /**
  * The value in a {@link ConfigurationNode}.
  */
-abstract class ConfigValue<T extends AbstractConfigurationNode<T>> {
+abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> {
 
     /**
      * The node this value "belongs" to.
@@ -96,7 +96,7 @@ abstract class ConfigValue<T extends AbstractConfigurationNode<T>> {
      * @return A copy
      */
     @NonNull
-    abstract ConfigValue<T> copy(@NonNull T holder);
+    abstract ConfigValue<N, T> copy(@NonNull T holder);
 
     /**
      * Whether this value has any content

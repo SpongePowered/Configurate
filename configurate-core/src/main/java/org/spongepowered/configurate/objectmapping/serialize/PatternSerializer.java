@@ -19,7 +19,7 @@ package org.spongepowered.configurate.objectmapping.serialize;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.regex.Pattern;
@@ -27,7 +27,7 @@ import java.util.regex.PatternSyntaxException;
 
 class PatternSerializer implements TypeSerializer<Pattern> {
     @Override
-    public <Node extends ConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         try {
             return Pattern.compile(value.getString());
         } catch (PatternSyntaxException ex) {
@@ -36,7 +36,7 @@ class PatternSerializer implements TypeSerializer<Pattern> {
     }
 
     @Override
-    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull T value) throws ObjectMappingException {
-        value.setValue(obj.pattern());
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull Node value) throws ObjectMappingException {
+        value.setValue(obj == null ? null : obj.pattern());
     }
 }

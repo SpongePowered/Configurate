@@ -16,9 +16,9 @@
  */
 package org.spongepowered.configurate.yaml;
 
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -33,7 +33,7 @@ import java.io.Writer;
 /**
  * A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.
  */
-public class YAMLConfigurationLoader extends AbstractConfigurationLoader<SimpleConfigurationNode> {
+public class YAMLConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
      * Creates a new {@link YAMLConfigurationLoader} builder.
@@ -128,18 +128,18 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     }
 
     @Override
-    protected void loadInternal(SimpleConfigurationNode node, BufferedReader reader) {
+    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) {
         node.setValue(yaml.get().load(reader));
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode<?> node, Writer writer) {
+    protected void saveInternal(ConfigurationNode node, Writer writer) {
         yaml.get().dump(node.getValue(), writer);
     }
 
     @NonNull
     @Override
-    public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        return ConfigurationNode.root(options);
+    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+        return BasicConfigurationNode.root(options);
     }
 }

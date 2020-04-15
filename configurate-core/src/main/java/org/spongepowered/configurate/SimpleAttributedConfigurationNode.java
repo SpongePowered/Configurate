@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Basic implementation of {@link AttributedConfigurationNode}.
  */
-public class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNode<SimpleAttributedConfigurationNode> implements AttributedConfigurationNode<SimpleAttributedConfigurationNode> {
+class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNode<AttributedConfigurationNode, SimpleAttributedConfigurationNode> implements AttributedConfigurationNode {
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
@@ -117,9 +117,9 @@ public class SimpleAttributedConfigurationNode extends AbstractCommentedConfigur
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode setValue(@Nullable Object value) {
+    public AttributedConfigurationNode setValue(@Nullable Object value) {
         if (value instanceof AttributedConfigurationNode) {
-            AttributedConfigurationNode<?> node = (AttributedConfigurationNode<?>) value;
+            AttributedConfigurationNode node = (AttributedConfigurationNode) value;
             setTagName(node.getTagName());
             setAttributes(node.getAttributes());
         }
@@ -128,9 +128,9 @@ public class SimpleAttributedConfigurationNode extends AbstractCommentedConfigur
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
+    public AttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
         if (other instanceof AttributedConfigurationNode) {
-            AttributedConfigurationNode<?> node = (AttributedConfigurationNode<?>) other;
+            AttributedConfigurationNode node = (AttributedConfigurationNode) other;
             setTagName(node.getTagName());
             for (Map.Entry<String, String> attribute : node.getAttributes().entrySet()) {
                 addAttribute(attribute.getKey(), attribute.getValue());
@@ -150,6 +150,11 @@ public class SimpleAttributedConfigurationNode extends AbstractCommentedConfigur
 
     @Override
     public SimpleAttributedConfigurationNode self() {
+        return this;
+    }
+
+    @Override
+    protected SimpleAttributedConfigurationNode implSelf() {
         return this;
     }
 

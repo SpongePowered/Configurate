@@ -20,6 +20,7 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 /**
@@ -39,7 +40,7 @@ public interface TypeSerializer<T> {
      * @throws ObjectMappingException If the presented data is invalid
      */
     @Nullable
-    <Node extends ConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.
@@ -50,6 +51,6 @@ public interface TypeSerializer<T> {
      * @param <Node> The type of node to serialize to
      * @throws ObjectMappingException If the object cannot be serialized
      */
-    <Node extends ConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException;
 
 }

@@ -27,9 +27,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.SimpleConfigurationNode;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -43,7 +43,7 @@ import java.util.Map;
 /**
  * A loader for JSON-formatted configurations, using the jackson library for parsing and generation.
  */
-public class JacksonConfigurationLoader extends AbstractConfigurationLoader<SimpleConfigurationNode> {
+public class JacksonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
      * Creates a new {@link JacksonConfigurationLoader} builder.
@@ -146,14 +146,14 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
     }
 
     @Override
-    protected void loadInternal(SimpleConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) throws IOException {
         try (JsonParser parser = factory.createParser(reader)) {
             parser.nextToken();
             parseValue(parser, node);
         }
     }
 
-    private static void parseValue(JsonParser parser, SimpleConfigurationNode node) throws IOException {
+    private static void parseValue(JsonParser parser, ConfigurationNode node) throws IOException {
         JsonToken token = parser.getCurrentToken();
         switch (token) {
             case START_OBJECT:
@@ -193,7 +193,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
         }
     }
 
-    private static void parseArray(JsonParser parser, SimpleConfigurationNode node) throws IOException {
+    private static void parseArray(JsonParser parser, ConfigurationNode node) throws IOException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -212,7 +212,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
         throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
     }
 
-    private static void parseObject(JsonParser parser, SimpleConfigurationNode node) throws IOException {
+    private static void parseObject(JsonParser parser, ConfigurationNode node) throws IOException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -232,7 +232,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
     }
 
     @Override
-    public void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
+    public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         try (JsonGenerator generator = factory.createGenerator(writer)) {
             generator.setPrettyPrinter(new ConfiguratePrettyPrinter(indent, fieldValueSeparatorStyle));
             generateValue(generator, node);
@@ -243,13 +243,13 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
 
     @NonNull
     @Override
-    public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
-        return ConfigurationNode.root(options);
+        return BasicConfigurationNode.root(options);
     }
 
-    private static void generateValue(JsonGenerator generator, ConfigurationNode<?> node) throws IOException {
+    private static void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (node.isMap()) {
             generateObject(generator, node);
         } else if (node.isList()) {
@@ -299,12 +299,12 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
         }
     }*/
 
-    private static void generateObject(JsonGenerator generator, ConfigurationNode<?> node) throws IOException {
+    private static void generateObject(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (!node.isMap()) {
             throw new IOException("Node passed to generateObject does not have map children!");
         }
         generator.writeStartObject();
-        for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : node.getChildrenMap().entrySet()) {
+        for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
             //generateComment(generator, ent.getValue(), false);
             generator.writeFieldName(ent.getKey().toString());
             generateValue(generator, ent.getValue());
@@ -312,13 +312,13 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Simp
         generator.writeEndObject();
     }
 
-    private static void generateArray(JsonGenerator generator, ConfigurationNode<?> node) throws IOException {
+    private static void generateArray(JsonGenerator generator, ConfigurationNode node) throws IOException {
         if (!node.isList()) {
             throw new IOException("Node passed to generateArray does not have list children!");
         }
-        List<? extends ConfigurationNode<?>> children = node.getChildrenList();
+        List<? extends ConfigurationNode> children = node.getChildrenList();
         generator.writeStartArray(children.size());
-        for (ConfigurationNode<?> child : children) {
+        for (ConfigurationNode child : children) {
             //generateComment(generator, child, true);
             generateValue(generator, child);
         }

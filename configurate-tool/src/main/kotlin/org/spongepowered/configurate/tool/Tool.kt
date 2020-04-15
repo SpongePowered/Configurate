@@ -31,13 +31,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
-import org.spongepowered.configurate.ConfigurationNode
-import org.spongepowered.configurate.SimpleConfigurationNode
-import org.spongepowered.configurate.ValueType
-import org.spongepowered.configurate.AttributedConfigurationNode
-import org.spongepowered.configurate.SimpleAttributedConfigurationNode
-import org.spongepowered.configurate.CommentedConfigurationNode
-import org.spongepowered.configurate.SimpleCommentedConfigurationNode
+import org.spongepowered.configurate.*
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.hocon.HOCONConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader
@@ -107,7 +101,7 @@ class Tool : CliktCommand(help = """
     override fun run() = Unit
 }
 
-sealed class FormatSubcommand<N: ConfigurationNode<N>>(formatName: String): CliktCommand(help = "Display files that are in $formatName format") {
+sealed class FormatSubcommand<N: ScopedConfigurationNode<N>>(formatName: String): CliktCommand(help = "Display files that are in $formatName format") {
     val path by argument(help="Location of the file to read").path(mustExist = true, canBeDir = false)
     val header by option("--header-mode", help="How to read a header from this file").enum<HeaderMode>().default(HeaderMode.PRESERVE)
 
@@ -154,14 +148,14 @@ sealed class FormatSubcommand<N: ConfigurationNode<N>>(formatName: String): Clik
             return prefix + childPrefix
         }
 
-        if (node is AttributedConfigurationNode<*>) {
+        if (node is AttributedConfigurationNode) {
             write(heading("Tag name"), SPLIT, node.tagName)
             val attributes = node.attributes
             if (!attributes.isEmpty()) {
                 write(heading("Attributes"), SPLIT, attributes.map { (k, v) -> "@|green \"$k\"|@=@|green \"$v\"|@" }.joinToString(", "))
             }
         }
-        if (node is CommentedConfigurationNode<*>) {
+        if (node is CommentedConfigurationNodeIntermediary<*>) {
             node.comment.ifPresent {
                 write(heading("Comment"), SPLIT, it)
             }
@@ -192,14 +186,14 @@ sealed class FormatSubcommand<N: ConfigurationNode<N>>(formatName: String): Clik
     }
 }
 
-class Xml : FormatSubcommand<SimpleAttributedConfigurationNode>("XML") {
+class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(2)
     private val includeXmlDeclaration by option("-x", "--xml-declaration", help = "Whether to include the XML declaration").flag("-X", default = true)
     private val writeExplicitType by option("-t", "--explicit-type", help = "Include explicit type information").flag("-T", default = false)
 
     // TODO: Schemas
 
-    override fun createLoader(): ConfigurationLoader<SimpleAttributedConfigurationNode> {
+    override fun createLoader(): ConfigurationLoader<AttributedConfigurationNode> {
         return XMLConfigurationLoader.builder()
                 .setPath(this.path)
                 .setHeaderMode(header)
@@ -210,10 +204,10 @@ class Xml : FormatSubcommand<SimpleAttributedConfigurationNode>("XML") {
     }
 }
 
-class Yaml: FormatSubcommand<SimpleConfigurationNode>("YAML") {
+class Yaml: FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>().default(DumperOptions.FlowStyle.AUTO)
-    override fun createLoader(): ConfigurationLoader<SimpleConfigurationNode> {
+    override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return YAMLConfigurationLoader.builder()
                 .setPath(path)
                 .setHeaderMode(header)
@@ -223,10 +217,10 @@ class Yaml: FormatSubcommand<SimpleConfigurationNode>("YAML") {
     }
 }
 
-class Json: FormatSubcommand<SimpleConfigurationNode>("JSON") {
+class Json: FormatSubcommand<BasicConfigurationNode>("JSON") {
     private val lenient by option("-l", "--lenient", help = "Parse JSON leniently").flag("-L", "--strict", default = true)
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
-    override fun createLoader(): ConfigurationLoader<SimpleConfigurationNode> {
+    override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return GsonConfigurationLoader.builder()
                 .setPath(path)
                 .setHeaderMode(header)
@@ -236,9 +230,9 @@ class Json: FormatSubcommand<SimpleConfigurationNode>("JSON") {
     }
 }
 
-class Hocon: FormatSubcommand<SimpleCommentedConfigurationNode>("HOCON") {
+class Hocon: FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
-    override fun createLoader(): ConfigurationLoader<SimpleCommentedConfigurationNode> {
+    override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return HOCONConfigurationLoader.builder()
                 .setHeaderMode(header)
                 .setPath(path)

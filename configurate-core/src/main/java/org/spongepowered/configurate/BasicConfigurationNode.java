@@ -17,23 +17,15 @@
 package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Optional;
-
-/**
- * A configuration node that can have a comment attached to it.
- */
-public interface CommentedConfigurationNode extends CommentedConfigurationNodeIntermediary<CommentedConfigurationNode> {
-
+public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicConfigurationNode> {
     @NonNull
-    static CommentedConfigurationNode root() {
+    static BasicConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
     @NonNull
-    static CommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleCommentedConfigurationNode(null, null, options);
+    static BasicConfigurationNode root(@NonNull ConfigurationOptions options) {
+        return new SimpleConfigurationNode(null, null, options);
     }
-
 }

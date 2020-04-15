@@ -20,8 +20,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.SimpleConfigurationNode;
+import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
@@ -34,7 +34,7 @@ import static java.util.Objects.requireNonNull;
 
 class MapSerializer implements TypeSerializer<Map<?, ?>> {
     @Override
-    public <Node extends ConfigurationNode<Node>> Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
             if (!(type.getType() instanceof ParameterizedType)) {
@@ -54,7 +54,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
             }
 
             for (Map.Entry<Object, Node> ent : node.getChildrenMap().entrySet()) {
-                Object keyValue = keySerial.deserialize(key, ConfigurationNode.root().setValue(ent.getKey()));
+                Object keyValue = keySerial.deserialize(key, BasicConfigurationNode.root().setValue(ent.getKey()));
                 Object valueValue = valueSerial.deserialize(value, ent.getValue());
                 if (keyValue == null || valueValue == null) {
                     continue;
@@ -68,7 +68,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public <T extends ConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Map<?, ?> obj, @NonNull T node) throws ObjectMappingException {
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Map<?, ?> obj, @NonNull T node) throws ObjectMappingException {
         if (!(type.getType() instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }
@@ -90,7 +90,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
         } else {
             final Set<Object> unvisitedKeys = new HashSet<>(node.getChildrenMap().keySet());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
-                SimpleConfigurationNode keyNode = ConfigurationNode.root();
+                BasicConfigurationNode keyNode = BasicConfigurationNode.root();
                 keySerial.serialize(key, ent.getKey(), keyNode);
                 Object keyObj = requireNonNull(keyNode.getValue(), "Key must not be null!");
                 valueSerial.serialize(value, ent.getValue(), node.getNode(keyObj));

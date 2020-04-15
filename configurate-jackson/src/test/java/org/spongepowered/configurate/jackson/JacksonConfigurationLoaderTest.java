@@ -46,10 +46,10 @@ public class JacksonConfigurationLoaderTest {
     public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
-        ConfigurationLoader<? extends ConfigurationNode<?>> loader = JacksonConfigurationLoader.builder()
+        ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                         .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).build();
-        ConfigurationNode<?> node = loader.load(ConfigurationOptions.defaults().withMapFactory(MapFactories.sortedNatural()));
+        ConfigurationNode node = loader.load(ConfigurationOptions.defaults().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
@@ -69,12 +69,12 @@ public class JacksonConfigurationLoaderTest {
 
     private void testRoundtripValue(Path tempDir, Object value) throws IOException {
         final Path tempFile = tempDir.resolve("text2.txt");
-        ConfigurationLoader<? extends ConfigurationNode<?>> loader = JacksonConfigurationLoader.builder().setPath(tempFile).build();
-        ConfigurationNode<?> start = loader.createEmptyNode();
+        ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode start = loader.createEmptyNode();
         start.getNode("value").setValue(value);
         loader.save(start);
 
-        ConfigurationNode<?> ret = loader.load();
+        ConfigurationNode ret = loader.load();
         assertEquals(value, ret.getNode("value").getValue());
     }
 

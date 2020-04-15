@@ -24,11 +24,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.math.DoubleMath;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.AttributedConfigurationNode;
-import org.spongepowered.configurate.SimpleAttributedConfigurationNode;
-import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.*;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -64,7 +60,7 @@ import java.util.Objects;
  * A loader for XML (Extensible Markup Language), using the native javax library for parsing and
  * generation.
  */
-public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAttributedConfigurationNode> {
+public class XMLConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
     /**
      * The prefix of lines within the header
      */
@@ -274,7 +270,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     }
 
     @Override
-    public @NonNull SimpleAttributedConfigurationNode load(@NonNull ConfigurationOptions options) throws IOException {
+    public @NonNull AttributedConfigurationNode load(@NonNull ConfigurationOptions options) throws IOException {
         if (source == null) {
             throw new IOException("No source present to read from!");
         }
@@ -295,7 +291,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
                 if (child.getNodeType() == Node.COMMENT_NODE) {
                     options = options.withHeader(unwrapHeader(child.getTextContent().trim()));
                 } else if (child.getNodeType() == Node.ELEMENT_NODE) {
-                    SimpleAttributedConfigurationNode node = createEmptyNode(options);
+                    AttributedConfigurationNode node = createEmptyNode(options);
                     readElement(child, node);
                     return node;
                 }
@@ -344,7 +340,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     }
 
     @Override
-    protected void loadInternal(SimpleAttributedConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(AttributedConfigurationNode node, BufferedReader reader) throws IOException {
         throw new UnsupportedOperationException("XMLConfigurationLoader provides custom loading logic to handle headers");
     }
 
@@ -352,7 +348,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         MAP, LIST
     }
 
-    private void readElement(Node from, SimpleAttributedConfigurationNode to) {
+    private void readElement(Node from, AttributedConfigurationNode to) {
         NodeType type = null;
 
         // copy the name of the tag
@@ -435,7 +431,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
 
         // read out the elements
         for (Map.Entry<String, Node> entry : children.entries()) {
-            SimpleAttributedConfigurationNode child;
+            AttributedConfigurationNode child;
             if (type == NodeType.MAP) {
                 child = to.getNode(entry.getKey());
             } else {
@@ -455,7 +451,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
+    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         DocumentBuilder documentBuilder = newDocumentBuilder();
         Document document = documentBuilder.newDocument();
 
@@ -475,7 +471,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         }
     }
 
-    private void appendCommentIfNecessary(Element parent, ConfigurationNode<?> node) {
+    private void appendCommentIfNecessary(Element parent, ConfigurationNode node) {
         Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
         if (possibleComment != null) {
             parent.appendChild(possibleComment);
@@ -483,9 +479,9 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
     }
 
     @Nullable
-    private Node createCommentNode(Document doc, ConfigurationNode<?> node) {
-        if (node instanceof CommentedConfigurationNode<?>) {
-            String comment = ((CommentedConfigurationNode<?>) node).getComment().orElse(null);
+    private Node createCommentNode(Document doc, ConfigurationNode node) {
+        if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
+            String comment = ((CommentedConfigurationNodeIntermediary<?>) node).getComment().orElse(null);
             if (comment != null) {
                 return doc.createComment(" " + comment.trim() + " ");
             }
@@ -493,12 +489,12 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         return null;
     }
 
-    private Element writeNode(Document document, ConfigurationNode<?> node, String forcedTag) {
+    private Element writeNode(Document document, ConfigurationNode node, String forcedTag) {
         String tag = defaultTagName;
         Map<String, String> attributes = ImmutableMap.of();
 
-        if (node instanceof AttributedConfigurationNode<?>) {
-            AttributedConfigurationNode<?> attributedNode = ((AttributedConfigurationNode<?>) node);
+        if (node instanceof AttributedConfigurationNode) {
+            AttributedConfigurationNode attributedNode = ((AttributedConfigurationNode) node);
             tag = attributedNode.getTagName();
             attributes = attributedNode.getAttributes();
         }
@@ -509,7 +505,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
         }
 
         if (node.isMap()) {
-            for (Map.Entry<Object, ? extends ConfigurationNode<?>> child : node.getChildrenMap().entrySet()) {
+            for (Map.Entry<Object, ? extends ConfigurationNode> child : node.getChildrenMap().entrySet()) {
                 appendCommentIfNecessary(element, child.getValue());
                 element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
             }
@@ -517,7 +513,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
             if (writeExplicitType) {
                 element.setAttribute(ATTRIBUTE_TYPE, "list");
             }
-            for (ConfigurationNode<?> child : node.getChildrenList()) {
+            for (ConfigurationNode child : node.getChildrenList()) {
                 appendCommentIfNecessary(element, child);
                 element.appendChild(writeNode(document, child, null));
             }
@@ -530,7 +526,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<SimpleAt
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public AttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
                 Integer.class, Boolean.class, String.class, Number.class));
         return AttributedConfigurationNode.root("root", options);

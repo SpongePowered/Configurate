@@ -18,6 +18,7 @@ package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 
 import java.util.Arrays;
 import java.util.SortedMap;
@@ -26,7 +27,7 @@ import java.util.TreeMap;
 /**
  * Represents a set of transformations on a configuration.
  */
-public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>> {
+public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
 
     /**
      * A special object that represents a wildcard in a path provided to a configuration transformer
@@ -41,7 +42,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>
      * @return a new transformation builder.
      */
     @NonNull
-    public static <T extends ConfigurationNode<T>> Builder<T> builder() {
+    public static <T extends ScopedConfigurationNode<T>> Builder<T> builder() {
         return new Builder<>();
     }
 
@@ -52,7 +53,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>
      * @return A new builder for versioned transformations
      */
     @NonNull
-    public static <T extends ConfigurationNode<T>> VersionedBuilder<T> versionedBuilder() {
+    public static <T extends ConfigurationNode> VersionedBuilder<T> versionedBuilder() {
         return new VersionedBuilder<>();
     }
 
@@ -64,7 +65,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>
      * @return The resultant transformation chain
      */
     @NonNull
-    public static <T extends ConfigurationNode<T>> ConfigurationTransformation<T> chain(ConfigurationTransformation<? super T>... transformations) {
+    public static <T extends ConfigurationNode> ConfigurationTransformation<T> chain(ConfigurationTransformation<? super T>... transformations) {
         return new ChainedConfigurationTransformation<>(transformations);
     }
 
@@ -78,7 +79,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>
     /**
      * Builds a basic {@link ConfigurationTransformation}.
      */
-    public static final class Builder<T extends ConfigurationNode<T>> {
+    public static final class Builder<T extends ScopedConfigurationNode<T>> {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
         private final SortedMap<Object[], TransformAction<? super T>> actions;
 
@@ -135,7 +136,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode<T>
     /**
      * Builds a versioned {@link ConfigurationTransformation}.
      */
-    public static final class VersionedBuilder<T extends ConfigurationNode<T>> {
+    public static final class VersionedBuilder<T extends ConfigurationNode> {
         private Object[] versionKey = new Object[] {"version"};
         private final SortedMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
 

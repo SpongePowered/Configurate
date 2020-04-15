@@ -17,9 +17,9 @@
 package org.spongepowered.configurate.loader;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.SimpleConfigurationNode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import java.io.Writer;
 /**
  * This test configuration loader holds a single {@link ConfigurationNode}, {@code result}, that is updated when a node is saved and loaded when necessary.
  */
-public class TestConfigurationLoader extends AbstractConfigurationLoader<SimpleConfigurationNode> {
-    private SimpleConfigurationNode result;
+public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+    private ConfigurationNode result;
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder> {
 
         @NonNull
@@ -48,20 +48,20 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<SimpleC
     }
 
     @Override
-    protected void loadInternal(SimpleConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) throws IOException {
         node.setValue(result);
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException {
+    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         result.setValue(node);
     }
 
-    public SimpleConfigurationNode getNode() {
+    public ConfigurationNode getNode() {
         return this.result;
     }
 
-    public void setNode(SimpleConfigurationNode node) {
+    public void setNode(ConfigurationNode node) {
         this.result = node;
     }
 
@@ -73,7 +73,7 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<SimpleC
      */
     @NonNull
     @Override
-    public SimpleConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        return ConfigurationNode.root(options);
+    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+        return BasicConfigurationNode.root(options);
     }
 }

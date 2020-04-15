@@ -21,19 +21,23 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Optional;
 
-/**
- * A configuration node that can have a comment attached to it.
- */
-public interface CommentedConfigurationNode extends CommentedConfigurationNodeIntermediary<CommentedConfigurationNode> {
-
+public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfigurationNodeIntermediary<N>> extends ScopedConfigurationNode<N> {
+    /**
+     * Gets the current value for the comment.
+     *
+     * <p>If the comment contains multiple lines, the lines will be split by \n</p>
+     *
+     * @return The configuration's current comment
+     */
     @NonNull
-    static CommentedConfigurationNode root() {
-        return root(ConfigurationOptions.defaults());
-    }
+    Optional<String> getComment();
 
+    /**
+     * Sets the comment for this configuration node.
+     *
+     * @param comment The comment to set. Line breaks should be represented as LFs (\n)
+     * @return this
+     */
     @NonNull
-    static CommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleCommentedConfigurationNode(null, null, options);
-    }
-
+    N setComment(@Nullable String comment);
 }

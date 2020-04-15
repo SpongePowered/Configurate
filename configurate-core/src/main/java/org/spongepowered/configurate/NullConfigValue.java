@@ -24,7 +24,7 @@ import java.util.Collections;
 /**
  * A {@link ConfigValue} which holds no value.
  */
-class NullConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
+class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
     NullConfigValue(T holder) {
         super(holder);
     }
@@ -70,8 +70,8 @@ class NullConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
 
     @NonNull
     @Override
-    NullConfigValue<T> copy(@NonNull T holder) {
-        return new NullConfigValue<T>(holder);
+    NullConfigValue<N, T> copy(@NonNull T holder) {
+        return new NullConfigValue<>(holder);
     }
 
     @Override

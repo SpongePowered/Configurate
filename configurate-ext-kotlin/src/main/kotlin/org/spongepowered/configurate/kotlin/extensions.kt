@@ -18,24 +18,25 @@ package org.spongepowered.configurate.kotlin
 
 import com.google.common.reflect.TypeToken
 import org.spongepowered.configurate.ConfigurationNode
+import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
 
-operator fun <T: ConfigurationNode<T>> T.get(path: Any): T {
+operator fun <T: ScopedConfigurationNode<T>> T.get(path: Any): T {
     return getNode(path)
 }
 
-operator fun <T: ConfigurationNode<T>> T.get(vararg path: Any): T {
+operator fun <T: ScopedConfigurationNode<T>> T.get(vararg path: Any): T {
     return getNode(*path)
 }
 
-operator fun <T: ConfigurationNode<T>> T.set(vararg path: Any, value: Any?) {
+operator fun ConfigurationNode.set(vararg path: Any, value: Any?) {
     getNode(*path).value = value
 }
 
 /**
  * Multi level contains
  */
-operator fun ConfigurationNode<*>.contains(path: Array<Any>): Boolean {
+operator fun ConfigurationNode.contains(path: Array<Any>): Boolean {
     return !getNode(*path).isVirtual()
 }
 
@@ -44,16 +45,16 @@ operator fun ConfigurationNode<*>.contains(path: Array<Any>): Boolean {
  *
  * @param path a single path element
  */
-operator fun ConfigurationNode<*>.contains(path: Any): Boolean {
+operator fun ConfigurationNode.contains(path: Any): Boolean {
     return !getNode(path).isVirtual()
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <T: ConfigurationNode<T>, reified V> T.get(default: V? = null): V? {
+inline fun <reified V> ConfigurationNode.get(default: V? = null): V? {
     return getValue(object : TypeToken<V>() {}, default)
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <T: ConfigurationNode<T>, reified V> T.set(value: V?) {
+inline fun <reified V> ConfigurationNode.set(value: V?) {
     setValue(object : TypeToken<V>() {}, value)
 }

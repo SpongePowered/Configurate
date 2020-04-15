@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * Implements a chain of {@link ConfigurationTransformation}s.
  */
-class ChainedConfigurationTransformation<T extends ConfigurationNode<T>> extends ConfigurationTransformation<T> {
+class ChainedConfigurationTransformation<T extends ConfigurationNode> extends ConfigurationTransformation<T> {
     private final ConfigurationTransformation<? super T>[] transformations;
 
     ChainedConfigurationTransformation(ConfigurationTransformation<? super T>[] transformations) {

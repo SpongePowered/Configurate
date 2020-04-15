@@ -19,12 +19,13 @@ package org.spongepowered.configurate.transformation;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 
 /**
  * Represents an action to be performed that transforms a node in the configuration tree
  */
 @FunctionalInterface
-public interface TransformAction<T extends ConfigurationNode<T>> {
+public interface TransformAction<T extends ScopedConfigurationNode<T>> {
 
     /**
      * Called at a certain path, with the node at that path.

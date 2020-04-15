@@ -45,9 +45,9 @@ import java.util.concurrent.Callable;
  * Either the source or sink may be null. If this is true, this loader may not support either loading or saving. In
  * this case, implementing classes are expected to throw an IOException.
  *
- * @param <NodeType> The {@link ConfigurationNode} type produced by the loader
+ * @param <N> The {@link ConfigurationNode} type produced by the loader
  */
-public abstract class AbstractConfigurationLoader<NodeType extends ConfigurationNode<NodeType>> implements ConfigurationLoader<NodeType> {
+public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> implements ConfigurationLoader<N> {
 
     /**
      * The escape sequence used by Configurate to separate comment lines
@@ -120,7 +120,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     @NonNull
     @Override
-    public NodeType load(@NonNull ConfigurationOptions options) throws IOException {
+    public N load(@NonNull ConfigurationOptions options) throws IOException {
         if (source == null) {
             throw new IOException("No source present to read from!");
         }
@@ -131,7 +131,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
                     options = options.withHeader(comment);
                 }
             }
-            NodeType node = createEmptyNode(options);
+            N node = createEmptyNode(options);
             loadInternal(node, reader);
             return node;
         } catch (FileNotFoundException | NoSuchFileException e) {
@@ -146,10 +146,10 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         }
     }
 
-    protected abstract void loadInternal(NodeType node, BufferedReader reader) throws IOException;
+    protected abstract void loadInternal(N node, BufferedReader reader) throws IOException;
 
     @Override
-    public void save(@NonNull ConfigurationNode<?> node) throws IOException {
+    public void save(@NonNull ConfigurationNode node) throws IOException {
         if (sink == null) {
             throw new IOException("No sink present to write to!");
         }
@@ -179,7 +179,7 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
 
     }
 
-    protected abstract void saveInternal(ConfigurationNode<?> node, Writer writer) throws IOException;
+    protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;
 
     @NonNull
     @Override

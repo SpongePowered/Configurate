@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A {@link ConfigValue} which holds a list of values.
  */
-class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
+class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
     final AtomicReference<List<T>> values = new AtomicReference<>(new ArrayList<>());
 
     ListConfigValue(T holder) {
@@ -61,6 +61,17 @@ class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
                 ret.add(obj.getValue()); // unwrap
             }
             return ret;
+        }
+    }
+
+    public List<N> getUnwrapped() {
+        final List<T> orig = values.get();
+        synchronized (orig) {
+            ImmutableList.Builder<N> ret = ImmutableList.builderWithExpectedSize(orig.size());
+            for (T element : orig) {
+                ret.add(element.self());
+            }
+            return ret.build();
         }
     }
 
@@ -163,8 +174,8 @@ class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
 
     @NonNull
     @Override
-    ListConfigValue<T> copy(@NonNull T holder) {
-        ListConfigValue<T> copy = new ListConfigValue<T>(holder);
+    ListConfigValue<N, T> copy(@NonNull T holder) {
+        ListConfigValue<N, T> copy = new ListConfigValue<>(holder);
         List<T> copyValues;
 
         final List<T> values = this.values.get();
@@ -184,9 +195,9 @@ class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
         return this.values.get().isEmpty();
     }
 
-    private static void detachNodes(List<? extends AbstractConfigurationNode<?>> children) {
+    private static void detachNodes(List<? extends AbstractConfigurationNode<?, ?>> children) {
         synchronized (children) {
-            for (AbstractConfigurationNode<?> node : children) {
+            for (AbstractConfigurationNode<?, ?> node : children) {
                 node.attached = false;
                 node.clear();
             }
@@ -207,7 +218,7 @@ class ListConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValu
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ListConfigValue<?> that = (ListConfigValue<?>) o;
+        ListConfigValue<?, ?> that = (ListConfigValue<?, ?>) o;
         return Objects.equals(values.get(), that.values.get());
     }
 

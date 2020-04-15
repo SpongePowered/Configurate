@@ -40,7 +40,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Simple implementation of {@link ConfigurationNode}.
  */
-public abstract class AbstractConfigurationNode<T extends AbstractConfigurationNode<T>> implements ConfigurationNode<T> {
+abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> implements ScopedConfigurationNode<N>  {
 
     /**
      * The options determining the behaviour of this node
@@ -66,21 +66,21 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
      * The parent of this node
      */
     @Nullable
-    private T parent;
+    private A parent;
 
     /**
      * The current value of this node
      */
     @NonNull
-    volatile ConfigValue<T> value;
+    volatile ConfigValue<N, A> value;
 
 
-    protected AbstractConfigurationNode(@Nullable Object key, @Nullable T parent, @NonNull ConfigurationOptions options) {
+    protected AbstractConfigurationNode(@Nullable Object key, @Nullable A parent, @NonNull ConfigurationOptions options) {
         requireNonNull(options, "options");
         this.key = key;
         this.options = options;
         this.parent = parent;
-        this.value = new NullConfigValue<>(self());
+        this.value = new NullConfigValue<>(implSelf());
 
         // if the parent is null, this node is a root node, and is therefore "attached"
         if (parent == null) {
@@ -88,12 +88,12 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         }
     }
 
-    protected AbstractConfigurationNode(@Nullable T parent, T copyOf) {
+    protected AbstractConfigurationNode(@Nullable A parent, A copyOf) {
         this.options = copyOf.getOptions();
         this.attached = true; // copies are always attached
         this.key = copyOf.key;
         this.parent = parent;
-        this.value = copyOf.value.copy(self());
+        this.value = copyOf.value.copy(implSelf());
     }
 
     /**
@@ -145,10 +145,10 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
     @Override
     public <V> List<V> getList(@NonNull Function<Object, V> transformer) {
         final ImmutableList.Builder<V> ret = ImmutableList.builder();
-        ConfigValue<T> value = this.value;
+        ConfigValue<N, A> value = this.value;
         if (value instanceof ListConfigValue) {
             // transform each value individually if the node is a list
-            for (T o : value.iterateChildren()) {
+            for (A o : value.iterateChildren()) {
                 V transformed = transformer.apply(o.getValue());
                 if (transformed != null) {
                     ret.add(transformed);
@@ -230,15 +230,15 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public T setValue(@Nullable Object newValue) {
+    public N setValue(@Nullable Object newValue) {
         // if the value to be set is a configuration node already, unwrap and store the raw data
         if (newValue instanceof ConfigurationNode) {
-            ConfigurationNode<?> newValueAsNode = (ConfigurationNode<?>) newValue;
+            ConfigurationNode newValueAsNode = (ConfigurationNode) newValue;
 
             if (newValueAsNode.isList()) {
                 // handle list
                 attachIfNecessary();
-                ListConfigValue<T> newList = new ListConfigValue<>(self());
+                ListConfigValue<N, A> newList = new ListConfigValue<>(implSelf());
                 synchronized (newValueAsNode) {
                     newList.setValue(newValueAsNode.getChildrenList());
                 }
@@ -248,7 +248,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
             } else if (newValueAsNode.isMap()) {
                 // handle map
                 attachIfNecessary();
-                MapConfigValue<T> newMap = new MapConfigValue<>(self());
+                MapConfigValue<N, A> newMap = new MapConfigValue<>(implSelf());
                 synchronized (newValueAsNode) {
                     newMap.setValue(newValueAsNode.getChildrenMap());
                 }
@@ -285,7 +285,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         attachIfNecessary();
 
         synchronized (this) {
-            ConfigValue<T> oldValue, value;
+            ConfigValue<N, A> oldValue, value;
             oldValue = value = this.value;
 
             if (onlyIfNull && !(oldValue instanceof NullConfigValue)){
@@ -295,14 +295,14 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
             // init new config value backing for the new value type if necessary
             if (newValue instanceof Collection) {
                 if (!(value instanceof ListConfigValue)) {
-                    value = new ListConfigValue<>(self());
+                    value = new ListConfigValue<>(implSelf());
                 }
             } else if (newValue instanceof Map) {
                 if (!(value instanceof MapConfigValue)) {
-                    value = new MapConfigValue<>(self());
+                    value = new MapConfigValue<>(implSelf());
                 }
             } else if (!(value instanceof ScalarConfigValue)) {
-                value = new ScalarConfigValue<>(self());
+                value = new ScalarConfigValue<>(implSelf());
             }
 
             // insert the data into the config value
@@ -317,35 +317,35 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public T mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
+    public N mergeValuesFrom(@NonNull ConfigurationNode other) {
         if (other.isMap()) {
-            ConfigValue<T> oldValue, newValue;
+            ConfigValue<N, A> oldValue, newValue;
             synchronized (this) {
                 oldValue = newValue = value;
 
                 // ensure the current type is applicable.
                 if (!(oldValue instanceof MapConfigValue)) {
                     if (oldValue instanceof NullConfigValue) {
-                        newValue = new MapConfigValue<>(self());
+                        newValue = new MapConfigValue<>(implSelf());
                     } else {
                         return self();
                     }
                 }
 
                 // merge values from 'other'
-                for (Map.Entry<Object, ? extends ConfigurationNode<?>> ent : other.getChildrenMap().entrySet()) {
-                    T currentChild = newValue.getChild(ent.getKey());
+                for (Map.Entry<Object, ? extends ConfigurationNode> ent : other.getChildrenMap().entrySet()) {
+                    A currentChild = newValue.getChild(ent.getKey());
                     // Never allow null values to overwrite non-null values
                     if ((currentChild != null && currentChild.getValue() != null) && ent.getValue().getValue() == null) {
                         continue;
                     }
 
                     // create a new child node for the value
-                    T newChild = this.createNode(ent.getKey());
+                    A newChild = this.createNode(ent.getKey());
                     newChild.attached = true;
                     newChild.setValue(ent.getValue());
                     // replace the existing value, if absent
-                    T existing = newValue.putChildIfAbsent(ent.getKey(), newChild);
+                    A existing = newValue.putChildIfAbsent(ent.getKey(), newChild);
                     // if an existing value was present, attempt to merge the new value into it
                     if (existing != null) {
                         existing.mergeValuesFrom(newChild);
@@ -362,22 +362,22 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public T getNode(@NonNull Object... path) {
-        T pointer = self();
+    public N getNode(@NonNull Object... path) {
+        A pointer = implSelf();
         for (Object el : path) {
             pointer = pointer.getChild(el, false);
         }
-        return pointer;
+        return pointer.self();
     }
 
     @NonNull
     @Override
-    public T getNode(@NonNull Iterable<Object> path) {
-        T pointer = self();
+    public N getNode(@NonNull Iterable<Object> path) {
+        A pointer = implSelf();
         for (Object el : path) {
             pointer = pointer.getChild(el, false);
         }
-        return pointer;
+        return pointer.self();
     }
 
     @Override
@@ -393,16 +393,16 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public List<T> getChildrenList() {
-        ConfigValue<T> value = this.value;
-        return value instanceof ListConfigValue ? ImmutableList.copyOf(((ListConfigValue<T>) value).values.get()) : Collections.emptyList();
+    public List<N> getChildrenList() {
+        ConfigValue<N, A> value = this.value;
+        return value instanceof ListConfigValue ? ((ListConfigValue<N, A>) value).getUnwrapped() : Collections.emptyList();
     }
 
     @NonNull
     @Override
-    public Map<Object, T> getChildrenMap() {
-        ConfigValue<T> value = this.value;
-        return value instanceof MapConfigValue ? ImmutableMap.copyOf(((MapConfigValue<T>) value).values) : Collections.emptyMap();
+    public Map<Object, N> getChildrenMap() {
+        ConfigValue<N, A> value = this.value;
+        return value instanceof MapConfigValue ? ((MapConfigValue<N, A>) value).getUnwrapped() : Collections.emptyMap();
     }
 
     @Override
@@ -417,8 +417,8 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
      * @param attach If the resultant node should be automatically attached
      * @return The child node
      */
-    protected T getChild(Object key, boolean attach) {
-        T child = value.getChild(key);
+    protected A getChild(Object key, boolean attach) {
+        A child = value.getChild(key);
 
         // child doesn't currently exist
         if (child == null) {
@@ -426,7 +426,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
                 // attach ourselves first
                 attachIfNecessary();
                 // insert the child node into the value
-                T existingChild = value.putChildIfAbsent(key, (child = createNode(key)));
+                A existingChild = value.putChildIfAbsent(key, (child = createNode(key)));
                 if (existingChild != null) {
                     child = existingChild;
                 } else {
@@ -446,7 +446,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         return detachIfNonNull(value.putChild(key, null)) != null;
     }
 
-    private static <T extends AbstractConfigurationNode<T>> T detachIfNonNull(T node) {
+    private static <N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> T detachIfNonNull(T node) {
         if (node != null) {
             node.attached = false;
             node.clear();
@@ -456,10 +456,10 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public T appendListNode() {
+    public N appendListNode() {
         // the appended node can have a key of -1
         // the "real" key will be determined when the node is inserted into a list config value
-        return getChild(-1, false);
+        return getChild(-1, false).self();
     }
 
     @Nullable
@@ -471,7 +471,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
     @NonNull
     @Override
     public NodePath getPath() {
-        T pointer = self();
+        N pointer = self();
         if (pointer.getParent() == null) {
             return NodePath.create(new Object[] {getKey()});
         }
@@ -484,8 +484,9 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
     }
 
     @Nullable
-    public T getParent() {
-        return this.parent;
+    public N getParent() {
+        A parent = this.parent;
+        return parent == null ? null : parent.self();
     }
 
     @NonNull
@@ -496,19 +497,19 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     @NonNull
     @Override
-    public T copy() {
-        return copy(null);
+    public N copy() {
+        return copy(null).self();
     }
 
 
     /**
      * The same as {@link #getParent()} - but ensuring that 'parent' is attached via
-     * {@link #attachChildIfAbsent(T)}.
+     * {@link #attachChildIfAbsent(A)}.
      *
      * @return The parent
      */
-    T getParentEnsureAttached() {
-        T parent = this.parent;
+    A getParentEnsureAttached() {
+        A parent = this.parent;
         if (parent != null && parent.isVirtual()) {
             parent = parent.getParentEnsureAttached().attachChildIfAbsent(parent);
 
@@ -518,16 +519,16 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     protected void attachIfNecessary() {
         if (!attached) {
-            getParentEnsureAttached().attachChild(self());
+            getParentEnsureAttached().attachChild(implSelf());
         }
     }
 
 
-    protected final T attachChildIfAbsent(T child) {
+    protected final A attachChildIfAbsent(A child) {
         return attachChild(child, true);
     }
 
-    void attachChild(T child) {
+    void attachChild(A child) {
         attachChild(child, false);
     }
 
@@ -537,7 +538,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
      * @param child The child
      * @return The resultant value
      */
-    private T attachChild(T child, boolean onlyIfAbsent) {
+    private A attachChild(A child, boolean onlyIfAbsent) {
         // ensure this node is attached
         if (isVirtual()) {
             throw new IllegalStateException("This parent is not currently attached. This is an internal state violation.");
@@ -549,7 +550,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
         }
 
         // update the value
-        ConfigValue<T> oldValue, newValue;
+        ConfigValue<N, A> oldValue, newValue;
         synchronized (this) {
             newValue = oldValue = this.value;
 
@@ -559,21 +560,21 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
                     // if child.key is an integer, we can infer that the type of this node should be a list
                     if (oldValue instanceof NullConfigValue) {
                         // if the oldValue was null, we can just replace it with an empty list
-                        newValue = new ListConfigValue<>(self());
+                        newValue = new ListConfigValue<>(implSelf());
                     } else if (!(oldValue instanceof ListConfigValue)) {
                         // if the oldValue contained a value, we add it as the first element of the
                         // new list
-                        newValue = new ListConfigValue<>(self(), oldValue.getValue());
+                        newValue = new ListConfigValue<>(implSelf(), oldValue.getValue());
                     }
                 } else {
                     // if child.key isn't an integer, assume map
-                    newValue = new MapConfigValue<>(self());
+                    newValue = new MapConfigValue<>(implSelf());
                 }
             }
 
             /// now the value has been updated to an appropriate type, we can insert the value
             if (onlyIfAbsent) {
-                T oldChild = newValue.putChildIfAbsent(child.key, child);
+                A oldChild = newValue.putChildIfAbsent(child.key, child);
                 if (oldChild != null) {
                     return oldChild;
                 }
@@ -592,8 +593,8 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
 
     protected void clear() {
         synchronized (this) {
-            ConfigValue<T> oldValue = this.value;
-            value = new NullConfigValue<>(self());
+            ConfigValue<N, A> oldValue = this.value;
+            value = new NullConfigValue<>(implSelf());
             oldValue.clear();
         }
     }
@@ -602,7 +603,7 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractConfigurationNode)) return false;
-        AbstractConfigurationNode<?> that = (AbstractConfigurationNode<?>) o;
+        AbstractConfigurationNode<?, ?> that = (AbstractConfigurationNode<?, ?>) o;
 
         return Objects.equals(this.key, that.key) && Objects.equals(this.value, that.value);
     }
@@ -620,6 +621,8 @@ public abstract class AbstractConfigurationNode<T extends AbstractConfigurationN
     // Methods to be implemented for type-safety
 
     @NonNull
-    protected abstract T copy(@Nullable T parent);
-    protected abstract T createNode(Object path);
+    protected abstract A copy(@Nullable A parent);
+    protected abstract A createNode(Object path);
+    protected abstract A implSelf();
+
 }

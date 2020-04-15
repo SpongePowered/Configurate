@@ -28,9 +28,9 @@ import java.io.IOException;
  *
  * <p>An abstract implementation is provided by {@link AbstractConfigurationLoader}.</p>
  *
- * @param <NodeType> The {@link ConfigurationNode} type produced by the loader
+ * @param <N> The {@link ConfigurationNode} type produced by the loader
  */
-public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType>> {
+public interface ConfigurationLoader<N extends ConfigurationNode> {
 
     /**
      * Gets the default {@link ConfigurationOptions} used by the loader.
@@ -54,7 +54,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType
      * @throws IOException if any sort of error occurs with reading or parsing the configuration
      */
     @NonNull
-    default NodeType load() throws IOException {
+    default N load() throws IOException {
         return load(getDefaultOptions());
     }
 
@@ -68,7 +68,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType
      * @throws IOException if any sort of error occurs with reading or parsing the configuration
      */
     @NonNull
-    NodeType load(@NonNull ConfigurationOptions options) throws IOException;
+    N load(@NonNull ConfigurationOptions options) throws IOException;
 
     /**
      * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.
@@ -76,7 +76,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType
      * @param node The node to save
      * @throws IOException if any sort of error occurs with writing or generating the configuration
      */
-    void save(@NonNull ConfigurationNode<?> node) throws IOException;
+    void save(@NonNull ConfigurationNode node) throws IOException;
 
     /**
      * Return an empty node of the most appropriate type for this loader, using the default options.
@@ -84,7 +84,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType
      * @return The appropriate node type
      */
     @NonNull
-    default NodeType createEmptyNode() {
+    default N createEmptyNode() {
         return createEmptyNode(getDefaultOptions());
     }
 
@@ -95,7 +95,7 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode<NodeType
      * @return The appropriate node type
      */
     @NonNull
-    NodeType createEmptyNode(@NonNull ConfigurationOptions options);
+    N createEmptyNode(@NonNull ConfigurationOptions options);
 
     /**
      * Gets if this loader is capable of loading configurations.

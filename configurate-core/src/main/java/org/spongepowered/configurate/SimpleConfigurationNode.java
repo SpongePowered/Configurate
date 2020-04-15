@@ -19,7 +19,7 @@ package org.spongepowered.configurate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public class SimpleConfigurationNode extends AbstractConfigurationNode<SimpleConfigurationNode> {
+class SimpleConfigurationNode extends AbstractConfigurationNode<BasicConfigurationNode, SimpleConfigurationNode> implements BasicConfigurationNode {
     protected SimpleConfigurationNode(@Nullable Object key, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
         super(key, parent, options);
     }
@@ -37,6 +37,11 @@ public class SimpleConfigurationNode extends AbstractConfigurationNode<SimpleCon
     @Override
     @NonNull
     public SimpleConfigurationNode self() {
+        return this;
+    }
+
+    @Override
+    protected SimpleConfigurationNode implSelf() {
         return this;
     }
 

@@ -18,8 +18,10 @@ package org.spongepowered.configurate.objectmapping;
 
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 
 import java.lang.reflect.Constructor;
@@ -89,7 +91,7 @@ public class ObjectMapper<T> {
             this.fieldType = TypeToken.of(field.getGenericType());
         }
 
-        public <Node extends ConfigurationNode<Node>> void deserializeFrom(Object instance, Node node) throws ObjectMappingException {
+        public <Node extends ScopedConfigurationNode<Node>> void deserializeFrom(Object instance, Node node) throws ObjectMappingException {
             TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
             if (serial == null) {
                 throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
@@ -111,7 +113,7 @@ public class ObjectMapper<T> {
         }
 
         @SuppressWarnings({"rawtypes", "unchecked"})
-        public void serializeTo(Object instance, ConfigurationNode<?> node) throws ObjectMappingException {
+        public void serializeTo(Object instance, ScopedConfigurationNode<?> node) throws ObjectMappingException {
             try {
                 Object fieldVal = this.field.get(instance);
                 if (fieldVal == null) {
@@ -125,7 +127,7 @@ public class ObjectMapper<T> {
                 }
 
                 if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
-                    CommentedConfigurationNode<?> commentNode = ((CommentedConfigurationNode<?>) node);
+                    CommentedConfigurationNodeIntermediary<?> commentNode = ((CommentedConfigurationNodeIntermediary<?>) node);
                     if (!commentNode.getComment().isPresent()) {
                         commentNode.setComment(this.comment);
                     }
@@ -154,7 +156,7 @@ public class ObjectMapper<T> {
          * @return The object provided, for easier chaining
          * @throws ObjectMappingException If an error occurs while populating data
          */
-        public <Node extends ConfigurationNode<Node>> T populate(Node source) throws ObjectMappingException {
+        public <Node extends ScopedConfigurationNode<Node>> T populate(Node source) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
                 Node node = source.getNode(ent.getKey());
                 ent.getValue().deserializeFrom(boundInstance, node);
@@ -166,11 +168,12 @@ public class ObjectMapper<T> {
          * Serialize the data contained in annotated fields to the configuration node.
          *
          * @param target The target node to serialize to
+         * @param <N> The type of node being serialized to
          * @throws ObjectMappingException if serialization was not possible due to some error.
          */
-        public void serialize(ConfigurationNode<?> target) throws ObjectMappingException {
+        public <N extends ScopedConfigurationNode<N>> void serialize(N target) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
-                ConfigurationNode<?> node = target.getNode(ent.getKey());
+                N node = target.getNode(ent.getKey());
                 ent.getValue().serializeTo(boundInstance, node);
             }
         }

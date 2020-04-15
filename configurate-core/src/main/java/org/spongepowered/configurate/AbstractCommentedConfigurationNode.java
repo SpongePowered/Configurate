@@ -22,14 +22,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 
-abstract class AbstractCommentedConfigurationNode<N extends AbstractCommentedConfigurationNode<N>> extends AbstractConfigurationNode<N> implements CommentedConfigurationNode<N> {
+abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>, A extends AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A> implements CommentedConfigurationNodeIntermediary<N> {
     protected String comment = null;
 
-    protected AbstractCommentedConfigurationNode(N parent, N copyOf) {
+    protected AbstractCommentedConfigurationNode(A parent, A copyOf) {
         super(parent, copyOf);
     }
 
-    protected AbstractCommentedConfigurationNode(@Nullable Object key, N parent, @NonNull ConfigurationOptions options) {
+    protected AbstractCommentedConfigurationNode(@Nullable Object key, A parent, @NonNull ConfigurationOptions options) {
         super(key, parent, options);
     }
 
@@ -48,16 +48,16 @@ abstract class AbstractCommentedConfigurationNode<N extends AbstractCommentedCon
 
     @Override
     public @NonNull N setValue(@Nullable Object value) {
-        if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode<?>) value).getComment().isPresent()) {
-            setComment(((CommentedConfigurationNode<?>) value).getComment().get());
+        if (value instanceof CommentedConfigurationNodeIntermediary<?> && ((CommentedConfigurationNodeIntermediary<?>) value).getComment().isPresent()) {
+            setComment(((CommentedConfigurationNodeIntermediary<?>) value).getComment().get());
         }
         return super.setValue(value);
     }
 
     @Override
-    public @NonNull N mergeValuesFrom(@NonNull ConfigurationNode<?> other) {
-        if (other instanceof CommentedConfigurationNode) {
-            Optional<String> otherComment = ((CommentedConfigurationNode<?>) other).getComment();
+    public @NonNull N mergeValuesFrom(@NonNull ConfigurationNode other) {
+        if (other instanceof CommentedConfigurationNodeIntermediary<?>) {
+            Optional<String> otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).getComment();
             if (comment == null && otherComment.isPresent()) {
                 comment = otherComment.get();
             }
@@ -71,7 +71,7 @@ abstract class AbstractCommentedConfigurationNode<N extends AbstractCommentedCon
         if (!(o instanceof AbstractCommentedConfigurationNode)) return false;
         if (!super.equals(o)) return false;
 
-        AbstractCommentedConfigurationNode<?> that = (AbstractCommentedConfigurationNode<?>) o;
+        AbstractCommentedConfigurationNode<?, ?> that = (AbstractCommentedConfigurationNode<?, ?>) o;
         if (!Objects.equals(comment, that.comment)) return false;
         return true;
     }

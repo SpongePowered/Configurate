@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.ThrowingConsumer;
 
@@ -29,7 +29,7 @@ import java.util.List;
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
     @Nullable
     @Override
-    public <Node extends ConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
         TypeToken<?> entryType = getElementType(type);
         TypeSerializer<?> entrySerial = value.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
@@ -56,7 +56,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public <Node extends ConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException {
         TypeToken<?> entryType = getElementType(type);
         TypeSerializer entrySerial = value.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {

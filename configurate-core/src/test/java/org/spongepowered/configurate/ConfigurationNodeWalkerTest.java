@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConfigurationNodeWalkerTest {
 
-    private static final Function<ConfigurationNodeWalker.VisitedNode<? extends ConfigurationNode<?>>, String> PATH_TO_STRING = visitedNode ->
+    private static final Function<ConfigurationNodeWalker.VisitedNode<?>, String> PATH_TO_STRING = visitedNode ->
         StreamSupport.stream(visitedNode.getPath().spliterator(), false)
             .map(o -> {
                 if (o == null) {
@@ -91,11 +91,7 @@ public class ConfigurationNodeWalkerTest {
 
     @Test
     public void testWalker() {
-        doTestWalker(CommentedConfigurationNode.root());
-    }
-
-    private <T extends CommentedConfigurationNode<T>> void doTestWalker(T node) {
-
+        CommentedConfigurationNode node = CommentedConfigurationNode.root();
         node.getNode("l1-1").setValue(1);
         node.getNode("l1-1", "l2-1").setValue(1);
         node.getNode("l1-1", "l2-2").setValue(1);
@@ -105,13 +101,13 @@ public class ConfigurationNodeWalkerTest {
         node.getNode("l1-2").setValue(1);
         node.getNode("l1-2", "l2-1").setValue(ImmutableList.of(1, 2, 3));
 
-        List<ConfigurationNodeWalker.VisitedNode<T>> breadthFirst = new ArrayList<>();
+        List<ConfigurationNodeWalker.VisitedNode<CommentedConfigurationNode>> breadthFirst = new ArrayList<>();
         Iterators.addAll(breadthFirst, ConfigurationNodeWalker.BREADTH_FIRST.walkWithPath(node));
 
-        List<ConfigurationNodeWalker.VisitedNode<T>> depthFirstPre = new ArrayList<>();
+        List<ConfigurationNodeWalker.VisitedNode<CommentedConfigurationNode>> depthFirstPre = new ArrayList<>();
         Iterators.addAll(depthFirstPre, ConfigurationNodeWalker.DEPTH_FIRST_PRE_ORDER.walkWithPath(node));
 
-        List<ConfigurationNodeWalker.VisitedNode<T>> depthFirstPost = new ArrayList<>();
+        List<ConfigurationNodeWalker.VisitedNode<CommentedConfigurationNode>> depthFirstPost = new ArrayList<>();
         Iterators.addAll(depthFirstPost, ConfigurationNodeWalker.DEPTH_FIRST_POST_ORDER.walkWithPath(node));
 
         assertEquals(13, breadthFirst.size());
@@ -126,7 +122,5 @@ public class ConfigurationNodeWalkerTest {
 
         List<String> depthFirstPostOrder = depthFirstPost.stream().map(PATH_TO_STRING).collect(Collectors.toList());
         assertEquals(EXPECTED_DEPTH_FIRST_POST_ORDER, depthFirstPostOrder);
-
     }
-
 }

@@ -22,7 +22,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Collection;
@@ -51,18 +50,8 @@ import java.util.function.Supplier;
  *
  * <p>This is effectively the main class of Configurate.</p>
  */
-public interface ConfigurationNode<T extends ConfigurationNode<T>> {
+public interface ConfigurationNode {
     int NUMBER_DEF = 0;
-
-    @NonNull
-    static SimpleConfigurationNode root() {
-        return root(ConfigurationOptions.defaults());
-    }
-
-    @NonNull
-    static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleConfigurationNode(null, null, options);
-    }
 
     /**
      * Gets the "key" of this node.
@@ -107,7 +96,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return The nodes parent
      */
     @Nullable
-    T getParent();
+    ConfigurationNode getParent();
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
@@ -125,7 +114,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return The node at the given path, possibly virtual
      */
     @NonNull
-    T getNode(@NonNull Object... path);
+    ConfigurationNode getNode(@NonNull Object... path);
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
@@ -143,7 +132,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return The node at the given path, possibly virtual
      */
     @NonNull
-    T getNode(@NonNull Iterable<Object> path);
+    ConfigurationNode getNode(@NonNull Iterable<Object> path);
 
     /**
      * Gets if this node is virtual.
@@ -201,8 +190,8 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      *     <li>Any other type of empty collection</li>
      * </ul>
      *
-     * This is a distinct value from {@link #isVirtual()}. Emptiness refers to the value of this node itself,
-     * while virtuality refers to whether or not this node
+     * This is a separate value from {@link #isVirtual()}. Emptiness refers to the value of this node itself,
+     * while virtuality refers to whether or not this node is attached to a configuration structure
      *
      * @return Whether this node is empty
      */
@@ -217,7 +206,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return The list children currently attached to this node
      */
     @NonNull
-    List<T> getChildrenList();
+    List<? extends ConfigurationNode> getChildrenList();
 
     /**
      * Gets the "map children" attached to this node, if it has any.
@@ -228,7 +217,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return The map children currently attached to this node
      */
     @NonNull
-    Map<Object, T> getChildrenMap();
+    Map<Object, ? extends ConfigurationNode> getChildrenMap();
 
     /**
      * Get the current value associated with this node.
@@ -587,7 +576,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return this
      */
     @NonNull
-    T setValue(@Nullable Object value);
+    ConfigurationNode setValue(@Nullable Object value);
 
     /**
      * Set this node's value to the given value.
@@ -605,21 +594,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @throws ObjectMappingException If the value fails to be converted to the requested type. No change will be made to the node.
      */
     @NonNull
-    default <V> T setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
-        if (value == null) {
-            return setValue(null);
-        }
-
-        TypeSerializer<V> serial = getOptions().getSerializers().get(type);
-        if (serial != null) {
-            serial.serialize(type, value, self());
-        } else if (getOptions().acceptsType(value.getClass())) {
-            setValue(value); // Just write if no applicable serializer exists?
-        } else {
-            throw new ObjectMappingException("No serializer available for type " + type);
-        }
-        return self();
-    }
+    <V> ConfigurationNode setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
 
     /**
      * Set all the values from the given node that are not present in this node
@@ -631,7 +606,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return this
      */
     @NonNull
-    T mergeValuesFrom(@NonNull ConfigurationNode<?> other);
+    ConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
 
     /**
      * Removes a direct child of this node
@@ -647,7 +622,7 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return A new child created as the next entry in the list when it is attached
      */
     @NonNull
-    T appendListNode();
+    ConfigurationNode appendListNode();
 
     /**
      * Creates a deep copy of this node.
@@ -667,13 +642,5 @@ public interface ConfigurationNode<T extends ConfigurationNode<T>> {
      * @return A copy of this node
      */
     @NonNull
-    T copy();
-
-    /**
-     * Get own instance. Primarily used for type-safety in implementations
-     *
-     * @return this
-     */
-    @NonNull
-    T self();
+    ConfigurationNode copy();
 }

@@ -28,7 +28,7 @@ public enum MoveStrategy {
      */
     MERGE {
         @Override
-        public <T extends ConfigurationNode<T>> void move(T source, T target) {
+        public <T extends ConfigurationNode> void move(T source, T target) {
             target.mergeValuesFrom(source);
         }
     },
@@ -38,7 +38,7 @@ public enum MoveStrategy {
      */
     OVERWRITE {
         @Override
-        public <T extends ConfigurationNode<T>> void move(T source, T target) {
+        public <T extends ConfigurationNode> void move(T source, T target) {
             target.setValue(source);
         }
     };
@@ -50,5 +50,5 @@ public enum MoveStrategy {
      * @param source The source node
      * @param target The target node
      */
-    public abstract <T extends ConfigurationNode<T>> void move(T source, T target);
+    public abstract <T extends ConfigurationNode> void move(T source, T target);
 }

@@ -28,7 +28,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * A {@link ConfigValue} which holds a single ("scalar") value.
  */
-class ScalarConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigValue<T> {
+class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
     private volatile Object value;
 
     ScalarConfigValue(T holder) {
@@ -80,8 +80,8 @@ class ScalarConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigVa
 
     @NonNull
     @Override
-    ScalarConfigValue<T> copy(@NonNull T holder) {
-        ScalarConfigValue<T> copy = new ScalarConfigValue<>(holder);
+    ScalarConfigValue<N, T> copy(@NonNull T holder) {
+        ScalarConfigValue<N, T> copy = new ScalarConfigValue<>(holder);
         copy.value = this.value;
         return copy;
     }
@@ -106,7 +106,7 @@ class ScalarConfigValue<T extends AbstractConfigurationNode<T>> extends ConfigVa
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ScalarConfigValue<?> that = (ScalarConfigValue<?>) o;
+        ScalarConfigValue<?, ?> that = (ScalarConfigValue<?, ?>) o;
         return Objects.equals(value, that.value);
     }
 
