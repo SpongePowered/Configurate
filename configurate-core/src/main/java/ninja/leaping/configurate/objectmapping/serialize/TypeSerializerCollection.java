@@ -38,6 +38,22 @@ public class TypeSerializerCollection {
         this.parent = parent;
     }
 
+    /**
+     * Gets the default {@link TypeSerializer}s. While this collection is mutable, starting with
+     * Configurate 4.0 type serializer collections will be immutable, so mutability should not be
+     * relied on. Instead, a new child of this collection should be used to register any custom
+     * serializers.
+     *
+     * @return The default serializers
+     */
+    public static TypeSerializerCollection defaults() {
+        return TypeSerializers.DEFAULT_SERIALIZERS;
+    }
+
+    public static TypeSerializerCollection create() {
+        return defaults().newChild();
+    }
+
     @SuppressWarnings("unchecked")
     public <T> TypeSerializer<T> get(TypeToken<T> type) {
         type = requireNonNull(type).wrap();
@@ -51,12 +67,12 @@ public class TypeSerializerCollection {
     }
 
     /**
-     * Register a type serializer for a given type. Serializers registered will match all subclasses of the provided
-     * type, as well as unwrapped primitive equivalents of the type.
+     * Register a type serializer for a given type. Serializers registered will match all subclasses
+     * of the provided type, as well as unwrapped primitive equivalents of the type.
      *
-     * @param type The type to accept
+     * @param type       The type to accept
      * @param serializer The serializer that will be serialized with
-     * @param <T> The type to generify around
+     * @param <T>        The type to generify around
      * @return this
      */
     public <T> TypeSerializerCollection registerType(TypeToken<T> type, TypeSerializer<? super T> serializer) {
@@ -68,9 +84,9 @@ public class TypeSerializerCollection {
     /**
      * Register a type serializer matching against a given predicate.
      *
-     * @param test The predicate to match types against
+     * @param test       The predicate to match types against
      * @param serializer The serializer to serialize matching types with
-     * @param <T> The type parameter
+     * @param <T>        The type parameter
      * @return this
      */
     @SuppressWarnings("unchecked")

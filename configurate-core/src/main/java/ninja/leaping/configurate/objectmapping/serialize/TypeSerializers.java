@@ -29,19 +29,26 @@ import java.util.regex.Pattern;
  * A number of {@link TypeSerializer}s provided by configurate.
  */
 public class TypeSerializers {
-    private static final TypeSerializerCollection DEFAULT_SERIALIZERS = new TypeSerializerCollection(null);
+    static final TypeSerializerCollection DEFAULT_SERIALIZERS = new TypeSerializerCollection(null);
 
     /**
      * Gets the default {@link TypeSerializer}s.
      *
      * @return The default serializers
+     * @deprecated see {@link TypeSerializerCollection#defaults()}
      */
+    @Deprecated
     public static TypeSerializerCollection getDefaultSerializers() {
-        return DEFAULT_SERIALIZERS;
+        return TypeSerializerCollection.defaults();
     }
 
+    /**
+     * Creates a new collection
+     * @return
+     */
+    @Deprecated
     public static TypeSerializerCollection newCollection() {
-        return DEFAULT_SERIALIZERS.newChild();
+        return TypeSerializerCollection.create();
     }
 
     static {

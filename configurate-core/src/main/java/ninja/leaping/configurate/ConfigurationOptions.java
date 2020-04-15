@@ -21,7 +21,6 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.DefaultObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.ObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ninja.leaping.configurate.util.MapFactories;
 import ninja.leaping.configurate.util.MapFactory;
 import com.google.common.primitives.Primitives;
@@ -67,7 +66,7 @@ public class ConfigurationOptions {
     @NonNull
     public static ConfigurationOptions defaults() {
         return new ConfigurationOptions(MapFactories.<SimpleConfigurationNode>insertionOrdered(), null,
-                TypeSerializers.getDefaultSerializers(), null, DefaultObjectMapperFactory.getInstance(), false);
+                TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
     }
 
     /**
