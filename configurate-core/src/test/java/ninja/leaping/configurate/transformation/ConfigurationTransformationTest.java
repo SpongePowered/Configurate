@@ -18,7 +18,6 @@ package ninja.leaping.configurate.transformation;
 
 import com.google.common.collect.ImmutableList;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.transformation.ConfigurationTransformation.NodePath;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -70,7 +69,7 @@ public class ConfigurationTransformationTest {
         for (Object[] path : unsortedKeys) {
             build.addAction(path, action);
         }
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         for (Object[] path : unsortedKeys) {
             ConfigurationNode child = node.getNode(path);
             if (child.isVirtual()) {
@@ -122,7 +121,7 @@ public class ConfigurationTransformationTest {
         for (Object[] path : wildcardMatch) {
             build.addAction(path, action);
         }
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         for (Object[] path : expectedResult) {
             node.getNode(path).setValue("lame");
         }
@@ -142,7 +141,7 @@ public class ConfigurationTransformationTest {
                     }
                 }).build();
 
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         final Object nodeValue = new Object();
         node.getNode("old", "path").setValue(nodeValue);
         transform.apply(node);
@@ -152,7 +151,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testChainedTransformations() {
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         node.getNode("a").setValue("something?");
         final List<String> actualOutput = new ArrayList<>(), expectedOutput = ImmutableList.of("one", "two");
         ConfigurationTransformation.chain(ConfigurationTransformation.builder().addAction(p("a"), new TransformAction() {
@@ -184,7 +183,7 @@ public class ConfigurationTransformationTest {
                     }
                 }).build();
 
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         node.getNode("sub", "key").setValue("value");
         node.getNode("at-parent").setValue("until-change");
         transform.apply(node);
@@ -213,7 +212,7 @@ public class ConfigurationTransformationTest {
     }
 
     private ConfigurationNode createMoveNode() {
-        ConfigurationNode ret = SimpleConfigurationNode.root();
+        ConfigurationNode ret = ConfigurationNode.root();
         ret.getNode("one", "fun").setValue("always");
         ret.getNode("two", "evil").setValue("always");
         return ret;
@@ -221,7 +220,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testCorrectNodePassed() {
-        final ConfigurationNode node = SimpleConfigurationNode.root();
+        final ConfigurationNode node = ConfigurationNode.root();
         final ConfigurationNode child = node.getNode("childNode").setValue("something");
         ConfigurationTransformation.builder()
                 .addAction(p("childNode"), new TransformAction() {
@@ -236,7 +235,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     public void testVersionedTransformation() {
-        final ConfigurationNode target = SimpleConfigurationNode.root();
+        final ConfigurationNode target = ConfigurationNode.root();
         target.getNode("dummy").setValue("whatever");
         final List<Integer> updatedVersions = new ArrayList<>();
 

@@ -53,6 +53,16 @@ import java.util.function.Supplier;
 public interface ConfigurationNode {
     int NUMBER_DEF = 0;
 
+    @NonNull
+    static SimpleConfigurationNode root() {
+        return root(ConfigurationOptions.defaults());
+    }
+
+    @NonNull
+    static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
+        return new SimpleConfigurationNode(null, null, options);
+    }
+
     /**
      * Gets the "key" of this node.
      *

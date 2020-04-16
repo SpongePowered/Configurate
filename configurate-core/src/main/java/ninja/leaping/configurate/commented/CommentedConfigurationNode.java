@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.commented;
 
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -28,6 +29,16 @@ import java.util.Optional;
  * A configuration node that can have a comment attached to it.
  */
 public interface CommentedConfigurationNode extends ConfigurationNode {
+
+    @NonNull
+    static SimpleCommentedConfigurationNode root() {
+        return root(ConfigurationOptions.defaults());
+    }
+
+    @NonNull
+    static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
+        return new SimpleCommentedConfigurationNode(null, null, options);
+    }
 
     /**
      * Gets the current value for the comment.

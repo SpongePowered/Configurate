@@ -37,16 +37,42 @@ public class SimpleAttributedConfigurationNode extends SimpleCommentedConfigurat
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
+    /**
+     * Create a new node with no parent.
+     *
+     * @return a new node
+     * @deprecated Use {@link AttributedConfigurationNode#root()} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleAttributedConfigurationNode root() {
         return root("root", ConfigurationOptions.defaults());
     }
 
+
+    /**
+     * Create a new node with no parent.
+     *
+     * @param tagName The name of the tag to be used to represent this node
+     * @return a new node
+     * @deprecated Use {@link AttributedConfigurationNode#root(String)} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleAttributedConfigurationNode root(@NonNull String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
     }
 
+
+    /**
+     * Create a new node with no parent, a specified tag name, and specific options.
+     *
+     * @param tagName The name of the tag to be used to represent this node
+     * @param options The options to use within this node
+     * @return a new node
+     * @deprecated Use {@link AttributedConfigurationNode#root(String, ConfigurationOptions)} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleAttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);

@@ -18,7 +18,6 @@ package ninja.leaping.configurate.loader;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedReader;
@@ -74,6 +73,6 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<Configu
     @NonNull
     @Override
     public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        return SimpleConfigurationNode.root(options);
+        return ConfigurationNode.root(options);
     }
 }

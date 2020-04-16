@@ -29,7 +29,7 @@ public class CopyTest {
 
     @Test
     public void testSimpleCopy() {
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         node.getNode("test").setValue(5);
         node.getNode("section", "val1").setValue(true);
         node.getNode("section", "val2").setValue("TEST");
@@ -65,7 +65,7 @@ public class CopyTest {
 
     @Test
     public void testCopyPaths() {
-        ConfigurationNode node = SimpleConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         node.getNode("test").setValue(5);
         node.getNode("section", "val1").setValue(true);
         node.getNode("section", "val2").setValue("TEST");

@@ -17,6 +17,7 @@
 package ninja.leaping.configurate.attributed;
 
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -28,6 +29,39 @@ import java.util.Map;
  * A configuration node that can have both comments and attributes attached to it.
  */
 public interface AttributedConfigurationNode extends CommentedConfigurationNode {
+
+    /**
+     * Create a new node with no parent and the tag name {@code root}
+     *
+     * @return a new node
+     */
+    @NonNull
+    static SimpleAttributedConfigurationNode root() {
+        return root("root", ConfigurationOptions.defaults());
+    }
+
+    /**
+     * Create a new node with no parent and a specified tag name.
+     *
+     * @param tagName The name of the tag to be used to represent this node
+     * @return a new node
+     */
+    @NonNull
+    static SimpleAttributedConfigurationNode root(@NonNull String tagName) {
+        return root(tagName, ConfigurationOptions.defaults());
+    }
+
+    /**
+     * Create a new node with no parent, a specified tag name, and specific options.
+     *
+     * @param tagName The name of the tag to be used to represent this node
+     * @param options The options to use within this node
+     * @return a new node
+     */
+    @NonNull
+    static SimpleAttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
+        return new SimpleAttributedConfigurationNode(tagName, null, null, options);
+    }
 
     /**
      * Gets the tag name of this node.

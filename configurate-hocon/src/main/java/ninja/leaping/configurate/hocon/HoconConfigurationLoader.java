@@ -32,7 +32,6 @@ import com.typesafe.config.ConfigValueFactory;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
@@ -268,7 +267,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
                 Long.class, Integer.class, Boolean.class, String.class, Number.class));
-        return SimpleCommentedConfigurationNode.root(options);
+        return CommentedConfigurationNode.root(options);
     }
 
     // -- Comment handling -- this might have to be updated as the hocon dep changes (But tests should detect this

@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -75,14 +76,29 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @NonNull
     private volatile ConfigValue value;
 
+    /**
+     * Create a new node with no parent and {@link ConfigurationOptions#defaults() default} options
+     *
+     * @return The newly created node
+     * @deprecated Use {@link ConfigurationNode#root()} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleConfigurationNode root() {
-        return root(ConfigurationOptions.defaults());
+        return ConfigurationNode.root();
     }
 
+    /**
+     * Create a new node with no parent and defined options
+     *
+     * @param options The options to use in this node.
+     * @return The newly created node
+     * @deprecated Use {@link ConfigurationNode#root(ConfigurationOptions)} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleConfigurationNode(null, null, options);
+        return ConfigurationNode.root(options);
     }
 
     protected SimpleConfigurationNode(@Nullable Object key, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {

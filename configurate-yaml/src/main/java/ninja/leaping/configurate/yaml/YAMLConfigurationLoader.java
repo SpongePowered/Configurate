@@ -18,7 +18,6 @@ package ninja.leaping.configurate.yaml;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
@@ -141,6 +140,6 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<Configu
     @NonNull
     @Override
     public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        return SimpleConfigurationNode.root(options);
+        return ConfigurationNode.root(options);
     }
 }

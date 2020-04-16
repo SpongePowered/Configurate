@@ -33,14 +33,29 @@ import java.util.Optional;
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
     private String comment = null;
 
+    /**
+     * Create a new node with no parent.
+     *
+     * @return The newly created node
+     * @deprecated Use {@link CommentedConfigurationNode#root()} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleCommentedConfigurationNode root() {
-        return root(ConfigurationOptions.defaults());
+        return CommentedConfigurationNode.root();
     }
 
+    /**
+     * Create a new node with no parent and defined options
+     *
+     * @param options The options to use in this node.
+     * @return The newly created node
+     * @deprecated Use {@link CommentedConfigurationNode#root(ConfigurationOptions)} instead
+     */
+    @Deprecated
     @NonNull
     public static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return new SimpleCommentedConfigurationNode(null, null, options);
+        return CommentedConfigurationNode.root(options);
     }
 
     protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {

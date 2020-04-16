@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
@@ -231,7 +230,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
-        return SimpleCommentedConfigurationNode.root(options);
+        return CommentedConfigurationNode.root(options);
     }
 
     private static void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {

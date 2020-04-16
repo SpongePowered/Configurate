@@ -19,7 +19,6 @@ package ninja.leaping.configurate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import ninja.leaping.configurate.util.ConfigurationNodeWalker;
 import org.junit.jupiter.api.Test;
 
@@ -93,7 +92,7 @@ public class ConfigurationNodeWalkerTest {
 
     @Test
     public void testWalker() {
-        CommentedConfigurationNode node = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode node = CommentedConfigurationNode.root();
 
         node.getNode("l1-1").setValue(1);
         node.getNode("l1-1", "l2-1").setValue(1);

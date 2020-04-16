@@ -25,7 +25,7 @@ public class SimpleCommentedConfigurationNodeTest {
 
     @Test
     public void testCommentsTransferred() {
-        CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode subject = CommentedConfigurationNode.root();
         CommentedConfigurationNode firstChild = subject.getNode("first");
         firstChild.setValue("test value");
         firstChild.setComment("Such comment. Very wow.");
@@ -43,7 +43,7 @@ public class SimpleCommentedConfigurationNodeTest {
 
     @Test
     public void testNestedCommentsTransferred() {
-        CommentedConfigurationNode subject = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode subject = CommentedConfigurationNode.root();
         CommentedConfigurationNode firstChild = subject.getNode("first");
         CommentedConfigurationNode firstChildChild = firstChild.getNode("child");
         firstChildChild.setValue("test value");
@@ -62,8 +62,8 @@ public class SimpleCommentedConfigurationNodeTest {
 
     @Test
     public void testCommentsMerged() {
-        CommentedConfigurationNode source = SimpleCommentedConfigurationNode.root();
-        CommentedConfigurationNode target = SimpleCommentedConfigurationNode.root();
+        CommentedConfigurationNode source = CommentedConfigurationNode.root();
+        CommentedConfigurationNode target = CommentedConfigurationNode.root();
 
         source.getNode("no-value").setValue("a").setComment("yeah");
         source.getNode("existing-value-no-comment").setValue("orig").setComment("maybe");

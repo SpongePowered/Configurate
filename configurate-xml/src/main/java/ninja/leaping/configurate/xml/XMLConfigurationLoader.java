@@ -25,7 +25,6 @@ import com.google.common.math.DoubleMath;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.attributed.AttributedConfigurationNode;
-import ninja.leaping.configurate.attributed.SimpleAttributedConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
@@ -534,7 +533,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     public AttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
                 Integer.class, Boolean.class, String.class, Number.class));
-        return SimpleAttributedConfigurationNode.root("root", options);
+        return AttributedConfigurationNode.root("root", options);
     }
 
     private static Object parseValue(String value) {

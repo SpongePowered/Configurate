@@ -18,7 +18,6 @@ package ninja.leaping.configurate.gson;
 
 import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.util.MapFactories;
@@ -73,7 +72,7 @@ public class GsonConfigurationLoaderTest {
                 .setFile(tempFile)
                 .build();
 
-        ConfigurationNode n = SimpleConfigurationNode.root();
+        ConfigurationNode n = ConfigurationNode.root();
         loader.save(n);
     }
 

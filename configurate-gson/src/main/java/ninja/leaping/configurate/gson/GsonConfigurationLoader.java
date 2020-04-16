@@ -24,7 +24,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import ninja.leaping.configurate.loader.CommentHandler;
 import ninja.leaping.configurate.loader.CommentHandlers;
@@ -225,7 +224,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
     public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
-        return SimpleConfigurationNode.root(options);
+        return ConfigurationNode.root(options);
     }
 
     private static void generateValue(JsonWriter generator, ConfigurationNode node) throws IOException {
