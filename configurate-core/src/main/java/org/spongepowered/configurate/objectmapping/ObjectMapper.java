@@ -78,6 +78,8 @@ public class ObjectMapper<T> {
     /**
      * Creates a new object mapper bound to the given object.
      *
+     * <strong>CAUTION</strong> Generic type information will be lost when creating a mapper. Provide a TypeToken to avoid this
+     *
      * @param obj The object
      * @param <T> The object type
      * @return An appropriate object mapper instance.
@@ -160,7 +162,7 @@ public class ObjectMapper<T> {
                     serial.serialize(this.fieldType, fieldVal, node);
                 }
 
-                if (node instanceof CommentedConfigurationNode && this.comment != null && !this.comment.isEmpty()) {
+                if (node instanceof CommentedConfigurationNodeIntermediary<?> && this.comment != null && !this.comment.isEmpty()) {
                     CommentedConfigurationNodeIntermediary<?> commentNode = ((CommentedConfigurationNodeIntermediary<?>) node);
                     if (!commentNode.getComment().isPresent()) {
                         commentNode.setComment(this.comment);
@@ -223,7 +225,7 @@ public class ObjectMapper<T> {
     }
 
     /**
-     * Create a new object mapper of a given type
+     * Create a new object mapper of a given type. The given type must not be an interface.
      *
      * @param type The type this object mapper will work with
      * @throws ObjectMappingException When errors occur discovering fields in the class
@@ -232,6 +234,10 @@ public class ObjectMapper<T> {
     protected ObjectMapper(TypeToken<T> type) throws ObjectMappingException {
         this.type = type;
         this.clazz = type.getRawType();
+        if (this.clazz.isInterface()) {
+            throw new ObjectMappingException("ObjectMapper can only work with concrete types");
+        }
+
         Invokable<T, T> constructor = null;
         try {
             constructor = type.constructor(type.getRawType().getDeclaredConstructor());
