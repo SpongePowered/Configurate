@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * A configuration node that can have both comments and attributes attached to it.
@@ -31,14 +32,28 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
         return root("root", ConfigurationOptions.defaults());
     }
 
+    static AttributedConfigurationNode root(Consumer<? super AttributedConfigurationNode> action) {
+        return root().act(action);
+    }
+
     @NonNull
     static AttributedConfigurationNode root(@NonNull String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
     }
 
     @NonNull
+    static AttributedConfigurationNode root(@NonNull String tagName, Consumer<? super AttributedConfigurationNode> action) {
+        return root(tagName).act(action);
+    }
+
+    @NonNull
     static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);
+    }
+
+    @NonNull
+    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options, Consumer<? super AttributedConfigurationNode> action) {
+        return root(tagName, options).act(action);
     }
 
     /**

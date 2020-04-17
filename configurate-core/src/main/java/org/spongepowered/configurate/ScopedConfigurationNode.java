@@ -24,6 +24,7 @@ import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
 
@@ -107,4 +108,16 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @Override
     @NonNull N getNode(@NonNull Iterable<Object> path);
+
+    /**
+     * Execute an action on this node. This allows performing multiple operations
+     * on a single node without having to clutter up the surrounding scope.
+     *
+     * @param action The action to perform on this node
+     * @return this
+     */
+    default N act(Consumer<? super N> action) {
+        action.accept(self());
+        return self();
+    }
 }
