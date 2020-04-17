@@ -16,12 +16,16 @@
  */
 package ninja.leaping.configurate.objectmapping;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -216,5 +220,66 @@ public class ObjectMapperTest {
         assertEquals(1, newContainingObject.list.size());
         assertEquals("Changed value", newContainingObject.inner.getTest());
         assertEquals("Changed value", newContainingObject.list.get(0).getTest());
+    }
+
+    @ConfigSerializable
+    static class GenericSerializable<V> {
+        @Setting
+        public List<V> elements;
+    }
+
+    static class ParentTypesResolved extends GenericSerializable<URL> {
+        @Setting
+        public String test = "hi";
+    }
+
+    @Test
+    public void testGenericTypesResolved() throws ObjectMappingException {
+        final TypeToken<GenericSerializable<String>> stringSerializable = new TypeToken<GenericSerializable<String>>() {};
+        final TypeToken<GenericSerializable<Integer>> intSerializable = new TypeToken<GenericSerializable<Integer>>() {};
+
+        ObjectMapper<GenericSerializable<String>> stringMapper = ObjectMapper.forType(stringSerializable);
+        ObjectMapper<GenericSerializable<Integer>> intMapper = ObjectMapper.forType(intSerializable);
+
+        ConfigurationNode stringNode = ConfigurationNode.root(p -> {
+            p.getNode("elements").act(n -> {
+                n.appendListNode().setValue("hello");
+                n.appendListNode().setValue("world");
+            });
+        });
+        ConfigurationNode intNode = ConfigurationNode.root(p -> {
+            p.getNode("elements").act(n -> {
+                n.appendListNode().setValue(1);
+                n.appendListNode().setValue(1);
+                n.appendListNode().setValue(2);
+                n.appendListNode().setValue(3);
+                n.appendListNode().setValue(5);
+                n.appendListNode().setValue(8);
+            });
+        });
+
+        GenericSerializable<String> stringObject = stringMapper.bindToNew().populate(stringNode);
+        assertEquals(ImmutableList.of("hello", "world"), stringObject.elements);
+
+        GenericSerializable<Integer> intObject = intMapper.bindToNew().populate(intNode);
+        assertEquals(ImmutableList.of(1, 1, 2, 3, 5, 8), intObject.elements);
+    }
+
+    @Test
+    public void testGenericsResolvedThroughSuperclass() throws ObjectMappingException, MalformedURLException {
+        ObjectMapper<ParentTypesResolved> mapper = ObjectMapper.forClass(ParentTypesResolved.class);
+
+        ConfigurationNode urlNode = ConfigurationNode.root(p -> {
+            p.getNode("elements").act(n -> {
+                n.appendListNode().setValue("https://spongepowered.org");
+                n.appendListNode().setValue("https://yaml.org");
+            });
+            p.getNode("test").setValue("bye");
+        });
+
+        ParentTypesResolved resolved = mapper.bindToNew().populate(urlNode);
+        assertEquals(ImmutableList.of(new URL("https://spongepowered.org"), new URL("https://yaml.org")), resolved.elements);
+        assertEquals("bye", resolved.test);
+
     }
 }

@@ -19,6 +19,7 @@ package ninja.leaping.configurate.objectmapping;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Injector;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -35,11 +36,11 @@ import static java.util.Objects.requireNonNull;
  */
 @Singleton
 public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
-    private final LoadingCache<Class<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
+    private final LoadingCache<TypeToken<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
             .weakKeys().maximumSize(512)
-            .build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+            .build(new CacheLoader<TypeToken<?>, ObjectMapper<?>>() {
                 @Override
-                public ObjectMapper<?> load(Class<?> key) throws Exception {
+                public ObjectMapper<?> load(TypeToken<?> key) throws Exception {
                     return new GuiceObjectMapper<>(injector, key);
                 }
             });
@@ -51,10 +52,15 @@ public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
         this.injector = baseInjector;
     }
 
+    @Override
+    public @NonNull <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
+        return getMapper(TypeToken.of(type));
+    }
+
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
+    public <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
         try {
             return (ObjectMapper<T>) cache.get(type);
