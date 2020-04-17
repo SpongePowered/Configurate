@@ -50,10 +50,10 @@ operator fun ConfigurationNode.contains(path: Any): Boolean {
 
 @Throws(ObjectMappingException::class)
 inline fun <reified V> ConfigurationNode.get(default: V? = null): V? {
-    return getValue(object : TypeToken<V>() {}, default)
+    return getValue(typeTokenOf(), default)
 }
 
 @Throws(ObjectMappingException::class)
 inline fun <reified V> ConfigurationNode.set(value: V?) {
-    setValue(object : TypeToken<V>() {}, value)
+    setValue(typeTokenOf(), value)
 }
