@@ -19,6 +19,7 @@ package org.spongepowered.configurate.objectmapping;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.concurrent.ExecutionException;
@@ -36,12 +37,12 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
         return INSTANCE;
     }
 
-    private final LoadingCache<Class<?>, ObjectMapper<?>> mapperCache = CacheBuilder.newBuilder()
+    private final LoadingCache<TypeToken<?>, ObjectMapper<?>> mapperCache = CacheBuilder.newBuilder()
             .weakKeys()
             .maximumSize(500)
-            .build(new CacheLoader<Class<?>, ObjectMapper<?>>() {
+            .build(new CacheLoader<TypeToken<?>, ObjectMapper<?>>() {
                 @Override
-                public ObjectMapper<?> load(Class<?> key) throws Exception {
+                public ObjectMapper<?> load(TypeToken<?> key) throws Exception {
                     return new ObjectMapper<>(key);
                 }
             });
@@ -49,7 +50,7 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
+    public <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
         try {
             return (ObjectMapper<T>) mapperCache.get(type);

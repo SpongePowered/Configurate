@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import com.google.common.reflect.TypeToken;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -38,10 +39,11 @@ class GuiceObjectMapper<T> extends ObjectMapper<T> {
      * @param clazz The type this object mapper will work with
      * @throws ObjectMappingException if the provided class is in someway invalid
      */
-    protected GuiceObjectMapper(@NonNull Injector injector, @NonNull Class<T> clazz) throws ObjectMappingException {
+    @SuppressWarnings("unchecked") // for typeKey
+    protected GuiceObjectMapper(@NonNull Injector injector, @NonNull TypeToken<T> clazz) throws ObjectMappingException {
         super(clazz);
         this.injector = injector;
-        this.typeKey = Key.get(clazz);
+        this.typeKey = (Key<T>) Key.get(clazz.getType()); // Converting between flavours of type
     }
 
     @Override

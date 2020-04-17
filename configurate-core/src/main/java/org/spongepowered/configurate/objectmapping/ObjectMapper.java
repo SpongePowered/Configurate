@@ -16,17 +16,18 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import com.google.common.reflect.Invokable;
+import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,8 +42,10 @@ import static java.util.Objects.requireNonNull;
  * @param <T> The type to work with
  */
 public class ObjectMapper<T> {
-    private final Class<T> clazz;
-    private final Constructor<T> constructor;
+    private final TypeToken<T> type;
+    private final Class<? super T> clazz;
+    @Nullable
+    private final Invokable<T, T> constructor;
     private final Map<String, FieldData> cachedFields = new LinkedHashMap<>();
 
 
@@ -60,6 +63,19 @@ public class ObjectMapper<T> {
     }
 
     /**
+     * Create a new object mapper that can work with objects of the given type using the
+     * {@link DefaultObjectMapperFactory}.
+     *
+     * @param type The type of object
+     * @param <T> The type
+     * @return An appropriate object mapper instance. May be shared with other users.
+     * @throws ObjectMappingException If invalid annotated fields are presented
+     */
+    public static <T> ObjectMapper<T> forType(@NonNull TypeToken<T> type) throws ObjectMappingException {
+        return DefaultObjectMapperFactory.getInstance().getMapper(type);
+    }
+
+    /**
      * Creates a new object mapper bound to the given object.
      *
      * @param obj The object
@@ -68,13 +84,31 @@ public class ObjectMapper<T> {
      * @throws ObjectMappingException when an object is provided that is not suitable for object mapping.
      *                              Reasons may include but are not limited to:
      *                              <ul>
-     *                                  <li>Not annotated with {@link org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable} annotation</li>
+     *                                  <li>Not annotated with {@link ConfigSerializable} annotation</li>
      *                                  <li>Invalid field types</li>
      *                              </ul>
      */
     @SuppressWarnings("unchecked")
     public static <T> ObjectMapper<T>.BoundInstance forObject(@NonNull T obj) throws ObjectMappingException {
         return forClass((Class<T>) requireNonNull(obj).getClass()).bind(obj);
+    }
+
+    /**
+     * Creates a new object mapper bound to the given object.
+     *
+     * @param obj The object
+     * @param <T> The object type
+     * @return An appropriate object mapper instance.
+     * @throws ObjectMappingException when an object is provided that is not suitable for object mapping.
+     *                              Reasons may include but are not limited to:
+     *                              <ul>
+     *                                  <li>Not annotated with {@link ConfigSerializable} annotation</li>
+     *                                  <li>Invalid field types</li>
+     *                              </ul>
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> ObjectMapper<T>.BoundInstance forObject(TypeToken<T> type, @NonNull T obj) throws ObjectMappingException {
+        return forType(requireNonNull(type)).bind(obj);
     }
 
     /**
@@ -85,10 +119,10 @@ public class ObjectMapper<T> {
         private final TypeToken<?> fieldType;
         private final String comment;
 
-        public FieldData(Field field, String comment) {
+        public FieldData(Field field, String comment, TypeToken<?> resolvedFieldType) {
             this.field = field;
             this.comment = comment;
-            this.fieldType = TypeToken.of(field.getGenericType());
+            this.fieldType = resolvedFieldType;
         }
 
         public <Node extends ScopedConfigurationNode<Node>> void deserializeFrom(Object instance, Node node) throws ObjectMappingException {
@@ -191,26 +225,34 @@ public class ObjectMapper<T> {
     /**
      * Create a new object mapper of a given type
      *
-     * @param clazz The type this object mapper will work with
+     * @param type The type this object mapper will work with
      * @throws ObjectMappingException When errors occur discovering fields in the class
      */
-    protected ObjectMapper(Class<T> clazz) throws ObjectMappingException {
-        this.clazz = clazz;
-        Constructor<T> constructor = null;
+    @SuppressWarnings("unchecked")
+    protected ObjectMapper(TypeToken<T> type) throws ObjectMappingException {
+        this.type = type;
+        this.clazz = type.getRawType();
+        Invokable<T, T> constructor = null;
         try {
-            constructor = clazz.getDeclaredConstructor();
+            constructor = type.constructor(type.getRawType().getDeclaredConstructor());
             constructor.setAccessible(true);
         } catch (NoSuchMethodException ignore) {
         }
         this.constructor = constructor;
-        Class<? super T> collectClass = clazz;
-        do {
-            collectFields(cachedFields, collectClass);
-        } while (!(collectClass = collectClass.getSuperclass()).equals(Object.class));
+        TypeToken<? super T> collectType = type;
+        Class<? super T> collectClass = type.getRawType();
+        while (true) {
+            collectFields(cachedFields, collectType);
+            collectClass = collectClass.getSuperclass();
+            if (collectClass.equals(Object.class)) {
+                break;
+            }
+            collectType = collectType.getSupertype((Class) collectClass);
+        }
     }
 
-    protected void collectFields(Map<String, FieldData> cachedFields, Class<? super T> clazz) throws ObjectMappingException {
-        for (Field field : clazz.getDeclaredFields()) {
+    protected void collectFields(Map<String, FieldData> cachedFields, TypeToken<? super T> clazz) throws ObjectMappingException {
+        for (Field field : clazz.getRawType().getDeclaredFields()) {
             if (field.isAnnotationPresent(Setting.class)) {
                 Setting setting = field.getAnnotation(Setting.class);
                 String path = setting.value();
@@ -218,7 +260,9 @@ public class ObjectMapper<T> {
                     path = field.getName();
                 }
 
-                FieldData data = new FieldData(field, setting.comment());
+                TypeToken<?> fieldType = clazz.resolveType(field.getGenericType());
+
+                FieldData data = new FieldData(field, setting.comment(), fieldType);
                 field.setAccessible(true);
                 if (!cachedFields.containsKey(path)) {
                     cachedFields.put(path, data);
@@ -236,12 +280,12 @@ public class ObjectMapper<T> {
      */
     protected T constructObject() throws ObjectMappingException {
         if (constructor == null) {
-            throw new ObjectMappingException("No zero-arg constructor is available for class " + clazz + " but is required to construct new instances!");
+            throw new ObjectMappingException("No zero-arg constructor is available for class " + type + " but is required to construct new instances!");
         }
         try {
-            return constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new ObjectMappingException("Unable to create instance of target class " + clazz, e);
+            return constructor.invoke(null);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new ObjectMappingException("Unable to create instance of target class " + type, e);
         }
     }
 
@@ -276,7 +320,7 @@ public class ObjectMapper<T> {
         return new BoundInstance(constructObject());
     }
 
-    public Class<T> getMappedType() {
-        return this.clazz;
+    public TypeToken<T> getMappedType() {
+        return this.type;
     }
 }
