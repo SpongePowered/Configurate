@@ -29,10 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ObjectMapperTest {
 
@@ -113,7 +110,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testNoArglessConstructor() throws ObjectMappingException {
-        Assertions.assertTrue(Assertions.assertThrows(ObjectMappingException.class, () -> {
+        Assertions.assertTrue(assertThrows(ObjectMappingException.class, () -> {
             ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.forClass(NonZeroArgConstructorObject.class);
             assertFalse(mapper.canCreateInstances());
             mapper.bindToNew();
@@ -281,5 +278,10 @@ public class ObjectMapperTest {
         assertEquals(ImmutableList.of(new URL("https://spongepowered.org"), new URL("https://yaml.org")), resolved.elements);
         assertEquals("bye", resolved.test);
 
+    }
+
+    @Test
+    public void testDirectInterfacesProhibited() throws ObjectMappingException {
+        assertThrows(ObjectMappingException.class, () -> ObjectMapper.forClass(ParentInterface.class));
     }
 }
