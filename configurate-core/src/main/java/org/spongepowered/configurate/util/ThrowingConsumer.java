@@ -26,9 +26,16 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface ThrowingConsumer<V, E extends Throwable> {
-    public void accept(V value) throws E;
+    void accept(V value) throws E;
 
-    public static <V> ThrowingConsumer<V, RuntimeException> fromConsumer(Consumer<V> consumer) {
+    /**
+     * Create an instance from an ordinary consumer
+     *
+     * @param consumer The consumer to convert
+     * @param <V> The type returned by the consumer
+     * @return A function that executes the provided consumer
+     */
+    static <V> ThrowingConsumer<V, RuntimeException> fromConsumer(Consumer<V> consumer) {
         return consumer::accept;
     }
 }
