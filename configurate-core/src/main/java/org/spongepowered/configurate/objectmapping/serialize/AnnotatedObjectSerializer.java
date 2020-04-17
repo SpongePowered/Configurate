@@ -26,30 +26,34 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import java.lang.reflect.Modifier;
 
 class AnnotatedObjectSerializer implements TypeSerializer<Object> {
+
+    public static final String CLASS_KEY = "__class__";
+
     @Override
     public <Node extends ScopedConfigurationNode<Node>> Object deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        Class<?> clazz = getInstantiableType(type, value.getNode("__class__").getString());
+        TypeToken<?> clazz = getInstantiableType(type, value.getNode(CLASS_KEY).getString());
         return value.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(value);
     }
 
-    private Class<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
-        Class<?> retClass;
-        if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
+    private TypeToken<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
+        TypeToken<?> retClass;
+        Class<?> rawType = type.getRawType();
+        if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             if (configuredName == null) {
                 throw new ObjectMappingException("No available configured type for instances of " + type);
             } else {
                 try {
-                    retClass = Class.forName(configuredName);
+                    retClass = TypeToken.of(Class.forName(configuredName));
                 } catch (ClassNotFoundException e) {
                     throw new ObjectMappingException("Unknown class of object " + configuredName, e);
                 }
-                if (!type.getRawType().isAssignableFrom(retClass)) {
+                if (!retClass.isSubtypeOf(type)) {
                     throw new ObjectMappingException("Configured type " + configuredName + " does not extend "
-                            + type.getRawType().getCanonicalName());
+                            + rawType.getCanonicalName());
                 }
             }
         } else {
-            retClass = type.getRawType();
+            retClass = type;
         }
         return retClass;
     }
@@ -57,10 +61,23 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Object obj, @NonNull T value) throws ObjectMappingException {
-        if (type.getRawType().isInterface() || Modifier.isAbstract(type.getRawType().getModifiers())) {
-            // serialize obj's concrete type rather than the interface/abstract class
-            value.getNode("__class__").setValue(obj.getClass().getName());
+        if (obj == null) {
+            T clazz = value.getNode(CLASS_KEY);
+            value.setValue(null);
+            if (!clazz.isVirtual()) {
+                value.getNode(CLASS_KEY).setValue(clazz);
+            }
+            return;
         }
-        ((ObjectMapper<Object>) value.getOptions().getObjectMapperFactory().getMapper(obj.getClass())).bind(obj).serialize(value);
+        Class<?> rawType = type.getRawType();
+        ObjectMapper<?> mapper;
+        if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
+            // serialize obj's concrete type rather than the interface/abstract class
+            value.getNode(CLASS_KEY).setValue(obj.getClass().getName());
+            mapper = value.getOptions().getObjectMapperFactory().getMapper((obj.getClass()));
+        } else {
+            mapper = value.getOptions().getObjectMapperFactory().getMapper(type);
+        }
+        ((ObjectMapper<Object>) mapper).bind(obj).serialize(value);
     }
 }
