@@ -29,25 +29,25 @@ import java.util.List;
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
     @Nullable
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         TypeToken<?> entryType = getElementType(type);
-        TypeSerializer<?> entrySerial = value.getOptions().getSerializers().get(entryType);
+        TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
-        if (value.isList()) {
-            List<Node> values = value.getChildrenList();
+        if (node.isList()) {
+            List<Node> values = node.getChildrenList();
             T ret = createNew(values.size(), entryType);
             for (int i = 0; i < values.size(); ++i) {
                 deserializeSingle(i, ret, entrySerial.deserialize(entryType, values.get(i)));
             }
             return ret;
         } else {
-            Object unwrappedVal = value.getValue();
+            Object unwrappedVal = node.getValue();
             if (unwrappedVal != null) {
                 T ret = createNew(1, entryType);
-                deserializeSingle(0, ret, entrySerial.deserialize(entryType, value));
+                deserializeSingle(0, ret, entrySerial.deserialize(entryType, node));
                 return ret;
             }
         }
@@ -56,17 +56,17 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node node) throws ObjectMappingException {
         TypeToken<?> entryType = getElementType(type);
-        TypeSerializer entrySerial = value.getOptions().getSerializers().get(entryType);
+        TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
-        value.setValue(ImmutableList.of());
+        node.setValue(ImmutableList.of());
         if (obj != null) {
             forEachElement(obj, el -> {
-                entrySerial.serialize(entryType, el, value.appendListNode());
+                entrySerial.serialize(entryType, el, node.appendListNode());
             });
         }
     }

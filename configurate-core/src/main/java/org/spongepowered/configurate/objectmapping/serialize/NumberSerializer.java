@@ -40,27 +40,27 @@ class NumberSerializer implements TypeSerializer<Number> {
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Number deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> Number deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         type = type.wrap();
         Class<?> clazz = type.getRawType();
         if (Integer.class.equals(clazz)) {
-            return value.getInt();
+            return node.getInt();
         } else if (Long.class.equals(clazz)) {
-            return value.getLong();
+            return node.getLong();
         } else if (Short.class.equals(clazz)) {
-            return (short) value.getInt();
+            return (short) node.getInt();
         } else if (Byte.class.equals(clazz)) {
-            return (byte) value.getInt();
+            return (byte) node.getInt();
         } else if (Float.class.equals(clazz)) {
-            return value.getFloat();
+            return node.getFloat();
         } else if (Double.class.equals(clazz)) {
-            return value.getDouble();
+            return node.getDouble();
         }
         return null;
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull T value) throws ObjectMappingException {
-        value.setValue(obj);
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull T node) throws ObjectMappingException {
+        node.setValue(obj);
     }
 }

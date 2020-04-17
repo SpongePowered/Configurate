@@ -25,12 +25,12 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 class BooleanSerializer implements TypeSerializer<Boolean> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Boolean deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        return value.getBoolean();
+    public <Node extends ScopedConfigurationNode<Node>> Boolean deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        return node.getBoolean();
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Boolean obj, @NonNull T value) throws ObjectMappingException {
-        value.setValue(Types.asBoolean(obj));
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Boolean obj, @NonNull T node) throws ObjectMappingException {
+        node.setValue(Types.asBoolean(obj));
     }
 }

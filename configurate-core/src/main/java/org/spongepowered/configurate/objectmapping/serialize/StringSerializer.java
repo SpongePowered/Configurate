@@ -24,12 +24,12 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 class StringSerializer implements TypeSerializer<String> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> String deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        return value.getString();
+    public <Node extends ScopedConfigurationNode<Node>> String deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        return node.getString();
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable String obj, @NonNull Node value) throws ObjectMappingException {
-        value.setValue(obj);
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable String obj, @NonNull Node node) throws ObjectMappingException {
+        node.setValue(obj);
     }
 }

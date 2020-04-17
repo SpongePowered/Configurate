@@ -27,24 +27,24 @@ import java.util.Optional;
 
 class EnumValueSerializer implements TypeSerializer<Enum<?>> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Enum<?> deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        String enumConstant = value.getString();
+    public <Node extends ScopedConfigurationNode<Node>> Enum<?> deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        String enumConstant = node.getString();
         if (enumConstant == null) {
-            throw new ObjectMappingException("No value present in node " + value);
+            throw new ObjectMappingException("No value present in node " + node);
         }
 
         @SuppressWarnings("unchecked")
         Optional<? extends Enum<?>> ret = EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class),
                 enumConstant);
         if (!ret.isPresent()) {
-            throw new ObjectMappingException("Invalid enum constant provided for " + value.getKey() + ": " +
+            throw new ObjectMappingException("Invalid enum constant provided for " + node.getKey() + ": " +
                     "Expected a value of enum " + type + ", got " + enumConstant);
         }
         return ret.get();
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull T value) throws ObjectMappingException {
-        value.setValue(obj == null ? null : obj.name());
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull T node) throws ObjectMappingException {
+        node.setValue(obj == null ? null : obj.name());
     }
 }

@@ -27,24 +27,24 @@ import java.net.URL;
 
 class URLSerializer implements TypeSerializer<URL> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> URL deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        String plainUrl = value.getString();
+    public <Node extends ScopedConfigurationNode<Node>> URL deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        String plainUrl = node.getString();
         if (plainUrl == null) {
-            throw new ObjectMappingException("No value present in node " + value);
+            throw new ObjectMappingException("No value present in node " + node);
         }
 
         URL url;
         try {
             url = new URL(plainUrl);
         } catch (MalformedURLException e) {
-            throw new ObjectMappingException("Invalid URL string provided for " + value.getKey() + ": got " + plainUrl);
+            throw new ObjectMappingException("Invalid URL string provided for " + node.getKey() + ": got " + plainUrl);
         }
 
         return url;
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable URL obj, @NonNull T value) throws ObjectMappingException {
-        value.setValue(obj == null ? null : obj.toString());
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable URL obj, @NonNull T node) throws ObjectMappingException {
+        node.setValue(obj == null ? null : obj.toString());
     }
 }

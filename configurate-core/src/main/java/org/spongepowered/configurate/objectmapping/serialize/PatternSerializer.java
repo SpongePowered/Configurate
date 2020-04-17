@@ -27,16 +27,16 @@ import java.util.regex.PatternSyntaxException;
 
 class PatternSerializer implements TypeSerializer<Pattern> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         try {
-            return Pattern.compile(value.getString());
+            return Pattern.compile(node.getString());
         } catch (PatternSyntaxException ex) {
             throw new ObjectMappingException(ex);
         }
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull Node value) throws ObjectMappingException {
-        value.setValue(obj == null ? null : obj.pattern());
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull Node node) throws ObjectMappingException {
+        node.setValue(obj == null ? null : obj.pattern());
     }
 }

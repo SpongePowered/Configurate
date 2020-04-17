@@ -34,12 +34,12 @@ class CharSerializer implements TypeSerializer<Character> {
 
     @Nullable
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Character deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        if (value.isList() || value.isMap()) {
+    public <Node extends ScopedConfigurationNode<Node>> Character deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        if (node.isList() || node.isMap()) {
             return null;
         }
 
-        Object val = value.getValue();
+        Object val = node.getValue();
         if (val instanceof String) {
             String strVal = ((String) val);
             if (strVal.length() == 1) {
@@ -54,11 +54,11 @@ class CharSerializer implements TypeSerializer<Character> {
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Character obj, @NonNull T value) throws ObjectMappingException {
-        if (value.getOptions().acceptsType(char.class)) {
-            value.setValue(obj);
+    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Character obj, @NonNull T node) throws ObjectMappingException {
+        if (node.getOptions().acceptsType(char.class)) {
+            node.setValue(obj);
         } else {
-            value.setValue(obj == null ? null : obj.toString());
+            node.setValue(obj == null ? null : obj.toString());
         }
 
     }

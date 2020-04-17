@@ -34,23 +34,23 @@ public interface TypeSerializer<T> {
      * Deserialize an object (of the correct type) from the given configuration node.
      *
      * @param type The type of return value required
-     * @param value The node containing serialized data
+     * @param node The node containing serialized data
      * @param <Node> The type of node to deserialize from
      * @return An object
      * @throws ObjectMappingException If the presented data is invalid
      */
     @Nullable
-    <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.
      *
      * @param type The type of the input object
      * @param obj The object to be serialized
-     * @param value The node to write to
+     * @param node The node to write to
      * @param <Node> The type of node to serialize to
      * @throws ObjectMappingException If the object cannot be serialized
      */
-    <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node value) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node node) throws ObjectMappingException;
 
 }

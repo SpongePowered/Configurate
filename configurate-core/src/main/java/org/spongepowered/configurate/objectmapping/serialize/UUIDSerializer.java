@@ -26,16 +26,16 @@ import java.util.UUID;
 
 class UUIDSerializer implements TypeSerializer<UUID> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> UUID deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
+    public <Node extends ScopedConfigurationNode<Node>> UUID deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         try {
-            return UUID.fromString(value.getString());
+            return UUID.fromString(node.getString());
         } catch (IllegalArgumentException ex) {
             throw new ObjectMappingException("Value not a UUID", ex);
         }
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable UUID obj, @NonNull Node value) throws ObjectMappingException {
-        value.setValue(obj.toString());
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable UUID obj, @NonNull Node node) throws ObjectMappingException {
+        node.setValue(obj.toString());
     }
 }

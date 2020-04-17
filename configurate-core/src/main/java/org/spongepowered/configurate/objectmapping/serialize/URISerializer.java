@@ -27,24 +27,24 @@ import java.net.URISyntaxException;
 
 class URISerializer implements TypeSerializer<URI> {
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> URI deserialize(@NonNull TypeToken<?> type, @NonNull Node value) throws ObjectMappingException {
-        String plainUri = value.getString();
+    public <Node extends ScopedConfigurationNode<Node>> URI deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        String plainUri = node.getString();
         if (plainUri == null) {
-            throw new ObjectMappingException("No value present in node " + value);
+            throw new ObjectMappingException("No value present in node " + node);
         }
 
         URI uri;
         try {
             uri = new URI(plainUri);
         } catch (URISyntaxException e) {
-             throw new ObjectMappingException("Invalid URI string provided for " + value.getKey() + ": got " + plainUri);
+             throw new ObjectMappingException("Invalid URI string provided for " + node.getKey() + ": got " + plainUri);
         }
 
         return uri;
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable URI obj, @NonNull Node value) throws ObjectMappingException {
-        value.setValue(obj == null ? null : obj.toString());
+    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable URI obj, @NonNull Node node) throws ObjectMappingException {
+        node.setValue(obj == null ? null : obj.toString());
     }
 }
