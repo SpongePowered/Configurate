@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.SimpleConfigurationNode;
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
@@ -74,7 +74,7 @@ public class TypeSerializersTest {
         assertEquals(numberSerializer, SERIALIZERS.get(floatType));
         assertEquals(numberSerializer, SERIALIZERS.get(primitiveIntType));
 
-        SimpleConfigurationNode node = ConfigurationNode.root().setValue(45f);
+        ConfigurationNode node = ConfigurationNode.root().setValue(45f);
         assertEquals((Object) 45, numberSerializer.deserialize(intType, node));
         assertEquals((Object) 45L, numberSerializer.deserialize(longType, node));
         assertEquals((Object) 45f, numberSerializer.deserialize(floatType, node));
@@ -96,7 +96,7 @@ public class TypeSerializersTest {
         final TypeToken<Boolean> booleanType = TypeToken.of(Boolean.class);
 
         final TypeSerializer<Boolean> booleanSerializer = SERIALIZERS.get(booleanType);
-        SimpleConfigurationNode node = ConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         node.getNode("direct").setValue(true);
         node.getNode("fromstring").setValue("true");
 
@@ -117,7 +117,7 @@ public class TypeSerializersTest {
 
         final TypeSerializer<TestEnum> enumSerializer = SERIALIZERS.get(enumType);
 
-        SimpleConfigurationNode node = ConfigurationNode.root();
+        ConfigurationNode node = ConfigurationNode.root();
         node.getNode("present_val").setValue("first");
         node.getNode("another_present_val").setValue("SECOND");
         node.getNode(("casematters_val")).setValue("tHiRd");
@@ -319,7 +319,7 @@ public class TypeSerializersTest {
          final String uriString = "http://google.com";
          final URI testUri = URI.create(uriString);
 
-         SimpleConfigurationNode node = ConfigurationNode.root().setValue(uriString);
+         ConfigurationNode node = ConfigurationNode.root().setValue(uriString);
          assertEquals(testUri, uriSerializer.deserialize(uriType, node));
 
          uriSerializer.serialize(uriType, testUri, node);
@@ -334,7 +334,7 @@ public class TypeSerializersTest {
          final String urlString = "http://google.com";
          final URL testUrl = new URL(urlString);
 
-         SimpleConfigurationNode node = ConfigurationNode.root().setValue(urlString);
+         ConfigurationNode node = ConfigurationNode.root().setValue(urlString);
          assertEquals(testUrl, urlSerializer.deserialize(urlType, node));
 
          urlSerializer.serialize(urlType, testUrl, node);
@@ -348,7 +348,7 @@ public class TypeSerializersTest {
 
         final UUID testUuid = UUID.randomUUID();
 
-        SimpleConfigurationNode serializeTo = ConfigurationNode.root();
+        ConfigurationNode serializeTo = ConfigurationNode.root();
         uuidSerializer.serialize(uuidType, testUuid, serializeTo);
         assertEquals(testUuid.toString(), serializeTo.getValue());
 
@@ -362,7 +362,7 @@ public class TypeSerializersTest {
         final TypeSerializer<Pattern> patternSerializer = SERIALIZERS.get(patternType);
 
         final Pattern testPattern = Pattern.compile("(na )+batman");
-        SimpleConfigurationNode serializeTo = ConfigurationNode.root();
+        ConfigurationNode serializeTo = ConfigurationNode.root();
         patternSerializer.serialize(patternType, testPattern, serializeTo);
         assertEquals("(na )+batman", serializeTo.getValue());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());

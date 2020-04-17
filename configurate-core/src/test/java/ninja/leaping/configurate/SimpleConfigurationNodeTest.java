@@ -71,14 +71,14 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testTraversingNodeCreation() {
-        SimpleConfigurationNode config = ConfigurationNode.root();
-        SimpleConfigurationNode nodeOne = config.getNode("uncreated", "step", "node");
-        SimpleConfigurationNode nodeTwo = config.getNode("uncreated", "step", "color");
+        ConfigurationNode config = ConfigurationNode.root();
+        ConfigurationNode nodeOne = config.getNode("uncreated", "step", "node");
+        ConfigurationNode nodeTwo = config.getNode("uncreated", "step", "color");
         nodeOne.setValue("one");
         nodeTwo.setValue("lilac");
         ConfigurationNode attachedParent = config.getNode("uncreated", "step");
-        assertEquals(attachedParent, nodeOne.getParentEnsureAttached());
-        assertEquals(attachedParent, nodeTwo.getParentEnsureAttached());
+        assertEquals(attachedParent, nodeOne.getParent());
+        assertEquals(attachedParent, nodeTwo.getParent());
     }
 
     @Test
@@ -175,8 +175,8 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testMergeValues() {
-        SimpleConfigurationNode first = ConfigurationNode.root();
-        SimpleConfigurationNode second = ConfigurationNode.root();
+        ConfigurationNode first = ConfigurationNode.root();
+        ConfigurationNode second = ConfigurationNode.root();
         first.getNode("scalar").setValue("one");
         first.getNode("absent").setValue("butmerged");
         second.getNode("scalar").setValue("two");
@@ -204,7 +204,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testSettingMultipleTimesWorks() {
-        SimpleConfigurationNode subject = ConfigurationNode.root();
+        ConfigurationNode subject = ConfigurationNode.root();
         subject.setValue(ImmutableMap.of("a", "b", "b", "c", "c", "d"));
         assertTrue(subject.isMap());
         subject.setValue(ImmutableMap.of("na", "na", "eh", "eh", "bleugh", "bleugh"));
@@ -213,7 +213,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testGetSetValueSerialized() throws ObjectMappingException {
-        SimpleConfigurationNode subject = ConfigurationNode.root();
+        ConfigurationNode subject = ConfigurationNode.root();
         subject.setValue("48");
         assertEquals((Object) 48, subject.getValue(TypeToken.of(Integer.class)));
         UUID testId = UUID.randomUUID();
@@ -223,7 +223,7 @@ public class SimpleConfigurationNodeTest {
 
     @Test
     public void testDefaultsCopied() {
-        SimpleConfigurationNode subject = ConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
+        ConfigurationNode subject = ConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         assertNull(subject.getValue());
         assertEquals("default value", subject.getValue("default value"));
         assertEquals("default value", subject.getValue());

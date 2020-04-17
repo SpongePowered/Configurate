@@ -27,6 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -54,13 +55,23 @@ public interface ConfigurationNode {
     int NUMBER_DEF = 0;
 
     @NonNull
-    static SimpleConfigurationNode root() {
+    static ConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
     @NonNull
-    static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
+    static ConfigurationNode root(Consumer<ConfigurationNode> action) {
+        return root(ConfigurationOptions.defaults(), action);
+    }
+
+    @NonNull
+    static ConfigurationNode root(@NonNull ConfigurationOptions options) {
         return new SimpleConfigurationNode(null, null, options);
+    }
+
+    @NonNull
+    static ConfigurationNode root(@NonNull ConfigurationOptions options, Consumer<ConfigurationNode> action) {
+        return new SimpleConfigurationNode(null, null, options).act(action);
     }
 
     /**
@@ -684,5 +695,17 @@ public interface ConfigurationNode {
      */
     @NonNull
     ConfigurationNode copy();
+
+    /**
+     * Execute an action on this node. This allows performing multiple operations
+     * on a single node without having to clutter up the surrounding scope.
+     *
+     * @param action The action to perform on this node
+     * @return this
+     */
+    default ConfigurationNode act(Consumer<? super ConfigurationNode> action) {
+        action.accept(this);
+        return this;
+    }
 
 }

@@ -42,7 +42,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Deprecated
     @NonNull
     public static SimpleCommentedConfigurationNode root() {
-        return CommentedConfigurationNode.root();
+        return root(ConfigurationOptions.defaults());
     }
 
     /**
@@ -55,7 +55,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Deprecated
     @NonNull
     public static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return CommentedConfigurationNode.root(options);
+        return new SimpleCommentedConfigurationNode(null, null, options);
     }
 
     protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {

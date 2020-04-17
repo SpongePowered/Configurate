@@ -24,6 +24,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * A configuration node that can have both comments and attributes attached to it.
@@ -36,8 +37,18 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNode 
      * @return a new node
      */
     @NonNull
-    static SimpleAttributedConfigurationNode root() {
+    static AttributedConfigurationNode root() {
         return root("root", ConfigurationOptions.defaults());
+    }
+
+    /**
+     * Create a new node with no parent and the tag name {@code root}, and perform an action with it in scope
+     *
+     * @param action action to perform to initialize the created node
+     * @return a new node
+     */
+    static AttributedConfigurationNode root(Consumer<? super AttributedConfigurationNode> action) {
+        return root("root", action);
     }
 
     /**
@@ -47,8 +58,20 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNode 
      * @return a new node
      */
     @NonNull
-    static SimpleAttributedConfigurationNode root(@NonNull String tagName) {
+    static AttributedConfigurationNode root(@NonNull String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
+    }
+
+    /**
+     * Create a new node with no parent and a specified tag name, and perform an action with it in scope
+     *
+     * @param tagName The name of the tag to be used to represent this node
+     * @param action action to perform to initialize the created node
+     * @return a new node
+     */
+    @NonNull
+    static AttributedConfigurationNode root(@NonNull String tagName, Consumer<? super AttributedConfigurationNode> action) {
+        return root(tagName, ConfigurationOptions.defaults(), action);
     }
 
     /**
@@ -59,8 +82,23 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNode 
      * @return a new node
      */
     @NonNull
-    static SimpleAttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
+    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);
+    }
+
+    /**
+     * Create a new node with no parent, a specified tag name, and specific options, and perform an action with it in scope
+     *
+     * @param tagName The name of the tag to be used to represent this node
+     * @param options The options to use within this node
+     * @param action action to perform to initialize the created node
+     * @return a new node
+     */
+    @NonNull
+    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options, Consumer<? super AttributedConfigurationNode> action) {
+        AttributedConfigurationNode ret = root(tagName, options);
+        action.accept(ret);
+        return ret;
     }
 
     /**
@@ -150,4 +188,10 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNode 
     @NonNull @Override AttributedConfigurationNode appendListNode();
     @NonNull @Override AttributedConfigurationNode getNode(@NonNull Object... path);
     @NonNull @Override AttributedConfigurationNode copy();
+
+    @Override
+    default AttributedConfigurationNode act(Consumer<? super ConfigurationNode> action) {
+        action.accept(this);
+        return this;
+    }
 }

@@ -90,7 +90,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
         } else {
             final Set<Object> unvisitedKeys = new HashSet<>(node.getChildrenMap().keySet());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
-                SimpleConfigurationNode keyNode = ConfigurationNode.root();
+                ConfigurationNode keyNode = ConfigurationNode.root();
                 keySerial.serialize(key, ent.getKey(), keyNode);
                 Object keyObj = requireNonNull(keyNode.getValue(), "Key must not be null!");
                 valueSerial.serialize(value, ent.getValue(), node.getNode(keyObj));

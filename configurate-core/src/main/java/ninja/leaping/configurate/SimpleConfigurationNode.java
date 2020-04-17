@@ -85,7 +85,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Deprecated
     @NonNull
     public static SimpleConfigurationNode root() {
-        return ConfigurationNode.root();
+        return root(ConfigurationOptions.defaults());
     }
 
     /**
@@ -98,7 +98,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     @Deprecated
     @NonNull
     public static SimpleConfigurationNode root(@NonNull ConfigurationOptions options) {
-        return ConfigurationNode.root(options);
+        return new SimpleConfigurationNode(null, null, options);
     }
 
     protected SimpleConfigurationNode(@Nullable Object key, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {

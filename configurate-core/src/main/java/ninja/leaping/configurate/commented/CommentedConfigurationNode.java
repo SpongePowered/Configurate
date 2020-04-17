@@ -24,20 +24,29 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * A configuration node that can have a comment attached to it.
  */
 public interface CommentedConfigurationNode extends ConfigurationNode {
 
-    @NonNull
-    static SimpleCommentedConfigurationNode root() {
+    static @NonNull CommentedConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    @NonNull
-    static SimpleCommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
+    static @NonNull CommentedConfigurationNode root(@NonNull Consumer<? super CommentedConfigurationNode> action) {
+        return root(ConfigurationOptions.defaults(), action);
+    }
+
+    static @NonNull CommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
         return new SimpleCommentedConfigurationNode(null, null, options);
+    }
+
+    static @NonNull CommentedConfigurationNode root(@NonNull ConfigurationOptions options, @NonNull Consumer<? super CommentedConfigurationNode> action) {
+        CommentedConfigurationNode ret = root(options);
+        action.accept(ret);
+        return ret;
     }
 
     /**
@@ -69,4 +78,10 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
     @NonNull @Override CommentedConfigurationNode appendListNode();
     @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);
     @NonNull @Override CommentedConfigurationNode copy();
+
+    @Override
+    default CommentedConfigurationNode act(Consumer<? super ConfigurationNode> action) {
+        action.accept(this);
+        return this;
+    }
 }
