@@ -18,33 +18,38 @@ package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.ThrowingConsumer;
 
 import java.util.List;
 
+/**
+ * A serializer for nodes that are 'list-like' (i.e may be stored in nodes where {@link ConfigurationNode#isList()} is
+ * {@literal true}.
+ *
+ * @param <T> The type of collection to serialize
+ */
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
-    @Nullable
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+    public <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(TypeToken<?> type, N node) throws ObjectMappingException {
         TypeToken<?> entryType = getElementType(type);
-        TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
+        @Nullable TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
         if (node.isList()) {
-            List<Node> values = node.getChildrenList();
+            List<N> values = node.getChildrenList();
             T ret = createNew(values.size(), entryType);
             for (int i = 0; i < values.size(); ++i) {
                 deserializeSingle(i, ret, entrySerial.deserialize(entryType, values.get(i)));
             }
             return ret;
         } else {
-            Object unwrappedVal = node.getValue();
+            @Nullable Object unwrappedVal = node.getValue();
             if (unwrappedVal != null) {
                 T ret = createNew(1, entryType);
                 deserializeSingle(0, ret, entrySerial.deserialize(entryType, node));
@@ -56,9 +61,9 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node node) throws ObjectMappingException {
+    public <N extends ScopedConfigurationNode<N>> void serialize(TypeToken<?> type, @Nullable T obj, N node) throws ObjectMappingException {
         TypeToken<?> entryType = getElementType(type);
-        TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
+        @Nullable TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
@@ -71,8 +76,36 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
         }
     }
 
+    /**
+     * Given the type of container, provide the expected type of an element. If the element type is not available, an
+     * exception must be thrown.
+     *
+     * @param containerType The type of container with type parameters resolved to the extent possible.
+     * @return The element type
+     * @throws ObjectMappingException If the element type could not be detected
+     */
     abstract TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException;
+
+    /**
+     * Create a new instance of the collection. The returned instance must be mutable, but may have a fixed length.
+     *
+     * @param length The necessary collection length
+     * @param elementType The type of element contained within the collection, as provided by {@link #getElementType(TypeToken)}
+     * @return A newly created collection
+     * @throws ObjectMappingException When an error occurs during the creation of the collection
+     */
     abstract T createNew(int length, TypeToken<?> elementType) throws ObjectMappingException;
+
+    /**
+     * Perform the provided action on each element of the provided collection.
+     *
+     * <p>This is equivalent to a foreach loop on the collection
+     *
+     * @param collection The collection to act on
+     * @param action The action to perform
+     * @throws ObjectMappingException When thrown by the underlying action
+     */
     abstract void forEachElement(T collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
-    abstract void deserializeSingle(int index, T collection, Object deserialized) throws ObjectMappingException;
+
+    abstract void deserializeSingle(int index, T collection, @Nullable Object deserialized) throws ObjectMappingException;
 }

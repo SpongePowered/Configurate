@@ -17,34 +17,33 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.EnumLookup;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
-class EnumValueSerializer implements TypeSerializer<Enum<?>> {
+final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
+
+    EnumValueSerializer() {
+        super(new TypeToken<Enum<?>>() {});
+    }
+
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Enum<?> deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
-        String enumConstant = node.getString();
-        if (enumConstant == null) {
-            throw new ObjectMappingException("No value present in node " + node);
-        }
-
+    public Enum<?> deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+        final String enumConstant = obj.toString();
         @SuppressWarnings("unchecked")
         Optional<? extends Enum<?>> ret = EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class),
                 enumConstant);
         if (!ret.isPresent()) {
-            throw new ObjectMappingException("Invalid enum constant provided for " + node.getKey() + ": " +
+            throw new ObjectMappingException("Invalid enum constant provided: " +
                     "Expected a value of enum " + type + ", got " + enumConstant);
         }
         return ret.get();
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Enum<?> obj, @NonNull T node) throws ObjectMappingException {
-        node.setValue(obj == null ? null : obj.name());
+    public Object serialize(Enum<?> item, Predicate<Class<?>> typeSupported) {
+        return item.name();
     }
 }

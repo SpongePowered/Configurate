@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.objectmapping.serialize.Scalars;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Collection;
@@ -386,7 +387,7 @@ public interface ConfigurationNode {
     <V> List<V> getList(@NonNull TypeToken<V> type, @NonNull Supplier<List<V>> defSupplier) throws ObjectMappingException;
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @see #getValue()
      * @return The appropriate type conversion, null if no appropriate value is available
@@ -397,18 +398,18 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
     default String getString(@Nullable String def) {
-        return getValue(Types::asString, def);
+        return getValue(Scalars.STRING::tryDeserialize, def);
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
@@ -418,18 +419,18 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
     default float getFloat(float def) {
-        return getValue(Types::asFloat, def);
+        return getValue(Scalars.FLOAT::tryDeserialize, def);
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
@@ -439,18 +440,18 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
     default double getDouble(double def) {
-        return getValue(Types::asDouble, def);
+        return getValue(Scalars.DOUBLE::tryDeserialize, def);
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
@@ -460,18 +461,18 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
     default int getInt(int def) {
-        return getValue(Types::asInt, def);
+        return getValue(Scalars.INTEGER::tryDeserialize, def);
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @see #getValue()
      * @return The appropriate type conversion, 0 if no appropriate value is available
@@ -481,18 +482,18 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
     default long getLong(long def) {
-        return getValue(Types::asLong, def);
+        return getValue(Scalars.LONG::tryDeserialize, def);
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @see #getValue()
      * @return The appropriate type conversion, false if no appropriate value is available
@@ -502,14 +503,14 @@ public interface ConfigurationNode {
     }
 
     /**
-     * Gets the value typed using the appropriate type conversion from {@link Types}
+     * Gets the value typed using the appropriate type conversion from {@link Scalars}
      *
      * @param def The default value if no appropriate value is set
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
     default boolean getBoolean(boolean def) {
-        return getValue(Types::asBoolean, def);
+        return getValue(Scalars.BOOLEAN::tryDeserialize, def);
     }
 
     /**
@@ -546,7 +547,7 @@ public interface ConfigurationNode {
      * @return the value if of the proper type, else {@code def}
      * @throws ObjectMappingException If the value fails to be converted to the requested type
      */
-    <V> V getValue(@NonNull TypeToken<V> type, V def) throws ObjectMappingException;
+    <V> V getValue(TypeToken<V> type, V def) throws ObjectMappingException;
 
     /**
      * Get the current value associated with this node.

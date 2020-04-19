@@ -17,12 +17,14 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.spongepowered.configurate.Types;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.ThrowingConsumer;
 
 import java.lang.reflect.Array;
 import java.util.function.Predicate;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A serializer for array classes. Primitive arrays need special handling because they don't have autoboxing like single
@@ -34,14 +36,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     @Override
     TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
-        return containerType.getComponentType();
+        return requireNonNull(containerType.getComponentType(), "Must be array type");
     }
 
     static class Objects extends ArraySerializer<Object[]> {
 
         public static Predicate<TypeToken<Object[]>> predicate() {
             return token -> {
-                TypeToken<?> componentType = token.getComponentType();
+                @Nullable TypeToken<?> componentType = token.getComponentType();
                 return componentType != null && !componentType.isPrimitive();
             };
         }
@@ -81,9 +83,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, boolean[] collection, Object deserialized) throws ObjectMappingException {
-            Boolean ret = Types.asBoolean(deserialized);
-            collection[index] = ret == null ? false : ret;
+        void deserializeSingle(int index, boolean[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? false : Scalars.BOOLEAN.deserialize(deserialized);
         }
     }
 
@@ -103,9 +104,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, byte[] collection, Object deserialized) throws ObjectMappingException {
-            Integer ret = Types.asInt(deserialized);
-            collection[index] = ret == null ? 0 : ret.byteValue();
+        void deserializeSingle(int index, byte[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).byteValue();
         }
     }
 
@@ -125,22 +125,13 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, char[] collection, Object deserialized) throws ObjectMappingException {
-            if (deserialized instanceof Character) {
-                collection[index] = (Character) deserialized;
-            } else {
-                throw new ObjectMappingException("Deserialized value must be a Character at index " + index);
-            }
+        void deserializeSingle(int index, char[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.CHAR.deserialize(deserialized);
         }
     }
 
     static class Shorts extends ArraySerializer<short[]> {
         static final TypeToken<short[]> TYPE = TypeToken.of(short[].class);
-
-        @Override
-        TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
-            return containerType.getComponentType();
-        }
 
         @Override
         short[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -155,9 +146,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, short[] collection, Object deserialized) throws ObjectMappingException {
-            Integer ret = Types.asInt(deserialized);
-            collection[index] = ret == null ? 0 : ret.shortValue();
+        void deserializeSingle(int index, short[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).shortValue();
         }
     }
 
@@ -177,9 +167,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, int[] collection, Object deserialized) throws ObjectMappingException {
-            Integer ret = Types.asInt(deserialized);
-            collection[index] = ret == null ? 0 : ret;
+        void deserializeSingle(int index, int[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized);
         }
     }
 
@@ -199,9 +188,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, long[] collection, Object deserialized) throws ObjectMappingException {
-            Long ret = Types.asLong(deserialized);
-            collection[index] = ret == null ? 0 : ret;
+        void deserializeSingle(int index, long[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.LONG.deserialize(deserialized);
         }
     }
 
@@ -221,9 +209,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, float[] collection, Object deserialized) throws ObjectMappingException {
-            Float ret = Types.asFloat(deserialized);
-            collection[index] = ret == null ? 0 : ret;
+        void deserializeSingle(int index, float[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.FLOAT.deserialize(deserialized);
         }
     }
 
@@ -243,9 +230,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void deserializeSingle(int index, double[] collection, Object deserialized) throws ObjectMappingException {
-            Double ret = Types.asDouble(deserialized);
-            collection[index] = ret == null ? 0 : ret;
+        void deserializeSingle(int index, double[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+            collection[index] = deserialized == null ? 0 : Scalars.DOUBLE.deserialize(deserialized);
         }
     }
 }

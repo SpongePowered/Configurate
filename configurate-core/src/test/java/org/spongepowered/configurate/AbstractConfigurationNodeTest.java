@@ -18,6 +18,7 @@ package org.spongepowered.configurate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -211,7 +212,7 @@ public class AbstractConfigurationNodeTest {
 
     @Test
     public void testGetSetValueSerialized() throws ObjectMappingException {
-        ConfigurationNode subject = BasicConfigurationNode.root();
+        ConfigurationNode subject = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)));
         subject.setValue("48");
         assertEquals(Integer.valueOf(48), subject.getValue(TypeToken.of(Integer.class)));
         UUID testId = UUID.randomUUID();

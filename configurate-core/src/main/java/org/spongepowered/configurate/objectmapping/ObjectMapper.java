@@ -17,17 +17,16 @@
 package org.spongepowered.configurate.objectmapping;
 
 import com.google.common.reflect.Invokable;
-import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
-import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

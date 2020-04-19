@@ -19,6 +19,7 @@ package org.spongepowered.configurate;
 import com.google.common.collect.ImmutableList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.objectmapping.serialize.Scalars;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -146,10 +147,9 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
 
-    @Nullable
     @Override
-    public T getChild(@Nullable Object key) {
-        Integer value = Types.asInt(key);
+    public @Nullable T getChild(@Nullable Object key) {
+        @Nullable Integer value = Scalars.INTEGER.tryDeserialize(key);
         if (value == null || value < 0) {
             return null;
         }

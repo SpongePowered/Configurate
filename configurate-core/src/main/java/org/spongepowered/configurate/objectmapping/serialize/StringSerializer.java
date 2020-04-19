@@ -17,19 +17,22 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-class StringSerializer implements TypeSerializer<String> {
-    @Override
-    public <Node extends ScopedConfigurationNode<Node>> String deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
-        return node.getString();
+import java.util.function.Predicate;
+
+final class StringSerializer extends ScalarSerializer<String> {
+
+    StringSerializer() {
+        super(TypeToken.of(String.class));
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable String obj, @NonNull Node node) throws ObjectMappingException {
-        node.setValue(obj);
+    public String deserialize(TypeToken<?> type, Object obj) {
+        return obj.toString();
+    }
+
+    @Override
+    public Object serialize(String item, Predicate<Class<?>> typeSupported) {
+        return item;
     }
 }

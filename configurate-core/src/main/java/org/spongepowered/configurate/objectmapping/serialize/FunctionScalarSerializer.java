@@ -18,28 +18,28 @@ package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.util.CheckedFunction;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-final class URLSerializer extends ScalarSerializer<URL> {
-    URLSerializer() {
-        super(URL.class);
+public final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
+    private final CheckedFunction<Object, T, ObjectMappingException> deserializer;
+    private final BiFunction<T, Predicate<Class<?>>, Object> serializer;
+
+    FunctionScalarSerializer(TypeToken<T> type, CheckedFunction<Object, T, ObjectMappingException> deserializer, BiFunction<T, Predicate<Class<?>>, Object> serializer) {
+        super(type);
+        this.deserializer = deserializer;
+        this.serializer = serializer;
     }
 
     @Override
-    public URL deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
-        final String plainUri = obj.toString();
-        try {
-            return new URL(plainUri);
-        } catch (MalformedURLException e) {
-            throw new CoercionFailedException(obj, "URL");
-        }
+    public T deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+        return deserializer.apply(obj);
     }
 
     @Override
-    public Object serialize(URL item, Predicate<Class<?>> typeSupported) {
-        return item.toString();
+    public Object serialize(T item, Predicate<Class<?>> typeSupported) {
+        return serializer.apply(item, typeSupported);
     }
 }

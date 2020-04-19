@@ -17,11 +17,13 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.util.CheckedFunction;
+
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 
 /**
  * Represents an object which can serialize and deserialize objects of a given type.
@@ -29,6 +31,41 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
  * @param <T> The type
  */
 public interface TypeSerializer<T> {
+
+    /**
+     * Given the provided functions, create a new serializer for a scalar value.
+     *
+     * The returned serializer must fulfill all the requirements of a {@link ScalarSerializer}
+     *
+     * @param type The type of value returned by the serializer
+     * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
+     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(TypeToken, Object)}
+     * @param <T> The type of value to deserialize
+     * @return A new and unregistered type serializer
+     */
+    static <T> ScalarSerializer<T> of(TypeToken<T> type, BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, ObjectMappingException> deserializer) {
+        return new FunctionScalarSerializer<>(type, deserializer, serializer);
+    }
+
+    /**
+     * Given the provided functions, create a new serializer for a scalar value.
+     *
+     * The returned serializer must fulfill all the requirements of a {@link ScalarSerializer}
+     *
+     * @param type The type of value. Must not be a parameterized type
+     * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
+     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(TypeToken, Object)}
+     * @param <T> The type of value to deserialize
+     * @see #of(TypeToken, BiFunction, CheckedFunction) for the version of this function that takes a parameterized type
+     * @return A new and unregistered type serializer
+     */
+    static <T> ScalarSerializer<T> of(Class<T> type, BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, ObjectMappingException> deserializer) {
+        if (type.getTypeParameters().length > 0) {
+            throw new IllegalArgumentException("Parameterized types must be specified using TypeTokens, not raw classes");
+        }
+
+        return new FunctionScalarSerializer<>(TypeToken.of(type), deserializer, serializer);
+    }
 
     /**
      * Deserialize an object (of the correct type) from the given configuration node.
@@ -39,8 +76,7 @@ public interface TypeSerializer<T> {
      * @return An object
      * @throws ObjectMappingException If the presented data is invalid
      */
-    @Nullable
-    <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> @Nullable T deserialize(TypeToken<?> type, Node node) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.
@@ -51,6 +87,6 @@ public interface TypeSerializer<T> {
      * @param <Node> The type of node to serialize to
      * @throws ObjectMappingException If the object cannot be serialized
      */
-    <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable T obj, @NonNull Node node) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> void serialize(TypeToken<?> type, @Nullable T obj, Node node) throws ObjectMappingException;
 
 }

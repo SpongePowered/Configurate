@@ -18,41 +18,35 @@ package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-class CharSerializer implements TypeSerializer<Character> {
-    static final TypeToken<Character> TYPE = TypeToken.of(Character.class);
+import java.util.function.Predicate;
 
-    @Nullable
+final class CharSerializer extends ScalarSerializer<Character> {
+    CharSerializer() {
+        super(Character.class);
+    }
+
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Character deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
-        if (node.isList() || node.isMap()) {
-            return null;
-        }
-
-        Object val = node.getValue();
+    public Character deserialize(TypeToken<?> type, Object val) throws ObjectMappingException {
         if (val instanceof String) {
             String strVal = ((String) val);
             if (strVal.length() == 1) {
                 return strVal.charAt(0);
             }
-        } else if (val instanceof Character) {
-            return ((Character) val);
+            throw new ObjectMappingException("Only single character expected, but received " + strVal);
         } else if (val instanceof Number) {
             return (char) ((Number) val).shortValue();
         }
-        return null;
+        throw new CoercionFailedException(val, "char");
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Character obj, @NonNull T node) throws ObjectMappingException {
-        if (node.getOptions().acceptsType(char.class)) {
-            node.setValue(obj);
+    public Object serialize(@NonNull Character item, Predicate<Class<?>> typeSupported) {
+        if (typeSupported.test(char.class)) {
+            return item;
         } else {
-            node.setValue(obj == null ? null : obj.toString());
+            return item.toString();
         }
-
     }
 }

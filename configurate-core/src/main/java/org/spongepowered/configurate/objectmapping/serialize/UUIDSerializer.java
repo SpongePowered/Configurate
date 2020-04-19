@@ -17,25 +17,45 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.UUID;
+import java.util.function.Predicate;
 
-class UUIDSerializer implements TypeSerializer<UUID> {
+final class UUIDSerializer extends ScalarSerializer<UUID> {
+    private static final char DASH = '-';
+
+    UUIDSerializer() {
+        super(UUID.class);
+    }
+
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> UUID deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+    public UUID deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+        if (obj instanceof long[]) {
+            long[] arr = (long[]) obj;
+            if (arr.length == 2) { // big-endian, cuz we're java
+                return new UUID(arr[0], arr[1]);
+            }
+        }
+        String uuidStr = obj.toString();
+        if (uuidStr.length() == 32) { // Mojang-style, without dashes
+            uuidStr = new StringBuilder(36)
+                    .append(uuidStr, 0, 8).append(DASH)
+                    .append(uuidStr, 8, 12).append(DASH)
+                    .append(uuidStr, 12, 16).append(DASH)
+                    .append(uuidStr, 16, 20).append(DASH)
+                    .append(uuidStr, 20, 32)
+                    .toString();
+        }
         try {
-            return UUID.fromString(node.getString());
+            return UUID.fromString(uuidStr);
         } catch (IllegalArgumentException ex) {
-            throw new ObjectMappingException("Value not a UUID", ex);
+            throw new CoercionFailedException(obj, "UUID");
         }
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable UUID obj, @NonNull Node node) throws ObjectMappingException {
-        node.setValue(obj.toString());
+    public Object serialize(UUID item, Predicate<Class<?>> typeSupported) {
+        return item.toString();
     }
 }

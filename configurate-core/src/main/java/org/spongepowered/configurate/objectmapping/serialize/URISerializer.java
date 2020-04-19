@@ -17,34 +17,29 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.function.Predicate;
 
-class URISerializer implements TypeSerializer<URI> {
-    @Override
-    public <Node extends ScopedConfigurationNode<Node>> URI deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
-        String plainUri = node.getString();
-        if (plainUri == null) {
-            throw new ObjectMappingException("No value present in node " + node);
-        }
-
-        URI uri;
-        try {
-            uri = new URI(plainUri);
-        } catch (URISyntaxException e) {
-             throw new ObjectMappingException("Invalid URI string provided for " + node.getKey() + ": got " + plainUri);
-        }
-
-        return uri;
+final class URISerializer extends ScalarSerializer<URI> {
+    URISerializer() {
+        super(URI.class);
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable URI obj, @NonNull Node node) throws ObjectMappingException {
-        node.setValue(obj == null ? null : obj.toString());
+    public URI deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+        final String plainUri = obj.toString();
+        try {
+            return new URI(plainUri);
+        } catch (URISyntaxException e) {
+            throw new CoercionFailedException(obj, "URI");
+        }
+    }
+
+    @Override
+    public Object serialize(URI item, Predicate<Class<?>> typeSupported) {
+        return item.toString();
     }
 }

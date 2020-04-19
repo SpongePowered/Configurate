@@ -19,15 +19,12 @@ package org.spongepowered.configurate.objectmapping.serialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 import static java.util.Objects.requireNonNull;
 
@@ -39,18 +36,23 @@ public class TypeSerializerCollection {
 
     static {
         DEFAULTS = TypeSerializerCollection.builder()
-                .register(TypeToken.of(String.class), new StringSerializer())
-                .register(TypeToken.of(Boolean.class), new BooleanSerializer())
+                .register(Scalars.STRING)
+                .register(Scalars.BOOLEAN)
                 .register(MapSerializer.TYPE, new MapSerializer())
                 .register(ListSerializer.TYPE, new ListSerializer())
-                .register(NumberSerializer.predicate(), new NumberSerializer())
+                .register(Scalars.BYTE)
+                .register(Scalars.SHORT)
+                .register(Scalars.INTEGER)
+                .register(Scalars.LONG)
+                .register(Scalars.FLOAT)
+                .register(Scalars.DOUBLE)
                 .register(AnnotatedObjectSerializer.predicate(), new AnnotatedObjectSerializer())
-                .register(new TypeToken<Enum<?>>() {}, new EnumValueSerializer())
-                .register(CharSerializer.TYPE, new CharSerializer())
-                .register(TypeToken.of(URI.class), new URISerializer())
-                .register(TypeToken.of(URL.class), new URLSerializer())
-                .register(TypeToken.of(UUID.class), new UUIDSerializer())
-                .register(TypeToken.of(Pattern.class), new PatternSerializer())
+                .register(Scalars.ENUM)
+                .register(Scalars.CHAR)
+                .register(Scalars.URI)
+                .register(Scalars.URL)
+                .register(Scalars.UUID)
+                .register(Scalars.PATTERN)
                 .register(ArraySerializer.Objects.predicate(), new ArraySerializer.Objects())
                 .register(ArraySerializer.Booleans.TYPE, new ArraySerializer.Booleans())
                 .register(ArraySerializer.Bytes.TYPE, new ArraySerializer.Bytes())
@@ -65,11 +67,11 @@ public class TypeSerializerCollection {
                 .build();
     }
 
-    private final TypeSerializerCollection parent;
+    private final @Nullable TypeSerializerCollection parent;
     private final List<RegisteredSerializer> serializers;
     private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
-    private TypeSerializerCollection(TypeSerializerCollection parent, List<RegisteredSerializer> serializers) {
+    private TypeSerializerCollection(@Nullable TypeSerializerCollection parent, List<RegisteredSerializer> serializers) {
         this.parent = parent;
         this.serializers = ImmutableList.copyOf(serializers);
     }
@@ -82,12 +84,12 @@ public class TypeSerializerCollection {
      * @param <T> The type to serialize
      * @return A serializer if any is present, or null if no applicable serializer is found
      */
-    @SuppressWarnings("unchecked")
-    public <T> TypeSerializer<T> get(TypeToken<T> type) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public <T> @Nullable TypeSerializer<T> get(TypeToken<T> type) {
         Preconditions.checkNotNull(type, "type");
         type = type.wrap();
 
-        TypeSerializer<?> serial = typeMatches.computeIfAbsent(type, token -> {
+        @Nullable TypeSerializer<?> serial = typeMatches.computeIfAbsent(type, token -> {
             for (RegisteredSerializer ent : serializers) {
                 if (ent.predicate.test(token)) {
                     return ent.serializer;
@@ -134,10 +136,10 @@ public class TypeSerializerCollection {
     }
 
     public static class Builder {
-        private final TypeSerializerCollection parent;
+        private final @Nullable TypeSerializerCollection parent;
         private final ImmutableList.Builder<RegisteredSerializer> serializers = ImmutableList.builder();
 
-        Builder(TypeSerializerCollection parent) {
+        Builder(@Nullable TypeSerializerCollection parent) {
             this.parent = parent;
         }
 
@@ -165,12 +167,17 @@ public class TypeSerializerCollection {
          * @param <T> The type parameter
          * @return this
          */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "rawtypes"})
         public <T> Builder register(Predicate<TypeToken<T>> test, TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
             requireNonNull(serializer, "serializer");
             serializers.add(new RegisteredSerializer((Predicate) test, serializer));
             return this;
+        }
+
+        public <T> Builder register(ScalarSerializer<T> serializer) {
+            requireNonNull(serializer, "serializer");
+            return register(serializer.type(), serializer);
         }
 
         /**

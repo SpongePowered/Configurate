@@ -16,30 +16,10 @@
  */
 package org.spongepowered.configurate.objectmapping.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.function.Predicate;
-
-final class URLSerializer extends ScalarSerializer<URL> {
-    URLSerializer() {
-        super(URL.class);
-    }
-
-    @Override
-    public URL deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
-        final String plainUri = obj.toString();
-        try {
-            return new URL(plainUri);
-        } catch (MalformedURLException e) {
-            throw new CoercionFailedException(obj, "URL");
-        }
-    }
-
-    @Override
-    public Object serialize(URL item, Predicate<Class<?>> typeSupported) {
-        return item.toString();
+public class CoercionFailedException extends ObjectMappingException {
+    public CoercionFailedException(Object inputValue, String typeDescription) {
+        super("Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
     }
 }

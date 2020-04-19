@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
@@ -34,12 +33,12 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Object deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+    public <N extends ScopedConfigurationNode<N>> Object deserialize(TypeToken<?> type, N node) throws ObjectMappingException {
         TypeToken<?> clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
         return node.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(node);
     }
 
-    private TypeToken<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
+    private TypeToken<?> getInstantiableType(TypeToken<?> type, @Nullable String configuredName) throws ObjectMappingException {
         TypeToken<?> retClass;
         Class<?> rawType = type.getRawType();
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
@@ -64,7 +63,7 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Object obj, @NonNull T node) throws ObjectMappingException {
+    public <T extends ScopedConfigurationNode<T>> void serialize(TypeToken<?> type, @Nullable Object obj, T node) throws ObjectMappingException {
         if (obj == null) {
             T clazz = node.getNode(CLASS_KEY);
             node.setValue(null);

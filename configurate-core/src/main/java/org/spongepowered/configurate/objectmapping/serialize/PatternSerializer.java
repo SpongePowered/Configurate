@@ -17,26 +17,28 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-class PatternSerializer implements TypeSerializer<Pattern> {
+final class PatternSerializer extends ScalarSerializer<Pattern> {
+    PatternSerializer() {
+        super(TypeToken.of(Pattern.class));
+    }
+
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+    public Pattern deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
         try {
-            return Pattern.compile(node.getString());
+            return Pattern.compile(obj.toString());
         } catch (PatternSyntaxException ex) {
             throw new ObjectMappingException(ex);
         }
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable Pattern obj, @NonNull Node node) throws ObjectMappingException {
-        node.setValue(obj == null ? null : obj.pattern());
+    public Object serialize(Pattern item, Predicate<Class<?>> typeSupported) {
+        return item.pattern();
     }
 }

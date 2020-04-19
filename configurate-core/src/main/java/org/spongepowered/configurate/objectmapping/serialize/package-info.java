@@ -14,19 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping;
-
-import com.google.common.reflect.TypeToken;
-
 /**
- * Extension of {@link ObjectMappingException} for instances where the present {@link TypeToken type}
- * is invalid.
+ * Type serializer mechanisms and the standard type serializers shipped with Configurate
  */
-public class InvalidTypeException extends ObjectMappingException {
-    public static final long serialVersionUID = -3446168595121609794L;
+@DefaultQualifier(NonNull.class)
+package org.spongepowered.configurate.objectmapping.serialize;
 
-    public InvalidTypeException(TypeToken<?> received) {
-        super("Invalid type presented to serializer: " + received);
-    }
-
-}
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

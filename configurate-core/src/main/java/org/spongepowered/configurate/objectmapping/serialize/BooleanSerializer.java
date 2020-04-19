@@ -17,20 +17,54 @@
 package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.Types;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-class BooleanSerializer implements TypeSerializer<Boolean> {
+import java.util.Locale;
+import java.util.function.Predicate;
+
+/**
+ * Attempts to convert a given value to a {@link Boolean}.
+ *
+ * <ul>
+ *     <li>If <code>value</code> is a {@link Number}, returns true if value is not 0</li>
+ *     <li>If {@code value.toString()} returns true, t, yes, y, or 1, returns true</li>
+ *     <li>If {@code value.toString()} returns false, f, no, n, or 0, returns false</li>
+ *     <li>Otherwise returns null</li>
+ * </ul>
+ */
+class BooleanSerializer extends ScalarSerializer<Boolean> {
+    BooleanSerializer() {super(Boolean.class);}
+
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> Boolean deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
-        return node.getBoolean();
+    public Boolean deserialize(TypeToken<?> type, Object value) throws ObjectMappingException {
+        if (value instanceof Number) {
+            return !value.equals(0);
+        }
+
+        final String potential = value.toString().toLowerCase(Locale.ROOT);
+        if (potential.equals("true")
+                || potential.equals("t")
+                || potential.equals("yes")
+                || potential.equals("y")
+                || potential.equals("1")) {
+            return true;
+        } else if (potential.equals("false")
+                || potential.equals("f")
+                || potential.equals("no")
+                || potential.equals("n")
+                || potential.equals("0")) {
+            return false;
+        }
+
+        throw new CoercionFailedException(value, "boolean");
     }
 
     @Override
-    public <T extends ScopedConfigurationNode<T>> void serialize(@NonNull TypeToken<?> type, @Nullable Boolean obj, @NonNull T node) throws ObjectMappingException {
-        node.setValue(Types.asBoolean(obj));
+    public Object serialize(Boolean item, Predicate<Class<?>> typeSupported) {
+        if (typeSupported.test(Integer.class)) {
+            return item ? 1 : 0;
+        } else {
+            return item.toString();
+        }
     }
 }
