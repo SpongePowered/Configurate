@@ -18,6 +18,7 @@ package org.spongepowered.configurate.util;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -33,7 +34,6 @@ public interface MapFactory {
      * @param <V> The value
      * @return A new map instance
      */
-    @NonNull
-    <K, V> ConcurrentMap<K, V> create();
+    <K, V> Map<K, V> create();
 
 }

@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +30,7 @@ import java.util.concurrent.ConcurrentMap;
  * A {@link ConfigValue} which holds a map of values.
  */
 class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> extends ConfigValue<N, A> {
-    volatile ConcurrentMap<Object, A> values;
+    volatile Map<Object, A> values;
 
     public MapConfigValue(A holder) {
         super(holder);
@@ -41,8 +42,13 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
         return ValueType.MAP;
     }
 
-    private ConcurrentMap<Object, A> newMap() {
-        return holder.getOptions().getMapFactory().create();
+    private Map<Object, A> newMap() {
+        Map<Object, A> ret = holder.getOptions().getMapFactory().create();
+        if (!(ret instanceof ConcurrentMap)) {
+            return Collections.synchronizedMap(ret);
+        } else {
+            return ret;
+        }
     }
 
     @Nullable
@@ -64,7 +70,7 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
     @Override
     public void setValue(@Nullable Object value) {
         if (value instanceof Map) {
-            final ConcurrentMap<Object, A> newValue = newMap();
+            final Map<Object, A> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
                 if (ent.getValue() == null) {
                     continue;
@@ -75,7 +81,7 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
                 child.setValue(ent.getValue());
             }
             synchronized (this) {
-                ConcurrentMap<Object, A> oldMap = this.values;
+                Map<Object, A> oldMap = this.values;
                 this.values = newValue;
                 detachChildren(oldMap);
             }
@@ -141,7 +147,7 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
     @Override
     public void clear() {
         synchronized (this) {
-            ConcurrentMap<Object, A> oldMap = this.values;
+            Map<Object, A> oldMap = this.values;
             this.values = newMap();
             detachChildren(oldMap);
         }
