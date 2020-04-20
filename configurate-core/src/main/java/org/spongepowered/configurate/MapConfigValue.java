@@ -17,9 +17,12 @@
 package org.spongepowered.configurate;
 
 import com.google.common.collect.ImmutableMap;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,11 +32,10 @@ import java.util.concurrent.ConcurrentMap;
  * A {@link ConfigValue} which holds a map of values.
  */
 class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> extends ConfigValue<N, A> {
-    volatile ConcurrentMap<Object, A> values;
+    private volatile @MonotonicNonNull ConcurrentMap<Object, A> values;
 
     public MapConfigValue(A holder) {
         super(holder);
-        values = newMap();
     }
 
     @Override
@@ -45,19 +47,34 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
         return holder.getOptions().getMapFactory().create();
     }
 
-    @Nullable
+    private ConcurrentMap<Object, A> getOrInitMap() {
+        synchronized (this) {
+            if (values == null) {
+                values = newMap();
+            }
+            return values;
+        }
+    }
+
     @Override
-    public Object getValue() {
-        Map<Object, Object> value = new LinkedHashMap<>();
-        for (Map.Entry<Object, A> ent : values.entrySet()) {
-            value.put(ent.getKey(), ent.getValue().getValue()); // unwrap key from the backing node
+    public @Nullable Object getValue() {
+        Map<Object, @Nullable Object> value = new LinkedHashMap<>();
+        ConcurrentMap<Object, A> thisVals = this.values;
+        if (thisVals != null) {
+            for (Map.Entry<Object, A> ent : thisVals.entrySet()) {
+                value.put(ent.getKey(), ent.getValue().getValue()); // unwrap key from the backing node
+            }
         }
         return value;
     }
 
     public Map<Object, N> getUnwrapped() {
-        ImmutableMap.Builder<Object, N> build = ImmutableMap.builderWithExpectedSize(values.size());
-        values.forEach((k, v) -> build.put(k, v.self()));
+        ConcurrentMap<Object, A> thisVals = this.values;
+        if (thisVals == null) {
+            return ImmutableMap.of();
+        }
+        ImmutableMap.Builder<Object, N> build = ImmutableMap.builderWithExpectedSize(thisVals.size());
+        thisVals.forEach((k, v) -> build.put(k, v.self()));
         return build.build();
     }
 
@@ -66,11 +83,12 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
         if (value instanceof Map) {
             final ConcurrentMap<Object, A> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
-                if (ent.getValue() == null) {
+                Object key = ent.getKey();
+                if (key == null || ent.getValue() == null) {
                     continue;
                 }
-                A child = holder.createNode(ent.getKey());
-                newValue.put(ent.getKey(), child);
+                A child = holder.createNode(key);
+                newValue.put(key, child);
                 child.attached = true;
                 child.setValue(ent.getValue());
             }
@@ -84,54 +102,62 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
         }
     }
 
-    @Nullable
     @Override
-    A putChild(@NonNull Object key, @Nullable A value) {
+    @Nullable A putChild(Object key, @Nullable A value) {
         if (value == null) {
-            return values.remove(key);
+            ConcurrentMap<Object, A> values = this.values;
+            return values == null ? null : values.remove(key);
         } else {
-            return values.put(key, value);
+            return getOrInitMap().put(key, value);
         }
     }
 
-    @Nullable
     @Override
-    A putChildIfAbsent(@NonNull Object key, @Nullable A value) {
+    @Nullable A putChildIfAbsent(Object key, @Nullable A value) {
         if (value == null) {
-            return values.remove(key);
+            ConcurrentMap<Object, A> values = this.values;
+            return values == null ? null : values.remove(key);
         } else {
-            return values.putIfAbsent(key, value);
+            return getOrInitMap().putIfAbsent(key, value);
         }
     }
 
-    @Nullable
     @Override
-    public A getChild(@Nullable Object key) {
-        return values.get(key);
+    public @Nullable A getChild(Object key) {
+        ConcurrentMap<Object, A> values = this.values;
+        return values == null ? null : values.get(key);
     }
 
-    @NonNull
     @Override
     public Iterable<A> iterateChildren() {
-        return values.values();
+        ConcurrentMap<Object, A> values = this.values;
+        return values == null ? Collections.emptySet() : values.values();
     }
 
-    @NonNull
     @Override
-    MapConfigValue<N, A> copy(@NonNull A holder) {
+    MapConfigValue<N, A> copy(A holder) {
         MapConfigValue<N, A> copy = new MapConfigValue<>(holder);
-        for (Map.Entry<Object, A> ent : this.values.entrySet()) {
-            copy.values.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy
+        ConcurrentMap<Object, A> values = this.values;
+        if (values != null) {
+            ConcurrentMap<Object, A> copyMap = copy.getOrInitMap();
+            for (Map.Entry<Object, A> ent : values.entrySet()) {
+                copyMap.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy
+            }
         }
         return copy;
     }
 
     @Override
     boolean isEmpty() {
-        return values.isEmpty();
+        ConcurrentMap<Object, A> values = this.values;
+        return values == null || values.isEmpty();
     }
 
-    private static void detachChildren(Map<Object, ? extends AbstractConfigurationNode<?, ?>> map) {
+    private static void detachChildren(@Nullable Map<Object, ? extends AbstractConfigurationNode<?, ?>> map) {
+        if (map == null) {
+            return;
+        }
+
         for (AbstractConfigurationNode<?, ?> value : map.values()) {
             value.attached = false;
             value.clear();
@@ -148,7 +174,7 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) {
             return true;
         }
@@ -161,7 +187,7 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
 
     @Override
     public int hashCode() {
-        return values.hashCode();
+        return values == null ? 0 : values.hashCode();
     }
 
     @Override

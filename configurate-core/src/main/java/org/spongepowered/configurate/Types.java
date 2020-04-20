@@ -41,8 +41,7 @@ public final class Types {
      * @return <code>value</code> as a {@link String}, or null
      * @see Object#toString()
      */
-    @Nullable
-    public static String asString(@Nullable Object value) {
+    public static @Nullable String asString(@Nullable Object value) {
         return value == null ? null : value.toString();
     }
 
@@ -52,8 +51,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link String}, or null
      */
-    @Nullable
-    public static String strictAsString(@Nullable Object value) {
+    public static @Nullable String strictAsString(@Nullable Object value) {
         return value instanceof String ? (String) value : null;
     }
 
@@ -68,8 +66,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Float}, or null
      */
-    @Nullable
-    public static Float asFloat(@Nullable Object value) {
+    public static @Nullable Float asFloat(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -93,8 +90,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Float}, or null
      */
-    @Nullable
-    public static Float strictAsFloat(@Nullable Object value) {
+    public static @Nullable Float strictAsFloat(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -118,8 +114,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Float}, or null
      */
-    @Nullable
-    public static Double asDouble(@Nullable Object value) {
+    public static @Nullable Double asDouble(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -145,8 +140,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Double}, or null
      */
-    @Nullable
-    public static Double strictAsDouble(@Nullable Object value) {
+    public static @Nullable Double strictAsDouble(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -172,8 +166,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Float}, or null
      */
-    @Nullable
-    public static Integer asInt(@Nullable Object value) {
+    public static @Nullable Integer asInt(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -203,8 +196,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Integer}, or null
      */
-    @Nullable
-    public static Integer strictAsInt(@Nullable Object value) {
+    public static @Nullable Integer strictAsInt(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -223,8 +215,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Float}, or null
      */
-    @Nullable
-    public static Long asLong(@Nullable Object value) {
+    public static @Nullable Long asLong(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -256,8 +247,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Long}, or null
      */
-    @Nullable
-    public static Long strictAsLong(@Nullable Object value) {
+    public static @Nullable Long strictAsLong(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -285,8 +275,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Boolean}, or null
      */
-    @Nullable
-    public static Boolean asBoolean(@Nullable Object value) {
+    public static @Nullable Boolean asBoolean(@Nullable Object value) {
         if (value == null) {
             return null;
         }
@@ -323,8 +312,7 @@ public final class Types {
      * @param value The value
      * @return <code>value</code> as a {@link Boolean}, or null
      */
-    @Nullable
-    public static Boolean strictAsBoolean(@Nullable Object value) {
+    public static @Nullable Boolean strictAsBoolean(@Nullable Object value) {
         if (value == null) {
             return null;
         }

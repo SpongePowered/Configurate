@@ -17,7 +17,11 @@
 package org.spongepowered.configurate.util;
 
 import com.google.common.collect.ImmutableSet;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.*;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.Covariant;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -77,23 +81,20 @@ public final class MapFactories {
 
     private enum DefaultFactory implements MapFactory {
         UNORDERED {
-            @NonNull
             @Override
-            public <K, V> ConcurrentMap<K, V> create() {
+            public <@NonNull K, @NonNull V> ConcurrentMap<K, V> create() {
                 return new ConcurrentHashMap<>();
             }
         },
         SORTED_NATURAL {
-            @NonNull
             @Override
-            public <K, V> ConcurrentMap<K, V> create() {
+            public <@NonNull K, @NonNull V> ConcurrentMap<K, V> create() {
                 return new ConcurrentSkipListMap<>();
             }
         },
         INSERTION_ORDERED {
-            @NonNull
             @Override
-            public <K, V> ConcurrentMap<K, V> create() {
+            public <@NonNull K, @NonNull V> ConcurrentMap<K, V> create() {
                 return new SynchronizedWrapper<>(new LinkedHashMap<>());
             }
         }
@@ -106,14 +107,13 @@ public final class MapFactories {
             this.comparator = comparator;
         }
 
-        @NonNull
         @Override
         public <K, V> ConcurrentMap<K, V> create() {
             return new ConcurrentSkipListMap<>(comparator);
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(@Nullable Object obj) {
             return obj instanceof SortedMapFactory && comparator.equals(((SortedMapFactory) obj).comparator);
         }
 
@@ -128,7 +128,8 @@ public final class MapFactories {
         }
     }
 
-    private static class SynchronizedWrapper<K, V> implements ConcurrentMap<K, V> {
+    @Covariant(0)
+    private static class SynchronizedWrapper<K extends @NonNull Object, V extends @NonNull Object> implements ConcurrentMap<@NonNull K, @NonNull V> {
         private final Map<K, V> wrapped;
 
         private SynchronizedWrapper(Map<K, V> wrapped) {
@@ -136,56 +137,45 @@ public final class MapFactories {
         }
 
         @Override
-        public V putIfAbsent(K k, V v) {
+        @EnsuresKeyFor(value = "#1", map = "this")
+        public @Nullable V putIfAbsent(K k, V v) {
             synchronized (wrapped) {
-                if (!wrapped.containsKey(k)) {
-                    wrapped.put(k, v);
-                } else {
-                    return wrapped.get(k);
-                }
+                return wrapped.putIfAbsent(k, v);
             }
-            return null;
         }
 
         @Override
         public boolean remove(Object key, Object expected) {
             synchronized (wrapped) {
-                if (Objects.equals(expected, wrapped.get(key))) {
-                    return wrapped.remove(key) != null;
-                }
+                return wrapped.remove(key, expected);
             }
-            return false;
         }
 
         @Override
         public boolean replace(K key, V old, V replace) {
             synchronized (wrapped) {
-                if (Objects.equals(old, wrapped.get(key))) {
-                    wrapped.put(key, replace);
-                    return true;
-                }
+                return wrapped.replace(key, old, replace);
             }
-            return false;
         }
 
         @Override
-        public V replace(K k, V v) {
+        public @Nullable V replace(K k, V v) {
             synchronized (wrapped) {
-                if (wrapped.containsKey(k)) {
-                    return wrapped.put(k, v);
-                }
+                wrapped.replace(k, v);
             }
             return null;
         }
 
         @Override
-        public int size() {
+        @Pure
+        public @NonNegative int size() {
             synchronized (wrapped) {
                 return wrapped.size();
             }
         }
 
         @Override
+        @Pure
         public boolean isEmpty() {
             synchronized (wrapped) {
                 return wrapped.isEmpty();
@@ -193,6 +183,7 @@ public final class MapFactories {
         }
 
         @Override
+        @EnsuresKeyForIf(result = true, expression = "#1", map = "this")
         public boolean containsKey(Object o) {
             synchronized (wrapped) {
                 return wrapped.containsKey(o);
@@ -200,6 +191,7 @@ public final class MapFactories {
         }
 
         @Override
+        @Pure
         public boolean containsValue(Object o) {
             synchronized (wrapped) {
                 return wrapped.containsKey(o);
@@ -207,21 +199,23 @@ public final class MapFactories {
         }
 
         @Override
-        public V get(Object o) {
+        @Pure
+        public @Nullable V get(Object o) {
             synchronized (wrapped) {
                 return wrapped.get(o);
             }
         }
 
         @Override
-        public V put(K k, V v) {
+        @EnsuresKeyFor(value = "#1", map = "this")
+        public @Nullable V put(K k, V v) {
             synchronized (wrapped) {
                 return wrapped.put(k, v);
             }
         }
 
         @Override
-        public V remove(Object o) {
+        public @Nullable V remove(Object o) {
             synchronized (wrapped) {
                 return wrapped.remove(o);
             }
@@ -242,6 +236,7 @@ public final class MapFactories {
         }
 
         @Override
+        @SideEffectFree
         public Set<K> keySet() {
             synchronized (wrapped) {
                 return ImmutableSet.copyOf(wrapped.keySet());
@@ -249,6 +244,7 @@ public final class MapFactories {
         }
 
         @Override
+        @SideEffectFree
         public Collection<V> values() {
             synchronized (wrapped) {
                 return ImmutableSet.copyOf(wrapped.values());
@@ -256,6 +252,7 @@ public final class MapFactories {
         }
 
         @Override
+        @SideEffectFree
         public Set<Entry<K, V>> entrySet() {
             synchronized (wrapped) {
                 return ImmutableSet.copyOf(wrapped.entrySet());
@@ -263,7 +260,7 @@ public final class MapFactories {
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(@Nullable Object obj) {
             if (obj == this) {
                 return true;
             }

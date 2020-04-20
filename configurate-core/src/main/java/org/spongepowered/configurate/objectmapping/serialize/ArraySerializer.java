@@ -29,7 +29,11 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     @Override
     TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
-        return containerType.getComponentType();
+        TypeToken<?> component = containerType.getComponentType();
+        if (component == null) {
+            throw new ObjectMappingException("Provided type " + containerType + " was not an array!");
+        }
+        return component;
     }
 
     static class Objects extends ArraySerializer<Object[]> {

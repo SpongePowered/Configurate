@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.transformation.NodePath;
@@ -73,8 +74,7 @@ public interface ConfigurationNode {
      *
      * @return The key of this node
      */
-    @Nullable
-    Object getKey();
+    @Nullable Object getKey();
 
     /**
      * Gets the full path of {@link #getKey() keys} from the root node to this node.
@@ -84,7 +84,6 @@ public interface ConfigurationNode {
      *
      * @return An array compiled from the keys for each node up the hierarchy
      */
-    @NonNull
     NodePath getPath();
 
     /**
@@ -113,8 +112,7 @@ public interface ConfigurationNode {
      * @param path The path to fetch the node at
      * @return The node at the given path, possibly virtual
      */
-    @NonNull
-    ConfigurationNode getNode(@NonNull Object... path);
+    ConfigurationNode getNode(Object... path);
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
@@ -131,8 +129,7 @@ public interface ConfigurationNode {
      * @param path The path to fetch the node at
      * @return The node at the given path, possibly virtual
      */
-    @NonNull
-    ConfigurationNode getNode(@NonNull Iterable<Object> path);
+    ConfigurationNode getNode(Iterable<Object> path);
 
     /**
      * Gets if this node is virtual.
@@ -150,7 +147,6 @@ public interface ConfigurationNode {
      *
      * @return The ConfigurationOptions instance that governs the functionality of this node
      */
-    @NonNull
     ConfigurationOptions getOptions();
 
     /**
@@ -158,7 +154,6 @@ public interface ConfigurationNode {
      *
      * @return The value type
      */
-    @NonNull
     ValueType getValueType();
 
     /**
@@ -205,7 +200,6 @@ public interface ConfigurationNode {
      *
      * @return The list children currently attached to this node
      */
-    @NonNull
     List<? extends ConfigurationNode> getChildrenList();
 
     /**
@@ -216,7 +210,6 @@ public interface ConfigurationNode {
      *
      * @return The map children currently attached to this node
      */
-    @NonNull
     Map<Object, ? extends ConfigurationNode> getChildrenMap();
 
     /**
@@ -228,8 +221,7 @@ public interface ConfigurationNode {
      * @see #getValue(Object)
      * @return This configuration's current value, or null if there is none
      */
-    @Nullable
-    default Object getValue() {
+    default @Nullable Object getValue() {
         return getValue((Object) null);
     }
 
@@ -242,7 +234,7 @@ public interface ConfigurationNode {
      * @param def The default value to return if this node has no set value
      * @return This configuration's current value, or {@code def} if there is none
      */
-    Object getValue(@Nullable Object def);
+    @PolyNull Object getValue(@PolyNull Object def);
 
     /**
      * Get the current value associated with this node.
@@ -254,7 +246,7 @@ public interface ConfigurationNode {
      *                    there is no existing value
      * @return This configuration's current value, or {@code def} if there is none
      */
-    Object getValue(@NonNull Supplier<Object> defSupplier);
+    @PolyNull Object getValue(Supplier<@PolyNull Object> defSupplier);
 
     /**
      * Gets the appropriately transformed typed version of this node's value from the provided
@@ -265,8 +257,7 @@ public interface ConfigurationNode {
      * @return A transformed value of the correct type, or null either if no value is present or the
      * value could not be converted
      */
-    @Nullable
-    default <V> V getValue(@NonNull Function<Object, V> transformer) {
+    default <V> @PolyNull V getValue(@NonNull Function<Object, @PolyNull V> transformer) {
         return getValue(transformer, (V) null);
     }
 
@@ -281,7 +272,7 @@ public interface ConfigurationNode {
      * @return A transformed value of the correct type, or {@code def} either if no value is present
      * or the value could not be converted
      */
-    <V> V getValue(@NonNull Function<Object, V> transformer, @Nullable V def);
+    <V> @PolyNull V getValue(Function<Object, @Nullable V> transformer, @PolyNull V def);
 
     /**
      * Gets the appropriately transformed typed version of this node's value from the provided
@@ -294,7 +285,7 @@ public interface ConfigurationNode {
      * @return A transformed value of the correct type, or {@code def} either if no value is present
      * or the value could not be converted
      */
-    <V> V getValue(@NonNull Function<Object, V> transformer, @NonNull Supplier<V> defSupplier);
+    <V> @PolyNull V getValue(Function<Object, @Nullable V> transformer, Supplier<@PolyNull V> defSupplier);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -306,8 +297,7 @@ public interface ConfigurationNode {
      * @param <V> The expected type
      * @return An immutable copy of the values contained
      */
-    @NonNull
-    <V> List<V> getList(@NonNull Function<Object, V> transformer);
+    <V> List<V> getList(Function<Object, @Nullable V> transformer);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -321,7 +311,7 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <V> List<V> getList(@NonNull Function<Object, V> transformer, @Nullable List<V> def);
+    <V> @PolyNull List<V> getList(Function<Object, @Nullable V> transformer, @PolyNull List<V> def);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -336,7 +326,7 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained that could be successfully converted, or {@code def} if no
      * values could be converted
      */
-    <V> List<V> getList(@NonNull Function<Object, V> transformer, @NonNull Supplier<List<V>> defSupplier);
+    <V> @PolyNull List<V> getList(Function<Object, V> transformer, Supplier<@PolyNull List<V>> defSupplier);
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -349,8 +339,7 @@ public interface ConfigurationNode {
      * @return An immutable copy of the values contained
      * @throws ObjectMappingException If any value fails to be converted to the requested type
      */
-    @NonNull
-    default <V> List<V> getList(@NonNull TypeToken<V> type) throws ObjectMappingException {
+    default <V> List<V> getList(TypeToken<V> type) throws ObjectMappingException {
         return getList(type, ImmutableList.of());
     }
 
@@ -367,7 +356,7 @@ public interface ConfigurationNode {
      * values could be converted
      * @throws ObjectMappingException If any value fails to be converted to the requested type
      */
-    <V> List<V> getList(@NonNull TypeToken<V> type, @Nullable List<V> def) throws ObjectMappingException;
+    <V> @PolyNull List<V> getList(TypeToken<V> type, @PolyNull List<V> def) throws ObjectMappingException;
 
     /**
      * If this node has list values, this function unwraps them and converts them to an appropriate
@@ -383,7 +372,7 @@ public interface ConfigurationNode {
      * values could be converted
      * @throws ObjectMappingException If any value fails to be converted to the requested type
      */
-    <V> List<V> getList(@NonNull TypeToken<V> type, @NonNull Supplier<List<V>> defSupplier) throws ObjectMappingException;
+    <V> @PolyNull List<V> getList(TypeToken<V> type, @NonNull Supplier<@PolyNull List<V>> defSupplier) throws ObjectMappingException;
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Types}
@@ -391,8 +380,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, null if no appropriate value is available
      */
-    @Nullable
-    default String getString() {
+    default @Nullable String getString() {
         return getString(null);
     }
 
@@ -403,7 +391,7 @@ public interface ConfigurationNode {
      * @see #getValue()
      * @return The appropriate type conversion, {@code def} if no appropriate value is available
      */
-    default String getString(@Nullable String def) {
+    default @PolyNull String getString(@PolyNull String def) {
         return getValue(Types::asString, def);
     }
 
@@ -526,8 +514,7 @@ public interface ConfigurationNode {
      * @return the value if present and of the proper type, else null
      * @throws ObjectMappingException If the value fails to be converted to the requested type
      */
-    @Nullable
-    default <V> V getValue(@NonNull TypeToken<V> type) throws ObjectMappingException {
+    default <V> @Nullable V getValue(@NonNull TypeToken<V> type) throws ObjectMappingException {
         return getValue(type, (V) null);
     }
 
@@ -546,7 +533,7 @@ public interface ConfigurationNode {
      * @return the value if of the proper type, else {@code def}
      * @throws ObjectMappingException If the value fails to be converted to the requested type
      */
-    <V> V getValue(@NonNull TypeToken<V> type, V def) throws ObjectMappingException;
+    <V> @PolyNull V getValue(TypeToken<V> type, @PolyNull V def) throws ObjectMappingException;
 
     /**
      * Get the current value associated with this node.
@@ -564,7 +551,7 @@ public interface ConfigurationNode {
      * @return the value if of the proper type, else {@code def}
      * @throws ObjectMappingException If the value fails to be converted to the requested type
      */
-    <V> V getValue(@NonNull TypeToken<V> type, @NonNull Supplier<V> defSupplier) throws ObjectMappingException;
+    <V> @PolyNull V getValue(TypeToken<V> type, Supplier<@PolyNull V> defSupplier) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
@@ -575,7 +562,6 @@ public interface ConfigurationNode {
      * @param value The value to set
      * @return this
      */
-    @NonNull
     ConfigurationNode setValue(@Nullable Object value);
 
     /**
@@ -593,8 +579,7 @@ public interface ConfigurationNode {
      * @return this
      * @throws ObjectMappingException If the value fails to be converted to the requested type. No change will be made to the node.
      */
-    @NonNull
-    <V> ConfigurationNode setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
+    <V> ConfigurationNode setValue(TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
 
     /**
      * Set all the values from the given node that are not present in this node
@@ -605,8 +590,7 @@ public interface ConfigurationNode {
      * @param other The node to merge values from
      * @return this
      */
-    @NonNull
-    ConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
+    ConfigurationNode mergeValuesFrom(ConfigurationNode other);
 
     /**
      * Removes a direct child of this node
@@ -614,14 +598,13 @@ public interface ConfigurationNode {
      * @param key The key of the node to remove
      * @return If a node was removed
      */
-    boolean removeChild(@NonNull Object key);
+    boolean removeChild(Object key);
 
     /**
      * Gets a new child node created as the next entry in the list.
      *
      * @return A new child created as the next entry in the list when it is attached
      */
-    @NonNull
     ConfigurationNode appendListNode();
 
     /**
@@ -641,6 +624,5 @@ public interface ConfigurationNode {
      *
      * @return A copy of this node
      */
-    @NonNull
     ConfigurationNode copy();
 }

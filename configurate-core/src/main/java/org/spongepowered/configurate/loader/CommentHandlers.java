@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.loader;
 
 import com.google.common.collect.Collections2;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
@@ -64,15 +63,13 @@ public enum CommentHandlers implements CommentHandler {
         this.delegate = delegate;
     }
 
-    @NonNull
     @Override
-    public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
+    public Optional<String> extractHeader(BufferedReader reader) throws IOException {
         return delegate.extractHeader(reader);
     }
 
-    @NonNull
     @Override
-    public Collection<String> toComment(@NonNull Collection<String> lines) {
+    public Collection<String> toComment(Collection<String> lines) {
         return delegate.toComment(lines);
     }
 
@@ -84,8 +81,7 @@ public enum CommentHandlers implements CommentHandler {
      * @return The extracted comment, or null if a comment could not be extracted
      * @throws IOException If an IO error occurs
      */
-    @Nullable
-    public static String extractComment(@NonNull BufferedReader reader, @NonNull CommentHandler... allowedHeaderTypes) throws IOException {
+    public static @Nullable String extractComment(BufferedReader reader, CommentHandler... allowedHeaderTypes) throws IOException {
         reader.mark(READAHEAD_LEN);
         for (CommentHandler handler : allowedHeaderTypes) {
             Optional<String> comment = handler.extractHeader(reader);
@@ -109,9 +105,8 @@ public enum CommentHandlers implements CommentHandler {
             this.lineIndentSequence = lineIndentSequence;
         }
 
-        @NonNull
         @Override
-        public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
+        public Optional<String> extractHeader(BufferedReader reader) throws IOException {
             final StringBuilder build = new StringBuilder();
             String line = reader.readLine();
             if (line == null) {
@@ -168,9 +163,8 @@ public enum CommentHandlers implements CommentHandler {
             return moreLines;
         }
 
-        @NonNull
         @Override
-        public Collection<String> toComment(@NonNull Collection<String> lines) {
+        public Collection<String> toComment(Collection<String> lines) {
             if (lines.size() == 1) {
                 return lines.stream().map(i -> startSequence + " " + i + " " + endSequence).collect(Collectors.toList());
             } else {
@@ -190,9 +184,8 @@ public enum CommentHandlers implements CommentHandler {
             this.commentPrefix = commentPrefix;
         }
 
-        @NonNull
         @Override
-        public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
+        public Optional<String> extractHeader(BufferedReader reader) throws IOException {
             StringBuilder build = new StringBuilder();
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 if (line.trim().startsWith(commentPrefix)) {
@@ -216,10 +209,10 @@ public enum CommentHandlers implements CommentHandler {
             return build.length() > 0 ? Optional.of(build.toString()) : Optional.empty();
         }
 
-        @NonNull
         @Override
-        public Collection<String> toComment(@NonNull Collection<String> lines) {
+        public Collection<String> toComment(Collection<String> lines) {
             return Collections2.transform(lines, s -> {
+                if (s == null) { return s; }
                 if (s.startsWith(" ")) {
                     return commentPrefix + s;
                 } else {

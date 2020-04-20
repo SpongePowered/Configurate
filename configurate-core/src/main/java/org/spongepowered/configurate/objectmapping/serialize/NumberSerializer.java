@@ -20,6 +20,7 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.objectmapping.InvalidTypeException;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.function.Predicate;
@@ -56,7 +57,7 @@ class NumberSerializer implements TypeSerializer<Number> {
         } else if (Double.class.equals(clazz)) {
             return node.getDouble();
         }
-        return null;
+        throw new InvalidTypeException(type);
     }
 
     @Override

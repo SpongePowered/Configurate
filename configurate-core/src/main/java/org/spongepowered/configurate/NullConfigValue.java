@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate;
 
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -25,7 +27,7 @@ import java.util.Collections;
  * A {@link ConfigValue} which holds no value.
  */
 class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
-    NullConfigValue(T holder) {
+    NullConfigValue(@UnknownInitialization T holder) {
         super(holder);
     }
 
@@ -34,9 +36,8 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         return ValueType.NULL;
     }
 
-    @Nullable
     @Override
-    public Object getValue() {
+    public @Nullable Object getValue() {
         return null;
     }
 
@@ -44,31 +45,26 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     public void setValue(@Nullable Object value) {
     }
 
-    @Nullable
     @Override
-    T putChild(@NonNull Object key, @Nullable T value) {
+    @Nullable T putChild(Object key, @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
+    @Nullable T putChildIfAbsent(Object key, @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    public T getChild(@Nullable Object key) {
+    public @Nullable T getChild(Object key) {
         return null;
     }
 
-    @NonNull
     @Override
     public Iterable<T> iterateChildren() {
         return Collections.emptySet();
     }
 
-    @NonNull
     @Override
     NullConfigValue<N, T> copy(@NonNull T holder) {
         return new NullConfigValue<>(holder);
@@ -85,7 +81,7 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         return o instanceof NullConfigValue;
     }
 

@@ -16,10 +16,14 @@
  */
 package org.spongepowered.configurate;
 
+import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * The value in a {@link ConfigurationNode}.
@@ -29,10 +33,9 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * The node this value "belongs" to.
      */
-    @NonNull
-    protected final T holder;
+    protected final @NotOnlyInitialized T holder;
 
-    protected ConfigValue(@NonNull T holder) {
+    protected ConfigValue(@UnknownInitialization T holder) {
         this.holder = holder;
     }
 
@@ -43,15 +46,14 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      *
      * @return The value
      */
-    @Nullable
-    abstract Object getValue();
+    abstract @Nullable Object getValue();
 
     /**
      * Sets the value encapsulated by this instance
      *
      * @param value The value
      */
-    abstract void setValue(@Nullable Object value);
+    abstract void setValue(Object value);
 
     /**
      * Put a child value, or null to remove value at that key
@@ -60,8 +62,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param value The node to put at key
      * @return Existing node at key, if present
      */
-    @Nullable
-    abstract T putChild(@NonNull Object key, @Nullable T value);
+    abstract @Nullable T putChild(Object key, @Nullable T value);
 
     /**
      * Put a child value, if one isn't already present at that key
@@ -70,8 +71,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param value The node to put at key
      * @return Existing node at key, if present
      */
-    @Nullable
-    abstract T putChildIfAbsent(@NonNull Object key, @Nullable T value);
+    abstract @Nullable T putChildIfAbsent(Object key, @Nullable T value);
 
     /**
      * Gets the currently present child for the given key. Returns null if no child is present
@@ -79,15 +79,13 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param key The key to get child at
      * @return The child if any
      */
-    @Nullable
-    abstract T getChild(@Nullable Object key);
+    abstract @Nullable T getChild(Object key);
 
     /**
      * Returns an iterable over all child nodes
      *
      * @return An iterator
      */
-    @NonNull
     abstract Iterable<T> iterateChildren();
 
     /**
@@ -95,8 +93,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      *
      * @return A copy
      */
-    @NonNull
-    abstract ConfigValue<N, T> copy(@NonNull T holder);
+    abstract ConfigValue<N, T> copy(T holder);
 
     /**
      * Whether this value has any content
@@ -113,7 +110,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
             T node = it.next();
             node.attached = false;
             it.remove();
-            if (node.getParentEnsureAttached().equals(holder)) {
+            if (Objects.equals(node.getParentEnsureAttached(), holder)) {
                 node.clear();
             }
         }

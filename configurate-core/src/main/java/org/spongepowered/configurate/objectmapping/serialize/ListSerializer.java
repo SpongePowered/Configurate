@@ -42,7 +42,9 @@ class ListSerializer extends AbstractListChildSerializer<List<?>> {
     @Override
     void forEachElement(List<?> collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
         for (Object el: collection) {
-            action.accept(el);
+            if (el != null) {
+                action.accept(el);
+            }
         }
     }
 

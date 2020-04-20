@@ -42,14 +42,14 @@ import static java.util.Objects.requireNonNull;
  * <p>This class is immutable.</p>
  */
 public class ConfigurationOptions {
-    @NonNull private final MapFactory mapFactory;
-    @Nullable private final String header;
-    @NonNull private final TypeSerializerCollection serializers;
-    @Nullable private final ImmutableSet<Class<?>> acceptedTypes;
-    @NonNull private final ObjectMapperFactory objectMapperFactory;
+    private final MapFactory mapFactory;
+    private final @Nullable String header;
+    private final TypeSerializerCollection serializers;
+    private final @Nullable ImmutableSet<Class<?>> acceptedTypes;
+    private final ObjectMapperFactory objectMapperFactory;
     private final boolean shouldCopyDefaults;
 
-    private ConfigurationOptions(@NonNull MapFactory mapFactory, @Nullable String header, @NonNull TypeSerializerCollection serializers, @Nullable Set<Class<?>> acceptedTypes, @NonNull ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
+    private ConfigurationOptions(MapFactory mapFactory, @Nullable String header, TypeSerializerCollection serializers, @Nullable Set<Class<?>> acceptedTypes, ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
         this.mapFactory = mapFactory;
         this.header = header;
         this.serializers = serializers;
@@ -63,7 +63,6 @@ public class ConfigurationOptions {
      *
      * @return A new default options object
      */
-    @NonNull
     public static ConfigurationOptions defaults() {
         return new ConfigurationOptions(MapFactories.insertionOrdered(), null,
                 TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
@@ -74,7 +73,6 @@ public class ConfigurationOptions {
      *
      * @return The map factory
      */
-    @NonNull
     public MapFactory getMapFactory() {
         return mapFactory;
     }
@@ -86,10 +84,9 @@ public class ConfigurationOptions {
      * @param mapFactory The new factory to use to create a map
      * @return The new options object
      */
-    @NonNull
-    public ConfigurationOptions withMapFactory(@NonNull MapFactory mapFactory) {
+    public ConfigurationOptions withMapFactory(MapFactory mapFactory) {
         requireNonNull(mapFactory, "mapFactory");
-        if (this.mapFactory == mapFactory) {
+        if (this.mapFactory.equals(mapFactory)) {
             return this;
         }
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
@@ -100,8 +97,7 @@ public class ConfigurationOptions {
      *
      * @return The current header. Lines are split by \n,
      */
-    @Nullable
-    public String getHeader() {
+    public @Nullable String getHeader() {
         return this.header;
     }
 
@@ -112,7 +108,6 @@ public class ConfigurationOptions {
      * @param header The new header to use
      * @return The new options object
      */
-    @NonNull
     public ConfigurationOptions withHeader(@Nullable String header) {
         if (Objects.equals(this.header, header)) {
             return this;
@@ -125,7 +120,6 @@ public class ConfigurationOptions {
      *
      * @return The type serializers
      */
-    @NonNull
     public TypeSerializerCollection getSerializers() {
         return this.serializers;
     }
@@ -137,10 +131,9 @@ public class ConfigurationOptions {
      * @param serializers The serializers to use
      * @return The new options object
      */
-    @NonNull
-    public ConfigurationOptions withSerializers(@NonNull TypeSerializerCollection serializers) {
+    public ConfigurationOptions withSerializers(TypeSerializerCollection serializers) {
         requireNonNull(serializers, "serializers");
-        if (this.serializers == serializers) {
+        if (this.serializers.equals(serializers)) {
             return this;
         }
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
@@ -151,7 +144,6 @@ public class ConfigurationOptions {
      *
      * @return The factory used to construct ObjectMapper instances
      */
-    @NonNull
     public ObjectMapperFactory getObjectMapperFactory() {
         return this.objectMapperFactory;
     }
@@ -163,10 +155,9 @@ public class ConfigurationOptions {
      * @param objectMapperFactory The factory to use to produce object mapper instances. Must not be null
      * @return updated options object
      */
-    @NonNull
-    public ConfigurationOptions withObjectMapperFactory(@NonNull ObjectMapperFactory objectMapperFactory) {
+    public ConfigurationOptions withObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
         requireNonNull(objectMapperFactory, "factory");
-        if (this.objectMapperFactory == objectMapperFactory) {
+        if (this.objectMapperFactory.equals(objectMapperFactory)) {
             return this;
         }
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
@@ -179,7 +170,7 @@ public class ConfigurationOptions {
      * @param type The type to check
      * @return Whether the type is accepted
      */
-    public boolean acceptsType(@NonNull Class<?> type) {
+    public boolean acceptsType(Class<?> type) {
         requireNonNull(type, "type");
 
         if (this.acceptedTypes == null) {
@@ -217,7 +208,6 @@ public class ConfigurationOptions {
      * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
      * @return updated options object
      */
-    @NonNull
     public ConfigurationOptions withAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
         if (Objects.equals(this.acceptedTypes, acceptedTypes)) {
             return this;
@@ -243,7 +233,6 @@ public class ConfigurationOptions {
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
      */
-    @NonNull
     public ConfigurationOptions withShouldCopyDefaults(boolean shouldCopyDefaults) {
         if (this.shouldCopyDefaults == shouldCopyDefaults) {
             return this;
@@ -252,7 +241,7 @@ public class ConfigurationOptions {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (!(o instanceof ConfigurationOptions)) return false;
         ConfigurationOptions that = (ConfigurationOptions) o;

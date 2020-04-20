@@ -39,7 +39,6 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      *
      * @return The default options
      */
-    @NonNull
     ConfigurationOptions getDefaultOptions();
 
     /**
@@ -53,7 +52,6 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      * @return The newly constructed node
      * @throws IOException if any sort of error occurs with reading or parsing the configuration
      */
-    @NonNull
     default N load() throws IOException {
         return load(getDefaultOptions());
     }
@@ -67,8 +65,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      * @return The newly constructed node
      * @throws IOException if any sort of error occurs with reading or parsing the configuration
      */
-    @NonNull
-    N load(@NonNull ConfigurationOptions options) throws IOException;
+    N load(ConfigurationOptions options) throws IOException;
 
     /**
      * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.
@@ -76,14 +73,13 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      * @param node The node to save
      * @throws IOException if any sort of error occurs with writing or generating the configuration
      */
-    void save(@NonNull ConfigurationNode node) throws IOException;
+    void save(ConfigurationNode node) throws IOException;
 
     /**
      * Return an empty node of the most appropriate type for this loader, using the default options.
      *
      * @return The appropriate node type
      */
-    @NonNull
     default N createEmptyNode() {
         return createEmptyNode(getDefaultOptions());
     }
@@ -94,8 +90,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      * @param options The options to use with this node. Must not be null (see {@link ConfigurationOptions#defaults()})
      * @return The appropriate node type
      */
-    @NonNull
-    N createEmptyNode(@NonNull ConfigurationOptions options);
+    N createEmptyNode(ConfigurationOptions options);
 
     /**
      * Gets if this loader is capable of loading configurations.

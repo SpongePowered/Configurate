@@ -35,8 +35,7 @@ public interface CommentHandler {
      * @return The comment
      * @throws IOException If any IO error occurs in the process
      */
-    @NonNull
-    Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException;
+    Optional<String> extractHeader(BufferedReader reader) throws IOException;
 
     /**
      * Converts the given lines into a comment
@@ -44,7 +43,6 @@ public interface CommentHandler {
      * @param lines The lines to make a comment
      * @return The transformed lines
      */
-    @NonNull
-    Collection<String> toComment(@NonNull Collection<String> lines);
+    Collection<String> toComment(Collection<String> lines);
 
 }

@@ -25,23 +25,19 @@ import java.util.function.Consumer;
  */
 public interface CommentedConfigurationNode extends CommentedConfigurationNodeIntermediary<CommentedConfigurationNode> {
 
-    @NonNull
     static CommentedConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    @NonNull
-    static CommentedConfigurationNode root(Consumer<? super CommentedConfigurationNode> action) {
+    static CommentedConfigurationNode root(Consumer<CommentedConfigurationNode> action) {
         return root().act(action);
     }
 
-    @NonNull
-    static CommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
+    static CommentedConfigurationNode root(ConfigurationOptions options) {
         return new SimpleCommentedConfigurationNode(null, null, options);
     }
 
-    @NonNull
-    static CommentedConfigurationNode root(@NonNull ConfigurationOptions options, Consumer<? super CommentedConfigurationNode> action) {
+    static CommentedConfigurationNode root(ConfigurationOptions options, Consumer<CommentedConfigurationNode> action) {
         return root(options).act(action);
     }
 

@@ -20,8 +20,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
+import org.checkerframework.checker.nullness.qual.AssertNonNullIfNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
@@ -40,12 +44,11 @@ import static java.util.Objects.requireNonNull;
 /**
  * Simple implementation of {@link ConfigurationNode}.
  */
-abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> implements ScopedConfigurationNode<N>  {
+abstract class AbstractConfigurationNode<@NonNull N extends ScopedConfigurationNode<N>, @NonNull A extends AbstractConfigurationNode<N, A>> implements ScopedConfigurationNode<N>  {
 
     /**
      * The options determining the behaviour of this node
      */
-    @NonNull
     private final ConfigurationOptions options;
 
     /**
@@ -59,28 +62,25 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * Internally, may only be modified when an operation that adds or removes a node at the same
      * or higher level in the node tree
      */
-    @Nullable
-    volatile Object key;
+    volatile @Nullable Object key;
 
     /**
      * The parent of this node
      */
-    @Nullable
-    private A parent;
+    private @Nullable A parent;
 
     /**
      * The current value of this node
      */
-    @NonNull
     volatile ConfigValue<N, A> value;
 
-
-    protected AbstractConfigurationNode(@Nullable Object key, @Nullable A parent, @NonNull ConfigurationOptions options) {
+    protected AbstractConfigurationNode(@Nullable Object key, @Nullable A parent, ConfigurationOptions options) {
         requireNonNull(options, "options");
         this.key = key;
         this.options = options;
         this.parent = parent;
-        this.value = new NullConfigValue<>(implSelf());
+        //noinspection unchecked
+        this.value = new NullConfigValue<>(me());
 
         // if the parent is null, this node is a root node, and is therefore "attached"
         if (parent == null) {
@@ -93,7 +93,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         this.attached = true; // copies are always attached
         this.key = copyOf.key;
         this.parent = parent;
-        this.value = copyOf.value.copy(implSelf());
+        this.value = copyOf.value.copy(me());
+    }
+
+    @SuppressWarnings("unchecked")
+    private @UnderInitialization A me(@UnknownInitialization AbstractConfigurationNode<N, A> this) {
+        return (A) this;
     }
 
     /**
@@ -103,14 +108,14 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * @param <T> the value type
      * @return the same value
      */
-    private <T> T storeDefault(T defValue) {
+    private <@PolyNull T> T storeDefault(T defValue) {
         if (defValue != null && getOptions().shouldCopyDefaults()) {
             setValue(defValue);
         }
         return defValue;
     }
 
-    private <T> T storeDefault(TypeToken<T> type, T defValue) throws ObjectMappingException {
+    private <@PolyNull T> T storeDefault(TypeToken<T> type, T defValue) throws ObjectMappingException {
         if (defValue != null && getOptions().shouldCopyDefaults()) {
             setValue(type, defValue);
         }
@@ -118,45 +123,44 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public Object getValue(Object def) {
+    public @PolyNull Object getValue(@PolyNull Object def) {
         Object ret = value.getValue();
         return ret == null ? storeDefault(def) : ret;
     }
 
     @Override
-    public Object getValue(@NonNull Supplier<Object> defSupplier) {
+    public @PolyNull Object getValue(Supplier<@PolyNull Object> defSupplier) {
         Object ret = value.getValue();
         return ret == null ? storeDefault(defSupplier.get()) : ret;
     }
 
     @Override
-    public <V> V getValue(@NonNull Function<Object, V> transformer, V def) {
-        V ret = transformer.apply(getValue());
+    public <@NonNull V> @PolyNull V getValue(Function<Object, @Nullable V> transformer, @PolyNull V def) {
+        V ret = applyIfNonNull(getValue(), transformer);
         return ret == null ? storeDefault(def) : ret;
     }
 
     @Override
-    public <V> V getValue(@NonNull Function<Object, V> transformer, @NonNull Supplier<V> defSupplier) {
-        V ret = transformer.apply(getValue());
+    public <V> @PolyNull V getValue(Function<Object, @Nullable V> transformer, Supplier<@PolyNull V> defSupplier) {
+        V ret = applyIfNonNull(getValue(), transformer);
         return ret == null ? storeDefault(defSupplier.get()) : ret;
     }
 
-    @NonNull
     @Override
-    public <V> List<V> getList(@NonNull Function<Object, V> transformer) {
+    public <@NonNull V> List<V> getList(Function<Object, @Nullable V> transformer) {
         final ImmutableList.Builder<V> ret = ImmutableList.builder();
         ConfigValue<N, A> value = this.value;
         if (value instanceof ListConfigValue) {
             // transform each value individually if the node is a list
             for (A o : value.iterateChildren()) {
-                V transformed = transformer.apply(o.getValue());
+                V transformed = applyIfNonNull(o.getValue(), transformer);
                 if (transformed != null) {
                     ret.add(transformed);
                 }
             }
         } else {
             // transfer the value as a whole
-            V transformed = transformer.apply(value.getValue());
+            V transformed = applyIfNonNull(value.getValue(), transformer);
             if (transformed != null) {
                 ret.add(transformed);
             }
@@ -165,34 +169,47 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return ret.build();
     }
 
+    private <I, O> @Nullable O applyIfNonNull(@Nullable I in, Function<I, @Nullable O> func) {
+        if (in != null) {
+            return func.apply(in);
+        }
+        return null;
+    }
+
     @Override
-    public <V> List<V> getList(@NonNull Function<Object, V> transformer, List<V> def) {
+    public <@NonNull V> @PolyNull List<V> getList(Function<Object, @Nullable V> transformer, @PolyNull List<V> def) {
         List<V> ret = getList(transformer);
         return ret.isEmpty() ? storeDefault(def) : ret;
     }
 
     @Override
-    public <V> List<V> getList(@NonNull Function<Object, V> transformer, @NonNull Supplier<List<V>> defSupplier) {
+    public <@NonNull V> @PolyNull List<V> getList(Function<Object, @Nullable V> transformer, Supplier<@PolyNull List<V>> defSupplier) {
         List<V> ret = getList(transformer);
         return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
     }
 
     @Override
-    public <V> List<V> getList(@NonNull TypeToken<V> type, List<V> def) throws ObjectMappingException {
+    public <@NonNull V> @PolyNull List<V> getList(TypeToken<V> type, @PolyNull List<V> def) throws ObjectMappingException {
         List<V> ret = getValue(new TypeToken<List<V>>() {}
                 .where(new TypeParameter<V>() {}, type), def);
-        return ret.isEmpty() ? storeDefault(def) : ret;
+        if (ret == null || ret.isEmpty()) {
+            return storeDefault(def);
+        }
+        return ret;
     }
 
     @Override
-    public <V> List<V> getList(@NonNull TypeToken<V> type, @NonNull Supplier<List<V>> defSupplier) throws ObjectMappingException {
+    public <@NonNull V> @PolyNull List<V> getList(@NonNull TypeToken<V> type, @NonNull Supplier<@PolyNull List<V>> defSupplier) throws ObjectMappingException {
         List<V> ret = getValue(new TypeToken<List<V>>(){}.where(new TypeParameter<V>(){}, type), defSupplier);
-        return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
+        if (ret == null || ret.isEmpty()) {
+            return storeDefault(defSupplier.get());
+        }
+        return ret;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <V> V getValue(@NonNull TypeToken<V> type, V def) throws ObjectMappingException {
+    public <@NonNull V> @PolyNull V getValue(TypeToken<V> type, @PolyNull V def) throws ObjectMappingException {
         Object value = getValue();
         if (value == null) {
             return storeDefault(type, def);
@@ -211,7 +228,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     @SuppressWarnings("unchecked")
-    public <V> V getValue(@NonNull TypeToken<V> type, @NonNull Supplier<V> defSupplier) throws ObjectMappingException {
+    public <V> @PolyNull V getValue(TypeToken<V> type, Supplier<@PolyNull V> defSupplier) throws ObjectMappingException {
         Object value = getValue();
         if (value == null) {
             return storeDefault(type, defSupplier.get());
@@ -228,7 +245,6 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return serial.deserialize(type, self());
     }
 
-    @NonNull
     @Override
     public N setValue(@Nullable Object newValue) {
         // if the value to be set is a configuration node already, unwrap and store the raw data
@@ -266,7 +282,10 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             if (parent == null) {
                 clear();
             } else {
-                parent.removeChild(key);
+                Object key = this.key;
+                if (key != null) {
+                    parent.removeChild(key);
+                }
             }
             return self();
         }
@@ -315,9 +334,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
-    @NonNull
     @Override
-    public N mergeValuesFrom(@NonNull ConfigurationNode other) {
+    public N mergeValuesFrom(ConfigurationNode other) {
         if (other.isMap()) {
             ConfigValue<N, A> oldValue, newValue;
             synchronized (this) {
@@ -353,16 +371,18 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 }
                 this.value = newValue;
             }
-        } else if (other.getValue() != null) {
-            // otherwise, replace the value of this node, only if currently null
-            insertNewValue(other.getValue(), true);
+        } else {
+            Object value = other.getValue();
+            if (value != null) {
+                // otherwise, replace the value of this node, only if currently null
+                insertNewValue(value, true);
+            }
         }
         return self();
     }
 
-    @NonNull
     @Override
-    public N getNode(@NonNull Object... path) {
+    public N getNode(Object... path) {
         A pointer = implSelf();
         for (Object el : path) {
             pointer = pointer.getChild(el, false);
@@ -370,9 +390,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return pointer.self();
     }
 
-    @NonNull
     @Override
-    public N getNode(@NonNull Iterable<Object> path) {
+    public N getNode(Iterable<Object> path) {
         A pointer = implSelf();
         for (Object el : path) {
             pointer = pointer.getChild(el, false);
@@ -385,20 +404,17 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return !attached;
     }
 
-    @NonNull
     @Override
     public ValueType getValueType() {
         return this.value.getType();
     }
 
-    @NonNull
     @Override
     public List<N> getChildrenList() {
         ConfigValue<N, A> value = this.value;
         return value instanceof ListConfigValue ? ((ListConfigValue<N, A>) value).getUnwrapped() : Collections.emptyList();
     }
 
-    @NonNull
     @Override
     public Map<Object, N> getChildrenMap() {
         ConfigValue<N, A> value = this.value;
@@ -442,11 +458,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean removeChild(@NonNull Object key) {
+    public boolean removeChild(Object key) {
         return detachIfNonNull(value.putChild(key, null)) != null;
     }
 
-    private static <N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> T detachIfNonNull(T node) {
+    private static <N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> @PolyNull T detachIfNonNull(@PolyNull T node) {
         if (node != null) {
             node.attached = false;
             node.clear();
@@ -454,7 +470,6 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return node;
     }
 
-    @NonNull
     @Override
     public N appendListNode() {
         // the appended node can have a key of -1
@@ -462,13 +477,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return getChild(-1, false).self();
     }
 
-    @Nullable
     @Override
-    public Object getKey() {
+    @AssertNonNullIfNonNull("parent")
+    public @Nullable Object getKey() {
         return this.key;
     }
 
-    @NonNull
     @Override
     public NodePath getPath() {
         N pointer = self();
@@ -483,19 +497,16 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return NodePath.create(pathElements);
     }
 
-    @Nullable
-    public N getParent() {
+    public @Nullable N getParent() {
         A parent = this.parent;
         return parent == null ? null : parent.self();
     }
 
-    @NonNull
     @Override
     public ConfigurationOptions getOptions() {
         return this.options;
     }
 
-    @NonNull
     @Override
     public N copy() {
         return copy(null).self();
@@ -508,7 +519,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      *
      * @return The parent
      */
-    A getParentEnsureAttached() {
+    @Nullable A getParentEnsureAttached() {
         A parent = this.parent;
         if (parent != null && parent.isVirtual()) {
             parent = parent.getParentEnsureAttached().attachChildIfAbsent(parent);
@@ -519,7 +530,10 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     protected void attachIfNecessary() {
         if (!attached) {
-            getParentEnsureAttached().attachChild(implSelf());
+            A parent = getParentEnsureAttached();
+            if (parent != null) {
+                parent.attachChild(implSelf());
+            }
         }
     }
 
@@ -600,7 +614,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractConfigurationNode)) return false;
         AbstractConfigurationNode<?, ?> that = (AbstractConfigurationNode<?, ?>) o;

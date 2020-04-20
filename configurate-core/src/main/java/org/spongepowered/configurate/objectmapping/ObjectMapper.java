@@ -19,8 +19,10 @@ package org.spongepowered.configurate.objectmapping;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.IntRange;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -41,11 +43,10 @@ import static java.util.Objects.requireNonNull;
  *
  * @param <T> The type to work with
  */
-public class ObjectMapper<T> {
-    private final TypeToken<T> type;
+public class ObjectMapper<@NonNull T> {
+    private final TypeToken<@NonNull T> type;
     private final Class<? super T> clazz;
-    @Nullable
-    private final Invokable<T, T> constructor;
+    private final @Nullable Invokable<T, @NonNull T> constructor;
     private final Map<String, FieldData> cachedFields = new LinkedHashMap<>();
 
 
@@ -58,7 +59,7 @@ public class ObjectMapper<T> {
      * @return An appropriate object mapper instance. May be shared with other users.
      * @throws ObjectMappingException If invalid annotated fields are presented
      */
-    public static <T> ObjectMapper<T> forClass(@NonNull Class<T> clazz) throws ObjectMappingException {
+    public static <T> ObjectMapper<T> forClass(Class<T> clazz) throws ObjectMappingException {
         return DefaultObjectMapperFactory.getInstance().getMapper(clazz);
     }
 
@@ -71,7 +72,7 @@ public class ObjectMapper<T> {
      * @return An appropriate object mapper instance. May be shared with other users.
      * @throws ObjectMappingException If invalid annotated fields are presented
      */
-    public static <T> ObjectMapper<T> forType(@NonNull TypeToken<T> type) throws ObjectMappingException {
+    public static <T> ObjectMapper<T> forType(TypeToken<T> type) throws ObjectMappingException {
         return DefaultObjectMapperFactory.getInstance().getMapper(type);
     }
 
@@ -91,7 +92,7 @@ public class ObjectMapper<T> {
      *                              </ul>
      */
     @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T>.BoundInstance forObject(@NonNull T obj) throws ObjectMappingException {
+    public static <T> ObjectMapper<T>.BoundInstance forObject(T obj) throws ObjectMappingException {
         return forClass((Class<T>) requireNonNull(obj).getClass()).bind(obj);
     }
 
@@ -109,7 +110,7 @@ public class ObjectMapper<T> {
      *                              </ul>
      */
     @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T>.BoundInstance forObject(TypeToken<T> type, @NonNull T obj) throws ObjectMappingException {
+    public static <T> ObjectMapper<T>.BoundInstance forObject(TypeToken<T> type, T obj) throws ObjectMappingException {
         return forType(requireNonNull(type)).bind(obj);
     }
 
@@ -119,9 +120,9 @@ public class ObjectMapper<T> {
     protected static class FieldData {
         private final Field field;
         private final TypeToken<?> fieldType;
-        private final String comment;
+        private final @Nullable String comment;
 
-        public FieldData(Field field, String comment, TypeToken<?> resolvedFieldType) {
+        public FieldData(Field field, @Nullable String comment, TypeToken<?> resolvedFieldType) {
             this.field = field;
             this.comment = comment;
             this.fieldType = resolvedFieldType;
@@ -192,7 +193,7 @@ public class ObjectMapper<T> {
          * @return The object provided, for easier chaining
          * @throws ObjectMappingException If an error occurs while populating data
          */
-        public <Node extends ScopedConfigurationNode<Node>> T populate(Node source) throws ObjectMappingException {
+        public <@NonNull Node extends ScopedConfigurationNode<Node>> T populate(Node source) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
                 Node node = source.getNode(ent.getKey());
                 ent.getValue().deserializeFrom(boundInstance, node);
@@ -207,7 +208,7 @@ public class ObjectMapper<T> {
          * @param <N> The type of node being serialized to
          * @throws ObjectMappingException if serialization was not possible due to some error.
          */
-        public <N extends ScopedConfigurationNode<N>> void serialize(N target) throws ObjectMappingException {
+        public <@NonNull N extends ScopedConfigurationNode<N>> void serialize(N target) throws ObjectMappingException {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
                 N node = target.getNode(ent.getKey());
                 ent.getValue().serializeTo(boundInstance, node);
@@ -250,17 +251,17 @@ public class ObjectMapper<T> {
         while (true) {
             collectFields(cachedFields, collectType);
             collectClass = collectClass.getSuperclass();
-            if (collectClass.equals(Object.class)) {
+            if (collectClass == null || collectClass.equals(Object.class)) {
                 break;
             }
             collectType = collectType.getSupertype((Class) collectClass);
         }
     }
 
-    protected void collectFields(Map<String, FieldData> cachedFields, TypeToken<? super T> clazz) throws ObjectMappingException {
+    protected void collectFields(@UnderInitialization ObjectMapper<T> this, Map<String, FieldData> cachedFields, TypeToken<? super T> clazz) throws ObjectMappingException {
         for (Field field : clazz.getRawType().getDeclaredFields()) {
-            if (field.isAnnotationPresent(Setting.class)) {
-                Setting setting = field.getAnnotation(Setting.class);
+            Setting setting = field.getAnnotation(Setting.class);
+            if (setting != null) {
                 String path = setting.value();
                 if (path.isEmpty()) {
                     path = field.getName();

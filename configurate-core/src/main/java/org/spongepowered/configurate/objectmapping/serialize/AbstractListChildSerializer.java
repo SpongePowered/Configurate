@@ -26,7 +26,7 @@ import org.spongepowered.configurate.util.ThrowingConsumer;
 
 import java.util.List;
 
-abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
+abstract class AbstractListChildSerializer<@NonNull T> implements TypeSerializer<T> {
     @Nullable
     @Override
     public <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {

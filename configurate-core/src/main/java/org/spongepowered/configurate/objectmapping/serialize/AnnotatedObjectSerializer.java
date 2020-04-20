@@ -35,7 +35,7 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
         return node.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(node);
     }
 
-    private TypeToken<?> getInstantiableType(TypeToken<?> type, String configuredName) throws ObjectMappingException {
+    private TypeToken<?> getInstantiableType(TypeToken<?> type, @Nullable String configuredName) throws ObjectMappingException {
         TypeToken<?> retClass;
         Class<?> rawType = type.getRawType();
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {

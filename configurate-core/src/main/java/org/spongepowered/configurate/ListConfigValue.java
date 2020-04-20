@@ -51,9 +51,8 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         this.values.get().add(child);
     }
 
-    @Nullable
     @Override
-    public Object getValue() {
+    public @Nullable Object getValue() {
         final List<T> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
@@ -98,19 +97,17 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         detachNodes(values.getAndSet(newValue));
     }
 
-    @Nullable
     @Override
-    public T putChild(@NonNull Object key, @Nullable T value) {
+    public @Nullable T putChild(Object key, @Nullable T value) {
         return putChild((int) key, value, false);
     }
 
-    @Nullable
     @Override
-    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
+    @Nullable T putChildIfAbsent(Object key, @Nullable T value) {
         return putChild((int) key, value, true);
     }
 
-    private T putChild(int index, @Nullable T value, boolean onlyIfAbsent) {
+    private @Nullable T putChild(int index, @Nullable T value, boolean onlyIfAbsent) {
         T ret = null;
         List<T> values;
         do {
@@ -146,9 +143,8 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
 
-    @Nullable
     @Override
-    public T getChild(@Nullable Object key) {
+    public @Nullable T getChild(Object key) {
         Integer value = Types.asInt(key);
         if (value == null || value < 0) {
             return null;
@@ -163,7 +159,6 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         }
     }
 
-    @NonNull
     @Override
     public Iterable<T> iterateChildren() {
         List<T> values = this.values.get();
@@ -172,9 +167,8 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         }
     }
 
-    @NonNull
     @Override
-    ListConfigValue<N, T> copy(@NonNull T holder) {
+    ListConfigValue<N, T> copy(T holder) {
         ListConfigValue<N, T> copy = new ListConfigValue<>(holder);
         List<T> copyValues;
 
@@ -211,7 +205,7 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) {
             return true;
         }

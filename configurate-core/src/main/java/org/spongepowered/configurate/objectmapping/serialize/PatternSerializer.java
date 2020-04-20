@@ -28,8 +28,12 @@ import java.util.regex.PatternSyntaxException;
 class PatternSerializer implements TypeSerializer<Pattern> {
     @Override
     public <Node extends ScopedConfigurationNode<Node>> Pattern deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+        String value = node.getString();
+        if (value == null) {
+            throw new ObjectMappingException("Node must have a string value");
+        }
         try {
-            return Pattern.compile(node.getString());
+            return Pattern.compile(value);
         } catch (PatternSyntaxException ex) {
             throw new ObjectMappingException(ex);
         }

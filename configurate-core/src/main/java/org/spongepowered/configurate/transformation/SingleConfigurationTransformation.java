@@ -39,7 +39,7 @@ class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> ex
      * As such, data within paths is only guaranteed to be the same during a run of
      * a transform function.
      */
-    private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
+    private final ThreadLocal<@NonNull NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
 
     SingleConfigurationTransformation(Map<Object[], TransformAction<? super N>> actions, MoveStrategy strategy) {
         this.actions = actions;

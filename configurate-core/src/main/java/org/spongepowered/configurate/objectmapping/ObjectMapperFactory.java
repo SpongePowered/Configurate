@@ -32,8 +32,7 @@ public interface ObjectMapperFactory {
      * @return An object mapper
      * @throws ObjectMappingException If an exception occured whilst mapping
      */
-    @NonNull
-    default <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
+    default <T> ObjectMapper<T> getMapper(Class<T> type) throws ObjectMappingException {
         return getMapper(TypeToken.of(type));
     }
 
@@ -45,7 +44,6 @@ public interface ObjectMapperFactory {
      * @return An object mapper
      * @throws ObjectMappingException If an exception occured whilst mapping
      */
-    @NonNull
-    <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException;
+    <T> ObjectMapper<T> getMapper(TypeToken<T> type) throws ObjectMappingException;
 
 }

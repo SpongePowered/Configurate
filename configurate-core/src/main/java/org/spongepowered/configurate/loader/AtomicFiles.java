@@ -47,8 +47,7 @@ public final class AtomicFiles {
      * @param charset The charset to be used by the writer
      * @return The writer factory
      */
-    @NonNull
-    public static Callable<BufferedWriter> createAtomicWriterFactory(@NonNull Path path, @NonNull Charset charset) {
+    public static @NonNull Callable<BufferedWriter> createAtomicWriterFactory(Path path, Charset charset) {
         requireNonNull(path, "path");
         return () -> createAtomicBufferedWriter(path, charset);
     }
@@ -61,8 +60,7 @@ public final class AtomicFiles {
      * @return The writer factory
      * @throws IOException For any underlying filesystem errors
      */
-    @NonNull
-    public static BufferedWriter createAtomicBufferedWriter(@NonNull Path path, @NonNull Charset charset) throws IOException {
+    public static BufferedWriter createAtomicBufferedWriter(Path path, Charset charset) throws IOException {
         path = path.toAbsolutePath();
 
         Path writePath = getTemporaryPath(path.getParent(), path.getFileName().toString());
@@ -74,8 +72,7 @@ public final class AtomicFiles {
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
     }
 
-    @NonNull
-    private static Path getTemporaryPath(@NonNull Path parent, @NonNull String key) {
+    private static Path getTemporaryPath(Path parent, String key) {
         String fileName = System.nanoTime() + requireNonNull(key, "key").replaceAll("\\\\|/|:",
                 "-") + ".tmp";
         return parent.resolve(fileName);

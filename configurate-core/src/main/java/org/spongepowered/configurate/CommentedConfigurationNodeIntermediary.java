@@ -29,7 +29,6 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      *
      * @return The configuration's current comment
      */
-    @NonNull
     Optional<String> getComment();
 
     /**
@@ -38,6 +37,5 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      * @param comment The comment to set. Line breaks should be represented as LFs (\n)
      * @return this
      */
-    @NonNull
     N setComment(@Nullable String comment);
 }

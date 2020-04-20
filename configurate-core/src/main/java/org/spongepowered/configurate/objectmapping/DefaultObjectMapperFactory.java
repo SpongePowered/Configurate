@@ -32,7 +32,6 @@ import static java.util.Objects.requireNonNull;
 public class DefaultObjectMapperFactory implements ObjectMapperFactory {
     private static final ObjectMapperFactory INSTANCE = new DefaultObjectMapperFactory();
 
-    @NonNull
     public static ObjectMapperFactory getInstance() {
         return INSTANCE;
     }
@@ -47,10 +46,9 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
                 }
             });
 
-    @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException {
+    public <T> ObjectMapper<T> getMapper(TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
         try {
             return (ObjectMapper<T>) mapperCache.get(type);

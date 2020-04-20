@@ -24,11 +24,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<CommentedConfigurationNode, SimpleCommentedConfigurationNode> implements CommentedConfigurationNode {
 
-    protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleCommentedConfigurationNode parent, @NonNull ConfigurationOptions options) {
+    protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleCommentedConfigurationNode parent, ConfigurationOptions options) {
         super(path, parent, options);
     }
 
-    protected SimpleCommentedConfigurationNode(@Nullable SimpleCommentedConfigurationNode parent, @NonNull SimpleCommentedConfigurationNode copyOf) {
+    protected SimpleCommentedConfigurationNode(@Nullable SimpleCommentedConfigurationNode parent, SimpleCommentedConfigurationNode copyOf) {
         super(parent, copyOf);
     }
 
@@ -39,7 +39,6 @@ class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNod
         return new SimpleCommentedConfigurationNode(path, this, getOptions());
     }
 
-    @NonNull
     @Override
     protected SimpleCommentedConfigurationNode copy(@Nullable SimpleCommentedConfigurationNode parent) {
         SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
@@ -48,7 +47,6 @@ class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNod
     }
 
     @Override
-    @NonNull
     public SimpleCommentedConfigurationNode self() {
         return this;
     }

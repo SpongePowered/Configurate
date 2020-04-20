@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.transformation;
 
+import org.checkerframework.checker.interning.qual.Interned;
+import org.checkerframework.checker.interning.qual.InternedDistinct;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -32,7 +34,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
     /**
      * A special object that represents a wildcard in a path provided to a configuration transformer
      */
-    public static final Object WILDCARD_OBJECT = new Object();
+    public static final @InternedDistinct Object WILDCARD_OBJECT = new Object();
 
     /**
      * Create a new builder to create a basic configuration transformation.

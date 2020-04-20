@@ -20,6 +20,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.MinLen;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 
@@ -71,36 +72,31 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
      *
      * <p>Can be null (for loaders which don't support loading!)</p>
      */
-    @Nullable
-    protected final Callable<BufferedReader> source;
+    protected final @Nullable Callable<BufferedReader> source;
 
     /**
      * The writer sink for this loader.
      *
      * <p>Can be null (for loaders which don't support saving!)</p>
      */
-    @Nullable
-    protected final Callable<BufferedWriter> sink;
+    protected final @Nullable Callable<BufferedWriter> sink;
 
     /**
      * The comment handlers defined for this loader
      */
-    @NonNull
-    private final CommentHandler[] commentHandlers;
+    private final CommentHandler @MinLen(1) [] commentHandlers;
 
     /**
      * The mode used to read/write configuration headers
      */
-    @NonNull
     private final HeaderMode headerMode;
 
     /**
      * The default {@link ConfigurationOptions} used by this loader.
      */
-    @NonNull
     private final ConfigurationOptions defaultOptions;
 
-    protected AbstractConfigurationLoader(@NonNull Builder<?> builder, @NonNull CommentHandler[] commentHandlers) {
+    protected AbstractConfigurationLoader(Builder<?> builder, CommentHandler @MinLen(1) [] commentHandlers) {
         this.source = builder.getSource();
         this.sink = builder.getSink();
         this.headerMode = builder.getHeaderMode();
@@ -113,14 +109,12 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
      *
      * @return The default comment handler
      */
-    @NonNull
     public CommentHandler getDefaultCommentHandler() {
         return this.commentHandlers[0];
     }
 
-    @NonNull
     @Override
-    public N load(@NonNull ConfigurationOptions options) throws IOException {
+    public N load(ConfigurationOptions options) throws IOException {
         if (source == null) {
             throw new IOException("No source present to read from!");
         }
@@ -149,7 +143,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
     protected abstract void loadInternal(N node, BufferedReader reader) throws IOException;
 
     @Override
-    public void save(@NonNull ConfigurationNode node) throws IOException {
+    public void save(ConfigurationNode node) throws IOException {
         if (sink == null) {
             throw new IOException("No sink present to write to!");
         }
@@ -176,12 +170,10 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
     }
 
     protected void writeHeaderInternal(Writer writer) throws IOException {
-
     }
 
     protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;
 
-    @NonNull
     @Override
     public ConfigurationOptions getDefaultOptions() {
         return this.defaultOptions;
@@ -203,15 +195,14 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
      * @param <T> The builders own type (for chaining using generic types)
      */
     protected static abstract class Builder<T extends Builder<T>> {
-        @NonNull protected HeaderMode headerMode = HeaderMode.PRESERVE;
-        @Nullable protected Callable<BufferedReader> source;
-        @Nullable protected Callable<BufferedWriter> sink;
-        @NonNull protected ConfigurationOptions defaultOptions = ConfigurationOptions.defaults();
+        protected HeaderMode headerMode = HeaderMode.PRESERVE;
+        protected @Nullable Callable<BufferedReader> source;
+        protected @Nullable Callable<BufferedWriter> sink;
+        protected ConfigurationOptions defaultOptions = ConfigurationOptions.defaults();
 
         protected Builder() {}
 
         @SuppressWarnings("unchecked")
-        @NonNull
         private T self() {
             return (T) this;
         }
@@ -228,8 +219,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param file The configuration file
          * @return This builder (for chaining)
          */
-        @NonNull
-        public T setFile(@NonNull File file) {
+        public T setFile(File file) {
             return setPath(Objects.requireNonNull(file, "file").toPath());
         }
 
@@ -245,8 +235,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param path The path of the configuration file
          * @return This builder (for chaining)
          */
-        @NonNull
-        public T setPath(@NonNull Path path) {
+        public T setPath(Path path) {
             Path absPath = Objects.requireNonNull(path, "path").toAbsolutePath();
             this.source = () -> Files.newBufferedReader(absPath, StandardCharsets.UTF_8);
             this.sink = AtomicFiles.createAtomicWriterFactory(absPath, StandardCharsets.UTF_8);
@@ -259,8 +248,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param url The URL of the source
          * @return This builder (for chaining)
          */
-        @NonNull
-        public T setURL(@NonNull URL url) {
+        public T setURL(URL url) {
             Objects.requireNonNull(url, "url");
             this.source = () -> new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
             return self();
@@ -274,7 +262,6 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param source The source
          * @return This builder (for chaining)
          */
-        @NonNull
         public T setSource(@Nullable Callable<BufferedReader> source) {
             this.source = source;
             return self();
@@ -288,7 +275,6 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param sink The sink
          * @return This builder (for chaining)
          */
-        @NonNull
         public T setSink(@Nullable Callable<BufferedWriter> sink) {
             this.sink = sink;
             return self();
@@ -299,8 +285,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          *
          * @return The source
          */
-        @Nullable
-        public Callable<BufferedReader> getSource() {
+        public @Nullable Callable<BufferedReader> getSource() {
             return this.source;
         }
 
@@ -309,8 +294,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          *
          * @return The sink
          */
-        @Nullable
-        public Callable<BufferedWriter> getSink() {
+        public @Nullable Callable<BufferedWriter> getSink() {
             return this.sink;
         }
 
@@ -320,8 +304,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param mode The header mode
          * @return This builder (for chaining)
          */
-        @NonNull
-        public T setHeaderMode(@NonNull HeaderMode mode) {
+        public T setHeaderMode(HeaderMode mode) {
             this.headerMode = Objects.requireNonNull(mode, "mode");
             return self();
         }
@@ -331,7 +314,6 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          *
          * @return The header mode
          */
-        @NonNull
         public HeaderMode getHeaderMode() {
             return this.headerMode;
         }
@@ -345,7 +327,6 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @return this builder (for chaining)
          * @deprecated In favour of {@link #setHeaderMode(HeaderMode)}
          */
-        @NonNull
         @Deprecated
         public T setPreservesHeader(boolean preservesHeader) {
             this.headerMode = preservesHeader ? HeaderMode.PRESERVE : HeaderMode.PRESET;
@@ -369,8 +350,7 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          * @param defaultOptions The options
          * @return This builder (for chaining)
          */
-        @NonNull
-        public T setDefaultOptions(@NonNull ConfigurationOptions defaultOptions) {
+        public T setDefaultOptions(ConfigurationOptions defaultOptions) {
             this.defaultOptions = Objects.requireNonNull(defaultOptions, "defaultOptions");
             return self();
         }
@@ -380,7 +360,6 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          *
          * @return The options
          */
-        @NonNull
         public ConfigurationOptions getDefaultOptions() {
             return this.defaultOptions;
         }
@@ -390,7 +369,6 @@ public abstract class AbstractConfigurationLoader<N extends ConfigurationNode> i
          *
          * @return The loader
          */
-        @NonNull
         public abstract AbstractConfigurationLoader<?> build();
 
     }

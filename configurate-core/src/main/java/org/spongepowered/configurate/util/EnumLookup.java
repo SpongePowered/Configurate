@@ -53,25 +53,25 @@ public final class EnumLookup {
             .maximumSize(512)
             .build(new CacheLoader<Class<? extends Enum<?>>, Map<String, Enum<?>>>() {
                 @Override
-                public Map<String, Enum<?>> load(@NonNull Class<? extends Enum<?>> key) {
+                public Map<String, Enum<?>> load(Class<? extends Enum<?>> key) {
                     Map<String, Enum<?>> ret = new HashMap<>();
-                    for (Enum<?> field : key.getEnumConstants()) {
-                        ret.put(field.name(), field);
-                        ret.putIfAbsent(processKey(field.name()), field);
+                    if (key.isEnum()) {
+                        for (Enum<?> field : key.getEnumConstants()) {
+                            ret.put(field.name(), field);
+                            ret.putIfAbsent(processKey(field.name()), field);
+                        }
                     }
                     return ImmutableMap.copyOf(ret);
                 }
             });
 
-    @NonNull
-    private static String processKey(@NonNull String key) {
+    private static String processKey(String key) {
         // stick a flower at the front so processed keys are different from literal keys
         return "🌸" + key.toLowerCase().replace("_", "");
     }
 
     @SuppressWarnings("unchecked")
-    @NonNull
-    public static <T extends Enum<T>> Optional<T> lookupEnum(@NonNull Class<T> clazz, @NonNull String key) {
+    public static <T extends Enum<T>> Optional<T> lookupEnum(Class<T> clazz, String key) {
         try {
             Map<String, Enum<?>> vals = ENUM_FIELD_CACHE.get(requireNonNull(clazz, "clazz"));
             Enum<?> possibleRet = vals.get(requireNonNull(key, "key"));

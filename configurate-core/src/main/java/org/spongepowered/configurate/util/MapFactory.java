@@ -33,7 +33,6 @@ public interface MapFactory {
      * @param <V> The value
      * @return A new map instance
      */
-    @NonNull
-    <K, V> ConcurrentMap<K, V> create();
+    <@NonNull K, @NonNull V> ConcurrentMap<K, V> create();
 
 }

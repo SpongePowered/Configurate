@@ -23,39 +23,38 @@ import java.util.Objects;
 import java.util.Optional;
 
 abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>, A extends AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A> implements CommentedConfigurationNodeIntermediary<N> {
-    protected String comment = null;
+    protected @Nullable String comment = null;
 
-    protected AbstractCommentedConfigurationNode(A parent, A copyOf) {
+    protected AbstractCommentedConfigurationNode(@Nullable A parent, A copyOf) {
         super(parent, copyOf);
     }
 
-    protected AbstractCommentedConfigurationNode(@Nullable Object key, A parent, @NonNull ConfigurationOptions options) {
+    protected AbstractCommentedConfigurationNode(@Nullable Object key, @Nullable A parent, @NonNull ConfigurationOptions options) {
         super(key, parent, options);
     }
 
-    @NonNull
     @Override
     public Optional<String> getComment() {
         return Optional.ofNullable(comment);
     }
 
     @Override
-    public @NonNull N setComment(@Nullable String comment) {
+    public N setComment(@Nullable String comment) {
         attachIfNecessary();
         this.comment = comment;
         return self();
     }
 
     @Override
-    public @NonNull N setValue(@Nullable Object value) {
-        if (value instanceof CommentedConfigurationNodeIntermediary<?> && ((CommentedConfigurationNodeIntermediary<?>) value).getComment().isPresent()) {
-            setComment(((CommentedConfigurationNodeIntermediary<?>) value).getComment().get());
+    public N setValue(@Nullable Object value) {
+        if (value instanceof CommentedConfigurationNodeIntermediary<?>) {
+            setComment(((CommentedConfigurationNodeIntermediary<?>) value).getComment().orElse(null));
         }
         return super.setValue(value);
     }
 
     @Override
-    public @NonNull N mergeValuesFrom(@NonNull ConfigurationNode other) {
+    public N mergeValuesFrom(ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNodeIntermediary<?>) {
             Optional<String> otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).getComment();
             if (comment == null && otherComment.isPresent()) {
@@ -66,7 +65,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractCommentedConfigurationNode)) return false;
         if (!super.equals(o)) return false;

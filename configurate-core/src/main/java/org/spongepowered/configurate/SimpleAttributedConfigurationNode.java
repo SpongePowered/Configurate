@@ -18,6 +18,9 @@ package org.spongepowered.configurate;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -31,25 +34,23 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
-    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable Object path, @Nullable SimpleAttributedConfigurationNode parent, @NonNull ConfigurationOptions options) {
+    protected SimpleAttributedConfigurationNode(String tagName, @Nullable Object path, @Nullable SimpleAttributedConfigurationNode parent, ConfigurationOptions options) {
         super(path, parent, options);
-        setTagName(tagName);
+        this.tagName = tagName;
     }
 
-    protected SimpleAttributedConfigurationNode(@NonNull String tagName, @Nullable SimpleAttributedConfigurationNode parent, @NonNull SimpleAttributedConfigurationNode copyOf) {
+    protected SimpleAttributedConfigurationNode(String tagName, @Nullable SimpleAttributedConfigurationNode parent, SimpleAttributedConfigurationNode copyOf) {
         super(parent, copyOf);
-        setTagName(tagName);
+        this.tagName = tagName;
     }
 
-    @NonNull
     @Override
     public String getTagName() {
         return tagName;
     }
 
-    @NonNull
     @Override
-    public SimpleAttributedConfigurationNode setTagName(@NonNull String tagName) {
+    public SimpleAttributedConfigurationNode setTagName(String tagName) {
         if (Strings.isNullOrEmpty(tagName)) {
             throw new IllegalArgumentException("Tag name cannot be null/empty");
         }
@@ -58,9 +59,8 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return this;
     }
 
-    @NonNull
     @Override
-    public SimpleAttributedConfigurationNode addAttribute(@NonNull String name, @NonNull String value) {
+    public SimpleAttributedConfigurationNode addAttribute(String name, String value) {
         if (Strings.isNullOrEmpty(name)) {
             throw new IllegalArgumentException("Attribute name cannot be null/empty");
         }
@@ -69,16 +69,14 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return this;
     }
 
-    @NonNull
     @Override
-    public SimpleAttributedConfigurationNode removeAttribute(@NonNull String name) {
+    public SimpleAttributedConfigurationNode removeAttribute(String name) {
         attributes.remove(name);
         return this;
     }
 
-    @NonNull
     @Override
-    public SimpleAttributedConfigurationNode setAttributes(@NonNull Map<String, String> attributes) {
+    public SimpleAttributedConfigurationNode setAttributes(Map<String, String> attributes) {
         for (String name : attributes.keySet()) {
             if (Strings.isNullOrEmpty(name)) {
                 throw new IllegalArgumentException("Attribute name cannot be null/empty");
@@ -95,13 +93,11 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return !attributes.isEmpty();
     }
 
-    @Nullable
     @Override
-    public String getAttribute(@NonNull String name) {
+    public @Nullable String getAttribute(String name) {
         return attributes.get(name);
     }
 
-    @NonNull
     @Override
     public Map<String, String> getAttributes() {
         return ImmutableMap.copyOf(attributes);
@@ -109,13 +105,11 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     // Methods from superclass overridden to have correct return types
 
-
     @Override
     protected SimpleAttributedConfigurationNode createNode(Object path) {
         return new SimpleAttributedConfigurationNode("element", path, this, getOptions());
     }
 
-    @NonNull
     @Override
     public AttributedConfigurationNode setValue(@Nullable Object value) {
         if (value instanceof AttributedConfigurationNode) {
@@ -126,9 +120,8 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return super.setValue(value);
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
+    public AttributedConfigurationNode mergeValuesFrom(ConfigurationNode other) {
         if (other instanceof AttributedConfigurationNode) {
             AttributedConfigurationNode node = (AttributedConfigurationNode) other;
             setTagName(node.getTagName());
@@ -139,7 +132,6 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return super.mergeValuesFrom(other);
     }
 
-    @NonNull
     @Override
     protected SimpleAttributedConfigurationNode copy(@Nullable SimpleAttributedConfigurationNode parent) {
         SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
@@ -159,7 +151,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (!(o instanceof SimpleAttributedConfigurationNode)) return false;
         if (!super.equals(o)) return false;

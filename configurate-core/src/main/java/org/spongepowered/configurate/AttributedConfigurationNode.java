@@ -27,32 +27,27 @@ import java.util.function.Consumer;
  */
 public interface AttributedConfigurationNode extends CommentedConfigurationNodeIntermediary<AttributedConfigurationNode> {
 
-    @NonNull
     static AttributedConfigurationNode root() {
         return root("root", ConfigurationOptions.defaults());
     }
 
-    static AttributedConfigurationNode root(Consumer<? super AttributedConfigurationNode> action) {
+    static AttributedConfigurationNode root(Consumer<AttributedConfigurationNode> action) {
         return root().act(action);
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName) {
+    static AttributedConfigurationNode root(String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, Consumer<? super AttributedConfigurationNode> action) {
+    static AttributedConfigurationNode root(String tagName, Consumer<AttributedConfigurationNode> action) {
         return root(tagName).act(action);
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
+    static AttributedConfigurationNode root(String tagName, ConfigurationOptions options) {
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options, Consumer<? super AttributedConfigurationNode> action) {
+    static AttributedConfigurationNode root(String tagName, ConfigurationOptions options, Consumer<AttributedConfigurationNode> action) {
         return root(tagName, options).act(action);
     }
 
@@ -61,7 +56,6 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @return The tag name
      */
-    @NonNull
     String getTagName();
 
     /**
@@ -74,8 +68,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name The name to set, cannot be null
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode setTagName(@NonNull String name);
+    AttributedConfigurationNode setTagName(String name);
 
     /**
      * Adds an attribute to this node.
@@ -84,8 +77,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param value The value of the attribute
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode addAttribute(@NonNull String name, @NonNull String value);
+    AttributedConfigurationNode addAttribute(String name, String value);
 
     /**
      * Removes an attribute from this node.
@@ -93,8 +85,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name The name of the attribute to remove
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode removeAttribute(@NonNull String name);
+    AttributedConfigurationNode removeAttribute(String name);
 
     /**
      * Sets the attributes of this node.
@@ -102,8 +93,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param attributes the attributes to set
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode setAttributes(@NonNull Map<String, String> attributes);
+    AttributedConfigurationNode setAttributes(Map<String, String> attributes);
 
     /**
      * Gets if this node has any attributes.
@@ -119,8 +109,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name The name of the attribute to get
      * @return this
      */
-    @Nullable
-    String getAttribute(@NonNull String name);
+    @Nullable String getAttribute(String name);
 
     /**
      * Gets the attributes this node has.
@@ -129,6 +118,5 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @return The map of attributes
      */
-    @NonNull
     Map<String, String> getAttributes();
 }

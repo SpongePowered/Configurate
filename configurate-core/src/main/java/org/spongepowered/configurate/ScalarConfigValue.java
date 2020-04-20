@@ -29,7 +29,7 @@ import static java.util.Objects.requireNonNull;
  * A {@link ConfigValue} which holds a single ("scalar") value.
  */
 class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
-    private volatile Object value;
+    private volatile @Nullable Object value;
 
     ScalarConfigValue(T holder) {
         super(holder);
@@ -40,47 +40,41 @@ class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstract
         return ValueType.SCALAR;
     }
 
-    @Nullable
     @Override
-    public Object getValue() {
+    public @Nullable Object getValue() {
         return value;
     }
 
     @Override
-    public void setValue(@Nullable Object value) {
+    public void setValue(Object value) {
         if (!holder.getOptions().acceptsType(requireNonNull(value).getClass())) {
             throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
         this.value = value;
     }
 
-    @Nullable
     @Override
-    T putChild(@NonNull Object key, @Nullable T value) {
+    @Nullable T putChild(Object key, @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
+    @Nullable T putChildIfAbsent(Object key, @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    public T getChild(@Nullable Object key) {
+    public @Nullable T getChild(@Nullable Object key) {
         return null;
     }
 
-    @NonNull
     @Override
     public Iterable<T> iterateChildren() {
         return Collections.emptySet();
     }
 
-    @NonNull
     @Override
-    ScalarConfigValue<N, T> copy(@NonNull T holder) {
+    ScalarConfigValue<N, T> copy(T holder) {
         ScalarConfigValue<N, T> copy = new ScalarConfigValue<>(holder);
         copy.value = this.value;
         return copy;
@@ -99,7 +93,7 @@ class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstract
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) {
             return true;
         }

@@ -54,14 +54,13 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * @param childKey The new key to append
      * @return A new path object reflecting the extended path
      */
-    NodePath withAppendedChild(@NonNull Object childKey);
+    NodePath withAppendedChild(Object childKey);
 
     /**
      * Returns an iterator over the path.
      *
      * @return An iterator of the path
      */
-    @NonNull
     @Override
     Iterator<Object> iterator();
 
@@ -81,7 +80,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * @param path A collection containing elements of the path to reference
      * @return The path instance
      */
-    static NodePath create(Collection<?> path) {
+    static NodePath create(Collection<@NonNull ?> path) {
         return new NodePathImpl(path.toArray(), false);
     }
 

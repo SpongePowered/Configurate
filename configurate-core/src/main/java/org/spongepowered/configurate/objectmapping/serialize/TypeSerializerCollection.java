@@ -19,6 +19,7 @@ package org.spongepowered.configurate.objectmapping.serialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.net.URI;
 import java.net.URL;
@@ -65,11 +66,11 @@ public class TypeSerializerCollection {
                 .build();
     }
 
-    private final TypeSerializerCollection parent;
+    private final @Nullable TypeSerializerCollection parent;
     private final List<RegisteredSerializer> serializers;
-    private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
+    private final Map<TypeToken<?>, @Nullable TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
-    private TypeSerializerCollection(TypeSerializerCollection parent, List<RegisteredSerializer> serializers) {
+    private TypeSerializerCollection(@Nullable TypeSerializerCollection parent, List<RegisteredSerializer> serializers) {
         this.parent = parent;
         this.serializers = ImmutableList.copyOf(serializers);
     }
@@ -83,7 +84,7 @@ public class TypeSerializerCollection {
      * @return A serializer if any is present, or null if no applicable serializer is found
      */
     @SuppressWarnings("unchecked")
-    public <T> TypeSerializer<T> get(TypeToken<T> type) {
+    public <T> @Nullable TypeSerializer<T> get(TypeToken<T> type) {
         Preconditions.checkNotNull(type, "type");
         type = type.wrap();
 
@@ -134,10 +135,10 @@ public class TypeSerializerCollection {
     }
 
     public static class Builder {
-        private final TypeSerializerCollection parent;
+        private final @Nullable TypeSerializerCollection parent;
         private final ImmutableList.Builder<RegisteredSerializer> serializers = ImmutableList.builder();
 
-        Builder(TypeSerializerCollection parent) {
+        Builder(@Nullable TypeSerializerCollection parent) {
             this.parent = parent;
         }
 
@@ -151,8 +152,8 @@ public class TypeSerializerCollection {
          * @return this
          */
         public <T> Builder register(TypeToken<T> type, TypeSerializer<? super T> serializer) {
-            Preconditions.checkNotNull(type, "type");
-            Preconditions.checkNotNull(serializer, "serializer");
+            requireNonNull(type, "type");
+            requireNonNull(serializer, "serializer");
             serializers.add(new RegisteredSerializer(new SuperTypePredicate(type), serializer));
             return this;
         }

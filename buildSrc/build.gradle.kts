@@ -11,6 +11,7 @@ repositories {
 dependencies {
     implementation(gradleApi())
     api("gradle.plugin.net.minecrell:licenser:0.4.1")
+    api("org.checkerframework:checkerframework-gradle-plugin:0.4.14")
 }
 
 gradlePlugin {

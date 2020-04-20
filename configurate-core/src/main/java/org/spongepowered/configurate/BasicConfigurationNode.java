@@ -21,22 +21,18 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.function.Consumer;
 
 public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicConfigurationNode> {
-    @NonNull
     static BasicConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    @NonNull
     static BasicConfigurationNode root(Consumer<BasicConfigurationNode> maker) {
         return root().act(maker);
     }
 
-    @NonNull
     static BasicConfigurationNode root(@NonNull ConfigurationOptions options) {
         return new SimpleConfigurationNode(null, null, options);
     }
 
-    @NonNull
     static BasicConfigurationNode root(ConfigurationOptions options, Consumer<BasicConfigurationNode> maker) {
         return root(options).act(maker);
     }

@@ -17,6 +17,7 @@
 package org.spongepowered.configurate;
 
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.AssertNonNullIfNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
+public interface ScopedConfigurationNode<@NonNull N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
 
     /**
      * Get a correctly typed instance of this node
@@ -38,19 +39,19 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N appendListNode();
+    N appendListNode();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N copy();
+    N copy();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N getNode(@NonNull Object... path);
+    N getNode(@NonNull Object... path);
 
     /**
      * {@inheritDoc}
@@ -62,19 +63,18 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N mergeValuesFrom(@NonNull ConfigurationNode other);
+    N mergeValuesFrom(ConfigurationNode other);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N setValue(@Nullable Object value);
+    N setValue(@Nullable Object value);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull
     default <V> N setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
         if (value == null) {
             return setValue(null);
@@ -95,19 +95,19 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull List<N> getChildrenList();
+    List<N> getChildrenList();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull Map<Object, N> getChildrenMap();
+    Map<Object, N> getChildrenMap();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N getNode(@NonNull Iterable<Object> path);
+    N getNode(Iterable<Object> path);
 
     /**
      * Execute an action on this node. This allows performing multiple operations

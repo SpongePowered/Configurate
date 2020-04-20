@@ -39,8 +39,7 @@ public interface TypeSerializer<T> {
      * @return An object
      * @throws ObjectMappingException If the presented data is invalid
      */
-    @Nullable
-    <Node extends ScopedConfigurationNode<Node>> T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException;
+    <Node extends ScopedConfigurationNode<Node>> @Nullable T deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.

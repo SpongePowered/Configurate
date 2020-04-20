@@ -45,9 +45,8 @@ public abstract class ConfigurationNodeWalker {
      * info.
      */
     public static final ConfigurationNodeWalker BREADTH_FIRST = new ConfigurationNodeWalker() {
-        @NonNull
         @Override
-        public <T extends ScopedConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
+        public <T extends ScopedConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(T start) {
             return new BreadthFirstIterator<>(start);
         }
     };
@@ -60,9 +59,8 @@ public abstract class ConfigurationNodeWalker {
      * info.
      */
     public static final ConfigurationNodeWalker DEPTH_FIRST_PRE_ORDER = new ConfigurationNodeWalker() {
-        @NonNull
         @Override
-        public <T extends ScopedConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
+        public <T extends @NonNull ScopedConfigurationNode<T>> Iterator<@NonNull VisitedNode<T>> walkWithPath(T start) {
             return new DepthFirstPreOrderIterator<>(start);
         }
     };
@@ -75,9 +73,8 @@ public abstract class ConfigurationNodeWalker {
      * info.
      */
     public static final ConfigurationNodeWalker DEPTH_FIRST_POST_ORDER = new ConfigurationNodeWalker() {
-        @NonNull
         @Override
-        public <T extends ScopedConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start) {
+        public <T extends @NonNull ScopedConfigurationNode<T>> Iterator<@NonNull VisitedNode<T>> walkWithPath(T start) {
             return new DepthFirstPostOrderIterator<>(start);
         }
     };
@@ -90,8 +87,7 @@ public abstract class ConfigurationNodeWalker {
      * @param <T> The node type
      * @return An iterator of {@link VisitedNode}s
      */
-    @NonNull
-    public abstract <T extends ScopedConfigurationNode<T>> Iterator<VisitedNode<T>> walkWithPath(@NonNull T start);
+    public abstract <T extends @NonNull ScopedConfigurationNode<T>> Iterator<@NonNull VisitedNode<T>> walkWithPath(T start);
 
 
     /**
@@ -102,8 +98,7 @@ public abstract class ConfigurationNodeWalker {
      * @param <T> The node type
      * @return An iterator of {@link ConfigurationNode}s
      */
-    @NonNull
-    public <T extends ScopedConfigurationNode<T>> Iterator<T> walk(@NonNull T start) {
+    public <T extends ScopedConfigurationNode<T>> Iterator<T> walk(T start) {
         return Iterators.transform(walkWithPath(start), VisitedNode::getNode);
     }
 
@@ -115,7 +110,7 @@ public abstract class ConfigurationNodeWalker {
      * @param consumer The consumer to accept the visited nodes
      * @param <T> The node type
      */
-    public <T extends ScopedConfigurationNode<T>> void walk(@NonNull T start, @NonNull BiConsumer<? super NodePath, ? super T> consumer) {
+    public <T extends ScopedConfigurationNode<T>> void walk(T start, BiConsumer<? super NodePath, ? super T> consumer) {
         Iterator<VisitedNode<T>> it = walkWithPath(start);
         while (it.hasNext()) {
             VisitedNode<T> next = it.next();
@@ -136,7 +131,6 @@ public abstract class ConfigurationNodeWalker {
          *
          * @return The visited node
          */
-        @NonNull
         T getNode();
 
         /**
@@ -147,7 +141,6 @@ public abstract class ConfigurationNodeWalker {
          *
          * @return The path of the visited node
          */
-        @NonNull
         NodePath getPath();
 
     }
@@ -266,12 +259,10 @@ public abstract class ConfigurationNodeWalker {
             this.node = node;
         }
 
-        @NonNull
         public N getNode() {
             return this.node;
         }
 
-        @NonNull
         @Override
         public NodePath getPath() {
             return path;

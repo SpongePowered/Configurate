@@ -2,6 +2,8 @@ package org.spongepowered.configurate.build
 
 import net.minecrell.gradle.licenser.LicenseExtension
 import net.minecrell.gradle.licenser.Licenser
+import org.checkerframework.gradle.plugin.CheckerFrameworkExtension
+import org.checkerframework.gradle.plugin.CheckerFrameworkPlugin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -20,6 +22,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 apply(Licenser::class.java)
                 apply(JavaLibraryPlugin::class.java)
                 apply(ConfiguratePublishingPlugin::class.java)
+
+                apply(CheckerFrameworkPlugin::class.java)
             }
 
             tasks.withType(JavaCompile::class.java) {
@@ -59,6 +63,15 @@ class ConfigurateDevPlugin : Plugin<Project> {
                     include("**/*.kt")
                     newLine = false
                 }
+            }
+
+            extensions.configure(CheckerFrameworkExtension::class.java) {
+                it.checkers = listOf("nullness.NullnessChecker",
+                        "optional.OptionalChecker", "regex.RegexChecker",
+                        "index.IndexChecker", "signature.SignatureChecker",
+                        "interning.InterningChecker")
+                        .map { "org.checkerframework.checker.$it"}
+                it.extraJavacArgs = listOf("-Alint=all")
             }
 
             repositories.addAll(listOf(repositories.mavenLocal(), repositories.mavenCentral(), repositories.jcenter()))
