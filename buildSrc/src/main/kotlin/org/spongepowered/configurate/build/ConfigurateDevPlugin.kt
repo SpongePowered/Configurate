@@ -2,6 +2,7 @@ package org.spongepowered.configurate.build
 
 import net.minecrell.gradle.licenser.LicenseExtension
 import net.minecrell.gradle.licenser.Licenser
+import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -45,7 +46,14 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 it.targetCompatibility = JavaVersion.VERSION_1_8
             }
 
+
             tasks.withType(Javadoc::class.java).configureEach {
+                it.doFirst {_ ->
+                    if (JavaVersion.toVersion(it.toolChain.version) == JavaVersion.VERSION_12) {
+                        throw GradleException("Javadoc cannot be generated on JDK 12 -- " +
+                            "see https://bugs.openjdk.java.net/browse/JDK-8222091")
+                    }
+                }
                 val opts = it.options
                 if (opts is StandardJavadocDocletOptions) {
                     opts.links(
