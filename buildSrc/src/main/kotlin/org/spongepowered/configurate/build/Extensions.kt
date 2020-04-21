@@ -1,5 +1,6 @@
 package org.spongepowered.configurate.build
 
+import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -29,6 +30,11 @@ fun DependencyHandler.core(): Dependency {
 }
 
 fun Javadoc.applyCommonAttributes() {
+    val version = JavaVersion.toVersion(toolChain.version)
+    if (version == JavaVersion.VERSION_12) {
+        throw GradleException("Javadoc cannot be generated on JDK 12 -- " +
+                "see https://bugs.openjdk.java.net/browse/JDK-8222091")
+    }
     val options = this.options
     options.encoding = "UTF-8"
     if (options is StandardJavadocDocletOptions) {
@@ -40,7 +46,7 @@ fun Javadoc.applyCommonAttributes() {
                 "https://docs.oracle.com/javase/8/docs/api"
         )
         options.source = targetVersion.toString()
-        if (JavaVersion.toVersion(toolChain.version).isJava9Compatible) {
+        if (version.isJava9Compatible) {
             options.addBooleanOption("html5", true)
         }
         options.linkSource()
