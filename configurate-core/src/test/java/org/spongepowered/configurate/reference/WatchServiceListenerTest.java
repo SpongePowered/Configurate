@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -33,6 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 public class WatchServiceListenerTest {
     private static @MonotonicNonNull WatchServiceListener listener;
@@ -75,18 +77,20 @@ public class WatchServiceListenerTest {
         assertEquals(0, callCount.get());
 
 
-        synchronized (condition) {
-            Files.write(testFile, Collections.singleton("version two"), StandardOpenOption.SYNC);
-            condition.wait();
-            assertEquals(1, callCount.get());
+        assertTimeout(Duration.ofMinutes(1), () -> {
+            synchronized (condition) {
+                Files.write(testFile, Collections.singleton("version two"), StandardOpenOption.SYNC);
+                condition.wait();
+                assertEquals(1, callCount.get());
 
-            Files.write(testFile, Collections.singleton("version three"), StandardOpenOption.SYNC);
-            condition.wait();
+                Files.write(testFile, Collections.singleton("version three"), StandardOpenOption.SYNC);
+                condition.wait();
+                assertEquals(2, callCount.get());
+            }
+
+            Files.write(testFile, Collections.singleton("version four"), StandardOpenOption.SYNC);
             assertEquals(2, callCount.get());
-        }
-
-        Files.write(testFile, Collections.singleton("version four"), StandardOpenOption.SYNC);
-        assertEquals(2, callCount.get());
+        });
     }
 
     @Test
@@ -114,14 +118,17 @@ public class WatchServiceListenerTest {
             }
         });
 
-        Files.write(test1, Collections.singleton("version one"), StandardOpenOption.SYNC);
+        assertTimeout(Duration.ofMinutes(1), () -> { // in case of locking issues
+            Files.write(test1, Collections.singleton("version one"), StandardOpenOption.SYNC);
 
-        barrier.await();
-        assertEquals(test1.getFileName(), lastPath.get());
-        barrier.reset();
+            barrier.await();
+            assertEquals(test1.getFileName(), lastPath.get());
+            barrier.reset();
 
-        Files.write(test2, Collections.singleton("version two"), StandardOpenOption.SYNC);
-        barrier.await();
-        assertEquals(test2.getFileName(), lastPath.get());
+            Files.write(test2, Collections.singleton("version two"), StandardOpenOption.SYNC);
+            barrier.await();
+            assertEquals(test2.getFileName(), lastPath.get());
+        });
+
     }
 }
