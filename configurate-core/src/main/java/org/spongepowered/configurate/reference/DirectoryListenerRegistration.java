@@ -26,6 +26,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -39,10 +40,13 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
     private final WatchKey key;
     private final ConcurrentHashMap<Path, Processor<WatchEvent<?>, WatchEvent<?>>> fileListeners
         = new ConcurrentHashMap<>();
-    private final Processor<WatchEvent<?>, WatchEvent<?>> dirListeners = Processor.create();
+    private final ForkJoinPool executor;
+    private final Processor<WatchEvent<?>, WatchEvent<?>> dirListeners;
 
-    DirectoryListenerRegistration(WatchKey key) {
+    DirectoryListenerRegistration(WatchKey key, ForkJoinPool executor) {
         this.key = requireNonNull(key, "key");
+        this.executor = requireNonNull(executor, "executor");
+        dirListeners = Processor.create(executor);
     }
 
     public WatchKey getKey() {
@@ -104,7 +108,7 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
     public Disposable subscribe(Path file, Subscriber<WatchEvent<?>> subscriber) {
         lock.lock();
         try {
-            return fileListeners.computeIfAbsent(file, f -> Processor.create()).subscribe(subscriber);
+            return fileListeners.computeIfAbsent(file, f -> Processor.create(executor)).subscribe(subscriber);
         } finally {
             lock.unlock();
         }

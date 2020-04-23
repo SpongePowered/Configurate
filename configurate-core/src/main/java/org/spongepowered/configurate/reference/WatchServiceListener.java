@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.reference;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -34,29 +35,40 @@ import java.nio.file.WatchService;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ThreadFactory;
 import java.util.function.Function;
 
 /**
- * A wrapper around NIO's {@link WatchService} that uses the provided event loop to poll for changes, and calls listeners once an event occurs.
+ * A wrapper around NIO's {@link WatchService} that uses the provided event loop to poll for changes, and calls
+ * listeners once an event occurs.
+ * <p>
+ * Some deduplication is performed because Windows can be fairly spammy with its events, so one callback may receive
+ * multiple events at one time.
+ * <p>
+ * Callback functions are {@link Subscriber Subscribers} that take the {@link WatchEvent} as their parameter.
  *
- * Some deduplication is performed because Windows can be fairly spammy with its events, so one callback may receive multiple events at one time.
- *
- * Callback functions take a
+ * Listening to a directory provides updates on the directory's immediate children, but does not
  */
 public class WatchServiceListener implements AutoCloseable {
     @SuppressWarnings("rawtypes") // IntelliJ says it's unnecessary, but the compiler shows warnings
-    private static final WatchEvent.Kind<?>[] DEFAULT_WATCH_EVENTS = new WatchEvent.Kind[] {StandardWatchEventKinds.OVERFLOW,
+    private static final WatchEvent.Kind<?>[] DEFAULT_WATCH_EVENTS = new WatchEvent.Kind[]{StandardWatchEventKinds.OVERFLOW,
             StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY};
     private static final int PARALLEL_THRESHOLD = 100;
-    private final ExecutorService executor;
+    private static final ThreadFactory DEFAULT_THREAD_FACTORY = new ThreadFactoryBuilder()
+            .setNameFormat("Configurate-WatchService-%d")
+            .setDaemon(true)
+            .build();
+
     private final WatchService watchService;
+    private volatile boolean open = true;
+    private final Thread executor;
     private final ConcurrentHashMap<Path, DirectoryListenerRegistration> activeListeners = new ConcurrentHashMap<>();
     private static final ThreadLocal<IOException> exceptionHolder = new ThreadLocal<>();
 
     /**
      * Create a new builder for a WatchServiceListener to create a customized listener
+     *
      * @return A builder
      */
     public static Builder builder() {
@@ -71,14 +83,13 @@ public class WatchServiceListener implements AutoCloseable {
      * @see #builder() for customization
      */
     public static WatchServiceListener create() throws IOException {
-        return new WatchServiceListener(ForkJoinPool.commonPool(), FileSystems.getDefault());
+        return new WatchServiceListener(DEFAULT_THREAD_FACTORY, FileSystems.getDefault());
     }
 
-    private WatchServiceListener(ExecutorService executor, FileSystem fileSystem) throws IOException {
-        this.executor = executor;
+    private WatchServiceListener(ThreadFactory factory, FileSystem fileSystem) throws IOException {
         this.watchService = fileSystem.newWatchService();
-        executor.submit(() -> {
-            while (!executor.isShutdown()) {
+        this.executor = factory.newThread(() -> {
+            while (open) {
                 WatchKey key;
                 try {
                     key = watchService.take();
@@ -99,12 +110,11 @@ public class WatchServiceListener implements AutoCloseable {
                         }
 
                         // Process listeners
-                        executor.submit(() -> {
-                            registration.submit(event);
-                            if (registration.closeIfEmpty()) {
-                                key.cancel();
-                            }
-                        });
+                        registration.submit(event);
+                        if (registration.closeIfEmpty()) {
+                            key.cancel();
+                            break;
+                        }
                     }
 
                     // If the watch key is no longer valid, send all listeners a close event
@@ -115,10 +125,12 @@ public class WatchServiceListener implements AutoCloseable {
                 }
             }
         });
+        this.executor.start();
     }
 
     /**
-     * Gets or creates a registration holder for a specific directory. This handles registering with the watch service if necessary.
+     * Gets or creates a registration holder for a specific directory. This handles registering with the watch service
+     * if necessary.
      *
      * @param directory The directory to listen to
      * @return A registration, created new if necessary.
@@ -127,7 +139,7 @@ public class WatchServiceListener implements AutoCloseable {
     private DirectoryListenerRegistration getRegistration(Path directory) throws IOException {
         @Nullable DirectoryListenerRegistration reg = activeListeners.computeIfAbsent(directory, dir -> {
             try {
-                return new DirectoryListenerRegistration(dir.register(watchService, DEFAULT_WATCH_EVENTS));
+                return new DirectoryListenerRegistration(dir.register(watchService, DEFAULT_WATCH_EVENTS), ForkJoinPool.commonPool());
             } catch (IOException ex) {
                 exceptionHolder.set(ex);
                 return null;
@@ -143,10 +155,11 @@ public class WatchServiceListener implements AutoCloseable {
     /**
      * Listen for changes to a specific file or directory.
      *
-     * @param file The path of the file or directory to listen for changes on.
-     * @param callback A callback function that will be called when changes are made. If return value is false, we will stop monitoring for changes.
+     * @param file     The path of the file or directory to listen for changes on.
+     * @param callback A callback function that will be called when changes are made. If return value is false, we will
+     *                 stop monitoring for changes.
      * @return A {@link Disposable} that can be used to cancel this subscription
-     * @throws IOException if a filesystem error occurs.
+     * @throws IOException              if a filesystem error occurs.
      * @throws IllegalArgumentException if the provided path is a directory.
      */
     public Disposable listenToFile(Path file, Subscriber<WatchEvent<?>> callback) throws IOException, IllegalArgumentException {
@@ -162,9 +175,10 @@ public class WatchServiceListener implements AutoCloseable {
      * Listen to a directory. Callbacks will receive events both for the directory and for its contents.
      *
      * @param directory The directory to listen to
-     * @param callback A callback function that will be called when changes are made. If return value is false, we will stop monitoring for changes.
+     * @param callback  A callback function that will be called when changes are made. If return value is false, we will
+     *                  stop monitoring for changes.
      * @return A {@link Disposable} that can be used to cancel this subscription
-     * @throws IOException When an error occurs registering with the underlying watch service.
+     * @throws IOException              When an error occurs registering with the underlying watch service.
      * @throws IllegalArgumentException If the provided path is not a directory
      */
     public Disposable listenToDirectory(Path directory, Subscriber<WatchEvent<?>> callback) throws IOException, IllegalArgumentException {
@@ -181,17 +195,23 @@ public class WatchServiceListener implements AutoCloseable {
 
     @Override
     public void close() throws IOException {
+        open = false;
         watchService.close();
         activeListeners.forEachValue(PARALLEL_THRESHOLD, DirectoryListenerRegistration::onClose);
         activeListeners.clear();
+        try {
+            this.executor.join();
+        } catch (InterruptedException e) {
+            throw new IOException("Failed to await termination of executor thread!");
+        }
     }
 
     /**
-     * Set the parameters needed to create a {@link WatchServiceListener}. All params are optional
-     * and defaults will be used if no values are specified.
+     * Set the parameters needed to create a {@link WatchServiceListener}. All params are optional and defaults will be
+     * used if no values are specified.
      */
     public static class Builder {
-        private @Nullable ExecutorService executor;
+        private @Nullable ThreadFactory threadFactory;
         private @Nullable FileSystem fileSystem;
 
         private Builder() {
@@ -199,21 +219,19 @@ public class WatchServiceListener implements AutoCloseable {
         }
 
         /**
-         * Set the executor to be used for polling and callbacks.
+         * Set the thread factory that will be used to create the polling thread for this watch service
          *
-         * If an executor is provided, it will must be managed outside of the watch service. If no executor is set, one will be created by the watch service.
-         *
-         * @param executor The executor to be used for the created service
-         * @return thus
+         * @param factory The thread factory to create the deamon thread
+         * @return this
          */
-        public Builder setExecutor(ExecutorService executor) {
-            this.executor = executor;
+        public Builder setThreadFactory(ThreadFactory factory) {
+            this.threadFactory = factory;
             return this;
         }
 
         /**
-         * Set the filesystem expected to be used for paths. A separate {@link WatchServiceListener} should be
-         * created to listen to events on a different file system.
+         * Set the filesystem expected to be used for paths. A separate {@link WatchServiceListener} should be created
+         * to listen to events on a different file system.
          *
          * @param system The file system to use.
          * @return this
@@ -230,16 +248,15 @@ public class WatchServiceListener implements AutoCloseable {
          * @throws IOException if thrown by {@link WatchServiceListener}'s constructor
          */
         public WatchServiceListener build() throws IOException {
-            if (executor == null) {
-                executor = ForkJoinPool.commonPool();
-                assert executor != null; // shush
+            if (threadFactory == null) {
+                threadFactory = DEFAULT_THREAD_FACTORY;
             }
 
             if (fileSystem == null) {
                 fileSystem = FileSystems.getDefault();
             }
 
-            return new WatchServiceListener(executor, fileSystem);
+            return new WatchServiceListener(threadFactory, fileSystem);
         }
     }
 }

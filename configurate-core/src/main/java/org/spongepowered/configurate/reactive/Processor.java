@@ -18,6 +18,7 @@ package org.spongepowered.configurate.reactive;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.concurrent.ForkJoinPool;
 import java.util.function.Function;
 
 /**
@@ -35,12 +36,23 @@ import java.util.function.Function;
 public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
     /**
      * Create a {@link Processor} instance that simply broadcasts submitted values to its
-     * subscribers
+     * subscribers. Broadcasts will occur on the common pool.
      *
      * @param <V> The type
      * @return A new processor instance
      */
     static <V> Processor.Iso<V> create() {
+        return new ProcessorBase<>();
+    }
+
+    /**
+     * Create a {@link Processor} instance that simply broadcasts submitted values to its
+     * subscribers
+     *
+     * @param <V> The type
+     * @return A new processor instance
+     */
+    static <V> Processor.Iso<V> create(ForkJoinPool executor) {
         return new ProcessorBase<>();
     }
 
