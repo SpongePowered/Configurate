@@ -24,7 +24,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
@@ -42,26 +41,26 @@ public class TypeSerializerCollection {
         DEFAULTS = TypeSerializerCollection.builder()
                 .register(TypeToken.of(String.class), new StringSerializer())
                 .register(TypeToken.of(Boolean.class), new BooleanSerializer())
-                .register(new TypeToken<Map<?, ?>>() {}, new MapSerializer())
-                .register(new TypeToken<List<?>>() {}, new ListSerializer())
-                .register(NumberSerializer.getPredicate(), new NumberSerializer())
-                .register(input -> input.getRawType().isAnnotationPresent(ConfigSerializable.class), new AnnotatedObjectSerializer())
+                .register(MapSerializer.TYPE, new MapSerializer())
+                .register(ListSerializer.TYPE, new ListSerializer())
+                .register(NumberSerializer.predicate(), new NumberSerializer())
+                .register(AnnotatedObjectSerializer.predicate(), new AnnotatedObjectSerializer())
                 .register(new TypeToken<Enum<?>>() {}, new EnumValueSerializer())
-                .register(CharSerializer.predicate(), new CharSerializer())
+                .register(CharSerializer.TYPE, new CharSerializer())
                 .register(TypeToken.of(URI.class), new URISerializer())
                 .register(TypeToken.of(URL.class), new URLSerializer())
                 .register(TypeToken.of(UUID.class), new UUIDSerializer())
                 .register(TypeToken.of(Pattern.class), new PatternSerializer())
                 .register(ArraySerializer.Objects.predicate(), new ArraySerializer.Objects())
-                .register(TypeToken.of(boolean[].class), new ArraySerializer.Booleans())
-                .register(TypeToken.of(byte[].class), new ArraySerializer.Bytes())
-                .register(TypeToken.of(char[].class), new ArraySerializer.Chars())
-                .register(TypeToken.of(short[].class), new ArraySerializer.Shorts())
-                .register(TypeToken.of(int[].class), new ArraySerializer.Ints())
-                .register(TypeToken.of(long[].class), new ArraySerializer.Longs())
-                .register(TypeToken.of(float[].class), new ArraySerializer.Floats())
-                .register(TypeToken.of(double[].class), new ArraySerializer.Doubles())
-                .register(new TypeToken<Set<?>>() {}, new SetSerializer())
+                .register(ArraySerializer.Booleans.TYPE, new ArraySerializer.Booleans())
+                .register(ArraySerializer.Bytes.TYPE, new ArraySerializer.Bytes())
+                .register(ArraySerializer.Chars.TYPE, new ArraySerializer.Chars())
+                .register(ArraySerializer.Shorts.TYPE, new ArraySerializer.Shorts())
+                .register(ArraySerializer.Ints.TYPE, new ArraySerializer.Ints())
+                .register(ArraySerializer.Longs.TYPE, new ArraySerializer.Longs())
+                .register(ArraySerializer.Floats.TYPE, new ArraySerializer.Floats())
+                .register(ArraySerializer.Doubles.TYPE, new ArraySerializer.Doubles())
+                .register(SetSerializer.TYPE, new SetSerializer())
                 .register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer())
                 .build();
     }

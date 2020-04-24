@@ -22,15 +22,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-import java.util.function.Predicate;
-
 class CharSerializer implements TypeSerializer<Character> {
-    static Predicate<TypeToken<Character>> predicate() {
-        return it -> {
-            Class<?> rawType = it.getRawType();
-            return rawType.equals(char.class) || rawType.equals(Character.class);
-        };
-    }
+    static final TypeToken<Character> TYPE = TypeToken.of(Character.class);
 
     @Nullable
     @Override

@@ -33,6 +33,8 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 class MapSerializer implements TypeSerializer<Map<?, ?>> {
+    static TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
+
     @Override
     public <Node extends ScopedConfigurationNode<Node>> Map<?, ?> deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
         Map<Object, Object> ret = new LinkedHashMap<>();

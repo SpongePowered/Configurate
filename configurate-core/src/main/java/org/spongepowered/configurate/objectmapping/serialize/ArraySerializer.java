@@ -24,8 +24,13 @@ import org.spongepowered.configurate.util.ThrowingConsumer;
 import java.lang.reflect.Array;
 import java.util.function.Predicate;
 
+/**
+ * A serializer for array classes. Primitive arrays need special handling because they don't have autoboxing like single
+ * primitives do.
+ *
+ * @param <T>
+ */
 abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
-
 
     @Override
     TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
@@ -60,10 +65,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     }
 
-
-
-
     static class Booleans extends ArraySerializer<boolean[]> {
+        static final TypeToken<boolean[]> TYPE = TypeToken.of(boolean[].class);
 
         @Override
         boolean[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -85,6 +88,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Bytes extends ArraySerializer<byte[]> {
+        static final TypeToken<byte[]> TYPE = TypeToken.of(byte[].class);
 
         @Override
         byte[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -106,6 +110,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Chars extends ArraySerializer<char[]> {
+        static final TypeToken<char[]> TYPE = TypeToken.of(char[].class);
 
         @Override
         char[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -130,6 +135,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Shorts extends ArraySerializer<short[]> {
+        static final TypeToken<short[]> TYPE = TypeToken.of(short[].class);
 
         @Override
         TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
@@ -156,6 +162,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Ints extends ArraySerializer<int[]> {
+        static final TypeToken<int[]> TYPE = TypeToken.of(int[].class);
 
         @Override
         int[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -177,6 +184,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Longs extends ArraySerializer<long[]> {
+        static final TypeToken<long[]> TYPE = TypeToken.of(long[].class);
 
         @Override
         long[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -198,6 +206,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Floats extends ArraySerializer<float[]> {
+        static final TypeToken<float[]> TYPE = TypeToken.of(float[].class);
 
         @Override
         float[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
@@ -219,6 +228,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     static class Doubles extends ArraySerializer<double[]> {
+        static final TypeToken<double[]> TYPE = TypeToken.of(double[].class);
 
         @Override
         double[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {

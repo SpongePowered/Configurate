@@ -25,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 class SetSerializer extends AbstractListChildSerializer<Set<?>> {
+    static TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
     @Override
     TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {

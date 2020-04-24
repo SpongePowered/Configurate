@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 
 class NumberSerializer implements TypeSerializer<Number> {
 
-    public static Predicate<TypeToken<Number>> getPredicate() {
+    public static Predicate<TypeToken<Number>> predicate() {
         return (type) -> {
             type = type.wrap();
             Class<?> clazz = type.getRawType();

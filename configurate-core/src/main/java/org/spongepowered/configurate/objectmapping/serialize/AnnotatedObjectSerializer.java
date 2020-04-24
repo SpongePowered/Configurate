@@ -24,10 +24,14 @@ import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Modifier;
+import java.util.function.Predicate;
 
 class AnnotatedObjectSerializer implements TypeSerializer<Object> {
-
     public static final String CLASS_KEY = "__class__";
+
+    static Predicate<TypeToken<Object>> predicate() {
+        return it -> it.getRawType().isAnnotationPresent(ConfigSerializable.class);
+    }
 
     @Override
     public <Node extends ScopedConfigurationNode<Node>> Object deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
