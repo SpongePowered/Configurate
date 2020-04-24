@@ -40,4 +40,15 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      */
     @NonNull
     N setComment(@Nullable String comment);
+
+    /**
+     * Set a comment on this node if it does not presently have a comment.
+     *
+     * The provided comment must not be null, because setting a null comment would be a no-op
+     *
+     * @param comment The comment to set. Line breaks should be represented as LFs (\n)
+     * @return this
+     */
+    @NonNull
+    N setCommentIfAbsent(String comment);
 }

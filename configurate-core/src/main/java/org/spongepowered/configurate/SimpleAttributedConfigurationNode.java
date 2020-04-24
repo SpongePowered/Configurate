@@ -144,7 +144,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     protected SimpleAttributedConfigurationNode copy(@Nullable SimpleAttributedConfigurationNode parent) {
         SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
-        copy.comment = this.comment;
+        copy.comment.set(this.comment.get());
         return copy;
     }
 

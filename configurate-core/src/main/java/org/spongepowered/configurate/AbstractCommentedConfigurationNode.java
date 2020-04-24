@@ -21,9 +21,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>, A extends AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A> implements CommentedConfigurationNodeIntermediary<N> {
-    protected String comment = null;
+    protected final AtomicReference<String> comment = new AtomicReference<>();
 
     protected AbstractCommentedConfigurationNode(A parent, A copyOf) {
         super(parent, copyOf);
@@ -36,20 +37,29 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     @NonNull
     @Override
     public Optional<String> getComment() {
-        return Optional.ofNullable(comment);
+        return Optional.ofNullable(comment.get());
     }
 
     @Override
     public @NonNull N setComment(@Nullable String comment) {
-        attachIfNecessary();
-        this.comment = comment;
+        if (!Objects.equals(this.comment.getAndSet(comment), comment)) {
+            attachIfNecessary();
+        }
+        return self();
+    }
+
+    @Override
+    public @NonNull N setCommentIfAbsent(String comment) {
+        if (this.comment.compareAndSet(null, comment)) {
+            attachIfNecessary();
+        }
         return self();
     }
 
     @Override
     public @NonNull N setValue(@Nullable Object value) {
-        if (value instanceof CommentedConfigurationNodeIntermediary<?> && ((CommentedConfigurationNodeIntermediary<?>) value).getComment().isPresent()) {
-            setComment(((CommentedConfigurationNodeIntermediary<?>) value).getComment().get());
+        if (value instanceof CommentedConfigurationNodeIntermediary<?>) {
+            ((CommentedConfigurationNodeIntermediary<?>) value).getComment().ifPresent(this::setComment);
         }
         return super.setValue(value);
     }
@@ -58,9 +68,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     public @NonNull N mergeValuesFrom(@NonNull ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNodeIntermediary<?>) {
             Optional<String> otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).getComment();
-            if (comment == null && otherComment.isPresent()) {
-                comment = otherComment.get();
-            }
+            otherComment.ifPresent(this::setCommentIfAbsent);
         }
         return super.mergeValuesFrom(other);
     }
@@ -72,14 +80,13 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
         if (!super.equals(o)) return false;
 
         AbstractCommentedConfigurationNode<?, ?> that = (AbstractCommentedConfigurationNode<?, ?>) o;
-        if (!Objects.equals(comment, that.comment)) return false;
-        return true;
+        return Objects.equals(comment.get(), that.comment.get());
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + Objects.hashCode(comment);
+        result = 31 * result + Objects.hashCode(comment.get());
         return result;
     }
 }

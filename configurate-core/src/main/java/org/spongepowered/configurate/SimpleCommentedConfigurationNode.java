@@ -43,7 +43,7 @@ class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNod
     @Override
     protected SimpleCommentedConfigurationNode copy(@Nullable SimpleCommentedConfigurationNode parent) {
         SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
-        copy.comment = this.comment;
+        copy.comment.set(this.comment.get());
         return copy;
     }
 
