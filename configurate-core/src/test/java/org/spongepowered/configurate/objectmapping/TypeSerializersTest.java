@@ -22,7 +22,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.spongepowered.configurate.*;
+import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
@@ -41,6 +43,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -525,6 +528,30 @@ public class TypeSerializersTest {
         doubleArraySerializer.serialize(doubleArrayType, testArray, serializeTo);
         assertEquals(ImmutableList.of(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.getValue());
         assertArrayEquals(testArray, doubleArraySerializer.deserialize(doubleArrayType, serializeTo));
+    }
+
+    @Test
+    public void testConfigurationNodeSerializer() throws ObjectMappingException {
+        final TypeToken<ConfigurationNode> nodeType = TypeToken.of(ConfigurationNode.class);
+        final TypeSerializer<ConfigurationNode> nodeSerializer = SERIALIZERS.get(nodeType);
+        assertNotNull(nodeSerializer);
+
+        final BasicConfigurationNode sourceNode = BasicConfigurationNode.root(n -> {
+            n.getNode("hello").setValue("world");
+            n.getNode("lorg").act(c -> {
+                c.appendListNode().setValue("doggo");
+                c.appendListNode().setValue("pupper");
+            });
+        });
+
+        final ConfigurationNode ret = nodeSerializer.deserialize(nodeType, sourceNode);
+        assertEquals(sourceNode, ret);
+
+        final BasicConfigurationNode dest = BasicConfigurationNode.root();
+        nodeSerializer.serialize(nodeType, ret, dest);
+
+        assertEquals(sourceNode, dest);
+
     }
 
 }

@@ -62,6 +62,7 @@ public class TypeSerializerCollection {
                 .register(TypeToken.of(float[].class), new ArraySerializer.Floats())
                 .register(TypeToken.of(double[].class), new ArraySerializer.Doubles())
                 .register(new TypeToken<Set<?>>() {}, new SetSerializer())
+                .register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer())
                 .build();
     }
 
