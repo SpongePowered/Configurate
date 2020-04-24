@@ -68,6 +68,17 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
     @NonNull
     CommentedConfigurationNode setComment(@Nullable String comment);
 
+    /**
+     * Set a comment on this node if it does not presently have a comment.
+     *
+     * The provided comment must not be null, because setting a null comment would be a no-op
+     *
+     * @param comment The comment to set. Line breaks should be represented as LFs (\n)
+     * @return this
+     */
+    @NonNull
+    CommentedConfigurationNode setCommentIfAbsent(String comment);
+
     // Methods from superclass overridden to have correct return types
     @Nullable @Override CommentedConfigurationNode getParent();
     @NonNull @Override List<? extends CommentedConfigurationNode> getChildrenList();

@@ -235,6 +235,7 @@ public class SimpleAttributedConfigurationNode extends SimpleCommentedConfigurat
     protected SimpleAttributedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
         SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
+        copy.comment.set(this.comment.get());
         return copy;
     }
 

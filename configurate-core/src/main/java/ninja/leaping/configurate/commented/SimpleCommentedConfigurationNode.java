@@ -26,12 +26,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
-    private String comment = null;
+    protected final AtomicReference<String> comment = new AtomicReference<>();
 
     /**
      * Create a new node with no parent.
@@ -69,14 +70,23 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @NonNull
     @Override
     public Optional<String> getComment() {
-        return Optional.ofNullable(comment);
+        return Optional.ofNullable(comment.get());
     }
 
     @NonNull
     @Override
     public SimpleCommentedConfigurationNode setComment(@Nullable String comment) {
-        attachIfNecessary();
-        this.comment = comment;
+        if (!Objects.equals(this.comment.getAndSet(comment), comment)) {
+            attachIfNecessary();
+        }
+        return this;
+    }
+
+    @Override
+    public @NonNull CommentedConfigurationNode setCommentIfAbsent(String comment) {
+        if (this.comment.compareAndSet(null, comment)) {
+            attachIfNecessary();
+        }
         return this;
     }
 
@@ -96,8 +106,8 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @NonNull
     @Override
     public SimpleCommentedConfigurationNode setValue(@Nullable Object value) {
-        if (value instanceof CommentedConfigurationNode && ((CommentedConfigurationNode) value).getComment().isPresent()) {
-            setComment(((CommentedConfigurationNode) value).getComment().get());
+        if (value instanceof CommentedConfigurationNode) {
+            ((CommentedConfigurationNode) value).getComment().ifPresent(this::setComment);
         }
         return (SimpleCommentedConfigurationNode) super.setValue(value);
     }
@@ -107,9 +117,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     public SimpleCommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNode) {
             Optional<String> otherComment = ((CommentedConfigurationNode) other).getComment();
-            if (comment == null && otherComment.isPresent()) {
-                comment = otherComment.get();
-            }
+            otherComment.ifPresent(this::setCommentIfAbsent);
         }
         return (SimpleCommentedConfigurationNode) super.mergeValuesFrom(other);
     }
@@ -157,7 +165,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     @Override
     protected SimpleCommentedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
         SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
-        copy.comment = this.comment;
+        copy.comment.set(this.comment.get());
         return copy;
     }
 
@@ -168,14 +176,14 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
         if (!super.equals(o)) return false;
 
         SimpleCommentedConfigurationNode that = (SimpleCommentedConfigurationNode) o;
-        if (!Objects.equals(comment, that.comment)) return false;
+        if (!Objects.equals(comment.get(), that.comment.get())) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + Objects.hashCode(comment);
+        result = 31 * result + Objects.hashCode(comment.get());
         return result;
     }
 
@@ -183,7 +191,7 @@ public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode im
     public String toString() {
         return "SimpleCommentedConfigurationNode{" +
                 "super=" + super.toString() +
-                ", comment=" + comment +
+                ", comment=" + comment.get() +
                 '}';
     }
 }
