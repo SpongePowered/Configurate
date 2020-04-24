@@ -18,15 +18,39 @@ package org.spongepowered.configurate.kotlin
 
 import com.google.common.reflect.TypeToken
 import org.spongepowered.configurate.objectmapping.ObjectMapper
+import org.spongepowered.configurate.objectmapping.ObjectMapperFactory
+import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer
+import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection
 
+/**
+ * Get an object mapper for the type [T] using the default object mapper factory
+ */
 inline fun <reified T> objectMapper(): ObjectMapper<T> {
     return ObjectMapper.forType(typeTokenOf<T>())
 }
 
+/**
+ * Get an object mapper bound to the instance of [T], resolving type parameters
+ */
 inline fun <reified T> T.mapper(): ObjectMapper<T>.BoundInstance {
     return ObjectMapper.forObject(typeTokenOf<T>(), this)
 }
 
+/**
+ * Create an object mapper with the given [ObjectMapperFactory] for objects of type [T],
+ * accepting parameterized types.
+ */
+inline fun <reified T> ObjectMapperFactory.getMapper(): ObjectMapper<T> {
+    return getMapper(typeTokenOf())
+}
+
+/**
+ * Get the appropriate [TypeSerializer] for the provided type [T], or null if none is applicable.
+ */
+inline fun <reified T> TypeSerializerCollection.get(): TypeSerializer<T>? {
+    return get(typeTokenOf())
+}
+
 @PublishedApi
-internal inline fun <reified T> typeTokenOf() = object: TypeToken<T>() {}
+internal inline fun <reified T> typeTokenOf() = object : TypeToken<T>() {}
 

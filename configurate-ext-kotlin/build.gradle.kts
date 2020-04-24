@@ -6,7 +6,7 @@ plugins {
 }
 
 tasks.withType(KotlinCompile::class).configureEach {
-    kotlinOptions.freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
+    kotlinOptions.freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn", "-jvm-target", "1.8")
 }
 
 dependencies {

@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.kotlin
 
-import com.google.common.reflect.TypeToken
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
