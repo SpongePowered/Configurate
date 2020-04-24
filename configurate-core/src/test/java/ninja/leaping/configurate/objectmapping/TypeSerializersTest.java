@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
@@ -42,6 +41,7 @@ import java.util.regex.Pattern;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -520,6 +520,30 @@ public class TypeSerializersTest {
         doubleArraySerializer.serialize(doubleArrayType, testArray, serializeTo);
         assertEquals(ImmutableList.of(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.getValue());
         assertArrayEquals(testArray, doubleArraySerializer.deserialize(doubleArrayType, serializeTo));
+    }
+
+    @Test
+    public void testConfigurationNodeSerializer() throws ObjectMappingException {
+        final TypeToken<ConfigurationNode> nodeType = TypeToken.of(ConfigurationNode.class);
+        final TypeSerializer<ConfigurationNode> nodeSerializer = SERIALIZERS.get(nodeType);
+        assertNotNull(nodeSerializer);
+
+        final ConfigurationNode sourceNode = ConfigurationNode.root(n -> {
+            n.getNode("hello").setValue("world");
+            n.getNode("lorg").act(c -> {
+                c.appendListNode().setValue("doggo");
+                c.appendListNode().setValue("pupper");
+            });
+        });
+
+        final ConfigurationNode ret = nodeSerializer.deserialize(nodeType, sourceNode);
+        assertEquals(sourceNode, ret);
+
+        final ConfigurationNode dest = ConfigurationNode.root();
+        nodeSerializer.serialize(nodeType, ret, dest);
+
+        assertEquals(sourceNode, dest);
+
     }
 
 }

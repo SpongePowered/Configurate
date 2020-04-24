@@ -77,5 +77,6 @@ public class TypeSerializers {
         DEFAULT_SERIALIZERS.register(TypeToken.of(float[].class), new ArraySerializer.Floats());
         DEFAULT_SERIALIZERS.register(TypeToken.of(double[].class), new ArraySerializer.Doubles());
         DEFAULT_SERIALIZERS.register(new TypeToken<Set<?>>() {}, new SetSerializer());
+        DEFAULT_SERIALIZERS.register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer());
     }
 }
