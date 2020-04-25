@@ -25,6 +25,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
@@ -145,16 +146,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
                 parseArray(parser, node);
                 break;
             case NUMBER:
-                double nextDouble = parser.nextDouble();
-                int nextInt = (int) nextDouble;
-                long nextLong = (long) nextDouble;
-                if (nextInt == nextDouble) {
-                    node.setValue(nextInt); // They don't do much for us here in Gsonland
-                } else if (nextLong == nextDouble) {
-                    node.setValue(nextLong);
-                } else {
-                    node.setValue(nextDouble);
-                }
+                node.setValue(readNumber(parser));
                 break;
             case STRING:
                 node.setValue(parser.nextString());
@@ -173,11 +165,24 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         }
     }
 
+    private Number readNumber(JsonReader reader) throws IOException {
+        String number = reader.nextString();
+        if (number.contains(".")) {
+            return Double.parseDouble(number);
+        }
+        long nextLong = Long.parseLong(number);
+        int nextInt = (int) nextLong;
+        if (nextInt == nextLong) {
+            return nextInt;
+        }
+        return nextLong;
+    }
+
     private void parseArray(JsonReader parser, BasicConfigurationNode node) throws IOException {
         parser.beginArray();
 
         boolean written = false;
-        JsonToken token;
+        @Nullable JsonToken token;
         while ((token = parser.peek()) != null) {
             switch (token) {
                 case END_ARRAY:
@@ -200,7 +205,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         parser.beginObject();
 
         boolean written = false;
-        JsonToken token;
+        @Nullable JsonToken token;
         while ((token = parser.peek()) != null) {
             switch (token) {
                 case END_OBJECT:
@@ -236,9 +241,8 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         }
     }
 
-    @NonNull
     @Override
-    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public BasicConfigurationNode createEmptyNode(ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
         return BasicConfigurationNode.root(options);
@@ -253,8 +257,10 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
             generator.beginObject();
             generator.endObject();
         } else {
-            Object value = node.getValue();
-            if (value instanceof Double) {
+            @Nullable Object value = node.getValue();
+            if (value == null) {
+                generator.nullValue();
+            } else if (value instanceof Double) {
                 generator.value((Double) value);
             } else if (value instanceof Float) {
                 generator.value((Float) value);

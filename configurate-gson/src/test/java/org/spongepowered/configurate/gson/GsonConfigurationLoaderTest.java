@@ -18,7 +18,6 @@ package org.spongepowered.configurate.gson;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
@@ -104,17 +103,45 @@ public class GsonConfigurationLoaderTest {
     private static final long TEST_LONG_VAL = 584895858588588888l;
 
     @Test
-    @Disabled("Gson currently makes it rather difficult to get the correct number type")
     public void testRoundtrippingLong(@TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
         ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
         BasicConfigurationNode start = loader.createEmptyNode();
         start.getNode("long-num").setValue(TEST_LONG_VAL);
         loader.save(start);
-        System.out.println(Files.readAllLines(tempFile));
 
         BasicConfigurationNode ret = loader.load();
-        System.out.println(ret.getNode("long-num").getValue().getClass());
         assertEquals(TEST_LONG_VAL, ret.getNode("long-num").getValue());
+    }
+
+    @Test
+    public void testPrimitiveTypes(@TempDirectory.TempDir Path tempDir) throws IOException {
+        final Path tempFile = tempDir.resolve("text6.txt");
+        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
+        ConfigurationNode start = loader.createEmptyNode();
+
+        int ival = 452252;
+        long lval = 584895858588588888L;
+        float fval = 432.2234F;
+        double dval = 243.333333239413D;
+        boolean blval = true;
+        String stval = "Sphinx of black quartz, judge my vow";
+
+        start.getNode("int").setValue(ival);
+        start.getNode("long").setValue(lval);
+        start.getNode("float").setValue(fval);
+        start.getNode("double").setValue(dval);
+        start.getNode("boolean").setValue(blval);
+        start.getNode("string").setValue(stval);
+
+        loader.save(start);
+
+        ConfigurationNode ret = loader.load();
+        assertEquals(ival, ret.getNode("int").getValue());
+        assertEquals(lval, ret.getNode("long").getValue());
+        assertEquals(fval, (double)ret.getNode("float").getValue(), 0.05);
+        assertEquals(dval, ret.getNode("double").getValue());
+        assertEquals(blval, ret.getNode("boolean").getValue());
+        assertEquals(stval, ret.getNode("string").getValue());
     }
 }
