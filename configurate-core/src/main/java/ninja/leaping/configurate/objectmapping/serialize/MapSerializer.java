@@ -19,7 +19,6 @@ package ninja.leaping.configurate.objectmapping.serialize;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -42,8 +41,8 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
             }
             TypeToken<?> key = type.resolveType(Map.class.getTypeParameters()[0]);
             TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
-            TypeSerializer<?> keySerial = node.getOptions().getSerializers().get(key);
-            TypeSerializer<?> valueSerial = node.getOptions().getSerializers().get(value);
+            @Nullable TypeSerializer<?> keySerial = node.getOptions().getSerializers().get(key);
+            @Nullable TypeSerializer<?> valueSerial = node.getOptions().getSerializers().get(value);
 
             if (keySerial == null) {
                 throw new ObjectMappingException("No type serializer available for type " + key);
@@ -53,9 +52,11 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
                 throw new ObjectMappingException("No type serializer available for type " + value);
             }
 
+            final ConfigurationNode keyNode = ConfigurationNode.root(node.getOptions());
+
             for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-                Object keyValue = keySerial.deserialize(key, ConfigurationNode.root().setValue(ent.getKey()));
-                Object valueValue = valueSerial.deserialize(value, ent.getValue());
+                @Nullable Object keyValue = keySerial.deserialize(key, keyNode.setValue(ent.getKey()));
+                @Nullable Object valueValue = valueSerial.deserialize(value, ent.getValue());
                 if (keyValue == null || valueValue == null) {
                     continue;
                 }
@@ -89,8 +90,8 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
             node.setValue(ImmutableMap.of());
         } else {
             final Set<Object> unvisitedKeys = new HashSet<>(node.getChildrenMap().keySet());
+            ConfigurationNode keyNode = ConfigurationNode.root(node.getOptions());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
-                ConfigurationNode keyNode = ConfigurationNode.root();
                 keySerial.serialize(key, ent.getKey(), keyNode);
                 Object keyObj = requireNonNull(keyNode.getValue(), "Key must not be null!");
                 valueSerial.serialize(value, ent.getValue(), node.getNode(keyObj));
