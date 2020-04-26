@@ -16,19 +16,26 @@
  */
 package org.spongepowered.configurate.yaml;
 
+import com.google.common.collect.ImmutableSet;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
 import java.io.Writer;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.
@@ -53,6 +60,12 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
         protected Builder() {
             setIndent(4);
+            // From the YAML 1.1 Global tags
+            // https://yaml.org/type/
+            // using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
+            setDefaultOptions(getDefaultOptions().withAcceptedTypes(ImmutableSet.of(Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class,
+                    byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class,
+                    Set.class, List.class, Map.class)));
         }
 
         /**
