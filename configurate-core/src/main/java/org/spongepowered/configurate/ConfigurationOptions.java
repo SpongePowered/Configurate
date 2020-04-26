@@ -23,7 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory;
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
+import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
 

@@ -19,8 +19,8 @@ package org.spongepowered.configurate.kotlin
 import com.google.common.reflect.TypeToken
 import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection
+import org.spongepowered.configurate.serialize.TypeSerializer
+import org.spongepowered.configurate.serialize.TypeSerializerCollection
 
 /**
  * Get an object mapper for the type [T] using the default object mapper factory

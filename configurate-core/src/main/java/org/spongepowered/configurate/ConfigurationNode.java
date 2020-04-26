@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.objectmapping.serialize.Scalars;
+import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Collection;

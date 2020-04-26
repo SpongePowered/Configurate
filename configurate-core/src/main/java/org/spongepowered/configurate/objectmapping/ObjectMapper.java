@@ -22,8 +22,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
+import org.spongepowered.configurate.serialize.ConfigSerializable;
+import org.spongepowered.configurate.serialize.TypeSerializer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

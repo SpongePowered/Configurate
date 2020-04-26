@@ -14,22 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping.serialize;
+/**
+ * Type serializer mechanisms and the standard type serializers shipped with Configurate
+ */
+@DefaultQualifier(NonNull.class)
+package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
-
-import java.util.function.Predicate;
-
-final class RegisteredSerializer {
-    final Predicate<TypeToken<?>> predicate;
-    final TypeSerializer<?> serializer;
-
-    RegisteredSerializer(final TypeToken<?> type, final TypeSerializer<?> serializer) {
-        this(new SuperTypePredicate(type), serializer);
-    }
-
-    RegisteredSerializer(final Predicate<TypeToken<?>> predicate, final TypeSerializer<?> serializer) {
-        this.predicate = predicate;
-        this.serializer = serializer;
-    }
-}
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

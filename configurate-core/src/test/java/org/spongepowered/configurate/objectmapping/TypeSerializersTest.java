@@ -27,10 +27,10 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.serialize.Scalars;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
+import org.spongepowered.configurate.serialize.ConfigSerializable;
+import org.spongepowered.configurate.serialize.Scalars;
+import org.spongepowered.configurate.serialize.TypeSerializer;
+import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 import java.net.MalformedURLException;
 import java.net.URI;

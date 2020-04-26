@@ -19,7 +19,7 @@ package org.spongepowered.configurate;
 import com.google.common.collect.ImmutableList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.serialize.Scalars;
+import org.spongepowered.configurate.serialize.Scalars;
 
 import java.util.ArrayList;
 import java.util.Collection;

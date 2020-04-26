@@ -21,7 +21,7 @@ import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.*;
-import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
+import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.net.MalformedURLException;
 import java.net.URL;

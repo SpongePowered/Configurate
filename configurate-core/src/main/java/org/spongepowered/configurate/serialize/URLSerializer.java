@@ -14,32 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping.serialize;
+package org.spongepowered.configurate.serialize;
 
 import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.function.Predicate;
 
-final class URISerializer extends ScalarSerializer<URI> {
-    URISerializer() {
-        super(URI.class);
+final class URLSerializer extends ScalarSerializer<URL> {
+    URLSerializer() {
+        super(URL.class);
     }
 
     @Override
-    public URI deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+    public URL deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
         final String plainUri = obj.toString();
         try {
-            return new URI(plainUri);
-        } catch (URISyntaxException e) {
-            throw new CoercionFailedException(obj, "URI");
+            return new URL(plainUri);
+        } catch (MalformedURLException e) {
+            throw new CoercionFailedException(obj, "URL");
         }
     }
 
     @Override
-    public Object serialize(URI item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(URL item, Predicate<Class<?>> typeSupported) {
         return item.toString();
     }
 }

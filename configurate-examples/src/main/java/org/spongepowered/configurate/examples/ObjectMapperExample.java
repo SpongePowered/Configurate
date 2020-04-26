@@ -23,7 +23,7 @@ import org.spongepowered.configurate.hocon.HOCONConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.Setting;
-import org.spongepowered.configurate.objectmapping.serialize.ConfigSerializable;
+import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.io.IOException;
 import java.nio.file.Path;

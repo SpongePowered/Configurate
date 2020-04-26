@@ -22,9 +22,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.serialize.CoercionFailedException;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
-import org.spongepowered.configurate.objectmapping.serialize.TypeSerializerCollection;
+import org.spongepowered.configurate.serialize.CoercionFailedException;
+import org.spongepowered.configurate.serialize.TypeSerializer;
+import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
