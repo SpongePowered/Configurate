@@ -18,7 +18,7 @@ package ninja.leaping.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.util.ThrowingConsumer;
+import ninja.leaping.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.LinkedHashSet;
@@ -40,7 +40,7 @@ class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    void forEachElement(Set<?> collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+    void forEachElement(Set<?> collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
         for (Object el: collection) {
             action.accept(el);
         }

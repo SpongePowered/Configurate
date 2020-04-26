@@ -20,8 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import ninja.leaping.configurate.util.ThrowingConsumer;
+import ninja.leaping.configurate.util.CheckedConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -74,6 +73,6 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     abstract TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException;
     abstract T createNew(int length, TypeToken<?> elementType) throws ObjectMappingException;
-    abstract void forEachElement(T collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
+    abstract void forEachElement(T collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
     abstract void deserializeSingle(int index, T collection, Object deserialized) throws ObjectMappingException;
 }

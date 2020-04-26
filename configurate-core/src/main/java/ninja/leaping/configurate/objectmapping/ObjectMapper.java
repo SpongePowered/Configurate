@@ -105,6 +105,7 @@ public class ObjectMapper<T> {
      *                              <ul>
      *                                  <li>Not annotated with {@link ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable} annotation</li>
      *                                  <li>Invalid field types</li>
+     *                                  <li>Specified type is an interface</li>
      *                              </ul>
      */
     @SuppressWarnings("unchecked")

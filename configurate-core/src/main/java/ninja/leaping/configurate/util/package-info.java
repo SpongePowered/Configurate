@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 @DefaultQualifier(NonNull.class)
-package org.spongepowered.configurate.util;
+package ninja.leaping.configurate.util;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
