@@ -18,7 +18,9 @@ package ninja.leaping.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
 
-import java.lang.reflect.Method;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.function.Predicate;
 
 /**
@@ -28,18 +30,25 @@ import java.util.function.Predicate;
  * isAssignableFrom.</p>
  */
 final class SuperTypePredicate implements Predicate<TypeToken<?>> {
-    private static final Method SUPERTYPE_TEST;
+    private static final MethodHandle SUPERTYPE_TEST;
     static {
-        Method supertypeTest;
+        MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+        MethodType type = MethodType.methodType(boolean.class, TypeToken.class);
+        MethodHandle supertypeTest;
         try {
-            supertypeTest = TypeToken.class.getMethod("isSupertypeOf", TypeToken.class);
-        } catch (NoSuchMethodException e1) {
             try {
-                supertypeTest = TypeToken.class.getMethod("isAssignableFrom", TypeToken.class);
-            } catch (NoSuchMethodException e2) {
-                throw new RuntimeException("Unable to get TypeToken#isSupertypeOf or TypeToken#isAssignableFrom method");
+                supertypeTest = lookup.findVirtual(TypeToken.class, "isSupertypeOf", type);
+            } catch (NoSuchMethodException e1) {
+                try {
+                    supertypeTest = lookup.findVirtual(TypeToken.class, "isAssignableFrom", type);
+                } catch (NoSuchMethodException e2) {
+                    throw new RuntimeException("Unable to get TypeToken#isSupertypeOf or TypeToken#isAssignableFrom method");
+                }
             }
+        } catch (IllegalAccessException e) {
+            throw new ExceptionInInitializerError("Could not access isSupertypeOf/isAssignableFrom method in TypeToken");
         }
+
         SUPERTYPE_TEST = supertypeTest;
     }
 
@@ -52,8 +61,8 @@ final class SuperTypePredicate implements Predicate<TypeToken<?>> {
     @Override
     public boolean test(TypeToken<?> t) {
         try {
-            return (boolean) SUPERTYPE_TEST.invoke(type, t);
-        } catch (Exception e) {
+            return (boolean) SUPERTYPE_TEST.invokeExact(type, t);
+        } catch (Throwable e) {
             e.printStackTrace();
             return false;
         }
