@@ -25,7 +25,7 @@ import java.util.function.Consumer;
  * @param <E> The exception type thrown
  */
 @FunctionalInterface
-public interface ThrowingConsumer<V, E extends Throwable> {
+public interface CheckedConsumer<V, E extends Throwable> {
     void accept(V value) throws E;
 
     /**
@@ -35,7 +35,7 @@ public interface ThrowingConsumer<V, E extends Throwable> {
      * @param <V> The type returned by the consumer
      * @return A function that executes the provided consumer
      */
-    static <V> ThrowingConsumer<V, RuntimeException> fromConsumer(Consumer<V> consumer) {
+    static <V> CheckedConsumer<V, RuntimeException> fromConsumer(Consumer<V> consumer) {
         return consumer::accept;
     }
 }

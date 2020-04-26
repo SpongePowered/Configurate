@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.util.ThrowingConsumer;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * @param action The action to perform
      * @throws ObjectMappingException When thrown by the underlying action
      */
-    abstract void forEachElement(T collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
+    abstract void forEachElement(T collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
 
     abstract void deserializeSingle(int index, T collection, @Nullable Object deserialized) throws ObjectMappingException;
 }

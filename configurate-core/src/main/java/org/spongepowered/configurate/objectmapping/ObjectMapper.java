@@ -97,6 +97,7 @@ public class ObjectMapper<T> {
     /**
      * Creates a new object mapper bound to the given object.
      *
+     * @param type The generic type for the object
      * @param obj The object
      * @param <T> The object type
      * @return An appropriate object mapper instance.
@@ -105,6 +106,7 @@ public class ObjectMapper<T> {
      *                              <ul>
      *                                  <li>Not annotated with {@link ConfigSerializable} annotation</li>
      *                                  <li>Invalid field types</li>
+     *                                  <li>Specified type is an interface</li>
      *                              </ul>
      */
     @SuppressWarnings("unchecked")

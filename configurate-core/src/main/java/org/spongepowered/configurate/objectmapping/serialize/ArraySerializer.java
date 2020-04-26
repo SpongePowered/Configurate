@@ -19,7 +19,7 @@ package org.spongepowered.configurate.objectmapping.serialize;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.util.ThrowingConsumer;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.Array;
 import java.util.function.Predicate;
@@ -54,7 +54,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(Object[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(Object[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (Object o : collection) {
                 action.accept(o);
             }
@@ -76,7 +76,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(boolean[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(boolean[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (boolean b : collection) {
                 action.accept(b);
             }
@@ -97,7 +97,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(byte[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(byte[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (byte b : collection) {
                 action.accept(b);
             }
@@ -118,7 +118,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(char[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(char[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (char b : collection) {
                 action.accept(b);
             }
@@ -139,7 +139,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(short[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(short[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (short b : collection) {
                 action.accept(b);
             }
@@ -160,7 +160,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(int[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(int[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (int b : collection) {
                 action.accept(b);
             }
@@ -181,7 +181,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(long[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(long[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (long b : collection) {
                 action.accept(b);
             }
@@ -202,7 +202,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(float[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(float[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (float b : collection) {
                 action.accept(b);
             }
@@ -223,7 +223,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(double[] collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(double[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (double b : collection) {
                 action.accept(b);
             }

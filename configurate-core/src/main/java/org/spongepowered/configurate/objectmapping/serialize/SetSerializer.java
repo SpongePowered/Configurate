@@ -18,7 +18,7 @@ package org.spongepowered.configurate.objectmapping.serialize;
 
 import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.util.ThrowingConsumer;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.LinkedHashSet;
@@ -41,7 +41,7 @@ class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    void forEachElement(Set<?> collection, ThrowingConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+    void forEachElement(Set<?> collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
         for (Object el: collection) {
             action.accept(el);
         }
