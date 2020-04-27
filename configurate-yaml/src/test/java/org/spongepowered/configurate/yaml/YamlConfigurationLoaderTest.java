@@ -34,12 +34,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Basic sanity checks for the loader
  */
-public class YAMLConfigurationLoaderTest {
+public class YamlConfigurationLoaderTest {
 
     @Test
     public void testSimpleLoading() throws IOException {
         URL url = getClass().getResource("/example.yml");
-        ConfigurationLoader<BasicConfigurationNode> loader = YAMLConfigurationLoader.builder()
+        ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .setURL(url).build();
         ConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());

@@ -19,7 +19,7 @@ package org.spongepowered.configurate.examples;
 import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HOCONConfigurationLoader;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 
 public class Tutorial {
     public static void main(String[] args) throws ObjectMappingException {
-        HOCONConfigurationLoader loader = HOCONConfigurationLoader.builder()
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(Paths.get("myproject.conf")) // Set where we will load and save to
                 .build();
 

@@ -60,7 +60,7 @@ import java.util.Objects;
  * A loader for XML (Extensible Markup Language), using the native javax library for parsing and
  * generation.
  */
-public class XMLConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
+public class XmlConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
     /**
      * The prefix of lines within the header
      */
@@ -79,7 +79,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     private static final String INDENT_PROPERTY = "{http://xml.apache.org/xslt}indent-amount";
 
     /**
-     * Creates a new {@link XMLConfigurationLoader} builder.
+     * Creates a new {@link XmlConfigurationLoader} builder.
      *
      * @return A new builder
      */
@@ -89,7 +89,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     /**
-     * Builds a {@link XMLConfigurationLoader}.
+     * Builds a {@link XmlConfigurationLoader}.
      */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private @Nullable Schema schema = null;
@@ -212,8 +212,8 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         }
 
         @Override
-        public XMLConfigurationLoader build() {
-            return new XMLConfigurationLoader(this);
+        public XmlConfigurationLoader build() {
+            return new XmlConfigurationLoader(this);
         }
     }
 
@@ -223,7 +223,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     private final boolean writeExplicitType;
     private final boolean includeXmlDeclaration;
 
-    private XMLConfigurationLoader(Builder builder) {
+    private XmlConfigurationLoader(Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.XML_STYLE});
         this.schema = builder.getSchema();
         this.defaultTagName = builder.getDefaultTagName();

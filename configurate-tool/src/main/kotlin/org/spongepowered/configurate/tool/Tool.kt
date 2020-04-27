@@ -33,11 +33,11 @@ import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
 import org.spongepowered.configurate.*
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
-import org.spongepowered.configurate.hocon.HOCONConfigurationLoader
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader
 import org.spongepowered.configurate.loader.HeaderMode
-import org.spongepowered.configurate.xml.XMLConfigurationLoader
-import org.spongepowered.configurate.yaml.YAMLConfigurationLoader
+import org.spongepowered.configurate.xml.XmlConfigurationLoader
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import org.yaml.snakeyaml.DumperOptions
 import java.io.Console
 import java.io.IOException
@@ -194,7 +194,7 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
     // TODO: Schemas
 
     override fun createLoader(): ConfigurationLoader<AttributedConfigurationNode> {
-        return XMLConfigurationLoader.builder()
+        return XmlConfigurationLoader.builder()
                 .setPath(this.path)
                 .setHeaderMode(header)
                 .setIndent(indent)
@@ -208,7 +208,7 @@ class Yaml: FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>().default(DumperOptions.FlowStyle.AUTO)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
-        return YAMLConfigurationLoader.builder()
+        return YamlConfigurationLoader.builder()
                 .setPath(path)
                 .setHeaderMode(header)
                 .setIndent(indent)
@@ -233,7 +233,7 @@ class Json: FormatSubcommand<BasicConfigurationNode>("JSON") {
 class Hocon: FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
-        return HOCONConfigurationLoader.builder()
+        return HoconConfigurationLoader.builder()
                 .setHeaderMode(header)
                 .setPath(path)
                 .build()

@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for
  * parsing and generation.
  */
-public class HOCONConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
+public class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
     /**
      * The pattern used to match newlines.
@@ -88,7 +88,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
     }
 
     /**
-     * Creates a new {@link HOCONConfigurationLoader} builder.
+     * Creates a new {@link HoconConfigurationLoader} builder.
      *
      * @return A new builder
      */
@@ -98,7 +98,7 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
     }
 
     /**
-     * Builds a {@link HOCONConfigurationLoader}.
+     * Builds a {@link HoconConfigurationLoader}.
      */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private ConfigRenderOptions render = defaultRenderOptions();
@@ -153,15 +153,15 @@ public class HOCONConfigurationLoader extends AbstractConfigurationLoader<Commen
 
         @NonNull
         @Override
-        public HOCONConfigurationLoader build() {
-            return new HOCONConfigurationLoader(this);
+        public HoconConfigurationLoader build() {
+            return new HoconConfigurationLoader(this);
         }
     }
 
     private final ConfigRenderOptions render;
     private final ConfigParseOptions parse;
 
-    private HOCONConfigurationLoader(Builder build) {
+    private HoconConfigurationLoader(Builder build) {
         super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});
         this.render = build.getRenderOptions();
         this.parse = build.getParseOptions();

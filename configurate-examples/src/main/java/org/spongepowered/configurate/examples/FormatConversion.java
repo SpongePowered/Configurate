@@ -17,8 +17,8 @@
 package org.spongepowered.configurate.examples;
 
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HOCONConfigurationLoader;
-import org.spongepowered.configurate.yaml.YAMLConfigurationLoader;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -29,12 +29,12 @@ import java.nio.file.Paths;
 public class FormatConversion {
     public static void main(String[] args) {
         // First off: we build two loaders, one with our old format pointing to the old location
-        final YAMLConfigurationLoader oldFormat = YAMLConfigurationLoader.builder()
+        final YamlConfigurationLoader oldFormat = YamlConfigurationLoader.builder()
                 .setPath(Paths.get("widgets.yml"))
                 .build();
 
         // and a second one for our target format, pointing to the new location
-        final HOCONConfigurationLoader newFormat = HOCONConfigurationLoader.builder()
+        final HoconConfigurationLoader newFormat = HoconConfigurationLoader.builder()
                 .setPath(Paths.get("widgets.conf"))
                 .build();
 

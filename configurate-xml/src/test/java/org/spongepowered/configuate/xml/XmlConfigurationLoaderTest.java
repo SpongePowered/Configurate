@@ -22,7 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.spongepowered.configurate.AttributedConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
-import org.spongepowered.configurate.xml.XMLConfigurationLoader;
+import org.spongepowered.configurate.xml.XmlConfigurationLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,14 +42,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Basic sanity checks for the loader
  */
 @ExtendWith(TempDirectory.class)
-public class XMLConfigurationLoaderTest {
+public class XmlConfigurationLoaderTest {
 
     @Test
     public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.xml");
         final Path saveTest = tempDir.resolve("text1.txt");
 
-        XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
+        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setWriteExplicitType(false)
                 .setIndent(4)
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
@@ -97,7 +97,7 @@ public class XMLConfigurationLoaderTest {
         URL url = getClass().getResource("/example2.xml");
         final Path saveTest = tempDir.resolve("text2.txt");
 
-        XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
+        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setWriteExplicitType(true)
                 .setIncludeXmlDeclaration(false)
                 .setIndent(4)
@@ -128,7 +128,7 @@ public class XMLConfigurationLoaderTest {
         URL url = getClass().getResource("/example3.xml");
         final Path saveTest = tempDir.resolve("text3.txt");
 
-        XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
+        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setWriteExplicitType(true)
                 .setIncludeXmlDeclaration(true)
                 .setIndent(4)
@@ -151,7 +151,7 @@ public class XMLConfigurationLoaderTest {
         URL original = getClass().getResource("/example3.xml");
         final Path destination = tempDir.resolve("test3-roundtrip.xml");
 
-        XMLConfigurationLoader loader = XMLConfigurationLoader.builder()
+        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setIndent(4)
                 .setSource(() -> new BufferedReader(new InputStreamReader(original.openStream(), UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(destination, UTF_8))

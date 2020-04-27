@@ -40,10 +40,10 @@ import java.util.Set;
 /**
  * A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.
  */
-public class YAMLConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
-     * Creates a new {@link YAMLConfigurationLoader} builder.
+     * Creates a new {@link YamlConfigurationLoader} builder.
      *
      * @return A new builder
      */
@@ -53,7 +53,7 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<BasicCo
     }
 
     /**
-     * Builds a {@link YAMLConfigurationLoader}.
+     * Builds a {@link YamlConfigurationLoader}.
      */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
         private final DumperOptions options = new DumperOptions();
@@ -127,14 +127,14 @@ public class YAMLConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
         @NonNull
         @Override
-        public YAMLConfigurationLoader build() {
-            return new YAMLConfigurationLoader(this);
+        public YamlConfigurationLoader build() {
+            return new YamlConfigurationLoader(this);
         }
     }
 
     private final ThreadLocal<Yaml> yaml;
 
-    private YAMLConfigurationLoader(Builder builder) {
+    private YamlConfigurationLoader(Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
         final DumperOptions opts = builder.options;
         this.yaml = ThreadLocal.withInitial(() -> new Yaml(opts));

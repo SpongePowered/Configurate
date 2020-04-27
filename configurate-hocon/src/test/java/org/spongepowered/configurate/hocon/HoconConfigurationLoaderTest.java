@@ -44,14 +44,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Basic sanity checks for the loader
  */
 @ExtendWith(TempDirectory.class)
-public class HOCONConfigurationLoaderTest {
+public class HoconConfigurationLoaderTest {
 
     @Test
     public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
-        HOCONConfigurationLoader loader = HOCONConfigurationLoader.builder()
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, StandardCharsets.UTF_8)).build();
         CommentedConfigurationNode node = loader.load();
@@ -68,7 +68,7 @@ public class HOCONConfigurationLoaderTest {
     @Test
     public void testSplitLineCommentInput(@TempDirectory.TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text2.txt");
-        HOCONConfigurationLoader loader = HOCONConfigurationLoader.builder()
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .setURL(getClass().getResource("/splitline-comment-input.conf"))
                 .build();
@@ -82,7 +82,7 @@ public class HOCONConfigurationLoaderTest {
     @Test
     public void testHeaderSaved(@TempDirectory.TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text3.txt");
-        HOCONConfigurationLoader loader = HOCONConfigurationLoader.builder()
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .build();
         CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n" +
@@ -98,7 +98,7 @@ public class HOCONConfigurationLoaderTest {
     public void testBooleansNotShared(@TempDirectory.TempDir Path tempDir) throws IOException {
         URL url = getClass().getResource("/comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
-        HOCONConfigurationLoader loader = HOCONConfigurationLoader.builder()
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo).setURL(url).build();
 
         CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults());
@@ -114,12 +114,12 @@ public class HOCONConfigurationLoaderTest {
     @Test
     public void testNewConfigObject() {
         Map<String, ConfigValue> entries = ImmutableMap.of("a", ConfigValueFactory.fromAnyRef("hi"), "b", ConfigValueFactory.fromAnyRef("bye"));
-        HOCONConfigurationLoader.newConfigObject(entries);
+        HoconConfigurationLoader.newConfigObject(entries);
     }
 
     @Test
     public void testNewConfigList() {
         List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
-        HOCONConfigurationLoader.newConfigList(entries);
+        HoconConfigurationLoader.newConfigList(entries);
     }
 }

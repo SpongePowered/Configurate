@@ -19,7 +19,7 @@ package org.spongepowered.configurate.examples;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.hocon.HOCONConfigurationLoader;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.Setting;
@@ -43,7 +43,7 @@ import static java.util.Objects.requireNonNull;
 public class ObjectMapperExample {
     public static void main(String[] args) throws IOException, ObjectMappingException {
         final Path file = Paths.get(args[0]);
-        final HOCONConfigurationLoader loader = HOCONConfigurationLoader.builder()
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(file) // or setUrl(), or setFile(), or setSource/Sink
                 .build();
 
