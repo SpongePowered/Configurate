@@ -92,7 +92,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
      * Builds a {@link XMLConfigurationLoader}.
      */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
-        private Schema schema = null;
+        private @Nullable Schema schema = null;
         private String defaultTagName = "element";
         private int indent = 2;
         private boolean writeExplicitType = true;
@@ -128,7 +128,6 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @param schema The schema
          * @return This builder (for chaining)
          */
-        @NonNull
         public Builder setSchema(@Nullable Schema schema) {
             this.schema = schema;
             return this;
@@ -139,8 +138,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
          *
          * @return The schema
          */
-        @Nullable
-        public Schema getSchema() {
+        public @Nullable Schema getSchema() {
             return schema;
         }
 
@@ -150,8 +148,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @param defaultTagName The default tag name
          * @return This builder (for chaining)
          */
-        @NonNull
-        public Builder setDefaultTagName(@NonNull String defaultTagName) {
+        public Builder setDefaultTagName(String defaultTagName) {
             this.defaultTagName = defaultTagName;
             return this;
         }
@@ -177,7 +174,6 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @param writeExplicitType If the loader should write explicit types
          * @return This builder (for chaining)
          */
-        @NonNull
         public Builder setWriteExplicitType(boolean writeExplicitType) {
             this.writeExplicitType = writeExplicitType;
             return this;
@@ -201,7 +197,6 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @param includeXmlDeclaration If the XML declaration should be included
          * @return This builder (for chaining)
          */
-        @NonNull
         public Builder setIncludeXmlDeclaration(boolean includeXmlDeclaration) {
             this.includeXmlDeclaration = includeXmlDeclaration;
             return this;
@@ -216,14 +211,13 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
             return includeXmlDeclaration;
         }
 
-        @NonNull
         @Override
         public XMLConfigurationLoader build() {
             return new XMLConfigurationLoader(this);
         }
     }
 
-    private final Schema schema;
+    private final @Nullable Schema schema;
     private final String defaultTagName;
     private final int indent;
     private final boolean writeExplicitType;
@@ -340,7 +334,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     @Override
-    protected void loadInternal(AttributedConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(AttributedConfigurationNode node, BufferedReader reader) {
         throw new UnsupportedOperationException("XMLConfigurationLoader provides custom loading logic to handle headers");
     }
 
@@ -349,7 +343,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     private void readElement(Node from, AttributedConfigurationNode to) {
-        NodeType type = null;
+        @Nullable NodeType type = null;
 
         // copy the name of the tag
         to.setTagName(from.getNodeName());
@@ -455,7 +449,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         DocumentBuilder documentBuilder = newDocumentBuilder();
         Document document = documentBuilder.newDocument();
 
-        Node comment = createCommentNode(document, node);
+        @Nullable Node comment = createCommentNode(document, node);
         if (comment != null) {
             document.appendChild(comment);
         }
@@ -472,16 +466,15 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     private void appendCommentIfNecessary(Element parent, ConfigurationNode node) {
-        Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
+        @Nullable Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
         if (possibleComment != null) {
             parent.appendChild(possibleComment);
         }
     }
 
-    @Nullable
-    private Node createCommentNode(Document doc, ConfigurationNode node) {
+    private @Nullable Node createCommentNode(Document doc, ConfigurationNode node) {
         if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
-            String comment = ((CommentedConfigurationNodeIntermediary<?>) node).getComment().orElse(null);
+            @Nullable String comment = ((CommentedConfigurationNodeIntermediary<?>) node).getComment().orElse(null);
             if (comment != null) {
                 return doc.createComment(" " + comment.trim() + " ");
             }
@@ -489,7 +482,7 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         return null;
     }
 
-    private Element writeNode(Document document, ConfigurationNode node, String forcedTag) {
+    private Element writeNode(Document document, ConfigurationNode node, @Nullable String forcedTag) {
         String tag = defaultTagName;
         Map<String, String> attributes = ImmutableMap.of();
 
@@ -524,9 +517,8 @@ public class XMLConfigurationLoader extends AbstractConfigurationLoader<Attribut
         return element;
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public AttributedConfigurationNode createEmptyNode(ConfigurationOptions options) {
         options = options.withAcceptedTypes(ImmutableSet.of(Double.class, Long.class,
                 Integer.class, Boolean.class, String.class, Number.class));
         return AttributedConfigurationNode.root("root", options);
