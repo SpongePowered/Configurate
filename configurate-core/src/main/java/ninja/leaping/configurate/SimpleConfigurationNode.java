@@ -20,13 +20,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
-
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -625,6 +622,54 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     @Override
+    public <S, T, E extends Exception> T visit(ConfigurationVisitor<S, T, E> visitor, S state) throws E {
+        return visitInternal(visitor, state);
+    }
+
+    @Override
+    public <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor, S state) {
+        try {
+            return visitInternal(visitor, state);
+        } catch (VisitorSafeNoopException e) {
+            throw new Error("Exception was thrown on a Safe visitor");
+        }
+    }
+
+    private <S, T, E extends Exception> T visitInternal(ConfigurationVisitor<S, T, E> visitor, S state) throws E {
+        visitor.beginVisit(this, state);
+        if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value
+            LinkedList<Object> toVisit = new LinkedList<>();
+            toVisit.add(this);
+
+            @Nullable Object active;
+            while ((active = toVisit.pollFirst()) != null) {
+                // try to pop a node from the stack, or handle the node exit if applicable
+                @Nullable SimpleConfigurationNode current = VisitorNodeEnd.popFromVisitor(active, visitor, state);
+                if (current == null) {
+                    continue;
+                }
+
+                visitor.enterNode(current, state);
+                ConfigValue value = current.value;
+                if (value instanceof MapConfigValue) {
+                    visitor.enterMappingNode(current, state);
+                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addAll(0, ((MapConfigValue) value).values.values());
+                } else if (value instanceof ListConfigValue) {
+                    visitor.enterListNode(current, state);
+                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addAll(0, ((ListConfigValue) value).values.get());
+                } else if (value instanceof ScalarConfigValue) {
+                    visitor.enterScalarNode(current, state);
+                } else {
+                    throw new IllegalStateException("Unknown value type " + value.getClass());
+                }
+            }
+        }
+        return visitor.endVisit(state);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SimpleConfigurationNode)) return false;
@@ -640,6 +685,6 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @Override
     public String toString() {
-        return "SimpleConfigurationNode{key=" + key + ", value=" + value + '}';
+        return "AbstractConfigurationNode{key=" + key + ", value=" + value + '}';
     }
 }

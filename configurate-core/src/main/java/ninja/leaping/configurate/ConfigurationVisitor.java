@@ -1,0 +1,300 @@
+/*
+ * Configurate
+ * Copyright (C) zml and Configurate contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package ninja.leaping.configurate;
+
+/**
+ * A visitor to traverse node hierarchies in a depth-first order
+ * <p>
+ * Instances of stateful implementations may be reusable by taking advantage of the state object. During each
+ * visitation, a visitor will experience the node tree as a sequence of events, described by the following
+ * pseudo-grammar:
+ *
+ * <pre>
+ * mappingNode: enterMappingNode node* exitMappingNode
+ * listNode: enterListNode node* exitListNode
+ *
+ * node: enterNode
+ *      (mappingNode
+ *       | listNode
+ *       | enterScalarNode)
+ *
+ * visit: newState?
+ *        beginVisit
+ *        node*
+ *        endVisit
+ * </pre>
+ * <p>
+ * If the starting node has no value, no node events will be received. Otherwise, the first event received will be for
+ * the starting node itself, and will continue from there.
+ * <p>
+ * The children to visit for list and mapping nodes will only be collected after both the {@code enterNode} and {@code
+ * enter(List|Mapping)Node} methods have been executed for the node, and changes to the node values may be made to
+ * control which nodes will be visited.
+ * <p>
+ * Any exceptions thrown within the visitor will result in the visitation ending immediately and the exception being
+ * rethrown within the visit method
+ * <p>
+ * There are a few specializations of the visitor interface available: {@link Stateless} carries no state and can act as
+ * a functional interface type, and {@link Safe} which throws no checked exceptions and therefore can be visited without
+ * having to handle any exceptions.
+ *
+ * @param <S> A state object that will be used for one visit
+ * @param <T> The terminal value, that can be returned at the end of the visit
+ * @param <E> exception type that may be thrown
+ * @see ConfigurationNode#visit(ConfigurationVisitor) to execute this configuration visitation
+ */
+public interface ConfigurationVisitor<S, T, E extends Exception> {
+
+    /**
+     * Called to provide a state object if a visit is initiated without one already existing
+     *
+     * @return A new state object to be passed through the rest of this visit
+     * @throws E when thrown by implementation
+     */
+    S newState() throws E;
+
+    /**
+     * Called at the beginning of the visit with a state object created.
+     *
+     * @param node  the root node
+     * @param state the state
+     * @throws E when thrown by implementation
+     */
+    void beginVisit(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called once per node, for every node
+     *
+     * @param node  The current node
+     * @param state provided state
+     * @throws E when thrown by implementation
+     */
+    void enterNode(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called after {@link #enterNode(ConfigurationNode, Object)} for mapping nodes
+     *
+     * @param node  current node
+     * @param state provided state
+     * @throws E when thrown by implementation
+     */
+    void enterMappingNode(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called after {@link #enterNode(ConfigurationNode, Object)} for list nodes
+     *
+     * @param node  current node
+     * @param state provided state
+     * @throws E when thrown by implementation
+     */
+    void enterListNode(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called after {@link #enterNode(ConfigurationNode, Object)} for scalar nodes
+     *
+     * @param node  current node
+     * @param state provided state
+     * @throws E when thrown by implementation
+     */
+    void enterScalarNode(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called for a list node after the node and any of its children have been visited
+     *
+     * @param node  The node that has been visited
+     * @param state provided state
+     * @throws E when thrown by implementation
+     */
+    void exitMappingNode(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called for a list node after the node and any of its children have been visited
+     *
+     * @param node  The node that has been visited
+     * @param state provided state
+     * @throws E when thrown by implementation
+     */
+    void exitListNode(ConfigurationNode node, S state) throws E;
+
+    /**
+     * Called after every node has been visited, to allow for cleanup and validation
+     *
+     * @param state provided state
+     * @return a terminal value
+     * @throws E when thrown by implementation
+     */
+    T endVisit(S state) throws E;
+
+    /**
+     * Stateless specialization of visitors, where both the state and terminal type are Void
+     *
+     */
+    @FunctionalInterface
+    interface Stateless<E extends Exception> extends ConfigurationVisitor<Void, Void, E> {
+        @Override
+        default Void newState() {
+            return null;
+        }
+
+        @Override
+        default void beginVisit(ConfigurationNode node, Void state) throws E {
+            beginVisit(node);
+        }
+
+        @Override
+        default void enterNode(ConfigurationNode node, Void state) throws E {
+            enterNode(node);
+        }
+
+        @Override
+        default void enterMappingNode(ConfigurationNode node, Void state) throws E {
+            enterMappingNode(node);
+        }
+
+        @Override
+        default void enterListNode(ConfigurationNode node, Void state) throws E {
+            enterListNode(node);
+        }
+
+        @Override
+        default void enterScalarNode(ConfigurationNode node, Void state) throws E {
+            enterScalarNode(node);
+        }
+
+        @Override
+        default void exitMappingNode(ConfigurationNode node, Void state) throws E {
+            exitMappingNode(node);
+        }
+
+        @Override
+        default void exitListNode(ConfigurationNode node, Void state) throws E {
+            exitListNode(node);
+        }
+
+        @Override
+        default Void endVisit(Void state) throws E {
+            endVisit();
+            return null;
+        }
+
+        /**
+         * Called at the beginning of the visit with a state object created.
+         *
+         * @param node The root node
+         * @throws E as required by implementation
+         */
+        default void beginVisit(ConfigurationNode node) throws E {
+        }
+
+        /**
+         * Called once per node, for every node
+         *
+         * @param node The current node
+         * @throws E as required by implementation
+         */
+        void enterNode(ConfigurationNode node) throws E;
+
+        /**
+         * Called after {@link #enterNode(ConfigurationNode, Object)} for mapping nodes
+         *
+         * @param node current node
+         * @throws E when thrown by implementation
+         */
+        default void enterMappingNode(ConfigurationNode node) throws E {
+        }
+
+        /**
+         * Called after {@link #enterNode(ConfigurationNode, Object)} for list nodes
+         *
+         * @param node current node
+         * @throws E when thrown by implementation
+         */
+        default void enterListNode(ConfigurationNode node) throws E {
+        }
+
+        /**
+         * Called after {@link #enterNode(ConfigurationNode, Object)} for scalar nodes
+         *
+         * @param node current node
+         * @throws E when thrown by implementation
+         */
+        default void enterScalarNode(ConfigurationNode node) throws E {
+        }
+
+        /**
+         * Called for a mapping node after the node and any of its children have been visited
+         *
+         * @param node The node that has been visited
+         * @throws E when thrown by implementation
+         */
+        default void exitMappingNode(ConfigurationNode node) throws E {
+        }
+
+        /**
+         * Called for a list node after the node and any of its children have been visited
+         *
+         * @param node The node that has been visited
+         * @throws E when thrown by implementation
+         */
+        default void exitListNode(ConfigurationNode node) throws E {
+        }
+
+        /**
+         * Called after every node has been visited, to allow for cleanup and validation
+         *
+         * @throws E when thrown by implementation
+         */
+        default void endVisit() throws E {
+        }
+    }
+
+    /**
+     * A subinterface for visitors that do not throw any checked exceptions during their execution
+     *
+     * @param <S> state type
+     * @param <T> terminal value type
+     */
+    interface Safe<S, T> extends ConfigurationVisitor<S, T, VisitorSafeNoopException> {
+
+        @Override
+        S newState();
+
+        @Override
+        void beginVisit(ConfigurationNode node, S state);
+
+        @Override
+        void enterNode(ConfigurationNode node, S state);
+
+        @Override
+        void enterMappingNode(ConfigurationNode node, S state);
+
+        @Override
+        void enterListNode(ConfigurationNode node, S state);
+
+        @Override
+        void enterScalarNode(ConfigurationNode node, S state);
+
+        @Override
+        void exitMappingNode(ConfigurationNode node, S state);
+
+        @Override
+        void exitListNode(ConfigurationNode node, S state);
+
+        @Override
+        T endVisit(S state);
+    }
+}
