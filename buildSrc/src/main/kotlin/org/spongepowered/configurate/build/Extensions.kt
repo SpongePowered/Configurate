@@ -1,5 +1,6 @@
 package org.spongepowered.configurate.build
 
+import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.tasks.javadoc.Javadoc
@@ -39,7 +40,9 @@ fun Javadoc.applyCommonAttributes() {
                 "https://docs.oracle.com/javase/8/docs/api"
         )
         options.source = targetVersion.toString()
-        options.addBooleanOption("html5", true)
+        if (JavaVersion.toVersion(toolChain.version).isJava9Compatible) {
+            options.addBooleanOption("html5", true)
+        }
         options.linkSource()
     }
 }
