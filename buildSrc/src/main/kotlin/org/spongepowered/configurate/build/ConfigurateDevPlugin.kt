@@ -11,7 +11,7 @@ import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.api.tasks.testing.Test
-import org.gradle.external.javadoc.StandardJavadocDocletOptions
+internal val targetVersion = JavaVersion.VERSION_1_8
 
 class ConfigurateDevPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -38,18 +38,12 @@ class ConfigurateDevPlugin : Plugin<Project> {
             extensions.configure(JavaPluginExtension::class.java) {
                 it.withJavadocJar()
                 it.withSourcesJar()
-                it.sourceCompatibility = JavaVersion.VERSION_1_8
-                it.targetCompatibility = JavaVersion.VERSION_1_8
+                it.sourceCompatibility = targetVersion
+                it.targetCompatibility = targetVersion
             }
 
             tasks.withType(Javadoc::class.java) {
-                val opts = it.options
-                if (opts is StandardJavadocDocletOptions) {
-                    opts.links(
-                            "https://guava.dev/releases/21.0/api/docs/"
-                    )
-                    opts.addBooleanOption("html5")
-                }
+                it.applyCommonAttributes()
             }
 
             extensions.configure(LicenseExtension::class.java) {
