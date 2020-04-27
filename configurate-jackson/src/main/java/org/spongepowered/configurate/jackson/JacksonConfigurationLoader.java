@@ -235,8 +235,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
     public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
         try (JsonGenerator generator = factory.createGenerator(writer)) {
             generator.setPrettyPrinter(new ConfiguratePrettyPrinter(indent, fieldValueSeparatorStyle));
-            generateValue(generator, node);
-            generator.flush();
+            JacksonVisitor.INSTANCE.visit(node, generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }
@@ -247,81 +246,5 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
         return BasicConfigurationNode.root(options);
-    }
-
-    private static void generateValue(JsonGenerator generator, ConfigurationNode node) throws IOException {
-        if (node.isMap()) {
-            generateObject(generator, node);
-        } else if (node.isList()) {
-            generateArray(generator, node);
-        } else {
-            Object value = node.getValue();
-            if (value instanceof Double) {
-                generator.writeNumber((Double) value);
-            } else if (value instanceof Float) {
-                generator.writeNumber((Float) value);
-            } else if (value instanceof Long) {
-                generator.writeNumber((Long) value);
-            } else if (value instanceof Integer) {
-                generator.writeNumber((Integer) value);
-            } else if (value instanceof Boolean) {
-                generator.writeBoolean((Boolean) value);
-            } else if (value instanceof byte[]) {
-                generator.writeBinary((byte[]) value);
-            } else {
-                generator.writeString(value.toString());
-            }
-        }
-    }
-
-    /*private void generateComment(JsonGenerator generator, ConfigurationNode node, boolean inArray) throws IOException {
-        if (node instanceof CommentedConfigurationNode) {
-            final Optional<String> comment = ((CommentedConfigurationNode) node).getComment();
-            if (comment.isPresent()) {
-                if (indent == 0) {
-                    generator.writeRaw("/*");
-                    generator.writeRaw(comment.get().replaceAll("\\* /", ""));
-                    generator.writeRaw("* /");
-                } else {
-                    for (Iterator<String> it = LINE_SPLITTER.split(comment.get()).iterator(); it.hasNext();) {
-                        generator.writeRaw("// ");
-                        generator.writeRaw(it.next());
-                        generator.getPrettyPrinter().beforeObjectEntries(generator);
-                        if (it.hasNext()) {
-                            generator.writeRaw(SYSTEM_LINE_SEPARATOR);
-                        }
-                    }
-                    if (inArray) {
-                        generator.writeRaw(SYSTEM_LINE_SEPARATOR);
-                    }
-                }
-            }
-        }
-    }*/
-
-    private static void generateObject(JsonGenerator generator, ConfigurationNode node) throws IOException {
-        if (!node.isMap()) {
-            throw new IOException("Node passed to generateObject does not have map children!");
-        }
-        generator.writeStartObject();
-        for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-            //generateComment(generator, ent.getValue(), false);
-            generator.writeFieldName(ent.getKey().toString());
-            generateValue(generator, ent.getValue());
-        }
-        generator.writeEndObject();
-    }
-
-    private static void generateArray(JsonGenerator generator, ConfigurationNode node) throws IOException {
-        if (!node.isList()) {
-            throw new IOException("Node passed to generateArray does not have list children!");
-        }
-        List<? extends ConfigurationNode> children = node.getChildrenList();
-        generator.writeStartArray(children.size());
-        for (ConfigurationNode child : children) {
-            //generateComment(generator, child, true);
-            generateValue(generator, child);
-        }
-        generator.writeEndArray();
     }
 }

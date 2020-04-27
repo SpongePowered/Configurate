@@ -235,8 +235,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         try (JsonWriter generator = new JsonWriter(writer)) {
             generator.setIndent(indent);
             generator.setLenient(lenient);
-            generateValue(generator, node);
-            generator.flush();
+            GsonVisitor.INSTANCE.visit(node, generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }
@@ -246,57 +245,5 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
         return BasicConfigurationNode.root(options);
-    }
-
-    private static void generateValue(JsonWriter generator, ConfigurationNode node) throws IOException {
-        if (node.isMap()) {
-            generateObject(generator, node);
-        } else if (node.isList()) {
-            generateArray(generator, node);
-        } else if (node.getKey() == null && node.getValue() == null) {
-            generator.beginObject();
-            generator.endObject();
-        } else {
-            @Nullable Object value = node.getValue();
-            if (value == null) {
-                generator.nullValue();
-            } else if (value instanceof Double) {
-                generator.value((Double) value);
-            } else if (value instanceof Float) {
-                generator.value((Float) value);
-            } else if (value instanceof Long) {
-                generator.value((Long) value);
-            } else if (value instanceof Integer) {
-                generator.value((Integer) value);
-            } else if (value instanceof Boolean) {
-                generator.value((Boolean) value);
-            } else {
-                generator.value(value.toString());
-            }
-        }
-    }
-
-    private static void generateObject(JsonWriter generator, ConfigurationNode node) throws IOException {
-        if (!node.isMap()) {
-            throw new IOException("Node passed to generateObject does not have map children!");
-        }
-        generator.beginObject();
-        for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-            generator.name(ent.getKey().toString());
-            generateValue(generator, ent.getValue());
-        }
-        generator.endObject();
-    }
-
-    private static void generateArray(JsonWriter generator, ConfigurationNode node) throws IOException {
-        if (!node.isList()) {
-            throw new IOException("Node passed to generateArray does not have list children!");
-        }
-        List<? extends ConfigurationNode> children = node.getChildrenList();
-        generator.beginArray();
-        for (ConfigurationNode child : children) {
-            generateValue(generator, child);
-        }
-        generator.endArray();
     }
 }
