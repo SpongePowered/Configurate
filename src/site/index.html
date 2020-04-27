@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configurate Documentation</title>
+</head>
+<body>
+<header>
+<h1>Configurate API Documentation</h1>
+</header>
+
+<p>This website provides access to Configurate javadocs for a variety of published versions:</p>
+<ul>
+    <% for (version in versions) { %>
+    <li><a href="${version}/apidocs">${version}</a></li>
+    <%} %>
+</ul>
+<footer>
+    <small>Last built ${new Date().toString()} | Configurate is released under the terms of the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license</small>
+</footer>
+</body>
+</html>

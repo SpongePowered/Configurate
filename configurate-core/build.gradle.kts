@@ -1,3 +1,5 @@
+import org.spongepowered.configurate.build.Versions
+
 plugins {
   id("org.spongepowered.configurate-component")
 }
@@ -10,8 +12,8 @@ java {
 }
 
 dependencies {
-  api("com.google.guava:guava:25.1-jre")
+  api("com.google.guava:guava:${Versions.GUAVA}")
   "guiceSupportImplementation"("com.google.inject:guice:4.2.3")
-  api("org.checkerframework:checker-qual:2.4.0")
+  api("org.checkerframework:checker-qual:3.3.0")
 
 }
