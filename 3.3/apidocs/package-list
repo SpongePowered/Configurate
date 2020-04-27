@@ -1,0 +1,11 @@
+ninja.leaping.configurate
+ninja.leaping.configurate.commented
+ninja.leaping.configurate.gson
+ninja.leaping.configurate.hocon
+ninja.leaping.configurate.json
+ninja.leaping.configurate.loader
+ninja.leaping.configurate.objectmapping
+ninja.leaping.configurate.objectmapping.serialize
+ninja.leaping.configurate.transformation
+ninja.leaping.configurate.util
+ninja.leaping.configurate.yaml
