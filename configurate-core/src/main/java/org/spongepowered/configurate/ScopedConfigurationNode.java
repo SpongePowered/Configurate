@@ -120,4 +120,56 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         action.accept(self());
         return self();
     }
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
+     *
+     * @param visitor The visitor
+     * @param <S> The state type
+     * @param <T> The terminal type
+     * @param <E> exception type that may be thrown
+     * @throws E when throw by visitor implementation
+     * @return The returned terminal from the visitor
+     */
+    default <S, T, E extends Exception> T visit(ConfigurationVisitor<N, S, T, E> visitor) throws E {
+        return visit(visitor, visitor.newState());
+    }
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
+     *
+     * @param visitor The visitor
+     * @param state The state to start with
+     * @param <T> The terminal type
+     * @param <S> The state type
+     * @param <E> exception type that may be thrown
+     * @throws E when throw by visitor implementation
+     * @return The returned terminal from the visitor
+     */
+    <S, T, E extends Exception> T visit(ConfigurationVisitor<? super N, S, T, E> visitor, S state) throws E;
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
+     * This overload will remove the need for exception handling for visitors that do not have any checked exceptions.
+     *
+     * @param visitor The visitor
+     * @param <S> The state type
+     * @param <T> The terminal type
+     * @return The returned terminal from the visitor
+     */
+    default <S, T> T visit(ConfigurationVisitor.Safe<N, S, T> visitor) {
+        return visit(visitor, visitor.newState());
+    }
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
+     * This overload will remove the need for exception handling for visitors that do not have any checked exceptions.
+     *
+     * @param visitor The visitor
+     * @param state The state to start with
+     * @param <T> The terminal type
+     * @param <S> The state type
+     * @return The returned terminal from the visitor
+     */
+    <S, T> T visit(ConfigurationVisitor.Safe<? super N, S, T> visitor, S state);
 }

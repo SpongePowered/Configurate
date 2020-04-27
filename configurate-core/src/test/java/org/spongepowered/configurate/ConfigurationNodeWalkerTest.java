@@ -29,6 +29,7 @@ import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SuppressWarnings("deprecation")
 public class ConfigurationNodeWalkerTest {
 
     private static final Function<ConfigurationNodeWalker.VisitedNode<?>, String> PATH_TO_STRING = visitedNode ->

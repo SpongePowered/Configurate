@@ -34,7 +34,10 @@ import java.util.function.BiConsumer;
 /**
  * Represents a method for "walking" or traversing a {@link ConfigurationNode configuration}
  * structure.
+ *
+ * @deprecated Use ScopedConfigurationNode#visit(ConfigurationVisitor) instead
  */
+@Deprecated
 public abstract class ConfigurationNodeWalker {
 
     /**

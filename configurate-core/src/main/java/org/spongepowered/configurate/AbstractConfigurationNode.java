@@ -599,6 +599,54 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
+    public <S, T, E extends Exception> T visit(ConfigurationVisitor<? super N, S, T, E> visitor, S state) throws E {
+        return visitInternal(visitor, state);
+    }
+
+    @Override
+    public <S, T> T visit(ConfigurationVisitor.Safe<? super N, S, T> visitor, S state) {
+        try {
+            return visitInternal(visitor, state);
+        } catch (VisitorSafeNoopException e) {
+            throw new Error("Exception was thrown on a Safe visitor");
+        }
+    }
+
+    private <S, T, E extends Exception> T visitInternal(ConfigurationVisitor<? super N, S, T, E> visitor, S state) throws E {
+        visitor.beginVisit(self(), state);
+        if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value
+            LinkedList<Object> toVisit = new LinkedList<>();
+            toVisit.add(this);
+
+            @Nullable Object active;
+            while ((active = toVisit.pollFirst()) != null) {
+                // try to pop a node from the stack, or handle the node exit if applicable
+                @Nullable A current = VisitorNodeEnd.popFromVisitor(active, visitor, state);
+                if (current == null) {
+                    continue;
+                }
+
+                visitor.enterNode(current.self(), state);
+                ConfigValue<N, A> value = current.value;
+                if (value instanceof MapConfigValue) {
+                    visitor.enterMappingNode(current.self(), state);
+                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addAll(0, ((MapConfigValue<N, A>) value).values.values());
+                } else if (value instanceof ListConfigValue) {
+                    visitor.enterListNode(current.self(), state);
+                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addAll(0, ((ListConfigValue<N, A>) value).values.get());
+                } else if (value instanceof ScalarConfigValue) {
+                    visitor.enterScalarNode(current.self(), state);
+                } else {
+                    throw new IllegalStateException("Unknown value type " + value.getClass());
+                }
+            }
+        }
+        return visitor.endVisit(state);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractConfigurationNode)) return false;
@@ -614,7 +662,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public String toString() {
-        return "SimpleConfigurationNode{key=" + key + ", value=" + value + '}';
+        return "AbstractConfigurationNode{key=" + key + ", value=" + value + '}';
     }
 
     // Methods to be implemented for type-safety
