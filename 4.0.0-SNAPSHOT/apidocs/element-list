@@ -1,0 +1,13 @@
+org.spongepowered.configurate
+org.spongepowered.configurate.examples
+org.spongepowered.configurate.gson
+org.spongepowered.configurate.hocon
+org.spongepowered.configurate.jackson
+org.spongepowered.configurate.loader
+org.spongepowered.configurate.objectmapping
+org.spongepowered.configurate.reactive
+org.spongepowered.configurate.serialize
+org.spongepowered.configurate.transformation
+org.spongepowered.configurate.util
+org.spongepowered.configurate.xml
+org.spongepowered.configurate.yaml
