@@ -29,11 +29,6 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         super(holder);
     }
 
-    @Override
-    ValueType getType() {
-        return ValueType.NULL;
-    }
-
     @Nullable
     @Override
     public Object getValue() {

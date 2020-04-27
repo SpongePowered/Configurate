@@ -35,11 +35,6 @@ class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstract
         super(holder);
     }
 
-    @Override
-    ValueType getType() {
-        return ValueType.SCALAR;
-    }
-
     @Nullable
     @Override
     public Object getValue() {

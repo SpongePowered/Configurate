@@ -37,11 +37,6 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
         values = newMap();
     }
 
-    @Override
-    ValueType getType() {
-        return ValueType.MAP;
-    }
-
     private Map<Object, A> newMap() {
         Map<Object, A> ret = holder.getOptions().getMapFactory().create();
         if (!(ret instanceof ConcurrentMap)) {

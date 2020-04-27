@@ -38,11 +38,6 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         super(holder);
     }
 
-    @Override
-    ValueType getType() {
-        return ValueType.LIST;
-    }
-
     ListConfigValue(T holder, Object startValue) {
         super(holder);
 

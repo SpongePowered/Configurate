@@ -384,10 +384,14 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return !attached;
     }
 
-    @NonNull
     @Override
-    public ValueType getValueType() {
-        return this.value.getType();
+    public boolean isList() {
+        return this.value instanceof ListConfigValue;
+    }
+
+    @Override
+    public boolean isMap() {
+        return this.value instanceof MapConfigValue;
     }
 
     @NonNull

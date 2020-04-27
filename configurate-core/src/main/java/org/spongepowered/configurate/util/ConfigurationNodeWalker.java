@@ -32,8 +32,7 @@ import java.util.Queue;
 import java.util.function.BiConsumer;
 
 /**
- * Represents a method for "walking" or traversing a {@link ConfigurationNode configuration}
- * structure.
+ * Represents a method for "walking" or traversing a {@link ConfigurationNode configuration} structure.
  *
  * @deprecated Use ScopedConfigurationNode#visit(ConfigurationVisitor) instead
  */
@@ -41,8 +40,7 @@ import java.util.function.BiConsumer;
 public abstract class ConfigurationNodeWalker {
 
     /**
-     * A {@link ConfigurationNodeWalker} that implements a breadth-first traversal over
-     * the configuration.
+     * A {@link ConfigurationNodeWalker} that implements a breadth-first traversal over the configuration.
      *
      * <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">here</a> for more
      * info.
@@ -56,8 +54,7 @@ public abstract class ConfigurationNodeWalker {
     };
 
     /**
-     * A {@link ConfigurationNodeWalker} that implements a depth-first pre-order traversal over
-     * the configuration.
+     * A {@link ConfigurationNodeWalker} that implements a depth-first pre-order traversal over the configuration.
      *
      * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">here</a> for more
      * info.
@@ -71,8 +68,7 @@ public abstract class ConfigurationNodeWalker {
     };
 
     /**
-     * A {@link ConfigurationNodeWalker} that implements a depth-first post-order traversal over
-     * the configuration.
+     * A {@link ConfigurationNodeWalker} that implements a depth-first post-order traversal over the configuration.
      *
      * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">here</a> for more
      * info.
@@ -86,11 +82,11 @@ public abstract class ConfigurationNodeWalker {
     };
 
     /**
-     * Returns an iterator which will iterate over all paths and nodes in the
-     * configuration, in the order defined by the walker.
+     * Returns an iterator which will iterate over all paths and nodes in the configuration, in the order defined by the
+     * walker.
      *
      * @param start The node to start at
-     * @param <T> The node type
+     * @param <T>   The node type
      * @return An iterator of {@link VisitedNode}s
      */
     @NonNull
@@ -98,11 +94,10 @@ public abstract class ConfigurationNodeWalker {
 
 
     /**
-     * Returns an iterator which will iterate over all nodes in the
-     * configuration, in the order defined by the walker.
+     * Returns an iterator which will iterate over all nodes in the configuration, in the order defined by the walker.
      *
      * @param start The node to start at
-     * @param <T> The node type
+     * @param <T>   The node type
      * @return An iterator of {@link ConfigurationNode}s
      */
     @NonNull
@@ -111,12 +106,12 @@ public abstract class ConfigurationNodeWalker {
     }
 
     /**
-     * Walks the configuration, and calls the {@code consumer} for each path and node
-     * visited, in the order defined by the walker.
+     * Walks the configuration, and calls the {@code consumer} for each path and node visited, in the order defined by
+     * the walker.
      *
-     * @param start The node to start at
+     * @param start    The node to start at
      * @param consumer The consumer to accept the visited nodes
-     * @param <T> The node type
+     * @param <T>      The node type
      */
     public <T extends ScopedConfigurationNode<T>> void walk(@NonNull T start, @NonNull BiConsumer<? super NodePath, ? super T> consumer) {
         Iterator<VisitedNode<T>> it = walkWithPath(start);
@@ -127,8 +122,7 @@ public abstract class ConfigurationNodeWalker {
     }
 
     /**
-     * Encapsulates a given {@link ConfigurationNode node} visited during a
-     * traversal.
+     * Encapsulates a given {@link ConfigurationNode node} visited during a traversal.
      *
      * @param <T> The node type
      */
@@ -158,23 +152,20 @@ public abstract class ConfigurationNodeWalker {
 
     private static <T extends ScopedConfigurationNode<T>> Iterator<VisitedNodeImpl<T>> getChildren(VisitedNodeImpl<T> from) {
         T node = from.getNode();
-        switch (node.getValueType()) {
-            case LIST: {
-                return Iterators.transform(node.getChildrenList().iterator(), child -> {
-                    Objects.requireNonNull(child);
+        if (node.isList()) {
+            return Iterators.transform(node.getChildrenList().iterator(), child -> {
+                Objects.requireNonNull(child);
 
-                    return new VisitedNodeImpl<>(from.getPath().withAppendedChild(child.getKey()), child);
-                });
-            }
-            case MAP: {
-                return Iterators.transform(node.getChildrenMap().entrySet().iterator(), child -> {
-                    Objects.requireNonNull(child);
+                return new VisitedNodeImpl<>(from.getPath().withAppendedChild(child.getKey()), child);
+            });
+        } else if (node.isMap()) {
+            return Iterators.transform(node.getChildrenMap().entrySet().iterator(), child -> {
+                Objects.requireNonNull(child);
 
-                    return new VisitedNodeImpl<>(from.getPath().withAppendedChild(child.getKey()), child.getValue());
-                });
-            }
-            default:
-                return Collections.emptyIterator();
+                return new VisitedNodeImpl<>(from.getPath().withAppendedChild(child.getKey()), child.getValue());
+            });
+        } else {
+            return Collections.emptyIterator();
         }
     }
 

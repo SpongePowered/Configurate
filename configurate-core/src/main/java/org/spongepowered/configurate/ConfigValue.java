@@ -36,8 +36,6 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
         this.holder = holder;
     }
 
-    abstract ValueType getType();
-
     /**
      * Gets the value encapsulated by this instance
      *

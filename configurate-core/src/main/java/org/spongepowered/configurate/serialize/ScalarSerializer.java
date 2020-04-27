@@ -19,14 +19,13 @@ package org.spongepowered.configurate.serialize;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.ValueType;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Serialize a value that can be represented as a scalar {@link ValueType} within a node. Implementations must be able
+ * Serialize a value that can be represented as a scalar value within a node. Implementations must be able
  * to serialize when one of the accepted types is a {@link String}, and may support any other types as desired.
  * <p>
  * When serializing to a node, null values will be passed through directly. If the type serialized by this serializer is

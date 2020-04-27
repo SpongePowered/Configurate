@@ -31,7 +31,11 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
-import org.spongepowered.configurate.*
+import org.spongepowered.configurate.AttributedConfigurationNode
+import org.spongepowered.configurate.BasicConfigurationNode
+import org.spongepowered.configurate.CommentedConfigurationNode
+import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary
+import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader
@@ -57,7 +61,7 @@ val SPLIT = "@|cyan ${if (HAS_UTF8) "╺" else "-"}|@"
 
 fun heading(text: String) = "@|bold,blue $text|@"
 
-class JAnsiConsole(val console: Console? = System.console()): CliktConsole {
+class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
     override val lineSeparator: String
         get() = System.lineSeparator()
 
@@ -98,12 +102,13 @@ class Tool : CliktCommand(help = """
         }
         subcommands(Xml(), Yaml(), Json(), Hocon())
     }
+
     override fun run() = Unit
 }
 
-sealed class FormatSubcommand<N: ScopedConfigurationNode<N>>(formatName: String): CliktCommand(help = "Display files that are in $formatName format") {
-    val path by argument(help="Location of the file to read").path(mustExist = true, canBeDir = false)
-    val header by option("--header-mode", help="How to read a header from this file").enum<HeaderMode>().default(HeaderMode.PRESERVE)
+sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String) : CliktCommand(help = "Display files that are in $formatName format") {
+    val path by argument(help = "Location of the file to read").path(mustExist = true, canBeDir = false)
+    val header by option("--header-mode", help = "How to read a header from this file").enum<HeaderMode>().default(HeaderMode.PRESERVE)
 
     /**
      * Create a new loader instance based on provided arguments
@@ -144,7 +149,7 @@ sealed class FormatSubcommand<N: ScopedConfigurationNode<N>>(formatName: String)
                 entryPrefix = CHILD_END
             }
 
-            write(entryPrefix, heading(child.key?.toString() ?: "(unnamed)"), SPLIT, child.valueType)
+            write(entryPrefix, heading(child.key?.toString() ?: "(unnamed)"))
             return prefix + childPrefix
         }
 
@@ -160,15 +165,15 @@ sealed class FormatSubcommand<N: ScopedConfigurationNode<N>>(formatName: String)
                 write(heading("Comment"), SPLIT, it)
             }
         }
-        when (node.valueType) {
-            ValueType.LIST -> node.childrenList.iterator().also {
+        when {
+            node.isList -> node.childrenList.iterator().also {
                 while (it.hasNext()) {
                     val child = it.next()
                     val nextPrefix = enterChild(it, child)
                     dumpTree(child, nextPrefix)
                 }
             }
-            ValueType.MAP -> node.childrenMap.iterator().also {
+            node.isMap -> node.childrenMap.iterator().also {
                 while (it.hasNext()) {
                     val (_, value) = it.next()
                     val nextPrefix = enterChild(it, value)
@@ -176,12 +181,15 @@ sealed class FormatSubcommand<N: ScopedConfigurationNode<N>>(formatName: String)
                     dumpTree(value, nextPrefix)
                 }
             }
-            ValueType.SCALAR -> {
-                val value = node.value!!
-                write(heading("Value"), SPLIT,
-                        "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@", "@|black,bold (a ${value::class.qualifiedName}) |@")
+            else -> {
+                val value = node.value
+                if (value != null) {
+                    write(heading("Value"), SPLIT,
+                            "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@", "@|black,bold (a ${value::class.qualifiedName}) |@")
+                } else {
+                    write(heading("Value: "), SPLIT, "@|black,bold (null)|@")
+                }
             }
-            ValueType.NULL -> write(heading("Value: "), SPLIT, "@|black,bold (null)|@")
         }
     }
 }
@@ -204,7 +212,7 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
     }
 }
 
-class Yaml: FormatSubcommand<BasicConfigurationNode>("YAML") {
+class Yaml : FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>().default(DumperOptions.FlowStyle.AUTO)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
@@ -217,7 +225,7 @@ class Yaml: FormatSubcommand<BasicConfigurationNode>("YAML") {
     }
 }
 
-class Json: FormatSubcommand<BasicConfigurationNode>("JSON") {
+class Json : FormatSubcommand<BasicConfigurationNode>("JSON") {
     private val lenient by option("-l", "--lenient", help = "Parse JSON leniently").flag("-L", "--strict", default = true)
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
@@ -230,7 +238,7 @@ class Json: FormatSubcommand<BasicConfigurationNode>("JSON") {
     }
 }
 
-class Hocon: FormatSubcommand<CommentedConfigurationNode>("HOCON") {
+class Hocon : FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return HoconConfigurationLoader.builder()

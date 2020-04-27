@@ -37,13 +37,13 @@ import java.util.function.Supplier;
  * <p>All aspects of a configurations structure are represented using instances of
  * {@link ConfigurationNode}, and the links between them.</p>
  *
- * <p>{@link ConfigurationNode}s can hold different types of {@link ValueType values}. They can:</p>
+ * <p>{@link ConfigurationNode}s can hold different types of value. They can:</p>
  *
  * <ul>
- *     <li>Hold a single "scalar" value ({@link ValueType#SCALAR})</li>
- *     <li>Represent a "list" of child {@link ConfigurationNode}s ({@link ValueType#LIST})</li>
- *     <li>Represent a "map" of child {@link ConfigurationNode}s ({@link ValueType#MAP})</li>
- *     <li>Hold no value at all ({@link ValueType#NULL})</li>
+ *     <li>Hold a single "scalar" value (accessed by {@link #getValue()}</li>
+ *     <li>Represent a "list" of child {@link ConfigurationNode}s (accessed by {@link #isList()} and {@link #getChildrenList()})</li>
+ *     <li>Represent a "map" of child {@link ConfigurationNode}s (accessed by {@link #isMap()} and {@link #getChildrenMap()})</li>
+ *     <li>Hold no value at all (when {@link #isVirtual()} is true)</li>
  * </ul>
  *
  * <p>The overall configuration stems from a single "root" node, which is provided by the
@@ -155,30 +155,18 @@ public interface ConfigurationNode {
     ConfigurationOptions getOptions();
 
     /**
-     * Gets the value type of this node.
-     *
-     * @return The value type
-     */
-    @NonNull
-    ValueType getValueType();
-
-    /**
      * Gets if this node has "list children".
      *
      * @return if this node has children in the form of a list
      */
-    default boolean isList() {
-        return getValueType() == ValueType.LIST;
-    }
+    boolean isList();
 
     /**
      * Gets if this node has "map children".
      *
      * @return if this node has children in the form of a map
      */
-    default boolean isMap() {
-        return getValueType() == ValueType.MAP;
-    }
+    boolean isMap();
 
     /**
      * Return true when this node has a null or empty value. Values that may result in this method returning true include:
