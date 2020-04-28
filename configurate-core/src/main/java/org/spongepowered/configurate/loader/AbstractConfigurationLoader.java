@@ -39,6 +39,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.function.UnaryOperator;
 
 /**
  * Base class for many stream-based configuration loaders. This class provides conversion from a variety of input
@@ -379,6 +380,19 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         @NonNull
         public T setDefaultOptions(@NonNull ConfigurationOptions defaultOptions) {
             this.defaultOptions = Objects.requireNonNull(defaultOptions, "defaultOptions");
+            return self();
+        }
+
+        /**
+         * Sets the default configuration options to be used by the resultant loader by providing
+         * a function which takes the current default options and applies any applicable changes.
+         *
+         * @param defaultOptions to transform the existing default options
+         * @return This builder (for chaining)
+         */
+        @NonNull
+        public T setDefaultOptions(@NonNull UnaryOperator<ConfigurationOptions> defaultOptions) {
+            this.defaultOptions = Objects.requireNonNull(defaultOptions.apply(this.defaultOptions), "defaultOptions (updated)");
             return self();
         }
 
