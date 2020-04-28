@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory;
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
@@ -29,6 +30,7 @@ import org.spongepowered.configurate.util.MapFactory;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
 
@@ -41,7 +43,9 @@ import static java.util.Objects.requireNonNull;
  *
  * <p>This class is immutable.</p>
  */
-public class ConfigurationOptions {
+public final class ConfigurationOptions {
+    private static final ConfigurationOptions DEFAULTS = new ConfigurationOptions(MapFactories.insertionOrdered(), null,
+        TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
     @NonNull private final MapFactory mapFactory;
     @Nullable private final String header;
     @NonNull private final TypeSerializerCollection serializers;
@@ -59,14 +63,15 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Create a new options object with defaults set
+     * Get the default set of options. This may be overridden by your chosen configuration loader,
+     * so when building configurations it is recommended to access
+     * {@code AbstractConfigurationLoader.Builder#getDefaultOptions()} instead.
      *
-     * @return A new default options object
+     * @return the default options
      */
     @NonNull
     public static ConfigurationOptions defaults() {
-        return new ConfigurationOptions(MapFactories.insertionOrdered(), null,
-                TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
+        return DEFAULTS;
     }
 
     /**
@@ -144,6 +149,23 @@ public class ConfigurationOptions {
             return this;
         }
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
+    }
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with a new
+     * {@link TypeSerializerCollection} created as a child of this options' current collection.
+     * The provided function will be called with the builder for this new collection to allow
+     * registering more type serializers.
+     *
+     * @param serializerBuilder accepts a builder for the collection that will be used in the
+     *                          returned options object.
+     * @return The new options object
+     */
+    public @NonNull ConfigurationOptions withSerializers(@NonNull Consumer<TypeSerializerCollection.Builder> serializerBuilder) {
+        requireNonNull(serializerBuilder, "serializerBuilder");
+        final TypeSerializerCollection.Builder builder = this.serializers.childBuilder();
+        serializerBuilder.accept(builder);
+        return new ConfigurationOptions(mapFactory, header, builder.build(), acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
