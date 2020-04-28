@@ -37,6 +37,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.function.UnaryOperator;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -379,6 +380,19 @@ public abstract class AbstractConfigurationLoader<NodeType extends Configuration
         @NonNull
         public T setDefaultOptions(@NonNull ConfigurationOptions defaultOptions) {
             this.defaultOptions = Objects.requireNonNull(defaultOptions, "defaultOptions");
+            return self();
+        }
+
+        /**
+         * Sets the default configuration options to be used by the resultant loader by providing
+         * a function which takes the current default options and applies any applicable changes.
+         *
+         * @param defaultOptions to transform the existing default options
+         * @return This builder (for chaining)
+         */
+        @NonNull
+        public T setDefaultOptions(@NonNull UnaryOperator<ConfigurationOptions> defaultOptions) {
+            this.defaultOptions = Objects.requireNonNull(defaultOptions.apply(this.defaultOptions), "defaultOptions (updated)");
             return self();
         }
 

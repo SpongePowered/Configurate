@@ -73,7 +73,7 @@ public class ValueReferences {
 
    public ValueReferences(Path configFile) throws IOException, ObjectMappingException {
        this.listener = WatchServiceListener.create();
-       this.base = listener.listenToConfiguration(file -> HoconConfigurationLoader.builder()/*.setDefaultOptions(o -> o.withShouldCopyDefaults(true))*/.setPath(file).build(), configFile);
+       this.base = listener.listenToConfiguration(file -> HoconConfigurationLoader.builder().setDefaultOptions(o -> o.withShouldCopyDefaults(true)).setPath(file).build(), configFile);
        this.base.updates().subscribe($ -> System.out.println("Configuration auto-reloaded"));
        this.base.errors().subscribe(err -> {
            Throwable t = err.getValue();

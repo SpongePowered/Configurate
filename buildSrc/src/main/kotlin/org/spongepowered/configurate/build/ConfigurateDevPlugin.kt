@@ -2,7 +2,6 @@ package org.spongepowered.configurate.build
 
 import net.minecrell.gradle.licenser.LicenseExtension
 import net.minecrell.gradle.licenser.Licenser
-import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -49,14 +48,6 @@ class ConfigurateDevPlugin : Plugin<Project> {
 
             tasks.withType(Javadoc::class.java).configureEach {
                 it.applyCommonAttributes()
-                }
-                val opts = it.options
-                if (opts is StandardJavadocDocletOptions) {
-                    opts.links(
-                            "https://guava.dev/releases/25.1-jre/api/docs/"
-                    )
-                    opts.addBooleanOption("html5")
-                }
             }
 
             extensions.configure(LicenseExtension::class.java) {
