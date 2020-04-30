@@ -44,6 +44,10 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
     static <V> Processor.Iso<V> create() {
         return new ProcessorBase<>();
     }
+    
+    static <V> Processor.TransactionalIso<V> createTransactional() {
+        return new TransactionalProcessorBase<>();
+    }
 
     /**
      * Create a {@link Processor} instance that simply broadcasts submitted values to its
@@ -102,4 +106,13 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
             submit(element);
         }
     }
+    
+    interface Transactional<I, O> extends Processor<I, O>, Publisher<O>, TransactionalSubscriber<I> {
+
+    }
+    
+    interface TransactionalIso<V> extends Transactional<V, V>, Iso<V> {
+
+    }
+    
 }

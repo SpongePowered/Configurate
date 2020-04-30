@@ -215,7 +215,9 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return A deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found for the provided type
      */
-    <T> ValueReference<T, N> referenceTo(TypeToken<T> type, NodePath path) throws ObjectMappingException;
+    default <T> ValueReference<T, N> referenceTo(TypeToken<T> type, NodePath path) throws ObjectMappingException {
+        return referenceTo(type, path, null);
+    }
 
     /**
      * Create a reference to the node at the provided path. The value will be deserialized according to type of the
@@ -230,10 +232,45 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return A deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found for the provided type
      */
-    <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path) throws ObjectMappingException;
+    default <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path) throws ObjectMappingException {
+        return referenceTo(type, path, null);
+    }
+    
+    /**
+     * Create a reference to the node at the provided path. The value will be deserialized according to the provided
+     * TypeToken.
+     *
+     * The returned reference will update with reloads of and changes to the value of the provided configuration.
+     * Any serialization errors encountered will be submitted to the {@link #errors()} stream
+     *
+     * @param type The value's type.
+     * @param path The path from the root node to the node a value will be gotten from.
+     * @param defaultValue The value to use when there is no data present in the targeted node.
+     * @param <T> The value type
+     * @return A deserializing reference to the node at the given path
+     * @throws ObjectMappingException if a type serializer could not be found for the provided type
+     */
+    <T> ValueReference<T, N> referenceTo(TypeToken<T> type, NodePath path, @Nullable T defaultValue) throws ObjectMappingException;
 
     /**
-     * Access the {@link Publisher} that will broadcast update events, providing the newly created node
+     * Create a reference to the node at the provided path. The value will be deserialized according to type of the
+     * provided Class.
+     *
+     * The returned reference will update with reloads of and changes to the value of the provided configuration.
+     * Any serialization errors encountered will be submitted to the {@link #errors()} stream
+     *
+     * @param type The value's type
+     * @param path The path from the root node to the node a value will be gotten from
+     * @param defaultValue The value to use when there is no data present in the targeted node.
+     * @param <T> The value type
+     * @return A deserializing reference to the node at the given path
+     * @throws ObjectMappingException if a type serializer could not be found for the provided type
+     */
+    <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path, @Nullable T defaultValue) throws ObjectMappingException;
+
+    /**
+     * Access the {@link Publisher} that will broadcast update events, providing the newly created node.
+     * The returned publisher will be transaction-aware, i.e. any {@link org.spongepowered.configurate.reactive.TransactionalSubscriber} attached will progress through their phases appropriately
      *
      * @return The publisher
      */

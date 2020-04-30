@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.reference;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -55,10 +54,7 @@ public class WatchServiceListener implements AutoCloseable {
     private static final WatchEvent.Kind<?>[] DEFAULT_WATCH_EVENTS = new WatchEvent.Kind[]{StandardWatchEventKinds.OVERFLOW,
             StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY};
     private static final int PARALLEL_THRESHOLD = 100;
-    private static final ThreadFactory DEFAULT_THREAD_FACTORY = new ThreadFactoryBuilder()
-            .setNameFormat("Configurate-WatchService-%d")
-            .setDaemon(true)
-            .build();
+    private static final ThreadFactory DEFAULT_THREAD_FACTORY = new PrefixedNameThreadFactory("Configurate-WatchService", true);
 
     private final WatchService watchService;
     private volatile boolean open = true;

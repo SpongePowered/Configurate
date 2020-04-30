@@ -50,4 +50,20 @@ public interface Publisher<V> {
     default <R> Publisher<R> map(Function<? super V, ? extends R> mapper) {
         return new ProcessorBase.Mapped<>(mapper, this);
     }
+    
+    default <R> Cached<R> cache() {
+        return cache(null);
+    }
+    
+    default <R> Cached<R> cache(R initialValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * A publisher that caches the last value received
+     * @param <V> value type
+     */
+    interface Cached<V> extends Publisher<V> {
+       V get();
+    }
 }

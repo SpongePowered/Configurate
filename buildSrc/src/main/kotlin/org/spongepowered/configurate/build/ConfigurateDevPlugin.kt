@@ -55,6 +55,7 @@ class ConfigurateDevPlugin : Plugin<Project> {
                     }
                 }
                 val opts = it.options
+                opts.encoding = "UTF-8"
                 if (opts is StandardJavadocDocletOptions) {
                     opts.links(
                             "https://guava.dev/releases/25.1-jre/api/docs/"

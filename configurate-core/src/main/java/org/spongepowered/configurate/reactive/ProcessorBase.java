@@ -28,9 +28,9 @@ import java.util.function.Function;
 // Java 9 has reactive API... but we can't use that :(
 class ProcessorBase<V> implements Processor.Iso<V> {
     private final int CLOSED_VALUE = Integer.MIN_VALUE / 2;
-    private final Set<Registration> registrations = ConcurrentHashMap.newKeySet();
-    private final AtomicInteger subscriberCount = new AtomicInteger();
-    private volatile @Nullable Subscriber<V> fallbackHandler;
+    final Set<Registration> registrations = ConcurrentHashMap.newKeySet();
+    final AtomicInteger subscriberCount = new AtomicInteger();
+    volatile @Nullable Subscriber<V> fallbackHandler;
 
     @Override
     public Disposable subscribe(Subscriber<? super V> subscriber) {
@@ -58,7 +58,7 @@ class ProcessorBase<V> implements Processor.Iso<V> {
                 Registration reg = it.next();
                 try {
                     handled = true;
-                    reg.subscriber.submit(value);
+                    reg.submit(value);
                 } catch (Throwable t) {
                     it.remove();
                     subscriberCount.getAndDecrement();
@@ -108,7 +108,7 @@ class ProcessorBase<V> implements Processor.Iso<V> {
     }
 
     class Registration implements Disposable {
-        private final Subscriber<? super V> subscriber;
+        final Subscriber<? super V> subscriber;
 
         Registration(Subscriber<? super V> subscriber) {
             this.subscriber = subscriber;
@@ -119,6 +119,60 @@ class ProcessorBase<V> implements Processor.Iso<V> {
             if (registrations.remove(this)) {
                 subscriberCount.getAndDecrement();
             }
+        }
+        
+        void submit(V newValue) {
+            subscriber.submit(newValue);
+        }
+    }
+    class TransactionalWrapperRegistration extends Registration {
+        private final AtomicReference<V> active = new AtomicReference<>();
+        
+        TransactionalWrapperRegistration(Subscriber<? super V> sub) {
+            super(sub);
+        }
+        
+        
+        void beginTransaction(V value) throws TransactionFailedException {
+            active.set(value);
+        }
+        
+        void commit() {
+            V active = this.active.getAndSet(null);
+            if (active != null) {
+                subscriber.submit(active);
+            }
+        }
+
+        void rollback() {
+            active.set(null);
+        }
+    }
+    
+    class TransactionalRegistration extends TransactionalWrapperRegistration {
+
+        TransactionalRegistration(final TransactionalSubscriber<? super V> sub) {
+            super(sub);
+        }
+        
+        @SuppressWarnings("unchecked")
+        private TransactionalSubscriber<? super V> getSubscriber() {
+            return (TransactionalSubscriber<? super V>) this.subscriber;
+        }
+
+        @Override
+        void beginTransaction(final V value) throws TransactionFailedException {
+            getSubscriber().beginTransaction(value);
+        }
+
+        @Override
+        void commit() {
+            getSubscriber().commit();
+        }
+
+        @Override
+        void rollback() {
+            getSubscriber().commit();
         }
     }
 

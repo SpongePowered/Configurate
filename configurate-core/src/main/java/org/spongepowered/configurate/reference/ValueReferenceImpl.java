@@ -19,29 +19,29 @@ package org.spongepowered.configurate.reference;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.serialize.TypeSerializer;
+import org.spongepowered.configurate.reactive.Publisher;
+import org.spongepowered.configurate.reactive.TransactionFailedException;
 import org.spongepowered.configurate.reference.ConfigurationReference.ErrorPhase;
 import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.reactive.Disposable;
-import org.spongepowered.configurate.reactive.Processor;
 import org.spongepowered.configurate.reactive.Subscriber;
 
 import java.io.IOException;
 
-class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Subscriber<T> {
+class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Publisher<T> {
     // Information about the reference
     private final ManualConfigurationReference<N> root;
     private final NodePath path;
     private final TypeToken<T> type;
     private final TypeSerializer<T> serializer;
-    private final Processor<N, T> updateListener;
+    private final Publisher.Cached<T> deserialized;
 
-    // State
-    private @Nullable T deserializedValue;
-
-    ValueReferenceImpl(ManualConfigurationReference<N> root, NodePath path, TypeToken<T> type) throws ObjectMappingException {
+    ValueReferenceImpl(ManualConfigurationReference<N> root, NodePath path, TypeToken<T> type,
+                       @Nullable T def) throws ObjectMappingException {
         this.root = root;
         this.path = path;
         this.type = type;
@@ -50,32 +50,42 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
             throw new ObjectMappingException("Unsupported type" + type);
         }
 
-        updateListener = root.updateListener.map(n -> {
-            N node = n.getNode(path);
+        deserialized = root.updateListener.map(n -> {
             try {
-                return serializer.deserialize(type, node);
+                return deserializedValueFrom(n, def);
             } catch (ObjectMappingException e) {
-                root.errorListener.submit(Maps.immutableEntry(ErrorPhase.LOADING, e));
+                //throw new TransactionFailedException(e);
                 return null;
             }
-        });
-        updateListener.subscribe(this);
+        }).cache(deserializedValueFrom(root.getNode(), def));
     }
 
-    ValueReferenceImpl(ManualConfigurationReference<N> root, NodePath path, Class<T> type) throws ObjectMappingException {
-        this(root, path, TypeToken.of(type));
+    ValueReferenceImpl(ManualConfigurationReference<N> root, NodePath path, Class<T> type,
+                       @Nullable T def) throws ObjectMappingException {
+        this(root, path, TypeToken.of(type), def);
+    }
+
+    private @PolyNull T deserializedValueFrom(N parent, @PolyNull T defaultVal) throws ObjectMappingException {
+        N node = parent.getNode(path);
+        @Nullable T possible = serializer.deserialize(type, node);
+        if (possible != null) {
+            return possible;
+        } else if (defaultVal != null && node.getOptions().shouldCopyDefaults()) {
+            serializer.serialize(type, defaultVal, node);
+        }
+        return defaultVal;
     }
 
     @Override
     public @Nullable T get() {
-        return deserializedValue;
+        return deserialized.get();
     }
 
     @Override
     public boolean set(@Nullable T value) {
         try {
             serializer.serialize(type, value, getNode());
-            updateListener.inject(value);
+            //deserialized.inject(value)
             return true;
         } catch (ObjectMappingException e) {
             root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
@@ -102,22 +112,12 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     @Override
-    public void submit(T item) {
-        deserializedValue = item;
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        root.errorListener.submit(Maps.immutableEntry(ErrorPhase.UNKNOWN, e));
-    }
-
-    @Override
     public Disposable subscribe(final Subscriber<? super T> subscriber) {
-        return updateListener.subscribe(subscriber);
+        return deserialized.subscribe(subscriber);
     }
 
     @Override
     public boolean hasSubscribers() {
-        return updateListener.hasSubscribers();
+        return deserialized.hasSubscribers();
     }
 }
