@@ -168,7 +168,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     }
 
     @Override
-    public void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {
         Config hoconConfig = ConfigFactory.parseReader(reader, parse);
         hoconConfig = hoconConfig.resolve();
         for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
