@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@DefaultQualifier(NonNull.class)
+/**
+ * Utilities for implementation
+ * <p>
+ * Most of these classes will not need to be directly referenced, but help support other components of the library.
+ */
 package ninja.leaping.configurate.util;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;

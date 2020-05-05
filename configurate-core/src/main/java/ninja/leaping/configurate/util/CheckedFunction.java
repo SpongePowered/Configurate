@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.util;
+package ninja.leaping.configurate.util;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -23,7 +23,7 @@ import java.util.function.Function;
 import static java.util.Objects.requireNonNull;
 
 /**
- * A function taking two inputs and one output which may throw a checked exception
+ * A function with one input and one output which may throw a checked exception
  *
  * @param <I> The input parameter type
  * @param <O> The output parameter type
@@ -34,8 +34,8 @@ public interface CheckedFunction<I, O, E extends Exception> {
     /**
      * Perform the action.
      *
-     * @param one Parameter
-     * @return return
+     * @param one parameter
+     * @return return value
      * @throws E Thrown when defined by types accepting this function
      */
     O apply(I one) throws E;

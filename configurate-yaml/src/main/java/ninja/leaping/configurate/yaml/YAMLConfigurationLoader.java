@@ -32,6 +32,7 @@ import java.io.Writer;
 
 /**
  * A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.
+ *
  */
 public class YAMLConfigurationLoader extends AbstractConfigurationLoader<ConfigurationNode> {
 

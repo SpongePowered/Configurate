@@ -15,13 +15,9 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://json.org">JSON</a> format, plus supports.
+ * Configurate usage examples. Non-API
  * <p>
- * Currently, this format is implemented using the <a href="https://github.com/google/gson/">Gson</a> library, but that
- * is subject to change at any time.
+ * These are some examples of how to use Configurate, provided for informational purposes only. These may change at any
+ * time as new best practices are developed.
  */
-@DefaultQualifier(NonNull.class)
-package ninja.leaping.configurate.gson;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package ninja.leaping.configurate.examples;

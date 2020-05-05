@@ -17,7 +17,7 @@
 package ninja.leaping.configurate.reactive;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedFunction;
+import ninja.leaping.configurate.util.CheckedFunction;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;

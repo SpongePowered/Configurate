@@ -15,13 +15,10 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://json.org">JSON</a> format, plus supports.
+ * Configuration loader for the <a href="https://yaml.org/spec/1.1/">YAML 1.1</a> format, plus supports
  * <p>
- * Currently, this format is implemented using the <a href="https://github.com/google/gson/">Gson</a> library, but that
- * is subject to change at any time.
+ * While by default this loader only declares <a href="https://yaml.org/type/index.html">the YAML 1.1 global tags</a> as
+ * supported types, the underlying library is capable of serializing any POJO, and the {@link
+ * ninja.leaping.configurate.ConfigurationOptions}'s native types field can be adjusted to customize output.
  */
-@DefaultQualifier(NonNull.class)
-package ninja.leaping.configurate.gson;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package ninja.leaping.configurate.yaml;

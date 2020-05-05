@@ -15,13 +15,10 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://json.org">JSON</a> format, plus supports.
+ * Configuration tree transformations
  * <p>
- * Currently, this format is implemented using the <a href="https://github.com/google/gson/">Gson</a> library, but that
- * is subject to change at any time.
+ * Transformations in this package can be used to evolve a configuration structure over time. Builders are in the {@link
+ * ninja.leaping.configurate.transformation.ConfigurationTransformation} class, and provide simple, chained, and
+ * versioned transformations for any node.
  */
-@DefaultQualifier(NonNull.class)
-package ninja.leaping.configurate.gson;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package ninja.leaping.configurate.transformation;

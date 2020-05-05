@@ -15,13 +15,10 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://json.org">JSON</a> format, plus supports.
- * <p>
- * Currently, this format is implemented using the <a href="https://github.com/google/gson/">Gson</a> library, but that
- * is subject to change at any time.
+ * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
  */
 @DefaultQualifier(NonNull.class)
-package ninja.leaping.configurate.gson;
+package ninja.leaping.configurate.xml;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

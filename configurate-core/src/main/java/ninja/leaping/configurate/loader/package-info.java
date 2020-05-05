@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://json.org">JSON</a> format, plus supports.
+ * Base infrastructure for configuration loaders
  * <p>
- * Currently, this format is implemented using the <a href="https://github.com/google/gson/">Gson</a> library, but that
- * is subject to change at any time.
+ * A configuration loader is responsible for converting between the location of a serialized form (a file, string, or
+ * URL) and a {@link ninja.leaping.configurate.ConfigurationNode}. Most loader implementations will want to extend
+ * {@link ninja.leaping.configurate.loader.AbstractConfigurationLoader} in order to gain some standard abilities.
+ * Any binary formats may want to use other solutions, since the abstract loader assumes in many places that
+ * configuration files are text files.
  */
-@DefaultQualifier(NonNull.class)
-package ninja.leaping.configurate.gson;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package ninja.leaping.configurate.loader;

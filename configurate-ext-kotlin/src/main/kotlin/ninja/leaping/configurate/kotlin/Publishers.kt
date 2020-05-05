@@ -34,9 +34,8 @@ import ninja.leaping.configurate.reactive.Disposable
 import ninja.leaping.configurate.reactive.Publisher
 import ninja.leaping.configurate.reactive.Subscriber
 import ninja.leaping.configurate.reactive.TransactionFailedException
-import org.spongepowered.configurate.util.CheckedFunction
+import ninja.leaping.configurate.util.CheckedFunction
 import java.util.concurrent.Executor
-import java.util.function.Function
 
 /**
  * Given an [Publisher] instance, return a new [Flow] emitting values from the Flow
