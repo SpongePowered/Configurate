@@ -49,14 +49,6 @@ class ConfigurateDevPlugin : Plugin<Project> {
 
             tasks.withType(Javadoc::class.java).configureEach {
                 it.applyCommonAttributes()
-                }
-                val opts = it.options
-                if (opts is StandardJavadocDocletOptions) {
-                    opts.links(
-                            "https://guava.dev/releases/25.1-jre/api/docs/"
-                    )
-                    opts.addBooleanOption("html5")
-                }
             }
 
             extensions.configure(LicenseExtension::class.java) {
