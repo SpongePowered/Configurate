@@ -38,7 +38,7 @@ final class NodePathImpl implements NodePath {
 
     @Override
     public Object get(int i) {
-        return arr;
+        return arr[i];
     }
 
     @Override

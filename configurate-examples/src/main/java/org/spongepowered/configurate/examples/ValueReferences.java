@@ -85,7 +85,7 @@ public class ValueReferences {
 
        name = this.base.referenceTo(String.class, "name");
        this.name.subscribe(newName -> System.out.println("Reloaded, name is: " + newName));
-       cookieCount = this.base.referenceTo(Integer.class, NodePath.of("cookie-count"), 5);
+       cookieCount = this.base.referenceTo(Integer.class, NodePath.path("cookie-count"), 5);
        this.complex = this.base.referenceTo(new TypeToken<List<TestObject>>() {}, "complex");
        this.base.save();
    }

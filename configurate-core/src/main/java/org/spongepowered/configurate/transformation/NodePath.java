@@ -78,10 +78,12 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Create a node path reference
      *
+     * This overload takes varargs, and is designed to be imported statically to create paths
+     *
      * @param elements The path to reference. The provided array will be copied.
      * @return The path instance
      */
-    static NodePath of(Object... elements) {
+    static NodePath path(Object... elements) {
         return create(elements);
     }
 
