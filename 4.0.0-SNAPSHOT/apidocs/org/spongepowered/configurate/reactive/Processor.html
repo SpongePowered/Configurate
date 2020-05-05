@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":6,"i1":1,"i2":6,"i3":18,"i4":6};
+<script type="text/javascript">var data = {"i0":6,"i1":1,"i2":1,"i3":1,"i4":1,"i5":6,"i6":18,"i7":6};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -103,10 +103,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
-<dd><code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code></dd>
+<dd><code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.35">Processor</a>&lt;I,&#8203;O&gt;
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.37">Processor</a>&lt;I,&#8203;O&gt;
 extends <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;O&gt;, <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;I&gt;</pre>
 <div class="block">A combination of an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> and <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a>.
  <p>
@@ -142,9 +142,24 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <div class="block">A Processor that has the same type for inputs and outputs</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;<a href="Processor.Transactional.html" title="type parameter in Processor.Transactional">I</a>,&#8203;<a href="Processor.Transactional.html" title="type parameter in Processor.Transactional">O</a>&gt;</span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;<a href="Processor.TransactionalIso.html" title="type parameter in Processor.TransactionalIso">V</a>&gt;</span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
 </tbody>
 </table>
 </div>
+<div class="inheritedList">
+<h2>Nested classes/interfaces inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h2>
+<a id="nested.classes.inherited.from.class.org.spongepowered.configurate.reactive.Publisher">
+<!--   -->
+</a><code><a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a>&gt;</code></div>
 </section>
 </li>
 <!-- ========== METHOD SUMMARY =========== -->
@@ -177,21 +192,41 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create()">create</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Create a <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a> instance that simply broadcasts submitted values to its
- subscribers</div>
+ subscribers.</div>
 </td>
 </tr>
 <tr class="altColor" id="i2">
+<td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.util.concurrent.Executor)">create</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Create a <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a> instance that simply broadcasts submitted values to its
+ subscribers</div>
+</td>
+</tr>
+<tr class="rowColor" id="i3">
+<td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createTransactional()">createTransactional</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Create a processor instance that is aware of transactions</div>
+</td>
+</tr>
+<tr class="altColor" id="i4">
+<td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createTransactional(java.util.concurrent.Executor)">createTransactional</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;exec)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor" id="i5">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inject(O)">inject</a></span>&#8203;(<a href="Processor.html" title="type parameter in Processor">O</a>&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Submit an element of the observed type, bypassing any mapping this Processor may do.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i3">
+<tr class="altColor" id="i6">
 <td class="colFirst"><code>default &lt;R&gt;&nbsp;<a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;R&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(java.util.function.Function)">map</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super <a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;? extends R&gt;&nbsp;mapper)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(org.spongepowered.configurate.util.CheckedFunction)">map</a></span>&#8203;(<a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;? super <a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</code></th>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setFallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">setFallbackHandler</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;<a href="Processor.html" title="type parameter in Processor">O</a>&gt;&nbsp;subscriber)</code></th>
 <td class="colLast">
@@ -207,7 +242,7 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h3>
 <a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Publisher">
 <!--   -->
-</a><code><a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></div>
+</a><code><a href="Publisher.html#cache()">cache</a>, <a href="Publisher.html#cache(V)">cache</a>, <a href="Publisher.html#getExecutor()">getExecutor</a>, <a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a></h3>
 <a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Subscriber">
@@ -229,9 +264,9 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <li class="blockList">
 <section class="detail">
 <h3><a id="create()">create</a></h3>
-<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V&gt;</span>&nbsp;<span class="returnType"><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.43">create</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V&gt;</span>&nbsp;<span class="returnType"><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.45">create</a></span>()</div>
 <div class="block">Create a <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a> instance that simply broadcasts submitted values to its
- subscribers</div>
+ subscribers. Broadcasts will occur on the common <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ForkJoinPool</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>V</code> - The type</dd>
@@ -242,11 +277,46 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="map(java.util.function.Function)">map</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="typeParameters">&lt;R&gt;</span>&nbsp;<span class="returnType"><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;R&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.50">map</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super <a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;? extends R&gt;&nbsp;mapper)</span></div>
+<h3><a id="createTransactional()">createTransactional</a></h3>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V&gt;</span>&nbsp;<span class="returnType"><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.55">createTransactional</a></span>()</div>
+<div class="block">Create a processor instance that is aware of transactions</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - The value type</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new transactional processor</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="create(java.util.concurrent.Executor)">create</a></h3>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V&gt;</span>&nbsp;<span class="returnType"><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.67">create</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</span></div>
+<div class="block">Create a <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a> instance that simply broadcasts submitted values to its
+ subscribers</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - The type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>executor</code> - task executor</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A new processor instance</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="createTransactional(java.util.concurrent.Executor)">createTransactional</a></h3>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V&gt;</span>&nbsp;<span class="returnType"><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.71">createTransactional</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;exec)</span></div>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="map(org.spongepowered.configurate.util.CheckedFunction)">map</a></h3>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="typeParameters">&lt;R&gt;</span>&nbsp;<span class="returnType"><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;R&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.78">map</a></span>&#8203;(<span class="arguments"><a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;? super <a href="Processor.html" title="type parameter in Processor">O</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</span></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Publisher.html#map(java.util.function.Function)">map</a></code>&nbsp;in interface&nbsp;<code><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="Processor.html" title="type parameter in Processor">I</a>&gt;</code></dd>
+<dd><code><a href="Publisher.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a></code>&nbsp;in interface&nbsp;<code><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="Processor.html" title="type parameter in Processor">I</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -255,7 +325,7 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <h3><a id="inject(java.lang.Object)">
 <!--   -->
 </a><a id="inject(O)">inject</a></h3>
-<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.62">inject</a></span>&#8203;(<span class="arguments"><a href="Processor.html" title="type parameter in Processor">O</a>&nbsp;element)</span></div>
+<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.90">inject</a></span>&#8203;(<span class="arguments"><a href="Processor.html" title="type parameter in Processor">O</a>&nbsp;element)</span></div>
 <div class="block">Submit an element of the observed type, bypassing any mapping this Processor may do. If the
  input type of this processor equals the output type, this is equivalent to <a href="Subscriber.html#submit(V)"><code>Subscriber.submit(Object)</code></a></div>
 <dl>
@@ -267,7 +337,7 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <li class="blockList">
 <section class="detail">
 <h3><a id="setFallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">setFallbackHandler</a></h3>
-<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.70">setFallbackHandler</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;<a href="Processor.html" title="type parameter in Processor">O</a>&gt;&nbsp;subscriber)</span></div>
+<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.98">setFallbackHandler</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;<a href="Processor.html" title="type parameter in Processor">O</a>&gt;&nbsp;subscriber)</span></div>
 <div class="block">Provide a <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a> that will handle events submitted to this processor, but only if
  no other subscription is active.</div>
 <dl>
@@ -279,7 +349,7 @@ extends <a href="Publisher.html" title="interface in org.spongepowered.configura
 <li class="blockList">
 <section class="detail">
 <h3><a id="closeIfUnsubscribed()">closeIfUnsubscribed</a></h3>
-<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.80">closeIfUnsubscribed</a></span>()</div>
+<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.108">closeIfUnsubscribed</a></span>()</div>
 <div class="block">Close this processor if there are no remaining subscriptions. Any signals that have already
  been submitted will be processed.
  <p>

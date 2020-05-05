@@ -76,6 +76,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="org/spongepowered/configurate/loader/package-tree.html">org.spongepowered.configurate.loader</a>, </li>
 <li><a href="org/spongepowered/configurate/objectmapping/package-tree.html">org.spongepowered.configurate.objectmapping</a>, </li>
 <li><a href="org/spongepowered/configurate/reactive/package-tree.html">org.spongepowered.configurate.reactive</a>, </li>
+<li><a href="org/spongepowered/configurate/reference/package-tree.html">org.spongepowered.configurate.reference</a>, </li>
 <li><a href="org/spongepowered/configurate/serialize/package-tree.html">org.spongepowered.configurate.serialize</a>, </li>
 <li><a href="org/spongepowered/configurate/transformation/package-tree.html">org.spongepowered.configurate.transformation</a>, </li>
 <li><a href="org/spongepowered/configurate/util/package-tree.html">org.spongepowered.configurate.util</a>, </li>
@@ -136,6 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/CoercionFailedException.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">CoercionFailedException</span></a></li>
 </ul>
 </li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive"><span class="typeNameLink">TransactionFailedException</span></a></li>
 </ul>
 </li>
 </ul>
@@ -143,6 +145,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/Tutorial.html" title="class in org.spongepowered.configurate.examples"><span class="typeNameLink">Tutorial</span></a></li>
 <li class="circle">org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">TypeSerializerCollection</span></a></li>
 <li class="circle">org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">TypeSerializerCollection.Builder</span></a></li>
+<li class="circle">org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/ValueReferences.html" title="class in org.spongepowered.configurate.examples"><span class="typeNameLink">ValueReferences</span></a></li>
+<li class="circle">org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><span class="typeNameLink">WatchServiceListener</span></a> (implements java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a>)</li>
+<li class="circle">org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference"><span class="typeNameLink">WatchServiceListener.Builder</span></a></li>
 </ul>
 </li>
 </ul>
@@ -150,6 +155,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section class="hierarchy">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
+<li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">AutoCloseable</span></a>
+<ul>
+<li class="circle">org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><span class="typeNameLink">ConfigurationReference</span></a>&lt;N&gt;</li>
+</ul>
+</li>
 <li class="circle">org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util"><span class="typeNameLink">CheckedConsumer</span></a>&lt;V,&#8203;E&gt;</li>
 <li class="circle">org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util"><span class="typeNameLink">CheckedFunction</span></a>&lt;I,&#8203;O,&#8203;E&gt;</li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Cloneable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Cloneable</span></a>
@@ -193,9 +203,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor</span></a>&lt;I,&#8203;O&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;V&gt;)
 <ul>
-<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Iso</span></a>&lt;V&gt;</li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Iso</span></a>&lt;V&gt;
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;V&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;)</li>
 </ul>
 </li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Transactional</span></a>&lt;I,&#8203;O&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;, org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;)
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;V&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Transactional</span></a>&lt;I,&#8203;O&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;, org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;)
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;V&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;)</li>
+</ul>
+</li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Publisher.Cached</span></a>&lt;V&gt;</li>
+<li class="circle">org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference"><span class="typeNameLink">ValueReference</span></a>&lt;T,&#8203;N&gt;</li>
 </ul>
 </li>
 <li class="circle">org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize"><span class="typeNameLink">Scalars</span></a></li>
@@ -203,7 +229,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor</span></a>&lt;I,&#8203;O&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;)
 <ul>
-<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Iso</span></a>&lt;V&gt;</li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Iso</span></a>&lt;V&gt;
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;V&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;)</li>
+</ul>
+</li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Transactional</span></a>&lt;I,&#8203;O&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;, org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;)
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;V&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">SubscriberTransactional</span></a>&lt;V&gt;
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Transactional</span></a>&lt;I,&#8203;O&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;, org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;)
+<ul>
+<li class="circle">org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;V&gt; (also extends org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;)</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -227,6 +271,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Enum</span></a>&lt;E&gt; (implements java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;T&gt;, java.lang.constant.Constable, java.io.<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a>)
 <ul>
 <li class="circle">org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/CommentHandlers.html" title="enum in org.spongepowered.configurate.loader"><span class="typeNameLink">CommentHandlers</span></a> (implements org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>)</li>
+<li class="circle">org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference"><span class="typeNameLink">ConfigurationReference.ErrorPhase</span></a></li>
 <li class="circle">org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/FieldValueSeparatorStyle.html" title="enum in org.spongepowered.configurate.jackson"><span class="typeNameLink">FieldValueSeparatorStyle</span></a></li>
 <li class="circle">org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/HeaderMode.html" title="enum in org.spongepowered.configurate.loader"><span class="typeNameLink">HeaderMode</span></a></li>
 <li class="circle">org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation"><span class="typeNameLink">MoveStrategy</span></a></li>

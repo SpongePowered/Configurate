@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":6,"i1":10,"i2":10,"i3":10,"i4":10,"i5":42,"i6":10,"i7":10,"i8":10,"i9":10,"i10":42,"i11":10,"i12":10,"i13":10};
+<script type="text/javascript">var data = {"i0":6,"i1":10,"i2":10,"i3":10,"i4":10,"i5":42,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":42,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -105,10 +105,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <dl>
 <dt>Enclosing class:</dt>
-<dd><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</dd>
+<dd><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</dd>
 </dl>
 <hr>
-<pre>protected abstract static class <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.205">AbstractConfigurationLoader.Builder</a>&lt;T extends AbstractConfigurationLoader.Builder&lt;T&gt;&gt;
+<pre>protected abstract static class <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.213">AbstractConfigurationLoader.Builder</a>&lt;T extends AbstractConfigurationLoader.Builder&lt;T&gt;&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">An abstract builder implementation for <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 </section>
@@ -247,33 +247,41 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </tr>
 <tr class="altColor" id="i6">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDefaultOptions(java.util.function.UnaryOperator)">setDefaultOptions</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</code></th>
+<td class="colLast">
+<div class="block">Sets the default configuration options to be used by the resultant loader by providing
+ a function which takes the current default options and applies any applicable changes.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i7">
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDefaultOptions(org.spongepowered.configurate.ConfigurationOptions)">setDefaultOptions</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</code></th>
 <td class="colLast">
 <div class="block">Sets the default configuration options to be used by the resultant loader.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setFile(java.io.File)">setFile</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Sets the sink and source of the resultant loader to the given file.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setHeaderMode(org.spongepowered.configurate.loader.HeaderMode)">setHeaderMode</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Sets the header mode of the resultant loader.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPath(java.nio.file.Path)">setPath</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Sets the sink and source of the resultant loader to the given path.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPreservesHeader(boolean)">setPreservesHeader</a></span>&#8203;(boolean&nbsp;preservesHeader)</code></th>
 <td class="colLast">
@@ -282,21 +290,21 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSink(java.util.concurrent.Callable)">setSink</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</code></th>
 <td class="colLast">
 <div class="block">Sets the sink of the resultant loader.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSource(java.util.concurrent.Callable)">setSource</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</code></th>
 <td class="colLast">
 <div class="block">Sets the source of the resultant loader.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i14">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setURL(java.net.URL)">setURL</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</code></th>
 <td class="colLast">
@@ -328,25 +336,25 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="headerMode">headerMode</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.206">headerMode</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.214">headerMode</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="source">source</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.207">source</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.215">source</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="sink">sink</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.208">sink</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.216">sink</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="defaultOptions">defaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.209">defaultOptions</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.217">defaultOptions</a></span></div>
 </section>
 </li>
 </ul>
@@ -362,7 +370,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="&lt;init&gt;()">Builder</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.211">Builder</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.219">Builder</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -378,7 +386,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setFile(java.io.File)">setFile</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.231">setFile</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.239">setFile</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</span></div>
 <div class="block">Sets the sink and source of the resultant loader to the given file.
 
  <p>The <a href="#getSource()"><code>source</code></a> is defined using
@@ -397,7 +405,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setPath(java.nio.file.Path)">setPath</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.248">setPath</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.256">setPath</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</span></div>
 <div class="block">Sets the sink and source of the resultant loader to the given path.
 
  <p>The <a href="#getSource()"><code>source</code></a> is defined using
@@ -416,7 +424,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setURL(java.net.URL)">setURL</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.262">setURL</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.270">setURL</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</span></div>
 <div class="block">Sets the source of the resultant loader to the given URL.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -429,7 +437,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setSource(java.util.concurrent.Callable)">setSource</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.277">setSource</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.285">setSource</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</span></div>
 <div class="block">Sets the source of the resultant loader.
 
  <p>The "source" is used by the loader to load the configuration.</p></div>
@@ -444,7 +452,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setSink(java.util.concurrent.Callable)">setSink</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.291">setSink</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.299">setSink</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</span></div>
 <div class="block">Sets the sink of the resultant loader.
 
  <p>The "sink" is used by the loader to save the configuration.</p></div>
@@ -459,7 +467,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getSource()">getSource</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.302">getSource</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.310">getSource</a></span>()</div>
 <div class="block">Gets the source to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -470,7 +478,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getSink()">getSink</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.312">getSink</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.320">getSink</a></span>()</div>
 <div class="block">Gets the sink to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -481,7 +489,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setHeaderMode(org.spongepowered.configurate.loader.HeaderMode)">setHeaderMode</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.323">setHeaderMode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.331">setHeaderMode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</span></div>
 <div class="block">Sets the header mode of the resultant loader.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -494,7 +502,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getHeaderMode()">getHeaderMode</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.334">getHeaderMode</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.342">getHeaderMode</a></span>()</div>
 <div class="block">Gets the header mode to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -506,7 +514,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <section class="detail">
 <h3><a id="setPreservesHeader(boolean)">setPreservesHeader</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.348">setPreservesHeader</a></span>&#8203;(<span class="arguments">boolean&nbsp;preservesHeader)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.356">setPreservesHeader</a></span>&#8203;(<span class="arguments">boolean&nbsp;preservesHeader)</span></div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">In favour of <a href="#setHeaderMode(org.spongepowered.configurate.loader.HeaderMode)"><code>setHeaderMode(HeaderMode)</code></a></div>
 </div>
@@ -525,7 +533,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <section class="detail">
 <h3><a id="preservesHeader()">preservesHeader</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.361">preservesHeader</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.369">preservesHeader</a></span>()</div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">In favour of <a href="#getHeaderMode()"><code>getHeaderMode()</code></a></div>
 </div>
@@ -539,7 +547,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setDefaultOptions(org.spongepowered.configurate.ConfigurationOptions)">setDefaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.372">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.380">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</span></div>
 <div class="block">Sets the default configuration options to be used by the resultant loader.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -551,8 +559,22 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="setDefaultOptions(java.util.function.UnaryOperator)">setDefaultOptions</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.393">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</span></div>
+<div class="block">Sets the default configuration options to be used by the resultant loader by providing
+ a function which takes the current default options and applies any applicable changes.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>defaultOptions</code> - to transform the existing default options</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>This builder (for chaining)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="getDefaultOptions()">getDefaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.383">getDefaultOptions</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.404">getDefaultOptions</a></span>()</div>
 <div class="block">Gets the default configuration options to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -563,7 +585,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="build()">build</a></h3>
-<div class="memberSignature"><span class="modifiers">public abstract</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.393">build</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public abstract</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.414">build</a></span>()</div>
 <div class="block">Builds the loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>

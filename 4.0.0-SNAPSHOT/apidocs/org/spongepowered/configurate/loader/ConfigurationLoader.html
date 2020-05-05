@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":18,"i1":18,"i2":18,"i3":6,"i4":6,"i5":18,"i6":6,"i7":6};
+<script type="text/javascript">var data = {"i0":18,"i1":18,"i2":18,"i3":6,"i4":6,"i5":18,"i6":6,"i7":6,"i8":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -101,7 +101,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></code>, <code><a href="../gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></code>, <code><a href="../hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code>, <code><a href="../jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></code>, <code><a href="../xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></code>, <code><a href="../yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.33">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.36">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
 <div class="block">Represents an object which can load and save <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> objects in a specific
  configuration format.
 
@@ -177,6 +177,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor" id="i7">
+<td class="colFirst"><code><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadToReference()">loadToReference</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.</div>
+</td>
+</tr>
+<tr class="altColor" id="i8">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
 <td class="colLast">
@@ -203,7 +210,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="getDefaultOptions()">getDefaultOptions</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.42">getDefaultOptions</a></span>()</div>
+<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.45">getDefaultOptions</a></span>()</div>
 <div class="block">Gets the default <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> used by the loader.
 
  <p>New nodes will be created using the default options if a specific set is not defined.</p></div>
@@ -216,7 +223,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="load()">load</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.56">load</a></span>()
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.59">load</a></span>()
                  throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
 
@@ -234,8 +241,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="loadToReference()">loadToReference</a></h3>
+<div class="memberSignature"><span class="returnType"><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.72">loadToReference</a></span>()
+                                   throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
+<div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.
+ The returned reference will not reload automatically.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The created reference</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - when an error occurs within the loader</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to create an auto-reloading configuration.</code></a></dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="load(org.spongepowered.configurate.ConfigurationOptions)">load</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.70">load</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span>
+<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.83">load</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span>
          throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
 
@@ -253,7 +277,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="save(org.spongepowered.configurate.ConfigurationNode)">save</a></h3>
-<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.79">save</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span>
+<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.92">save</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span>
    throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 <dl>
@@ -267,7 +291,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="createEmptyNode()">createEmptyNode</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.86">createEmptyNode</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.99">createEmptyNode</a></span>()</div>
 <div class="block">Return an empty node of the most appropriate type for this loader, using the default options.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -278,7 +302,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="createEmptyNode(org.spongepowered.configurate.ConfigurationOptions)">createEmptyNode</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.97">createEmptyNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
+<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.110">createEmptyNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
 <div class="block">Return an empty node of the most appropriate type for this loader</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -291,7 +315,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="canLoad()">canLoad</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.105">canLoad</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.118">canLoad</a></span>()</div>
 <div class="block">Gets if this loader is capable of loading configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -302,7 +326,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="canSave()">canSave</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.114">canSave</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.127">canSave</a></span>()</div>
 <div class="block">Gets if this loader is capable of saving configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>

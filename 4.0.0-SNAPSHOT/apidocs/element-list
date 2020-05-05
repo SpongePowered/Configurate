@@ -6,6 +6,7 @@ org.spongepowered.configurate.jackson
 org.spongepowered.configurate.loader
 org.spongepowered.configurate.objectmapping
 org.spongepowered.configurate.reactive
+org.spongepowered.configurate.reference
 org.spongepowered.configurate.serialize
 org.spongepowered.configurate.transformation
 org.spongepowered.configurate.util

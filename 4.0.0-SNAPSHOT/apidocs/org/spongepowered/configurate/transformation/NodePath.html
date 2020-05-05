@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":6,"i1":1,"i2":1,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6};
+<script type="text/javascript">var data = {"i0":6,"i1":1,"i2":1,"i3":6,"i4":6,"i5":6,"i6":1,"i7":6,"i8":6};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -124,7 +124,9 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <tr class="altColor" id="i0">
 <td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clone()">clone</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a new node path with the same data as this path</div>
+</td>
 </tr>
 <tr class="rowColor" id="i1">
 <td class="colFirst"><code>static <a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></code></td>
@@ -162,13 +164,20 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 </td>
 </tr>
 <tr class="altColor" id="i6">
+<td class="colFirst"><code>static <a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.Object...)">of</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;elements)</code></th>
+<td class="colLast">
+<div class="block">Create a node path reference</div>
+</td>
+</tr>
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the length of the path</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withAppendedChild(java.lang.Object)">withAppendedChild</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;childKey)</code></th>
 <td class="colLast">
@@ -273,8 +282,21 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="of(java.lang.Object...)">of</a></h3>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="returnType"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.84">of</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;elements)</span></div>
+<div class="block">Create a node path reference</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elements</code> - The path to reference. The provided array will be copied.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The path instance</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="create(java.util.Collection)">create</a></h3>
-<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="returnType"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.84">create</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;path)</span></div>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="returnType"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.94">create</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;path)</span></div>
 <div class="block">Create a node path reference</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -287,7 +309,12 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <li class="blockList">
 <section class="detail">
 <h3><a id="clone()">clone</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.88">clone</a></span>()</div>
+<div class="memberSignature"><span class="returnType"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.103">clone</a></span>()</div>
+<div class="block">Create a new node path with the same data as this path</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The resulting path</dd>
+</dl>
 </section>
 </li>
 </ul>

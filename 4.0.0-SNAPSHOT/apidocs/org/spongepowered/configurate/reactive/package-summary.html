@@ -73,21 +73,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section class="packageDescription"><a id="package.description">
 <!--   -->
 </a>
-<div class="block">This package contains a rudimentary implementation of a reactive programming API. It does not
- intend to meet all the requirements of the Reactive Streams specification, but it is designed to
- allow for easy migration to implementations based on JDK9's Flow API when Configurate targets Java 9.
+<div class="block">This package contains a rudimentary implementation of a reactive programming API. It does not intend to meet all the
+ requirements of the Reactive Streams specification, but it is designed to allow for easy migration to implementations
+ based on JDK9's Flow API when Configurate targets Java 9.
  <p>
- With <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a>, and
- <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a>,
- a system can be easily built that allows the processing of a series of units of information.
+ With <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a>,
+ and <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a>, a system can be easily built that allows the processing
+ of a series of units of information.
  <p>
- The origin of a system generally starts from
- <a href="Processor.html#create()"><code>creating a processor</code></a>, and making it available for users to <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>subscribe</code></a> to. Then, any value <a href="Subscriber.html#submit(V)"><code>submitted</code></a> to the
- Processor will be forwarded to every registered subscriber.
+ The origin of a system generally starts from <a href="Processor.html#create()"><code>creating a processor</code></a>, and making it available for users to <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>subscribe</code></a> to. Then, any value <a href="Subscriber.html#submit(V)"><code>submitted</code></a> to the Processor will be forwarded to every registered subscriber.
  <p>
- In many cases, it is best to only expose the
- <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>
- side of the processor, so that the submission of values can be more easily controlled.</div>
+ A unique feature of Configurate's reactive listeners is the ability to have transactional subscribers. A <a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive"><code>SubscriberTransactional</code></a> will receive a new value, followed by either a commit
+ or rollback notification. When subscribing to a transactional processor, all subscribers must accept the new value before it's committed.
+ <p>
+ In many cases, it is best to only expose the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> side of the
+ processor, so that the submission of values can be more easily controlled.</div>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -123,16 +123,55 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colFirst" scope="row"><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;</th>
 <td class="colLast">
 <div class="block">Something that can publish events.</div>
 </td>
 </tr>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;V&gt;</th>
+<td class="colLast">
+<div class="block">A publisher that caches the last value received</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;V&gt;</th>
 <td class="colLast">
-<div class="block">A listener to events that may be called by an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a></div>
+<div class="block">A listener to events that may be called by an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>.</div>
 </td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;</th>
+<td class="colLast">
+<div class="block">A subscriber that is transaction-aware.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li class="blockList">
+<div class="typeSummary">
+<table>
+<caption><span>Exception Summary</span><span class="tabEnd">&nbsp;</span></caption>
+<thead>
+<tr>
+<th class="colFirst" scope="col">Exception</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a></th>
+<td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
 </table>

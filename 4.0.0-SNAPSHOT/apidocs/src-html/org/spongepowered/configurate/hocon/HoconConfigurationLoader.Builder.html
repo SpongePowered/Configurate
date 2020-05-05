@@ -180,7 +180,7 @@
 <span class="sourceLineNo">168</span><a id="line.168">    }</a>
 <span class="sourceLineNo">169</span><a id="line.169"></a>
 <span class="sourceLineNo">170</span><a id="line.170">    @Override</a>
-<span class="sourceLineNo">171</span><a id="line.171">    public void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {</a>
+<span class="sourceLineNo">171</span><a id="line.171">    protected void loadInternal(CommentedConfigurationNode node, BufferedReader reader) throws IOException {</a>
 <span class="sourceLineNo">172</span><a id="line.172">        Config hoconConfig = ConfigFactory.parseReader(reader, parse);</a>
 <span class="sourceLineNo">173</span><a id="line.173">        hoconConfig = hoconConfig.resolve();</a>
 <span class="sourceLineNo">174</span><a id="line.174">        for (Map.Entry&lt;String, ConfigValue&gt; ent : hoconConfig.root().entrySet()) {</a>

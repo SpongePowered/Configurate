@@ -101,11 +101,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;V,&#8203;V&gt;</code>, <code><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;</code>, <code><a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;V&gt;</code></dd>
 </dl>
 <dl>
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code></dd>
+</dl>
+<dl>
 <dt>Enclosing interface:</dt>
 <dd><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.html" title="type parameter in Processor">I</a>,&#8203;<a href="Processor.html" title="type parameter in Processor">O</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.87">Processor.Iso</a>&lt;V&gt;
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.115">Processor.Iso</a>&lt;V&gt;
 extends <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;V,&#8203;V&gt;</pre>
 <div class="block">A Processor that has the same type for inputs and outputs</div>
 </section>
@@ -121,7 +125,12 @@ extends <a href="Processor.html" title="interface in org.spongepowered.configura
 <h2>Nested classes/interfaces inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></h2>
 <a id="nested.classes.inherited.from.class.org.spongepowered.configurate.reactive.Processor">
 <!--   -->
-</a><code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&gt;</code></div>
+</a><code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&gt;, <a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;<a href="Processor.Transactional.html" title="type parameter in Processor.Transactional">I</a>,&#8203;<a href="Processor.Transactional.html" title="type parameter in Processor.Transactional">O</a>&gt;, <a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;<a href="Processor.TransactionalIso.html" title="type parameter in Processor.TransactionalIso">V</a>&gt;</code></div>
+<div class="inheritedList">
+<h2>Nested classes/interfaces inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h2>
+<a id="nested.classes.inherited.from.class.org.spongepowered.configurate.reactive.Publisher">
+<!--   -->
+</a><code><a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a>&gt;</code></div>
 </section>
 </li>
 <!-- ========== METHOD SUMMARY =========== -->
@@ -157,12 +166,12 @@ extends <a href="Processor.html" title="interface in org.spongepowered.configura
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></h3>
 <a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Processor">
 <!--   -->
-</a><code><a href="Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed</a>, <a href="Processor.html#map(java.util.function.Function)">map</a>, <a href="Processor.html#setFallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">setFallbackHandler</a></code></div>
+</a><code><a href="Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed</a>, <a href="Processor.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a>, <a href="Processor.html#setFallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">setFallbackHandler</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h3>
 <a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Publisher">
 <!--   -->
-</a><code><a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></div>
+</a><code><a href="Publisher.html#cache()">cache</a>, <a href="Publisher.html#cache(V)">cache</a>, <a href="Publisher.html#getExecutor()">getExecutor</a>, <a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a></h3>
 <a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Subscriber">
@@ -186,7 +195,7 @@ extends <a href="Processor.html" title="interface in org.spongepowered.configura
 <h3><a id="inject(java.lang.Object)">
 <!--   -->
 </a><a id="inject(V)">inject</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.Iso.html#line.88">inject</a></span>&#8203;(<span class="arguments"><a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&nbsp;element)</span></div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.Iso.html#line.116">inject</a></span>&#8203;(<span class="arguments"><a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&nbsp;element)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Processor.html#inject(O)">Processor</a></code></span></div>
 <div class="block">Submit an element of the observed type, bypassing any mapping this Processor may do. If the
  input type of this processor equals the output type, this is equivalent to <a href="Subscriber.html#submit(V)"><code>Subscriber.submit(Object)</code></a></div>

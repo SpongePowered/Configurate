@@ -72,7 +72,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">A</h2>
 <dl>
-<dt><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><span class="typeNameLink">AbstractConfigurationLoader</span></a>&lt;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt; - Class in <a href="org/spongepowered/configurate/loader/package-summary.html">org.spongepowered.configurate.loader</a></dt>
+<dt><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><span class="typeNameLink">AbstractConfigurationLoader</span></a>&lt;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="org/spongepowered/configurate/ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt; - Class in <a href="org/spongepowered/configurate/loader/package-summary.html">org.spongepowered.configurate.loader</a></dt>
 <dd>
 <div class="block">Base class for many stream-based configuration loaders.</div>
 </dd>
@@ -137,6 +137,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><a href="org/spongepowered/configurate/BasicConfigurationNode.html" title="interface in org.spongepowered.configurate"><span class="typeNameLink">BasicConfigurationNode</span></a> - Interface in <a href="org/spongepowered/configurate/package-summary.html">org.spongepowered.configurate</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html#beginTransaction(V)">beginTransaction(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a></dt>
+<dd>
+<div class="block">Receive a new value, and validate it.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#beginVisit(N)">beginVisit(N)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a></dt>
 <dd>
 <div class="block">Called at the beginning of the visit with a state object created.</div>
@@ -176,6 +180,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Builds the loader.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#build()">build()</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a></dt>
+<dd>
+<div class="block">Create a new listener, using default values for any unset parameters.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#build()">build()</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></dt>
 <dd>
 <div class="block">Create a new type serializer collection</div>
@@ -203,6 +211,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html#builder()">builder()</a></span> - Static method in class org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></dt>
 <dd>
 <div class="block">Creates a new <a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson"><code>JacksonConfigurationLoader</code></a> builder.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.html#builder()">builder()</a></span> - Static method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dt>
+<dd>
+<div class="block">Create a new builder for a WatchServiceListener to create a customized listener</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html#builder()">builder()</a></span> - Static method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></dt>
 <dd>
@@ -242,6 +254,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">C</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.html#cache()">cache()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></dt>
+<dd>
+<div class="block">Return a publisher that will track its most recent value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.html#cache(V)">cache(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></dt>
+<dd>
+<div class="block">A cached publisher with an initial value</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/ObjectMapper.html#canCreateInstances()">canCreateInstances()</a></span> - Method in class org.spongepowered.configurate.objectmapping.<a href="org/spongepowered/configurate/objectmapping/ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper</a></dt>
 <dd>
 <div class="block">Returns whether this object mapper can create new object instances.</div>
@@ -277,6 +297,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Create a new builder to begin building a collection of type serializers that inherits from this collection</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/NodePath.html#clone()">clone()</a></span> - Method in interface org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></dt>
+<dd>
+<div class="block">Create a new node path with the same data as this path</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#close()">close()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.html#close()">close()</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
 <dd>
@@ -306,6 +331,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><a href="org/spongepowered/configurate/loader/CommentHandlers.html" title="enum in org.spongepowered.configurate.loader"><span class="typeNameLink">CommentHandlers</span></a> - Enum in <a href="org/spongepowered/configurate/loader/package-summary.html">org.spongepowered.configurate.loader</a></dt>
 <dd>
 <div class="block">Defines a number of default <a href="org/spongepowered/configurate/loader/CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a>s.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html#commit()">commit()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a></dt>
+<dd>
+<div class="block">Expose a transaction's result</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/serialize/ConfigSerializable.html" title="annotation in org.spongepowered.configurate.serialize"><span class="typeNameLink">ConfigSerializable</span></a> - Annotation Type in <a href="org/spongepowered/configurate/serialize/package-summary.html">org.spongepowered.configurate.serialize</a></dt>
 <dd>
@@ -343,6 +372,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate"><span class="typeNameLink">ConfigurationOptions</span></a> - Class in <a href="org/spongepowered/configurate/package-summary.html">org.spongepowered.configurate</a></dt>
 <dd>
 <div class="block">This object is a holder for general configuration options.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><span class="typeNameLink">ConfigurationReference</span></a>&lt;<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a> extends <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt; - Interface in <a href="org/spongepowered/configurate/reference/package-summary.html">org.spongepowered.configurate.reference</a></dt>
+<dd>
+<div class="block">An updating reference to a base configuration node</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference"><span class="typeNameLink">ConfigurationReference.ErrorPhase</span></a> - Enum in <a href="org/spongepowered/configurate/reference/package-summary.html">org.spongepowered.configurate.reference</a></dt>
+<dd>
+<div class="block">Representing the phase where an error occurred</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/transformation/ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation"><span class="typeNameLink">ConfigurationTransformation</span></a>&lt;<a href="org/spongepowered/configurate/transformation/ConfigurationTransformation.html" title="type parameter in ConfigurationTransformation">T</a> extends <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt; - Class in <a href="org/spongepowered/configurate/transformation/package-summary.html">org.spongepowered.configurate.transformation</a></dt>
 <dd>
@@ -385,7 +422,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#create()">create()</a></span> - Static method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
 <dd>
 <div class="block">Create a <a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a> instance that simply broadcasts submitted values to its
- subscribers</div>
+ subscribers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.html#create()">create()</a></span> - Static method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dt>
+<dd>
+<div class="block">Create a new <a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> using a new cached thread pool executor and the default filesystem.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/util/MapFactory.html#create()">create()</a></span> - Method in interface org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a></dt>
 <dd>
@@ -398,6 +439,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/NodePath.html#create(java.util.Collection)">create(Collection&lt;?&gt;)</a></span> - Static method in interface org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></dt>
 <dd>
 <div class="block">Create a node path reference</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#create(java.util.concurrent.Executor)">create(Executor)</a></span> - Static method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
+<dd>
+<div class="block">Create a <a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a> instance that simply broadcasts submitted values to its
+ subscribers</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AtomicFiles.html#createAtomicBufferedWriter(java.nio.file.Path,java.nio.charset.Charset)">createAtomicBufferedWriter(Path, Charset)</a></span> - Static method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AtomicFiles.html" title="class in org.spongepowered.configurate.loader">AtomicFiles</a></dt>
 <dd>
@@ -425,6 +471,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#createEmptyNode(org.spongepowered.configurate.ConfigurationOptions)">createEmptyNode(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#createFixed(org.spongepowered.configurate.loader.ConfigurationLoader)">createFixed(ConfigurationLoader&lt;T&gt;)</a></span> - Static method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a new configuration reference that will only update when loaded</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#createTransactional()">createTransactional()</a></span> - Static method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
+<dd>
+<div class="block">Create a processor instance that is aware of transactions</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#createTransactional(java.util.concurrent.Executor)">createTransactional(Executor)</a></span> - Static method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#createWatching(java.util.function.Function,java.nio.file.Path,org.spongepowered.configurate.reference.WatchServiceListener)">createWatching(Function&lt;Path, ConfigurationLoader&lt;T&gt;&gt;, Path, WatchServiceListener)</a></span> - Static method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a new configuration reference that will automatically update when triggered by the provided <a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a></div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#CRLF_MATCH">CRLF_MATCH</a></span> - Static variable in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></dt>
 <dd>
 <div class="block">The pattern used to match newlines.</div>
@@ -453,7 +513,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationOptions.html#defaults()">defaults()</a></span> - Static method in class org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Create a new options object with defaults set</div>
+<div class="block">Get the default set of options.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html#defaults()">defaults()</a></span> - Static method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></dt>
 <dd>
@@ -577,6 +637,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationOptions.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#errors()">errors()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">A stream that will receive errors that occur while loading or saving to this reference</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#exitListNode(N)">exitListNode(N)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a></dt>
 <dd>
 <div class="block">Called for a list node after the node and any of its children have been visited</div>
@@ -665,6 +729,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">G</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.Cached.html#get()">get()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ValueReference.html#get()">get()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Get the current value at this node</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/NodePath.html#get(int)">get(int)</a></span> - Method in interface org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></dt>
 <dd>
 <div class="block">Gets a specific element from the path array</div>
@@ -672,6 +742,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html#get(com.google.common.reflect.TypeToken)">get(TypeToken&lt;T&gt;)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></dt>
 <dd>
 <div class="block">Resolve a type serializer.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#get(java.lang.Object...)">get(Object...)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Get the node at the given path, using the root node</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/NodePath.html#getArray()">getArray()</a></span> - Method in interface org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></dt>
 <dd>
@@ -739,6 +813,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationNode.html#getDouble(double)">getDouble(double)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></dt>
 <dd>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize"><code>Scalars</code></a></div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.html#getExecutor()">getExecutor()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></dt>
+<dd>
+<div class="block">Get the executor that will be used to handle published</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.Builder.html#getFactoryBuilder()">getFactoryBuilder()</a></span> - Method in class org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader.Builder</a></dt>
 <dd>
@@ -832,6 +910,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">If this node has list values, this function unwraps them and converts them to an appropriate
  type based on the provided function.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#getLoader()">getLoader()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Get the loader this reference uses to load and save its' node</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationNode.html#getLong()">getLong()</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></dt>
 <dd>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize"><code>Scalars</code></a></div>
@@ -861,6 +943,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#getMoveStrategy()">getMoveStrategy()</a></span> - Method in class org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a></dt>
 <dd>
 <div class="block">Gets the move strategy to be used by the resultant transformation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#getNode()">getNode()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Get the base node this reference refers to.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ValueReference.html#getNode()">getNode()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Get the node this value reference points to.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/util/ConfigurationNodeWalker.VisitedNode.html#getNode()">getNode()</a></span> - Method in interface org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/ConfigurationNodeWalker.VisitedNode.html" title="interface in org.spongepowered.configurate.util">ConfigurationNodeWalker.VisitedNode</a></dt>
 <dd>
@@ -1100,9 +1190,23 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink"><code>Splitter</code></a> for splitting comment lines</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration(Function&lt;Path, ConfigurationLoader&lt;N&gt;&gt;, Path)</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.html#listenToDirectory(java.nio.file.Path,org.spongepowered.configurate.reactive.Subscriber)">listenToDirectory(Path, Subscriber&lt;WatchEvent&lt;?&gt;&gt;)</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dt>
+<dd>
+<div class="block">Listen to a directory.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.html#listenToFile(java.nio.file.Path,org.spongepowered.configurate.reactive.Subscriber)">listenToFile(Path, Subscriber&lt;WatchEvent&lt;?&gt;&gt;)</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dt>
+<dd>
+<div class="block">Listen for changes to a specific file or directory.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/ConfigurationLoader.html#load()">load()</a></span> - Method in interface org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a></dt>
 <dd>
 <div class="block">Attempts to load a <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#load()">load()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Reload a configuration using the provided loader.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#load(org.spongepowered.configurate.ConfigurationOptions)">load(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
@@ -1111,6 +1215,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Attempts to load a <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#load(org.spongepowered.configurate.ConfigurationOptions)">load(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#LOADING">LOADING</a></span> - org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">loadInternal(N, BufferedReader)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
@@ -1124,6 +1230,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#loadInternal(org.spongepowered.configurate.CommentedConfigurationNode,java.io.BufferedReader)">loadInternal(CommentedConfigurationNode, BufferedReader)</a></span> - Method in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#loadToReference()">loadToReference()</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/ConfigurationLoader.html#loadToReference()">loadToReference()</a></span> - Method in interface org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a></dt>
+<dd>
+<div class="block">Attempts to load data from the defined source into a <a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/Scalars.html#LONG">LONG</a></span> - Static variable in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize">Scalars</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/util/EnumLookup.html#lookupEnum(java.lang.Class,java.lang.String)">lookupEnum(Class&lt;T&gt;, String)</a></span> - Static method in class org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/EnumLookup.html" title="class in org.spongepowered.configurate.util">EnumLookup</a></dt>
@@ -1140,8 +1252,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/examples/Tutorial.html#main(java.lang.String%5B%5D)">main(String[])</a></span> - Static method in class org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/Tutorial.html" title="class in org.spongepowered.configurate.examples">Tutorial</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#map(java.util.function.Function)">map(Function&lt;? super O, ? extends R&gt;)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
-<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.html#map(java.util.function.Function)">map(Function&lt;? super V, ? extends R&gt;)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></dt>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/examples/ValueReferences.html#main(java.lang.String%5B%5D)">main(String[])</a></span> - Static method in class org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/ValueReferences.html" title="class in org.spongepowered.configurate.examples">ValueReferences</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Processor.html#map(org.spongepowered.configurate.util.CheckedFunction)">map(CheckedFunction&lt;? super O, ? extends R, TransactionFailedException&gt;)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></dt>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.html#map(org.spongepowered.configurate.util.CheckedFunction)">map(CheckedFunction&lt;? super V, ? extends R, TransactionFailedException&gt;)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/spongepowered/configurate/util/MapFactories.html" title="class in org.spongepowered.configurate.util"><span class="typeNameLink">MapFactories</span></a> - Class in <a href="org/spongepowered/configurate/util/package-summary.html">org.spongepowered.configurate.util</a></dt>
 <dd>
@@ -1255,16 +1369,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Given the provided functions, create a new serializer for a scalar value.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/NodePath.html#of(java.lang.Object...)">of(Object...)</a></span> - Static method in interface org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></dt>
+<dd>
+<div class="block">Create a node path reference</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Subscriber.html#onClose()">onClose()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a></dt>
 <dd>
-<div class="block">When the <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error, this method will be
- called.</div>
+<div class="block">When the <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error, this method will be called.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Subscriber.html#onError(java.lang.Throwable)">onError(Throwable)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a></dt>
 <dd>
-<div class="block">When an error occurs while subscribing to an <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is thrown during the
- execution of <a href="org/spongepowered/configurate/reactive/Subscriber.html#submit(V)"><code>Subscriber.submit(Object)</code></a> that is not otherwise handled, this method will be
- called with the error.</div>
+<div class="block">When an error occurs while subscribing to an <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is thrown during the execution of <a href="org/spongepowered/configurate/reactive/Subscriber.html#submit(V)"><code>Subscriber.submit(Object)</code></a> that is not otherwise handled, this method will be called with the error.</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/package-summary.html">org.spongepowered.configurate</a> - package org.spongepowered.configurate</dt>
 <dd>
@@ -1287,6 +1402,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a> - package org.spongepowered.configurate.reactive</dt>
 <dd>
 <div class="block">This package contains a rudimentary implementation of a reactive programming API.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/reference/package-summary.html">org.spongepowered.configurate.reference</a> - package org.spongepowered.configurate.reference</dt>
+<dd>
+<div class="block">File watcher and infrastructure to support dynamically updating configurations</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/serialize/package-summary.html">org.spongepowered.configurate.serialize</a> - package org.spongepowered.configurate.serialize</dt>
 <dd>
@@ -1330,6 +1449,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Ignore any header present in input, and output a header if one has been set in options</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/examples/ValueReferences.html#printData()">printData()</a></span> - Method in class org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/ValueReferences.html" title="class in org.spongepowered.configurate.examples">ValueReferences</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/spongepowered/configurate/reactive/Processor.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor</span></a>&lt;<a href="org/spongepowered/configurate/reactive/Processor.html" title="type parameter in Processor">I</a>,&#8203;<a href="org/spongepowered/configurate/reactive/Processor.html" title="type parameter in Processor">O</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
 <dd>
 <div class="block">A combination of an <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> and <a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a>.</div>
@@ -1338,9 +1459,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A Processor that has the same type for inputs and outputs</div>
 </dd>
+<dt><a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.Transactional</span></a>&lt;<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="type parameter in Processor.Transactional">I</a>,&#8203;<a href="org/spongepowered/configurate/reactive/Processor.Transactional.html" title="type parameter in Processor.Transactional">O</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Processor.TransactionalIso</span></a>&lt;<a href="org/spongepowered/configurate/reactive/Processor.TransactionalIso.html" title="type parameter in Processor.TransactionalIso">V</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Publisher</span></a>&lt;<a href="org/spongepowered/configurate/reactive/Publisher.html" title="type parameter in Publisher">V</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
 <dd>
 <div class="block">Something that can publish events.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Publisher.Cached</span></a>&lt;<a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
+<dd>
+<div class="block">A publisher that caches the last value received</div>
 </dd>
 </dl>
 <a id="I:R">
@@ -1348,6 +1477,30 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">R</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#referenceTo(com.google.common.reflect.TypeToken,java.lang.Object...)">referenceTo(TypeToken&lt;T&gt;, Object...)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a reference to the node at the provided path.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath)">referenceTo(TypeToken&lt;T&gt;, NodePath)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a reference to the node at the provided path.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath,T)">referenceTo(TypeToken&lt;T&gt;, NodePath, T)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a reference to the node at the provided path.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#referenceTo(java.lang.Class,java.lang.Object...)">referenceTo(Class&lt;T&gt;, Object...)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a reference to the node at the provided path.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#referenceTo(java.lang.Class,org.spongepowered.configurate.transformation.NodePath)">referenceTo(Class&lt;T&gt;, NodePath)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a reference to the node at the provided path.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#referenceTo(java.lang.Class,org.spongepowered.configurate.transformation.NodePath,T)">referenceTo(Class&lt;T&gt;, NodePath, T)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Create a reference to the node at the provided path.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#register(com.google.common.reflect.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">register(TypeToken&lt;T&gt;, TypeSerializer&lt;? super T&gt;)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></dt>
 <dd>
 <div class="block">Register a type serializer for a given type.</div>
@@ -1365,6 +1518,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationNode.html#removeChild(java.lang.Object)">removeChild(Object)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></dt>
 <dd>
 <div class="block">Removes a direct child of this node</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/examples/ValueReferences.html#repl()">repl()</a></span> - Method in class org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/ValueReferences.html" title="class in org.spongepowered.configurate.examples">ValueReferences</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html#rollback()">rollback()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a></dt>
+<dd>
+<div class="block">Called when a transaction has failed, to revert any prepared changes</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/AttributedConfigurationNode.html#root()">root()</a></span> - Static method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
@@ -1400,11 +1559,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">S</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#save()">save()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Save this configuration using the provided loader.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#save(org.spongepowered.configurate.ConfigurationNode)">save(ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/ConfigurationLoader.html#save(org.spongepowered.configurate.ConfigurationNode)">save(ConfigurationNode)</a></span> - Method in interface org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a></dt>
 <dd>
 <div class="block">Attempts to save a <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#save(N)">save(N)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Update the configuration node pointed to by this reference, and save it using the reference's loader
+
+ Even if the loader fails to save this new node, the node pointed to by this reference will be updated.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.gson.<a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
@@ -1417,6 +1586,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.yaml.<a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#SAVING">SAVING</a></span> - org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize"><span class="typeNameLink">Scalars</span></a> - Interface in <a href="org/spongepowered/configurate/serialize/package-summary.html">org.spongepowered.configurate.serialize</a></dt>
 <dd>
@@ -1460,6 +1631,34 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/ObjectMappingException.html#serialVersionUID">serialVersionUID</a></span> - Static variable in exception org.spongepowered.configurate.objectmapping.<a href="org/spongepowered/configurate/objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ValueReference.html#set(T)">set(T)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Set the new value of this node.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#set(java.lang.Object%5B%5D,java.lang.Object)">set(Object[], Object)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Update the value of the node at the given path, using the root node as a base.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#set(java.lang.Object%5B%5D,com.google.common.reflect.TypeToken,T)">set(Object[], TypeToken&lt;T&gt;, T)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Set the value of the node at <code>path</code> to the given value,
+ using the appropriate <a href="org/spongepowered/configurate/serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to serialize the data if it's
+ not directly supported by the provided configuration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#set(org.spongepowered.configurate.transformation.NodePath,java.lang.Object)">set(NodePath, Object)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Update the value of the node at the given path, using the root node as a base.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#set(org.spongepowered.configurate.transformation.NodePath,com.google.common.reflect.TypeToken,T)">set(NodePath, TypeToken&lt;T&gt;, T)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Set the value of the node at <code>path</code> to the given value,
+ using the appropriate <a href="org/spongepowered/configurate/serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
+ serialize the data if it's not directly supported by the provided configuration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ValueReference.html#setAndSave(T)">setAndSave(T)</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Set the new value of this node.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/AttributedConfigurationNode.html#setAttributes(java.util.Map)">setAttributes(Map&lt;String, String&gt;)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></dt>
 <dd>
 <div class="block">Sets the attributes of this node.</div>
@@ -1471,6 +1670,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#setCommentIfAbsent(java.lang.String)">setCommentIfAbsent(String)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNodeIntermediary</a></dt>
 <dd>
 <div class="block">Set a comment on this node if it does not presently have a comment.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#setDefaultOptions(java.util.function.UnaryOperator)">setDefaultOptions(UnaryOperator&lt;ConfigurationOptions&gt;)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></dt>
+<dd>
+<div class="block">Sets the default configuration options to be used by the resultant loader by providing
+ a function which takes the current default options and applies any applicable changes.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#setDefaultOptions(org.spongepowered.configurate.ConfigurationOptions)">setDefaultOptions(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></dt>
 <dd>
@@ -1492,6 +1696,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#setFile(java.io.File)">setFile(File)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></dt>
 <dd>
 <div class="block">Sets the sink and source of the resultant loader to the given file.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#setFileSystem(java.nio.file.FileSystem)">setFileSystem(FileSystem)</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a></dt>
+<dd>
+<div class="block">Set the filesystem expected to be used for paths.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.Builder.html#setFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle)">setFlowStyle(DumperOptions.FlowStyle)</a></span> - Method in class org.spongepowered.configurate.yaml.<a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader.Builder</a></dt>
 <dd>
@@ -1562,6 +1770,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/AttributedConfigurationNode.html#setTagName(java.lang.String)">setTagName(String)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></dt>
 <dd>
 <div class="block">Sets the tag name of this node.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#setTaskExecutor(java.util.concurrent.Executor)">setTaskExecutor(Executor)</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a></dt>
+<dd>
+<div class="block">Set the executor that will be used to execute tasks queued based on received events.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#setThreadFactory(java.util.concurrent.ThreadFactory)">setThreadFactory(ThreadFactory)</a></span> - Method in class org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a></dt>
+<dd>
+<div class="block">Set the thread factory that will be used to create the polling thread for this watch service</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/objectmapping/Setting.html" title="annotation in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">Setting</span></a> - Annotation Type in <a href="org/spongepowered/configurate/objectmapping/package-summary.html">org.spongepowered.configurate.objectmapping</a></dt>
 <dd>
@@ -1649,17 +1865,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/Scalars.html#STRING">STRING</a></span> - Static variable in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize">Scalars</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.Cached.html#submit(V)">submit(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Subscriber.html#submit(V)">submit(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a></dt>
 <dd>
 <div class="block">Called to submit a new item</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html#submit(V)">submit(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe(Subscriber&lt;? super V&gt;)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></dt>
 <dd>
 <div class="block">Subscribe to updates from this Publisher.</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">Subscriber</span></a>&lt;<a href="org/spongepowered/configurate/reactive/Subscriber.html" title="type parameter in Subscriber">V</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
 <dd>
-<div class="block">A listener to events that may be called by an <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a></div>
+<div class="block">A listener to events that may be called by an <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive"><span class="typeNameLink">SubscriberTransactional</span></a>&lt;<a href="org/spongepowered/configurate/reactive/SubscriberTransactional.html" title="type parameter in SubscriberTransactional">V</a>&gt; - Interface in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
+<dd>
+<div class="block">A subscriber that is transaction-aware.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#SYSTEM_LINE_SEPARATOR">SYSTEM_LINE_SEPARATOR</a></span> - Static variable in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>
@@ -1682,6 +1906,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/DefaultObjectMapperFactory.html#toString()">toString()</a></span> - Method in class org.spongepowered.configurate.objectmapping.<a href="org/spongepowered/configurate/objectmapping/DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping">DefaultObjectMapperFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/GuiceObjectMapperFactory.html#toString()">toString()</a></span> - Method in class org.spongepowered.configurate.objectmapping.<a href="org/spongepowered/configurate/objectmapping/GuiceObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping">GuiceObjectMapperFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/spongepowered/configurate/reactive/TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive"><span class="typeNameLink">TransactionFailedException</span></a> - Exception in <a href="org/spongepowered/configurate/reactive/package-summary.html">org.spongepowered.configurate.reactive</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/TransactionFailedException.html#%3Cinit%3E()">TransactionFailedException()</a></span> - Constructor for exception org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/TransactionFailedException.html#%3Cinit%3E(java.lang.Throwable)">TransactionFailedException(Throwable)</a></span> - Constructor for exception org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/spongepowered/configurate/transformation/TransformAction.html" title="interface in org.spongepowered.configurate.transformation"><span class="typeNameLink">TransformAction</span></a>&lt;<a href="org/spongepowered/configurate/transformation/TransformAction.html" title="type parameter in TransformAction">T</a> extends <a href="org/spongepowered/configurate/ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="org/spongepowered/configurate/transformation/TransformAction.html" title="type parameter in TransformAction">T</a>&gt;&gt; - Interface in <a href="org/spongepowered/configurate/transformation/package-summary.html">org.spongepowered.configurate.transformation</a></dt>
 <dd>
@@ -1716,9 +1946,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">U</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#UNKNOWN">UNKNOWN</a></span> - org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/util/MapFactories.html#unordered()">unordered()</a></span> - Static method in class org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/MapFactories.html" title="class in org.spongepowered.configurate.util">MapFactories</a></dt>
 <dd>
 <div class="block">Returns a <a href="org/spongepowered/configurate/util/MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> which creates maps without an order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.html#updates()">updates()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Access the <a href="org/spongepowered/configurate/reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> that will broadcast update events, providing the newly created node.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/Scalars.html#URI">URI</a></span> - Static variable in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/Scalars.html" title="interface in org.spongepowered.configurate.serialize">Scalars</a></dt>
 <dd>&nbsp;</dd>
@@ -1736,6 +1972,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">The path this setting is located at</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#VALUE">VALUE</a></span> - org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/jackson/FieldValueSeparatorStyle.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/FieldValueSeparatorStyle.html" title="enum in org.spongepowered.configurate.jackson">FieldValueSeparatorStyle</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
@@ -1748,10 +1986,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/MoveStrategy.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference"><span class="typeNameLink">ValueReference</span></a>&lt;<a href="org/spongepowered/configurate/reference/ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;<a href="org/spongepowered/configurate/reference/ValueReference.html" title="type parameter in ValueReference">N</a> extends <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt; - Interface in <a href="org/spongepowered/configurate/reference/package-summary.html">org.spongepowered.configurate.reference</a></dt>
+<dd>
+<div class="block">A pointer to a node within a configuration tree.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/examples/ValueReferences.html" title="class in org.spongepowered.configurate.examples"><span class="typeNameLink">ValueReferences</span></a> - Class in <a href="org/spongepowered/configurate/examples/package-summary.html">org.spongepowered.configurate.examples</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/examples/ValueReferences.html#%3Cinit%3E(java.nio.file.Path)">ValueReferences(Path)</a></span> - Constructor for class org.spongepowered.configurate.examples.<a href="org/spongepowered/configurate/examples/ValueReferences.html" title="class in org.spongepowered.configurate.examples">ValueReferences</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/jackson/FieldValueSeparatorStyle.html#values()">values()</a></span> - Static method in enum org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/FieldValueSeparatorStyle.html" title="enum in org.spongepowered.configurate.jackson">FieldValueSeparatorStyle</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
@@ -1763,6 +2013,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/HeaderMode.html#values()">values()</a></span> - Static method in enum org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#values()">values()</a></span> - Static method in enum org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>
@@ -1835,6 +2090,15 @@ the order they are declared.</div>
 <div class="block">Returns an iterator which will iterate over all paths and nodes in the configuration, in the order defined by the
  walker.</div>
 </dd>
+<dt><a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><span class="typeNameLink">WatchServiceListener</span></a> - Class in <a href="org/spongepowered/configurate/reference/package-summary.html">org.spongepowered.configurate.reference</a></dt>
+<dd>
+<div class="block">A wrapper around NIO's <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchService</code></a> that uses the provided event loop to poll for changes, and calls
+ listeners once an event occurs.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference"><span class="typeNameLink">WatchServiceListener.Builder</span></a> - Class in <a href="org/spongepowered/configurate/reference/package-summary.html">org.spongepowered.configurate.reference</a></dt>
+<dd>
+<div class="block">Set the parameters needed to create a <a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/transformation/ConfigurationTransformation.html#WILDCARD_OBJECT">WILDCARD_OBJECT</a></span> - Static variable in class org.spongepowered.configurate.transformation.<a href="org/spongepowered/configurate/transformation/ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation</a></dt>
 <dd>
 <div class="block">A special object that represents a wildcard in a path provided to a configuration transformer</div>
@@ -1862,6 +2126,11 @@ the order they are declared.</div>
 <dd>
 <div class="block">Creates a new <a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="org/spongepowered/configurate/objectmapping/ObjectMapperFactory.html" title="interface in org.spongepowered.configurate.objectmapping"><code>ObjectMapperFactory</code></a>
  set, and all other settings copied from this instance.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationOptions.html#withSerializers(java.util.function.Consumer)">withSerializers(Consumer&lt;TypeSerializerCollection.Builder&gt;)</a></span> - Method in class org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></dt>
+<dd>
+<div class="block">Creates a new <a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with a new
+ <a href="org/spongepowered/configurate/serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a> created as a child of this options' current collection.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationOptions.html#withSerializers(org.spongepowered.configurate.serialize.TypeSerializerCollection)">withSerializers(TypeSerializerCollection)</a></span> - Method in class org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></dt>
 <dd>
