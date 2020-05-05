@@ -120,7 +120,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
         val loader = createLoader()
         try {
             val node = loader.load()
-            echo("Reading from @|blue,bold ${path.toString()}|@")
+            echo("Reading from @|blue,bold $path|@")
             val header = node.options.header
             if (header != null) {
                 echo(heading("Header") + " $SPLIT " + header.replace("\n", "\n$CHILD_CONT "))
@@ -128,6 +128,9 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             }
             dumpTree(node, "")
         } catch (e: IOException) {
+            e.cause?.apply {
+                echo("Error while loading: $message")
+            }
             throw CliktError("Unable to load configuration", e)
         }
     }
