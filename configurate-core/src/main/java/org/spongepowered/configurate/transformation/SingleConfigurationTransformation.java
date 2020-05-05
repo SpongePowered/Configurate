@@ -30,7 +30,7 @@ import java.util.Map;
  */
 class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> extends ConfigurationTransformation<N> {
     private final MoveStrategy strategy;
-    private final Map<Object[], TransformAction<? super N>> actions;
+    private final Map<NodePath, TransformAction<? super N>> actions;
 
     /**
      * Thread local {@link NodePath} instance - used so we don't have to create lots of NodePath
@@ -41,15 +41,15 @@ class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> ex
      */
     private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
 
-    SingleConfigurationTransformation(Map<Object[], TransformAction<? super N>> actions, MoveStrategy strategy) {
+    SingleConfigurationTransformation(Map<NodePath, TransformAction<? super N>> actions, MoveStrategy strategy) {
         this.actions = actions;
         this.strategy = strategy;
     }
 
     @Override
     public void apply(@NonNull N node) {
-        for (Map.Entry<Object[], TransformAction<? super N>> ent : actions.entrySet()) {
-            applySingleAction(node, ent.getKey(), 0, node, ent.getValue());
+        for (Map.Entry<NodePath, TransformAction<? super N>> ent : actions.entrySet()) {
+            applySingleAction(node, ent.getKey().getArray(), 0, node, ent.getValue());
         }
     }
 

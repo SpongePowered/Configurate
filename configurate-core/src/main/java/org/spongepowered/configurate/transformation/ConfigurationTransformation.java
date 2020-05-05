@@ -20,7 +20,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 
-import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -81,7 +80,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      */
     public static final class Builder<T extends ScopedConfigurationNode<T>> {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
-        private final SortedMap<Object[], TransformAction<? super T>> actions;
+        private final SortedMap<NodePath, TransformAction<? super T>> actions;
 
         protected Builder() {
             this.actions = new TreeMap<>(new NodePathComparator());
@@ -95,7 +94,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder<T> addAction(Object[] path, TransformAction<? super T> action) {
+        public Builder<T> addAction(NodePath path, TransformAction<? super T> action) {
             actions.put(path, action);
             return this;
         }
@@ -137,7 +136,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      * Builds a versioned {@link ConfigurationTransformation}.
      */
     public static final class VersionedBuilder<T extends ConfigurationNode> {
-        private Object[] versionKey = new Object[] {"version"};
+        private NodePath versionKey = NodePath.path("version");
         private final SortedMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
 
         protected VersionedBuilder() {}
@@ -150,7 +149,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          */
         @NonNull
         public VersionedBuilder<T> setVersionKey(@NonNull Object... versionKey) {
-            this.versionKey = Arrays.copyOf(versionKey, versionKey.length, Object[].class);
+            this.versionKey = NodePath.create(versionKey);
             return this;
         }
 

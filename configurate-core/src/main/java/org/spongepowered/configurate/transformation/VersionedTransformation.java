@@ -26,10 +26,10 @@ import java.util.SortedMap;
  * according to the configurations current version.
  */
 class VersionedTransformation<T extends ConfigurationNode> extends ConfigurationTransformation<T> {
-    private final Object[] versionPath;
+    private final NodePath versionPath;
     private final SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations;
 
-    VersionedTransformation(Object[] versionPath, SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
+    VersionedTransformation(NodePath versionPath, SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
         this.versionPath = versionPath;
         this.versionTransformations = versionTransformations;
     }

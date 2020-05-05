@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.spongepowered.configurate.transformation.NodePath.path;
 
 public class ConfigurationTransformationTest {
     private static Object[] p(Object... path) {
@@ -41,88 +41,79 @@ public class ConfigurationTransformationTest {
     }
 
     private <T extends ScopedConfigurationNode<T>> void doTestComparator(T node) {
-        final List<Object[]> unsortedKeys = Arrays.asList(
-                p("a", "c", "c"),
-                p("a", "b"),
-                p("a", "b", "c"),
-                p("a", "b", "d"),
-                p("a", "b", "c", "d"),
-                p("a", "c"),
-                p("a", "b", "b")
+        final List<NodePath> unsortedKeys = Arrays.asList(
+                path("a", "c", "c"),
+                path("a", "b"),
+                path("a", "b", "c"),
+                path("a", "b", "d"),
+                path("a", "b", "c", "d"),
+                path("a", "c"),
+                path("a", "b", "b")
         ), autoSortedKeys = new ArrayList<>(), expectedSortedKeys
                 = Arrays.asList(
-                p("a", "b", "b"),
-                p("a", "b", "c", "d"),
-                p("a", "b", "c"),
-                p("a", "b", "d"),
-                p("a", "b"),
-                p("a", "c", "c"),
-                p("a", "c")
+                path("a", "b", "b"),
+                path("a", "b", "c", "d"),
+                path("a", "b", "c"),
+                path("a", "b", "d"),
+                path("a", "b"),
+                path("a", "c", "c"),
+                path("a", "c")
         );
 
         final TransformAction<T> action = (inputPath, valueAtPath) -> {
-            autoSortedKeys.add(inputPath.getArray());
+            autoSortedKeys.add(inputPath.clone());
             return null;
         };
 
         final ConfigurationTransformation.Builder<T> build = ConfigurationTransformation.builder();
-        for (Object[] path : unsortedKeys) {
+        for (NodePath path : unsortedKeys) {
             build.addAction(path, action);
         }
-        for (Object[] path : unsortedKeys) {
+        for (NodePath path : unsortedKeys) {
             T child = node.getNode(path);
             if (child.isVirtual()) {
                 child.setValue("meaningless test value");
             }
         }
         build.build().apply(node);
-        assertListOfArrayEquals(expectedSortedKeys, autoSortedKeys);
-
-    }
-
-    public static void assertListOfArrayEquals(List<Object[]> expected, List<Object[]> tested) {
-        assertEquals(expected.size(), tested.size());
-        for (int i = 0; i < expected.size(); ++i) {
-            System.out.println("Comparing lists " + Arrays.toString(expected.get(i)) + " and " + Arrays.toString(tested.get(i)));
-            assertArrayEquals(expected.get(i), tested.get(i));
-        }
+        assertEquals(expectedSortedKeys, autoSortedKeys);
     }
 
     @Test
     public void testWildcardMatching() {
         BasicConfigurationNode node = BasicConfigurationNode.root();
-        final List<Object[]> wildcardMatch = Arrays.asList(
-                p("a", ConfigurationTransformation.WILDCARD_OBJECT, "c"),
-                p("a", ConfigurationTransformation.WILDCARD_OBJECT, "d"),
-                p("a", "c", "c"),
-                p("b", ConfigurationTransformation.WILDCARD_OBJECT, "d", ConfigurationTransformation.WILDCARD_OBJECT,
+        final List<NodePath> wildcardMatch = Arrays.asList(
+                path("a", ConfigurationTransformation.WILDCARD_OBJECT, "c"),
+                path("a", ConfigurationTransformation.WILDCARD_OBJECT, "d"),
+                path("a", "c", "c"),
+                path("b", ConfigurationTransformation.WILDCARD_OBJECT, "d", ConfigurationTransformation.WILDCARD_OBJECT,
                         "f")
         ), populatedResults = new ArrayList<>(), expectedResult = Arrays.asList(
-                p("a", "c", "c"),
-                p("a", "c", "c"),
-                p("a", "d", "c"),
-                p("a", "b", "c"),
-                p("a", "c", "d"),
-                p("a", "d", "d"),
-                p("b", "c", "d", "e", "f"),
-                p("b", "c", "d", "f", "f"),
-                p("b", "d", "d", "e", "f"),
-                p("b", "d", "d", "f", "f")
+                path("a", "c", "c"),
+                path("a", "c", "c"),
+                path("a", "d", "c"),
+                path("a", "b", "c"),
+                path("a", "c", "d"),
+                path("a", "d", "d"),
+                path("b", "c", "d", "e", "f"),
+                path("b", "c", "d", "f", "f"),
+                path("b", "d", "d", "e", "f"),
+                path("b", "d", "d", "f", "f")
         );
 
         final TransformAction<BasicConfigurationNode> action = (path, valueAthPath) -> {
-            populatedResults.add(path.getArray());
+            populatedResults.add(path.clone());
             return null;
         };
         final ConfigurationTransformation.Builder<BasicConfigurationNode> build = ConfigurationTransformation.builder();
-        for (Object[] path : wildcardMatch) {
+        for (NodePath path : wildcardMatch) {
             build.addAction(path, action);
         }
-        for (Object[] path : expectedResult) {
+        for (NodePath path : expectedResult) {
             node.getNode(path).setValue("lame");
         }
         build.build().apply(node);
-        assertListOfArrayEquals(expectedResult, populatedResults);
+        assertEquals(expectedResult, populatedResults);
     }
 
     @Test
@@ -132,7 +123,7 @@ public class ConfigurationTransformationTest {
         final Object nodeValue = new Object();
         node.getNode("old", "path").setValue(nodeValue);
         ConfigurationTransformation.<BasicConfigurationNode>builder()
-                .addAction(p("old", "path"),
+                .addAction(path("old", "path"),
                         (inputPath, valueAtPath) -> p("new", "path"))
                 .build().apply(node);
         assertTrue(node.getNode("old", "path").isVirtual());
@@ -150,10 +141,10 @@ public class ConfigurationTransformationTest {
 
     @SuppressWarnings("unchecked")
     private <T extends ScopedConfigurationNode<T>> void transformChained(List<String> actualOutput, T node) {
-        ConfigurationTransformation.chain(ConfigurationTransformation.<T>builder().addAction(p("a"), (inputPath, valueAtPath) -> {
+        ConfigurationTransformation.chain(ConfigurationTransformation.<T>builder().addAction(path("a"), (inputPath, valueAtPath) -> {
             actualOutput.add("one");
             return null;
-        }).build(), ConfigurationTransformation.<T>builder().addAction(p("a"), (inputPath, valueAtPath) -> {
+        }).build(), ConfigurationTransformation.<T>builder().addAction(path("a"), (inputPath, valueAtPath) -> {
             actualOutput.add("two");
             return null;
         }).build()).apply(node);
@@ -166,12 +157,12 @@ public class ConfigurationTransformationTest {
         node.getNode("at-parent").setValue("until-change");
         transformMoveToBase(node);
         assertEquals("value", node.getNode("key").getValue());
-        assertEquals(null, node.getNode("at-parent").getValue());
+        assertNull(node.getNode("at-parent").getValue());
     }
 
     private <T extends ScopedConfigurationNode<T>> void transformMoveToBase(T node) {
         ConfigurationTransformation.<T>builder()
-                .addAction(p("sub"), (inputPath, valueAtPath) -> {
+                .addAction(path("sub"), (inputPath, valueAtPath) -> {
                     return new Object[0];
                 }).build().apply(node);
     }
@@ -179,7 +170,7 @@ public class ConfigurationTransformationTest {
     @Test
     public void testMoveStrategy() {
         final ConfigurationTransformation.Builder<BasicConfigurationNode> build = ConfigurationTransformation.<BasicConfigurationNode>builder()
-                .addAction(p("one"), (inputPath, valueAtPath) -> p("two"));
+                .addAction(path("one"), (inputPath, valueAtPath) -> p("two"));
         BasicConfigurationNode overwritten = createMoveNode(), merged = createMoveNode();
         build.setMoveStrategy(MoveStrategy.OVERWRITE).build().apply(overwritten);
         build.setMoveStrategy(MoveStrategy.MERGE).build().apply(merged);
@@ -202,7 +193,7 @@ public class ConfigurationTransformationTest {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final BasicConfigurationNode child = node.getNode("childNode").setValue("something");
         ConfigurationTransformation.<BasicConfigurationNode>builder()
-                .addAction(p("childNode"), (inputPath, valueAtPath) -> {
+                .addAction(path("childNode"), (inputPath, valueAtPath) -> {
                     assertEquals(child, valueAtPath);
                     return null;
                 }).build().apply(node);
@@ -221,17 +212,17 @@ public class ConfigurationTransformationTest {
     private <T extends ScopedConfigurationNode<T>> ConfigurationTransformation<T> buildVersionedTransformation(List<Integer> updatedVersions) {
         return ConfigurationTransformation.<T>versionedBuilder()
                 .addVersion(0, ConfigurationTransformation.<T>builder()
-                        .addAction(p("dummy"), (inputPath, valueAtPath) -> {
+                        .addAction(path("dummy"), (inputPath, valueAtPath) -> {
                             updatedVersions.add(0);
                             return null;
                         }).build())
                 .addVersion(2, ConfigurationTransformation.<T>builder()
-                        .addAction(p("dummy"), (inputPath, valueAtPath) ->  {
+                        .addAction(path("dummy"), (inputPath, valueAtPath) ->  {
                             updatedVersions.add(2);
                             return null;
                         }).build())
                 .addVersion(1, ConfigurationTransformation.<T>builder()
-                        .addAction(p("dummy"), (inputPath, valueAtPath) -> {
+                        .addAction(path("dummy"), (inputPath, valueAtPath) -> {
                             updatedVersions.add(1);
                             return null;
                         }).build())

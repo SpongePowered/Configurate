@@ -18,7 +18,6 @@ package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 
 /**
@@ -37,7 +36,6 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param valueAtPath The node at the input path. May be modified
      * @return A modified path, or null if the path is to stay the same
      */
-    @Nullable
-    Object[] visitPath(@NonNull NodePath inputPath, @NonNull T valueAtPath);
+    Object @Nullable[] visitPath(@NonNull NodePath inputPath, @NonNull T valueAtPath);
 
 }
