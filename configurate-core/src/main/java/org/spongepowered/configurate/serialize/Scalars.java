@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 /**
  * Scalar value serializers available
  *
- * Each of these serializers
+ * Each of these serializers can be used through a configuration node, or directly with a value.
  */
 public interface Scalars {
     ScalarSerializer<Boolean> BOOLEAN = new BooleanSerializer();

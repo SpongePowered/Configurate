@@ -39,6 +39,7 @@ public class Transformations {
      * Create a new builder for versioned configurations. This builder uses a field in the node (by default {@code
      * schema-version}) to determine the current schema version (using -1 for no version present).
      *
+     * @param <N> node type
      * @return versioned transformation
      */
     public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation<N> create() {

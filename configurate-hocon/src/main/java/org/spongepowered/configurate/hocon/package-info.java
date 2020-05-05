@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
+ * Configuration loader for the <a href="https://github.com/lightbend/config/">HOCON</a> library, plus supports
+ * <p>
+ * Due to limitations in the library currently used, this loader does not respect nodes' map factories. This means that
+ * ordering in configurations will not be preserved.
  */
-@DefaultQualifier(NonNull.class)
-package org.spongepowered.configurate.xml;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package org.spongepowered.configurate.hocon;

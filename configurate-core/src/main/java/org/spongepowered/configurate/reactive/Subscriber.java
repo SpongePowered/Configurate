@@ -20,7 +20,7 @@ package org.spongepowered.configurate.reactive;
  * A listener to events that may be called by an {@link Publisher}.
  * <p>
  * For every publisher this subscriber is subscribed to, the subscriber will only process one event at a time --
- * effectively, within a single publisher this subscriber is synchronous.
+ * effectively, within a single publisher this subscriber does not have to be aware of concurrent effects
  *
  * @param <V> The value that will be received
  */

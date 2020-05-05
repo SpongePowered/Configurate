@@ -39,6 +39,7 @@ import java.util.Set;
 
 /**
  * A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.
+ *
  */
 public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 

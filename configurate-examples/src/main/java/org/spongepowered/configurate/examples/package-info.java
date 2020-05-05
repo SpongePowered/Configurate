@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
+ * Configurate usage examples. Non-API
+ * <p>
+ * These are some examples of how to use Configurate, provided for informational purposes only. These may change at any
+ * time as new best practices are developed.
  */
-@DefaultQualifier(NonNull.class)
-package org.spongepowered.configurate.xml;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package org.spongepowered.configurate.examples;

@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
+ * Base infrastructure for configuration loaders
+ * <p>
+ * A configuration loader is responsible for converting between the location of a serialized form (a file, string, or
+ * URL) and a {@link org.spongepowered.configurate.ConfigurationNode}. Most loader implementations will want to extend
+ * {@link org.spongepowered.configurate.loader.AbstractConfigurationLoader} in order to gain some standard abilities.
+ * Any binary formats may want to use other solutions, since the abstract loader assumes in many places that
+ * configuration files are text files.
  */
-@DefaultQualifier(NonNull.class)
-package org.spongepowered.configurate.xml;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package org.spongepowered.configurate.loader;

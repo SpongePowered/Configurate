@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
+ * Configuration loader for the <a href="https://www.json.org/json-en.html">JSON</a> format using <a
+ * href="https://github.com/FasterXML/jackson">Jackson</a>, plus supports
  */
-@DefaultQualifier(NonNull.class)
-package org.spongepowered.configurate.xml;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package org.spongepowered.configurate.jackson;

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
+ * Configuration tree transformations
+ * <p>
+ * Transformations in this package can be used to evolve a configuration structure over time. Builders are in the {@link
+ * org.spongepowered.configurate.transformation.ConfigurationTransformation} class, and provide simple, chained, and
+ * versioned transformations for any node.
  */
-@DefaultQualifier(NonNull.class)
-package org.spongepowered.configurate.xml;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package org.spongepowered.configurate.transformation;
