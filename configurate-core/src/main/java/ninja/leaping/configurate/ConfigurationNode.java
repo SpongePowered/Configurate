@@ -160,8 +160,10 @@ public interface ConfigurationNode {
      * Gets the value type of this node.
      *
      * @return The value type
+     * @deprecated Use {@link ConfigurationNode#isList()} and {@link ConfigurationNode#isMap()} for the same information
      */
     @NonNull
+    @Deprecated
     ValueType getValueType();
 
     /**

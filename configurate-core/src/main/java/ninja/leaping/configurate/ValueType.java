@@ -18,7 +18,10 @@ package ninja.leaping.configurate;
 
 /**
  * An enumeration of the types of value a {@link ConfigurationNode} can hold.
+ *
+ * @deprecated Use {@link ConfigurationNode#isList()} and {@link ConfigurationNode#isMap()} for the same information
  */
+@Deprecated
 public enum ValueType {
 
     /**

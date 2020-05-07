@@ -30,7 +30,7 @@ public interface TransformAction {
      * Called at a certain path, with the node at that path.
      *
      * <p>The state of the <code>inputPath</code> is only guaranteed to be accurate during a run of
-     * the transform function. Use {@link NodePath#getArray()} if it's state needs to be stored.</p>
+     * the transform function. Use {@link NodePath#getArray()} if its' state needs to be stored.</p>
      *
      * @param inputPath The path of the given node
      * @param valueAtPath The node at the input path. May be modified
