@@ -32,7 +32,7 @@ import java.util.function.Predicate;
 final class SuperTypePredicate implements Predicate<TypeToken<?>> {
     private static final MethodHandle SUPERTYPE_TEST;
     static {
-        MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
         MethodType type = MethodType.methodType(boolean.class, TypeToken.class);
         MethodHandle supertypeTest;
         try {
