@@ -126,6 +126,17 @@ public class TypeSerializerCollection {
         return this;
     }
 
+    /**
+     * Register a scalar serializer under its appropriate type. Serializers registered will match all subclasses
+     *
+     * @param serializer The serializer that will be serialized with
+     * @param <T>        The type to generify around
+     * @return this
+     */
+    public <T> TypeSerializerCollection register(ScalarSerializer<T> serializer) {
+        return register(serializer.type(), serializer);
+    }
+
     public TypeSerializerCollection newChild() {
         return new TypeSerializerCollection(this);
     }
