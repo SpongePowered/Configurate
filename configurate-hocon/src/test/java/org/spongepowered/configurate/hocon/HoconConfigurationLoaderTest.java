@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 
 /**
  * Basic sanity checks for the loader
@@ -73,7 +74,6 @@ public class HoconConfigurationLoaderTest {
                 .setURL(getClass().getResource("/splitline-comment-input.conf"))
                 .build();
         CommentedConfigurationNode node = loader.load();
-        System.out.println(node.getOptions().getHeader());
         loader.save(node);
 
         assertEquals(Resources.readLines(getClass().getResource("/splitline-comment-output.conf"), StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
@@ -121,5 +121,23 @@ public class HoconConfigurationLoaderTest {
     public void testNewConfigList() {
         List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
         HoconConfigurationLoader.newConfigList(entries);
+    }
+
+    @Test
+    public void testRoundtripAndMergeEmpty(@TempDirectory.TempDir Path tempDir) throws IOException {
+        // https://github.com/SpongePowered/Configurate/issues/44
+        final URL rsrc = getClass().getResource("/empty-values.conf");
+        final Path output = tempDir.resolve("load-merge-empty.conf");
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setPath(output)
+                .setURL(rsrc).build();
+
+        CommentedConfigurationNode source = loader.load();
+        CommentedConfigurationNode destination = loader.createEmptyNode();
+        destination.mergeValuesFrom(source);
+        loader.save(source);
+        assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+        loader.save(destination);
+        assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }
 }
