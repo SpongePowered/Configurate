@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.hocon;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -43,6 +42,7 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -184,7 +184,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
         switch (value.valueType()) {
             case OBJECT:
                 if (((ConfigObject) value).isEmpty()) {
-                    node.setValue(ImmutableMap.of());
+                    node.setValue(Collections.emptyMap());
                 } else {
                     for (Map.Entry<String, ConfigValue> ent : ((ConfigObject) value).entrySet()) {
                         readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
@@ -193,8 +193,12 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
                 break;
             case LIST:
                 List<ConfigValue> values = (ConfigList) value;
-                for (int i = 0; i < values.size(); ++i) {
-                    readConfigValue(values.get(i), node.getNode(i));
+                if (values.isEmpty()) {
+                    node.setValue(Collections.emptyList());
+                } else {
+                    for (int i = 0; i < values.size(); ++i) {
+                        readConfigValue(values.get(i), node.getNode(i));
+                    }
                 }
                 break;
             case NULL:
