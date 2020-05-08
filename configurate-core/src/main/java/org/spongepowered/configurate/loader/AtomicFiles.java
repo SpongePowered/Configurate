@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static java.util.Objects.requireNonNull;
 
@@ -76,7 +77,7 @@ public final class AtomicFiles {
 
     @NonNull
     private static Path getTemporaryPath(@NonNull Path parent, @NonNull String key) {
-        String fileName = System.nanoTime() + requireNonNull(key, "key").replaceAll("\\\\|/|:",
+        String fileName = System.nanoTime() + ThreadLocalRandom.current().nextInt() + requireNonNull(key, "key").replaceAll("\\\\|/|:",
                 "-") + ".tmp";
         return parent.resolve(fileName);
     }
