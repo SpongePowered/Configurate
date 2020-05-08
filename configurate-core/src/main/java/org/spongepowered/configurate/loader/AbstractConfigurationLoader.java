@@ -134,7 +134,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         }
         try (BufferedReader reader = source.call()) {
             if (headerMode == HeaderMode.PRESERVE || headerMode == HeaderMode.NONE) {
-                String comment = CommentHandlers.extractComment(reader, commentHandlers);
+                @Nullable String comment = CommentHandlers.extractComment(reader, commentHandlers);
                 if (comment != null && comment.length() > 0) {
                     options = options.withHeader(comment);
                 }

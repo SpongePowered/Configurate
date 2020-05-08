@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -53,8 +54,7 @@ public enum CommentHandlers implements CommentHandler {
     XML_STYLE(new AbstractDelineatedHandler("<!--", "-->", "~"));
 
     /**
-     * Limit on the number of characters that may be read by a comment handler while still
-     * preserving the mark.
+     * Limit on the number of characters that may be read by a comment handler while still preserving the mark.
      */
     private static final int READAHEAD_LEN = 4096;
 
@@ -79,7 +79,7 @@ public enum CommentHandlers implements CommentHandler {
     /**
      * Uses provided comment handlers to extract a comment from the reader.
      *
-     * @param reader The reader
+     * @param reader             The reader
      * @param allowedHeaderTypes The handlers to try
      * @return The extracted comment, or null if a comment could not be extracted
      * @throws IOException If an IO error occurs
@@ -112,15 +112,15 @@ public enum CommentHandlers implements CommentHandler {
         @NonNull
         @Override
         public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
+            if (!beginsWithPrefix(this.startSequence, reader)) {
+                return Optional.empty();
+            }
+
             final StringBuilder build = new StringBuilder();
             String line = reader.readLine();
             if (line == null) {
                 return Optional.empty();
             }
-            if (!line.trim().startsWith(startSequence)) {
-                return Optional.empty();
-            }
-            line = line.substring(line.indexOf(startSequence) + startSequence.length());
             if (handleSingleLine(build, line)) {
                 for (line = reader.readLine(); line != null; line = reader.readLine()) {
                     if (!handleSingleLine(build, line)) {
@@ -193,10 +193,16 @@ public enum CommentHandlers implements CommentHandler {
         @NonNull
         @Override
         public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
+            if (!beginsWithPrefix(commentPrefix, reader)) {
+                return Optional.empty();
+            }
+            boolean firstLine = true;
+
             StringBuilder build = new StringBuilder();
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                if (line.trim().startsWith(commentPrefix)) {
-                    line = line.substring(line.indexOf(commentPrefix) + 1);
+                if (firstLine || line.trim().startsWith(commentPrefix)) {
+                    line = firstLine ? line : line.substring(line.indexOf(commentPrefix) + 1);
+                    firstLine = false;
                     if (line.startsWith(" ")) {
                         line = line.substring(1);
                     }
@@ -227,6 +233,19 @@ public enum CommentHandlers implements CommentHandler {
                 }
             });
         }
+    }
+
+    /**
+     * Consumes the length of the comment prefix from the reader and returns whether or not the contents from the reader
+     * matches the expected prefix.
+     */
+    static boolean beginsWithPrefix(String commentPrefix, BufferedReader reader) throws IOException {
+        final CharBuffer buf = CharBuffer.allocate(commentPrefix.length());
+        if (reader.read(buf) != buf.limit()) {
+            return false;
+        }
+        buf.flip();
+        return commentPrefix.contentEquals(buf);
     }
 
 }
