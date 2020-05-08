@@ -165,6 +165,7 @@ public class HoconConfigurationLoaderTest {
         final URL rsrc = getClass().getResource("/empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setDefaultOptions(o -> o.withShouldCopyDefaults(true))
                 .setPath(output)
                 .setURL(rsrc).build();
 

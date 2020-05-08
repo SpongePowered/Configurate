@@ -27,6 +27,7 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -129,14 +130,14 @@ public class ObjectMapper<T> {
         }
 
         public <Node extends ScopedConfigurationNode<Node>> void deserializeFrom(Object instance, Node node) throws ObjectMappingException {
-            TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
+            @Nullable TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
             if (serial == null) {
                 throw new ObjectMappingException("No TypeSerializer found for field " + field.getName() + " of type "
                         + this.fieldType);
             }
-            Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
+            @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
             try {
-                if (newVal == null) {
+                if (newVal == null && node.getOptions().shouldCopyDefaults()) {
                     Object existingVal = field.get(instance);
                     if (existingVal != null) {
                         serializeTo(instance, node);
@@ -197,6 +198,10 @@ public class ObjectMapper<T> {
             for (Map.Entry<String, FieldData> ent : cachedFields.entrySet()) {
                 Node node = source.getNode(ent.getKey());
                 ent.getValue().deserializeFrom(boundInstance, node);
+            }
+
+            if (source.isVirtual()) { // we didn't save anything
+                source.setValue(Collections.emptyMap());
             }
             return boundInstance;
         }

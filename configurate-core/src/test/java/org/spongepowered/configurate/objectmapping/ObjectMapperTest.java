@@ -67,9 +67,20 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testDefaultsApplied() throws ObjectMappingException {
+    public void testDefaultsNotAppiledUnlessCopyDefaults() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
+        final TestObject instance = new TestObject();
+
+        instance.stringVal = "hi";
+        mapper.bind(instance).populate(source);
+        assertTrue(source.getNode("test-key").isVirtual());
+    }
+
+    @Test
+    public void testDefaultsApplied() throws ObjectMappingException {
+        final ObjectMapper<TestObject> mapper = ObjectMapper.forClass(TestObject.class);
+        final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         final TestObject instance = new TestObject();
 
         instance.stringVal = "hi";
@@ -159,7 +170,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testNestedObjectWithComments() throws ObjectMappingException {
-        CommentedConfigurationNode node = CommentedConfigurationNode.root();
+        CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         final ObjectMapper<ParentObject>.BoundInstance mapper = ObjectMapper.forObject(new ParentObject());
         mapper.populate(node);
         assertEquals("Comment on parent", node.getNode("inner").getComment().get());
