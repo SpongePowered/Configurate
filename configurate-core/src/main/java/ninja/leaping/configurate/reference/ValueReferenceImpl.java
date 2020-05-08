@@ -19,20 +19,19 @@ package ninja.leaping.configurate.reference;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.checker.nullness.qual.PolyNull;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ninja.leaping.configurate.reactive.Disposable;
 import ninja.leaping.configurate.reactive.Publisher;
 import ninja.leaping.configurate.reactive.Subscriber;
 import ninja.leaping.configurate.reactive.TransactionFailedException;
 import ninja.leaping.configurate.reference.ConfigurationReference.ErrorPhase;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import ninja.leaping.configurate.transformation.NodePath;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
+import java.util.function.Function;
 
 class ValueReferenceImpl<@Nullable T> implements ValueReference<T>, Publisher<T> {
     // Information about the reference
@@ -67,7 +66,7 @@ class ValueReferenceImpl<@Nullable T> implements ValueReference<T>, Publisher<T>
         this(root, path, TypeToken.of(type), def);
     }
 
-    private @PolyNull T deserializedValueFrom(ConfigurationNode parent, @PolyNull T defaultVal) throws ObjectMappingException {
+    private @Nullable T deserializedValueFrom(ConfigurationNode parent, @Nullable T defaultVal) throws ObjectMappingException {
         ConfigurationNode node = parent.getNode(path);
         @Nullable T possible = serializer.deserialize(type, node);
         if (possible != null) {
@@ -106,6 +105,38 @@ class ValueReferenceImpl<@Nullable T> implements ValueReference<T>, Publisher<T>
             root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
         }
         return false;
+    }
+
+    @Override
+    public Publisher<Boolean> setAndSaveAsync(@Nullable T value) {
+        return Publisher.execute(() -> {
+            serializer.serialize(type, value, getNode());
+            deserialized.submit(value);
+            root.save();
+            return true;
+        }, root.updates().getExecutor());
+    }
+
+    @Override
+    public boolean update(Function<@Nullable T, ? extends T> action) {
+        try {
+            return set(action.apply(get()));
+        } catch (Throwable t) {
+            root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, t));
+            return false;
+        }
+    }
+
+    @Override
+    public Publisher<Boolean> updateAsync(Function<T, ? extends T> action) {
+        return Publisher.execute(() -> {
+            @Nullable T orig = get();
+            T updated = action.apply(orig);
+            serializer.serialize(type, updated, getNode());
+            deserialized.submit(updated);
+            root.save();
+            return true;
+        }, root.updates().getExecutor());
     }
 
     @Override
