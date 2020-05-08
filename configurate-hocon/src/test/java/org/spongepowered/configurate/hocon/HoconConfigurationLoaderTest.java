@@ -19,14 +19,19 @@ package org.spongepowered.configurate.hocon;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
+import com.google.common.reflect.TypeToken;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
-import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
+import org.spongepowered.configurate.objectmapping.ObjectMapper;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.objectmapping.Setting;
+import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +40,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,6 +144,33 @@ public class HoconConfigurationLoaderTest {
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
         loader.save(destination);
+        assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+    }
+
+    static class OuterConfig {
+        static TypeToken<OuterConfig> TYPE = TypeToken.of(OuterConfig.class);
+        @Setting
+        private Section section = new Section();
+    }
+
+    @ConfigSerializable
+    static class Section {
+        @Setting
+        private Map<String, String> aliases = new HashMap<>();
+    }
+
+    @Test
+    public void testCreateEmptyObjectmappingSection(@TempDirectory.TempDir Path tempDir) throws IOException, ObjectMappingException {
+        // https://github.com/SpongePowered/Configurate/issues/40
+        final URL rsrc = getClass().getResource("/empty-section.conf");
+        final Path output = tempDir.resolve("empty-section.conf");
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setPath(output)
+                .setURL(rsrc).build();
+
+        CommentedConfigurationNode source = loader.createEmptyNode();
+        ObjectMapper.forType(OuterConfig.TYPE).bindToNew().populate(source);
+        loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }
 }
