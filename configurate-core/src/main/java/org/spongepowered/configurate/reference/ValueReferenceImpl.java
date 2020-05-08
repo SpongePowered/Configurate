@@ -32,6 +32,7 @@ import org.spongepowered.configurate.transformation.NodePath;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;
+import java.util.function.Function;
 
 class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Publisher<T> {
     // Information about the reference
@@ -66,7 +67,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         this(root, path, TypeToken.of(type), def);
     }
 
-    private @PolyNull T deserializedValueFrom(N parent, @PolyNull T defaultVal) throws ObjectMappingException {
+    private @Nullable T deserializedValueFrom(N parent, @Nullable T defaultVal) throws ObjectMappingException {
         N node = parent.getNode(path);
         @Nullable T possible = serializer.deserialize(type, node);
         if (possible != null) {
@@ -105,6 +106,38 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
             root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
         }
         return false;
+    }
+
+    @Override
+    public Publisher<Boolean> setAndSaveAsync(@Nullable T value) {
+        return Publisher.execute(() -> {
+            serializer.serialize(type, value, getNode());
+            deserialized.submit(value);
+            root.save();
+            return true;
+        }, root.updates().getExecutor());
+    }
+
+    @Override
+    public boolean update(Function<@Nullable T, ? extends T> action) {
+        try {
+            return set(action.apply(get()));
+        } catch (Throwable t) {
+            root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, t));
+            return false;
+        }
+    }
+
+    @Override
+    public Publisher<Boolean> updateAsync(Function<T, ? extends T> action) {
+        return Publisher.execute(() -> {
+            @Nullable T orig = get();
+            T updated = action.apply(orig);
+            serializer.serialize(type, updated, getNode());
+            deserialized.submit(updated);
+            root.save();
+            return true;
+        }, root.updates().getExecutor());
     }
 
     @Override

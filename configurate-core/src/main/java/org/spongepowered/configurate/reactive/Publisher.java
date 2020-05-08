@@ -18,8 +18,12 @@ package org.spongepowered.configurate.reactive;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedFunction;
+import org.spongepowered.configurate.util.CheckedSupplier;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Something that can publish events.
@@ -30,6 +34,34 @@ import java.util.concurrent.Executor;
  * @param <V> The type of notification received by subscribers
  */
 public interface Publisher<V> {
+    /**
+     * Execute an action returning a single value on the common {@link ForkJoinPool}, and pass the result to any subscribers.
+     *
+     * Subscribers who only begin subscribing after the operation has been completed will receive the result of the operation.
+     *
+     * @param action The action to perform
+     * @param <V> returned value type
+     * @param <E> exception thrown
+     * @return a publisher
+     */
+    static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action) {
+        return execute(action, ForkJoinPool.commonPool());
+    }
+
+    /**
+     * Execute an action returning a single value on the provided {@link Executor}, and pass the result to any subscribers.
+     *
+     * Subscribers who only begin subscribing after the operation has been completed will receive the result of the operation.
+     *
+     * @param action The action to perform
+     * @param executor The executor to perform this operation on
+     * @param <V> returned value type
+     * @param <E> exception thrown
+     * @return a publisher
+     */
+    static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action, Executor executor) {
+        return new PublisherExecute<>(requireNonNull(action, "action"), requireNonNull(executor, "executor"));
+    }
 
     /**
      * Subscribe to updates from this Publisher. If this is already closed, the Subscriber will receive an error event
