@@ -86,20 +86,21 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                     }
                 }
             }
-            val mavenPublication = publishing.publications.getByName("maven") as MavenPublication
-
+            val mavenPublication = publishing.publications.named("maven", MavenPublication::class.java)
             afterEvaluate {
-                for (cb in configurateExtension.configureFunctions) {
-                    mavenPublication.cb()
+                mavenPublication.configure {pub ->
+                    for (cb in configurateExtension.configureFunctions) {
+                        pub.cb()
+                    }
                 }
             }
 
             extensions.configure(SigningExtension::class.java) {
                 it.useGpgCmd()
-                it.sign(mavenPublication)
+                it.sign(publishing.publications)
             }
 
-            tasks.withType(Sign::class.java) {
+            tasks.withType(Sign::class.java).configureEach {
                 it.onlyIf {
                     val version = project.version.toString()
                     val forceSign = findProperty("forceSign") as Boolean? ?: false
