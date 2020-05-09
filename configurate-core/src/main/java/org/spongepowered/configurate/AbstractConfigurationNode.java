@@ -79,7 +79,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         this.key = key;
         this.options = options;
         this.parent = parent;
-        this.value = new NullConfigValue<>(implSelf());
+        this.value = NullConfigValue.instance();
 
         // if the parent is null, this node is a root node, and is therefore "attached"
         if (parent == null) {
@@ -600,7 +600,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     protected void clear() {
         synchronized (this) {
             ConfigValue<N, A> oldValue = this.value;
-            value = new NullConfigValue<>(implSelf());
+            value = NullConfigValue.instance();
             oldValue.clear();
         }
     }

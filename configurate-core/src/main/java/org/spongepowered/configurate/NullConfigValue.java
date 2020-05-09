@@ -25,8 +25,17 @@ import java.util.Collections;
  * A {@link ConfigValue} which holds no value.
  */
 class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
-    NullConfigValue(T holder) {
-        super(holder);
+    @SuppressWarnings("rawtypes")
+    private static final NullConfigValue INSTANCE = new NullConfigValue();
+
+    @SuppressWarnings("unchecked")
+    static <N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> NullConfigValue<N, A> instance() {
+        return (NullConfigValue<N, A>) INSTANCE;
+    }
+
+    @SuppressWarnings({"ConstantConditions"})
+    private NullConfigValue() {
+        super(null);
     }
 
     @Nullable
@@ -66,7 +75,7 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     @NonNull
     @Override
     NullConfigValue<N, T> copy(@NonNull T holder) {
-        return new NullConfigValue<>(holder);
+        return instance();
     }
 
     @Override
@@ -76,7 +85,6 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
 
     @Override
     public void clear() {
-
     }
 
     @Override
