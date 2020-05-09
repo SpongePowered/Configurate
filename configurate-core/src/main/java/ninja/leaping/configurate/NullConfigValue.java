@@ -25,9 +25,17 @@ import java.util.Collections;
  * A {@link ConfigValue} which holds no value.
  */
 class NullConfigValue extends ConfigValue {
-    NullConfigValue(SimpleConfigurationNode holder) {
-        super(holder);
+    private static final NullConfigValue INSTANCE = new NullConfigValue();
+
+    static NullConfigValue instance() {
+        return INSTANCE;
     }
+
+    @SuppressWarnings({"ConstantConditions"})
+    private NullConfigValue() {
+        super(null);
+    }
+
 
     @Override
     ValueType getType() {
@@ -71,7 +79,7 @@ class NullConfigValue extends ConfigValue {
     @NonNull
     @Override
     NullConfigValue copy(@NonNull SimpleConfigurationNode holder) {
-        return new NullConfigValue(holder);
+        return instance();
     }
 
     @Override
@@ -81,7 +89,6 @@ class NullConfigValue extends ConfigValue {
 
     @Override
     public void clear() {
-
     }
 
     @Override

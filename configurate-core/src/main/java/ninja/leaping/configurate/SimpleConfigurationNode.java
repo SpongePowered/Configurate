@@ -103,7 +103,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         this.key = key;
         this.options = options;
         this.parent = parent;
-        this.value = new NullConfigValue(this);
+        this.value = NullConfigValue.instance();
 
         // if the parent is null, this node is a root node, and is therefore "attached"
         if (parent == null) {
@@ -619,7 +619,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     protected void clear() {
         synchronized (this) {
             ConfigValue oldValue = this.value;
-            value = new NullConfigValue(this);
+            value = NullConfigValue.instance();
             oldValue.clear();
         }
     }
