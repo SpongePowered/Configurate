@@ -42,7 +42,7 @@ import static java.util.Objects.requireNonNull;
  *
  * <p>This class is immutable.</p>
  */
-public final class ConfigurationOptions {
+public class ConfigurationOptions {
     private static final ConfigurationOptions DEFAULTS = new ConfigurationOptions(MapFactories.insertionOrdered(), null,
         TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
     @NonNull private final MapFactory mapFactory;

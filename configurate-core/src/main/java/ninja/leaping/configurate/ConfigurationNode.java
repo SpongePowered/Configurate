@@ -222,7 +222,19 @@ public interface ConfigurationNode {
      *
      * @return Whether this node is empty
      */
-    boolean isEmpty();
+    default boolean isEmpty() { // backwards compat
+        if (isVirtual()) {
+            return true;
+        }
+
+        if (isMap()) {
+            return getChildrenMap().isEmpty();
+        } else if (isList()) {
+            return getChildrenList().isEmpty();
+        } else {
+            return getValue() != null;
+        }
+    }
 
     /**
      * Gets the "list children" attached to this node, if it has any.
@@ -735,7 +747,9 @@ public interface ConfigurationNode {
      * @throws E when throw by visitor implementation
      * @return The returned terminal from the visitor
      */
-    <S, T, E extends Exception> T visit(ConfigurationVisitor<S, T, E> visitor, S state) throws E;
+    default <S, T, E extends Exception> T visit(ConfigurationVisitor<S, T, E> visitor, S state) throws E {
+        throw new UnsupportedOperationException("Nodes of type " + getClass() + " do not support visitations!");
+    }
 
     /**
      * Visit this node hierarchy as described in {@link ConfigurationVisitor}
@@ -760,6 +774,8 @@ public interface ConfigurationNode {
      * @param <S> The state type
      * @return The returned terminal from the visitor
      */
-    <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor, S state);
+    default <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor, S state) {
+        throw new UnsupportedOperationException("Nodes of type " + getClass() + " do not support visitations!");
+    }
 
 }

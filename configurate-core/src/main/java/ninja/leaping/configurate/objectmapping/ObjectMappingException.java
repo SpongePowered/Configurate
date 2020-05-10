@@ -20,7 +20,7 @@ package ninja.leaping.configurate.objectmapping;
  * Exception thrown on errors encountered while mapping objects
  */
 public class ObjectMappingException extends Exception {
-    public static final long serialVersionUID = 2310268704411616686L;
+    public static final long serialVersionUID = 7549002182650685930L;
     public ObjectMappingException() {
         super();
     }

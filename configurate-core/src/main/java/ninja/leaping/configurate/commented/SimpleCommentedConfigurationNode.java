@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
 public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {
-    protected final AtomicReference<String> comment = new AtomicReference<>();
+    private final AtomicReference<String> comment = new AtomicReference<>();
 
     /**
      * Create a new node with no parent.

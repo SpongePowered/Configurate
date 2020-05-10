@@ -77,7 +77,12 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
      * @return this
      */
     @NonNull
-    CommentedConfigurationNode setCommentIfAbsent(String comment);
+    default CommentedConfigurationNode setCommentIfAbsent(String comment) {
+        if (!getComment().isPresent()) { // backwards compat
+            setComment(comment);
+        }
+        return this;
+    }
 
     // Methods from superclass overridden to have correct return types
     @Nullable @Override CommentedConfigurationNode getParent();
@@ -86,7 +91,9 @@ public interface CommentedConfigurationNode extends ConfigurationNode {
     @NonNull @Override CommentedConfigurationNode setValue(@Nullable Object value);
     @NonNull @Override CommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
     @NonNull @Override @Deprecated CommentedConfigurationNode getAppendedNode();
-    @NonNull @Override CommentedConfigurationNode appendListNode();
+    @NonNull @Override default CommentedConfigurationNode appendListNode() {
+        return getAppendedNode();
+    }
     @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);
     @NonNull @Override CommentedConfigurationNode copy();
 

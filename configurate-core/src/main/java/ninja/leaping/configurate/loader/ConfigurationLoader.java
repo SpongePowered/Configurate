@@ -69,7 +69,9 @@ public interface ConfigurationLoader<NodeType extends ConfigurationNode> {
      * @throws IOException when an error occurs within the loader
      * @see ninja.leaping.configurate.reference.WatchServiceListener#listenToConfiguration(Function, Path) to create an auto-reloading configuration.
      */
-    ConfigurationReference<NodeType> loadToReference() throws IOException;
+    default ConfigurationReference<NodeType> loadToReference() throws IOException {
+        return ConfigurationReference.createFixed(this);
+    }
 
     /**
      * Attempts to load a {@link ConfigurationNode} using this loader, from the defined source.

@@ -24,6 +24,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -177,15 +178,24 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNode 
     @NonNull
     Map<String, String> getAttributes();
 
+    @Override
+    default @NonNull Optional<String> getComment() {
+        return Optional.empty();
+    }
+
     // Methods from superclass overridden to have correct return types
     @Nullable @Override AttributedConfigurationNode getParent();
     @NonNull @Override List<? extends AttributedConfigurationNode> getChildrenList();
     @NonNull @Override Map<Object, ? extends AttributedConfigurationNode> getChildrenMap();
-    @NonNull @Override AttributedConfigurationNode setComment(@Nullable String value);
+    @Override default @NonNull AttributedConfigurationNode setComment(@Nullable String value) {
+        return this; // backwards compatibility
+    }
     @NonNull @Override AttributedConfigurationNode setValue(@Nullable Object value);
     @NonNull @Override AttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);
     @NonNull @Override @Deprecated AttributedConfigurationNode getAppendedNode();
-    @NonNull @Override AttributedConfigurationNode appendListNode();
+    @Override default @NonNull AttributedConfigurationNode appendListNode() {
+        return getAppendedNode();
+    }
     @NonNull @Override AttributedConfigurationNode getNode(@NonNull Object... path);
     @NonNull @Override AttributedConfigurationNode copy();
 

@@ -17,7 +17,6 @@
 package ninja.leaping.configurate.objectmapping;
 
 import com.google.common.reflect.Invokable;
-import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -25,7 +24,8 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -121,7 +121,7 @@ public class ObjectMapper<T> {
         private final TypeToken<?> fieldType;
         private final String comment;
 
-        public FieldData(Field field, String comment) {
+        public FieldData(Field field, String comment) throws ObjectMappingException {
             this(field, comment, TypeToken.of(field.getGenericType()));
         }
 
