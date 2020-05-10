@@ -29,7 +29,7 @@
  * submitted} to the Processor will be forwarded to every registered subscriber.
  * <p>
  * A unique feature of Configurate's reactive listeners is the ability to have transactional subscribers. A {@link
- * ninja.leaping.configurate.reactive.SubscriberTransactional} will receive a new value, followed by either a commit
+ * ninja.leaping.configurate.reactive.TransactionalSubscriber} will receive a new value, followed by either a commit
  * or rollback notification. When subscribing to a transactional processor, all subscribers must accept the new value before it's committed.
  * <p>
  * In many cases, it is best to only expose the {@link ninja.leaping.configurate.reactive.Publisher} side of the

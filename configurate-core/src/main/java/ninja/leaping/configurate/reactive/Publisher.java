@@ -60,7 +60,7 @@ public interface Publisher<V> {
      * @return a publisher
      */
     static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action, Executor executor) {
-        return new PublisherExecute<>(requireNonNull(action, "action"), requireNonNull(executor, "executor"));
+        return new ExecutePublisher<>(requireNonNull(action, "action"), requireNonNull(executor, "executor"));
     }
 
     /**
@@ -82,7 +82,7 @@ public interface Publisher<V> {
     boolean hasSubscribers();
 
     default <R> Publisher<R> map(CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
-        return new ProcessorMapped<>(mapper, this);
+        return new MappedProcessor<>(mapper, this);
     }
 
     /**

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TestProcessorTransactional {
+public class ProcessorTransactionalTest {
 
     private <V> Processor.TransactionalIso<V> create() {
         return Processor.createTransactional(Runnable::run);
@@ -32,7 +32,7 @@ public class TestProcessorTransactional {
     @Test
     public void testTransaction() {
         final Processor.TransactionalIso<String> proc = create();
-        final SubscriberTransactionalTest subject = new SubscriberTransactionalTest();
+        final TestTransactionalSubscriber subject = new TestTransactionalSubscriber();
 
         proc.subscribe(subject);
         proc.submit("test");
@@ -43,7 +43,7 @@ public class TestProcessorTransactional {
     @Test
     public void testFailureRollsBack() {
         final Processor.TransactionalIso<String> proc = create();
-        final SubscriberTransactionalTest subject = new SubscriberTransactionalTest();
+        final TestTransactionalSubscriber subject = new TestTransactionalSubscriber();
 
         proc.subscribe(subject);
         proc.submit("test");
@@ -56,8 +56,8 @@ public class TestProcessorTransactional {
     @Test
     public void testFailurePreventsCommits() {
         final Processor.TransactionalIso<String> proc = create();
-        final SubscriberTransactionalTest subject1 = new SubscriberTransactionalTest();
-        final SubscriberTransactionalTest subject2 = new SubscriberTransactionalTest();
+        final TestTransactionalSubscriber subject1 = new TestTransactionalSubscriber();
+        final TestTransactionalSubscriber subject2 = new TestTransactionalSubscriber();
         proc.subscribe(subject1);
         proc.subscribe(subject2);
 
@@ -75,7 +75,7 @@ public class TestProcessorTransactional {
         assertEquals(1, subject2.rollBackCount);
     }
 
-    static class SubscriberTransactionalTest implements SubscriberTransactional<String> {
+    static class TestTransactionalSubscriber implements TransactionalSubscriber<String> {
         boolean shouldThrow = false;
         @MonotonicNonNull String value;
         @Nullable String nextValue;

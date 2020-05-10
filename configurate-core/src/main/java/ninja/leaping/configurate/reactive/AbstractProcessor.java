@@ -31,14 +31,14 @@ import java.util.function.Consumer;
  * @param <V> value type
  * @param <R> registration type
  */
-abstract class ProcessorAbstract<V, R extends ProcessorAbstract.Registration<V>> implements Processor.Iso<V> {
+abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>> implements Processor.Iso<V> {
     private static final int CLOSED_VALUE = Integer.MIN_VALUE / 2;
     final AtomicInteger subscriberCount = new AtomicInteger();
     volatile @Nullable Subscriber<V> fallbackHandler;
     protected final Set<R> registrations = ConcurrentHashMap.newKeySet();
     protected final Executor executor;
 
-    protected ProcessorAbstract(Executor executor) {
+    protected AbstractProcessor(Executor executor) {
         this.executor = executor;
     }
 
@@ -54,7 +54,7 @@ abstract class ProcessorAbstract<V, R extends ProcessorAbstract.Registration<V>>
             subscriber.onError(new IllegalStateException("Processor " + this + " is already " +
                     "closed!"));
             this.subscriberCount.set(CLOSED_VALUE);
-            return DisposableNoOp.INSTANCE;
+            return NoOpDisposable.INSTANCE;
         }
         R reg = createRegistration(subscriber);
         this.registrations.add(reg);

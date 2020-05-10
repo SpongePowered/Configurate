@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.concurrent.Executor;
 
 // Java 9 has reactive API... but we can't use that :(
-class ProcessorImpl<V> extends ProcessorAbstract<V, RegistrationImpl<V>> implements Processor.Iso<V> {
+class ProcessorImpl<V> extends AbstractProcessor<V, RegistrationImpl<V>> implements Processor.Iso<V> {
 
     ProcessorImpl(Executor exec) {
         super(exec);

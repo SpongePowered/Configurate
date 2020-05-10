@@ -47,7 +47,7 @@ class PublisherCached<V> implements Publisher.Cached<V>, AutoCloseable {
     @Override
     public Disposable subscribe(final Subscriber<? super V> subscriber) {
         final Disposable disp = this.parent.subscribe(subscriber);
-        if (disp != DisposableNoOp.INSTANCE) {
+        if (disp != NoOpDisposable.INSTANCE) {
             this.subscribers.add(subscriber);
             final V value = this.value;
             if (value != null) {

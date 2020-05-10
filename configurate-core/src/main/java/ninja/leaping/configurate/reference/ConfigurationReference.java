@@ -21,7 +21,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.reactive.Publisher;
-import ninja.leaping.configurate.reactive.SubscriberTransactional;
+import ninja.leaping.configurate.reactive.TransactionalSubscriber;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.IOException;
@@ -211,7 +211,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
 
     /**
      * Access the {@link Publisher} that will broadcast update events, providing the newly created node.
-     * The returned publisher will be transaction-aware, i.e. any {@link SubscriberTransactional} attached will progress through their phases appropriately
+     * The returned publisher will be transaction-aware, i.e. any {@link TransactionalSubscriber} attached will progress through their phases appropriately
      *
      * @return The publisher
      */

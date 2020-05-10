@@ -20,7 +20,7 @@ package ninja.leaping.configurate.reactive;
  * A registration for non-transactional processors
  * @param <V> The value type
  */
-class RegistrationImpl<V> implements ProcessorAbstract.Registration<V> {
+class RegistrationImpl<V> implements AbstractProcessor.Registration<V> {
     final ProcessorImpl<V> holder;
     final Subscriber<? super V> subscriber;
 
