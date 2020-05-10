@@ -17,6 +17,7 @@
 package ninja.leaping.configurate;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -49,7 +50,7 @@ import java.util.function.Supplier;
  * <p>The overall configuration stems from a single "root" node, which is provided by the
  * {@link ConfigurationLoader}, or by other means programmatically.</p>
  *
- * <p>This is effectively the main class of configurate.</p>
+ * <p>This is effectively the main class of Configurate.</p>
  */
 public interface ConfigurationNode {
     int NUMBER_DEF = 0;
@@ -138,6 +139,26 @@ public interface ConfigurationNode {
     ConfigurationNode getNode(@NonNull Object... path);
 
     /**
+     * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
+     *
+     * <p>This is the main method used to navigate through the configuration.</p>
+     *
+     * <p>The path parameter effectively consumes an iterable of keys, which locate the unique position
+     * of a given node within the structure.</p>
+     *
+     * <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
+     * structure, a {@link #isVirtual() virtual} node will be returned which represents the
+     * position.</p>
+     *
+     * @param path The path to fetch the node at
+     * @return The node at the given path, possibly virtual
+     */
+    @NonNull
+    default ConfigurationNode getNode(@NonNull Iterable<?> path) {
+        return getNode(Iterables.toArray(path, Object.class));
+    }
+
+    /**
      * Gets if this node is virtual.
      *
      * <p>Virtual nodes are nodes which are not attached to a wider configuration structure.</p>
@@ -218,7 +239,8 @@ public interface ConfigurationNode {
      * </ul>
      *
      * This is a distinct value from {@link #isVirtual()}. Emptiness refers to the value of this node itself,
-     * while virtuality refers to whether or not this node
+     * while virtuality refers to whether or not this node is attached to its parent and the rest of the configuration
+     * structure.
      *
      * @return Whether this node is empty
      */

@@ -397,6 +397,15 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     }
 
     @Override
+    public @NonNull SimpleConfigurationNode getNode(@NonNull Iterable<?> path) {
+        SimpleConfigurationNode pointer = this;
+        for (Object el : path) {
+            pointer = pointer.getChild(el, false);
+        }
+        return pointer;
+    }
+
+    @Override
     public boolean isVirtual() {
         return !attached;
     }
