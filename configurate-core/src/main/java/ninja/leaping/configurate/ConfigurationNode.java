@@ -232,7 +232,7 @@ public interface ConfigurationNode {
         } else if (isList()) {
             return getChildrenList().isEmpty();
         } else {
-            return getValue() != null;
+            return getValue() == null;
         }
     }
 
