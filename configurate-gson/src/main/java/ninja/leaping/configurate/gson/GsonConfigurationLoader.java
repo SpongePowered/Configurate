@@ -228,7 +228,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<Configu
 
     @Override
     public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class));
         return ConfigurationNode.root(options);
     }

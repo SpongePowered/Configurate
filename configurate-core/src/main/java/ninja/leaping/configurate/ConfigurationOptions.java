@@ -17,13 +17,13 @@
 package ninja.leaping.configurate;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.primitives.Primitives;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.DefaultObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.ObjectMapperFactory;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
 import ninja.leaping.configurate.util.MapFactories;
 import ninja.leaping.configurate.util.MapFactory;
-import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -37,19 +37,24 @@ import static java.util.Objects.requireNonNull;
  * This object is a holder for general configuration options.
  *
  * <p>This is meant to hold options that are used in configuring how the configuration data
- * structures are handled, rather than the serialization configuration that is located in
- * {@link ConfigurationLoader}s.</p>
+ * structures are handled, rather than the serialization configuration that is located in {@link
+ * ConfigurationLoader}s.</p>
  *
  * <p>This class is immutable.</p>
  */
 public class ConfigurationOptions {
     private static final ConfigurationOptions DEFAULTS = new ConfigurationOptions(MapFactories.insertionOrdered(), null,
-        TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
-    @NonNull private final MapFactory mapFactory;
-    @Nullable private final String header;
-    @NonNull private final TypeSerializerCollection serializers;
-    @Nullable private final ImmutableSet<Class<?>> acceptedTypes;
-    @NonNull private final ObjectMapperFactory objectMapperFactory;
+            TypeSerializerCollection.defaults(), null, DefaultObjectMapperFactory.getInstance(), false);
+    @NonNull
+    private final MapFactory mapFactory;
+    @Nullable
+    private final String header;
+    @NonNull
+    private final TypeSerializerCollection serializers;
+    @Nullable
+    private final ImmutableSet<Class<?>> acceptedTypes;
+    @NonNull
+    private final ObjectMapperFactory objectMapperFactory;
     private final boolean shouldCopyDefaults;
 
     private ConfigurationOptions(@NonNull MapFactory mapFactory, @Nullable String header, @NonNull TypeSerializerCollection serializers, @Nullable Set<Class<?>> acceptedTypes, @NonNull ObjectMapperFactory objectMapperFactory, boolean shouldCopyDefaults) {
@@ -62,9 +67,9 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Get the default set of options. This may be overridden by your chosen configuration loader,
-     * so when building configurations it is recommended to access
-     * {@code AbstractConfigurationLoader.Builder#getDefaultOptions()} instead.
+     * Get the default set of options. This may be overridden by your chosen configuration loader, so when building
+     * configurations it is recommended to access {@code AbstractConfigurationLoader.Builder#getDefaultOptions()}
+     * instead.
      *
      * @return the default options
      */
@@ -84,8 +89,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link MapFactory}
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link MapFactory} set, and all other
+     * settings copied from this instance.
      *
      * @param mapFactory The new factory to use to create a map
      * @return The new options object
@@ -98,8 +103,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link MapFactory}
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link MapFactory} set, and all other
+     * settings copied from this instance.
      *
      * @param mapFactory The new factory to use to create a map
      * @return The new options object
@@ -124,8 +129,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified header
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified header set, and all other settings copied
+     * from this instance.
      *
      * @param header The new header to use
      * @return The new options object
@@ -136,8 +141,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified header
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified header set, and all other settings copied
+     * from this instance.
      *
      * @param header The new header to use
      * @return The new options object
@@ -161,8 +166,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection}
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection} set, and
+     * all other settings copied from this instance.
      *
      * @param serializers The serializers to use
      * @return The new options object
@@ -175,8 +180,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection}
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection} set, and
+     * all other settings copied from this instance.
      *
      * @param serializers The serializers to use
      * @return The new options object
@@ -191,13 +196,11 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with a new
-     * {@link TypeSerializerCollection} created as a child of this options' current collection.
-     * The provided function will be called with the builder for this new collection to allow
-     * registering more type serializers.
+     * Creates a new {@link ConfigurationOptions} instance, with a new {@link TypeSerializerCollection} created as a
+     * child of this options' current collection. The provided function will be called with the builder for this new
+     * collection to allow registering more type serializers.
      *
-     * @param serializerBuilder accepts a builder for the collection that will be used in the
-     *                          returned options object.
+     * @param serializerBuilder accepts a builder for the collection that will be used in the returned options object.
      * @return The new options object
      */
     public @NonNull ConfigurationOptions withSerializers(@NonNull Consumer<TypeSerializerCollection> serializerBuilder) {
@@ -218,8 +221,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapperFactory}
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapperFactory} set, and all
+     * other settings copied from this instance.
      *
      * @param objectMapperFactory The factory to use to produce object mapper instances. Must not be null
      * @return updated options object
@@ -232,8 +235,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapperFactory}
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapperFactory} set, and all
+     * other settings copied from this instance.
      *
      * @param objectMapperFactory The factory to use to produce object mapper instances. Must not be null
      * @return updated options object
@@ -248,8 +251,7 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Gets whether objects of the provided type are accepted as values for nodes with this as
-     * their options object.
+     * Gets whether objects of the provided type are accepted as values for nodes with this as their options object.
      *
      * @param type The type to check
      * @return Whether the type is accepted
@@ -282,8 +284,8 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified accepted types
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified accepted types set, and all other
+     * settings copied from this instance.
      *
      * <p>'Accepted types' are types which are accepted as native values for the configuration.</p>
      *
@@ -291,36 +293,38 @@ public class ConfigurationOptions {
      *
      * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
      * @return updated options object
-     * @deprecated Use {@link #withAcceptedTypes(Set)} instead
+     * @deprecated Use {@link #withNativeTypes(Set)} instead
      */
     @NonNull
     @Deprecated
     public ConfigurationOptions setAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
-        return withAcceptedTypes(acceptedTypes);
+        return withNativeTypes(acceptedTypes);
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified accepted types
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified native types set, and all other settings
+     * copied from this instance.
+     * <p>
+     * Native types are format-dependent, and must be provided by a configuration loader's {@link
+     * ConfigurationLoader#getDefaultOptions() default options}.
      *
-     * <p>'Accepted types' are types which are accepted as native values for the configuration.</p>
-     *
-     * <p>Null indicates that all types are accepted.</p>
+     * <p>Null indicates that all types are accepted. Setting this may result in unexpected changes to values</p>
      *
      * @param acceptedTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
      * @return updated options object
      */
     @NonNull
-    public ConfigurationOptions withAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
+    public ConfigurationOptions withNativeTypes(@Nullable Set<Class<?>> acceptedTypes) {
         if (Objects.equals(this.acceptedTypes, acceptedTypes)) {
             return this;
         }
+
         return new ConfigurationOptions(mapFactory, header, serializers, acceptedTypes, objectMapperFactory, shouldCopyDefaults);
     }
 
     /**
-     * Gets whether or not default parameters provided to {@link ConfigurationNode} getter methods
-     * should be set to the node when used.
+     * Gets whether or not default parameters provided to {@link ConfigurationNode} getter methods should be set to the
+     * node when used.
      *
      * @return Whether defaults should be copied into value
      */
@@ -329,12 +333,12 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting set, and all
+     * other settings copied from this instance.
      *
-     * @see #shouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
+     * @see #shouldCopyDefaults() for information on what this method does
      * @deprecated Use {@link #withShouldCopyDefaults(boolean)}
      */
     @NonNull
@@ -344,12 +348,12 @@ public class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting set, and all
+     * other settings copied from this instance.
      *
-     * @see #shouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults wether to copy defaults
      * @return updated options object
+     * @see #shouldCopyDefaults() for information on what this method does
      */
     @NonNull
     public ConfigurationOptions withShouldCopyDefaults(boolean shouldCopyDefaults) {

@@ -633,8 +633,12 @@ public interface ConfigurationNode {
      * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
      * the appropriate configuration node structure.</p>
      *
+     * This method only accepts <em>native types</em> as values. If the type of a value is unknown at runtime,
+     * {@link ConfigurationOptions#acceptsType(Class)} will return whether or not it is a native type.
+     *
      * @param value The value to set
      * @return this
+     * @see #setValue(TypeToken, Object) to set a value with any type conversion necessary
      */
     @NonNull
     ConfigurationNode setValue(@Nullable Object value);

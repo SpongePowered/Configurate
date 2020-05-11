@@ -227,7 +227,7 @@ public class JSONConfigurationLoader extends AbstractConfigurationLoader<Configu
     @NonNull
     @Override
     public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
         return CommentedConfigurationNode.root(options);
     }
