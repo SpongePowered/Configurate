@@ -193,7 +193,7 @@ public class WatchServiceListener implements AutoCloseable {
         return getRegistration(directory).subscribe(callback);
     }
 
-    public <N extends ConfigurationNode> ConfigurationReference<N> listenToConfiguration(Function<Path, ConfigurationLoader<N>> loaderFunc, Path path) throws IOException {
+    public <N extends ConfigurationNode> ConfigurationReference<N> listenToConfiguration(Function<Path, ConfigurationLoader<? extends N>> loaderFunc, Path path) throws IOException {
         return ConfigurationReference.createWatching(loaderFunc, path, this);
     }
 

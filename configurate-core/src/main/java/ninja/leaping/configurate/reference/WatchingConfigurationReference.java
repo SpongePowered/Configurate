@@ -35,7 +35,7 @@ class WatchingConfigurationReference<N extends ConfigurationNode> extends Manual
     private volatile boolean saveSuppressed = false;
     private @MonotonicNonNull Disposable disposable;
 
-    WatchingConfigurationReference(ConfigurationLoader<N> loader, Executor taskExecutor) {
+    WatchingConfigurationReference(ConfigurationLoader<? extends N> loader, Executor taskExecutor) {
         super(loader, taskExecutor);
     }
 

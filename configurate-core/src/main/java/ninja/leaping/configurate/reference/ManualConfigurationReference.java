@@ -37,11 +37,11 @@ import static java.util.Objects.requireNonNull;
  */
 class ManualConfigurationReference<N extends ConfigurationNode> implements ConfigurationReference<N> {
     protected volatile @MonotonicNonNull N node;
-    private final ConfigurationLoader<N> loader;
+    private final ConfigurationLoader<? extends N> loader;
     protected final Processor.TransactionalIso<N> updateListener;
     protected final Processor.Iso<Map.Entry<ErrorPhase, Throwable>> errorListener;
 
-    ManualConfigurationReference(ConfigurationLoader<N> loader, Executor taskExecutor) {
+    ManualConfigurationReference(ConfigurationLoader<? extends N> loader, Executor taskExecutor) {
         this.loader = loader;
         updateListener = Processor.createTransactional(taskExecutor);
         errorListener = Processor.create(taskExecutor);
@@ -94,7 +94,7 @@ class ManualConfigurationReference<N extends ConfigurationNode> implements Confi
     }
 
     @Override
-    public ConfigurationLoader<N> getLoader() {
+    public ConfigurationLoader<? extends N> getLoader() {
         return this.loader;
     }
 
