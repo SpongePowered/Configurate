@@ -16,7 +16,6 @@
  */
 package ninja.leaping.configurate.kotlin
 
-import com.google.common.reflect.TypeToken
 import ninja.leaping.configurate.ConfigurationNode
 import ninja.leaping.configurate.objectmapping.ObjectMappingException
 
@@ -49,7 +48,12 @@ operator fun ConfigurationNode.contains(path: Any): Boolean {
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <reified V> ConfigurationNode.get(default: V? = null): V? {
+inline fun <reified V> ConfigurationNode.get(): V? {
+    return getValue(typeTokenOf<V>(), null as V?)
+}
+
+@Throws(ObjectMappingException::class)
+inline fun <reified V> ConfigurationNode.get(default: V): V {
     return getValue(typeTokenOf(), default)
 }
 
