@@ -49,7 +49,12 @@ operator fun ConfigurationNode.contains(path: Any): Boolean {
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <reified V> ConfigurationNode.get(default: V? = null): V? {
+inline fun <reified V> ConfigurationNode.get(): V? {
+    return getValue(typeTokenOf<V>(), null as V?)
+}
+
+@Throws(ObjectMappingException::class)
+inline fun <reified V> ConfigurationNode.get(default: V): V {
     return getValue(typeTokenOf(), default)
 }
 
