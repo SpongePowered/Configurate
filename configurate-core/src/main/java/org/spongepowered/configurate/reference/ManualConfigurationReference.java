@@ -29,6 +29,7 @@ import org.spongepowered.configurate.transformation.NodePath;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
@@ -69,6 +70,23 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
         synchronized (this.loader) {
             loader.save(this.node = requireNonNull(newNode));
         }
+    }
+
+    @Override
+    public Publisher<N> saveAsync() {
+        return Publisher.execute(() -> {
+                save();
+                return getNode();
+        }, updateListener.getExecutor());
+    }
+
+    @Override
+    public Publisher<N> updateAsync(Function<N, ? extends N> updater) {
+        return Publisher.execute(() -> {
+            final N newNode = updater.apply(getNode());
+            save(newNode);
+            return newNode;
+        }, updateListener.getExecutor());
     }
 
     @Override
