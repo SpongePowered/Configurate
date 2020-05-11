@@ -19,6 +19,7 @@ package ninja.leaping.configurate.objectmapping.serialize;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.InvalidTypeException;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -60,7 +61,41 @@ class NumberSerializer implements TypeSerializer<Number> {
     }
 
     @Override
-    public void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull ConfigurationNode value) {
-        value.setValue(obj);
+    public void serialize(@NonNull TypeToken<?> type, @Nullable Number obj, @NonNull ConfigurationNode value) throws ObjectMappingException {
+        if (obj == null) {
+            value.setValue(null);
+            return;
+        }
+
+        if (value.getOptions().acceptsType(obj.getClass())) {
+            value.setValue(obj);
+            return;
+        }
+
+        // We have to coerce :( hack fix until 4.0 allows what may be more breaking changes
+        // any conversion will work as long as there's no data loss
+        if (obj instanceof Float && value.getOptions().acceptsType(Double.class)) {
+            value.setValue(obj.doubleValue());
+        } else if (obj instanceof Byte) {
+            if (value.getOptions().acceptsType(Short.class)) {
+                value.setValue(obj.shortValue());
+            } else if (value.getOptions().acceptsType(Integer.class)) {
+                value.setValue(obj.intValue());
+            } else if (value.getOptions().acceptsType(Long.class)) {
+                value.setValue(obj.longValue());
+            }
+        } else if (obj instanceof Short) {
+            if (value.getOptions().acceptsType(Integer.class)) {
+                value.setValue(obj.intValue());
+            } else if (value.getOptions().acceptsType(Long.class)) {
+                value.setValue(obj.longValue());
+            }
+        } else if (obj instanceof Integer) {
+            if (value.getOptions().acceptsType(Long.class)) {
+                value.setValue(obj.longValue());
+            }
+        } else {
+            throw new ObjectMappingException("Unable to coerce value of type " + obj.getClass() + " to one accepted by node " + value);
+        }
     }
 }
