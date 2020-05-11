@@ -46,7 +46,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return The newly created reference, with an initial load performed
      * @throws IOException If the configuration contained fails to load
      */
-    static <N extends ScopedConfigurationNode<N>> ConfigurationReference<N> createFixed(ConfigurationLoader<N> loader) throws IOException {
+    static <N extends ScopedConfigurationNode<N>> ConfigurationReference<N> createFixed(ConfigurationLoader<? extends N> loader) throws IOException {
         ConfigurationReference<N> ret = new ManualConfigurationReference<>(loader, ForkJoinPool.commonPool());
         ret.load();
         return ret;
@@ -64,7 +64,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws IOException If the underlying loader fails to load a configuration
      * @see WatchServiceListener#listenToConfiguration(Function, Path)
      */
-    static <T extends ScopedConfigurationNode<T>> ConfigurationReference<T> createWatching(Function<Path, ConfigurationLoader<T>> loaderCreator, Path file, WatchServiceListener listener) throws IOException {
+    static <T extends ScopedConfigurationNode<T>> ConfigurationReference<T> createWatching(Function<Path, ConfigurationLoader<? extends T>> loaderCreator, Path file, WatchServiceListener listener) throws IOException {
         final WatchingConfigurationReference<T> ret = new WatchingConfigurationReference<>(loaderCreator.apply(file), listener.taskExecutor);
         ret.load();
         ret.setDisposable(listener.listenToFile(file, ret));
@@ -128,7 +128,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @return The loader
      */
-    ConfigurationLoader<N> getLoader();
+    ConfigurationLoader<? extends N> getLoader();
 
     /**
      * Get the node at the given path, using the root node
