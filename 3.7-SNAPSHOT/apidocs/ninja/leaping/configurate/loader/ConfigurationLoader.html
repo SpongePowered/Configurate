@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":18,"i1":18,"i2":18,"i3":6,"i4":6,"i5":18,"i6":6,"i7":6,"i8":6};
+<script type="text/javascript">var data = {"i0":18,"i1":18,"i2":18,"i3":6,"i4":6,"i5":18,"i6":6,"i7":18,"i8":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.loader</a></div>
 <h1 title="Interface ConfigurationLoader" class="title">Interface ConfigurationLoader&lt;NodeType extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</h1>
@@ -177,7 +172,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor" id="i7">
-<td class="colFirst"><code><a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a>&gt;</code></td>
+<td class="colFirst"><code>default <a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadToReference()">loadToReference</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.</div>
@@ -242,8 +237,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="loadToReference()">loadToReference</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.72">loadToReference</a></span>()
-                                          throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.72">loadToReference</a></span>()
+                                                  throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.
  The returned reference will not reload automatically.</div>
 <dl>
@@ -259,7 +254,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="load(ninja.leaping.configurate.ConfigurationOptions)">load</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.83">load</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</span>
+<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.85">load</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</span>
                 throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
 
@@ -277,7 +272,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="save(ninja.leaping.configurate.ConfigurationNode)">save</a></h3>
-<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.92">save</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node)</span>
+<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.94">save</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node)</span>
    throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 <dl>
@@ -291,7 +286,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="createEmptyNode()">createEmptyNode</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.99">createEmptyNode</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.101">createEmptyNode</a></span>()</div>
 <div class="block">Return an empty node of the most appropriate type for this loader, using the default options.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -302,7 +297,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="createEmptyNode(ninja.leaping.configurate.ConfigurationOptions)">createEmptyNode</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.110">createEmptyNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
+<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.112">createEmptyNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
 <div class="block">Return an empty node of the most appropriate type for this loader</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -315,7 +310,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="canLoad()">canLoad</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.118">canLoad</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.120">canLoad</a></span>()</div>
 <div class="block">Gets if this loader is capable of loading configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -326,7 +321,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="canSave()">canSave</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.127">canSave</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/ConfigurationLoader.html#line.129">canSave</a></span>()</div>
 <div class="block">Gets if this loader is capable of saving configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -340,8 +335,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -385,5 +380,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

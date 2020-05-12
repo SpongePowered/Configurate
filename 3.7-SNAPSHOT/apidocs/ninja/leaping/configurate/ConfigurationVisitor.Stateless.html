@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate</a></div>
 <h1 title="Interface ConfigurationVisitor.Stateless" class="title">Interface ConfigurationVisitor.Stateless&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</h1>
@@ -316,7 +311,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - the state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -336,7 +330,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -356,7 +349,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -376,7 +368,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -396,7 +387,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -416,7 +406,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -436,7 +425,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -456,7 +444,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd>a terminal value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -471,7 +458,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - The root node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - as required by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -486,7 +472,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - The current node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - as required by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -501,7 +486,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - current node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -516,7 +500,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - current node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -531,7 +514,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - current node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -546,7 +528,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - The node that has been visited</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -561,7 +542,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dd><code>node</code> - The node that has been visited</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -574,7 +554,6 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -584,8 +563,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -629,5 +608,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.co
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

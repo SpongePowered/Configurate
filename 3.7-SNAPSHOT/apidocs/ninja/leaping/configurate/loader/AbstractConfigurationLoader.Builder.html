@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.loader</a></div>
 <h1 title="Class AbstractConfigurationLoader.Builder" class="title">Class AbstractConfigurationLoader.Builder&lt;T extends AbstractConfigurationLoader.Builder&lt;T&gt;&gt;</h1>
@@ -108,7 +103,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a> extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</dd>
 </dl>
 <hr>
-<pre>protected abstract static class <a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.213">AbstractConfigurationLoader.Builder</a>&lt;T extends AbstractConfigurationLoader.Builder&lt;T&gt;&gt;
+<pre>protected abstract static class <a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.207">AbstractConfigurationLoader.Builder</a>&lt;T extends AbstractConfigurationLoader.Builder&lt;T&gt;&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">An abstract builder implementation for <a href="AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 </section>
@@ -336,25 +331,25 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="headerMode">headerMode</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.214">headerMode</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.208">headerMode</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="source">source</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.215">source</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.209">source</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="sink">sink</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.216">sink</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.210">sink</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="defaultOptions">defaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.217">defaultOptions</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.211">defaultOptions</a></span></div>
 </section>
 </li>
 </ul>
@@ -370,7 +365,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="&lt;init&gt;()">Builder</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.219">Builder</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.213">Builder</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -386,7 +381,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setFile(java.io.File)">setFile</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.239">setFile</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.233">setFile</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</span></div>
 <div class="block">Sets the sink and source of the resultant loader to the given file.
 
  <p>The <a href="#getSource()"><code>source</code></a> is defined using
@@ -405,7 +400,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setPath(java.nio.file.Path)">setPath</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.256">setPath</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.250">setPath</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</span></div>
 <div class="block">Sets the sink and source of the resultant loader to the given path.
 
  <p>The <a href="#getSource()"><code>source</code></a> is defined using
@@ -424,7 +419,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setURL(java.net.URL)">setURL</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.270">setURL</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.264">setURL</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</span></div>
 <div class="block">Sets the source of the resultant loader to the given URL.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -437,7 +432,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setSource(java.util.concurrent.Callable)">setSource</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.285">setSource</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.279">setSource</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</span></div>
 <div class="block">Sets the source of the resultant loader.
 
  <p>The "source" is used by the loader to load the configuration.</p></div>
@@ -452,7 +447,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setSink(java.util.concurrent.Callable)">setSink</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.299">setSink</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.293">setSink</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</span></div>
 <div class="block">Sets the sink of the resultant loader.
 
  <p>The "sink" is used by the loader to save the configuration.</p></div>
@@ -467,7 +462,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getSource()">getSource</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.310">getSource</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.304">getSource</a></span>()</div>
 <div class="block">Gets the source to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -478,7 +473,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getSink()">getSink</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.320">getSink</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.314">getSink</a></span>()</div>
 <div class="block">Gets the sink to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -489,7 +484,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setHeaderMode(ninja.leaping.configurate.loader.HeaderMode)">setHeaderMode</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.331">setHeaderMode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a>&nbsp;mode)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.325">setHeaderMode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a>&nbsp;mode)</span></div>
 <div class="block">Sets the header mode of the resultant loader.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -502,7 +497,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getHeaderMode()">getHeaderMode</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.342">getHeaderMode</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.336">getHeaderMode</a></span>()</div>
 <div class="block">Gets the header mode to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -514,7 +509,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <section class="detail">
 <h3><a id="setPreservesHeader(boolean)">setPreservesHeader</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.356">setPreservesHeader</a></span>&#8203;(<span class="arguments">boolean&nbsp;preservesHeader)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.350">setPreservesHeader</a></span>&#8203;(<span class="arguments">boolean&nbsp;preservesHeader)</span></div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">In favour of <a href="#setHeaderMode(ninja.leaping.configurate.loader.HeaderMode)"><code>setHeaderMode(HeaderMode)</code></a></div>
 </div>
@@ -533,7 +528,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <section class="detail">
 <h3><a id="preservesHeader()">preservesHeader</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.369">preservesHeader</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.363">preservesHeader</a></span>()</div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">In favour of <a href="#getHeaderMode()"><code>getHeaderMode()</code></a></div>
 </div>
@@ -547,7 +542,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setDefaultOptions(ninja.leaping.configurate.ConfigurationOptions)">setDefaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.380">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.374">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</span></div>
 <div class="block">Sets the default configuration options to be used by the resultant loader.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -560,7 +555,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="setDefaultOptions(java.util.function.UnaryOperator)">setDefaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.393">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.387">setDefaultOptions</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</span></div>
 <div class="block">Sets the default configuration options to be used by the resultant loader by providing
  a function which takes the current default options and applies any applicable changes.</div>
 <dl>
@@ -574,7 +569,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getDefaultOptions()">getDefaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.404">getDefaultOptions</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.398">getDefaultOptions</a></span>()</div>
 <div class="block">Gets the default configuration options to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -585,7 +580,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="build()">build</a></h3>
-<div class="memberSignature"><span class="modifiers">public abstract</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.414">build</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public abstract</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#line.408">build</a></span>()</div>
 <div class="block">Builds the loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -599,8 +594,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -644,5 +639,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

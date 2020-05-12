@@ -19,7 +19,7 @@
 <script type="text/javascript" src="script-dir/jquery-ui.js"></script>
 </head>
 <body class="all-classes-index">
-<script type="text/javascript">var data = {"i0":2,"i1":2,"i2":2,"i3":1,"i4":1,"i5":1,"i6":1,"i7":1,"i8":4,"i9":32,"i10":1,"i11":1,"i12":2,"i13":1,"i14":2,"i15":1,"i16":4,"i17":2,"i18":2,"i19":2,"i20":2,"i21":1,"i22":1,"i23":1,"i24":2,"i25":1,"i26":2,"i27":4,"i28":2,"i29":2,"i30":2,"i31":2,"i32":4,"i33":2,"i34":2,"i35":8,"i36":2,"i37":2,"i38":2,"i39":1,"i40":4,"i41":1,"i42":2,"i43":2,"i44":2,"i45":1,"i46":8,"i47":1,"i48":1,"i49":1,"i50":1,"i51":1,"i52":1,"i53":2,"i54":32,"i55":2,"i56":2,"i57":2,"i58":1,"i59":1,"i60":8,"i61":1,"i62":2,"i63":2,"i64":2,"i65":1,"i66":2,"i67":2,"i68":1,"i69":2,"i70":4,"i71":2,"i72":2,"i73":2,"i74":2,"i75":2,"i76":2};
+<script type="text/javascript">var data = {"i0":2,"i1":2,"i2":2,"i3":1,"i4":1,"i5":1,"i6":1,"i7":1,"i8":1,"i9":4,"i10":32,"i11":1,"i12":1,"i13":2,"i14":1,"i15":2,"i16":1,"i17":4,"i18":2,"i19":2,"i20":2,"i21":2,"i22":1,"i23":1,"i24":1,"i25":2,"i26":1,"i27":2,"i28":4,"i29":2,"i30":2,"i31":2,"i32":2,"i33":4,"i34":2,"i35":2,"i36":8,"i37":2,"i38":2,"i39":2,"i40":1,"i41":4,"i42":1,"i43":2,"i44":2,"i45":2,"i46":1,"i47":8,"i48":1,"i49":1,"i50":1,"i51":1,"i52":1,"i53":1,"i54":2,"i55":32,"i56":2,"i57":2,"i58":2,"i59":1,"i60":1,"i61":8,"i62":1,"i63":2,"i64":2,"i65":2,"i66":1,"i67":2,"i68":2,"i69":1,"i70":2,"i71":4,"i72":2,"i73":2,"i74":2,"i75":2,"i76":2,"i77":2};
 var tabs = {65535:["t0","All Classes"],1:["t1","Interface Summary"],2:["t2","Class Summary"],4:["t3","Enum Summary"],8:["t4","Exception Summary"],32:["t6","Annotation Types Summary"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -57,18 +57,13 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
+<div class="flexContent">
 <main role="main">
 <div class="header">
 <h1 title="All&amp;nbsp;Classes" class="title">All&nbsp;Classes</h1>
@@ -122,123 +117,129 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </th>
 </tr>
 <tr class="altColor" id="i6">
+<td class="colFirst"><a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a>&lt;<a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="type parameter in CheckedSupplier">V</a>,&#8203;<a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="type parameter in CheckedSupplier">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;</td>
+<th class="colLast" scope="row">
+<div class="block">A functional interface similar to Supplier, except allowing contained methods to throw exceptions</div>
+</th>
+</tr>
+<tr class="rowColor" id="i7">
 <td class="colFirst"><a href="ninja/leaping/configurate/commented/CommentedConfigurationNode.html" title="interface in ninja.leaping.configurate.commented">CommentedConfigurationNode</a></td>
 <th class="colLast" scope="row">
 <div class="block">A configuration node that can have a comment attached to it.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="altColor" id="i8">
 <td class="colFirst"><a href="ninja/leaping/configurate/loader/CommentHandler.html" title="interface in ninja.leaping.configurate.loader">CommentHandler</a></td>
 <th class="colLast" scope="row">
 <div class="block">Interface specifying methods for handling abstract comments</div>
 </th>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><a href="ninja/leaping/configurate/loader/CommentHandlers.html" title="enum in ninja.leaping.configurate.loader">CommentHandlers</a></td>
 <th class="colLast" scope="row">
 <div class="block">Defines a number of default <a href="ninja/leaping/configurate/loader/CommentHandler.html" title="interface in ninja.leaping.configurate.loader"><code>CommentHandler</code></a>s.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i10">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/serialize/ConfigSerializable.html" title="annotation in ninja.leaping.configurate.objectmapping.serialize">ConfigSerializable</a></td>
 <th class="colLast" scope="row">
 <div class="block">This annotation is used to indicate that the given type is capable of being serialized and
  deserialized by the configuration object mapper.</div>
 </th>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><a href="ninja/leaping/configurate/loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;<a href="ninja/leaping/configurate/loader/ConfigurationLoader.html" title="type parameter in ConfigurationLoader">NodeType</a> extends <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">Represents an object which can load and save <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> objects in a specific
  configuration format.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i12">
 <td class="colFirst"><a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></td>
 <th class="colLast" scope="row">
 <div class="block">A node in the configuration tree.</div>
 </th>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><a href="ninja/leaping/configurate/util/ConfigurationNodeWalker.html" title="class in ninja.leaping.configurate.util">ConfigurationNodeWalker</a></td>
 <th class="colLast" scope="row">Deprecated.
 <div class="deprecationComment">Use ScopedConfigurationNode#visit(ConfigurationVisitor) instead</div>
 </th>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i14">
 <td class="colFirst"><a href="ninja/leaping/configurate/util/ConfigurationNodeWalker.VisitedNode.html" title="interface in ninja.leaping.configurate.util">ConfigurationNodeWalker.VisitedNode</a>&lt;<a href="ninja/leaping/configurate/util/ConfigurationNodeWalker.VisitedNode.html" title="type parameter in ConfigurationNodeWalker.VisitedNode">T</a> extends <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">Encapsulates a given <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>node</code></a> visited during a
  traversal.</div>
 </th>
 </tr>
-<tr class="altColor" id="i14">
+<tr class="rowColor" id="i15">
 <td class="colFirst"><a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></td>
 <th class="colLast" scope="row">
 <div class="block">This object is a holder for general configuration options.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i15">
+<tr class="altColor" id="i16">
 <td class="colFirst"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a> extends <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">An updating reference to a base configuration node</div>
 </th>
 </tr>
-<tr class="altColor" id="i16">
+<tr class="rowColor" id="i17">
 <td class="colFirst"><a href="ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></td>
 <th class="colLast" scope="row">
 <div class="block">Representing the phase where an error occurred</div>
 </th>
 </tr>
-<tr class="rowColor" id="i17">
+<tr class="altColor" id="i18">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.html" title="class in ninja.leaping.configurate.transformation">ConfigurationTransformation</a></td>
 <th class="colLast" scope="row">
 <div class="block">Represents a set of transformations on a configuration.</div>
 </th>
 </tr>
-<tr class="altColor" id="i18">
+<tr class="rowColor" id="i19">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.Builder.html" title="class in ninja.leaping.configurate.transformation">ConfigurationTransformation.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a basic <a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.html" title="class in ninja.leaping.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="altColor" id="i20">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.NodePath.html" title="class in ninja.leaping.configurate.transformation">ConfigurationTransformation.NodePath</a></td>
 <th class="colLast" scope="row">
 <div class="block">Implementation of <a href="ninja/leaping/configurate/transformation/NodePath.html" title="interface in ninja.leaping.configurate.transformation"><code>NodePath</code></a> used by this class.</div>
 </th>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.VersionedBuilder.html" title="class in ninja.leaping.configurate.transformation">ConfigurationTransformation.VersionedBuilder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a versioned <a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.html" title="class in ninja.leaping.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="altColor" id="i22">
 <td class="colFirst"><a href="ninja/leaping/configurate/ConfigurationVisitor.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor</a>&lt;<a href="ninja/leaping/configurate/ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>,&#8203;<a href="ninja/leaping/configurate/ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a>,&#8203;<a href="ninja/leaping/configurate/ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A visitor to traverse node hierarchies in a depth-first order</div>
 </th>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><a href="ninja/leaping/configurate/ConfigurationVisitor.Safe.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor.Safe</a>&lt;<a href="ninja/leaping/configurate/ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>,&#8203;<a href="ninja/leaping/configurate/ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">T</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A subinterface for visitors that do not throw any checked exceptions during their execution</div>
 </th>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="altColor" id="i24">
 <td class="colFirst"><a href="ninja/leaping/configurate/ConfigurationVisitor.Stateless.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor.Stateless</a>&lt;<a href="ninja/leaping/configurate/ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">Stateless specialization of visitors, where both the state and terminal type are Void</div>
 </th>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/DefaultObjectMapperFactory.html" title="class in ninja.leaping.configurate.objectmapping">DefaultObjectMapperFactory</a></td>
 <th class="colLast" scope="row">
 <div class="block">Factory for a basic <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="class in ninja.leaping.configurate.objectmapping"><code>ObjectMapper</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="altColor" id="i26">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Disposable.html" title="interface in ninja.leaping.configurate.reactive">Disposable</a></td>
 <th class="colLast" scope="row">
 <div class="block">A representation of something that requires resources
@@ -246,301 +247,301 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  A Disposable</div>
 </th>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><a href="ninja/leaping/configurate/util/EnumLookup.html" title="class in ninja.leaping.configurate.util">EnumLookup</a></td>
 <th class="colLast" scope="row">
 <div class="block">Utility class to cache more flexible enum lookup.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="altColor" id="i28">
 <td class="colFirst"><a href="ninja/leaping/configurate/json/FieldValueSeparatorStyle.html" title="enum in ninja.leaping.configurate.json">FieldValueSeparatorStyle</a></td>
 <th class="colLast" scope="row">
 <div class="block">Enumeration of field value separator styles.</div>
 </th>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><a href="ninja/leaping/configurate/examples/FormatConversion.html" title="class in ninja.leaping.configurate.examples">FormatConversion</a></td>
 <th class="colLast" scope="row">
 <div class="block">An example of how to convert a configuration between two formats.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i29">
+<tr class="altColor" id="i30">
 <td class="colFirst"><a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.html" title="class in ninja.leaping.configurate.gson">GsonConfigurationLoader</a></td>
 <th class="colLast" scope="row">
 <div class="block">A loader for JSON-formatted configurations, using the GSON library for parsing and generation.</div>
 </th>
 </tr>
-<tr class="altColor" id="i30">
+<tr class="rowColor" id="i31">
 <td class="colFirst"><a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.gson">GsonConfigurationLoader.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a <a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.html" title="class in ninja.leaping.configurate.gson"><code>GsonConfigurationLoader</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i31">
+<tr class="altColor" id="i32">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/GuiceObjectMapperFactory.html" title="class in ninja.leaping.configurate.objectmapping">GuiceObjectMapperFactory</a></td>
 <th class="colLast" scope="row">
 <div class="block">A factory for <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="class in ninja.leaping.configurate.objectmapping"><code>ObjectMapper</code></a>s that will inherit the injector from wherever it is provided.</div>
 </th>
 </tr>
-<tr class="altColor" id="i32">
+<tr class="rowColor" id="i33">
 <td class="colFirst"><a href="ninja/leaping/configurate/loader/HeaderMode.html" title="enum in ninja.leaping.configurate.loader">HeaderMode</a></td>
 <th class="colLast" scope="row">
 <div class="block">Modes which <a href="ninja/leaping/configurate/loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader"><code>ConfigurationLoader</code></a>s can use to manipulate headers when loading/saving.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i33">
+<tr class="altColor" id="i34">
 <td class="colFirst"><a href="ninja/leaping/configurate/hocon/HoconConfigurationLoader.html" title="class in ninja.leaping.configurate.hocon">HoconConfigurationLoader</a></td>
 <th class="colLast" scope="row">
 <div class="block">A loader for HOCON (Hodor)-formatted configurations, using the typesafe config library for
  parsing and generation.</div>
 </th>
 </tr>
-<tr class="altColor" id="i34">
+<tr class="rowColor" id="i35">
 <td class="colFirst"><a href="ninja/leaping/configurate/hocon/HoconConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.hocon">HoconConfigurationLoader.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a <a href="ninja/leaping/configurate/hocon/HoconConfigurationLoader.html" title="class in ninja.leaping.configurate.hocon"><code>HoconConfigurationLoader</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i35">
+<tr class="altColor" id="i36">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/InvalidTypeException.html" title="class in ninja.leaping.configurate.objectmapping">InvalidTypeException</a></td>
 <th class="colLast" scope="row">
 <div class="block">Extension of <a href="ninja/leaping/configurate/objectmapping/ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping"><code>ObjectMappingException</code></a> for instances where the present <a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink"><code>type</code></a>
  is invalid.</div>
 </th>
 </tr>
-<tr class="altColor" id="i36">
+<tr class="rowColor" id="i37">
 <td class="colFirst"><a href="ninja/leaping/configurate/json/JSONConfigurationLoader.html" title="class in ninja.leaping.configurate.json">JSONConfigurationLoader</a></td>
 <th class="colLast" scope="row">
 <div class="block">A loader for JSON-formatted configurations, using the jackson library for parsing and generation.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i37">
+<tr class="altColor" id="i38">
 <td class="colFirst"><a href="ninja/leaping/configurate/json/JSONConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.json">JSONConfigurationLoader.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a <a href="ninja/leaping/configurate/json/JSONConfigurationLoader.html" title="class in ninja.leaping.configurate.json"><code>JSONConfigurationLoader</code></a>.</div>
 </th>
 </tr>
-<tr class="altColor" id="i38">
+<tr class="rowColor" id="i39">
 <td class="colFirst"><a href="ninja/leaping/configurate/util/MapFactories.html" title="class in ninja.leaping.configurate.util">MapFactories</a></td>
 <th class="colLast" scope="row">
 <div class="block">Default implementations of <a href="ninja/leaping/configurate/util/MapFactory.html" title="interface in ninja.leaping.configurate.util"><code>MapFactory</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i39">
+<tr class="altColor" id="i40">
 <td class="colFirst"><a href="ninja/leaping/configurate/util/MapFactory.html" title="interface in ninja.leaping.configurate.util">MapFactory</a></td>
 <th class="colLast" scope="row">
 <div class="block">A factory which creates <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentMap</code></a> instances.</div>
 </th>
 </tr>
-<tr class="altColor" id="i40">
+<tr class="rowColor" id="i41">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/MoveStrategy.html" title="enum in ninja.leaping.configurate.transformation">MoveStrategy</a></td>
 <th class="colLast" scope="row">
 <div class="block">Strategy to use when moving a node from one path to another</div>
 </th>
 </tr>
-<tr class="rowColor" id="i41">
+<tr class="altColor" id="i42">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/NodePath.html" title="interface in ninja.leaping.configurate.transformation">NodePath</a></td>
 <th class="colLast" scope="row">
 <div class="block">Represents the path to a given node.</div>
 </th>
 </tr>
-<tr class="altColor" id="i42">
+<tr class="rowColor" id="i43">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper</a>&lt;<a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">This is the object mapper.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i43">
+<tr class="altColor" id="i44">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/ObjectMapper.FieldData.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.FieldData</a></td>
 <th class="colLast" scope="row">
 <div class="block">Holder for field-specific information</div>
 </th>
 </tr>
-<tr class="altColor" id="i44">
+<tr class="rowColor" id="i45">
 <td class="colFirst"><a href="ninja/leaping/configurate/examples/ObjectMapperExample.html" title="class in ninja.leaping.configurate.examples">ObjectMapperExample</a></td>
 <th class="colLast" scope="row">
 <div class="block">An example of how to use the ObjectMapper for a simple read-only configuration.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i45">
+<tr class="altColor" id="i46">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/ObjectMapperFactory.html" title="interface in ninja.leaping.configurate.objectmapping">ObjectMapperFactory</a></td>
 <th class="colLast" scope="row">
 <div class="block">A factory to produce <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="class in ninja.leaping.configurate.objectmapping"><code>ObjectMapper</code></a> instances</div>
 </th>
 </tr>
-<tr class="altColor" id="i46">
+<tr class="rowColor" id="i47">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMappingException</a></td>
 <th class="colLast" scope="row">
 <div class="block">Exception thrown on errors encountered while mapping objects</div>
 </th>
 </tr>
-<tr class="rowColor" id="i47">
+<tr class="altColor" id="i48">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a>&lt;<a href="ninja/leaping/configurate/reactive/Processor.html" title="type parameter in Processor">I</a>,&#8203;<a href="ninja/leaping/configurate/reactive/Processor.html" title="type parameter in Processor">O</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A combination of an <a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive"><code>Publisher</code></a> and <a href="ninja/leaping/configurate/reactive/Subscriber.html" title="interface in ninja.leaping.configurate.reactive"><code>Subscriber</code></a>.</div>
 </th>
 </tr>
-<tr class="altColor" id="i48">
+<tr class="rowColor" id="i49">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Processor.Iso.html" title="interface in ninja.leaping.configurate.reactive">Processor.Iso</a>&lt;<a href="ninja/leaping/configurate/reactive/Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A Processor that has the same type for inputs and outputs</div>
 </th>
 </tr>
-<tr class="rowColor" id="i49">
+<tr class="altColor" id="i50">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Processor.Transactional.html" title="interface in ninja.leaping.configurate.reactive">Processor.Transactional</a>&lt;<a href="ninja/leaping/configurate/reactive/Processor.Transactional.html" title="type parameter in Processor.Transactional">I</a>,&#8203;<a href="ninja/leaping/configurate/reactive/Processor.Transactional.html" title="type parameter in Processor.Transactional">O</a>&gt;</td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr class="altColor" id="i50">
+<tr class="rowColor" id="i51">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Processor.TransactionalIso.html" title="interface in ninja.leaping.configurate.reactive">Processor.TransactionalIso</a>&lt;<a href="ninja/leaping/configurate/reactive/Processor.TransactionalIso.html" title="type parameter in Processor.TransactionalIso">V</a>&gt;</td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr class="rowColor" id="i51">
+<tr class="altColor" id="i52">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;<a href="ninja/leaping/configurate/reactive/Publisher.html" title="type parameter in Publisher">V</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">Something that can publish events.</div>
 </th>
 </tr>
-<tr class="altColor" id="i52">
+<tr class="rowColor" id="i53">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Publisher.Cached.html" title="interface in ninja.leaping.configurate.reactive">Publisher.Cached</a>&lt;<a href="ninja/leaping/configurate/reactive/Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A publisher that caches the last value received</div>
 </th>
 </tr>
-<tr class="rowColor" id="i53">
+<tr class="altColor" id="i54">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/serialize/ScalarSerializer.html" title="class in ninja.leaping.configurate.objectmapping.serialize">ScalarSerializer</a>&lt;<a href="ninja/leaping/configurate/objectmapping/serialize/ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">Serialize a value that can be represented as a scalar value within a node.</div>
 </th>
 </tr>
-<tr class="altColor" id="i54">
+<tr class="rowColor" id="i55">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/Setting.html" title="annotation in ninja.leaping.configurate.objectmapping">Setting</a></td>
 <th class="colLast" scope="row">
 <div class="block">Marks a field to be mapped by an <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="class in ninja.leaping.configurate.objectmapping"><code>ObjectMapper</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i55">
+<tr class="altColor" id="i56">
 <td class="colFirst"><a href="ninja/leaping/configurate/attributed/SimpleAttributedConfigurationNode.html" title="class in ninja.leaping.configurate.attributed">SimpleAttributedConfigurationNode</a></td>
 <th class="colLast" scope="row">
 <div class="block">Basic implementation of <a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html" title="interface in ninja.leaping.configurate.attributed"><code>AttributedConfigurationNode</code></a>.</div>
 </th>
 </tr>
-<tr class="altColor" id="i56">
+<tr class="rowColor" id="i57">
 <td class="colFirst"><a href="ninja/leaping/configurate/commented/SimpleCommentedConfigurationNode.html" title="class in ninja.leaping.configurate.commented">SimpleCommentedConfigurationNode</a></td>
 <th class="colLast" scope="row">
 <div class="block">Basic implementation of <a href="ninja/leaping/configurate/commented/CommentedConfigurationNode.html" title="interface in ninja.leaping.configurate.commented"><code>CommentedConfigurationNode</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i57">
+<tr class="altColor" id="i58">
 <td class="colFirst"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></td>
 <th class="colLast" scope="row">
 <div class="block">Simple implementation of <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a>.</div>
 </th>
 </tr>
-<tr class="altColor" id="i58">
+<tr class="rowColor" id="i59">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/Subscriber.html" title="interface in ninja.leaping.configurate.reactive">Subscriber</a>&lt;<a href="ninja/leaping/configurate/reactive/Subscriber.html" title="type parameter in Subscriber">V</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A listener to events that may be called by an <a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive"><code>Publisher</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i59">
-<td class="colFirst"><a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a>&lt;<a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="type parameter in SubscriberTransactional">V</a>&gt;</td>
+<tr class="altColor" id="i60">
+<td class="colFirst"><a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a>&lt;<a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="type parameter in TransactionalSubscriber">V</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A subscriber that is transaction-aware.</div>
 </th>
 </tr>
-<tr class="altColor" id="i60">
+<tr class="rowColor" id="i61">
 <td class="colFirst"><a href="ninja/leaping/configurate/reactive/TransactionFailedException.html" title="class in ninja.leaping.configurate.reactive">TransactionFailedException</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr class="rowColor" id="i61">
+<tr class="altColor" id="i62">
 <td class="colFirst"><a href="ninja/leaping/configurate/transformation/TransformAction.html" title="interface in ninja.leaping.configurate.transformation">TransformAction</a></td>
 <th class="colLast" scope="row">
 <div class="block">Represents an action to be performed that transforms a node in the configuration tree</div>
 </th>
 </tr>
-<tr class="altColor" id="i62">
+<tr class="rowColor" id="i63">
 <td class="colFirst"><a href="ninja/leaping/configurate/examples/Transformations.html" title="class in ninja.leaping.configurate.examples">Transformations</a></td>
 <th class="colLast" scope="row">
 <div class="block">An example of how to use transformations to migrate a configuration to a newer schema version.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i63">
+<tr class="altColor" id="i64">
 <td class="colFirst"><a href="ninja/leaping/configurate/examples/Tutorial.html" title="class in ninja.leaping.configurate.examples">Tutorial</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr class="altColor" id="i64">
+<tr class="rowColor" id="i65">
 <td class="colFirst"><a href="ninja/leaping/configurate/Types.html" title="class in ninja.leaping.configurate">Types</a></td>
 <th class="colLast" scope="row">
 <div class="block">Contains functions useful for performing configuration type conversions.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i65">
+<tr class="altColor" id="i66">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializer.html" title="interface in ninja.leaping.configurate.objectmapping.serialize">TypeSerializer</a>&lt;<a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">Represents an object which can serialize and deserialize objects of a given type.</div>
 </th>
 </tr>
-<tr class="altColor" id="i66">
+<tr class="rowColor" id="i67">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializerCollection.html" title="class in ninja.leaping.configurate.objectmapping.serialize">TypeSerializerCollection</a></td>
 <th class="colLast" scope="row">
 <div class="block">A calculated collection of <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializer.html" title="interface in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializer</code></a>s</div>
 </th>
 </tr>
-<tr class="rowColor" id="i67">
+<tr class="altColor" id="i68">
 <td class="colFirst"><a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializers.html" title="class in ninja.leaping.configurate.objectmapping.serialize">TypeSerializers</a></td>
 <th class="colLast" scope="row">
 <div class="block">A number of <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializer.html" title="interface in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializer</code></a>s provided by configurate.</div>
 </th>
 </tr>
-<tr class="altColor" id="i68">
+<tr class="rowColor" id="i69">
 <td class="colFirst"><a href="ninja/leaping/configurate/reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference">ValueReference</a>&lt;<a href="ninja/leaping/configurate/reference/ValueReference.html" title="type parameter in ValueReference">T</a>&gt;</td>
 <th class="colLast" scope="row">
 <div class="block">A pointer to a node within a configuration tree.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i69">
+<tr class="altColor" id="i70">
 <td class="colFirst"><a href="ninja/leaping/configurate/examples/ValueReferences.html" title="class in ninja.leaping.configurate.examples">ValueReferences</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr class="altColor" id="i70">
+<tr class="rowColor" id="i71">
 <td class="colFirst"><a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></td>
-<th class="colLast" scope="row">
-<div class="block">An enumeration of the types of value a <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> can hold.</div>
+<th class="colLast" scope="row">Deprecated.
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> and <a href="ninja/leaping/configurate/ConfigurationNode.html#isMap()"><code>ConfigurationNode.isMap()</code></a> for the same information</div>
 </th>
 </tr>
-<tr class="rowColor" id="i71">
+<tr class="altColor" id="i72">
 <td class="colFirst"><a href="ninja/leaping/configurate/reference/WatchServiceListener.html" title="class in ninja.leaping.configurate.reference">WatchServiceListener</a></td>
 <th class="colLast" scope="row">
 <div class="block">A wrapper around NIO's <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchService</code></a> that uses the provided event loop to poll for changes, and calls
  listeners once an event occurs.</div>
 </th>
 </tr>
-<tr class="altColor" id="i72">
+<tr class="rowColor" id="i73">
 <td class="colFirst"><a href="ninja/leaping/configurate/reference/WatchServiceListener.Builder.html" title="class in ninja.leaping.configurate.reference">WatchServiceListener.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Set the parameters needed to create a <a href="ninja/leaping/configurate/reference/WatchServiceListener.html" title="class in ninja.leaping.configurate.reference"><code>WatchServiceListener</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i73">
+<tr class="altColor" id="i74">
 <td class="colFirst"><a href="ninja/leaping/configurate/xml/XMLConfigurationLoader.html" title="class in ninja.leaping.configurate.xml">XMLConfigurationLoader</a></td>
 <th class="colLast" scope="row">
 <div class="block">A loader for XML (Extensible Markup Language), using the native javax library for parsing and
  generation.</div>
 </th>
 </tr>
-<tr class="altColor" id="i74">
+<tr class="rowColor" id="i75">
 <td class="colFirst"><a href="ninja/leaping/configurate/xml/XMLConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.xml">XMLConfigurationLoader.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a <a href="ninja/leaping/configurate/xml/XMLConfigurationLoader.html" title="class in ninja.leaping.configurate.xml"><code>XMLConfigurationLoader</code></a>.</div>
 </th>
 </tr>
-<tr class="rowColor" id="i75">
+<tr class="altColor" id="i76">
 <td class="colFirst"><a href="ninja/leaping/configurate/yaml/YAMLConfigurationLoader.html" title="class in ninja.leaping.configurate.yaml">YAMLConfigurationLoader</a></td>
 <th class="colLast" scope="row">
 <div class="block">A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.</div>
 </th>
 </tr>
-<tr class="altColor" id="i76">
+<tr class="rowColor" id="i77">
 <td class="colFirst"><a href="ninja/leaping/configurate/yaml/YAMLConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.yaml">YAMLConfigurationLoader.Builder</a></td>
 <th class="colLast" scope="row">
 <div class="block">Builds a <a href="ninja/leaping/configurate/yaml/YAMLConfigurationLoader.html" title="class in ninja.leaping.configurate.yaml"><code>YAMLConfigurationLoader</code></a>.</div>
@@ -578,5 +579,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

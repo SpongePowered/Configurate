@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.transformation</a></div>
 <h1 title="Interface TransformAction" class="title">Interface TransformAction</h1>
@@ -154,7 +149,7 @@ public interface <a href="../../../../src-html/ninja/leaping/configurate/transfo
 <div class="block">Called at a certain path, with the node at that path.
 
  <p>The state of the <code>inputPath</code> is only guaranteed to be accurate during a run of
- the transform function. Use <a href="NodePath.html#getArray()"><code>NodePath.getArray()</code></a> if it's state needs to be stored.</p></div>
+ the transform function. Use <a href="NodePath.html#getArray()"><code>NodePath.getArray()</code></a> if its' state needs to be stored.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>inputPath</code> - The path of the given node</dd>
@@ -170,8 +165,8 @@ public interface <a href="../../../../src-html/ninja/leaping/configurate/transfo
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -215,5 +210,7 @@ public interface <a href="../../../../src-html/ninja/leaping/configurate/transfo
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

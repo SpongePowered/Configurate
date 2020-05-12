@@ -29,15 +29,15 @@
 <span class="sourceLineNo">017</span><a id="line.17">package ninja.leaping.configurate.objectmapping;</a>
 <span class="sourceLineNo">018</span><a id="line.18"></a>
 <span class="sourceLineNo">019</span><a id="line.19">import com.google.common.reflect.Invokable;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.reflect.TypeParameter;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.reflect.TypeToken;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import ninja.leaping.configurate.ConfigurationNode;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import ninja.leaping.configurate.commented.CommentedConfigurationNode;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.NonNull;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">027</span><a id="line.27"></a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.lang.reflect.*;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.reflect.TypeToken;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import ninja.leaping.configurate.ConfigurationNode;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import ninja.leaping.configurate.commented.CommentedConfigurationNode;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.lang.reflect.Field;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.lang.reflect.InvocationTargetException;</a>
 <span class="sourceLineNo">029</span><a id="line.29">import java.util.LinkedHashMap;</a>
 <span class="sourceLineNo">030</span><a id="line.30">import java.util.Map;</a>
 <span class="sourceLineNo">031</span><a id="line.31"></a>
@@ -133,7 +133,7 @@
 <span class="sourceLineNo">121</span><a id="line.121">        private final TypeToken&lt;?&gt; fieldType;</a>
 <span class="sourceLineNo">122</span><a id="line.122">        private final String comment;</a>
 <span class="sourceLineNo">123</span><a id="line.123"></a>
-<span class="sourceLineNo">124</span><a id="line.124">        public FieldData(Field field, String comment) {</a>
+<span class="sourceLineNo">124</span><a id="line.124">        public FieldData(Field field, String comment) throws ObjectMappingException {</a>
 <span class="sourceLineNo">125</span><a id="line.125">            this(field, comment, TypeToken.of(field.getGenericType()));</a>
 <span class="sourceLineNo">126</span><a id="line.126">        }</a>
 <span class="sourceLineNo">127</span><a id="line.127"></a>
@@ -251,147 +251,162 @@
 <span class="sourceLineNo">239</span><a id="line.239">    }</a>
 <span class="sourceLineNo">240</span><a id="line.240"></a>
 <span class="sourceLineNo">241</span><a id="line.241">    /**</a>
-<span class="sourceLineNo">242</span><a id="line.242">     * Create a new object mapper of a given type</a>
-<span class="sourceLineNo">243</span><a id="line.243">     *</a>
-<span class="sourceLineNo">244</span><a id="line.244">     * @param type The type this object mapper will work with</a>
-<span class="sourceLineNo">245</span><a id="line.245">     * @throws ObjectMappingException When errors occur discovering fields in the class</a>
-<span class="sourceLineNo">246</span><a id="line.246">     */</a>
-<span class="sourceLineNo">247</span><a id="line.247">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">248</span><a id="line.248">    protected ObjectMapper(TypeToken&lt;T&gt; type) throws ObjectMappingException {</a>
-<span class="sourceLineNo">249</span><a id="line.249">        this.type = type;</a>
-<span class="sourceLineNo">250</span><a id="line.250">        this.clazz = type.getRawType();</a>
-<span class="sourceLineNo">251</span><a id="line.251">        if (this.clazz.isInterface()) {</a>
-<span class="sourceLineNo">252</span><a id="line.252">            throw new ObjectMappingException("ObjectMapper can only work with concrete types");</a>
-<span class="sourceLineNo">253</span><a id="line.253">        }</a>
-<span class="sourceLineNo">254</span><a id="line.254"></a>
-<span class="sourceLineNo">255</span><a id="line.255">        Invokable&lt;T, T&gt; constructor = null;</a>
-<span class="sourceLineNo">256</span><a id="line.256">        try {</a>
-<span class="sourceLineNo">257</span><a id="line.257">            constructor = type.constructor(type.getRawType().getDeclaredConstructor());</a>
-<span class="sourceLineNo">258</span><a id="line.258">            constructor.setAccessible(true);</a>
-<span class="sourceLineNo">259</span><a id="line.259">        } catch (NoSuchMethodException ignore) {</a>
-<span class="sourceLineNo">260</span><a id="line.260">        }</a>
-<span class="sourceLineNo">261</span><a id="line.261">        this.constructor = constructor;</a>
-<span class="sourceLineNo">262</span><a id="line.262">        TypeToken&lt;? super T&gt; collectType = type;</a>
-<span class="sourceLineNo">263</span><a id="line.263">        Class&lt;? super T&gt; collectClass = type.getRawType();</a>
-<span class="sourceLineNo">264</span><a id="line.264">        boolean useLegacy = false, first = true;</a>
-<span class="sourceLineNo">265</span><a id="line.265">        while (true) {</a>
-<span class="sourceLineNo">266</span><a id="line.266">            if (first || useLegacy) { // fallback for implementations that override collectFields</a>
-<span class="sourceLineNo">267</span><a id="line.267">                collectFields(cachedFields, collectClass);</a>
-<span class="sourceLineNo">268</span><a id="line.268">                if (!cachedFields.isEmpty()) {</a>
-<span class="sourceLineNo">269</span><a id="line.269">                    useLegacy = true;</a>
-<span class="sourceLineNo">270</span><a id="line.270">                }</a>
-<span class="sourceLineNo">271</span><a id="line.271">            }</a>
-<span class="sourceLineNo">272</span><a id="line.272">            first = false;</a>
-<span class="sourceLineNo">273</span><a id="line.273"></a>
-<span class="sourceLineNo">274</span><a id="line.274">            if (!useLegacy) {</a>
-<span class="sourceLineNo">275</span><a id="line.275">                collectFields(cachedFields, collectType);</a>
-<span class="sourceLineNo">276</span><a id="line.276">            }</a>
-<span class="sourceLineNo">277</span><a id="line.277"></a>
-<span class="sourceLineNo">278</span><a id="line.278">            collectClass = collectClass.getSuperclass();</a>
-<span class="sourceLineNo">279</span><a id="line.279">            if (collectClass.equals(Object.class)) {</a>
-<span class="sourceLineNo">280</span><a id="line.280">                break;</a>
-<span class="sourceLineNo">281</span><a id="line.281">            }</a>
-<span class="sourceLineNo">282</span><a id="line.282">            collectType = collectType.getSupertype((Class) collectClass);</a>
-<span class="sourceLineNo">283</span><a id="line.283">        }</a>
-<span class="sourceLineNo">284</span><a id="line.284">    }</a>
-<span class="sourceLineNo">285</span><a id="line.285"></a>
-<span class="sourceLineNo">286</span><a id="line.286">    /**</a>
-<span class="sourceLineNo">287</span><a id="line.287">     * Gather fields from a class, without having calculated types present</a>
-<span class="sourceLineNo">288</span><a id="line.288">     * @param cachedFields map to contribute fields to</a>
-<span class="sourceLineNo">289</span><a id="line.289">     * @param clazz active class to scan</a>
-<span class="sourceLineNo">290</span><a id="line.290">     * @throws ObjectMappingException when an error occurs</a>
-<span class="sourceLineNo">291</span><a id="line.291">     * @deprecated Use {@link #collectFields(Map, TypeToken)} instead</a>
-<span class="sourceLineNo">292</span><a id="line.292">     */</a>
-<span class="sourceLineNo">293</span><a id="line.293">    @Deprecated</a>
-<span class="sourceLineNo">294</span><a id="line.294">    protected void collectFields(Map&lt;String, FieldData&gt; cachedFields, Class&lt;? super T&gt; clazz) throws ObjectMappingException {</a>
-<span class="sourceLineNo">295</span><a id="line.295">        // no-op</a>
-<span class="sourceLineNo">296</span><a id="line.296">    }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">    protected void collectFields(Map&lt;String, FieldData&gt; cachedFields, TypeToken&lt;? super T&gt; clazz) throws ObjectMappingException {</a>
-<span class="sourceLineNo">299</span><a id="line.299">        for (Field field : clazz.getRawType().getDeclaredFields()) {</a>
-<span class="sourceLineNo">300</span><a id="line.300">            if (field.isAnnotationPresent(Setting.class)) {</a>
-<span class="sourceLineNo">301</span><a id="line.301">                Setting setting = field.getAnnotation(Setting.class);</a>
-<span class="sourceLineNo">302</span><a id="line.302">                String path = setting.value();</a>
-<span class="sourceLineNo">303</span><a id="line.303">                if (path.isEmpty()) {</a>
-<span class="sourceLineNo">304</span><a id="line.304">                    path = field.getName();</a>
-<span class="sourceLineNo">305</span><a id="line.305">                }</a>
-<span class="sourceLineNo">306</span><a id="line.306"></a>
-<span class="sourceLineNo">307</span><a id="line.307">                TypeToken&lt;?&gt; fieldType = clazz.resolveType(field.getGenericType());</a>
-<span class="sourceLineNo">308</span><a id="line.308"></a>
-<span class="sourceLineNo">309</span><a id="line.309">                FieldData data = new FieldData(field, setting.comment(), fieldType);</a>
-<span class="sourceLineNo">310</span><a id="line.310">                field.setAccessible(true);</a>
-<span class="sourceLineNo">311</span><a id="line.311">                if (!cachedFields.containsKey(path)) {</a>
-<span class="sourceLineNo">312</span><a id="line.312">                    cachedFields.put(path, data);</a>
-<span class="sourceLineNo">313</span><a id="line.313">                }</a>
-<span class="sourceLineNo">314</span><a id="line.314">            }</a>
-<span class="sourceLineNo">315</span><a id="line.315">        }</a>
-<span class="sourceLineNo">316</span><a id="line.316">    }</a>
-<span class="sourceLineNo">317</span><a id="line.317"></a>
-<span class="sourceLineNo">318</span><a id="line.318">    /**</a>
-<span class="sourceLineNo">319</span><a id="line.319">     * Create a new instance of an object of the appropriate type. This method is not</a>
-<span class="sourceLineNo">320</span><a id="line.320">     * responsible for any population.</a>
-<span class="sourceLineNo">321</span><a id="line.321">     *</a>
-<span class="sourceLineNo">322</span><a id="line.322">     * @return The new object instance</a>
-<span class="sourceLineNo">323</span><a id="line.323">     * @throws ObjectMappingException If constructing a new instance was not possible</a>
-<span class="sourceLineNo">324</span><a id="line.324">     */</a>
-<span class="sourceLineNo">325</span><a id="line.325">    protected T constructObject() throws ObjectMappingException {</a>
-<span class="sourceLineNo">326</span><a id="line.326">        if (constructor == null) {</a>
-<span class="sourceLineNo">327</span><a id="line.327">            throw new ObjectMappingException("No zero-arg constructor is available for class " + type + " but is required to construct new instances!");</a>
-<span class="sourceLineNo">328</span><a id="line.328">        }</a>
-<span class="sourceLineNo">329</span><a id="line.329">        try {</a>
-<span class="sourceLineNo">330</span><a id="line.330">            return constructor.invoke(null);</a>
-<span class="sourceLineNo">331</span><a id="line.331">        } catch (IllegalAccessException | InvocationTargetException e) {</a>
-<span class="sourceLineNo">332</span><a id="line.332">            throw new ObjectMappingException("Unable to create instance of target class " + type, e);</a>
-<span class="sourceLineNo">333</span><a id="line.333">        }</a>
-<span class="sourceLineNo">334</span><a id="line.334">    }</a>
-<span class="sourceLineNo">335</span><a id="line.335"></a>
-<span class="sourceLineNo">336</span><a id="line.336">    /**</a>
-<span class="sourceLineNo">337</span><a id="line.337">     * Returns whether this object mapper can create new object instances. This may be</a>
-<span class="sourceLineNo">338</span><a id="line.338">     * false if the provided class has no zero-argument constructors.</a>
-<span class="sourceLineNo">339</span><a id="line.339">     *</a>
-<span class="sourceLineNo">340</span><a id="line.340">     * @return Whether new object instances can be created</a>
-<span class="sourceLineNo">341</span><a id="line.341">     */</a>
-<span class="sourceLineNo">342</span><a id="line.342">    public boolean canCreateInstances() {</a>
-<span class="sourceLineNo">343</span><a id="line.343">        return constructor != null;</a>
-<span class="sourceLineNo">344</span><a id="line.344">    }</a>
-<span class="sourceLineNo">345</span><a id="line.345"></a>
-<span class="sourceLineNo">346</span><a id="line.346">    /**</a>
-<span class="sourceLineNo">347</span><a id="line.347">     * Return a view on this mapper that is bound to a single object instance</a>
-<span class="sourceLineNo">348</span><a id="line.348">     *</a>
-<span class="sourceLineNo">349</span><a id="line.349">     * @param instance The instance to bind to</a>
-<span class="sourceLineNo">350</span><a id="line.350">     * @return A view referencing this mapper and the bound instance</a>
-<span class="sourceLineNo">351</span><a id="line.351">     */</a>
-<span class="sourceLineNo">352</span><a id="line.352">    public BoundInstance bind(T instance) {</a>
-<span class="sourceLineNo">353</span><a id="line.353">        return new BoundInstance(instance);</a>
-<span class="sourceLineNo">354</span><a id="line.354">    }</a>
-<span class="sourceLineNo">355</span><a id="line.355"></a>
-<span class="sourceLineNo">356</span><a id="line.356">    /**</a>
-<span class="sourceLineNo">357</span><a id="line.357">     * Returns a view on this mapper that is bound to a newly created object instance</a>
-<span class="sourceLineNo">358</span><a id="line.358">     *</a>
-<span class="sourceLineNo">359</span><a id="line.359">     * @see #bind(Object)</a>
-<span class="sourceLineNo">360</span><a id="line.360">     * @return Bound mapper attached to a new object instance</a>
-<span class="sourceLineNo">361</span><a id="line.361">     * @throws ObjectMappingException If the object could not be constructed correctly</a>
-<span class="sourceLineNo">362</span><a id="line.362">     */</a>
-<span class="sourceLineNo">363</span><a id="line.363">    public BoundInstance bindToNew() throws ObjectMappingException {</a>
-<span class="sourceLineNo">364</span><a id="line.364">        return new BoundInstance(constructObject());</a>
-<span class="sourceLineNo">365</span><a id="line.365">    }</a>
-<span class="sourceLineNo">366</span><a id="line.366"></a>
-<span class="sourceLineNo">367</span><a id="line.367">    /**</a>
-<span class="sourceLineNo">368</span><a id="line.368">     * Get the mapped class.</a>
-<span class="sourceLineNo">369</span><a id="line.369">     *</a>
-<span class="sourceLineNo">370</span><a id="line.370">     * @return class</a>
-<span class="sourceLineNo">371</span><a id="line.371">     * @deprecated Use {@link #getType()} to be aware of parameterized types</a>
-<span class="sourceLineNo">372</span><a id="line.372">     */</a>
-<span class="sourceLineNo">373</span><a id="line.373">    @Deprecated</a>
-<span class="sourceLineNo">374</span><a id="line.374">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">375</span><a id="line.375">    public Class&lt;T&gt; getMappedType() {</a>
-<span class="sourceLineNo">376</span><a id="line.376">        return (Class&lt;T&gt;) this.clazz;</a>
-<span class="sourceLineNo">377</span><a id="line.377">    }</a>
-<span class="sourceLineNo">378</span><a id="line.378"></a>
-<span class="sourceLineNo">379</span><a id="line.379">    public TypeToken&lt;T&gt; getType() {</a>
-<span class="sourceLineNo">380</span><a id="line.380">        return this.type;</a>
-<span class="sourceLineNo">381</span><a id="line.381">    }</a>
-<span class="sourceLineNo">382</span><a id="line.382">}</a>
+<span class="sourceLineNo">242</span><a id="line.242">     * Method to determine if this ObjectMapper instance needs to maintain pre-3.7 behaviour. Override this if you are</a>
+<span class="sourceLineNo">243</span><a id="line.243">     * ready to take advantage of new 3.7 changes and also will be providing a subclass of ObjectMapper that overrides</a>
+<span class="sourceLineNo">244</span><a id="line.244">     * the old collectFields</a>
+<span class="sourceLineNo">245</span><a id="line.245">     *</a>
+<span class="sourceLineNo">246</span><a id="line.246">     * @return true to get legacy, less generic-aware treatment</a>
+<span class="sourceLineNo">247</span><a id="line.247">     * @deprecated Backwards compatibility measure, to be removed in 4.0</a>
+<span class="sourceLineNo">248</span><a id="line.248">     */</a>
+<span class="sourceLineNo">249</span><a id="line.249">    @Deprecated</a>
+<span class="sourceLineNo">250</span><a id="line.250">    protected boolean isLegacy() {</a>
+<span class="sourceLineNo">251</span><a id="line.251">        if (this.getClass().getPackage() !=  ObjectMapper.class.getPackage()) {</a>
+<span class="sourceLineNo">252</span><a id="line.252">            try {</a>
+<span class="sourceLineNo">253</span><a id="line.253">                // If this is a child class that overrides the non-tokened colllectFields method, they should get legacy treatment</a>
+<span class="sourceLineNo">254</span><a id="line.254">                getClass().getDeclaredMethod("collectFields", Map.class, Class.class);</a>
+<span class="sourceLineNo">255</span><a id="line.255">                return true;</a>
+<span class="sourceLineNo">256</span><a id="line.256">            } catch (NoSuchMethodException ignore) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">            }</a>
+<span class="sourceLineNo">258</span><a id="line.258">        }</a>
+<span class="sourceLineNo">259</span><a id="line.259">        return false;</a>
+<span class="sourceLineNo">260</span><a id="line.260">    }</a>
+<span class="sourceLineNo">261</span><a id="line.261"></a>
+<span class="sourceLineNo">262</span><a id="line.262">    /**</a>
+<span class="sourceLineNo">263</span><a id="line.263">     * Create a new object mapper of a given type</a>
+<span class="sourceLineNo">264</span><a id="line.264">     *</a>
+<span class="sourceLineNo">265</span><a id="line.265">     * @param type The type this object mapper will work with</a>
+<span class="sourceLineNo">266</span><a id="line.266">     * @throws ObjectMappingException When errors occur discovering fields in the class</a>
+<span class="sourceLineNo">267</span><a id="line.267">     */</a>
+<span class="sourceLineNo">268</span><a id="line.268">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">269</span><a id="line.269">    protected ObjectMapper(TypeToken&lt;T&gt; type) throws ObjectMappingException {</a>
+<span class="sourceLineNo">270</span><a id="line.270">        this.type = type;</a>
+<span class="sourceLineNo">271</span><a id="line.271">        this.clazz = type.getRawType();</a>
+<span class="sourceLineNo">272</span><a id="line.272">        if (this.clazz.isInterface()) {</a>
+<span class="sourceLineNo">273</span><a id="line.273">            throw new ObjectMappingException("ObjectMapper can only work with concrete types");</a>
+<span class="sourceLineNo">274</span><a id="line.274">        }</a>
+<span class="sourceLineNo">275</span><a id="line.275"></a>
+<span class="sourceLineNo">276</span><a id="line.276">        Invokable&lt;T, T&gt; constructor = null;</a>
+<span class="sourceLineNo">277</span><a id="line.277">        try {</a>
+<span class="sourceLineNo">278</span><a id="line.278">            constructor = type.constructor(type.getRawType().getDeclaredConstructor());</a>
+<span class="sourceLineNo">279</span><a id="line.279">            constructor.setAccessible(true);</a>
+<span class="sourceLineNo">280</span><a id="line.280">        } catch (NoSuchMethodException ignore) {</a>
+<span class="sourceLineNo">281</span><a id="line.281">        }</a>
+<span class="sourceLineNo">282</span><a id="line.282">        this.constructor = constructor;</a>
+<span class="sourceLineNo">283</span><a id="line.283">        TypeToken&lt;? super T&gt; collectType = type;</a>
+<span class="sourceLineNo">284</span><a id="line.284">        Class&lt;? super T&gt; collectClass = type.getRawType();</a>
+<span class="sourceLineNo">285</span><a id="line.285">        boolean legacy = isLegacy();</a>
+<span class="sourceLineNo">286</span><a id="line.286">        while (true) {</a>
+<span class="sourceLineNo">287</span><a id="line.287">            if (legacy) {</a>
+<span class="sourceLineNo">288</span><a id="line.288">                collectFields(cachedFields, collectClass);</a>
+<span class="sourceLineNo">289</span><a id="line.289">            } else {</a>
+<span class="sourceLineNo">290</span><a id="line.290">                collectFields(cachedFields, collectType);</a>
+<span class="sourceLineNo">291</span><a id="line.291">            }</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">            collectClass = collectClass.getSuperclass();</a>
+<span class="sourceLineNo">294</span><a id="line.294">            if (collectClass.equals(Object.class)) {</a>
+<span class="sourceLineNo">295</span><a id="line.295">                break;</a>
+<span class="sourceLineNo">296</span><a id="line.296">            }</a>
+<span class="sourceLineNo">297</span><a id="line.297">            collectType = collectType.getSupertype((Class) collectClass);</a>
+<span class="sourceLineNo">298</span><a id="line.298">        }</a>
+<span class="sourceLineNo">299</span><a id="line.299">    }</a>
+<span class="sourceLineNo">300</span><a id="line.300"></a>
+<span class="sourceLineNo">301</span><a id="line.301">    /**</a>
+<span class="sourceLineNo">302</span><a id="line.302">     * Gather fields from a class, without having calculated types present</a>
+<span class="sourceLineNo">303</span><a id="line.303">     * @param cachedFields map to contribute fields to</a>
+<span class="sourceLineNo">304</span><a id="line.304">     * @param clazz active class to scan</a>
+<span class="sourceLineNo">305</span><a id="line.305">     * @throws ObjectMappingException when an error occurs</a>
+<span class="sourceLineNo">306</span><a id="line.306">     * @deprecated Use {@link #collectFields(Map, TypeToken)} instead</a>
+<span class="sourceLineNo">307</span><a id="line.307">     */</a>
+<span class="sourceLineNo">308</span><a id="line.308">    @Deprecated</a>
+<span class="sourceLineNo">309</span><a id="line.309">    protected void collectFields(Map&lt;String, FieldData&gt; cachedFields, Class&lt;? super T&gt; clazz) throws ObjectMappingException {</a>
+<span class="sourceLineNo">310</span><a id="line.310">        // no-op</a>
+<span class="sourceLineNo">311</span><a id="line.311">    }</a>
+<span class="sourceLineNo">312</span><a id="line.312"></a>
+<span class="sourceLineNo">313</span><a id="line.313">    protected void collectFields(Map&lt;String, FieldData&gt; cachedFields, TypeToken&lt;? super T&gt; clazz) throws ObjectMappingException {</a>
+<span class="sourceLineNo">314</span><a id="line.314">        for (Field field : clazz.getRawType().getDeclaredFields()) {</a>
+<span class="sourceLineNo">315</span><a id="line.315">            if (field.isAnnotationPresent(Setting.class)) {</a>
+<span class="sourceLineNo">316</span><a id="line.316">                Setting setting = field.getAnnotation(Setting.class);</a>
+<span class="sourceLineNo">317</span><a id="line.317">                String path = setting.value();</a>
+<span class="sourceLineNo">318</span><a id="line.318">                if (path.isEmpty()) {</a>
+<span class="sourceLineNo">319</span><a id="line.319">                    path = field.getName();</a>
+<span class="sourceLineNo">320</span><a id="line.320">                }</a>
+<span class="sourceLineNo">321</span><a id="line.321"></a>
+<span class="sourceLineNo">322</span><a id="line.322">                TypeToken&lt;?&gt; fieldType = clazz.resolveType(field.getGenericType());</a>
+<span class="sourceLineNo">323</span><a id="line.323"></a>
+<span class="sourceLineNo">324</span><a id="line.324">                FieldData data = new FieldData(field, setting.comment(), fieldType);</a>
+<span class="sourceLineNo">325</span><a id="line.325">                field.setAccessible(true);</a>
+<span class="sourceLineNo">326</span><a id="line.326">                if (!cachedFields.containsKey(path)) {</a>
+<span class="sourceLineNo">327</span><a id="line.327">                    cachedFields.put(path, data);</a>
+<span class="sourceLineNo">328</span><a id="line.328">                }</a>
+<span class="sourceLineNo">329</span><a id="line.329">            }</a>
+<span class="sourceLineNo">330</span><a id="line.330">        }</a>
+<span class="sourceLineNo">331</span><a id="line.331">    }</a>
+<span class="sourceLineNo">332</span><a id="line.332"></a>
+<span class="sourceLineNo">333</span><a id="line.333">    /**</a>
+<span class="sourceLineNo">334</span><a id="line.334">     * Create a new instance of an object of the appropriate type. This method is not</a>
+<span class="sourceLineNo">335</span><a id="line.335">     * responsible for any population.</a>
+<span class="sourceLineNo">336</span><a id="line.336">     *</a>
+<span class="sourceLineNo">337</span><a id="line.337">     * @return The new object instance</a>
+<span class="sourceLineNo">338</span><a id="line.338">     * @throws ObjectMappingException If constructing a new instance was not possible</a>
+<span class="sourceLineNo">339</span><a id="line.339">     */</a>
+<span class="sourceLineNo">340</span><a id="line.340">    protected T constructObject() throws ObjectMappingException {</a>
+<span class="sourceLineNo">341</span><a id="line.341">        if (constructor == null) {</a>
+<span class="sourceLineNo">342</span><a id="line.342">            throw new ObjectMappingException("No zero-arg constructor is available for class " + type + " but is required to construct new instances!");</a>
+<span class="sourceLineNo">343</span><a id="line.343">        }</a>
+<span class="sourceLineNo">344</span><a id="line.344">        try {</a>
+<span class="sourceLineNo">345</span><a id="line.345">            return constructor.invoke(null);</a>
+<span class="sourceLineNo">346</span><a id="line.346">        } catch (IllegalAccessException | InvocationTargetException e) {</a>
+<span class="sourceLineNo">347</span><a id="line.347">            throw new ObjectMappingException("Unable to create instance of target class " + type, e);</a>
+<span class="sourceLineNo">348</span><a id="line.348">        }</a>
+<span class="sourceLineNo">349</span><a id="line.349">    }</a>
+<span class="sourceLineNo">350</span><a id="line.350"></a>
+<span class="sourceLineNo">351</span><a id="line.351">    /**</a>
+<span class="sourceLineNo">352</span><a id="line.352">     * Returns whether this object mapper can create new object instances. This may be</a>
+<span class="sourceLineNo">353</span><a id="line.353">     * false if the provided class has no zero-argument constructors.</a>
+<span class="sourceLineNo">354</span><a id="line.354">     *</a>
+<span class="sourceLineNo">355</span><a id="line.355">     * @return Whether new object instances can be created</a>
+<span class="sourceLineNo">356</span><a id="line.356">     */</a>
+<span class="sourceLineNo">357</span><a id="line.357">    public boolean canCreateInstances() {</a>
+<span class="sourceLineNo">358</span><a id="line.358">        return constructor != null;</a>
+<span class="sourceLineNo">359</span><a id="line.359">    }</a>
+<span class="sourceLineNo">360</span><a id="line.360"></a>
+<span class="sourceLineNo">361</span><a id="line.361">    /**</a>
+<span class="sourceLineNo">362</span><a id="line.362">     * Return a view on this mapper that is bound to a single object instance</a>
+<span class="sourceLineNo">363</span><a id="line.363">     *</a>
+<span class="sourceLineNo">364</span><a id="line.364">     * @param instance The instance to bind to</a>
+<span class="sourceLineNo">365</span><a id="line.365">     * @return A view referencing this mapper and the bound instance</a>
+<span class="sourceLineNo">366</span><a id="line.366">     */</a>
+<span class="sourceLineNo">367</span><a id="line.367">    public BoundInstance bind(T instance) {</a>
+<span class="sourceLineNo">368</span><a id="line.368">        return new BoundInstance(instance);</a>
+<span class="sourceLineNo">369</span><a id="line.369">    }</a>
+<span class="sourceLineNo">370</span><a id="line.370"></a>
+<span class="sourceLineNo">371</span><a id="line.371">    /**</a>
+<span class="sourceLineNo">372</span><a id="line.372">     * Returns a view on this mapper that is bound to a newly created object instance</a>
+<span class="sourceLineNo">373</span><a id="line.373">     *</a>
+<span class="sourceLineNo">374</span><a id="line.374">     * @see #bind(Object)</a>
+<span class="sourceLineNo">375</span><a id="line.375">     * @return Bound mapper attached to a new object instance</a>
+<span class="sourceLineNo">376</span><a id="line.376">     * @throws ObjectMappingException If the object could not be constructed correctly</a>
+<span class="sourceLineNo">377</span><a id="line.377">     */</a>
+<span class="sourceLineNo">378</span><a id="line.378">    public BoundInstance bindToNew() throws ObjectMappingException {</a>
+<span class="sourceLineNo">379</span><a id="line.379">        return new BoundInstance(constructObject());</a>
+<span class="sourceLineNo">380</span><a id="line.380">    }</a>
+<span class="sourceLineNo">381</span><a id="line.381"></a>
+<span class="sourceLineNo">382</span><a id="line.382">    /**</a>
+<span class="sourceLineNo">383</span><a id="line.383">     * Get the mapped class.</a>
+<span class="sourceLineNo">384</span><a id="line.384">     *</a>
+<span class="sourceLineNo">385</span><a id="line.385">     * @return class</a>
+<span class="sourceLineNo">386</span><a id="line.386">     * @deprecated Use {@link #getType()} to be aware of parameterized types</a>
+<span class="sourceLineNo">387</span><a id="line.387">     */</a>
+<span class="sourceLineNo">388</span><a id="line.388">    @Deprecated</a>
+<span class="sourceLineNo">389</span><a id="line.389">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">390</span><a id="line.390">    public Class&lt;T&gt; getMappedType() {</a>
+<span class="sourceLineNo">391</span><a id="line.391">        return (Class&lt;T&gt;) this.clazz;</a>
+<span class="sourceLineNo">392</span><a id="line.392">    }</a>
+<span class="sourceLineNo">393</span><a id="line.393"></a>
+<span class="sourceLineNo">394</span><a id="line.394">    public TypeToken&lt;T&gt; getType() {</a>
+<span class="sourceLineNo">395</span><a id="line.395">        return this.type;</a>
+<span class="sourceLineNo">396</span><a id="line.396">    }</a>
+<span class="sourceLineNo">397</span><a id="line.397">}</a>
 
 
 

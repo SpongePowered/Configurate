@@ -123,7 +123,7 @@
 <span class="sourceLineNo">111</span><a id="line.111">        if (Strings.isNullOrEmpty(name)) {</a>
 <span class="sourceLineNo">112</span><a id="line.112">            throw new IllegalArgumentException("Attribute name cannot be null/empty");</a>
 <span class="sourceLineNo">113</span><a id="line.113">        }</a>
-<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">114</span><a id="line.114">        attachIfNecessary();</a>
 <span class="sourceLineNo">115</span><a id="line.115">        attributes.put(name, value);</a>
 <span class="sourceLineNo">116</span><a id="line.116">        return this;</a>
 <span class="sourceLineNo">117</span><a id="line.117">    }</a>
@@ -143,145 +143,152 @@
 <span class="sourceLineNo">131</span><a id="line.131">                throw new IllegalArgumentException("Attribute name cannot be null/empty");</a>
 <span class="sourceLineNo">132</span><a id="line.132">            }</a>
 <span class="sourceLineNo">133</span><a id="line.133">        }</a>
-<span class="sourceLineNo">134</span><a id="line.134"></a>
-<span class="sourceLineNo">135</span><a id="line.135">        this.attributes.clear();</a>
-<span class="sourceLineNo">136</span><a id="line.136">        this.attributes.putAll(attributes);</a>
-<span class="sourceLineNo">137</span><a id="line.137">        return this;</a>
-<span class="sourceLineNo">138</span><a id="line.138">    }</a>
-<span class="sourceLineNo">139</span><a id="line.139"></a>
-<span class="sourceLineNo">140</span><a id="line.140">    @Override</a>
-<span class="sourceLineNo">141</span><a id="line.141">    public boolean hasAttributes() {</a>
-<span class="sourceLineNo">142</span><a id="line.142">        return !attributes.isEmpty();</a>
-<span class="sourceLineNo">143</span><a id="line.143">    }</a>
-<span class="sourceLineNo">144</span><a id="line.144"></a>
-<span class="sourceLineNo">145</span><a id="line.145">    @Nullable</a>
-<span class="sourceLineNo">146</span><a id="line.146">    @Override</a>
-<span class="sourceLineNo">147</span><a id="line.147">    public String getAttribute(@NonNull String name) {</a>
-<span class="sourceLineNo">148</span><a id="line.148">        return attributes.get(name);</a>
-<span class="sourceLineNo">149</span><a id="line.149">    }</a>
-<span class="sourceLineNo">150</span><a id="line.150"></a>
-<span class="sourceLineNo">151</span><a id="line.151">    @NonNull</a>
-<span class="sourceLineNo">152</span><a id="line.152">    @Override</a>
-<span class="sourceLineNo">153</span><a id="line.153">    public Map&lt;String, String&gt; getAttributes() {</a>
-<span class="sourceLineNo">154</span><a id="line.154">        return ImmutableMap.copyOf(attributes);</a>
-<span class="sourceLineNo">155</span><a id="line.155">    }</a>
-<span class="sourceLineNo">156</span><a id="line.156"></a>
-<span class="sourceLineNo">157</span><a id="line.157">    // Methods from superclass overridden to have correct return types</a>
+<span class="sourceLineNo">134</span><a id="line.134">        this.attributes.clear();</a>
+<span class="sourceLineNo">135</span><a id="line.135">        if (!attributes.isEmpty()) {</a>
+<span class="sourceLineNo">136</span><a id="line.136">            attachIfNecessary();</a>
+<span class="sourceLineNo">137</span><a id="line.137">            this.attributes.putAll(attributes);</a>
+<span class="sourceLineNo">138</span><a id="line.138">        }</a>
+<span class="sourceLineNo">139</span><a id="line.139">        return this;</a>
+<span class="sourceLineNo">140</span><a id="line.140">    }</a>
+<span class="sourceLineNo">141</span><a id="line.141"></a>
+<span class="sourceLineNo">142</span><a id="line.142">    @Override</a>
+<span class="sourceLineNo">143</span><a id="line.143">    public boolean hasAttributes() {</a>
+<span class="sourceLineNo">144</span><a id="line.144">        return !attributes.isEmpty();</a>
+<span class="sourceLineNo">145</span><a id="line.145">    }</a>
+<span class="sourceLineNo">146</span><a id="line.146"></a>
+<span class="sourceLineNo">147</span><a id="line.147">    @Nullable</a>
+<span class="sourceLineNo">148</span><a id="line.148">    @Override</a>
+<span class="sourceLineNo">149</span><a id="line.149">    public String getAttribute(@NonNull String name) {</a>
+<span class="sourceLineNo">150</span><a id="line.150">        return attributes.get(name);</a>
+<span class="sourceLineNo">151</span><a id="line.151">    }</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">    @NonNull</a>
+<span class="sourceLineNo">154</span><a id="line.154">    @Override</a>
+<span class="sourceLineNo">155</span><a id="line.155">    public Map&lt;String, String&gt; getAttributes() {</a>
+<span class="sourceLineNo">156</span><a id="line.156">        return ImmutableMap.copyOf(attributes);</a>
+<span class="sourceLineNo">157</span><a id="line.157">    }</a>
 <span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">    @Nullable</a>
-<span class="sourceLineNo">160</span><a id="line.160">    @Override</a>
-<span class="sourceLineNo">161</span><a id="line.161">    public SimpleAttributedConfigurationNode getParent() {</a>
-<span class="sourceLineNo">162</span><a id="line.162">        return (SimpleAttributedConfigurationNode) super.getParent();</a>
-<span class="sourceLineNo">163</span><a id="line.163">    }</a>
-<span class="sourceLineNo">164</span><a id="line.164"></a>
-<span class="sourceLineNo">165</span><a id="line.165">    @Override</a>
-<span class="sourceLineNo">166</span><a id="line.166">    protected SimpleAttributedConfigurationNode createNode(Object path) {</a>
-<span class="sourceLineNo">167</span><a id="line.167">        return new SimpleAttributedConfigurationNode("element", path, this, getOptions());</a>
-<span class="sourceLineNo">168</span><a id="line.168">    }</a>
-<span class="sourceLineNo">169</span><a id="line.169"></a>
-<span class="sourceLineNo">170</span><a id="line.170">    @NonNull</a>
-<span class="sourceLineNo">171</span><a id="line.171">    @Override</a>
-<span class="sourceLineNo">172</span><a id="line.172">    public SimpleAttributedConfigurationNode setValue(@Nullable Object value) {</a>
-<span class="sourceLineNo">173</span><a id="line.173">        if (value instanceof AttributedConfigurationNode) {</a>
-<span class="sourceLineNo">174</span><a id="line.174">            AttributedConfigurationNode node = (AttributedConfigurationNode) value;</a>
-<span class="sourceLineNo">175</span><a id="line.175">            setTagName(node.getTagName());</a>
-<span class="sourceLineNo">176</span><a id="line.176">            setAttributes(node.getAttributes());</a>
-<span class="sourceLineNo">177</span><a id="line.177">        }</a>
-<span class="sourceLineNo">178</span><a id="line.178">        return (SimpleAttributedConfigurationNode) super.setValue(value);</a>
-<span class="sourceLineNo">179</span><a id="line.179">    }</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">    @NonNull</a>
-<span class="sourceLineNo">182</span><a id="line.182">    @Override</a>
-<span class="sourceLineNo">183</span><a id="line.183">    public SimpleAttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {</a>
-<span class="sourceLineNo">184</span><a id="line.184">        if (other instanceof AttributedConfigurationNode) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">            AttributedConfigurationNode node = (AttributedConfigurationNode) other;</a>
-<span class="sourceLineNo">186</span><a id="line.186">            setTagName(node.getTagName());</a>
-<span class="sourceLineNo">187</span><a id="line.187">            for (Map.Entry&lt;String, String&gt; attribute : node.getAttributes().entrySet()) {</a>
-<span class="sourceLineNo">188</span><a id="line.188">                addAttribute(attribute.getKey(), attribute.getValue());</a>
-<span class="sourceLineNo">189</span><a id="line.189">            }</a>
-<span class="sourceLineNo">190</span><a id="line.190">        }</a>
-<span class="sourceLineNo">191</span><a id="line.191">        return (SimpleAttributedConfigurationNode) super.mergeValuesFrom(other);</a>
-<span class="sourceLineNo">192</span><a id="line.192">    }</a>
-<span class="sourceLineNo">193</span><a id="line.193"></a>
-<span class="sourceLineNo">194</span><a id="line.194">    @NonNull</a>
-<span class="sourceLineNo">195</span><a id="line.195">    @Override</a>
-<span class="sourceLineNo">196</span><a id="line.196">    public SimpleAttributedConfigurationNode getNode(@NonNull Object... path) {</a>
-<span class="sourceLineNo">197</span><a id="line.197">        return (SimpleAttributedConfigurationNode) super.getNode(path);</a>
-<span class="sourceLineNo">198</span><a id="line.198">    }</a>
-<span class="sourceLineNo">199</span><a id="line.199"></a>
-<span class="sourceLineNo">200</span><a id="line.200">    @NonNull</a>
-<span class="sourceLineNo">201</span><a id="line.201">    @Override</a>
-<span class="sourceLineNo">202</span><a id="line.202">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">203</span><a id="line.203">    public List&lt;? extends SimpleAttributedConfigurationNode&gt; getChildrenList() {</a>
-<span class="sourceLineNo">204</span><a id="line.204">        return (List&lt;SimpleAttributedConfigurationNode&gt;) super.getChildrenList();</a>
+<span class="sourceLineNo">159</span><a id="line.159">    @Override</a>
+<span class="sourceLineNo">160</span><a id="line.160">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">161</span><a id="line.161">        return super.isEmpty() &amp;&amp; attributes.isEmpty();</a>
+<span class="sourceLineNo">162</span><a id="line.162">    }</a>
+<span class="sourceLineNo">163</span><a id="line.163"></a>
+<span class="sourceLineNo">164</span><a id="line.164">    // Methods from superclass overridden to have correct return types</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">    @Nullable</a>
+<span class="sourceLineNo">167</span><a id="line.167">    @Override</a>
+<span class="sourceLineNo">168</span><a id="line.168">    public SimpleAttributedConfigurationNode getParent() {</a>
+<span class="sourceLineNo">169</span><a id="line.169">        return (SimpleAttributedConfigurationNode) super.getParent();</a>
+<span class="sourceLineNo">170</span><a id="line.170">    }</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">    @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">    protected SimpleAttributedConfigurationNode createNode(Object path) {</a>
+<span class="sourceLineNo">174</span><a id="line.174">        return new SimpleAttributedConfigurationNode("element", path, this, getOptions());</a>
+<span class="sourceLineNo">175</span><a id="line.175">    }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">    @NonNull</a>
+<span class="sourceLineNo">178</span><a id="line.178">    @Override</a>
+<span class="sourceLineNo">179</span><a id="line.179">    public SimpleAttributedConfigurationNode setValue(@Nullable Object value) {</a>
+<span class="sourceLineNo">180</span><a id="line.180">        if (value instanceof AttributedConfigurationNode) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">            AttributedConfigurationNode node = (AttributedConfigurationNode) value;</a>
+<span class="sourceLineNo">182</span><a id="line.182">            setTagName(node.getTagName());</a>
+<span class="sourceLineNo">183</span><a id="line.183">            setAttributes(node.getAttributes());</a>
+<span class="sourceLineNo">184</span><a id="line.184">        }</a>
+<span class="sourceLineNo">185</span><a id="line.185">        return (SimpleAttributedConfigurationNode) super.setValue(value);</a>
+<span class="sourceLineNo">186</span><a id="line.186">    }</a>
+<span class="sourceLineNo">187</span><a id="line.187"></a>
+<span class="sourceLineNo">188</span><a id="line.188">    @NonNull</a>
+<span class="sourceLineNo">189</span><a id="line.189">    @Override</a>
+<span class="sourceLineNo">190</span><a id="line.190">    public SimpleAttributedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other) {</a>
+<span class="sourceLineNo">191</span><a id="line.191">        if (other instanceof AttributedConfigurationNode) {</a>
+<span class="sourceLineNo">192</span><a id="line.192">            AttributedConfigurationNode node = (AttributedConfigurationNode) other;</a>
+<span class="sourceLineNo">193</span><a id="line.193">            setTagName(node.getTagName());</a>
+<span class="sourceLineNo">194</span><a id="line.194">            for (Map.Entry&lt;String, String&gt; attribute : node.getAttributes().entrySet()) {</a>
+<span class="sourceLineNo">195</span><a id="line.195">                addAttribute(attribute.getKey(), attribute.getValue());</a>
+<span class="sourceLineNo">196</span><a id="line.196">            }</a>
+<span class="sourceLineNo">197</span><a id="line.197">        }</a>
+<span class="sourceLineNo">198</span><a id="line.198">        return (SimpleAttributedConfigurationNode) super.mergeValuesFrom(other);</a>
+<span class="sourceLineNo">199</span><a id="line.199">    }</a>
+<span class="sourceLineNo">200</span><a id="line.200"></a>
+<span class="sourceLineNo">201</span><a id="line.201">    @NonNull</a>
+<span class="sourceLineNo">202</span><a id="line.202">    @Override</a>
+<span class="sourceLineNo">203</span><a id="line.203">    public SimpleAttributedConfigurationNode getNode(@NonNull Object... path) {</a>
+<span class="sourceLineNo">204</span><a id="line.204">        return (SimpleAttributedConfigurationNode) super.getNode(path);</a>
 <span class="sourceLineNo">205</span><a id="line.205">    }</a>
 <span class="sourceLineNo">206</span><a id="line.206"></a>
 <span class="sourceLineNo">207</span><a id="line.207">    @NonNull</a>
 <span class="sourceLineNo">208</span><a id="line.208">    @Override</a>
 <span class="sourceLineNo">209</span><a id="line.209">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">210</span><a id="line.210">    public Map&lt;Object, ? extends SimpleAttributedConfigurationNode&gt; getChildrenMap() {</a>
-<span class="sourceLineNo">211</span><a id="line.211">        return (Map&lt;Object, SimpleAttributedConfigurationNode&gt;) super.getChildrenMap();</a>
+<span class="sourceLineNo">210</span><a id="line.210">    public List&lt;? extends SimpleAttributedConfigurationNode&gt; getChildrenList() {</a>
+<span class="sourceLineNo">211</span><a id="line.211">        return (List&lt;SimpleAttributedConfigurationNode&gt;) super.getChildrenList();</a>
 <span class="sourceLineNo">212</span><a id="line.212">    }</a>
 <span class="sourceLineNo">213</span><a id="line.213"></a>
 <span class="sourceLineNo">214</span><a id="line.214">    @NonNull</a>
 <span class="sourceLineNo">215</span><a id="line.215">    @Override</a>
-<span class="sourceLineNo">216</span><a id="line.216">    @Deprecated</a>
-<span class="sourceLineNo">217</span><a id="line.217">    public SimpleAttributedConfigurationNode getAppendedNode() {</a>
-<span class="sourceLineNo">218</span><a id="line.218">        return (SimpleAttributedConfigurationNode) super.getAppendedNode();</a>
+<span class="sourceLineNo">216</span><a id="line.216">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">217</span><a id="line.217">    public Map&lt;Object, ? extends SimpleAttributedConfigurationNode&gt; getChildrenMap() {</a>
+<span class="sourceLineNo">218</span><a id="line.218">        return (Map&lt;Object, SimpleAttributedConfigurationNode&gt;) super.getChildrenMap();</a>
 <span class="sourceLineNo">219</span><a id="line.219">    }</a>
 <span class="sourceLineNo">220</span><a id="line.220"></a>
 <span class="sourceLineNo">221</span><a id="line.221">    @NonNull</a>
 <span class="sourceLineNo">222</span><a id="line.222">    @Override</a>
-<span class="sourceLineNo">223</span><a id="line.223">    public SimpleAttributedConfigurationNode appendListNode() {</a>
-<span class="sourceLineNo">224</span><a id="line.224">        return (SimpleAttributedConfigurationNode) super.appendListNode();</a>
-<span class="sourceLineNo">225</span><a id="line.225">    }</a>
-<span class="sourceLineNo">226</span><a id="line.226"></a>
-<span class="sourceLineNo">227</span><a id="line.227">    @NonNull</a>
-<span class="sourceLineNo">228</span><a id="line.228">    @Override</a>
-<span class="sourceLineNo">229</span><a id="line.229">    public SimpleAttributedConfigurationNode copy() {</a>
-<span class="sourceLineNo">230</span><a id="line.230">        return copy(null);</a>
-<span class="sourceLineNo">231</span><a id="line.231">    }</a>
-<span class="sourceLineNo">232</span><a id="line.232"></a>
-<span class="sourceLineNo">233</span><a id="line.233">    @NonNull</a>
-<span class="sourceLineNo">234</span><a id="line.234">    @Override</a>
-<span class="sourceLineNo">235</span><a id="line.235">    protected SimpleAttributedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {</a>
-<span class="sourceLineNo">236</span><a id="line.236">        SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);</a>
-<span class="sourceLineNo">237</span><a id="line.237">        copy.attributes.putAll(this.attributes);</a>
-<span class="sourceLineNo">238</span><a id="line.238">        copy.comment.set(this.comment.get());</a>
-<span class="sourceLineNo">239</span><a id="line.239">        return copy;</a>
-<span class="sourceLineNo">240</span><a id="line.240">    }</a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">    @Override</a>
-<span class="sourceLineNo">243</span><a id="line.243">    public @NonNull SimpleAttributedConfigurationNode setComment(@Nullable String comment) {</a>
-<span class="sourceLineNo">244</span><a id="line.244">        return (SimpleAttributedConfigurationNode) super.setComment(comment);</a>
-<span class="sourceLineNo">245</span><a id="line.245">    }</a>
-<span class="sourceLineNo">246</span><a id="line.246"></a>
-<span class="sourceLineNo">247</span><a id="line.247">    @Override</a>
-<span class="sourceLineNo">248</span><a id="line.248">    public boolean equals(Object o) {</a>
-<span class="sourceLineNo">249</span><a id="line.249">        if (this == o) return true;</a>
-<span class="sourceLineNo">250</span><a id="line.250">        if (!(o instanceof SimpleAttributedConfigurationNode)) return false;</a>
-<span class="sourceLineNo">251</span><a id="line.251">        if (!super.equals(o)) return false;</a>
-<span class="sourceLineNo">252</span><a id="line.252">        SimpleAttributedConfigurationNode that = (SimpleAttributedConfigurationNode) o;</a>
-<span class="sourceLineNo">253</span><a id="line.253">        return tagName.equals(that.tagName) &amp;&amp; attributes.equals(that.attributes);</a>
-<span class="sourceLineNo">254</span><a id="line.254">    }</a>
-<span class="sourceLineNo">255</span><a id="line.255"></a>
-<span class="sourceLineNo">256</span><a id="line.256">    @Override</a>
-<span class="sourceLineNo">257</span><a id="line.257">    public int hashCode() {</a>
-<span class="sourceLineNo">258</span><a id="line.258">        int result = super.hashCode();</a>
-<span class="sourceLineNo">259</span><a id="line.259">        result = 31 * result + tagName.hashCode();</a>
-<span class="sourceLineNo">260</span><a id="line.260">        result = 31 * result + attributes.hashCode();</a>
-<span class="sourceLineNo">261</span><a id="line.261">        return result;</a>
-<span class="sourceLineNo">262</span><a id="line.262">    }</a>
-<span class="sourceLineNo">263</span><a id="line.263"></a>
-<span class="sourceLineNo">264</span><a id="line.264">    @Override</a>
-<span class="sourceLineNo">265</span><a id="line.265">    public String toString() {</a>
-<span class="sourceLineNo">266</span><a id="line.266">        return "SimpleAttributedConfigurationNode{" +</a>
-<span class="sourceLineNo">267</span><a id="line.267">                "super=" + super.toString() + ", " +</a>
-<span class="sourceLineNo">268</span><a id="line.268">                "tagName=" + tagName + ", " +</a>
-<span class="sourceLineNo">269</span><a id="line.269">                "attributes=" + attributes +</a>
-<span class="sourceLineNo">270</span><a id="line.270">                '}';</a>
-<span class="sourceLineNo">271</span><a id="line.271">    }</a>
-<span class="sourceLineNo">272</span><a id="line.272">}</a>
+<span class="sourceLineNo">223</span><a id="line.223">    @Deprecated</a>
+<span class="sourceLineNo">224</span><a id="line.224">    public SimpleAttributedConfigurationNode getAppendedNode() {</a>
+<span class="sourceLineNo">225</span><a id="line.225">        return (SimpleAttributedConfigurationNode) super.getAppendedNode();</a>
+<span class="sourceLineNo">226</span><a id="line.226">    }</a>
+<span class="sourceLineNo">227</span><a id="line.227"></a>
+<span class="sourceLineNo">228</span><a id="line.228">    @NonNull</a>
+<span class="sourceLineNo">229</span><a id="line.229">    @Override</a>
+<span class="sourceLineNo">230</span><a id="line.230">    public SimpleAttributedConfigurationNode appendListNode() {</a>
+<span class="sourceLineNo">231</span><a id="line.231">        return (SimpleAttributedConfigurationNode) super.appendListNode();</a>
+<span class="sourceLineNo">232</span><a id="line.232">    }</a>
+<span class="sourceLineNo">233</span><a id="line.233"></a>
+<span class="sourceLineNo">234</span><a id="line.234">    @NonNull</a>
+<span class="sourceLineNo">235</span><a id="line.235">    @Override</a>
+<span class="sourceLineNo">236</span><a id="line.236">    public SimpleAttributedConfigurationNode copy() {</a>
+<span class="sourceLineNo">237</span><a id="line.237">        return copy(null);</a>
+<span class="sourceLineNo">238</span><a id="line.238">    }</a>
+<span class="sourceLineNo">239</span><a id="line.239"></a>
+<span class="sourceLineNo">240</span><a id="line.240">    @NonNull</a>
+<span class="sourceLineNo">241</span><a id="line.241">    @Override</a>
+<span class="sourceLineNo">242</span><a id="line.242">    protected SimpleAttributedConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {</a>
+<span class="sourceLineNo">243</span><a id="line.243">        SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);</a>
+<span class="sourceLineNo">244</span><a id="line.244">        copy.attributes.putAll(this.attributes);</a>
+<span class="sourceLineNo">245</span><a id="line.245">        getComment().ifPresent(copy::setComment);</a>
+<span class="sourceLineNo">246</span><a id="line.246">        return copy;</a>
+<span class="sourceLineNo">247</span><a id="line.247">    }</a>
+<span class="sourceLineNo">248</span><a id="line.248"></a>
+<span class="sourceLineNo">249</span><a id="line.249">    @Override</a>
+<span class="sourceLineNo">250</span><a id="line.250">    public @NonNull SimpleAttributedConfigurationNode setComment(@Nullable String comment) {</a>
+<span class="sourceLineNo">251</span><a id="line.251">        return (SimpleAttributedConfigurationNode) super.setComment(comment);</a>
+<span class="sourceLineNo">252</span><a id="line.252">    }</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">    @Override</a>
+<span class="sourceLineNo">255</span><a id="line.255">    public boolean equals(Object o) {</a>
+<span class="sourceLineNo">256</span><a id="line.256">        if (this == o) return true;</a>
+<span class="sourceLineNo">257</span><a id="line.257">        if (!(o instanceof SimpleAttributedConfigurationNode)) return false;</a>
+<span class="sourceLineNo">258</span><a id="line.258">        if (!super.equals(o)) return false;</a>
+<span class="sourceLineNo">259</span><a id="line.259">        SimpleAttributedConfigurationNode that = (SimpleAttributedConfigurationNode) o;</a>
+<span class="sourceLineNo">260</span><a id="line.260">        return tagName.equals(that.tagName) &amp;&amp; attributes.equals(that.attributes);</a>
+<span class="sourceLineNo">261</span><a id="line.261">    }</a>
+<span class="sourceLineNo">262</span><a id="line.262"></a>
+<span class="sourceLineNo">263</span><a id="line.263">    @Override</a>
+<span class="sourceLineNo">264</span><a id="line.264">    public int hashCode() {</a>
+<span class="sourceLineNo">265</span><a id="line.265">        int result = super.hashCode();</a>
+<span class="sourceLineNo">266</span><a id="line.266">        result = 31 * result + tagName.hashCode();</a>
+<span class="sourceLineNo">267</span><a id="line.267">        result = 31 * result + attributes.hashCode();</a>
+<span class="sourceLineNo">268</span><a id="line.268">        return result;</a>
+<span class="sourceLineNo">269</span><a id="line.269">    }</a>
+<span class="sourceLineNo">270</span><a id="line.270"></a>
+<span class="sourceLineNo">271</span><a id="line.271">    @Override</a>
+<span class="sourceLineNo">272</span><a id="line.272">    public String toString() {</a>
+<span class="sourceLineNo">273</span><a id="line.273">        return "SimpleAttributedConfigurationNode{" +</a>
+<span class="sourceLineNo">274</span><a id="line.274">                "super=" + super.toString() + ", " +</a>
+<span class="sourceLineNo">275</span><a id="line.275">                "tagName=" + tagName + ", " +</a>
+<span class="sourceLineNo">276</span><a id="line.276">                "attributes=" + attributes +</a>
+<span class="sourceLineNo">277</span><a id="line.277">                '}';</a>
+<span class="sourceLineNo">278</span><a id="line.278">    }</a>
+<span class="sourceLineNo">279</span><a id="line.279">}</a>
 
 
 

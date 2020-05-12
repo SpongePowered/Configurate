@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":6,"i1":6,"i2":6,"i3":6};
+<script type="text/javascript">var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.reference</a></div>
 <h1 title="Interface ValueReference" class="title">Interface ValueReference&lt;T&gt;</h1>
@@ -101,7 +96,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;T&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.31">ValueReference</a>&lt;T&gt;
+<pre>public interface <a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.33">ValueReference</a>&lt;T&gt;
 extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;T&gt;</pre>
 <div class="block">A pointer to a node within a configuration tree.
  <p>
@@ -166,7 +161,29 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAndSave(T)">setAndSave</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Set the new value of this node.</div>
+<div class="block">Set the new value of this node and save the underlying configuration</div>
+</td>
+</tr>
+<tr class="altColor" id="i4">
+<td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAndSaveAsync(T)">setAndSaveAsync</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</code></th>
+<td class="colLast">
+<div class="block">Set the new value of this node and save the underlying configuration asynchronously on the executor of the owning
+ <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a></div>
+</td>
+</tr>
+<tr class="rowColor" id="i5">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#update(java.util.function.Function)">update</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</code></th>
+<td class="colLast">
+<div class="block">Update this value and the underlying node, without saving.</div>
+</td>
+</tr>
+<tr class="altColor" id="i6">
+<td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateAsync(java.util.function.Function)">updateAsync</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</code></th>
+<td class="colLast">
+<div class="block">Update, performing the action and save on the executor of the owning <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.</div>
 </td>
 </tr>
 </tbody>
@@ -194,7 +211,7 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 <li class="blockList">
 <section class="detail">
 <h3><a id="get()">get</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.39">get</a></span>()</div>
+<div class="memberSignature"><span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.41">get</a></span>()</div>
 <div class="block">Get the current value at this node
  <p>
  Any deserialization failures will be submitted to the owning <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>'s error callback</div>
@@ -209,7 +226,7 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 <h3><a id="set(java.lang.Object)">
 <!--   -->
 </a><a id="set(T)">set</a></h3>
-<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.49">set</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</span></div>
+<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.51">set</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</span></div>
 <div class="block">Set the new value of this node. The configuration won't be saved.
  <p>
  Any serialization errors will be provided to the error callback of the owning <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a></div>
@@ -226,8 +243,8 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 <h3><a id="setAndSave(java.lang.Object)">
 <!--   -->
 </a><a id="setAndSave(T)">setAndSave</a></h3>
-<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.59">setAndSave</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</span></div>
-<div class="block">Set the new value of this node. The configuration won't be saved.
+<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.61">setAndSave</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</span></div>
+<div class="block">Set the new value of this node and save the underlying configuration
  <p>
  Any serialization errors will be provided to the error callback of the owning <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a></div>
 <dl>
@@ -240,8 +257,57 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="setAndSaveAsync(java.lang.Object)">
+<!--   -->
+</a><a id="setAndSaveAsync(T)">setAndSaveAsync</a></h3>
+<div class="memberSignature"><span class="returnType"><a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.72">setAndSaveAsync</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</span></div>
+<div class="block">Set the new value of this node and save the underlying configuration asynchronously on the executor of the owning
+ <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>
+ <p>
+ Any serialization errors will be submitted to subscribers of the returned <a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive"><code>Publisher</code></a></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - The value</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if successful, false if serialization fails</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="update(java.util.function.Function)">update</a></h3>
+<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.82">update</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</span></div>
+<div class="block">Update this value and the underlying node, without saving.
+ <p>
+ Any serialization errors will be provided to the error callback of the owning <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - to transform this node's value</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>whether this update was successful</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="updateAsync(java.util.function.Function)">updateAsync</a></h3>
+<div class="memberSignature"><span class="returnType"><a href="../reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.93">updateAsync</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</span></div>
+<div class="block">Update, performing the action and save on the executor of the owning <a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>. Any errors
+ that occur while saving will be passed along to any subscribers.
+ <p>
+ The updated value will only be exposed if the changes are successful.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - to transform this node's value</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>whether this update was successful</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="getNode()">getNode</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.66">getNode</a></span>()</div>
+<div class="memberSignature"><span class="returnType"><a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ValueReference.html#line.100">getNode</a></span>()</div>
 <div class="block">Get the node this value reference points to.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -255,8 +321,8 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -300,5 +366,7 @@ extends <a href="../reactive/Publisher.html" title="interface in ninja.leaping.c
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

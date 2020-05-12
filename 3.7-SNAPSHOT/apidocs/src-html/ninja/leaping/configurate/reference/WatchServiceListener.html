@@ -205,7 +205,7 @@
 <span class="sourceLineNo">193</span><a id="line.193">        return getRegistration(directory).subscribe(callback);</a>
 <span class="sourceLineNo">194</span><a id="line.194">    }</a>
 <span class="sourceLineNo">195</span><a id="line.195"></a>
-<span class="sourceLineNo">196</span><a id="line.196">    public &lt;N extends ConfigurationNode&gt; ConfigurationReference&lt;N&gt; listenToConfiguration(Function&lt;Path, ConfigurationLoader&lt;N&gt;&gt; loaderFunc, Path path) throws IOException {</a>
+<span class="sourceLineNo">196</span><a id="line.196">    public &lt;N extends ConfigurationNode&gt; ConfigurationReference&lt;N&gt; listenToConfiguration(Function&lt;Path, ConfigurationLoader&lt;? extends N&gt;&gt; loaderFunc, Path path) throws IOException {</a>
 <span class="sourceLineNo">197</span><a id="line.197">        return ConfigurationReference.createWatching(loaderFunc, path, this);</a>
 <span class="sourceLineNo">198</span><a id="line.198">    }</a>
 <span class="sourceLineNo">199</span><a id="line.199"></a>

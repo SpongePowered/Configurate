@@ -89,25 +89,32 @@
 <span class="sourceLineNo">077</span><a id="line.77">     * @return this</a>
 <span class="sourceLineNo">078</span><a id="line.78">     */</a>
 <span class="sourceLineNo">079</span><a id="line.79">    @NonNull</a>
-<span class="sourceLineNo">080</span><a id="line.80">    CommentedConfigurationNode setCommentIfAbsent(String comment);</a>
-<span class="sourceLineNo">081</span><a id="line.81"></a>
-<span class="sourceLineNo">082</span><a id="line.82">    // Methods from superclass overridden to have correct return types</a>
-<span class="sourceLineNo">083</span><a id="line.83">    @Nullable @Override CommentedConfigurationNode getParent();</a>
-<span class="sourceLineNo">084</span><a id="line.84">    @NonNull @Override List&lt;? extends CommentedConfigurationNode&gt; getChildrenList();</a>
-<span class="sourceLineNo">085</span><a id="line.85">    @NonNull @Override Map&lt;Object, ? extends CommentedConfigurationNode&gt; getChildrenMap();</a>
-<span class="sourceLineNo">086</span><a id="line.86">    @NonNull @Override CommentedConfigurationNode setValue(@Nullable Object value);</a>
-<span class="sourceLineNo">087</span><a id="line.87">    @NonNull @Override CommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);</a>
-<span class="sourceLineNo">088</span><a id="line.88">    @NonNull @Override @Deprecated CommentedConfigurationNode getAppendedNode();</a>
-<span class="sourceLineNo">089</span><a id="line.89">    @NonNull @Override CommentedConfigurationNode appendListNode();</a>
-<span class="sourceLineNo">090</span><a id="line.90">    @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);</a>
-<span class="sourceLineNo">091</span><a id="line.91">    @NonNull @Override CommentedConfigurationNode copy();</a>
-<span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">    @Override</a>
-<span class="sourceLineNo">094</span><a id="line.94">    default CommentedConfigurationNode act(Consumer&lt;? super ConfigurationNode&gt; action) {</a>
-<span class="sourceLineNo">095</span><a id="line.95">        action.accept(this);</a>
-<span class="sourceLineNo">096</span><a id="line.96">        return this;</a>
-<span class="sourceLineNo">097</span><a id="line.97">    }</a>
-<span class="sourceLineNo">098</span><a id="line.98">}</a>
+<span class="sourceLineNo">080</span><a id="line.80">    default CommentedConfigurationNode setCommentIfAbsent(String comment) {</a>
+<span class="sourceLineNo">081</span><a id="line.81">        if (!getComment().isPresent()) { // backwards compat</a>
+<span class="sourceLineNo">082</span><a id="line.82">            setComment(comment);</a>
+<span class="sourceLineNo">083</span><a id="line.83">        }</a>
+<span class="sourceLineNo">084</span><a id="line.84">        return this;</a>
+<span class="sourceLineNo">085</span><a id="line.85">    }</a>
+<span class="sourceLineNo">086</span><a id="line.86"></a>
+<span class="sourceLineNo">087</span><a id="line.87">    // Methods from superclass overridden to have correct return types</a>
+<span class="sourceLineNo">088</span><a id="line.88">    @Nullable @Override CommentedConfigurationNode getParent();</a>
+<span class="sourceLineNo">089</span><a id="line.89">    @NonNull @Override List&lt;? extends CommentedConfigurationNode&gt; getChildrenList();</a>
+<span class="sourceLineNo">090</span><a id="line.90">    @NonNull @Override Map&lt;Object, ? extends CommentedConfigurationNode&gt; getChildrenMap();</a>
+<span class="sourceLineNo">091</span><a id="line.91">    @NonNull @Override CommentedConfigurationNode setValue(@Nullable Object value);</a>
+<span class="sourceLineNo">092</span><a id="line.92">    @NonNull @Override CommentedConfigurationNode mergeValuesFrom(@NonNull ConfigurationNode other);</a>
+<span class="sourceLineNo">093</span><a id="line.93">    @NonNull @Override @Deprecated CommentedConfigurationNode getAppendedNode();</a>
+<span class="sourceLineNo">094</span><a id="line.94">    @NonNull @Override default CommentedConfigurationNode appendListNode() {</a>
+<span class="sourceLineNo">095</span><a id="line.95">        return getAppendedNode();</a>
+<span class="sourceLineNo">096</span><a id="line.96">    }</a>
+<span class="sourceLineNo">097</span><a id="line.97">    @NonNull @Override CommentedConfigurationNode getNode(@NonNull Object... path);</a>
+<span class="sourceLineNo">098</span><a id="line.98">    @NonNull @Override CommentedConfigurationNode copy();</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">    @Override</a>
+<span class="sourceLineNo">101</span><a id="line.101">    default CommentedConfigurationNode act(Consumer&lt;? super ConfigurationNode&gt; action) {</a>
+<span class="sourceLineNo">102</span><a id="line.102">        action.accept(this);</a>
+<span class="sourceLineNo">103</span><a id="line.103">        return this;</a>
+<span class="sourceLineNo">104</span><a id="line.104">    }</a>
+<span class="sourceLineNo">105</span><a id="line.105">}</a>
 
 
 

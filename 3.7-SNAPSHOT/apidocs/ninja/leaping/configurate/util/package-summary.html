@@ -24,9 +24,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -51,18 +51,13 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
+<div class="flexContent">
 <main role="main">
 <div class="header">
 <h1 title="Package" class="title">Package&nbsp;ninja.leaping.configurate.util</h1>
@@ -101,13 +96,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;</th>
+<td class="colLast">
+<div class="block">A functional interface similar to Supplier, except allowing contained methods to throw exceptions</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ConfigurationNodeWalker.VisitedNode.html" title="interface in ninja.leaping.configurate.util">ConfigurationNodeWalker.VisitedNode</a>&lt;T extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</th>
 <td class="colLast">
 <div class="block">Encapsulates a given <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>node</code></a> visited during a
  traversal.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="MapFactory.html" title="interface in ninja.leaping.configurate.util">MapFactory</a></th>
 <td class="colLast">
 <div class="block">A factory which creates <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentMap</code></a> instances.</div>
@@ -180,5 +181,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

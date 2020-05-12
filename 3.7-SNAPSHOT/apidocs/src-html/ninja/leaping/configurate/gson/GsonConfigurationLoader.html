@@ -240,7 +240,7 @@
 <span class="sourceLineNo">228</span><a id="line.228"></a>
 <span class="sourceLineNo">229</span><a id="line.229">    @Override</a>
 <span class="sourceLineNo">230</span><a id="line.230">    public ConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {</a>
-<span class="sourceLineNo">231</span><a id="line.231">        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,</a>
+<span class="sourceLineNo">231</span><a id="line.231">        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,</a>
 <span class="sourceLineNo">232</span><a id="line.232">                Long.class, Integer.class, Boolean.class, String.class));</a>
 <span class="sourceLineNo">233</span><a id="line.233">        return ConfigurationNode.root(options);</a>
 <span class="sourceLineNo">234</span><a id="line.234">    }</a>

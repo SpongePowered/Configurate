@@ -19,8 +19,8 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":18,"i1":18,"i2":6,"i3":6,"i4":18,"i5":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
+<script type="text/javascript">var data = {"i0":18,"i1":18,"i2":1,"i3":1,"i4":6,"i5":6,"i6":18,"i7":6};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.reactive</a></div>
 <h1 title="Interface Publisher" class="title">Interface Publisher&lt;V&gt;</h1>
@@ -101,7 +96,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.Iso.html" title="interface in ninja.leaping.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in ninja.leaping.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.TransactionalIso.html" title="interface in ninja.leaping.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code>, <code><a href="Publisher.Cached.html" title="interface in ninja.leaping.configurate.reactive">Publisher.Cached</a>&lt;V&gt;</code>, <code><a href="../reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference">ValueReference</a>&lt;T&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.32">Publisher</a>&lt;V&gt;</pre>
+<pre>public interface <a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.36">Publisher</a>&lt;V&gt;</pre>
 <div class="block">Something that can publish events.
  <p>
  Each subscriber is responsible for removing itself from this stream, by using the Disposable returned upon
@@ -145,7 +140,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2>Method Summary</h2>
 <div class="memberSummary">
-<div role="tablist" aria-orientation="horizontal"><button role="tab" aria-selected="true" aria-controls="memberSummary_tabpanel" tabindex="0" onkeydown="switchTab(event)" id="t0" class="activeTableTab">All Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t2" class="tableTab" onclick="show(2);">Instance Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t3" class="tableTab" onclick="show(4);">Abstract Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t5" class="tableTab" onclick="show(16);">Default Methods</button></div>
+<div role="tablist" aria-orientation="horizontal"><button role="tab" aria-selected="true" aria-controls="memberSummary_tabpanel" tabindex="0" onkeydown="switchTab(event)" id="t0" class="activeTableTab">All Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t1" class="tableTab" onclick="show(1);">Static Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t2" class="tableTab" onclick="show(2);">Instance Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t3" class="tableTab" onclick="show(4);">Abstract Methods</button><button role="tab" aria-selected="false" aria-controls="memberSummary_tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t5" class="tableTab" onclick="show(16);">Default Methods</button></div>
 <div id="memberSummary_tabpanel" role="tabpanel">
 <table aria-labelledby="t0">
 <thead>
@@ -171,25 +166,42 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor" id="i2">
+<td class="colFirst"><code>static &lt;V,&#8203;
+E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#execute(ninja.leaping.configurate.util.CheckedSupplier)">execute</a></span>&#8203;(<a href="../util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action)</code></th>
+<td class="colLast">
+<div class="block">Execute an action returning a single value on the common <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ForkJoinPool</code></a>, and pass the result to any subscribers.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i3">
+<td class="colFirst"><code>static &lt;V,&#8203;
+E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#execute(ninja.leaping.configurate.util.CheckedSupplier,java.util.concurrent.Executor)">execute</a></span>&#8203;(<a href="../util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action,
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
+<td class="colLast">
+<div class="block">Execute an action returning a single value on the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executor</code></a>, and pass the result to any subscribers.</div>
+</td>
+</tr>
+<tr class="altColor" id="i4">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExecutor()">getExecutor</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the executor that will be used to handle published</div>
 </td>
 </tr>
-<tr class="rowColor" id="i3">
+<tr class="rowColor" id="i5">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasSubscribers()">hasSubscribers</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return whether or not this Publisher has any subscribers.</div>
 </td>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="altColor" id="i6">
 <td class="colFirst"><code>default &lt;R&gt;&nbsp;<a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;R&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#map(ninja.leaping.configurate.util.CheckedFunction)">map</a></span>&#8203;(<a href="../util/CheckedFunction.html" title="interface in ninja.leaping.configurate.util">CheckedFunction</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in ninja.leaping.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor" id="i5">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code><a href="Disposable.html" title="interface in ninja.leaping.configurate.reactive">Disposable</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subscribe(ninja.leaping.configurate.reactive.Subscriber)">subscribe</a></span>&#8203;(<a href="Subscriber.html" title="interface in ninja.leaping.configurate.reactive">Subscriber</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;subscriber)</code></th>
 <td class="colLast">
@@ -215,8 +227,48 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <section class="detail">
+<h3><a id="execute(ninja.leaping.configurate.util.CheckedSupplier)">execute</a></h3>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V,&#8203;
+E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</span>&nbsp;<span class="returnType"><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.47">execute</a></span>&#8203;(<span class="arguments"><a href="../util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action)</span></div>
+<div class="block">Execute an action returning a single value on the common <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ForkJoinPool</code></a>, and pass the result to any subscribers.
+
+ Subscribers who only begin subscribing after the operation has been completed will receive the result of the operation.</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - returned value type</dd>
+<dd><code>E</code> - exception thrown</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - The action to perform</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a publisher</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="execute(ninja.leaping.configurate.util.CheckedSupplier,java.util.concurrent.Executor)">execute</a></h3>
+<div class="memberSignature"><span class="modifiers">static</span>&nbsp;<span class="typeParameters">&lt;V,&#8203;
+E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</span>&nbsp;<span class="returnType"><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;V&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.62">execute</a></span>&#8203;(<span class="arguments"><a href="../util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action,
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</span></div>
+<div class="block">Execute an action returning a single value on the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executor</code></a>, and pass the result to any subscribers.
+
+ Subscribers who only begin subscribing after the operation has been completed will receive the result of the operation.</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - returned value type</dd>
+<dd><code>E</code> - exception thrown</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - The action to perform</dd>
+<dd><code>executor</code> - The executor to perform this operation on</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a publisher</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="subscribe(ninja.leaping.configurate.reactive.Subscriber)">subscribe</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="Disposable.html" title="interface in ninja.leaping.configurate.reactive">Disposable</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.41">subscribe</a></span>&#8203;(<span class="arguments"><a href="Subscriber.html" title="interface in ninja.leaping.configurate.reactive">Subscriber</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;subscriber)</span></div>
+<div class="memberSignature"><span class="returnType"><a href="Disposable.html" title="interface in ninja.leaping.configurate.reactive">Disposable</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.73">subscribe</a></span>&#8203;(<span class="arguments"><a href="Subscriber.html" title="interface in ninja.leaping.configurate.reactive">Subscriber</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;subscriber)</span></div>
 <div class="block">Subscribe to updates from this Publisher. If this is already closed, the Subscriber will receive an error event
  with an IllegalStateException, and the returned <a href="Disposable.html" title="interface in ninja.leaping.configurate.reactive"><code>Disposable</code></a> will be a no-op.</div>
 <dl>
@@ -230,7 +282,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="hasSubscribers()">hasSubscribers</a></h3>
-<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.50">hasSubscribers</a></span>()</div>
+<div class="memberSignature"><span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.82">hasSubscribers</a></span>()</div>
 <div class="block">Return whether or not this Publisher has any subscribers.
  <p>
  In a concurrent environment, this value could change from the time of calling.</div>
@@ -243,13 +295,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="map(ninja.leaping.configurate.util.CheckedFunction)">map</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="typeParameters">&lt;R&gt;</span>&nbsp;<span class="returnType"><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;R&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.52">map</a></span>&#8203;(<span class="arguments"><a href="../util/CheckedFunction.html" title="interface in ninja.leaping.configurate.util">CheckedFunction</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in ninja.leaping.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</span></div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="typeParameters">&lt;R&gt;</span>&nbsp;<span class="returnType"><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;R&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.84">map</a></span>&#8203;(<span class="arguments"><a href="../util/CheckedFunction.html" title="interface in ninja.leaping.configurate.util">CheckedFunction</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in ninja.leaping.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="cache()">cache</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="Publisher.Cached.html" title="interface in ninja.leaping.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.62">cache</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="Publisher.Cached.html" title="interface in ninja.leaping.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.94">cache</a></span>()</div>
 <div class="block">Return a publisher that will track its most recent value. The provided processor won't have a value until one is
  submitted to its owning publisher.</div>
 <dl>
@@ -263,7 +315,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <h3><a id="cache(java.lang.Object)">
 <!--   -->
 </a><a id="cache(V)">cache</a></h3>
-<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="Publisher.Cached.html" title="interface in ninja.leaping.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.72">cache</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Publisher.html" title="type parameter in Publisher">V</a>&nbsp;initialValue)</span></div>
+<div class="memberSignature"><span class="modifiers">default</span>&nbsp;<span class="returnType"><a href="Publisher.Cached.html" title="interface in ninja.leaping.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.104">cache</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Publisher.html" title="type parameter in Publisher">V</a>&nbsp;initialValue)</span></div>
 <div class="block">A cached publisher with an initial value</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -276,7 +328,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <section class="detail">
 <h3><a id="getExecutor()">getExecutor</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.81">getExecutor</a></span>()</div>
+<div class="memberSignature"><span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.113">getExecutor</a></span>()</div>
 <div class="block">Get the executor that will be used to handle published</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -290,8 +342,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -335,5 +387,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

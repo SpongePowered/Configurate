@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":42,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":42,"i11":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":42,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":42,"i11":10,"i12":42};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.objectmapping</a></div>
 <h1 title="Class ObjectMapper" class="title">Class ObjectMapper&lt;T&gt;</h1>
@@ -290,6 +285,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getType()">getType</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
+<tr class="altColor" id="i12">
+<td class="colFirst"><code>protected boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isLegacy()">isLegacy</a></span>()</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Backwards compatibility measure, to be removed in 4.0</div>
+</div>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -333,7 +337,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="&lt;init&gt;(com.google.common.reflect.TypeToken)">ObjectMapper</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.247">ObjectMapper</a></span>&#8203;(<span class="arguments"><a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;type)</span>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.268">ObjectMapper</a></span>&#8203;(<span class="arguments"><a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;type)</span>
                 throws <span class="exceptions"><a href="ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMappingException</a></span></div>
 <div class="block">Create a new object mapper of a given type</div>
 <dl>
@@ -449,9 +453,26 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="isLegacy()">isLegacy</a></h3>
+<div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+</span><span class="modifiers">protected</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.249">isLegacy</a></span>()</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Backwards compatibility measure, to be removed in 4.0</div>
+</div>
+<div class="block">Method to determine if this ObjectMapper instance needs to maintain pre-3.7 behaviour. Override this if you are
+ ready to take advantage of new 3.7 changes and also will be providing a subclass of ObjectMapper that overrides
+ the old collectFields</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true to get legacy, less generic-aware treatment</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="collectFields(java.util.Map,java.lang.Class)">collectFields</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.293">collectFields</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="ObjectMapper.FieldData.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.FieldData</a>&gt;&nbsp;cachedFields,
+</span><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.308">collectFields</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="ObjectMapper.FieldData.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.FieldData</a>&gt;&nbsp;cachedFields,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;clazz)</span>
                       throws <span class="exceptions"><a href="ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMappingException</a></span></div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -470,7 +491,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="collectFields(java.util.Map,com.google.common.reflect.TypeToken)">collectFields</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.298">collectFields</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="ObjectMapper.FieldData.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.FieldData</a>&gt;&nbsp;cachedFields,
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.313">collectFields</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="ObjectMapper.FieldData.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.FieldData</a>&gt;&nbsp;cachedFields,
 <a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;? super <a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;clazz)</span>
                       throws <span class="exceptions"><a href="ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMappingException</a></span></div>
 <dl>
@@ -482,7 +503,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="constructObject()">constructObject</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.325">constructObject</a></span>()
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.340">constructObject</a></span>()
                      throws <span class="exceptions"><a href="ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMappingException</a></span></div>
 <div class="block">Create a new instance of an object of the appropriate type. This method is not
  responsible for any population.</div>
@@ -497,7 +518,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="canCreateInstances()">canCreateInstances</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.342">canCreateInstances</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.357">canCreateInstances</a></span>()</div>
 <div class="block">Returns whether this object mapper can create new object instances. This may be
  false if the provided class has no zero-argument constructors.</div>
 <dl>
@@ -511,7 +532,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <h3><a id="bind(java.lang.Object)">
 <!--   -->
 </a><a id="bind(T)">bind</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="ObjectMapper.BoundInstance.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.BoundInstance</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.352">bind</a></span>&#8203;(<span class="arguments"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&nbsp;instance)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="ObjectMapper.BoundInstance.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.BoundInstance</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.367">bind</a></span>&#8203;(<span class="arguments"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&nbsp;instance)</span></div>
 <div class="block">Return a view on this mapper that is bound to a single object instance</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -524,7 +545,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="bindToNew()">bindToNew</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="ObjectMapper.BoundInstance.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.BoundInstance</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.363">bindToNew</a></span>()
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="ObjectMapper.BoundInstance.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper.BoundInstance</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.378">bindToNew</a></span>()
                                      throws <span class="exceptions"><a href="ObjectMappingException.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMappingException</a></span></div>
 <div class="block">Returns a view on this mapper that is bound to a newly created object instance</div>
 <dl>
@@ -541,7 +562,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <section class="detail">
 <h3><a id="getMappedType()">getMappedType</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.373">getMappedType</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.388">getMappedType</a></span>()</div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="#getType()"><code>getType()</code></a> to be aware of parameterized types</div>
 </div>
@@ -555,7 +576,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <section class="detail">
 <h3><a id="getType()">getType</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.379">getType</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/objectmapping/ObjectMapper.html#line.394">getType</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -564,8 +585,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -609,5 +630,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

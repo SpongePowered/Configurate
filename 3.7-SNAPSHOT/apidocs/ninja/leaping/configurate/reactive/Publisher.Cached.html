@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.reactive</a></div>
 <h1 title="Interface Publisher.Cached" class="title">Interface Publisher.Cached&lt;V&gt;</h1>
@@ -105,7 +100,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.88">Publisher.Cached</a>&lt;V&gt;
+<pre>public static interface <a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.html#line.120">Publisher.Cached</a>&lt;V&gt;
 extends <a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;V&gt;</pre>
 <div class="block">A publisher that caches the last value received</div>
 </section>
@@ -177,7 +172,7 @@ extends <a href="Publisher.html" title="interface in ninja.leaping.configurate.r
 <li class="blockList">
 <section class="detail">
 <h3><a id="get()">get</a></h3>
-<div class="memberSignature"><span class="returnType"><a href="Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.Cached.html#line.89">get</a></span>()</div>
+<div class="memberSignature"><span class="returnType"><a href="Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.Cached.html#line.121">get</a></span>()</div>
 </section>
 </li>
 <li class="blockList">
@@ -185,7 +180,7 @@ extends <a href="Publisher.html" title="interface in ninja.leaping.configurate.r
 <h3><a id="submit(java.lang.Object)">
 <!--   -->
 </a><a id="submit(V)">submit</a></h3>
-<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.Cached.html#line.91">submit</a></span>&#8203;(<span class="arguments"><a href="Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a>&nbsp;value)</span></div>
+<div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reactive/Publisher.Cached.html#line.123">submit</a></span>&#8203;(<span class="arguments"><a href="Publisher.Cached.html" title="type parameter in Publisher.Cached">V</a>&nbsp;value)</span></div>
 </section>
 </li>
 </ul>
@@ -194,8 +189,8 @@ extends <a href="Publisher.html" title="interface in ninja.leaping.configurate.r
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -239,5 +234,7 @@ extends <a href="Publisher.html" title="interface in ninja.leaping.configurate.r
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

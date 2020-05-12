@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6,"i6":10,"i7":10,"i8":6,"i9":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6,"i6":10,"i7":6,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.loader</a></div>
 <h1 title="Class AbstractConfigurationLoader" class="title">Class AbstractConfigurationLoader&lt;NodeType extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</h1>
@@ -108,7 +103,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="../gson/GsonConfigurationLoader.html" title="class in ninja.leaping.configurate.gson">GsonConfigurationLoader</a></code>, <code><a href="../hocon/HoconConfigurationLoader.html" title="class in ninja.leaping.configurate.hocon">HoconConfigurationLoader</a></code>, <code><a href="../json/JSONConfigurationLoader.html" title="class in ninja.leaping.configurate.json">JSONConfigurationLoader</a></code>, <code><a href="../xml/XMLConfigurationLoader.html" title="class in ninja.leaping.configurate.xml">XMLConfigurationLoader</a></code>, <code><a href="../yaml/YAMLConfigurationLoader.html" title="class in ninja.leaping.configurate.yaml">YAMLConfigurationLoader</a></code></dd>
 </dl>
 <hr>
-<pre>public abstract class <a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.53">AbstractConfigurationLoader</a>&lt;NodeType extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;
+<pre>public abstract class <a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.52">AbstractConfigurationLoader</a>&lt;NodeType extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;NodeType&gt;</pre>
 <div class="block">Base class for many stream-based configuration loaders. This class provides conversion from a variety of input
@@ -293,26 +288,19 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor" id="i6">
-<td class="colFirst"><code><a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadToReference()">loadToReference</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor" id="i7">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(ninja.leaping.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i7">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#saveInternal(ninja.leaping.configurate.ConfigurationNode,java.io.Writer)">saveInternal</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i8">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeHeaderInternal(java.io.Writer)">writeHeaderInternal</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</code></th>
 <td class="colLast">&nbsp;</td>
@@ -330,7 +318,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <h3>Methods inherited from interface&nbsp;ninja.leaping.configurate.loader.<a href="ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a></h3>
 <a id="methods.inherited.from.class.ninja.leaping.configurate.loader.ConfigurationLoader">
 <!--   -->
-</a><code><a href="ConfigurationLoader.html#createEmptyNode()">createEmptyNode</a>, <a href="ConfigurationLoader.html#createEmptyNode(ninja.leaping.configurate.ConfigurationOptions)">createEmptyNode</a>, <a href="ConfigurationLoader.html#load()">load</a></code></div>
+</a><code><a href="ConfigurationLoader.html#createEmptyNode()">createEmptyNode</a>, <a href="ConfigurationLoader.html#createEmptyNode(ninja.leaping.configurate.ConfigurationOptions)">createEmptyNode</a>, <a href="ConfigurationLoader.html#load()">load</a>, <a href="ConfigurationLoader.html#loadToReference()">loadToReference</a></code></div>
 </section>
 </li>
 </ul>
@@ -347,7 +335,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="CONFIGURATE_LINE_SEPARATOR">CONFIGURATE_LINE_SEPARATOR</a></h3>
-<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.58">CONFIGURATE_LINE_SEPARATOR</a></span></div>
+<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.57">CONFIGURATE_LINE_SEPARATOR</a></span></div>
 <div class="block">The escape sequence used by Configurate to separate comment lines</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
@@ -358,14 +346,14 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="LINE_SPLITTER">LINE_SPLITTER</a></h3>
-<div class="memberSignature"><span class="modifiers">protected static final</span>&nbsp;<span class="returnType"><a href="https://guava.dev/releases/21.0/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink">Splitter</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.63">LINE_SPLITTER</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected static final</span>&nbsp;<span class="returnType"><a href="https://guava.dev/releases/21.0/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink">Splitter</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.62">LINE_SPLITTER</a></span></div>
 <div class="block">A <a href="https://guava.dev/releases/21.0/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink"><code>Splitter</code></a> for splitting comment lines</div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="SYSTEM_LINE_SEPARATOR">SYSTEM_LINE_SEPARATOR</a></h3>
-<div class="memberSignature"><span class="modifiers">protected static final</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.69">SYSTEM_LINE_SEPARATOR</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected static final</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.68">SYSTEM_LINE_SEPARATOR</a></span></div>
 <div class="block">The line separator used by the system</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
@@ -376,7 +364,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="source">source</a></h3>
-<div class="memberSignature"><span class="modifiers">protected final</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.77">source</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected final</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.76">source</a></span></div>
 <div class="block">The reader source for this loader.
 
  <p>Can be null (for loaders which don't support loading!)</p></div>
@@ -385,7 +373,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="sink">sink</a></h3>
-<div class="memberSignature"><span class="modifiers">protected final</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.85">sink</a></span></div>
+<div class="memberSignature"><span class="modifiers">protected final</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.84">sink</a></span></div>
 <div class="block">The writer sink for this loader.
 
  <p>Can be null (for loaders which don't support saving!)</p></div>
@@ -404,7 +392,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="&lt;init&gt;(ninja.leaping.configurate.loader.AbstractConfigurationLoader.Builder,ninja.leaping.configurate.loader.CommentHandler[])">AbstractConfigurationLoader</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.106">AbstractConfigurationLoader</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;?&gt;&nbsp;builder,
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.105">AbstractConfigurationLoader</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;?&gt;&nbsp;builder,
 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in ninja.leaping.configurate.loader">CommentHandler</a>[]&nbsp;commentHandlers)</span></div>
 </section>
 </li>
@@ -421,7 +409,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="getDefaultCommentHandler()">getDefaultCommentHandler</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in ninja.leaping.configurate.loader">CommentHandler</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.119">getDefaultCommentHandler</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in ninja.leaping.configurate.loader">CommentHandler</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.118">getDefaultCommentHandler</a></span>()</div>
 <div class="block">Gets the primary <a href="CommentHandler.html" title="interface in ninja.leaping.configurate.loader"><code>CommentHandler</code></a> used by this loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -431,28 +419,8 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="loadToReference()">loadToReference</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.124">loadToReference</a></span>()
-                                                 throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#loadToReference()">ConfigurationLoader</a></code></span></div>
-<div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.
- The returned reference will not reload automatically.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ConfigurationLoader.html#loadToReference()">loadToReference</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a> extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The created reference</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - when an error occurs within the loader</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to create an auto-reloading configuration.</code></a></dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
 <h3><a id="load(ninja.leaping.configurate.ConfigurationOptions)">load</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.129">load</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</span>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.123">load</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</span>
                        throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#load(ninja.leaping.configurate.ConfigurationOptions)">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
@@ -475,7 +443,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <h3><a id="loadInternal(ninja.leaping.configurate.ConfigurationNode,java.io.BufferedReader)">
 <!--   -->
 </a><a id="loadInternal(NodeType,java.io.BufferedReader)">loadInternal</a></h3>
-<div class="memberSignature"><span class="modifiers">protected abstract</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.157">loadInternal</a></span>&#8203;(<span class="arguments"><a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a>&nbsp;node,
+<div class="memberSignature"><span class="modifiers">protected abstract</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.151">loadInternal</a></span>&#8203;(<span class="arguments"><a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">NodeType</a>&nbsp;node,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)</span>
                               throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <dl>
@@ -487,7 +455,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="save(ninja.leaping.configurate.ConfigurationNode)">save</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.159">save</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node)</span>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.153">save</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node)</span>
           throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#save(ninja.leaping.configurate.ConfigurationNode)">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
@@ -504,7 +472,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="writeHeaderInternal(java.io.Writer)">writeHeaderInternal</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.186">writeHeaderInternal</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</span>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.180">writeHeaderInternal</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</span>
                             throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -515,7 +483,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="saveInternal(ninja.leaping.configurate.ConfigurationNode,java.io.Writer)">saveInternal</a></h3>
-<div class="memberSignature"><span class="modifiers">protected abstract</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.190">saveInternal</a></span>&#8203;(<span class="arguments"><a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node,
+<div class="memberSignature"><span class="modifiers">protected abstract</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.184">saveInternal</a></span>&#8203;(<span class="arguments"><a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;node,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</span>
                               throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <dl>
@@ -527,7 +495,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="getDefaultOptions()">getDefaultOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.192">getDefaultOptions</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.186">getDefaultOptions</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#getDefaultOptions()">ConfigurationLoader</a></code></span></div>
 <div class="block">Gets the default <a href="../ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> used by the loader.
 
@@ -543,7 +511,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="canLoad()">canLoad</a></h3>
-<div class="memberSignature"><span class="modifiers">public final</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.198">canLoad</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public final</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.192">canLoad</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#canLoad()">ConfigurationLoader</a></code></span></div>
 <div class="block">Gets if this loader is capable of loading configurations.</div>
 <dl>
@@ -557,7 +525,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <li class="blockList">
 <section class="detail">
 <h3><a id="canSave()">canSave</a></h3>
-<div class="memberSignature"><span class="modifiers">public final</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.203">canSave</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public final</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#line.197">canSave</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#canSave()">ConfigurationLoader</a></code></span></div>
 <div class="block">Gets if this loader is capable of saving configurations.</div>
 <dl>
@@ -574,8 +542,8 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -619,5 +587,7 @@ implements <a href="ConfigurationLoader.html" title="interface in ninja.leaping.
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

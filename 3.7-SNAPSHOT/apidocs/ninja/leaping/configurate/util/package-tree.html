@@ -24,9 +24,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -51,18 +51,13 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
+<div class="flexContent">
 <main role="main">
 <div class="header">
 <h1 class="title">Hierarchy For Package ninja.leaping.configurate.util</h1>
@@ -89,6 +84,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">ninja.leaping.configurate.util.<a href="CheckedConsumer.html" title="interface in ninja.leaping.configurate.util"><span class="typeNameLink">CheckedConsumer</span></a>&lt;V,&#8203;E&gt;</li>
 <li class="circle">ninja.leaping.configurate.util.<a href="CheckedFunction.html" title="interface in ninja.leaping.configurate.util"><span class="typeNameLink">CheckedFunction</span></a>&lt;I,&#8203;O,&#8203;E&gt;</li>
+<li class="circle">ninja.leaping.configurate.util.<a href="CheckedSupplier.html" title="interface in ninja.leaping.configurate.util"><span class="typeNameLink">CheckedSupplier</span></a>&lt;V,&#8203;E&gt;</li>
 <li class="circle">ninja.leaping.configurate.util.<a href="ConfigurationNodeWalker.VisitedNode.html" title="interface in ninja.leaping.configurate.util"><span class="typeNameLink">ConfigurationNodeWalker.VisitedNode</span></a>&lt;T&gt;</li>
 <li class="circle">ninja.leaping.configurate.util.<a href="MapFactory.html" title="interface in ninja.leaping.configurate.util"><span class="typeNameLink">MapFactory</span></a></li>
 </ul>
@@ -121,5 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

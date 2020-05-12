@@ -24,9 +24,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -51,23 +51,18 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
+<div class="flexContent">
 <main role="main">
 <div class="header">
 <h1>Index</h1>
 </div>
-<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a href="#I:X">X</a>&nbsp;<a href="#I:Y">Y</a>&nbsp;<a href="#I:Z">Z</a>&nbsp;<br><a href="allclasses-index.html">All&nbsp;Classes</a>&nbsp;<a href="allpackages-index.html">All&nbsp;Packages</a><a id="I:A">
+<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a href="#I:X">X</a>&nbsp;<a href="#I:Y">Y</a>&nbsp;<a href="#I:Z">Z</a>&nbsp;<br><a href="allclasses-index.html">All&nbsp;Classes</a><span class="verticalSeparator">|</span><a href="allpackages-index.html">All&nbsp;Packages</a><a id="I:A">
 <!--   -->
 </a>
 <h2 class="title">A</h2>
@@ -86,8 +81,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#acceptsType(java.lang.Class)">acceptsType(Class&lt;?&gt;)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Gets whether objects of the provided type are accepted as values for nodes with this as
- their options object.</div>
+<div class="block">Gets whether objects of the provided type are accepted as values for nodes with this as their options object.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html#act(java.util.function.Consumer)">act(Consumer&lt;? super ConfigurationNode&gt;)</a></span> - Method in interface ninja.leaping.configurate.attributed.<a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html" title="interface in ninja.leaping.configurate.attributed">AttributedConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
@@ -173,7 +167,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">B</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html#beginTransaction(V)">beginTransaction(V)</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html#beginTransaction(V)">beginTransaction(V)</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a></dt>
 <dd>
 <div class="block">Receive a new value, and validate it.</div>
 </dd>
@@ -293,6 +287,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#canHaveChildren()">canHaveChildren()</a></span> - Method in enum ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Gets if the type can hold child values.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#canLoad()">canLoad()</a></span> - Method in class ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a></dt>
@@ -319,6 +314,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A function with one input and one output which may throw a checked exception</div>
 </dd>
+<dt><a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util"><span class="typeNameLink">CheckedSupplier</span></a>&lt;<a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="type parameter in CheckedSupplier">V</a>,&#8203;<a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="type parameter in CheckedSupplier">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt; - Interface in <a href="ninja/leaping/configurate/util/package-summary.html">ninja.leaping.configurate.util</a></dt>
+<dd>
+<div class="block">A functional interface similar to Supplier, except allowing contained methods to throw exceptions</div>
+</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html#clear()">clear()</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#close()">close()</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
@@ -336,8 +335,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#collectFields(java.util.Map,com.google.common.reflect.TypeToken)"><code>ObjectMapper.collectFields(Map, TypeToken)</code></a> instead</div>
 </div>
 </dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/commented/SimpleCommentedConfigurationNode.html#comment">comment</a></span> - Variable in class ninja.leaping.configurate.commented.<a href="ninja/leaping/configurate/commented/SimpleCommentedConfigurationNode.html" title="class in ninja.leaping.configurate.commented">SimpleCommentedConfigurationNode</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/objectmapping/Setting.html#comment()">comment()</a></span> - Method in annotation type ninja.leaping.configurate.objectmapping.<a href="ninja/leaping/configurate/objectmapping/Setting.html" title="annotation in ninja.leaping.configurate.objectmapping">Setting</a></dt>
 <dd>
 <div class="block">The default comment associated with this configuration node
@@ -355,7 +352,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Defines a number of default <a href="ninja/leaping/configurate/loader/CommentHandler.html" title="interface in ninja.leaping.configurate.loader"><code>CommentHandler</code></a>s.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html#commit()">commit()</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html#commit()">commit()</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a></dt>
 <dd>
 <div class="block">Expose a transaction's result</div>
 </dd>
@@ -509,7 +506,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/yaml/YAMLConfigurationLoader.html#createEmptyNode(ninja.leaping.configurate.ConfigurationOptions)">createEmptyNode(ConfigurationOptions)</a></span> - Method in class ninja.leaping.configurate.yaml.<a href="ninja/leaping/configurate/yaml/YAMLConfigurationLoader.html" title="class in ninja.leaping.configurate.yaml">YAMLConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#createFixed(ninja.leaping.configurate.loader.ConfigurationLoader)">createFixed(ConfigurationLoader&lt;N&gt;)</a></span> - Static method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#createFixed(ninja.leaping.configurate.loader.ConfigurationLoader)">createFixed(ConfigurationLoader&lt;? extends N&gt;)</a></span> - Static method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
 <dd>
 <div class="block">Create a new configuration reference that will only update when loaded</div>
 </dd>
@@ -525,7 +522,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/Processor.html#createTransactional(java.util.concurrent.Executor)">createTransactional(Executor)</a></span> - Static method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#createWatching(java.util.function.Function,java.nio.file.Path,ninja.leaping.configurate.reference.WatchServiceListener)">createWatching(Function&lt;Path, ConfigurationLoader&lt;T&gt;&gt;, Path, WatchServiceListener)</a></span> - Static method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#createWatching(java.util.function.Function,java.nio.file.Path,ninja.leaping.configurate.reference.WatchServiceListener)">createWatching(Function&lt;Path, ConfigurationLoader&lt;? extends T&gt;&gt;, Path, WatchServiceListener)</a></span> - Static method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
 <dd>
 <div class="block">Create a new configuration reference that will automatically update when triggered by the provided <a href="ninja/leaping/configurate/reference/WatchServiceListener.html" title="class in ninja.leaping.configurate.reference"><code>WatchServiceListener</code></a></div>
 </dd>
@@ -687,6 +684,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A stream that will receive errors that occur while loading or saving to this reference</div>
 </dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/Publisher.html#execute(ninja.leaping.configurate.util.CheckedSupplier)">execute(CheckedSupplier&lt;V, E&gt;)</a></span> - Static method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a></dt>
+<dd>
+<div class="block">Execute an action returning a single value on the common <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ForkJoinPool</code></a>, and pass the result to any subscribers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/Publisher.html#execute(ninja.leaping.configurate.util.CheckedSupplier,java.util.concurrent.Executor)">execute(CheckedSupplier&lt;V, E&gt;, Executor)</a></span> - Static method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a></dt>
+<dd>
+<div class="block">Execute an action returning a single value on the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executor</code></a>, and pass the result to any subscribers.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationVisitor.Stateless.html#exitListNode(ninja.leaping.configurate.ConfigurationNode)">exitListNode(ConfigurationNode)</a></span> - Method in interface ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationVisitor.Stateless.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor.Stateless</a></dt>
 <dd>
 <div class="block">Called for a list node after the node and any of its children have been visited</div>
@@ -767,6 +772,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Convert a JDK <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>Function</code></a> into its checked variant</div>
 </dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/util/CheckedSupplier.html#fromSupplier(java.util.function.Supplier)">fromSupplier(Supplier&lt;V&gt;)</a></span> - Static method in interface ninja.leaping.configurate.util.<a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a></dt>
+<dd>
+<div class="block">Create an instance from an ordinary supplier</div>
+</dd>
 </dl>
 <a id="I:G">
 <!--   -->
@@ -779,6 +788,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Get the current value at this node</div>
 </dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/util/CheckedSupplier.html#get()">get()</a></span> - Method in interface ninja.leaping.configurate.util.<a href="ninja/leaping/configurate/util/CheckedSupplier.html" title="interface in ninja.leaping.configurate.util">CheckedSupplier</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.NodePath.html#get(int)">get(int)</a></span> - Method in class ninja.leaping.configurate.transformation.<a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.NodePath.html" title="class in ninja.leaping.configurate.transformation">ConfigurationTransformation.NodePath</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/transformation/NodePath.html#get(int)">get(int)</a></span> - Method in interface ninja.leaping.configurate.transformation.<a href="ninja/leaping/configurate/transformation/NodePath.html" title="interface in ninja.leaping.configurate.transformation">NodePath</a></dt>
@@ -875,6 +886,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Gets the "map children" attached to this node, if it has any.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html#getChildrenMap()">getChildrenMap()</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html#getComment()">getComment()</a></span> - Method in interface ninja.leaping.configurate.attributed.<a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html" title="interface in ninja.leaping.configurate.attributed">AttributedConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/commented/CommentedConfigurationNode.html#getComment()">getComment()</a></span> - Method in interface ninja.leaping.configurate.commented.<a href="ninja/leaping/configurate/commented/CommentedConfigurationNode.html" title="interface in ninja.leaping.configurate.commented">CommentedConfigurationNode</a></dt>
 <dd>
@@ -1024,7 +1037,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#getLoader()">getLoader()</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
 <dd>
-<div class="block">Get the loader this reference uses to load and save its' node</div>
+<div class="block">Get the loader this reference uses to load and save its node</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationNode.html#getLong()">getLong()</a></span> - Method in interface ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></dt>
 <dd>
@@ -1077,6 +1090,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Gets the node that was visited.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationNode.html#getNode(java.lang.Iterable)">getNode(Iterable&lt;?&gt;)</a></span> - Method in interface ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></dt>
+<dd>
+<div class="block">Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html#getNode(java.lang.Iterable)">getNode(Iterable&lt;?&gt;)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html#getNode(java.lang.Object...)">getNode(Object...)</a></span> - Method in interface ninja.leaping.configurate.attributed.<a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html" title="interface in ninja.leaping.configurate.attributed">AttributedConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/attributed/SimpleAttributedConfigurationNode.html#getNode(java.lang.Object...)">getNode(Object...)</a></span> - Method in class ninja.leaping.configurate.attributed.<a href="ninja/leaping/configurate/attributed/SimpleAttributedConfigurationNode.html" title="class in ninja.leaping.configurate.attributed">SimpleAttributedConfigurationNode</a></dt>
@@ -1221,7 +1240,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationNode.html#getValueType()">getValueType()</a></span> - Method in interface ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></dt>
 <dd>
-<div class="block">Gets the value type of this node.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> and <a href="ninja/leaping/configurate/ConfigurationNode.html#isMap()"><code>ConfigurationNode.isMap()</code></a> for the same information</div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html#getValueType()">getValueType()</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
@@ -1321,12 +1342,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/objectmapping/InvalidTypeException.html#%3Cinit%3E(com.google.common.reflect.TypeToken)">InvalidTypeException(TypeToken&lt;?&gt;)</a></span> - Constructor for exception ninja.leaping.configurate.objectmapping.<a href="ninja/leaping/configurate/objectmapping/InvalidTypeException.html" title="class in ninja.leaping.configurate.objectmapping">InvalidTypeException</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/attributed/SimpleAttributedConfigurationNode.html#isEmpty()">isEmpty()</a></span> - Method in class ninja.leaping.configurate.attributed.<a href="ninja/leaping/configurate/attributed/SimpleAttributedConfigurationNode.html" title="class in ninja.leaping.configurate.attributed">SimpleAttributedConfigurationNode</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationNode.html#isEmpty()">isEmpty()</a></span> - Method in interface ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></dt>
 <dd>
 <div class="block">Return true when this node has a null or empty value.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html#isEmpty()">isEmpty()</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#isLegacy()">isLegacy()</a></span> - Method in class ninja.leaping.configurate.objectmapping.<a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html" title="class in ninja.leaping.configurate.objectmapping">ObjectMapper</a></dt>
+<dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Backwards compatibility measure, to be removed in 4.0</div>
+</div>
+</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.Builder.html#isLenient()">isLenient()</a></span> - Method in class ninja.leaping.configurate.gson.<a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.gson">GsonConfigurationLoader.Builder</a></dt>
 <dd>
 <div class="block">Gets if the resultant loader should parse leniently.</div>
@@ -1377,10 +1406,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#LIST">LIST</a></span> - ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Represents a node that consists of a number of child values, in a specific
  order, each mapped by an index value.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration(Function&lt;Path, ConfigurationLoader&lt;N&gt;&gt;, Path)</a></span> - Method in class ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/WatchServiceListener.html" title="class in ninja.leaping.configurate.reference">WatchServiceListener</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration(Function&lt;Path, ConfigurationLoader&lt;? extends N&gt;&gt;, Path)</a></span> - Method in class ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/WatchServiceListener.html" title="class in ninja.leaping.configurate.reference">WatchServiceListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/WatchServiceListener.html#listenToDirectory(java.nio.file.Path,ninja.leaping.configurate.reactive.Subscriber)">listenToDirectory(Path, Subscriber&lt;WatchEvent&lt;?&gt;&gt;)</a></span> - Method in class ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/WatchServiceListener.html" title="class in ninja.leaping.configurate.reference">WatchServiceListener</a></dt>
 <dd>
@@ -1422,8 +1452,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#loadInternal(NodeType,java.io.BufferedReader)">loadInternal(NodeType, BufferedReader)</a></span> - Method in class ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#loadToReference()">loadToReference()</a></span> - Method in class ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/ConfigurationLoader.html#loadToReference()">loadToReference()</a></span> - Method in interface ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a></dt>
 <dd>
 <div class="block">Attempts to load data from the defined source into a <a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.</div>
@@ -1451,6 +1479,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#MAP">MAP</a></span> - ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Represents a node that consists of a number of child values, each mapped
  by a unique key.</div>
 </dd>
@@ -1583,6 +1612,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#NULL">NULL</a></span> - ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Represents a node that has no defined value.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationNode.html#NUMBER_DEF">NUMBER_DEF</a></span> - Static variable in interface ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></dt>
@@ -1757,7 +1787,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/examples/ValueReferences.html#repl()">repl()</a></span> - Method in class ninja.leaping.configurate.examples.<a href="ninja/leaping/configurate/examples/ValueReferences.html" title="class in ninja.leaping.configurate.examples">ValueReferences</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html#rollback()">rollback()</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html#rollback()">rollback()</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a></dt>
 <dd>
 <div class="block">Called when a transaction has failed, to revert any prepared changes</div>
 </dd>
@@ -1861,9 +1891,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#save(N)">save(N)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
 <dd>
-<div class="block">Update the configuration node pointed to by this reference, and save it using the reference's loader
-
- Even if the loader fails to save this new node, the node pointed to by this reference will be updated.</div>
+<div class="block">Update the configuration node pointed to by this reference, and save it using the reference's loader</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#saveAsync()">saveAsync()</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Save this configuration using the provided loader.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.html#saveInternal(ninja.leaping.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class ninja.leaping.configurate.gson.<a href="ninja/leaping/configurate/gson/GsonConfigurationLoader.html" title="class in ninja.leaping.configurate.gson">GsonConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
@@ -1881,6 +1913,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#SCALAR">SCALAR</a></span> - ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Represents a node that consists of a "single" scalar value</div>
 </dd>
 <dt><a href="ninja/leaping/configurate/objectmapping/serialize/ScalarSerializer.html" title="class in ninja.leaping.configurate.objectmapping.serialize"><span class="typeNameLink">ScalarSerializer</span></a>&lt;<a href="ninja/leaping/configurate/objectmapping/serialize/ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt; - Class in <a href="ninja/leaping/configurate/objectmapping/serialize/package-summary.html">ninja.leaping.configurate.objectmapping.serialize</a></dt>
@@ -1923,19 +1956,23 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#set(java.lang.Object%5B%5D,com.google.common.reflect.TypeToken,T)">set(Object[], TypeToken&lt;T&gt;, T)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
 <dd>
-<div class="block">Set the value of the node at <code>path</code> to the given value,
- using the appropriate <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializer.html" title="interface in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializer</code></a> to serialize the data if it's
- not directly supported by the provided configuration.</div>
+<div class="block">Set the value of the node at <code>path</code> to the given value, using the appropriate <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializer.html" title="interface in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializer</code></a> to serialize the data if it's not directly
+ supported by the provided configuration.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setAcceptedTypes(java.util.Set)">setAcceptedTypes(Set&lt;Class&lt;?&gt;&gt;)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withAcceptedTypes(java.util.Set)"><code>ConfigurationOptions.withAcceptedTypes(Set)</code></a> instead</div>
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withNativeTypes(java.util.Set)"><code>ConfigurationOptions.withNativeTypes(Set)</code></a> instead</div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ValueReference.html#setAndSave(T)">setAndSave(T)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference">ValueReference</a></dt>
 <dd>
-<div class="block">Set the new value of this node.</div>
+<div class="block">Set the new value of this node and save the underlying configuration</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ValueReference.html#setAndSaveAsync(T)">setAndSaveAsync(T)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Set the new value of this node and save the underlying configuration asynchronously on the executor of the owning
+ <a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a></div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html#setAttributes(java.util.Map)">setAttributes(Map&lt;String, String&gt;)</a></span> - Method in interface ninja.leaping.configurate.attributed.<a href="ninja/leaping/configurate/attributed/AttributedConfigurationNode.html" title="interface in ninja.leaping.configurate.attributed">AttributedConfigurationNode</a></dt>
 <dd>
@@ -1995,8 +2032,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setHeader(java.lang.String)">setHeader(String)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified header
- set, and all other settings copied from this instance.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified header set, and all other settings copied
+ from this instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#setHeaderMode(ninja.leaping.configurate.loader.HeaderMode)">setHeaderMode(HeaderMode)</a></span> - Method in class ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader.Builder</a></dt>
 <dd>
@@ -2135,8 +2172,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#shouldCopyDefaults()">shouldCopyDefaults()</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Gets whether or not default parameters provided to <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> getter methods
- should be set to the node when used.</div>
+<div class="block">Gets whether or not default parameters provided to <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> getter methods should be set to the
+ node when used.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/xml/XMLConfigurationLoader.Builder.html#shouldIncludeXmlDeclaration()">shouldIncludeXmlDeclaration()</a></span> - Method in class ninja.leaping.configurate.xml.<a href="ninja/leaping/configurate/xml/XMLConfigurationLoader.Builder.html" title="class in ninja.leaping.configurate.xml">XMLConfigurationLoader.Builder</a></dt>
 <dd>
@@ -2238,7 +2275,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Called to submit a new item</div>
 </dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html#submit(V)">submit(V)</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a></dt>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html#submit(V)">submit(V)</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/Publisher.html#subscribe(ninja.leaping.configurate.reactive.Subscriber)">subscribe(Subscriber&lt;? super V&gt;)</a></span> - Method in interface ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a></dt>
 <dd>
@@ -2247,10 +2284,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><a href="ninja/leaping/configurate/reactive/Subscriber.html" title="interface in ninja.leaping.configurate.reactive"><span class="typeNameLink">Subscriber</span></a>&lt;<a href="ninja/leaping/configurate/reactive/Subscriber.html" title="type parameter in Subscriber">V</a>&gt; - Interface in <a href="ninja/leaping/configurate/reactive/package-summary.html">ninja.leaping.configurate.reactive</a></dt>
 <dd>
 <div class="block">A listener to events that may be called by an <a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive"><code>Publisher</code></a>.</div>
-</dd>
-<dt><a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive"><span class="typeNameLink">SubscriberTransactional</span></a>&lt;<a href="ninja/leaping/configurate/reactive/SubscriberTransactional.html" title="type parameter in SubscriberTransactional">V</a>&gt; - Interface in <a href="ninja/leaping/configurate/reactive/package-summary.html">ninja.leaping.configurate.reactive</a></dt>
-<dd>
-<div class="block">A subscriber that is transaction-aware.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#SYSTEM_LINE_SEPARATOR">SYSTEM_LINE_SEPARATOR</a></span> - Static variable in class ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>
@@ -2280,6 +2313,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/SimpleConfigurationNode.html#toString()">toString()</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive"><span class="typeNameLink">TransactionalSubscriber</span></a>&lt;<a href="ninja/leaping/configurate/reactive/TransactionalSubscriber.html" title="type parameter in TransactionalSubscriber">V</a>&gt; - Interface in <a href="ninja/leaping/configurate/reactive/package-summary.html">ninja.leaping.configurate.reactive</a></dt>
+<dd>
+<div class="block">A subscriber that is transaction-aware.</div>
+</dd>
 <dt><a href="ninja/leaping/configurate/reactive/TransactionFailedException.html" title="class in ninja.leaping.configurate.reactive"><span class="typeNameLink">TransactionFailedException</span></a> - Exception in <a href="ninja/leaping/configurate/reactive/package-summary.html">ninja.leaping.configurate.reactive</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reactive/TransactionFailedException.html#%3Cinit%3E()">TransactionFailedException()</a></span> - Constructor for exception ninja.leaping.configurate.reactive.<a href="ninja/leaping/configurate/reactive/TransactionFailedException.html" title="class in ninja.leaping.configurate.reactive">TransactionFailedException</a></dt>
@@ -2339,6 +2376,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a <a href="ninja/leaping/configurate/util/MapFactory.html" title="interface in ninja.leaping.configurate.util"><code>MapFactory</code></a> which creates maps without an order.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ValueReference.html#update(java.util.function.Function)">update(Function&lt;T, ? extends T&gt;)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Update this value and the underlying node, without saving.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ConfigurationReference.html#updateAsync(java.util.function.Function)">updateAsync(Function&lt;N, ? extends N&gt;)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a></dt>
+<dd>
+<div class="block">Update this configuration using the provided function, returning a <a href="ninja/leaping/configurate/reactive/Publisher.html" title="interface in ninja.leaping.configurate.reactive"><code>Publisher</code></a> which will complete with the
+ result of the operation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/reference/ValueReference.html#updateAsync(java.util.function.Function)">updateAsync(Function&lt;T, ? extends T&gt;)</a></span> - Method in interface ninja.leaping.configurate.reference.<a href="ninja/leaping/configurate/reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference">ValueReference</a></dt>
+<dd>
+<div class="block">Update, performing the action and save on the executor of the owning <a href="ninja/leaping/configurate/reference/ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference"><code>ConfigurationReference</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/examples/Transformations.html#updateNode(N)">updateNode(N)</a></span> - Static method in class ninja.leaping.configurate.examples.<a href="ninja/leaping/configurate/examples/Transformations.html" title="class in ninja.leaping.configurate.examples">Transformations</a></dt>
 <dd>
 <div class="block">Apply the transformations to a node</div>
@@ -2381,6 +2431,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
 <dt><a href="ninja/leaping/configurate/reference/ValueReference.html" title="interface in ninja.leaping.configurate.reference"><span class="typeNameLink">ValueReference</span></a>&lt;<a href="ninja/leaping/configurate/reference/ValueReference.html" title="type parameter in ValueReference">T</a>&gt; - Interface in <a href="ninja/leaping/configurate/reference/package-summary.html">ninja.leaping.configurate.reference</a></dt>
@@ -2418,12 +2469,15 @@ the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ValueType.html#values()">values()</a></span> - Static method in enum ninja.leaping.configurate.<a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></dt>
 <dd>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>
 </dd>
 <dt><a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate"><span class="typeNameLink">ValueType</span></a> - Enum in <a href="ninja/leaping/configurate/package-summary.html">ninja.leaping.configurate</a></dt>
 <dd>
-<div class="block">An enumeration of the types of value a <a href="ninja/leaping/configurate/ConfigurationNode.html" title="interface in ninja.leaping.configurate"><code>ConfigurationNode</code></a> can hold.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> and <a href="ninja/leaping/configurate/ConfigurationNode.html#isMap()"><code>ConfigurationNode.isMap()</code></a> for the same information</div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.html#versionedBuilder()">versionedBuilder()</a></span> - Static method in class ninja.leaping.configurate.transformation.<a href="ninja/leaping/configurate/transformation/ConfigurationTransformation.html" title="class in ninja.leaping.configurate.transformation">ConfigurationTransformation</a></dt>
 <dd>
@@ -2494,40 +2548,40 @@ the order they are declared.</div>
 <dd>
 <div class="block">A special object that represents a wildcard in a path provided to a configuration transformer</div>
 </dd>
-<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withAcceptedTypes(java.util.Set)">withAcceptedTypes(Set&lt;Class&lt;?&gt;&gt;)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
-<dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified accepted types
- set, and all other settings copied from this instance.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withHeader(java.lang.String)">withHeader(String)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified header
- set, and all other settings copied from this instance.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified header set, and all other settings copied
+ from this instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withMapFactory(ninja.leaping.configurate.util.MapFactory)">withMapFactory(MapFactory)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="ninja/leaping/configurate/util/MapFactory.html" title="interface in ninja.leaping.configurate.util"><code>MapFactory</code></a>
- set, and all other settings copied from this instance.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="ninja/leaping/configurate/util/MapFactory.html" title="interface in ninja.leaping.configurate.util"><code>MapFactory</code></a> set, and all other
+ settings copied from this instance.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withNativeTypes(java.util.Set)">withNativeTypes(Set&lt;Class&lt;?&gt;&gt;)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
+<dd>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified native types set, and all other settings
+ copied from this instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withObjectMapperFactory(ninja.leaping.configurate.objectmapping.ObjectMapperFactory)">withObjectMapperFactory(ObjectMapperFactory)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="ninja/leaping/configurate/objectmapping/ObjectMapperFactory.html" title="interface in ninja.leaping.configurate.objectmapping"><code>ObjectMapperFactory</code></a>
- set, and all other settings copied from this instance.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="ninja/leaping/configurate/objectmapping/ObjectMapperFactory.html" title="interface in ninja.leaping.configurate.objectmapping"><code>ObjectMapperFactory</code></a> set, and all
+ other settings copied from this instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withSerializers(java.util.function.Consumer)">withSerializers(Consumer&lt;TypeSerializerCollection&gt;)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with a new
- <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializerCollection.html" title="class in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializerCollection</code></a> created as a child of this options' current collection.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with a new <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializerCollection.html" title="class in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializerCollection</code></a> created as a
+ child of this options' current collection.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withSerializers(ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection)">withSerializers(TypeSerializerCollection)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializerCollection.html" title="class in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializerCollection</code></a>
- set, and all other settings copied from this instance.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="ninja/leaping/configurate/objectmapping/serialize/TypeSerializerCollection.html" title="class in ninja.leaping.configurate.objectmapping.serialize"><code>TypeSerializerCollection</code></a> set, and
+ all other settings copied from this instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/ConfigurationOptions.html#withShouldCopyDefaults(boolean)">withShouldCopyDefaults(boolean)</a></span> - Method in class ninja.leaping.configurate.<a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></dt>
 <dd>
-<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified 'copy defaults' setting
- set, and all other settings copied from this instance.</div>
+<div class="block">Creates a new <a href="ninja/leaping/configurate/ConfigurationOptions.html" title="class in ninja.leaping.configurate"><code>ConfigurationOptions</code></a> instance, with the specified 'copy defaults' setting set, and all
+ other settings copied from this instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">writeHeaderInternal(Writer)</a></span> - Method in class ninja.leaping.configurate.loader.<a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.html" title="class in ninja.leaping.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
@@ -2575,7 +2629,7 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="ninja/leaping/configurate/examples/Transformations.html#zeroToOne()">zeroToOne()</a></span> - Static method in class ninja.leaping.configurate.examples.<a href="ninja/leaping/configurate/examples/Transformations.html" title="class in ninja.leaping.configurate.examples">Transformations</a></dt>
 <dd>&nbsp;</dd>
 </dl>
-<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a href="#I:X">X</a>&nbsp;<a href="#I:Y">Y</a>&nbsp;<a href="#I:Z">Z</a>&nbsp;<br><a href="allclasses-index.html">All&nbsp;Classes</a>&nbsp;<a href="allpackages-index.html">All&nbsp;Packages</a></div>
+<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a href="#I:X">X</a>&nbsp;<a href="#I:Y">Y</a>&nbsp;<a href="#I:Z">Z</a>&nbsp;<br><a href="allclasses-index.html">All&nbsp;Classes</a><span class="verticalSeparator">|</span><a href="allpackages-index.html">All&nbsp;Packages</a></div>
 </main>
 <footer role="contentinfo">
 <nav role="navigation">
@@ -2603,5 +2657,7 @@ the order they are declared.</div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

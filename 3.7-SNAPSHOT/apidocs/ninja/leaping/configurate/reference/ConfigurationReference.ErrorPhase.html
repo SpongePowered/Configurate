@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.reference</a></div>
 <h1 title="Enum ConfigurationReference.ErrorPhase" class="title">Enum ConfigurationReference.ErrorPhase</h1>
@@ -106,7 +101,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a> extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static enum <a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.html#line.236">ConfigurationReference.ErrorPhase</a>
+<pre>public static enum <a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.html#line.256">ConfigurationReference.ErrorPhase</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;<a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a>&gt;</pre>
 <div class="block">Representing the phase where an error occurred</div>
 </section>
@@ -225,25 +220,25 @@ the order they are declared.</div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="LOADING">LOADING</a></h3>
-<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.237">LOADING</a></span></div>
+<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.257">LOADING</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="SAVING">SAVING</a></h3>
-<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.237">SAVING</a></span></div>
+<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.257">SAVING</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="UNKNOWN">UNKNOWN</a></h3>
-<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.237">UNKNOWN</a></span></div>
+<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.257">UNKNOWN</a></span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="VALUE">VALUE</a></h3>
-<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.237">VALUE</a></span></div>
+<div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.257">VALUE</a></span></div>
 </section>
 </li>
 </ul>
@@ -259,7 +254,7 @@ the order they are declared.</div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="values()">values</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a>[]</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.236">values</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a>[]</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.256">values</a></span>()</div>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>
 <dl>
@@ -271,7 +266,7 @@ the order they are declared.</div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="valueOf(java.lang.String)">valueOf</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.236">valueOf</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name)</span></div>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType"><a href="ConfigurationReference.ErrorPhase.html" title="enum in ninja.leaping.configurate.reference">ConfigurationReference.ErrorPhase</a></span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/ConfigurationReference.ErrorPhase.html#line.256">valueOf</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name)</span></div>
 <div class="block">Returns the enum constant of this type with the specified name.
 The string must match <i>exactly</i> an identifier used to declare an
 enum constant in this type.  (Extraneous whitespace characters are 
@@ -293,8 +288,8 @@ not permitted.)</div>
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -338,5 +333,7 @@ not permitted.)</div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

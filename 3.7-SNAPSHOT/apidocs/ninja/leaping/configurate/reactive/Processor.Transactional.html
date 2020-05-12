@@ -24,9 +24,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -66,20 +66,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.reactive</a></div>
 <h1 title="Interface Processor.Transactional" class="title">Interface Processor.Transactional&lt;I,&#8203;O&gt;</h1>
@@ -88,7 +83,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section class="description">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;O&gt;</code>, <code><a href="Subscriber.html" title="interface in ninja.leaping.configurate.reactive">Subscriber</a>&lt;I&gt;</code>, <code><a href="SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a>&lt;I&gt;</code></dd>
+<dd><code><a href="Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;O&gt;</code>, <code><a href="Subscriber.html" title="interface in ninja.leaping.configurate.reactive">Subscriber</a>&lt;I&gt;</code>, <code><a href="TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a>&lt;I&gt;</code></dd>
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
@@ -100,7 +95,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre>public static interface <a href="../../../../src-html/ninja/leaping/configurate/reactive/Processor.html#line.122">Processor.Transactional</a>&lt;I,&#8203;O&gt;
-extends <a href="Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;, <a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;O&gt;, <a href="SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a>&lt;I&gt;</pre>
+extends <a href="Processor.html" title="interface in ninja.leaping.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;, <a href="Publisher.html" title="interface in ninja.leaping.configurate.reactive">Publisher</a>&lt;O&gt;, <a href="TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a>&lt;I&gt;</pre>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -144,17 +139,17 @@ extends <a href="Processor.html" title="interface in ninja.leaping.configurate.r
 <!--   -->
 </a><code><a href="Subscriber.html#onClose()">onClose</a>, <a href="Subscriber.html#onError(java.lang.Throwable)">onError</a></code></div>
 <div class="inheritedList">
-<h3>Methods inherited from interface&nbsp;ninja.leaping.configurate.reactive.<a href="SubscriberTransactional.html" title="interface in ninja.leaping.configurate.reactive">SubscriberTransactional</a></h3>
-<a id="methods.inherited.from.class.ninja.leaping.configurate.reactive.SubscriberTransactional">
+<h3>Methods inherited from interface&nbsp;ninja.leaping.configurate.reactive.<a href="TransactionalSubscriber.html" title="interface in ninja.leaping.configurate.reactive">TransactionalSubscriber</a></h3>
+<a id="methods.inherited.from.class.ninja.leaping.configurate.reactive.TransactionalSubscriber">
 <!--   -->
-</a><code><a href="SubscriberTransactional.html#beginTransaction(V)">beginTransaction</a>, <a href="SubscriberTransactional.html#commit()">commit</a>, <a href="SubscriberTransactional.html#rollback()">rollback</a>, <a href="SubscriberTransactional.html#submit(V)">submit</a></code></div>
+</a><code><a href="TransactionalSubscriber.html#beginTransaction(V)">beginTransaction</a>, <a href="TransactionalSubscriber.html#commit()">commit</a>, <a href="TransactionalSubscriber.html#rollback()">rollback</a>, <a href="TransactionalSubscriber.html#submit(V)">submit</a></code></div>
 </section>
 </li>
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -198,5 +193,7 @@ extends <a href="Processor.html" title="interface in ninja.leaping.configurate.r
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -62,7 +62,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.commented</a></div>
 <h1 title="Class SimpleCommentedConfigurationNode" class="title">Class SimpleCommentedConfigurationNode</h1>
@@ -119,25 +114,6 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <!--   -->
 </a>
 <h2>Field Summary</h2>
-<div class="memberSummary">
-<table>
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<thead>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Field</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicReference.html?is-external=true" title="class or interface in java.util.concurrent.atomic" class="externalLink">AtomicReference</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comment">comment</a></span></code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</div>
 <div class="inheritedList">
 <h3>Fields inherited from interface&nbsp;ninja.leaping.configurate.<a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></h3>
 <a id="fields.inherited.from.class.ninja.leaping.configurate.ConfigurationNode">
@@ -334,7 +310,7 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <h3>Methods inherited from class&nbsp;ninja.leaping.configurate.<a href="../SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></h3>
 <a id="methods.inherited.from.class.ninja.leaping.configurate.SimpleConfigurationNode">
 <!--   -->
-</a><code><a href="../SimpleConfigurationNode.html#attachChildIfAbsent(ninja.leaping.configurate.SimpleConfigurationNode)">attachChildIfAbsent</a>, <a href="../SimpleConfigurationNode.html#attachIfNecessary()">attachIfNecessary</a>, <a href="../SimpleConfigurationNode.html#clear()">clear</a>, <a href="../SimpleConfigurationNode.html#getChild(java.lang.Object,boolean)">getChild</a>, <a href="../SimpleConfigurationNode.html#getKey()">getKey</a>, <a href="../SimpleConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.List)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(java.util.function.Function)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(java.util.function.Function,java.util.function.Supplier)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(java.util.function.Function,java.util.List)">getList</a>, <a href="../SimpleConfigurationNode.html#getOptions()">getOptions</a>, <a href="../SimpleConfigurationNode.html#getPath()">getPath</a>, <a href="../SimpleConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,T)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.util.function.Function,T)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.util.function.Supplier)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.lang.Object)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValueType()">getValueType</a>, <a href="../SimpleConfigurationNode.html#isEmpty()">isEmpty</a>, <a href="../SimpleConfigurationNode.html#isVirtual()">isVirtual</a>, <a href="../SimpleConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a>, <a href="../SimpleConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="../SimpleConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor,S)">visit</a></code></div>
+</a><code><a href="../SimpleConfigurationNode.html#attachChildIfAbsent(ninja.leaping.configurate.SimpleConfigurationNode)">attachChildIfAbsent</a>, <a href="../SimpleConfigurationNode.html#attachIfNecessary()">attachIfNecessary</a>, <a href="../SimpleConfigurationNode.html#clear()">clear</a>, <a href="../SimpleConfigurationNode.html#getChild(java.lang.Object,boolean)">getChild</a>, <a href="../SimpleConfigurationNode.html#getKey()">getKey</a>, <a href="../SimpleConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.List)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(java.util.function.Function)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(java.util.function.Function,java.util.function.Supplier)">getList</a>, <a href="../SimpleConfigurationNode.html#getList(java.util.function.Function,java.util.List)">getList</a>, <a href="../SimpleConfigurationNode.html#getNode(java.lang.Iterable)">getNode</a>, <a href="../SimpleConfigurationNode.html#getOptions()">getOptions</a>, <a href="../SimpleConfigurationNode.html#getPath()">getPath</a>, <a href="../SimpleConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,T)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.util.function.Function,T)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.util.function.Supplier)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValue(java.lang.Object)">getValue</a>, <a href="../SimpleConfigurationNode.html#getValueType()">getValueType</a>, <a href="../SimpleConfigurationNode.html#isEmpty()">isEmpty</a>, <a href="../SimpleConfigurationNode.html#isVirtual()">isVirtual</a>, <a href="../SimpleConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a>, <a href="../SimpleConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="../SimpleConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor,S)">visit</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
 <a id="methods.inherited.from.class.java.lang.Object">
@@ -349,29 +325,13 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <h3>Methods inherited from interface&nbsp;ninja.leaping.configurate.<a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></h3>
 <a id="methods.inherited.from.class.ninja.leaping.configurate.ConfigurationNode">
 <!--   -->
-</a><code><a href="../ConfigurationNode.html#getBoolean()">getBoolean</a>, <a href="../ConfigurationNode.html#getBoolean(boolean)">getBoolean</a>, <a href="../ConfigurationNode.html#getDouble()">getDouble</a>, <a href="../ConfigurationNode.html#getDouble(double)">getDouble</a>, <a href="../ConfigurationNode.html#getFloat()">getFloat</a>, <a href="../ConfigurationNode.html#getFloat(float)">getFloat</a>, <a href="../ConfigurationNode.html#getInt()">getInt</a>, <a href="../ConfigurationNode.html#getInt(int)">getInt</a>, <a href="../ConfigurationNode.html#getKey()">getKey</a>, <a href="../ConfigurationNode.html#getList(com.google.common.reflect.TypeToken)">getList</a>, <a href="../ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getList</a>, <a href="../ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.List)">getList</a>, <a href="../ConfigurationNode.html#getList(java.util.function.Function)">getList</a>, <a href="../ConfigurationNode.html#getList(java.util.function.Function,java.util.function.Supplier)">getList</a>, <a href="../ConfigurationNode.html#getList(java.util.function.Function,java.util.List)">getList</a>, <a href="../ConfigurationNode.html#getLong()">getLong</a>, <a href="../ConfigurationNode.html#getLong(long)">getLong</a>, <a href="../ConfigurationNode.html#getOptions()">getOptions</a>, <a href="../ConfigurationNode.html#getPath()">getPath</a>, <a href="../ConfigurationNode.html#getString()">getString</a>, <a href="../ConfigurationNode.html#getString(java.lang.String)">getString</a>, <a href="../ConfigurationNode.html#getValue()">getValue</a>, <a href="../ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken)">getValue</a>, <a href="../ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a>, <a href="../ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,T)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Function)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Function,T)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Supplier)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.lang.Object)">getValue</a>, <a href="../ConfigurationNode.html#getValueType()">getValueType</a>, <a href="../ConfigurationNode.html#hasListChildren()">hasListChildren</a>, <a href="../ConfigurationNode.html#hasMapChildren()">hasMapChildren</a>, <a href="../ConfigurationNode.html#isEmpty()">isEmpty</a>, <a href="../ConfigurationNode.html#isList()">isList</a>, <a href="../ConfigurationNode.html#isMap()">isMap</a>, <a href="../ConfigurationNode.html#isVirtual()">isVirtual</a>, <a href="../ConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a>, <a href="../ConfigurationNode.html#setValue(com.google.common.reflect.TypeToken,T)">setValue</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe)">visit</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor)">visit</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor,S)">visit</a></code></div>
+</a><code><a href="../ConfigurationNode.html#getBoolean()">getBoolean</a>, <a href="../ConfigurationNode.html#getBoolean(boolean)">getBoolean</a>, <a href="../ConfigurationNode.html#getDouble()">getDouble</a>, <a href="../ConfigurationNode.html#getDouble(double)">getDouble</a>, <a href="../ConfigurationNode.html#getFloat()">getFloat</a>, <a href="../ConfigurationNode.html#getFloat(float)">getFloat</a>, <a href="../ConfigurationNode.html#getInt()">getInt</a>, <a href="../ConfigurationNode.html#getInt(int)">getInt</a>, <a href="../ConfigurationNode.html#getKey()">getKey</a>, <a href="../ConfigurationNode.html#getList(com.google.common.reflect.TypeToken)">getList</a>, <a href="../ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getList</a>, <a href="../ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.List)">getList</a>, <a href="../ConfigurationNode.html#getList(java.util.function.Function)">getList</a>, <a href="../ConfigurationNode.html#getList(java.util.function.Function,java.util.function.Supplier)">getList</a>, <a href="../ConfigurationNode.html#getList(java.util.function.Function,java.util.List)">getList</a>, <a href="../ConfigurationNode.html#getLong()">getLong</a>, <a href="../ConfigurationNode.html#getLong(long)">getLong</a>, <a href="../ConfigurationNode.html#getNode(java.lang.Iterable)">getNode</a>, <a href="../ConfigurationNode.html#getOptions()">getOptions</a>, <a href="../ConfigurationNode.html#getPath()">getPath</a>, <a href="../ConfigurationNode.html#getString()">getString</a>, <a href="../ConfigurationNode.html#getString(java.lang.String)">getString</a>, <a href="../ConfigurationNode.html#getValue()">getValue</a>, <a href="../ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken)">getValue</a>, <a href="../ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a>, <a href="../ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,T)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Function)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Function,T)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.util.function.Supplier)">getValue</a>, <a href="../ConfigurationNode.html#getValue(java.lang.Object)">getValue</a>, <a href="../ConfigurationNode.html#getValueType()">getValueType</a>, <a href="../ConfigurationNode.html#hasListChildren()">hasListChildren</a>, <a href="../ConfigurationNode.html#hasMapChildren()">hasMapChildren</a>, <a href="../ConfigurationNode.html#isEmpty()">isEmpty</a>, <a href="../ConfigurationNode.html#isList()">isList</a>, <a href="../ConfigurationNode.html#isMap()">isMap</a>, <a href="../ConfigurationNode.html#isVirtual()">isVirtual</a>, <a href="../ConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a>, <a href="../ConfigurationNode.html#setValue(com.google.common.reflect.TypeToken,T)">setValue</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe)">visit</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor)">visit</a>, <a href="../ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor,S)">visit</a></code></div>
 </section>
 </li>
 </ul>
 </section>
 <section class="details">
 <ul class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<li class="blockList">
-<section class="fieldDetails"><a id="field.detail">
-<!--   -->
-</a>
-<h2>Field Details</h2>
-<ul class="blockList">
-<li class="blockList">
-<section class="detail">
-<h3><a id="comment">comment</a></h3>
-<div class="memberSignature"><span class="modifiers">protected final</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicReference.html?is-external=true" title="class or interface in java.util.concurrent.atomic" class="externalLink">AtomicReference</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/commented/SimpleCommentedConfigurationNode.html#line.35">comment</a></span></div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li class="blockList">
 <section class="constructorDetails"><a id="constructor.detail">
@@ -525,7 +485,10 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <div class="block">Set this node's value to the given value.
 
  <p>If the provided value is a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> or a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a>, it will be unwrapped into
- the appropriate configuration node structure.</p></div>
+ the appropriate configuration node structure.</p>
+
+ This method only accepts <em>native types</em> as values. If the type of a value is unknown at runtime,
+ <a href="../ConfigurationOptions.html#acceptsType(java.lang.Class)"><code>ConfigurationOptions.acceptsType(Class)</code></a> will return whether or not it is a native type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="CommentedConfigurationNode.html#setValue(java.lang.Object)">setValue</a></code>&nbsp;in interface&nbsp;<code><a href="CommentedConfigurationNode.html" title="interface in ninja.leaping.configurate.commented">CommentedConfigurationNode</a></code></dd>
@@ -537,6 +500,8 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <dd><code>value</code> - The value to set</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../ConfigurationNode.html#setValue(com.google.common.reflect.TypeToken,T)"><code>to set a value with any type conversion necessary</code></a></dd>
 </dl>
 </section>
 </li>
@@ -573,7 +538,7 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
  <p>This is the main method used to navigate through the configuration.</p>
 
  <p>The path parameter effectively consumes an array of keys, which locate the unique position
- of a given node within the structure.</p>
+ of a given node within the structure. Each element will navigate one level down in the configration hierarchy</p>
 
  <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
  structure, a <a href="../ConfigurationNode.html#isVirtual()"><code>virtual</code></a> node will be returned which represents the
@@ -600,7 +565,7 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <div class="block">Gets the "list children" attached to this node, if it has any.
 
  <p>If this node does not <a href="../ConfigurationNode.html#isList()"><code>have list children</code></a>, an empty list is
- returned.</p></div>
+ returned. For example, if the value of this node is a map, this will return an empty result.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="CommentedConfigurationNode.html#getChildrenList()">getChildrenList</a></code>&nbsp;in interface&nbsp;<code><a href="CommentedConfigurationNode.html" title="interface in ninja.leaping.configurate.commented">CommentedConfigurationNode</a></code></dd>
@@ -746,8 +711,8 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -779,7 +744,7 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -791,5 +756,7 @@ implements <a href="CommentedConfigurationNode.html" title="interface in ninja.l
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

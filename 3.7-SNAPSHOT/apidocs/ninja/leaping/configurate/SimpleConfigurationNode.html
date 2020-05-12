@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":42,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":41,"i34":41,"i35":10,"i36":10,"i37":10,"i38":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":42,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":41,"i35":41,"i36":10,"i37":10,"i38":10,"i39":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate</a></div>
 <h1 title="Class SimpleConfigurationNode" class="title">Class SimpleConfigurationNode</h1>
@@ -296,33 +291,40 @@ boolean&nbsp;attach)</code></th>
 </tr>
 <tr class="rowColor" id="i17">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNode(java.lang.Object...)">getNode</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNode(java.lang.Iterable)">getNode</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.</div>
 </td>
 </tr>
 <tr class="altColor" id="i18">
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNode(java.lang.Object...)">getNode</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a> <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> ...&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOptions()">getOptions</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the options that currently apply to this node</div>
 </td>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="altColor" id="i20">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParent()">getParent</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the parent of this node.</div>
 </td>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPath()">getPath</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the full path of <a href="ConfigurationNode.html#getKey()"><code>keys</code></a> from the root node to this node.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;T&gt;&nbsp;defSupplier)</code></th>
@@ -330,7 +332,7 @@ boolean&nbsp;attach)</code></th>
 <div class="block">Get the current value associated with this node.</div>
 </td>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValue(com.google.common.reflect.TypeToken,T)">getValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://guava.dev/releases/21.0/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
 T&nbsp;def)</code></th>
@@ -338,7 +340,7 @@ T&nbsp;def)</code></th>
 <div class="block">Get the current value associated with this node.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="altColor" id="i24">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T&gt;&nbsp;transformer,
 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;T&gt;&nbsp;defSupplier)</code></th>
@@ -347,7 +349,7 @@ T&nbsp;def)</code></th>
  transformation function.</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValue(java.util.function.Function,T)">getValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T&gt;&nbsp;transformer,
 T&nbsp;def)</code></th>
@@ -356,47 +358,47 @@ T&nbsp;def)</code></th>
  transformation function.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="altColor" id="i26">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValue(java.util.function.Supplier)">getValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;defSupplier)</code></th>
 <td class="colLast">
 <div class="block">Get the current value associated with this node.</div>
 </td>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValue(java.lang.Object)">getValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;def)</code></th>
 <td class="colLast">
 <div class="block">Get the current value associated with this node.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="altColor" id="i28">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValueType()">getValueType</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the value type of this node.</div>
 </td>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor" id="i29">
+<tr class="altColor" id="i30">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return true when this node has a null or empty value.</div>
 </td>
 </tr>
-<tr class="altColor" id="i30">
+<tr class="rowColor" id="i31">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isVirtual()">isVirtual</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets if this node is virtual.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i31">
+<tr class="altColor" id="i32">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mergeValuesFrom(ninja.leaping.configurate.ConfigurationNode)">mergeValuesFrom</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&nbsp;other)</code></th>
 <td class="colLast">
@@ -404,14 +406,14 @@ T&nbsp;def)</code></th>
  to their values in the provided node.</div>
 </td>
 </tr>
-<tr class="altColor" id="i32">
+<tr class="rowColor" id="i33">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeChild(java.lang.Object)">removeChild</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Removes a direct child of this node</div>
 </td>
 </tr>
-<tr class="rowColor" id="i33">
+<tr class="altColor" id="i34">
 <td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root()">root</a></span>()</code></th>
 <td class="colLast">
@@ -420,7 +422,7 @@ T&nbsp;def)</code></th>
 </div>
 </td>
 </tr>
-<tr class="altColor" id="i34">
+<tr class="rowColor" id="i35">
 <td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(ninja.leaping.configurate.ConfigurationOptions)">root</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
 <td class="colLast">
@@ -429,19 +431,19 @@ T&nbsp;def)</code></th>
 </div>
 </td>
 </tr>
-<tr class="rowColor" id="i35">
+<tr class="altColor" id="i36">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setValue(java.lang.Object)">setValue</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;newValue)</code></th>
 <td class="colLast">
 <div class="block">Set this node's value to the given value.</div>
 </td>
 </tr>
-<tr class="altColor" id="i36">
+<tr class="rowColor" id="i37">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor" id="i37">
+<tr class="altColor" id="i38">
 <td class="colFirst"><code>&lt;S,&#8203;
 T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">visit</a></span>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor,
@@ -451,7 +453,7 @@ S&nbsp;state)</code></th>
  This overload will remove the need for exception handling for visitors that do not have any checked exceptions.</div>
 </td>
 </tr>
-<tr class="altColor" id="i38">
+<tr class="rowColor" id="i39">
 <td class="colFirst"><code>&lt;S,&#8203;
 T,&#8203;
 E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br>T</code></td>
@@ -826,7 +828,10 @@ T&nbsp;def)</span>
 <div class="block">Set this node's value to the given value.
 
  <p>If the provided value is a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> or a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a>, it will be unwrapped into
- the appropriate configuration node structure.</p></div>
+ the appropriate configuration node structure.</p>
+
+ This method only accepts <em>native types</em> as values. If the type of a value is unknown at runtime,
+ <a href="ConfigurationOptions.html#acceptsType(java.lang.Class)"><code>ConfigurationOptions.acceptsType(Class)</code></a> will return whether or not it is a native type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationNode.html#setValue(java.lang.Object)">setValue</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></code></dd>
@@ -834,6 +839,8 @@ T&nbsp;def)</span>
 <dd><code>newValue</code> - The value to set</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="ConfigurationNode.html#setValue(com.google.common.reflect.TypeToken,T)"><code>to set a value with any type conversion necessary</code></a></dd>
 </dl>
 </section>
 </li>
@@ -859,14 +866,14 @@ T&nbsp;def)</span>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getNode(java.lang.Object...)">getNode</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.389">getNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.389">getNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a> <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> ...&nbsp;path)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getNode(java.lang.Object...)">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
 
  <p>This is the main method used to navigate through the configuration.</p>
 
  <p>The path parameter effectively consumes an array of keys, which locate the unique position
- of a given node within the structure.</p>
+ of a given node within the structure. Each element will navigate one level down in the configration hierarchy</p>
 
  <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
  structure, a <a href="ConfigurationNode.html#isVirtual()"><code>virtual</code></a> node will be returned which represents the
@@ -883,8 +890,33 @@ T&nbsp;def)</span>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="getNode(java.lang.Iterable)">getNode</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.399">getNode</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getNode(java.lang.Iterable)">ConfigurationNode</a></code></span></div>
+<div class="block">Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
+
+ <p>This is the main method used to navigate through the configuration.</p>
+
+ <p>The path parameter effectively consumes an iterable of keys, which locate the unique position
+ of a given node within the structure.</p>
+
+ <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
+ structure, a <a href="ConfigurationNode.html#isVirtual()"><code>virtual</code></a> node will be returned which represents the
+ position.</p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="ConfigurationNode.html#getNode(java.lang.Iterable)">getNode</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - The path to fetch the node at</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The node at the given path, possibly virtual</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="isVirtual()">isVirtual</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.399">isVirtual</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.408">isVirtual</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#isVirtual()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets if this node is virtual.
 
@@ -902,7 +934,7 @@ T&nbsp;def)</span>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getValueType()">getValueType</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.404">getValueType</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ValueType.html" title="enum in ninja.leaping.configurate">ValueType</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.413">getValueType</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getValueType()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the value type of this node.</div>
 <dl>
@@ -916,12 +948,12 @@ T&nbsp;def)</span>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getChildrenList()">getChildrenList</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.410">getChildrenList</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.419">getChildrenList</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getChildrenList()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the "list children" attached to this node, if it has any.
 
  <p>If this node does not <a href="ConfigurationNode.html#isList()"><code>have list children</code></a>, an empty list is
- returned.</p></div>
+ returned. For example, if the value of this node is a map, this will return an empty result.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationNode.html#getChildrenList()">getChildrenList</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></code></dd>
@@ -933,7 +965,7 @@ T&nbsp;def)</span>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getChildrenMap()">getChildrenMap</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;? extends <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.418">getChildrenMap</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;? extends <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&gt;</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.427">getChildrenMap</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getChildrenMap()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the "map children" attached to this node, if it has any.
 
@@ -950,7 +982,7 @@ T&nbsp;def)</span>
 <li class="blockList">
 <section class="detail">
 <h3><a id="isEmpty()">isEmpty</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.426">isEmpty</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.435">isEmpty</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#isEmpty()">ConfigurationNode</a></code></span></div>
 <div class="block">Return true when this node has a null or empty value. Values that may result in this method returning true include:
 
@@ -963,7 +995,8 @@ T&nbsp;def)</span>
  </ul>
 
  This is a distinct value from <a href="ConfigurationNode.html#isVirtual()"><code>ConfigurationNode.isVirtual()</code></a>. Emptiness refers to the value of this node itself,
- while virtuality refers to whether or not this node</div>
+ while virtuality refers to whether or not this node is attached to its parent and the rest of the configuration
+ structure.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationNode.html#isEmpty()">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></code></dd>
@@ -975,7 +1008,7 @@ T&nbsp;def)</span>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getChild(java.lang.Object,boolean)">getChild</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.438">getChild</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.447">getChild</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
 boolean&nbsp;attach)</span></div>
 <div class="block">Gets a child node, relative to this.</div>
 <dl>
@@ -990,7 +1023,7 @@ boolean&nbsp;attach)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="removeChild(java.lang.Object)">removeChild</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.462">removeChild</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.471">removeChild</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#removeChild(java.lang.Object)">ConfigurationNode</a></code></span></div>
 <div class="block">Removes a direct child of this node</div>
 <dl>
@@ -1007,7 +1040,7 @@ boolean&nbsp;attach)</span></div>
 <section class="detail">
 <h3><a id="getAppendedNode()">getAppendedNode</a></h3>
 <div class="memberSignature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.475">getAppendedNode</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.484">getAppendedNode</a></span>()</div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getAppendedNode()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets a new child node created as the next entry in the list.</div>
@@ -1022,7 +1055,7 @@ boolean&nbsp;attach)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getKey()">getKey</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.484">getKey</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.493">getKey</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getKey()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the "key" of this node.
 
@@ -1051,24 +1084,26 @@ boolean&nbsp;attach)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getPath()">getPath</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.490">getPath</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.499">getPath</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getPath()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the full path of <a href="ConfigurationNode.html#getKey()"><code>keys</code></a> from the root node to this node.
 
  <p>Node implementations may not keep a full path for each node, so this method may be
- somewhat complex to calculate.</p></div>
+ somewhat complex to calculate. Most uses should not need to calculate the full path unless providing debug information</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationNode.html#getPath()">getPath</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>An array compiled from the keys for each node up the hierarchy</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="ConfigurationNode.html#getKey()"><code>for this node's key relative to its direct parent</code></a></dd>
 </dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getParent()">getParent</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.505">getParent</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.514">getParent</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getParent()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the parent of this node.
 
@@ -1085,7 +1120,7 @@ boolean&nbsp;attach)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getOptions()">getOptions</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.510">getOptions</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationOptions.html" title="class in ninja.leaping.configurate">ConfigurationOptions</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.519">getOptions</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#getOptions()">ConfigurationNode</a></code></span></div>
 <div class="block">Gets the options that currently apply to this node</div>
 <dl>
@@ -1099,7 +1134,7 @@ boolean&nbsp;attach)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="copy()">copy</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.516">copy</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.525">copy</a></span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#copy()">ConfigurationNode</a></code></span></div>
 <div class="block">Creates a deep copy of this node.
 
@@ -1125,31 +1160,31 @@ boolean&nbsp;attach)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="copy(ninja.leaping.configurate.SimpleConfigurationNode)">copy</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.522">copy</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&nbsp;parent)</span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.531">copy</a></span>&#8203;(<span class="arguments"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&nbsp;parent)</span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="attachIfNecessary()">attachIfNecessary</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.542">attachIfNecessary</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.551">attachIfNecessary</a></span>()</div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="createNode(java.lang.Object)">createNode</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.548">createNode</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;path)</span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.557">createNode</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;path)</span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="attachChildIfAbsent(ninja.leaping.configurate.SimpleConfigurationNode)">attachChildIfAbsent</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.552">attachChildIfAbsent</a></span>&#8203;(<span class="arguments"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&nbsp;child)</span></div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.561">attachChildIfAbsent</a></span>&#8203;(<span class="arguments"><a href="SimpleConfigurationNode.html" title="class in ninja.leaping.configurate">SimpleConfigurationNode</a>&nbsp;child)</span></div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="clear()">clear</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.619">clear</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.628">clear</a></span>()</div>
 </section>
 </li>
 <li class="blockList">
@@ -1159,7 +1194,7 @@ boolean&nbsp;attach)</span></div>
 </a><a id="visit(ninja.leaping.configurate.ConfigurationVisitor,S)">visit</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="typeParameters">&lt;S,&#8203;
 T,&#8203;
-E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</span>&nbsp;<span class="returnType">T</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.627">visit</a></span>&#8203;(<span class="arguments"><a href="ConfigurationVisitor.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E&gt;&nbsp;visitor,
+E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</span>&nbsp;<span class="returnType">T</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.636">visit</a></span>&#8203;(<span class="arguments"><a href="ConfigurationVisitor.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E&gt;&nbsp;visitor,
 S&nbsp;state)</span>
                                   throws <span class="exceptions">E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor,S)">ConfigurationNode</a></code></span></div>
@@ -1178,7 +1213,6 @@ S&nbsp;state)</span>
 <dd>The returned terminal from the visitor</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when throw by visitor implementation</dd>
-<dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -1188,7 +1222,7 @@ S&nbsp;state)</span>
 <!--   -->
 </a><a id="visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">visit</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="typeParameters">&lt;S,&#8203;
-T&gt;</span>&nbsp;<span class="returnType">T</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.632">visit</a></span>&#8203;(<span class="arguments"><a href="ConfigurationVisitor.Safe.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor,
+T&gt;</span>&nbsp;<span class="returnType">T</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.641">visit</a></span>&#8203;(<span class="arguments"><a href="ConfigurationVisitor.Safe.html" title="interface in ninja.leaping.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor,
 S&nbsp;state)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#visit(ninja.leaping.configurate.ConfigurationVisitor.Safe,S)">ConfigurationNode</a></code></span></div>
 <div class="block">Visit this node hierarchy as described in <a href="ConfigurationVisitor.html" title="interface in ninja.leaping.configurate"><code>ConfigurationVisitor</code></a>
@@ -1210,7 +1244,7 @@ S&nbsp;state)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="equals(java.lang.Object)">equals</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.675">equals</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</span></div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.684">equals</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</span></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -1220,7 +1254,7 @@ S&nbsp;state)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="hashCode()">hashCode</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.684">hashCode</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.693">hashCode</a></span>()</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -1230,7 +1264,7 @@ S&nbsp;state)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="toString()">toString</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.689">toString</a></span>()</div>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></span>&nbsp;<span class="memberName"><a href="../../../src-html/ninja/leaping/configurate/SimpleConfigurationNode.html#line.698">toString</a></span>()</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -1243,8 +1277,8 @@ S&nbsp;state)</span></div>
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -1288,5 +1322,7 @@ S&nbsp;state)</span></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

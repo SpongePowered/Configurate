@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate.reference</a></div>
 <h1 title="Class WatchServiceListener" class="title">Class WatchServiceListener</h1>
@@ -183,7 +178,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><code>&lt;N extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;<br><a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;N&gt;&gt;&nbsp;loaderFunc,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;? extends N&gt;&gt;&nbsp;loaderFunc,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -298,7 +293,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <section class="detail">
 <h3><a id="listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="typeParameters">&lt;N extends <a href="../ConfigurationNode.html" title="interface in ninja.leaping.configurate">ConfigurationNode</a>&gt;</span>
-<span class="returnType"><a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;N&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/WatchServiceListener.html#line.196">listenToConfiguration</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;N&gt;&gt;&nbsp;loaderFunc,
+<span class="returnType"><a href="ConfigurationReference.html" title="interface in ninja.leaping.configurate.reference">ConfigurationReference</a>&lt;N&gt;</span>&nbsp;<span class="memberName"><a href="../../../../src-html/ninja/leaping/configurate/reference/WatchServiceListener.html#line.196">listenToConfiguration</a></span>&#8203;(<span class="arguments"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in ninja.leaping.configurate.loader">ConfigurationLoader</a>&lt;? extends N&gt;&gt;&nbsp;loaderFunc,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</span>
                                          throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></span></div>
 <dl>
@@ -326,8 +321,8 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -371,5 +366,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

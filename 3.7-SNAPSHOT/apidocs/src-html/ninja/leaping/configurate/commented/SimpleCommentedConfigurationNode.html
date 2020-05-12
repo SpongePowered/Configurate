@@ -44,7 +44,7 @@
 <span class="sourceLineNo">032</span><a id="line.32"> * Basic implementation of {@link CommentedConfigurationNode}.</a>
 <span class="sourceLineNo">033</span><a id="line.33"> */</a>
 <span class="sourceLineNo">034</span><a id="line.34">public class SimpleCommentedConfigurationNode extends SimpleConfigurationNode implements CommentedConfigurationNode {</a>
-<span class="sourceLineNo">035</span><a id="line.35">    protected final AtomicReference&lt;String&gt; comment = new AtomicReference&lt;&gt;();</a>
+<span class="sourceLineNo">035</span><a id="line.35">    private final AtomicReference&lt;String&gt; comment = new AtomicReference&lt;&gt;();</a>
 <span class="sourceLineNo">036</span><a id="line.36"></a>
 <span class="sourceLineNo">037</span><a id="line.37">    /**</a>
 <span class="sourceLineNo">038</span><a id="line.38">     * Create a new node with no parent.</a>

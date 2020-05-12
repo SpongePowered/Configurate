@@ -81,65 +81,67 @@
 <span class="sourceLineNo">069</span><a id="line.69">     * @throws IOException when an error occurs within the loader</a>
 <span class="sourceLineNo">070</span><a id="line.70">     * @see ninja.leaping.configurate.reference.WatchServiceListener#listenToConfiguration(Function, Path) to create an auto-reloading configuration.</a>
 <span class="sourceLineNo">071</span><a id="line.71">     */</a>
-<span class="sourceLineNo">072</span><a id="line.72">    ConfigurationReference&lt;NodeType&gt; loadToReference() throws IOException;</a>
-<span class="sourceLineNo">073</span><a id="line.73"></a>
-<span class="sourceLineNo">074</span><a id="line.74">    /**</a>
-<span class="sourceLineNo">075</span><a id="line.75">     * Attempts to load a {@link ConfigurationNode} using this loader, from the defined source.</a>
-<span class="sourceLineNo">076</span><a id="line.76">     *</a>
-<span class="sourceLineNo">077</span><a id="line.77">     * &lt;p&gt;The resultant node represents the root of the configuration being loaded.&lt;/p&gt;</a>
+<span class="sourceLineNo">072</span><a id="line.72">    default ConfigurationReference&lt;NodeType&gt; loadToReference() throws IOException {</a>
+<span class="sourceLineNo">073</span><a id="line.73">        return ConfigurationReference.createFixed(this);</a>
+<span class="sourceLineNo">074</span><a id="line.74">    }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">    /**</a>
+<span class="sourceLineNo">077</span><a id="line.77">     * Attempts to load a {@link ConfigurationNode} using this loader, from the defined source.</a>
 <span class="sourceLineNo">078</span><a id="line.78">     *</a>
-<span class="sourceLineNo">079</span><a id="line.79">     * @param options The options to load with</a>
-<span class="sourceLineNo">080</span><a id="line.80">     * @return The newly constructed node</a>
-<span class="sourceLineNo">081</span><a id="line.81">     * @throws IOException if any sort of error occurs with reading or parsing the configuration</a>
-<span class="sourceLineNo">082</span><a id="line.82">     */</a>
-<span class="sourceLineNo">083</span><a id="line.83">    @NonNull</a>
-<span class="sourceLineNo">084</span><a id="line.84">    NodeType load(@NonNull ConfigurationOptions options) throws IOException;</a>
-<span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">    /**</a>
-<span class="sourceLineNo">087</span><a id="line.87">     * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.</a>
-<span class="sourceLineNo">088</span><a id="line.88">     *</a>
-<span class="sourceLineNo">089</span><a id="line.89">     * @param node The node to save</a>
-<span class="sourceLineNo">090</span><a id="line.90">     * @throws IOException if any sort of error occurs with writing or generating the configuration</a>
-<span class="sourceLineNo">091</span><a id="line.91">     */</a>
-<span class="sourceLineNo">092</span><a id="line.92">    void save(@NonNull ConfigurationNode node) throws IOException;</a>
-<span class="sourceLineNo">093</span><a id="line.93"></a>
-<span class="sourceLineNo">094</span><a id="line.94">    /**</a>
-<span class="sourceLineNo">095</span><a id="line.95">     * Return an empty node of the most appropriate type for this loader, using the default options.</a>
-<span class="sourceLineNo">096</span><a id="line.96">     *</a>
-<span class="sourceLineNo">097</span><a id="line.97">     * @return The appropriate node type</a>
-<span class="sourceLineNo">098</span><a id="line.98">     */</a>
-<span class="sourceLineNo">099</span><a id="line.99">    @NonNull</a>
-<span class="sourceLineNo">100</span><a id="line.100">    default NodeType createEmptyNode() {</a>
-<span class="sourceLineNo">101</span><a id="line.101">        return createEmptyNode(getDefaultOptions());</a>
-<span class="sourceLineNo">102</span><a id="line.102">    }</a>
-<span class="sourceLineNo">103</span><a id="line.103"></a>
-<span class="sourceLineNo">104</span><a id="line.104">    /**</a>
-<span class="sourceLineNo">105</span><a id="line.105">     * Return an empty node of the most appropriate type for this loader</a>
-<span class="sourceLineNo">106</span><a id="line.106">     *</a>
-<span class="sourceLineNo">107</span><a id="line.107">     * @param options The options to use with this node. Must not be null (see {@link ConfigurationOptions#defaults()})</a>
-<span class="sourceLineNo">108</span><a id="line.108">     * @return The appropriate node type</a>
-<span class="sourceLineNo">109</span><a id="line.109">     */</a>
-<span class="sourceLineNo">110</span><a id="line.110">    @NonNull</a>
-<span class="sourceLineNo">111</span><a id="line.111">    NodeType createEmptyNode(@NonNull ConfigurationOptions options);</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">    /**</a>
-<span class="sourceLineNo">114</span><a id="line.114">     * Gets if this loader is capable of loading configurations.</a>
-<span class="sourceLineNo">115</span><a id="line.115">     *</a>
-<span class="sourceLineNo">116</span><a id="line.116">     * @return If this loader can load</a>
-<span class="sourceLineNo">117</span><a id="line.117">     */</a>
-<span class="sourceLineNo">118</span><a id="line.118">    default boolean canLoad() {</a>
-<span class="sourceLineNo">119</span><a id="line.119">        return true;</a>
-<span class="sourceLineNo">120</span><a id="line.120">    }</a>
-<span class="sourceLineNo">121</span><a id="line.121"></a>
-<span class="sourceLineNo">122</span><a id="line.122">    /**</a>
-<span class="sourceLineNo">123</span><a id="line.123">     * Gets if this loader is capable of saving configurations.</a>
-<span class="sourceLineNo">124</span><a id="line.124">     *</a>
-<span class="sourceLineNo">125</span><a id="line.125">     * @return If this loader can save</a>
-<span class="sourceLineNo">126</span><a id="line.126">     */</a>
-<span class="sourceLineNo">127</span><a id="line.127">    default boolean canSave() {</a>
-<span class="sourceLineNo">128</span><a id="line.128">        return true;</a>
-<span class="sourceLineNo">129</span><a id="line.129">    }</a>
-<span class="sourceLineNo">130</span><a id="line.130">}</a>
+<span class="sourceLineNo">079</span><a id="line.79">     * &lt;p&gt;The resultant node represents the root of the configuration being loaded.&lt;/p&gt;</a>
+<span class="sourceLineNo">080</span><a id="line.80">     *</a>
+<span class="sourceLineNo">081</span><a id="line.81">     * @param options The options to load with</a>
+<span class="sourceLineNo">082</span><a id="line.82">     * @return The newly constructed node</a>
+<span class="sourceLineNo">083</span><a id="line.83">     * @throws IOException if any sort of error occurs with reading or parsing the configuration</a>
+<span class="sourceLineNo">084</span><a id="line.84">     */</a>
+<span class="sourceLineNo">085</span><a id="line.85">    @NonNull</a>
+<span class="sourceLineNo">086</span><a id="line.86">    NodeType load(@NonNull ConfigurationOptions options) throws IOException;</a>
+<span class="sourceLineNo">087</span><a id="line.87"></a>
+<span class="sourceLineNo">088</span><a id="line.88">    /**</a>
+<span class="sourceLineNo">089</span><a id="line.89">     * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.</a>
+<span class="sourceLineNo">090</span><a id="line.90">     *</a>
+<span class="sourceLineNo">091</span><a id="line.91">     * @param node The node to save</a>
+<span class="sourceLineNo">092</span><a id="line.92">     * @throws IOException if any sort of error occurs with writing or generating the configuration</a>
+<span class="sourceLineNo">093</span><a id="line.93">     */</a>
+<span class="sourceLineNo">094</span><a id="line.94">    void save(@NonNull ConfigurationNode node) throws IOException;</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">    /**</a>
+<span class="sourceLineNo">097</span><a id="line.97">     * Return an empty node of the most appropriate type for this loader, using the default options.</a>
+<span class="sourceLineNo">098</span><a id="line.98">     *</a>
+<span class="sourceLineNo">099</span><a id="line.99">     * @return The appropriate node type</a>
+<span class="sourceLineNo">100</span><a id="line.100">     */</a>
+<span class="sourceLineNo">101</span><a id="line.101">    @NonNull</a>
+<span class="sourceLineNo">102</span><a id="line.102">    default NodeType createEmptyNode() {</a>
+<span class="sourceLineNo">103</span><a id="line.103">        return createEmptyNode(getDefaultOptions());</a>
+<span class="sourceLineNo">104</span><a id="line.104">    }</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">    /**</a>
+<span class="sourceLineNo">107</span><a id="line.107">     * Return an empty node of the most appropriate type for this loader</a>
+<span class="sourceLineNo">108</span><a id="line.108">     *</a>
+<span class="sourceLineNo">109</span><a id="line.109">     * @param options The options to use with this node. Must not be null (see {@link ConfigurationOptions#defaults()})</a>
+<span class="sourceLineNo">110</span><a id="line.110">     * @return The appropriate node type</a>
+<span class="sourceLineNo">111</span><a id="line.111">     */</a>
+<span class="sourceLineNo">112</span><a id="line.112">    @NonNull</a>
+<span class="sourceLineNo">113</span><a id="line.113">    NodeType createEmptyNode(@NonNull ConfigurationOptions options);</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">    /**</a>
+<span class="sourceLineNo">116</span><a id="line.116">     * Gets if this loader is capable of loading configurations.</a>
+<span class="sourceLineNo">117</span><a id="line.117">     *</a>
+<span class="sourceLineNo">118</span><a id="line.118">     * @return If this loader can load</a>
+<span class="sourceLineNo">119</span><a id="line.119">     */</a>
+<span class="sourceLineNo">120</span><a id="line.120">    default boolean canLoad() {</a>
+<span class="sourceLineNo">121</span><a id="line.121">        return true;</a>
+<span class="sourceLineNo">122</span><a id="line.122">    }</a>
+<span class="sourceLineNo">123</span><a id="line.123"></a>
+<span class="sourceLineNo">124</span><a id="line.124">    /**</a>
+<span class="sourceLineNo">125</span><a id="line.125">     * Gets if this loader is capable of saving configurations.</a>
+<span class="sourceLineNo">126</span><a id="line.126">     *</a>
+<span class="sourceLineNo">127</span><a id="line.127">     * @return If this loader can save</a>
+<span class="sourceLineNo">128</span><a id="line.128">     */</a>
+<span class="sourceLineNo">129</span><a id="line.129">    default boolean canSave() {</a>
+<span class="sourceLineNo">130</span><a id="line.130">        return true;</a>
+<span class="sourceLineNo">131</span><a id="line.131">    }</a>
+<span class="sourceLineNo">132</span><a id="line.132">}</a>
 
 
 

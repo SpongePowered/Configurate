@@ -24,9 +24,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -51,24 +51,20 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
+<div class="flexContent">
 <main role="main">
 <div class="header">
 <h1 title="Deprecated API" class="title">Deprecated API</h1>
 <h2 title="Contents">Contents</h2>
 <ul>
 <li><a href="#class">Classes</a></li>
+<li><a href="#enum">Enums</a></li>
 <li><a href="#method">Methods</a></li>
 <li><a href="#constructor">Constructors</a></li>
 </ul>
@@ -92,6 +88,32 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/util/ConfigurationNodeWalker.html" title="class in ninja.leaping.configurate.util">ninja.leaping.configurate.util.ConfigurationNodeWalker</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use ScopedConfigurationNode#visit(ConfigurationVisitor) instead</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+<a id="enum">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<div class="deprecatedSummary">
+<table>
+<caption><span>Enums</span><span class="tabEnd">&nbsp;</span></caption>
+<thead>
+<tr>
+<th class="colFirst" scope="col">Enum</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="altColor">
+<th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ValueType.html" title="enum in ninja.leaping.configurate">ninja.leaping.configurate.ValueType</a></th>
+<td class="colLast">
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> and <a href="ninja/leaping/configurate/ConfigurationNode.html#isMap()"><code>ConfigurationNode.isMap()</code></a> for the same information</div>
 </td>
 </tr>
 </tbody>
@@ -149,69 +171,81 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationNode.html#getValueType()">ninja.leaping.configurate.ConfigurationNode.getValueType()</a></th>
+<td class="colLast">
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> and <a href="ninja/leaping/configurate/ConfigurationNode.html#isMap()"><code>ConfigurationNode.isMap()</code></a> for the same information</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationNode.html#hasListChildren()">ninja.leaping.configurate.ConfigurationNode.hasListChildren()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> instead</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationNode.html#hasMapChildren()">ninja.leaping.configurate.ConfigurationNode.hasMapChildren()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationNode.html#isMap()"><code>ConfigurationNode.isMap()</code></a> instead</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setAcceptedTypes(java.util.Set)">ninja.leaping.configurate.ConfigurationOptions.setAcceptedTypes&#8203;(Set&lt;Class&lt;?&gt;&gt;)</a></th>
 <td class="colLast">
-<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withAcceptedTypes(java.util.Set)"><code>ConfigurationOptions.withAcceptedTypes(Set)</code></a> instead</div>
+<div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withNativeTypes(java.util.Set)"><code>ConfigurationOptions.withNativeTypes(Set)</code></a> instead</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setMapFactory(ninja.leaping.configurate.util.MapFactory)">ninja.leaping.configurate.ConfigurationOptions.setMapFactory&#8203;(MapFactory)</a></th>
 <td class="colLast">
 <div class="deprecationComment">USe <a href="ninja/leaping/configurate/ConfigurationOptions.html#withMapFactory(ninja.leaping.configurate.util.MapFactory)"><code>ConfigurationOptions.withMapFactory(MapFactory)</code></a> instead</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setObjectMapperFactory(ninja.leaping.configurate.objectmapping.ObjectMapperFactory)">ninja.leaping.configurate.ConfigurationOptions.setObjectMapperFactory&#8203;(ObjectMapperFactory)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withObjectMapperFactory(ninja.leaping.configurate.objectmapping.ObjectMapperFactory)"><code>ConfigurationOptions.withObjectMapperFactory(ObjectMapperFactory)</code></a> instead</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setSerializers(ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection)">ninja.leaping.configurate.ConfigurationOptions.setSerializers&#8203;(TypeSerializerCollection)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withSerializers(ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection)"><code>ConfigurationOptions.withSerializers(TypeSerializerCollection)</code></a> instead</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/ConfigurationOptions.html#setShouldCopyDefaults(boolean)">ninja.leaping.configurate.ConfigurationOptions.setShouldCopyDefaults&#8203;(boolean)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/ConfigurationOptions.html#withShouldCopyDefaults(boolean)"><code>ConfigurationOptions.withShouldCopyDefaults(boolean)</code></a></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#preservesHeader()">ninja.leaping.configurate.loader.AbstractConfigurationLoader.Builder.preservesHeader()</a></th>
 <td class="colLast">
 <div class="deprecationComment">In favour of <a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#getHeaderMode()"><code>AbstractConfigurationLoader.Builder.getHeaderMode()</code></a></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#setPreservesHeader(boolean)">ninja.leaping.configurate.loader.AbstractConfigurationLoader.Builder.setPreservesHeader&#8203;(boolean)</a></th>
 <td class="colLast">
 <div class="deprecationComment">In favour of <a href="ninja/leaping/configurate/loader/AbstractConfigurationLoader.Builder.html#setHeaderMode(ninja.leaping.configurate.loader.HeaderMode)"><code>AbstractConfigurationLoader.Builder.setHeaderMode(HeaderMode)</code></a></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#collectFields(java.util.Map,java.lang.Class)">ninja.leaping.configurate.objectmapping.ObjectMapper.collectFields&#8203;(Map&lt;String, ObjectMapper.FieldData&gt;, Class&lt;? super T&gt;)</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#collectFields(java.util.Map,com.google.common.reflect.TypeToken)"><code>ObjectMapper.collectFields(Map, TypeToken)</code></a> instead</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#getMappedType()">ninja.leaping.configurate.objectmapping.ObjectMapper.getMappedType()</a></th>
 <td class="colLast">
 <div class="deprecationComment">Use <a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#getType()"><code>ObjectMapper.getType()</code></a> to be aware of parameterized types</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colDeprecatedItemName" scope="row"><a href="ninja/leaping/configurate/objectmapping/ObjectMapper.html#isLegacy()">ninja.leaping.configurate.objectmapping.ObjectMapper.isLegacy()</a></th>
+<td class="colLast">
+<div class="deprecationComment">Backwards compatibility measure, to be removed in 4.0</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -311,5 +345,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

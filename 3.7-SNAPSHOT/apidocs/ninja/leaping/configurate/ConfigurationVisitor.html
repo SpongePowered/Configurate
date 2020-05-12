@@ -30,9 +30,9 @@ loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
 </noscript>
-<header role="banner">
+<div class="flexBox">
+<header role="banner" class="flexHeader">
 <nav role="navigation">
-<div class="fixedNav">
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="topNav"><a id="navbar.top">
 <!--   -->
@@ -72,20 +72,15 @@ loadScripts(document, 'script');</script>
 <input type="reset" id="reset" value="reset" disabled="disabled">
 </div>
 </div>
-<a id="skip.navbar.top">
-<!--   -->
-</a>
 <!-- ========= END OF TOP NAVBAR ========= -->
-</div>
-<div class="navPadding">&nbsp;</div>
-<script type="text/javascript"><!--
-$('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-//-->
-</script>
+<div class="skipNav"><a id="skip.navbar.top">
+<!--   -->
+</a></div>
 </nav>
 </header>
-<!-- ======== START OF CLASS DATA ======== -->
+<div class="flexContent">
 <main role="main">
+<!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">ninja.leaping.configurate</a></div>
 <h1 title="Interface ConfigurationVisitor" class="title">Interface ConfigurationVisitor&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</h1>
@@ -297,7 +292,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>A new state object to be passed through the rest of this visit</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -316,7 +310,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - the state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -335,7 +328,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -354,7 +346,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -373,7 +364,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -392,7 +382,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -411,7 +400,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -430,7 +418,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -449,7 +436,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>a terminal value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </section>
 </li>
@@ -459,8 +445,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </section>
 </div>
-</main>
 <!-- ========= END OF CLASS DATA ========= -->
+</main>
 <footer role="contentinfo">
 <nav role="navigation">
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
@@ -504,5 +490,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 </nav>
 </footer>
+</div>
+</div>
 </body>
 </html>

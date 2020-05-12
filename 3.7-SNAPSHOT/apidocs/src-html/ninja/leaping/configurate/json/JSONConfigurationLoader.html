@@ -239,7 +239,7 @@
 <span class="sourceLineNo">227</span><a id="line.227">    @NonNull</a>
 <span class="sourceLineNo">228</span><a id="line.228">    @Override</a>
 <span class="sourceLineNo">229</span><a id="line.229">    public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {</a>
-<span class="sourceLineNo">230</span><a id="line.230">        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,</a>
+<span class="sourceLineNo">230</span><a id="line.230">        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,</a>
 <span class="sourceLineNo">231</span><a id="line.231">                Long.class, Integer.class, Boolean.class, String.class, byte[].class));</a>
 <span class="sourceLineNo">232</span><a id="line.232">        return CommentedConfigurationNode.root(options);</a>
 <span class="sourceLineNo">233</span><a id="line.233">    }</a>
