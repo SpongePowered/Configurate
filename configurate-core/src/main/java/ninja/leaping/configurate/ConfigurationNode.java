@@ -32,6 +32,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * A node in the configuration tree.
  *
@@ -102,9 +104,10 @@ public interface ConfigurationNode {
      * Gets the full path of {@link #getKey() keys} from the root node to this node.
      *
      * <p>Node implementations may not keep a full path for each node, so this method may be
-     * somewhat complex to calculate.</p>
+     * somewhat complex to calculate. Most uses should not need to calculate the full path unless providing debug information</p>
      *
      * @return An array compiled from the keys for each node up the hierarchy
+     * @see #getKey() for this node's key relative to its direct parent
      */
     @NonNull
     Object[] getPath();
@@ -126,7 +129,7 @@ public interface ConfigurationNode {
      * <p>This is the main method used to navigate through the configuration.</p>
      *
      * <p>The path parameter effectively consumes an array of keys, which locate the unique position
-     * of a given node within the structure.</p>
+     * of a given node within the structure. Each element will navigate one level down in the configration hierarchy</p>
      *
      * <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
      * structure, a {@link #isVirtual() virtual} node will be returned which represents the
@@ -136,7 +139,7 @@ public interface ConfigurationNode {
      * @return The node at the given path, possibly virtual
      */
     @NonNull
-    ConfigurationNode getNode(@NonNull Object... path);
+    ConfigurationNode getNode(@NonNull Object @NonNull... path);
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple levels of nodes.
@@ -155,7 +158,7 @@ public interface ConfigurationNode {
      */
     @NonNull
     default ConfigurationNode getNode(@NonNull Iterable<?> path) {
-        return getNode(Iterables.toArray(path, Object.class));
+        return getNode(Iterables.toArray(requireNonNull(path, "path"), Object.class));
     }
 
     /**
@@ -262,7 +265,7 @@ public interface ConfigurationNode {
      * Gets the "list children" attached to this node, if it has any.
      *
      * <p>If this node does not {@link #isList() have list children}, an empty list is
-     * returned.</p>
+     * returned. For example, if the value of this node is a map, this will return an empty result.</p>
      *
      * @return The list children currently attached to this node
      */

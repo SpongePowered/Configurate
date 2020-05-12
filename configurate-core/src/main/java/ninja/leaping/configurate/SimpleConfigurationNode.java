@@ -388,7 +388,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
 
     @NonNull
     @Override
-    public SimpleConfigurationNode getNode(@NonNull Object... path) {
+    public SimpleConfigurationNode getNode(@NonNull Object @NonNull... path) {
         SimpleConfigurationNode pointer = this;
         for (Object el : path) {
             pointer = pointer.getChild(el, false);
