@@ -1,0 +1,1324 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JApiCmp-Report</title>
+        <style type="text/css">
+body {
+    font-family: Verdana;
+}
+.title {
+    font-weight: bold;
+}
+.new {
+    color: green;
+}
+.removed {
+    color: red;
+}
+.modified {
+    color: orange;
+}
+.unchanged {
+    color: black;
+}
+thead tr td {
+    font-weight: bold;
+}
+.toc {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    background: #ededed;
+    display: inline-block;
+}
+table {
+    border-collapse: collapse;
+}
+table tr td {
+    border: 1px solid black;
+    padding: 5px;
+}
+table thead {
+    background-color: #dee3e9;
+}
+table tbody tr td.matrix_layout {
+    background-color: #dee3e9;
+    font-weight: bold;
+}
+.class {
+    margin-bottom: 2em;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    background: #ededed;
+    display: inline-block;
+}
+.class_compatibilityChanges {
+	margin-top: 1em;
+}
+
+.class_fileFormatVersion {
+	margin-top: 1em;
+}
+.class_superclass {
+    margin-top: 1em;
+}
+.class_interfaces {
+    margin-top: 1em;
+}
+.class_fields {
+    margin-top: 1em;
+}
+.class_serialVersionUid {
+    margin-top: 1em;
+}
+.class_constructors {
+    margin-top: 1em;
+}
+.class_methods {
+    margin-top: 1em;
+}
+.class_annotations {
+    margin-top: 1em;
+}
+.label {
+    font-weight: bold;
+}
+.label_class_member {
+    background-color: #4d7a97;
+    display: inline-block;
+    padding: 5px;
+}
+.toc_link {
+    margin-left: 10px;
+    font-size: 0.5em;
+}
+.modifier {
+    font-style: italic;
+}
+.method_return_type {
+
+}
+ul {
+    list-style-type: none;
+    padding: 0px 0px;
+}
+.meta-information {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background: #ededed;
+    display: inline-block;
+}
+.warnings {
+    margin-top: 1em;
+    font-size: 0.75em;
+}
+.explanations {
+	margin-bottom: 2em;
+}
+
+</style>
+    </head>
+    <body>
+        <span class="title">JApiCmp-Report</span>
+        <br>
+        <div class="meta-information">
+            <table>
+                <tr>
+                    <td>Old:</td><td>C:\Users\Zach\.m2\repository\org\spongepowered\configurate-core\3.6.1\configurate-core-3.6.1.jar</td>
+                </tr>
+                <tr>
+                    <td>New:</td><td>C:\Users\Zach\dev\Configurate\.\configurate-core\build\libs\configurate-core-3.7-SNAPSHOT.jar</td>
+                </tr>
+                <tr>
+                    <td>Created:</td><td>2020-05-09T18:59:44.899-0700</td>
+                </tr>
+                <tr>
+                    <td>Access modifier filter:</td><td>PROTECTED</td>
+                </tr>
+                <tr>
+                    <td>Only modifications:</td><td>false</td>
+                </tr>
+                <tr>
+                    <td>Only binary incompatible modifications:</td><td>true</td>
+                </tr>
+                <tr>
+                    <td>Ignore missing classes:</td><td>false</td>
+                </tr>
+                <tr>
+                    <td>Includes:</td><td>all</td>
+                </tr>
+                <tr>
+                    <td>Excludes:</td><td>n.a.</td>
+                </tr>
+                <tr>
+                    <td id="semver-label">Semantic Versioning:</td><td id="semver-version">1.0.0</td>
+                </tr>
+            </table>
+        </div>
+        <ul>
+            <li>
+                <a href="#toc">Classes</a>
+            </li>
+        </ul>
+            
+        <div class="toc" id="toc">
+            <span class="label">Classes:</span>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Status</td><td>Fully Qualified Name</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#ninja.leaping.configurate.attributed.AttributedConfigurationNode">ninja.leaping.configurate.attributed.AttributedConfigurationNode</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#ninja.leaping.configurate.commented.CommentedConfigurationNode">ninja.leaping.configurate.commented.CommentedConfigurationNode</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#ninja.leaping.configurate.ConfigurationNode">ninja.leaping.configurate.ConfigurationNode</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#ninja.leaping.configurate.loader.ConfigurationLoader">ninja.leaping.configurate.loader.ConfigurationLoader</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#ninja.leaping.configurate.objectmapping.ObjectMapperFactory">ninja.leaping.configurate.objectmapping.ObjectMapperFactory</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="explanations">
+            <span>Binary incompatible changes are marked with (!) while source incompatible changes are marked with (*).</span>
+        </div>
+        <div>
+            <div>
+                <div class="class" id="ninja.leaping.configurate.attributed.AttributedConfigurationNode">
+                    <div class="class_header">
+                        <span class="label"><a name="ninja.leaping.configurate.attributed.AttributedConfigurationNode"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;ninja.leaping.configurate.attributed.AttributedConfigurationNode</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>INTERFACE_ADDED</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces">
+                        <span class="label_class_member">Interfaces:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Interface</td><td>Compatibility Changes:</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td>ninja.leaping.configurate.ConfigurationNode</td><td>n.a.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>act(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>204</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>appendListNode()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>197</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>root()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>42</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>root(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>52</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>root(java.lang.String)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>63</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>root(java.lang.String,
+                                        <wbr></wbr>
+                                        java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>75</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>root(java.lang.String,
+                                        <wbr></wbr>
+                                        ninja.leaping.configurate.ConfigurationOptions)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>87</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>root(java.lang.String,
+                                        <wbr></wbr>
+                                        ninja.leaping.configurate.ConfigurationOptions,
+                                        <wbr></wbr>
+                                        java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>100</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.attributed.AttributedConfigurationNode</span></td><td>setComment(java.lang.String)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>191</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="ninja.leaping.configurate.commented.CommentedConfigurationNode">
+                    <div class="class_header">
+                        <span class="label"><a name="ninja.leaping.configurate.commented.CommentedConfigurationNode"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;ninja.leaping.configurate.commented.CommentedConfigurationNode</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces">
+                        <span class="label_class_member">Interfaces:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Interface</td><td>Compatibility Changes:</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td>ninja.leaping.configurate.ConfigurationNode</td><td>n.a.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>act(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>102</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>appendListNode()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>95</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>root()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>35</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>root(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>39</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>root(ninja.leaping.configurate.ConfigurationOptions)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>43</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>root(ninja.leaping.configurate.ConfigurationOptions,
+                                        <wbr></wbr>
+                                        java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>47</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.commented.CommentedConfigurationNode</span></td><td>setCommentIfAbsent(java.lang.String)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>81</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="ninja.leaping.configurate.ConfigurationNode">
+                    <div class="class_header">
+                        <span class="label"><a name="ninja.leaping.configurate.ConfigurationNode"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;ninja.leaping.configurate.ConfigurationNode</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.ConfigurationNode</span></td><td>act(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>721</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.ConfigurationNode</span></td><td>appendListNode()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>690</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">boolean</span></td><td>isEmpty()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>226</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">boolean</span></td><td>isList()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>175</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">boolean</span></td><td>isMap()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>184</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.ConfigurationNode</span></td><td>root()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>59</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.ConfigurationNode</span></td><td>root(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>64</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.ConfigurationNode</span></td><td>root(ninja.leaping.configurate.ConfigurationOptions)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>69</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.ConfigurationNode</span></td><td>root(ninja.leaping.configurate.ConfigurationOptions,
+                                        <wbr></wbr>
+                                        java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>74</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">java.lang.Object</span></td><td>visit(ninja.leaping.configurate.ConfigurationVisitor)</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Status:</td><td>Name:</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="new">NEW</span></td><td>java.lang.Exception</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>736</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">java.lang.Object</span></td><td>visit(ninja.leaping.configurate.ConfigurationVisitor,
+                                        <wbr></wbr>
+                                        java.lang.Object)</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Status:</td><td>Name:</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="new">NEW</span></td><td>java.lang.Exception</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>751</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">java.lang.Object</span></td><td>visit(ninja.leaping.configurate.ConfigurationVisitor$Safe)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>764</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">java.lang.Object</span></td><td>visit(ninja.leaping.configurate.ConfigurationVisitor$Safe,
+                                        <wbr></wbr>
+                                        java.lang.Object)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>778</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="ninja.leaping.configurate.loader.ConfigurationLoader">
+                    <div class="class_header">
+                        <span class="label"><a name="ninja.leaping.configurate.loader.ConfigurationLoader"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;ninja.leaping.configurate.loader.ConfigurationLoader</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.reference.ConfigurationReference</span></td><td>loadToReference()</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Status:</td><td>Name:</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="new">NEW</span></td><td>java.io.IOException</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>73</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="ninja.leaping.configurate.objectmapping.ObjectMapperFactory">
+                    <div class="class_header">
+                        <span class="label"><a name="ninja.leaping.configurate.objectmapping.ObjectMapperFactory"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;ninja.leaping.configurate.objectmapping.ObjectMapperFactory</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">ninja.leaping.configurate.objectmapping.ObjectMapper</span></td><td>getMapper(com.google.common.reflect.TypeToken)</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Status:</td><td>Name:</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="new">NEW</span></td><td>ninja.leaping.configurate.objectmapping.ObjectMappingException</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>49</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

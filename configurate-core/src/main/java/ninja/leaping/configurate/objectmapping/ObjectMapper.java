@@ -239,6 +239,27 @@ public class ObjectMapper<T> {
     }
 
     /**
+     * Method to determine if this ObjectMapper instance needs to maintain pre-3.7 behaviour. Override this if you are
+     * ready to take advantage of new 3.7 changes and also will be providing a subclass of ObjectMapper that overrides
+     * the old collectFields
+     *
+     * @return true to get legacy, less generic-aware treatment
+     * @deprecated Backwards compatibility measure, to be removed in 4.0
+     */
+    @Deprecated
+    protected boolean isLegacy() {
+        if (this.getClass().getPackage() !=  ObjectMapper.class.getPackage()) {
+            try {
+                // If this is a child class that overrides the non-tokened colllectFields method, they should get legacy treatment
+                getClass().getDeclaredMethod("collectFields", Map.class, Class.class);
+                return true;
+            } catch (NoSuchMethodException ignore) {
+            }
+        }
+        return false;
+    }
+
+    /**
      * Create a new object mapper of a given type
      *
      * @param type The type this object mapper will work with
@@ -261,17 +282,11 @@ public class ObjectMapper<T> {
         this.constructor = constructor;
         TypeToken<? super T> collectType = type;
         Class<? super T> collectClass = type.getRawType();
-        boolean useLegacy = false, first = true;
+        boolean legacy = isLegacy();
         while (true) {
-            if (first || useLegacy) { // fallback for implementations that override collectFields
+            if (legacy) {
                 collectFields(cachedFields, collectClass);
-                if (!cachedFields.isEmpty()) {
-                    useLegacy = true;
-                }
-            }
-            first = false;
-
-            if (!useLegacy) {
+            } else {
                 collectFields(cachedFields, collectType);
             }
 
