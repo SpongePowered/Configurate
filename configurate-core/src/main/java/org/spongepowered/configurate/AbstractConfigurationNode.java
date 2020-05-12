@@ -480,7 +480,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     public NodePath getPath() {
         N pointer = self();
         if (pointer.getParent() == null) {
-            return NodePath.create(new Object[] {getKey()});
+            return NodePath.path();
         }
 
         LinkedList<Object> pathElements = new LinkedList<>();
