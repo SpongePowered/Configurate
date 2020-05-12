@@ -111,7 +111,7 @@ public class SimpleAttributedConfigurationNode extends SimpleCommentedConfigurat
         if (Strings.isNullOrEmpty(name)) {
             throw new IllegalArgumentException("Attribute name cannot be null/empty");
         }
-
+        attachIfNecessary();
         attributes.put(name, value);
         return this;
     }
@@ -131,9 +131,11 @@ public class SimpleAttributedConfigurationNode extends SimpleCommentedConfigurat
                 throw new IllegalArgumentException("Attribute name cannot be null/empty");
             }
         }
-
         this.attributes.clear();
-        this.attributes.putAll(attributes);
+        if (!attributes.isEmpty()) {
+            attachIfNecessary();
+            this.attributes.putAll(attributes);
+        }
         return this;
     }
 
@@ -152,6 +154,11 @@ public class SimpleAttributedConfigurationNode extends SimpleCommentedConfigurat
     @Override
     public Map<String, String> getAttributes() {
         return ImmutableMap.copyOf(attributes);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return super.isEmpty() && attributes.isEmpty();
     }
 
     // Methods from superclass overridden to have correct return types
