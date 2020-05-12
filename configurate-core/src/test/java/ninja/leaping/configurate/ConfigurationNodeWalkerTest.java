@@ -33,15 +33,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SuppressWarnings("deprecation")
 public class ConfigurationNodeWalkerTest {
 
-    private static final Function<ConfigurationNodeWalker.VisitedNode<? extends ConfigurationNode>, String> PATH_TO_STRING = visitedNode ->
-        StreamSupport.stream(visitedNode.getPath().spliterator(), false)
-            .map(o -> {
-                if (o == null) {
-                    return "root";
-                }
-                return o.toString();
-            })
-            .collect(Collectors.joining(" "));
+    private static final Function<ConfigurationNodeWalker.VisitedNode<? extends ConfigurationNode>, String> PATH_TO_STRING = visitedNode -> {
+        String ret = StreamSupport.stream(visitedNode.getPath().spliterator(), false)
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
+        if (ret.isEmpty()) {
+            return "root";
+        }
+        return ret;
+    };
 
     private static final List<String> EXPECTED_BREADTH_FIRST_ORDER = ImmutableList.of(
             "root",

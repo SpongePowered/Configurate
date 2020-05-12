@@ -502,7 +502,7 @@ public class SimpleConfigurationNode implements ConfigurationNode {
         LinkedList<Object> pathElements = new LinkedList<>();
         ConfigurationNode pointer = this;
         if (pointer.getParent() == null) {
-            return new Object[]{this.getKey()};
+            return new Object[]{}; // we're the root node, no key here
         }
 
         do {
