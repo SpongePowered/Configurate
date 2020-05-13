@@ -638,11 +638,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 ConfigValue<N, A> value = current.value;
                 if (value instanceof MapConfigValue) {
                     visitor.enterMappingNode(current.self(), state);
-                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addFirst(new VisitorNodeEnd(current, true));
                     toVisit.addAll(0, ((MapConfigValue<N, A>) value).values.values());
                 } else if (value instanceof ListConfigValue) {
                     visitor.enterListNode(current.self(), state);
-                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addFirst(new VisitorNodeEnd(current, false));
                     toVisit.addAll(0, ((ListConfigValue<N, A>) value).values.get());
                 } else if (value instanceof ScalarConfigValue) {
                     visitor.enterScalarNode(current.self(), state);

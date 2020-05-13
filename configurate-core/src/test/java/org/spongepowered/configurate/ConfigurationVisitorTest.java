@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,6 +60,21 @@ public class ConfigurationVisitorTest {
         base.setValue("test");
         final String result = base.visit(VISITOR);
         assertEquals("b(s)t", result);
+    }
+
+    @Test
+    public void testChangingValueTypeOnEnter() {
+        final ConfigurationVisitor.Safe<BasicConfigurationNode, StringBuilder, String> visitor = new TestVisitor<BasicConfigurationNode>() {
+            @Override
+            public void enterListNode(BasicConfigurationNode node, StringBuilder state) {
+                super.enterListNode(node, state);
+                node.setValue(null);
+            }
+        };
+        final BasicConfigurationNode base = BasicConfigurationNode.root().setValue(ImmutableList.of());
+        final String result = base.visit(visitor);
+
+        assertEquals("b(l)t", result);
     }
 
     /**
