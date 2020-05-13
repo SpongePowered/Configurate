@@ -25,9 +25,11 @@ import java.util.Objects;
  */
 class VisitorNodeEnd {
     private final ConfigurationNode end;
+    private final boolean isMap;
 
-    VisitorNodeEnd(ConfigurationNode end) {
+    VisitorNodeEnd(ConfigurationNode end, boolean isMap) {
         this.end = end;
+        this.isMap = isMap;
     }
 
     ConfigurationNode getEnd() {
@@ -50,11 +52,11 @@ class VisitorNodeEnd {
     @SuppressWarnings("unchecked")
     static <A extends SimpleConfigurationNode, S, E extends Exception> @Nullable A popFromVisitor(Object unknown, ConfigurationVisitor<S, ?, E> visitor, S state) throws E {
         if (unknown instanceof VisitorNodeEnd) {
-            ConfigurationNode node = ((VisitorNodeEnd) unknown).getEnd();
-            if (node.isMap()) {
-                visitor.exitMappingNode(node, state);
-            } else if (node.isList()) {
-                visitor.exitListNode(node, state);
+            VisitorNodeEnd end = (VisitorNodeEnd) unknown;
+            if (end.isMap) {
+                visitor.exitMappingNode(end.end, state);
+            } else {
+                visitor.exitListNode(end.end, state);
             }
             return null;
         } else if (unknown instanceof SimpleConfigurationNode) {

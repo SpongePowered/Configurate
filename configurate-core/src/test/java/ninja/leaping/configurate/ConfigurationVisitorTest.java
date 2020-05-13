@@ -16,6 +16,7 @@
  */
 package ninja.leaping.configurate;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,6 +60,21 @@ public class ConfigurationVisitorTest {
         base.setValue("test");
         final String result = base.visit(VISITOR);
         assertEquals("b(s)t", result);
+    }
+
+    @Test
+    public void testChangingValueTypeOnEnter() {
+        final ConfigurationVisitor.Safe<StringBuilder, String> visitor = new TestVisitor() {
+            @Override
+            public void enterListNode(ConfigurationNode node, StringBuilder state) {
+                super.enterListNode(node, state);
+                node.setValue(null);
+            }
+        };
+        final ConfigurationNode base = ConfigurationNode.root().setValue(ImmutableList.of());
+        final String result = base.visit(visitor);
+
+        assertEquals("b(l)t", result);
     }
 
     /**

@@ -665,11 +665,11 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                 ConfigValue value = current.value;
                 if (value instanceof MapConfigValue) {
                     visitor.enterMappingNode(current, state);
-                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addFirst(new VisitorNodeEnd(current, true));
                     toVisit.addAll(0, ((MapConfigValue) value).values.values());
                 } else if (value instanceof ListConfigValue) {
                     visitor.enterListNode(current, state);
-                    toVisit.addFirst(new VisitorNodeEnd(current));
+                    toVisit.addFirst(new VisitorNodeEnd(current, false));
                     toVisit.addAll(0, ((ListConfigValue) value).values.get());
                 } else if (value instanceof ScalarConfigValue) {
                     visitor.enterScalarNode(current, state);
