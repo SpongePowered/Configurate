@@ -25,6 +25,7 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -367,17 +368,17 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     public N getNode(@NonNull Object... path) {
         A pointer = implSelf();
         for (Object el : path) {
-            pointer = pointer.getChild(el, false);
+            pointer = pointer.getChild(requireNonNull(el, () -> "element in path " + Arrays.toString(path)), false);
         }
         return pointer.self();
     }
 
     @NonNull
     @Override
-    public N getNode(@NonNull Iterable<Object> path) {
+    public N getNode(@NonNull Iterable<?> path) {
         A pointer = implSelf();
         for (Object el : path) {
-            pointer = pointer.getChild(el, false);
+            pointer = pointer.getChild(requireNonNull(el, () -> "element in path " + path), false);
         }
         return pointer.self();
     }

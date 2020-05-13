@@ -133,7 +133,7 @@ public interface ConfigurationNode {
      * @return The node at the given path, possibly virtual
      */
     @NonNull
-    ConfigurationNode getNode(@NonNull Iterable<Object> path);
+    ConfigurationNode getNode(@NonNull Iterable<?> path);
 
     /**
      * Gets if this node is virtual.

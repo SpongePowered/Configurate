@@ -107,7 +107,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N getNode(@NonNull Iterable<Object> path);
+    @NonNull N getNode(@NonNull Iterable<?> path);
 
     /**
      * Execute an action on this node. This allows performing multiple operations
