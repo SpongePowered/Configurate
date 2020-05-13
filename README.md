@@ -1,7 +1,7 @@
-# configurate ![Build Status](https://github.com/SpongePowered/Configurate/workflows/Build%20And%20Test/badge.svg)
-configurate is a simple configuration library for Java applications that provides a node-based representation of data, able to handle a wide variety of configuration formats.
+# [Configurate](https://configurate.aoeu.xyz/) ![Build Status](https://github.com/SpongePowered/Configurate/workflows/Build%20And%20Test/badge.svg)
+Configurate is a simple configuration library for Java applications that provides a node-based representation of data, able to handle a wide variety of configuration formats.
 
-Want to talk to us about configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net`.
+Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net`.
 
 The current supported formats are:
 
