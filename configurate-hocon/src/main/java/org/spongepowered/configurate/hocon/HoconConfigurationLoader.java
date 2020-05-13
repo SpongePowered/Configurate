@@ -269,7 +269,7 @@ public class HoconConfigurationLoader extends AbstractConfigurationLoader<Commen
     @NonNull
     @Override
     public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.withAcceptedTypes(ImmutableSet.of(Map.class, List.class, Double.class,
+        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class,
                 Long.class, Integer.class, Boolean.class, String.class, Number.class));
         return CommentedConfigurationNode.root(options);
     }

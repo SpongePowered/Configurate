@@ -212,7 +212,7 @@ public class AbstractConfigurationNodeTest {
 
     @Test
     public void testGetSetValueSerialized() throws ObjectMappingException {
-        ConfigurationNode subject = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)));
+        ConfigurationNode subject = BasicConfigurationNode.root(ConfigurationOptions.defaults().withNativeTypes(ImmutableSet.of(String.class, Integer.class)));
         subject.setValue("48");
         assertEquals(Integer.valueOf(48), subject.getValue(TypeToken.of(Integer.class)));
         UUID testId = UUID.randomUUID();

@@ -64,7 +64,7 @@ public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicCo
             // From the YAML 1.1 Global tags
             // https://yaml.org/type/
             // using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
-            setDefaultOptions(getDefaultOptions().withAcceptedTypes(ImmutableSet.of(Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class,
+            setDefaultOptions(getDefaultOptions().withNativeTypes(ImmutableSet.of(Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class,
                     byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class,
                     Set.class, List.class, Map.class)));
         }

@@ -39,7 +39,7 @@ public class NumericSerializersTest {
     }
 
     private final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-            .withAcceptedTypes(ImmutableSet.of(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
+            .withNativeTypes(ImmutableSet.of(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
 
 
     @Test

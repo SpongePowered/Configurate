@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory;
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
@@ -195,7 +194,7 @@ public final class ConfigurationOptions {
     }
 
     /**
-     * Gets whether objects of the provided type are accepted as values for nodes with this as
+     * Gets whether objects of the provided type are natively accepted as values for nodes with this as
      * their options object.
      *
      * @param type The type to check
@@ -229,10 +228,11 @@ public final class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified accepted types
+     * Creates a new {@link ConfigurationOptions} instance, with the specified native types
      * set, and all other settings copied from this instance.
      *
-     * <p>'Accepted types' are types which are accepted as native values for the configuration.</p>
+     * Native types are format-dependent, and must be provided by a configuration loader's
+     * {@link ConfigurationLoader#getDefaultOptions() default options}
      *
      * <p>Null indicates that all types are accepted.</p>
      *
@@ -240,7 +240,7 @@ public final class ConfigurationOptions {
      * @return updated options object
      */
     @NonNull
-    public ConfigurationOptions withAcceptedTypes(@Nullable Set<Class<?>> acceptedTypes) {
+    public ConfigurationOptions withNativeTypes(@Nullable Set<Class<?>> acceptedTypes) {
         if (Objects.equals(this.acceptedTypes, acceptedTypes)) {
             return this;
         }

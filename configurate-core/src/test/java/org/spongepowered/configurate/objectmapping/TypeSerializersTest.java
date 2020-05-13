@@ -232,7 +232,7 @@ public class TypeSerializersTest {
         value.getNode("SECOND").setValue(8);
 
         Map<TestEnum, Integer> des = mapTestEnumIntSerializer.deserialize(mapTestEnumIntType, value);
-        BasicConfigurationNode serialVal = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)));
+        BasicConfigurationNode serialVal = BasicConfigurationNode.root(ConfigurationOptions.defaults().withNativeTypes(ImmutableSet.of(String.class, Integer.class)));
         mapTestEnumIntSerializer.serialize(mapTestEnumIntType, des, serialVal);
         assertEquals(value.getValue(), serialVal.getValue());
         //assertEquals(value, serialVal);
@@ -314,7 +314,7 @@ public class TypeSerializersTest {
          final String uriString = "http://google.com";
          final URI testUri = URI.create(uriString);
 
-        BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)))
+        BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults().withNativeTypes(ImmutableSet.of(String.class, Integer.class)))
                 .setValue(uriString);
          assertEquals(testUri, uriSerializer.deserialize(uriType, node));
 
@@ -330,7 +330,7 @@ public class TypeSerializersTest {
          final String urlString = "http://google.com";
          final URL testUrl = new URL(urlString);
 
-        BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)))
+        BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults().withNativeTypes(ImmutableSet.of(String.class, Integer.class)))
                 .setValue(urlString);
          assertEquals(testUrl, urlSerializer.deserialize(urlType, node));
 
@@ -345,7 +345,7 @@ public class TypeSerializersTest {
 
         final UUID testUuid = UUID.randomUUID();
 
-        BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)));
+        BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults().withNativeTypes(ImmutableSet.of(String.class, Integer.class)));
         uuidSerializer.serialize(uuidType, testUuid, serializeTo);
         assertEquals(testUuid.toString(), serializeTo.getValue());
 
@@ -359,7 +359,7 @@ public class TypeSerializersTest {
         final TypeSerializer<Pattern> patternSerializer = getSerializer(patternType);
 
         final Pattern testPattern = Pattern.compile("(na )+batman");
-        BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults().withAcceptedTypes(ImmutableSet.of(String.class, Integer.class)));
+        BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults().withNativeTypes(ImmutableSet.of(String.class, Integer.class)));
         patternSerializer.serialize(patternType, testPattern, serializeTo);
         assertEquals("(na )+batman", serializeTo.getValue());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType, serializeTo).pattern());
