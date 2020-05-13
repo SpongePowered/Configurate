@@ -69,7 +69,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
     }
 
     static <V> Processor.TransactionalIso<V> createTransactional(Executor exec) {
-        return new ProcessorTransactionalImpl<>(exec);
+        return new TransactionalProcessorImpl<>(exec);
     }
 
     /**
@@ -77,7 +77,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      */
     @Override
     default <R> Processor<O, R> map(CheckedFunction<? super O, ? extends R, TransactionFailedException> mapper) {
-        return new ProcessorMapped<>(mapper, this);
+        return new MappedProcessor<>(mapper, this);
     }
 
     /**
@@ -119,7 +119,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
         }
     }
     
-    interface Transactional<I, O> extends Processor<I, O>, Publisher<O>, SubscriberTransactional<I> {
+    interface Transactional<I, O> extends Processor<I, O>, Publisher<O>, TransactionalSubscriber<I> {
     }
     
     interface TransactionalIso<V> extends Transactional<V, V>, Iso<V> {

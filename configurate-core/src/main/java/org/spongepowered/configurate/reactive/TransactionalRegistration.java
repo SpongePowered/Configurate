@@ -24,8 +24,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * A registration that is transaction-aware
  * @param <V>
  */
-interface RegistrationTransactional<V> extends ProcessorAbstract.Registration<V> {
-    ProcessorTransactionalImpl<V> getHolder();
+interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V> {
+    TransactionalProcessorImpl<V> getHolder();
 
     @Override
     default void dispose() {
@@ -53,19 +53,19 @@ interface RegistrationTransactional<V> extends ProcessorAbstract.Registration<V>
      *
      * @param <V> The value type
      */
-    class Wrapped<V> implements RegistrationTransactional<V> {
+    class Wrapped<V> implements TransactionalRegistration<V> {
         private final AtomicReference<V> active = new AtomicReference<>();
-        private final ProcessorTransactionalImpl<V> holder;
+        private final TransactionalProcessorImpl<V> holder;
         private final Subscriber<? super V> sub;
 
-        Wrapped(ProcessorTransactionalImpl<V> holder, Subscriber <? super V> sub) {
+        Wrapped(TransactionalProcessorImpl<V> holder, Subscriber <? super V> sub) {
             this.holder = holder;
             this.sub = sub;
 
         }
 
         @Override
-        public ProcessorTransactionalImpl<V> getHolder() {
+        public TransactionalProcessorImpl<V> getHolder() {
             return this.holder;
         }
 
@@ -101,19 +101,19 @@ interface RegistrationTransactional<V> extends ProcessorAbstract.Registration<V>
      * A fully transactional registration. To ensure the integrity of values, a lock will be acquired before beginning the transaction, and only released upon a {@link #commit()} or {@link #rollback()}
      * @param <V>
      */
-    class Fully<V> implements RegistrationTransactional<V> {
+    class Fully<V> implements TransactionalRegistration<V> {
 
-        private final ProcessorTransactionalImpl<V> holder;
-        private final SubscriberTransactional<? super V> sub;
+        private final TransactionalProcessorImpl<V> holder;
+        private final TransactionalSubscriber<? super V> sub;
         private final Lock lock = new ReentrantLock();
 
-        Fully(final ProcessorTransactionalImpl<V> holder, final SubscriberTransactional<? super V> sub) {
+        Fully(final TransactionalProcessorImpl<V> holder, final TransactionalSubscriber<? super V> sub) {
             this.holder = holder;
             this.sub = sub;
         }
 
         @Override
-        public ProcessorTransactionalImpl<V> getHolder() {
+        public TransactionalProcessorImpl<V> getHolder() {
             return this.holder;
         }
 

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TestProcessorTransactional {
+public class TransactionalProcessorTest {
 
     private <V> Processor.TransactionalIso<V> create() {
         return Processor.createTransactional(Runnable::run);
@@ -75,7 +75,7 @@ public class TestProcessorTransactional {
         assertEquals(1, subject2.rollBackCount);
     }
 
-    static class SubscriberTransactionalTest implements SubscriberTransactional<String> {
+    static class SubscriberTransactionalTest implements TransactionalSubscriber<String> {
         boolean shouldThrow = false;
         @MonotonicNonNull String value;
         @Nullable String nextValue;

@@ -29,13 +29,13 @@ import java.util.concurrent.Executor;
  * All subscriptions are handled by the parent publisher, so transactional and non-transactional subscribers can be handled appropriately by the parent publisher.
  * @param <V>
  */
-class PublisherCached<V> implements Publisher.Cached<V>, AutoCloseable {
+class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
     private final Publisher<V> parent;
     private final Set<Subscriber<? super V>> subscribers = ConcurrentHashMap.newKeySet();
     private volatile @MonotonicNonNull V value;
     private final Disposable closer;
 
-    public PublisherCached(Publisher<V> parent, @Nullable V initialValue) {
+    public CachedPublisher(Publisher<V> parent, @Nullable V initialValue) {
         this.parent = parent;
         this.value = initialValue;
         closer = this.parent.subscribe(value -> {
@@ -47,7 +47,7 @@ class PublisherCached<V> implements Publisher.Cached<V>, AutoCloseable {
     @Override
     public Disposable subscribe(final Subscriber<? super V> subscriber) {
         final Disposable disp = this.parent.subscribe(subscriber);
-        if (disp != DisposableNoOp.INSTANCE) {
+        if (disp != NoOpDisposable.INSTANCE) {
             this.subscribers.add(subscriber);
             final V value = this.value;
             if (value != null) {

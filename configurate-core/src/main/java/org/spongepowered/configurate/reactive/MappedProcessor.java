@@ -22,13 +22,13 @@ import org.spongepowered.configurate.util.CheckedFunction;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
-class ProcessorMapped<I, O> implements Processor.Transactional<I, O> {
+class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     private final Processor.TransactionalIso<O> processor;
     private final AtomicReference<Disposable> disposable = new AtomicReference<>();
     private final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper;
     private final @Nullable Publisher<I> parent;
 
-    ProcessorMapped(CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, @Nullable Publisher<I> parent) {
+    MappedProcessor(CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, @Nullable Publisher<I> parent) {
         this.processor = Processor.createTransactional(parent.getExecutor());
         this.mapper = mapper;
         this.parent = parent;
@@ -37,12 +37,12 @@ class ProcessorMapped<I, O> implements Processor.Transactional<I, O> {
     @Override
     public Disposable subscribe(Subscriber<? super O> subscriber) {
         Disposable ret = this.processor.subscribe(subscriber);
-        if (ret != DisposableNoOp.INSTANCE) { // if the processor isn't already closed
+        if (ret != NoOpDisposable.INSTANCE) { // if the processor isn't already closed
             Disposable ours = this.disposable.updateAndGet(it ->  // register with our parent if present
                 it == null && parent != null ? parent.subscribe(this) : it);
-            if (ours == DisposableNoOp.INSTANCE) {
+            if (ours == NoOpDisposable.INSTANCE) {
                 processor.onClose();
-                return DisposableNoOp.INSTANCE;
+                return NoOpDisposable.INSTANCE;
             }
             return () -> {
                 ret.dispose();

@@ -27,7 +27,7 @@ package org.spongepowered.configurate.reactive;
  *
  * @param <V> The value handled by this subscriber
  */
-public interface SubscriberTransactional<V> extends Subscriber<V> {
+public interface TransactionalSubscriber<V> extends Subscriber<V> {
     @Override
     default void submit(V item) {
         try {

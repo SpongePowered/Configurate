@@ -29,11 +29,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @param <V> value type
  */
-class PublisherExecute<V> implements Publisher<V> {
+class ExecutePublisher<V> implements Publisher<V> {
     private final CompletableFuture<V> actor;
     private final Executor executor;
 
-    public PublisherExecute(CheckedSupplier<V, ?> action, Executor exec) {
+    public ExecutePublisher(CheckedSupplier<V, ?> action, Executor exec) {
         this.actor = new CompletableFuture<>();
         exec.execute(() -> {
             try {

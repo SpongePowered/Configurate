@@ -22,7 +22,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.reactive.SubscriberTransactional;
+import org.spongepowered.configurate.reactive.TransactionalSubscriber;
 import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.reactive.Publisher;
 
@@ -272,7 +272,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
 
     /**
      * Access the {@link Publisher} that will broadcast update events, providing the newly created node.
-     * The returned publisher will be transaction-aware, i.e. any {@link SubscriberTransactional} attached will progress through their phases appropriately
+     * The returned publisher will be transaction-aware, i.e. any {@link TransactionalSubscriber} attached will progress through their phases appropriately
      *
      * @return The publisher
      */
