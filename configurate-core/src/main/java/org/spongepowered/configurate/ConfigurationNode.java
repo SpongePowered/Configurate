@@ -81,7 +81,8 @@ public interface ConfigurationNode {
      * Gets the full path of {@link #getKey() keys} from the root node to this node.
      *
      * <p>Node implementations may not keep a full path for each node, so this method may be
-     * somewhat complex to calculate.</p>
+     * somewhat complex to calculate. Most uses should not need to calculate the full path
+     * unless providing debug information</p>
      *
      * @return An array compiled from the keys for each node up the hierarchy
      */
@@ -105,7 +106,8 @@ public interface ConfigurationNode {
      * <p>This is the main method used to navigate through the configuration.</p>
      *
      * <p>The path parameter effectively consumes an array of keys, which locate the unique position
-     * of a given node within the structure.</p>
+     * of a given node within the structure.Ea ch element will navigate one level down in the
+     * configuration hierarchy</p>
      *
      * <p>A node is <b>always</b> returned by this method. If the given node does not exist in the
      * structure, a {@link #isVirtual() virtual} node will be returned which represents the
