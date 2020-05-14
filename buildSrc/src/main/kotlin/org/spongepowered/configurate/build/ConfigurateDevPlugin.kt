@@ -8,6 +8,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.api.tasks.testing.Test
@@ -48,6 +49,12 @@ class ConfigurateDevPlugin : Plugin<Project> {
 
             tasks.withType(Javadoc::class.java).configureEach {
                 it.applyCommonAttributes()
+            }
+
+            tasks.withType(Jar::class.java).configureEach {
+                it.from(rootProject.file("LICENSE")) {
+                    it.rename { f -> "${f}_${project.name}" }
+                }
             }
 
             extensions.configure(LicenseExtension::class.java) {
