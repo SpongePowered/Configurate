@@ -46,7 +46,6 @@ import java.io.Console
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
-import java.nio.file.FileSystems
 
 
 val HAS_UTF8 = Charset.defaultCharset() == StandardCharsets.UTF_8
@@ -94,7 +93,7 @@ class Tool : CliktCommand(help = """
 """.trimIndent()) {
     init {
         AnsiConsole.systemInstall()
-        versionOption(this::class.java.`package`.implementationVersion)
+        versionOption(this::class.java.`package`.implementationVersion ?: "UNKNOWN")
         context {
             autoEnvvarPrefix = "CONFIGURATE"
             console = JAnsiConsole()
@@ -114,7 +113,6 @@ sealed class FormatSubcommand<N: ConfigurationNode>(formatName: String): CliktCo
     abstract fun createLoader(): ConfigurationLoader<N>
 
     override fun run() {
-        echo("Current dir: ${FileSystems.getDefault().getPath(".").toAbsolutePath()}")
         val loader = createLoader()
         try {
             val node = loader.load()
@@ -164,7 +162,7 @@ sealed class FormatSubcommand<N: ConfigurationNode>(formatName: String): CliktCo
 
         if (node is CommentedConfigurationNode) {
             node.comment.ifPresent {
-                write(heading("Comment"), SPLIT, it)
+                write(heading("Comment"), SPLIT, it.replace("\n", "\n$prefix"))
             }
         }
         when (node.valueType) {
