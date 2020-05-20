@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.spongepowered.configurate.build.format
 
 plugins {
     application
@@ -9,11 +10,11 @@ plugins {
 
 dependencies {
     // Configurate
-    implementation(project(":configurate-xml"))
-    implementation(project(":configurate-yaml"))
-    implementation(project(":configurate-gson"))
-    implementation(project(":configurate-hocon"))
-    implementation(project(":configurate-ext-kotlin"))
+    implementation(format("xml"))
+    implementation(format("yaml"))
+    implementation(format("gson"))
+    implementation(format("hocon"))
+    implementation(project(":ext-kotlin"))
 
     // Libraries
     implementation(kotlin("stdlib-jdk8"))

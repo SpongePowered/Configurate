@@ -1,9 +1,11 @@
 .gradle/
-/configurate-*/build/
-/configurate-*/out/
+/*/build/
+/*/out/
 buildSrc/build/
 buildSrc/out/
 /build/
+/format/*/build/
+/format/*/out/
 
 # IntelliJ project data
 .idea

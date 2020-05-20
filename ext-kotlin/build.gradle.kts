@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.spongepowered.configurate.build.core
 
 plugins {
     kotlin("jvm")
@@ -11,7 +12,7 @@ tasks.withType(KotlinCompile::class).configureEach {
 }
 
 dependencies {
-    api(project(":configurate-core"))
+    api(core())
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")

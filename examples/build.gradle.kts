@@ -1,4 +1,4 @@
-import org.spongepowered.configurate.build.configurate
+import org.spongepowered.configurate.build.format
 import org.spongepowered.configurate.build.core
 
 plugins {
@@ -8,8 +8,8 @@ plugins {
 
 dependencies {
     implementation(core())
-    implementation(configurate("hocon"))
-    implementation(configurate("yaml"))
+    implementation(format("hocon"))
+    implementation(format("yaml"))
 }
 
 application {

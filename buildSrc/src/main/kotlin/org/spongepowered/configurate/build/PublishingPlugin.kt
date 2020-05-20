@@ -36,6 +36,8 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                     container.register("maven", MavenPublication::class.java) { pub ->
                         with(pub) {
                             pom.apply {
+                                artifactId = "configurate-${project.name}"
+
                                 description.set("A simple configuration library for Java applications that can handle a variety of formats and " +
                                         "provides a node-based data structure able to handle a wide variety of configuration schemas")
                                 name.set(project.name)
