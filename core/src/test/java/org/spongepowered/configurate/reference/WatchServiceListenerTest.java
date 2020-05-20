@@ -16,6 +16,9 @@
  */
 package org.spongepowered.configurate.reference;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,10 +37,8 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
-
 public class WatchServiceListenerTest {
+
     private static @MonotonicNonNull WatchServiceListener listener;
 
     @BeforeAll
@@ -58,8 +59,8 @@ public class WatchServiceListenerTest {
 
     @Test
     public void testListenToPath() throws IOException {
-        Path tempFolder = Files.createTempDirectory("configurate-test");
-        Path testFile = tempFolder.resolve("listenPath.txt");
+        final Path tempFolder = Files.createTempDirectory("configurate-test");
+        final Path testFile = tempFolder.resolve("listenPath.txt");
         Files.write(testFile, Collections.singleton("version one"), StandardOpenOption.SYNC,
             StandardOpenOption.CREATE);
 
@@ -68,7 +69,7 @@ public class WatchServiceListenerTest {
         final AtomicReference<Disposable> disposer = new AtomicReference<>();
         disposer.set(listener.listenToFile(testFile, event -> {
             synchronized (condition) {
-                int oldVal = callCount.getAndIncrement();
+                final int oldVal = callCount.getAndIncrement();
                 if (oldVal > 1) {
                     disposer.get().dispose();
                     return;
@@ -100,9 +101,8 @@ public class WatchServiceListenerTest {
     }
 
     @Test
-    public void testListenToDirectory() throws IOException, BrokenBarrierException,
-        InterruptedException {
-        Path tempFolder = Files.createTempDirectory("configurate-test");
+    public void testListenToDirectory() throws IOException {
+        final Path tempFolder = Files.createTempDirectory("configurate-test");
         final Path test1 = tempFolder.resolve("test1");
         final Path test2 = tempFolder.resolve("test2");
         Files.createFile(test1);
@@ -135,6 +135,6 @@ public class WatchServiceListenerTest {
             barrier.await();
             assertEquals(test2.getFileName(), lastPath.get());
         });
-
     }
+
 }

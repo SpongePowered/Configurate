@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 
 import java.util.Arrays;
@@ -26,38 +27,40 @@ import java.util.Map;
 /**
  * Base implementation of {@link ConfigurationTransformation}.
  *
- * <p>Transformations are executed from deepest in the configuration hierarchy outwards.</p>
+ * <p>Transformations are executed from deepest in the configuration hierarchy
+ * outwards.
  */
 class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> extends ConfigurationTransformation<N> {
+
     private final MoveStrategy strategy;
     private final Map<NodePath, TransformAction<? super N>> actions;
 
     /**
-     * Thread local {@link NodePath} instance - used so we don't have to create lots of NodePath
-     * instances.
+     * Thread local {@link NodePath} instance - used so we don't have to create
+     * lots of NodePath instances.
      *
-     * As such, data within paths is only guaranteed to be the same during a run of
-     * a transform function.
+     * <p>As such, data within paths is only guaranteed to be the same during a
+     * run of a transform function.
      */
     private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
 
-    SingleConfigurationTransformation(Map<NodePath, TransformAction<? super N>> actions, MoveStrategy strategy) {
+    SingleConfigurationTransformation(final Map<NodePath, TransformAction<? super N>> actions, final MoveStrategy strategy) {
         this.actions = actions;
         this.strategy = strategy;
     }
 
     @Override
-    public void apply(@NonNull N node) {
-        for (Map.Entry<NodePath, TransformAction<? super N>> ent : actions.entrySet()) {
+    public void apply(final @NonNull N node) {
+        for (Map.Entry<NodePath, TransformAction<? super N>> ent : this.actions.entrySet()) {
             applySingleAction(node, ent.getKey().getArray(), 0, node, ent.getValue());
         }
     }
 
-    private void applySingleAction(N start, Object[] path, int startIdx, N node, TransformAction<? super N> action) {
+    private void applySingleAction(final N start, final Object[] path, final int startIdx, N node, final TransformAction<? super N> action) {
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.isList()) {
-                    List<N> children = node.getChildrenList();
+                    final List<N> children = node.getChildrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
                         applySingleAction(start, path, i + 1, children.get(di), action);
@@ -83,13 +86,14 @@ class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> ex
         }
 
         // apply action
-        NodePathImpl nodePath = sharedPath.get();
+        final NodePathImpl nodePath = this.sharedPath.get();
         nodePath.arr = path;
 
-        Object[] transformedPath = action.visitPath(nodePath, node);
+        final Object @Nullable [] transformedPath = action.visitPath(nodePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
             this.strategy.move(node, start.getNode(transformedPath));
             node.setValue(null);
         }
     }
+
 }

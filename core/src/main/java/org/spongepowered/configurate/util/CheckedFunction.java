@@ -16,14 +16,14 @@
  */
 package org.spongepowered.configurate.util;
 
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.function.Function;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * A function with one input and one output which may throw a checked exception
+ * A function with one input and one output which may throw a checked exception.
  *
  * @param <I> The input parameter type
  * @param <O> The output parameter type
@@ -31,6 +31,7 @@ import static java.util.Objects.requireNonNull;
  */
 @FunctionalInterface
 public interface CheckedFunction<I, O, E extends Exception> {
+
     /**
      * Perform the action.
      *
@@ -41,7 +42,7 @@ public interface CheckedFunction<I, O, E extends Exception> {
     O apply(I one) throws E;
 
     /**
-     * Convert a JDK {@link Function} into its checked variant
+     * Convert a JDK {@link Function} into its checked variant.
      *
      * @param func The function
      * @param <I> Parameter type
@@ -51,4 +52,5 @@ public interface CheckedFunction<I, O, E extends Exception> {
     static <I, O> CheckedFunction<I, O, RuntimeException> fromFunction(Function<I, @NonNull O> func) {
         return requireNonNull(func, "func")::apply;
     }
+
 }

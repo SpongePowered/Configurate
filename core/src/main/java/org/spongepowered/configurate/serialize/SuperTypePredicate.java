@@ -26,26 +26,28 @@ import java.util.function.Predicate;
 /**
  * Effectively a predicate which is <code>type::isSupertypeOf</code>.
  *
- * <p>The isSupertypeOf method was only added in Guava 19.0, and was previously named
- * isAssignableFrom.</p>
+ * <p>The isSupertypeOf method was only added in Guava 19.0, and was previously
+ * named isAssignableFrom.
  */
 final class SuperTypePredicate implements Predicate<TypeToken<?>> {
+
     private static final MethodHandle SUPERTYPE_TEST;
+
     static {
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        MethodType type = MethodType.methodType(boolean.class, TypeToken.class);
+        final MethodHandles.Lookup lookup = MethodHandles.lookup();
+        final MethodType type = MethodType.methodType(boolean.class, TypeToken.class);
         MethodHandle supertypeTest;
         try {
             try {
                 supertypeTest = lookup.findVirtual(TypeToken.class, "isSupertypeOf", type);
-            } catch (NoSuchMethodException e1) {
+            } catch (final NoSuchMethodException e1) {
                 try {
                     supertypeTest = lookup.findVirtual(TypeToken.class, "isAssignableFrom", type);
-                } catch (NoSuchMethodException e2) {
+                } catch (final NoSuchMethodException e2) {
                     throw new RuntimeException("Unable to get TypeToken#isSupertypeOf or TypeToken#isAssignableFrom method");
                 }
             }
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new ExceptionInInitializerError("Could not access isSupertypeOf/isAssignableFrom method in TypeToken");
         }
 
@@ -54,17 +56,18 @@ final class SuperTypePredicate implements Predicate<TypeToken<?>> {
 
     private final TypeToken<?> type;
 
-    SuperTypePredicate(TypeToken<?> type) {
+    SuperTypePredicate(final TypeToken<?> type) {
         this.type = type;
     }
 
     @Override
-    public boolean test(TypeToken<?> t) {
+    public boolean test(final TypeToken<?> t) {
         try {
-            return (boolean) SUPERTYPE_TEST.invokeExact(type, t);
-        } catch (Throwable e) {
+            return (boolean) SUPERTYPE_TEST.invokeExact(this.type, t);
+        } catch (final Throwable e) {
             e.printStackTrace();
             return false;
         }
     }
+
 }

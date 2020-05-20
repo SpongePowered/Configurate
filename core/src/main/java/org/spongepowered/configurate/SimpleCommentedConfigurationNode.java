@@ -22,27 +22,30 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
-class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<CommentedConfigurationNode, SimpleCommentedConfigurationNode> implements CommentedConfigurationNode {
+class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<CommentedConfigurationNode, SimpleCommentedConfigurationNode>
+        implements CommentedConfigurationNode {
 
-    protected SimpleCommentedConfigurationNode(@Nullable Object path, @Nullable SimpleCommentedConfigurationNode parent, @NonNull ConfigurationOptions options) {
+    protected SimpleCommentedConfigurationNode(final @Nullable Object path,
+            final @Nullable SimpleCommentedConfigurationNode parent, final @NonNull ConfigurationOptions options) {
         super(path, parent, options);
     }
 
-    protected SimpleCommentedConfigurationNode(@Nullable SimpleCommentedConfigurationNode parent, @NonNull SimpleCommentedConfigurationNode copyOf) {
+    protected SimpleCommentedConfigurationNode(final @Nullable SimpleCommentedConfigurationNode parent,
+            final @NonNull SimpleCommentedConfigurationNode copyOf) {
         super(parent, copyOf);
     }
 
     // Methods from superclass overridden to have correct return types
 
     @Override
-    protected SimpleCommentedConfigurationNode createNode(Object path) {
+    protected SimpleCommentedConfigurationNode createNode(final Object path) {
         return new SimpleCommentedConfigurationNode(path, this, getOptions());
     }
 
     @NonNull
     @Override
-    protected SimpleCommentedConfigurationNode copy(@Nullable SimpleCommentedConfigurationNode parent) {
-        SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
+    protected SimpleCommentedConfigurationNode copy(final @Nullable SimpleCommentedConfigurationNode parent) {
+        final SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
         copy.comment.set(this.comment.get());
         return copy;
     }
@@ -60,9 +63,10 @@ class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNod
 
     @Override
     public String toString() {
-        return "SimpleCommentedConfigurationNode{" +
-                "super=" + super.toString() +
-                ", comment=" + comment +
-                '}';
+        return "SimpleCommentedConfigurationNode{"
+                + "super=" + super.toString()
+                + ", comment=" + this.comment
+                + '}';
     }
+
 }

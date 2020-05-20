@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.examples;
 
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -35,6 +36,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class ValueReferences {
+
     private final WatchServiceListener listener;
     private final ConfigurationReference<CommentedConfigurationNode> base;
     private final ValueReference<String, CommentedConfigurationNode> name;
@@ -42,55 +44,60 @@ public class ValueReferences {
     private final ValueReference<List<TestObject>, CommentedConfigurationNode> complex;
 
     @ConfigSerializable
-   static class TestObject {
-        @Setting
-        String name;
-        @Setting
-        UUID id = UUID.randomUUID();
+    static class TestObject {
+        @Setting String name;
+        @Setting UUID id = UUID.randomUUID();
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof TestObject)) return false;
-            TestObject that = (TestObject) o;
-            return name.equals(that.name) &&
-                    id.equals(that.id);
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+
+            if (!(o instanceof TestObject)) {
+                return false;
+            }
+
+            final TestObject that = (TestObject) o;
+            return this.name.equals(that.name)
+                    && this.id.equals(that.id);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, id);
+            return Objects.hash(this.name, this.id);
         }
 
         @Override
         public String toString() {
-            return "TestObject{" +
-                    "name='" + name + '\'' +
-                    ", id=" + id +
-                    '}';
+            return "TestObject{"
+                    + "name='" + this.name + '\''
+                    + ", id=" + this.id
+                    + '}';
         }
     }
 
-   public ValueReferences(Path configFile) throws IOException, ObjectMappingException {
-       this.listener = WatchServiceListener.create();
-       this.base = listener.listenToConfiguration(file -> HoconConfigurationLoader.builder().setDefaultOptions(o -> o.withShouldCopyDefaults(true)).setPath(file).build(), configFile);
-       this.base.updates().subscribe($ -> System.out.println("Configuration auto-reloaded"));
-       this.base.errors().subscribe(err -> {
-           Throwable t = err.getValue();
-           System.out.println("Unable to " + err.getKey() + " the configuration: " + t.getMessage());
-           if (t.getCause() != null) {
-               System.out.println(t.getCause().getMessage());
-           }
-       });
+    public ValueReferences(final Path configFile) throws IOException, ObjectMappingException {
+        this.listener = WatchServiceListener.create();
+        this.base = this.listener.listenToConfiguration(file -> HoconConfigurationLoader.builder()
+                .setDefaultOptions(o -> o.withShouldCopyDefaults(true)).setPath(file).build(), configFile);
+        this.base.updates().subscribe($ -> System.out.println("Configuration auto-reloaded"));
+        this.base.errors().subscribe(err -> {
+            final Throwable t = err.getValue();
+            System.out.println("Unable to " + err.getKey() + " the configuration: " + t.getMessage());
+            if (t.getCause() != null) {
+                System.out.println(t.getCause().getMessage());
+            }
+        });
 
-       name = this.base.referenceTo(String.class, "name");
-       this.name.subscribe(newName -> System.out.println("Reloaded, name is: " + newName));
-       cookieCount = this.base.referenceTo(Integer.class, NodePath.path("cookie-count"), 5);
-       this.complex = this.base.referenceTo(new TypeToken<List<TestObject>>() {}, "complex");
-       this.base.save();
-   }
+        this.name = this.base.referenceTo(String.class, "name");
+        this.name.subscribe(newName -> System.out.println("Reloaded, name is: " + newName));
+        this.cookieCount = this.base.referenceTo(Integer.class, NodePath.path("cookie-count"), 5);
+        this.complex = this.base.referenceTo(new TypeToken<List<TestObject>>() {}, "complex");
+        this.base.save();
+    }
 
-   public void repl() {
+    public void repl() {
         boolean running = true;
         if (System.console() == null) {
             System.err.println("Not at an interactive prompt");
@@ -99,11 +106,11 @@ public class ValueReferences {
         }
 
         while (running) {
-            String next = System.console().readLine(">");
+            final @Nullable String next = System.console().readLine(">");
             if (next == null) {
                 break;
             }
-            String[] cmd = next.split(" ");
+            final String[] cmd = next.split(" ");
             if (cmd.length == 0) {
                 continue;
             }
@@ -117,19 +124,19 @@ public class ValueReferences {
                         System.err.println("Not enough arguments, usage: name <new-name>");
                         break;
                     }
-                    name.setAndSave(cmd[1]);
+                    this.name.setAndSave(cmd[1]);
                     System.out.println("Name: " + this.name.get());
                     break;
                 case "dump":
                     printData();
                     break;
                 case "help":
-                    System.out.println("Value reference tester\n" +
-                            "Commands:\n\n" +
-                            "stop: Exit the loop\n" +
-                            "name <name>: Update the name in the config file\n" +
-                            "dump: Dump all accessed data in the config file\n" +
-                            "help: Show this message"
+                    System.out.println("Value reference tester\n"
+                            + "Commands:\n\n"
+                            + "stop: Exit the loop\n"
+                            + "name <name>: Update the name in the config file\n"
+                            + "dump: Dump all accessed data in the config file\n"
+                            + "help: Show this message"
                     );
                     break;
                 default:
@@ -137,33 +144,33 @@ public class ValueReferences {
                     System.err.println("help for help");
             }
         }
-   }
+    }
 
-   public void printData() {
-       System.out.println("Name: " + this.name.get());
-       System.out.println("Cookie count: " + this.cookieCount.get());
-       System.out.println("Complex: ");
-       if (this.complex.get().isEmpty()) {
-           System.out.println("(empty)");
-       } else {
-           for (TestObject obj : this.complex.get()) {
-              System.out.println("- " + obj);
-           }
-       }
-   }
+    public void printData() {
+        System.out.println("Name: " + this.name.get());
+        System.out.println("Cookie count: " + this.cookieCount.get());
+        System.out.println("Complex: ");
+        if (this.complex.get().isEmpty()) {
+            System.out.println("(empty)");
+        } else {
+            for (TestObject obj : this.complex.get()) {
+                System.out.println("- " + obj);
+            }
+        }
+    }
 
-   public static void main(String[] args) {
+    public static void main(final String[] args) {
         if (args.length != 1) {
             System.err.println("Usage: ./reference-example <file>");
             return;
         }
         final Path path = Paths.get(args[0]);
-       try {
-           new ValueReferences(path).repl();
-       } catch (IOException | ObjectMappingException e) {
-           System.out.println("Error loading configuration: " + e.getMessage());
-           e.printStackTrace();
-       }
-   }
+        try {
+            new ValueReferences(path).repl();
+        } catch (IOException | ObjectMappingException e) {
+            System.out.println("Error loading configuration: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -17,10 +17,10 @@
 package org.spongepowered.configurate.serialize;
 
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.EnumLookup;
 
-import java.util.Optional;
 import java.util.function.Predicate;
 
 final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
@@ -30,20 +30,19 @@ final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
     }
 
     @Override
-    public Enum<?> deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+    public Enum<?> deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
         final String enumConstant = obj.toString();
         @SuppressWarnings("unchecked")
-        Optional<? extends Enum<?>> ret = EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class),
-                enumConstant);
-        if (!ret.isPresent()) {
-            throw new ObjectMappingException("Invalid enum constant provided: " +
-                    "Expected a value of enum " + type + ", got " + enumConstant);
+        final @Nullable Enum<?> ret = EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class), enumConstant);
+        if (ret == null) {
+            throw new ObjectMappingException("Invalid enum constant provided, expected a value of enum " + type + ", but got " + enumConstant);
         }
-        return ret.get();
+        return ret;
     }
 
     @Override
-    public Object serialize(Enum<?> item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final Enum<?> item, final Predicate<Class<?>> typeSupported) {
         return item.name();
     }
+
 }

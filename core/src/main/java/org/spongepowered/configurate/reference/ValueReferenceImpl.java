@@ -19,7 +19,6 @@ package org.spongepowered.configurate.reference;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.reactive.Disposable;
@@ -35,6 +34,7 @@ import java.util.concurrent.Executor;
 import java.util.function.Function;
 
 class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Publisher<T> {
+
     // Information about the reference
     private final ManualConfigurationReference<N> root;
     private final NodePath path;
@@ -42,121 +42,122 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     private final TypeSerializer<T> serializer;
     private final Publisher.Cached<T> deserialized;
 
-    ValueReferenceImpl(ManualConfigurationReference<N> root, NodePath path, TypeToken<T> type,
-                       @Nullable T def) throws ObjectMappingException {
+    ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final TypeToken<T> type,
+                       final @Nullable T def) throws ObjectMappingException {
         this.root = root;
         this.path = path;
         this.type = type;
-        serializer = root.getNode().getOptions().getSerializers().get(type);
-        if (serializer == null) {
+        this.serializer = root.getNode().getOptions().getSerializers().get(type);
+        if (this.serializer == null) {
             throw new ObjectMappingException("Unsupported type" + type);
         }
 
-        deserialized = root.updateListener.map(n -> {
+        this.deserialized = root.updateListener.map(n -> {
             try {
                 return deserializedValueFrom(n, def);
-            } catch (ObjectMappingException e) {
+            } catch (final ObjectMappingException e) {
                 root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, e));
                 throw new TransactionFailedException(e);
             }
         }).cache(deserializedValueFrom(root.getNode(), def));
     }
 
-    ValueReferenceImpl(ManualConfigurationReference<N> root, NodePath path, Class<T> type,
-                       @Nullable T def) throws ObjectMappingException {
+    ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final Class<T> type,
+                       final @Nullable T def) throws ObjectMappingException {
         this(root, path, TypeToken.of(type), def);
     }
 
-    private @Nullable T deserializedValueFrom(N parent, @Nullable T defaultVal) throws ObjectMappingException {
-        N node = parent.getNode(path);
-        @Nullable T possible = serializer.deserialize(type, node);
+    private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws ObjectMappingException {
+        final N node = parent.getNode(this.path);
+        final @Nullable T possible = this.serializer.deserialize(this.type, node);
         if (possible != null) {
             return possible;
         } else if (defaultVal != null && node.getOptions().shouldCopyDefaults()) {
-            serializer.serialize(type, defaultVal, node);
+            this.serializer.serialize(this.type, defaultVal, node);
         }
         return defaultVal;
     }
 
     @Override
     public @Nullable T get() {
-        return deserialized.get();
+        return this.deserialized.get();
     }
 
     @Override
-    public boolean set(@Nullable T value) {
+    public boolean set(final @Nullable T value) {
         try {
-            serializer.serialize(type, value, getNode());
-            deserialized.submit(value);
+            this.serializer.serialize(this.type, value, getNode());
+            this.deserialized.submit(value);
             return true;
-        } catch (ObjectMappingException e) {
-            root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
+        } catch (final ObjectMappingException e) {
+            this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
             return false;
         }
     }
 
     @Override
-    public boolean setAndSave(@Nullable T value) {
+    public boolean setAndSave(final @Nullable T value) {
         try {
             if (set(value)) {
-                root.save();
+                this.root.save();
                 return true;
             }
-        } catch (IOException e) {
-            root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
+        } catch (final IOException e) {
+            this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
         }
         return false;
     }
 
     @Override
-    public Publisher<Boolean> setAndSaveAsync(@Nullable T value) {
+    public Publisher<Boolean> setAndSaveAsync(final @Nullable T value) {
         return Publisher.execute(() -> {
-            serializer.serialize(type, value, getNode());
-            deserialized.submit(value);
-            root.save();
+            this.serializer.serialize(this.type, value, getNode());
+            this.deserialized.submit(value);
+            this.root.save();
             return true;
-        }, root.updates().getExecutor());
+        }, this.root.updates().getExecutor());
     }
 
     @Override
-    public boolean update(Function<@Nullable T, ? extends T> action) {
+    public boolean update(final Function<@Nullable T, ? extends T> action) {
         try {
             return set(action.apply(get()));
-        } catch (Throwable t) {
-            root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, t));
+        } catch (final Throwable t) {
+            this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, t));
             return false;
         }
     }
 
     @Override
-    public Publisher<Boolean> updateAsync(Function<T, ? extends T> action) {
+    public Publisher<Boolean> updateAsync(final Function<T, ? extends T> action) {
         return Publisher.execute(() -> {
-            @Nullable T orig = get();
-            T updated = action.apply(orig);
-            serializer.serialize(type, updated, getNode());
-            deserialized.submit(updated);
-            root.save();
+            final @Nullable T orig = get();
+            final T updated = action.apply(orig);
+            this.serializer.serialize(this.type, updated, getNode());
+            this.deserialized.submit(updated);
+            this.root.save();
             return true;
-        }, root.updates().getExecutor());
+        }, this.root.updates().getExecutor());
     }
 
     @Override
     public N getNode() {
-        return root.getNode().getNode(path);
+        return this.root.getNode().getNode(this.path);
     }
 
     @Override
     public Disposable subscribe(final Subscriber<? super T> subscriber) {
-        return deserialized.subscribe(subscriber);
+        return this.deserialized.subscribe(subscriber);
     }
 
     @Override
     public boolean hasSubscribers() {
-        return deserialized.hasSubscribers();
+        return this.deserialized.hasSubscribers();
     }
 
     @Override
     public Executor getExecutor() {
         return this.deserialized.getExecutor();
     }
+
 }

@@ -24,18 +24,21 @@ import java.util.function.Function;
 
 /**
  * A pointer to a node within a configuration tree.
- * <p>
- * This value will update automatically with changes to the underlying configuration file. Subscribers will be provided
- * the current value upon subscription, followed by any changes.
+ *
+ * <p>This value will update automatically with changes to the underlying
+ * configuration file. Subscribers will be provided the current value upon
+ * subscription, followed by any changes.
  *
  * @param <T> The type of value to return
  * @param <N> The type of node
  */
 public interface ValueReference<T, N extends ConfigurationNode> extends Publisher<T> {
+
     /**
-     * Get the current value at this node
-     * <p>
-     * Any deserialization failures will be submitted to the owning {@link ConfigurationReference}'s error callback
+     * Get the current value at this node.
+     *
+     * <p>Any deserialization failures will be submitted to the owning
+     * {@link ConfigurationReference}'s error callback
      *
      * @return the deserialized value, or null if deserialization fails.
      */
@@ -43,8 +46,9 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
 
     /**
      * Set the new value of this node. The configuration won't be saved.
-     * <p>
-     * Any serialization errors will be provided to the error callback of the owning {@link ConfigurationReference}
+     *
+     * <p>Any serialization errors will be provided to the error callback of
+     * the owning {@link ConfigurationReference}
      *
      * @param value The value
      * @return true if successful, false if serialization fails
@@ -52,9 +56,10 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
     boolean set(@Nullable T value);
 
     /**
-     * Set the new value of this node and save the underlying configuration
-     * <p>
-     * Any serialization errors will be provided to the error callback of the owning {@link ConfigurationReference}
+     * Set the new value of this node and save the underlying configuration.
+     *
+     * <p>Any serialization errors will be provided to the error callback of the
+     * owning {@link ConfigurationReference}
      *
      * @param value The value
      * @return true if successful, false if serialization fails
@@ -62,10 +67,11 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
     boolean setAndSave(@Nullable T value);
 
     /**
-     * Set the new value of this node and save the underlying configuration asynchronously on the executor of the owning
-     * {@link ConfigurationReference}
-     * <p>
-     * Any serialization errors will be submitted to subscribers of the returned {@link Publisher}
+     * Set the new value of this node and save the underlying configuration
+     * asynchronously on the executor of the owning {@link ConfigurationReference}.
+     *
+     * <p>Any serialization errors will be submitted to subscribers of the
+     * returned {@link Publisher}
      *
      * @param value The value
      * @return true if successful, false if serialization fails
@@ -74,8 +80,9 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
 
     /**
      * Update this value and the underlying node, without saving.
-     * <p>
-     * Any serialization errors will be provided to the error callback of the owning {@link ConfigurationReference}
+     *
+     * <p>Any serialization errors will be provided to the error callback of
+     * the owning {@link ConfigurationReference}
      *
      * @param action to transform this node's value
      * @return whether this update was successful
@@ -83,10 +90,11 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
     boolean update(Function<@Nullable T, ? extends T> action);
 
     /**
-     * Update, performing the action and save on the executor of the owning {@link ConfigurationReference}. Any errors
-     * that occur while saving will be passed along to any subscribers.
-     * <p>
-     * The updated value will only be exposed if the changes are successful.
+     * Update, performing the action and save on the executor of the owning
+     * {@link ConfigurationReference}. Any errors that occur while saving will
+     * be passed along to any subscribers.
+     *
+     * <p>The updated value will only be exposed if the changes are successful.
      *
      * @param action to transform this node's value
      * @return whether this update was successful
@@ -99,4 +107,5 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * @return The node
      */
     N getNode();
+
 }

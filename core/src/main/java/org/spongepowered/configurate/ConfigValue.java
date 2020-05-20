@@ -32,27 +32,26 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     @NonNull
     protected final T holder;
 
-    protected ConfigValue(@NonNull T holder) {
+    protected ConfigValue(final @NonNull T holder) {
         this.holder = holder;
     }
 
     /**
-     * Gets the value encapsulated by this instance
+     * Gets the value encapsulated by this instance.
      *
      * @return The value
      */
-    @Nullable
-    abstract Object getValue();
+    abstract @Nullable Object getValue();
 
     /**
-     * Sets the value encapsulated by this instance
+     * Sets the value encapsulated by this instance.
      *
      * @param value The value
      */
     abstract void setValue(@Nullable Object value);
 
     /**
-     * Put a child value, or null to remove value at that key
+     * Put a child value, or null to remove value at that key.
      *
      * @param key The key
      * @param value The node to put at key
@@ -62,7 +61,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     abstract T putChild(@NonNull Object key, @Nullable T value);
 
     /**
-     * Put a child value, if one isn't already present at that key
+     * Put a child value, if one isn't already present at that key.
      *
      * @param key The key
      * @param value The node to put at key
@@ -72,7 +71,8 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     abstract T putChildIfAbsent(@NonNull Object key, @Nullable T value);
 
     /**
-     * Gets the currently present child for the given key. Returns null if no child is present
+     * Gets the currently present child for the given key. Returns null if no
+     * child is present.
      *
      * @param key The key to get child at
      * @return The child if any
@@ -81,7 +81,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     abstract T getChild(@Nullable Object key);
 
     /**
-     * Returns an iterable over all child nodes
+     * Returns an iterable over all child nodes.
      *
      * @return An iterator
      */
@@ -89,7 +89,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     abstract Iterable<T> iterateChildren();
 
     /**
-     * Creates a copy of this node
+     * Creates a copy of this node.
      *
      * @return A copy
      */
@@ -97,21 +97,21 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     abstract ConfigValue<N, T> copy(@NonNull T holder);
 
     /**
-     * Whether this value has any content
+     * Whether this value has any content.
      *
-     * @return The value
+     * @return value
      */
     abstract boolean isEmpty();
 
     /**
-     * Clears the set value (or any attached child values) from this value
+     * Clears the set value (or any attached child values) from this value.
      */
     void clear() {
         for (Iterator<T> it = iterateChildren().iterator(); it.hasNext();) {
-            T node = it.next();
+            final T node = it.next();
             node.attached = false;
             it.remove();
-            if (node.getParentEnsureAttached().equals(holder)) {
+            if (node.getParentEnsureAttached().equals(this.holder)) {
                 node.clear();
             }
         }

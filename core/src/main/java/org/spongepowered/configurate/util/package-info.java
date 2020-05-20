@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 /**
- * Utilities for implementation
- * <p>
- * Most of these classes will not need to be directly referenced, but help support other components of the library.
+ * Utilities for implementation.
+ *
+ * <p>Most of these classes will not need to be directly referenced, but help
+ * support other components of the library.
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.util;

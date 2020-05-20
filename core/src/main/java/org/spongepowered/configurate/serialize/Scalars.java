@@ -23,21 +23,26 @@ import java.util.regex.Pattern;
 /**
  * Scalar value serializers available
  *
- * Each of these serializers can be used through a configuration node, or directly with a value.
+ * <p>Each of these serializers can be used through a configuration node, or
+ * directly with a value.
  */
-public interface Scalars {
-    ScalarSerializer<Boolean> BOOLEAN = new BooleanSerializer();
-    ScalarSerializer<String> STRING = new StringSerializer();
-    ScalarSerializer<Character> CHAR = new CharSerializer();
-    ScalarSerializer<Enum<?>> ENUM = new EnumValueSerializer();
-    ScalarSerializer<Pattern> PATTERN = new PatternSerializer();
-    ScalarSerializer<java.net.URI> URI = new URISerializer();
-    ScalarSerializer<URL> URL = new URLSerializer();
-    ScalarSerializer<UUID> UUID = new UUIDSerializer();
-    ScalarSerializer<Byte> BYTE = NumericSerializers.BYTE;
-    ScalarSerializer<Short> SHORT = NumericSerializers.SHORT;
-    ScalarSerializer<Integer> INTEGER = NumericSerializers.INTEGER;
-    ScalarSerializer<Long> LONG = NumericSerializers.LONG;
-    ScalarSerializer<Float> FLOAT = NumericSerializers.FLOAT;
-    ScalarSerializer<Double> DOUBLE = NumericSerializers.DOUBLE;
+public final class Scalars {
+
+    private Scalars() {}
+
+    public static final ScalarSerializer<Boolean> BOOLEAN = new BooleanSerializer();
+    public static final ScalarSerializer<String> STRING = new StringSerializer();
+    public static final ScalarSerializer<Character> CHAR = new CharSerializer();
+    public static final ScalarSerializer<Enum<?>> ENUM = new EnumValueSerializer();
+    public static final ScalarSerializer<Pattern> PATTERN = new PatternSerializer();
+    public static final ScalarSerializer<java.net.URI> URI = new UriSerializer();
+    public static final ScalarSerializer<URL> URL = new UrlSerializer();
+    public static final ScalarSerializer<UUID> UUID = new UuidSerializer();
+    public static final ScalarSerializer<Byte> BYTE = NumericSerializers.BYTE;
+    public static final ScalarSerializer<Short> SHORT = NumericSerializers.SHORT;
+    public static final ScalarSerializer<Integer> INTEGER = NumericSerializers.INTEGER;
+    public static final ScalarSerializer<Long> LONG = NumericSerializers.LONG;
+    public static final ScalarSerializer<Float> FLOAT = NumericSerializers.FLOAT;
+    public static final ScalarSerializer<Double> DOUBLE = NumericSerializers.DOUBLE;
+
 }

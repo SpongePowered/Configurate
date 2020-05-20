@@ -26,17 +26,23 @@ import java.util.function.Predicate;
  * Attempts to convert a given value to a {@link Boolean}.
  *
  * <ul>
- *     <li>If <code>value</code> is a {@link Number}, returns true if value is not 0</li>
- *     <li>If {@code value.toString()} returns true, t, yes, y, or 1, returns true</li>
- *     <li>If {@code value.toString()} returns false, f, no, n, or 0, returns false</li>
+ *     <li>If <code>value</code> is a {@link Number}, returns true if value is
+ *     not 0</li>
+ *     <li>If {@code value.toString()} is true, t, yes, y, or 1,
+ *     returns true</li>
+ *     <li>If {@code value.toString()} is false, f, no, n, or 0,
+ *     returns false</li>
  *     <li>Otherwise returns null</li>
  * </ul>
  */
 class BooleanSerializer extends ScalarSerializer<Boolean> {
-    BooleanSerializer() {super(Boolean.class);}
+
+    BooleanSerializer() {
+        super(Boolean.class);
+    }
 
     @Override
-    public Boolean deserialize(TypeToken<?> type, Object value) throws ObjectMappingException {
+    public Boolean deserialize(final TypeToken<?> type, final Object value) throws ObjectMappingException {
         if (value instanceof Number) {
             return !value.equals(0);
         }
@@ -60,11 +66,12 @@ class BooleanSerializer extends ScalarSerializer<Boolean> {
     }
 
     @Override
-    public Object serialize(Boolean item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final Boolean item, final Predicate<Class<?>> typeSupported) {
         if (typeSupported.test(Integer.class)) {
             return item ? 1 : 0;
         } else {
             return item.toString();
         }
     }
+
 }

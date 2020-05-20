@@ -38,10 +38,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.
+ * A loader for YAML-formatted configurations, using the SnakeYAML library for
+ * parsing and generation.
  *
  */
-public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+public final class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
      * Creates a new {@link YamlConfigurationLoader} builder.
@@ -64,9 +65,10 @@ public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicCo
             // From the YAML 1.1 Global tags
             // https://yaml.org/type/
             // using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
-            setDefaultOptions(getDefaultOptions().withNativeTypes(ImmutableSet.of(Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class,
-                    byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class,
-                    Set.class, List.class, Map.class)));
+            setDefaultOptions(getDefaultOptions()
+                    .withNativeTypes(ImmutableSet.of(Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
+                                                     byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class, // complex types
+                                                     Set.class, List.class, Map.class))); // collections
         }
 
         /**
@@ -76,8 +78,8 @@ public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicCo
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(int indent) {
-            options.setIndent(indent);
+        public Builder setIndent(final int indent) {
+            this.options.setIndent(indent);
             return this;
         }
 
@@ -87,32 +89,32 @@ public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicCo
          * @return The indent level
          */
         public int getIndent() {
-            return options.getIndent();
+            return this.options.getIndent();
         }
 
         /**
          * Sets the flow style the resultant loader should use.
          *
-         * Flow: the compact, json-like representation.<br>
+         * <p>Flow: the compact, json-like representation.<br>
          * Example: <code>
          *     {value: [list, of, elements], another: value}
-         * </code>
+         * </code></p>
          *
-         * Block: expanded, traditional YAML<br>
+         * <p>Block: expanded, traditional YAML<br>
          * Example: <code>
          *     value:
          *     - list
          *     - of
          *     - elements
          *     another: value
-         * </code>
+         * </code></p>
          *
          * @param style The flow style to use
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setFlowStyle(@NonNull FlowStyle style) {
-            options.setDefaultFlowStyle(style);
+        public Builder setFlowStyle(final @NonNull FlowStyle style) {
+            this.options.setDefaultFlowStyle(style);
             return this;
         }
 
@@ -123,7 +125,7 @@ public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicCo
          */
         @NonNull
         public FlowStyle getFlowSyle() {
-            return options.getDefaultFlowStyle();
+            return this.options.getDefaultFlowStyle();
         }
 
         @NonNull
@@ -135,25 +137,26 @@ public class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
     private final ThreadLocal<Yaml> yaml;
 
-    private YamlConfigurationLoader(Builder builder) {
+    private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
         final DumperOptions opts = builder.options;
         this.yaml = ThreadLocal.withInitial(() -> new Yaml(opts));
     }
 
     @Override
-    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) {
-        node.setValue(yaml.get().load(reader));
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) {
+        node.setValue(this.yaml.get().load(reader));
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode node, Writer writer) {
-        yaml.get().dump(node.getValue(), writer);
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) {
+        this.yaml.get().dump(node.getValue(), writer);
     }
 
     @NonNull
     @Override
-    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public BasicConfigurationNode createEmptyNode(final @NonNull ConfigurationOptions options) {
         return BasicConfigurationNode.root(options);
     }
+
 }

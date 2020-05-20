@@ -23,12 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation is used to indicate that the given type is capable of being serialized and
- * deserialized by the configuration object mapper.
+ * This annotation is used to indicate that the given type is capable of being
+ * serialized and deserialized by an object mapper.
  *
- * <p>Types with this annotation must have a zero-argument constructor to be instantiated by the
- * object mapper (though already instantiated objects can be passed to the object mapper to be
- * populated with settings)</p>
+ * <p>Types with this annotation must have a zero-argument constructor to be
+ * instantiated by the object mapper (though already instantiated objects can
+ * be passed to the object mapper to be populated with settings)</p>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

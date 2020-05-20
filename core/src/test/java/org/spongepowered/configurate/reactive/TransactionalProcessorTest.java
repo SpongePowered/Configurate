@@ -16,12 +16,12 @@
  */
 package org.spongepowered.configurate.reactive;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TransactionalProcessorTest {
 
@@ -81,10 +81,9 @@ public class TransactionalProcessorTest {
         @Nullable String nextValue;
         int rollBackCount = 0;
 
-
         @Override
-        public void beginTransaction(String newValue) throws TransactionFailedException {
-            if (shouldThrow) {
+        public void beginTransaction(final String newValue) throws TransactionFailedException {
+            if (this.shouldThrow) {
                 throw new TransactionFailedException();
             }
             this.nextValue = newValue;
@@ -100,13 +99,15 @@ public class TransactionalProcessorTest {
 
         @Override
         public void rollback() {
-            ++rollBackCount;
+            ++this.rollBackCount;
             this.nextValue = null;
         }
 
         @Override
-        public void onError(Throwable e) {
+        public void onError(final Throwable e) {
             throw new RuntimeException("Unexpected error", e);
         }
+
     }
+
 }

@@ -20,11 +20,13 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Creates threads whose name is the provided prefix followed by an incrementing number
+ * Creates threads whose name is the provided prefix followed by an
+ * incrementing number.
  *
- * The threads can optionally be daemon threads.
+ * <p>The threads can optionally be daemon threads.
  */
 class PrefixedNameThreadFactory implements ThreadFactory {
+
     private final String name;
     private final boolean daemon;
     private final AtomicInteger counter = new AtomicInteger();
@@ -36,8 +38,9 @@ class PrefixedNameThreadFactory implements ThreadFactory {
     
     @Override
     public Thread newThread(final Runnable runnable) {
-        Thread ret = new Thread(runnable, name + counter.getAndIncrement());
+        final Thread ret = new Thread(runnable, this.name + this.counter.getAndIncrement());
         ret.setDaemon(this.daemon);
         return ret;
     }
+
 }

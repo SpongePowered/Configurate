@@ -15,23 +15,27 @@
  * limitations under the License.
  */
 /**
- * File watcher and infrastructure to support dynamically updating configurations
- * <p>
- * There are three core components of this package:
+ * File watcher and infrastructure to support dynamically
+ * updating configurations.
+ *
+ * <p>There are three core components of this package:
  *
  * <ul>
  *     <li>The {@link org.spongepowered.configurate.reference.WatchServiceListener} provides a
  *     reactive interface to listen to filesystem changes</li>
  *     <li>{@link org.spongepowered.configurate.reference.ConfigurationReference ConfigurationReferences}
- *     can either be manually updated, or attached to a watch service, and hold a loader plus
- *     a loaded node, to pass around a reference to a root node while allowing for reloads.</li>
- *     <li>{@link org.spongepowered.configurate.reference.ValueReference Value references} can
- *     be retrieved from configuration references, and provide an always up-to-date reference to
- *     a deserialized value within a configuration node</li>
+ *     can either be manually updated, or attached to a watch service, and hold
+ *     a loader plus a loaded node, to pass around a reference to a root node
+ *     while allowing for reloads.</li>
+ *     <li>{@link org.spongepowered.configurate.reference.ValueReference Value references}
+ *     can be retrieved from configuration references, and provide an always
+ *     up-to-date reference to a deserialized value within a
+ *     configuration node</li>
  * </ul>
- * <p>
- * These components are designed to work together, but the watch listener can be used
- * independently from the other components for any situation where file watching is necessary.
+ *
+ * <p>These components are designed to work together, but the watch listener can
+ * be used independently from the other components for any situation where file
+ * watching is necessary.
  */
 @DefaultQualifier(value = NonNull.class)
 package org.spongepowered.configurate.reference;

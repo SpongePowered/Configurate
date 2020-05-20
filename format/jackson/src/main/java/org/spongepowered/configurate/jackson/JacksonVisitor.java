@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.jackson;
 
+import static java.util.Objects.requireNonNull;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -23,9 +25,8 @@ import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
-import static java.util.Objects.requireNonNull;
-
 class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGenerator, Void, IOException> {
+
     static JacksonVisitor INSTANCE = new JacksonVisitor();
 
     @Override
@@ -34,13 +35,13 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
     }
 
     @Override
-    public void beginVisit(ConfigurationNode node, JsonGenerator state) throws IOException {
+    public void beginVisit(final ConfigurationNode node, final JsonGenerator state) throws IOException {
     }
 
     @Override
-    public void enterNode(ConfigurationNode node, JsonGenerator generator) throws IOException {
+    public void enterNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
         //generateComment(generator, ent.getValue(), false);
-        @Nullable ConfigurationNode parent = node.getParent();
+        final @Nullable ConfigurationNode parent = node.getParent();
         if (parent != null && parent.isMap()) {
             generator.writeFieldName(requireNonNull(node.getKey(), "Node must have key to be a value in a mapping").toString());
         }
@@ -72,18 +73,18 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
     }*/
 
     @Override
-    public void enterMappingNode(ConfigurationNode node, JsonGenerator state) throws IOException {
+    public void enterMappingNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
         state.writeStartObject();
     }
 
     @Override
-    public void enterListNode(ConfigurationNode node, JsonGenerator state) throws IOException {
+    public void enterListNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
         state.writeStartArray();
     }
 
     @Override
-    public void enterScalarNode(ConfigurationNode node, JsonGenerator generator) throws IOException {
-        Object value = node.getValue();
+    public void enterScalarNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
+        final Object value = node.getValue();
         if (value instanceof Double) {
             generator.writeNumber((Double) value);
         } else if (value instanceof Float) {
@@ -102,18 +103,19 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
     }
 
     @Override
-    public void exitMappingNode(ConfigurationNode node, JsonGenerator state) throws IOException {
+    public void exitMappingNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
         state.writeEndObject();
     }
 
     @Override
-    public void exitListNode(ConfigurationNode node, JsonGenerator state) throws IOException {
+    public void exitListNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
         state.writeEndArray();
     }
 
     @Override
-    public Void endVisit(JsonGenerator state) throws IOException {
+    public Void endVisit(final JsonGenerator state) throws IOException {
         state.flush();
         return null;
     }
+
 }

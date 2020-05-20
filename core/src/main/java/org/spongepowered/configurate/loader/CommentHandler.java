@@ -17,14 +17,14 @@
 package org.spongepowered.configurate.loader;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Optional;
 
 /**
- * Interface specifying methods for handling abstract comments
+ * Extracts comments from a buffered reader or collection of lines.
  */
 public interface CommentHandler {
 
@@ -35,16 +35,14 @@ public interface CommentHandler {
      * @return The comment
      * @throws IOException If any IO error occurs in the process
      */
-    @NonNull
-    Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException;
+    @Nullable String extractHeader(@NonNull BufferedReader reader) throws IOException;
 
     /**
-     * Converts the given lines into a comment
+     * Converts the specified lines into a comment.
      *
-     * @param lines The lines to make a comment
-     * @return The transformed lines
+     * @param lines lines to make a comment
+     * @return transformed lines
      */
-    @NonNull
-    Collection<String> toComment(@NonNull Collection<String> lines);
+    @NonNull Collection<String> toComment(@NonNull Collection<String> lines);
 
 }

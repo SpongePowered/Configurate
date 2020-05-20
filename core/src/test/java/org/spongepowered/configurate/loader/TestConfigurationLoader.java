@@ -26,10 +26,14 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * This test configuration loader holds a single {@link ConfigurationNode}, {@code result}, that is updated when a node is saved and loaded when necessary.
+ * This test configuration loader holds a single {@link ConfigurationNode},
+ * {@code result}, that is updated when a node is saved and loaded when
+ * necessary.
  */
 public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+
     private ConfigurationNode result;
+
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder> {
 
         @NonNull
@@ -43,25 +47,25 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         return new Builder();
     }
 
-    protected TestConfigurationLoader(Builder builder) {
+    protected TestConfigurationLoader(final Builder builder) {
         super(builder, CommentHandlers.values());
     }
 
     @Override
-    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) throws IOException {
-        node.setValue(result);
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
+        node.setValue(this.result);
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
-        result.setValue(node);
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+        this.result.setValue(node);
     }
 
     public ConfigurationNode getNode() {
         return this.result;
     }
 
-    public void setNode(ConfigurationNode node) {
+    public void setNode(final ConfigurationNode node) {
         this.result = node;
     }
 
@@ -71,9 +75,9 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
      * @param options The options to use with this node. Must not be null (take a look at {@link ConfigurationOptions#defaults()})
      * @return The appropriate node type
      */
-    @NonNull
     @Override
-    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
+    public @NonNull BasicConfigurationNode createEmptyNode(final @NonNull ConfigurationOptions options) {
         return BasicConfigurationNode.root(options);
     }
+
 }

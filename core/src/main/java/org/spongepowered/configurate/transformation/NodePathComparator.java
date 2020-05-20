@@ -16,17 +16,17 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import java.util.Comparator;
-
 import static org.spongepowered.configurate.transformation.ConfigurationTransformation.WILDCARD_OBJECT;
+
+import java.util.Comparator;
 
 class NodePathComparator implements Comparator<NodePath> {
 
     @Override
-    public int compare(NodePath aPath, NodePath bPath) {
-        for (int i = 0; i < Math.min(aPath.size(), bPath.size()); ++i) {
-            final Object a = aPath.get(i);
-            final Object b = bPath.get(i);
+    public int compare(final NodePath pathA, final NodePath pathB) {
+        for (int i = 0; i < Math.min(pathA.size(), pathB.size()); ++i) {
+            final Object a = pathA.get(i);
+            final Object b = pathB.get(i);
 
             if (a == WILDCARD_OBJECT || b == WILDCARD_OBJECT) {
                 if (a != WILDCARD_OBJECT || b != WILDCARD_OBJECT) {
@@ -47,6 +47,7 @@ class NodePathComparator implements Comparator<NodePath> {
             }
         }
 
-        return Integer.compare(bPath.size(), aPath.size());
+        return Integer.compare(pathB.size(), pathA.size());
     }
+
 }

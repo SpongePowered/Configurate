@@ -38,11 +38,12 @@ public enum FieldValueSeparatorStyle {
 
     private final String decorationType;
 
-    FieldValueSeparatorStyle(String decorationType) {
+    FieldValueSeparatorStyle(final String decorationType) {
         this.decorationType = decorationType;
     }
 
     public String getValue() {
-        return decorationType;
+        return this.decorationType;
     }
+
 }

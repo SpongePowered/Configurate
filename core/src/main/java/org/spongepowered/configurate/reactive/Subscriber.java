@@ -18,37 +18,43 @@ package org.spongepowered.configurate.reactive;
 
 /**
  * A listener to events that may be called by an {@link Publisher}.
- * <p>
- * For every publisher this subscriber is subscribed to, the subscriber will only process one event at a time --
- * effectively, within a single publisher this subscriber does not have to be aware of concurrent effects
+ *
+ * <p>For every publisher this subscriber is subscribed to, the subscriber will
+ * only process one event at a time -- effectively, within a single publisher
+ * this subscriber does not have to be aware of concurrent effects.
  *
  * @param <V> The value that will be received
  */
 @FunctionalInterface
 public interface Subscriber<V> {
+
     /**
-     * Called to submit a new item
+     * Called to submit a new item.
      *
      * @param item The item available
      */
     void submit(V item);
 
     /**
-     * When an error occurs while subscribing to an {@link Publisher}, or is thrown during the execution of {@link
-     * #submit(Object)} that is not otherwise handled, this method will be called with the error. The associated {@link
-     * Publisher} will not send further update signals after an error is thrown.
+     * When an error occurs while subscribing to an {@link Publisher}, or is
+     * thrown during the execution of {@link #submit(Object)} that is not
+     * otherwise handled, this method will be called with the error. The
+     * associated {@link Publisher} will not send further update signals after
+     * an error is thrown.
      *
      * @param e The exception thrown
      */
     default void onError(Throwable e) {
-        Thread t = Thread.currentThread();
+        final Thread t = Thread.currentThread();
         t.getUncaughtExceptionHandler().uncaughtException(t, e);
     }
 
     /**
-     * When the {@link Publisher} this is subscribed to closes without error, this method will be called.
+     * When the {@link Publisher} this is subscribed to closes without error,
+     * this method will be called.
      */
     default void onClose() {
         // no-op
     }
+
 }

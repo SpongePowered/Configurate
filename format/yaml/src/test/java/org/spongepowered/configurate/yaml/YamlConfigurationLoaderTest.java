@@ -16,10 +16,12 @@
  */
 package org.spongepowered.configurate.yaml;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,8 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * Basic sanity checks for the loader
  */
@@ -38,18 +38,19 @@ public class YamlConfigurationLoaderTest {
 
     @Test
     public void testSimpleLoading() throws IOException {
-        URL url = getClass().getResource("/example.yml");
-        ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
-                .setURL(url).build();
-        ConfigurationNode node = loader.load();
+        final URL url = getClass().getResource("/example.yml");
+        final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
+                .setUrl(url).build();
+        final ConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
 
 
         @SuppressWarnings("unchecked")
-        Function<Object, Map<String, List<?>>> f = o -> (HashMap<String, List<?>>)o;
-        List<Map<String, List<?>>> fooList = new ArrayList<>(node.getNode("foo").getList(f));
+        final Function<Object, Map<String, List<?>>> f = o -> (HashMap<String, List<?>>) o;
+        final List<Map<String, List<?>>> fooList = new ArrayList<>(node.getNode("foo").getList(f));
         assertEquals(0, fooList.get(0).get("bar").size());
     }
+
 }

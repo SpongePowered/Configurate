@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 /**
- * Object mapper to handle converting between raw nodes and POJOs
- * <p>
- * The object mapper provides type serializers that can coerce data from configuration-native types to the desired
- * types, and back again. This removes a lot of the uncertainty in trying to determine which value types are supported
- * by a specific configuration format.
- * <p>
- * Object mappers work on fields in classes, and can optionally construct new instances of classes -- either if the
- * class has an empty constructor for the {@link org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory},
- * or if the class is injectable through {@link org.spongepowered.configurate.objectmapping.GuiceObjectMapperFactory}.
+ * Object mapper to handle converting between raw nodes and POJOs.
+ *
+ * <p>The object mapper provides type serializers that can coerce data from
+ * configuration-native types to the desired types, and back again. This removes
+ * a lot of the uncertainty in trying to determine which value types are
+ * supported by a specific configuration format.
+ *
+ * <p>Object mappers work on fields in classes, and can optionally construct new
+ * instances of classes -- either if the class has an empty constructor for the
+ * {@link org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory},
+ * or if the class is injectable through
+ * {@link org.spongepowered.configurate.objectmapping.GuiceObjectMapperFactory}.
  */
 package org.spongepowered.configurate.objectmapping;

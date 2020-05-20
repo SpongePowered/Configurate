@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.examples;
 
+import static org.spongepowered.configurate.transformation.NodePath.path;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
@@ -24,20 +26,23 @@ import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import static org.spongepowered.configurate.transformation.NodePath.path;
-
 /**
- * An example of how to use transformations to migrate a configuration to a newer schema version.
- * <p>
- * It's like DFU but not hot garbage! (and probably less PhD-worthy)
+ * An example of how to use transformations to migrate a configuration to a
+ * newer schema version.
+ *
+ * <p>It's like DFU but not hot garbage! (and probably less PhD-worthy)</p>
  */
-public class Transformations {
+public final class Transformations {
+
     private static final int VERSION_LATEST = 1; // easy way to track the latest version, update as more revisions are added
     private static final String VERSION_KEY = "version";
 
+    private Transformations() {}
+
     /**
-     * Create a new builder for versioned configurations. This builder uses a field in the node (by default {@code
-     * schema-version}) to determine the current schema version (using -1 for no version present).
+     * Create a new builder for versioned configurations. This builder uses a
+     * field in the node (by default {@code schema-version}) to determine the
+     * current schema version (using -1 for no version present).
      *
      * @param <N> node type
      * @return versioned transformation
@@ -51,7 +56,8 @@ public class Transformations {
     }
 
     /**
-     * A transformation. This one has multiple actions, and demonstrates how wildcards work
+     * A transformation. This one has multiple actions, and demonstrates how
+     * wildcards work.
      *
      * @param <N> node type
      * @return created transformation
@@ -75,7 +81,7 @@ public class Transformations {
         return ConfigurationTransformation.<N>builder()
                 // oh, turns out we want to use a different format for this, so we'll change it again
                 .addAction(path("server", "version"), (path, value) -> {
-                    @Nullable String val = value.getString();
+                    final @Nullable String val = value.getString();
                     if (val != null) {
                         value.setValue(val.replaceAll("-", "_"));
                     }
@@ -85,20 +91,21 @@ public class Transformations {
     }
 
     /**
-     * Apply the transformations to a node
-     * <p>
-     * This method also prints information about the version update that occurred
+     * Apply the transformations to a node.
+     *
+     * <p>This method also prints information about the version update that
+     * occurred</p>
      *
      * @param node The node to transform
      * @param <N>  node type
      * @return provided node, after transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> N updateNode(N node) {
+    public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) {
         if (!node.isVirtual()) { // we only want to migrate existing data
-            ConfigurationTransformation<N> trans = create();
-            int startVersion = node.getNode(VERSION_KEY).getInt(-1);
+            final ConfigurationTransformation<N> trans = create();
+            final int startVersion = node.getNode(VERSION_KEY).getInt(-1);
             trans.apply(node);
-            int endVersion = node.getNode(VERSION_KEY).getInt();
+            final int endVersion = node.getNode(VERSION_KEY).getInt();
             if (startVersion != endVersion) { // we might not have made any changes
                 System.out.println("Updated config schema from " + startVersion + " to " + endVersion);
             }
@@ -106,12 +113,12 @@ public class Transformations {
         return node;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         if (args.length != 1) {
             System.err.println("Not enough arguments, usage: transformations <file>");
             System.err.println("Apply the test transformations to a single file");
         }
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(Paths.get(args[0]))
                 .build();
 

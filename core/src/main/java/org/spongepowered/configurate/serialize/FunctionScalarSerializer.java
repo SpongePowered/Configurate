@@ -24,22 +24,25 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
+
     private final CheckedFunction<Object, T, ObjectMappingException> deserializer;
     private final BiFunction<T, Predicate<Class<?>>, Object> serializer;
 
-    FunctionScalarSerializer(TypeToken<T> type, CheckedFunction<Object, T, ObjectMappingException> deserializer, BiFunction<T, Predicate<Class<?>>, Object> serializer) {
+    FunctionScalarSerializer(final TypeToken<T> type,
+            final CheckedFunction<Object, T, ObjectMappingException> deserializer, final BiFunction<T, Predicate<Class<?>>, Object> serializer) {
         super(type);
         this.deserializer = deserializer;
         this.serializer = serializer;
     }
 
     @Override
-    public T deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
-        return deserializer.apply(obj);
+    public T deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
+        return this.deserializer.apply(obj);
     }
 
     @Override
-    public Object serialize(T item, Predicate<Class<?>> typeSupported) {
-        return serializer.apply(item, typeSupported);
+    public Object serialize(final T item, final Predicate<Class<?>> typeSupported) {
+        return this.serializer.apply(item, typeSupported);
     }
+
 }

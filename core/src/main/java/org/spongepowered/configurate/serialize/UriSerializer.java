@@ -19,27 +19,29 @@ package org.spongepowered.configurate.serialize;
 import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.function.Predicate;
 
-final class URLSerializer extends ScalarSerializer<URL> {
-    URLSerializer() {
-        super(URL.class);
+final class UriSerializer extends ScalarSerializer<URI> {
+
+    UriSerializer() {
+        super(URI.class);
     }
 
     @Override
-    public URL deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+    public URI deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
         final String plainUri = obj.toString();
         try {
-            return new URL(plainUri);
-        } catch (MalformedURLException e) {
-            throw new CoercionFailedException(obj, "URL");
+            return new URI(plainUri);
+        } catch (final URISyntaxException e) {
+            throw new CoercionFailedException(obj, "URI");
         }
     }
 
     @Override
-    public Object serialize(URL item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final URI item, final Predicate<Class<?>> typeSupported) {
         return item.toString();
     }
+
 }

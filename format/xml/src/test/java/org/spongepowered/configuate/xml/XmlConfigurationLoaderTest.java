@@ -16,6 +16,11 @@
  */
 package org.spongepowered.configuate.xml;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +38,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
  * Basic sanity checks for the loader
  */
@@ -45,42 +45,42 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class XmlConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/example.xml");
+    public void testSimpleLoading(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/example.xml");
         final Path saveTest = tempDir.resolve("text1.txt");
 
-        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
+        final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setWriteExplicitType(false)
                 .setIndent(4)
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
 
-        AttributedConfigurationNode node = loader.load();
+        final AttributedConfigurationNode node = loader.load();
 
         assertEquals("messages", node.getTagName());
         assertEquals("false", node.getAttribute("secret"));
         assertTrue(node.isList());
 
-        List<AttributedConfigurationNode> notes = node.getChildrenList();
+        final List<AttributedConfigurationNode> notes = node.getChildrenList();
         assertEquals(2, notes.size());
 
-        AttributedConfigurationNode firstNote = notes.get(0);
+        final AttributedConfigurationNode firstNote = notes.get(0);
         assertEquals("501", firstNote.getAttribute("id"));
         assertTrue(firstNote.isMap());
         assertFalse(firstNote.isList());
 
-        Map<Object, AttributedConfigurationNode> properties = firstNote.getChildrenMap();
+        final Map<Object, AttributedConfigurationNode> properties = firstNote.getChildrenMap();
         assertEquals("Tove", properties.get("to").getValue());
         assertEquals("Jani", properties.get("from").getValue());
         assertEquals("Don't forget me this weekend!", properties.get("body").getValue());
         assertEquals("heading", properties.get("heading").getTagName());
 
-        AttributedConfigurationNode secondNode = notes.get(1);
+        final AttributedConfigurationNode secondNode = notes.get(1);
         assertEquals("502", secondNode.getAttribute("id"));
         assertFalse(secondNode.isMap());
         assertTrue(secondNode.isList());
 
-        List<AttributedConfigurationNode> subNodes = secondNode.getChildrenList();
+        final List<AttributedConfigurationNode> subNodes = secondNode.getChildrenList();
         for (AttributedConfigurationNode subNode : subNodes) {
             if (subNode.getTagName().equals("heading")) {
                 assertEquals("true", subNode.getAttribute("bold"));
@@ -93,29 +93,29 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    public void testExplicitTypes(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/example2.xml");
+    public void testExplicitTypes(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/example2.xml");
         final Path saveTest = tempDir.resolve("text2.txt");
 
-        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
+        final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setWriteExplicitType(true)
                 .setIncludeXmlDeclaration(false)
                 .setIndent(4)
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
 
-        AttributedConfigurationNode node = loader.load();
+        final AttributedConfigurationNode node = loader.load();
 
-        AttributedConfigurationNode list1 = node.getNode("list1");
+        final AttributedConfigurationNode list1 = node.getNode("list1");
         assertTrue(list1.isList());
 
-        AttributedConfigurationNode list2 = node.getNode("list2");
+        final AttributedConfigurationNode list2 = node.getNode("list2");
         assertTrue(list2.isList());
 
-        AttributedConfigurationNode map1 = node.getNode("map1");
+        final AttributedConfigurationNode map1 = node.getNode("map1");
         assertTrue(map1.isMap());
 
-        AttributedConfigurationNode map2 = node.getNode("map2");
+        final AttributedConfigurationNode map2 = node.getNode("map2");
         assertTrue(map2.isMap());
 
         // roundtrip!
@@ -124,18 +124,18 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    public void testComments(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/example3.xml");
+    public void testComments(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/example3.xml");
         final Path saveTest = tempDir.resolve("text3.txt");
 
-        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
+        final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setWriteExplicitType(true)
                 .setIncludeXmlDeclaration(true)
                 .setIndent(4)
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
 
-        AttributedConfigurationNode node = loader.createEmptyNode(
+        final AttributedConfigurationNode node = loader.createEmptyNode(
                 loader.getDefaultOptions().withHeader("test header\ndo multiple lines work\nyes they do!!")
         ).setTagName("test");
 
@@ -147,19 +147,20 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    public void testCommentsRoundtrip(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL original = getClass().getResource("/example3.xml");
+    public void testCommentsRoundtrip(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL original = getClass().getResource("/example3.xml");
         final Path destination = tempDir.resolve("test3-roundtrip.xml");
 
-        XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
+        final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
                 .setIndent(4)
                 .setSource(() -> new BufferedReader(new InputStreamReader(original.openStream(), UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(destination, UTF_8))
                 .build();
 
-        AttributedConfigurationNode node = loader.load();
+        final AttributedConfigurationNode node = loader.load();
         loader.save(node);
 
         assertEquals(Resources.readLines(original, UTF_8), Files.readAllLines(destination, UTF_8));
     }
+
 }

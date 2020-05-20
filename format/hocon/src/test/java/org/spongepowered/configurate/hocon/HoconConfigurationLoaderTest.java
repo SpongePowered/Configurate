@@ -16,6 +16,9 @@
  */
 package org.spongepowered.configurate.hocon;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertLinesMatch;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
@@ -44,9 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertLinesMatch;
-
 /**
  * Basic sanity checks for the loader
  */
@@ -54,18 +54,18 @@ import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 public class HoconConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/example.conf");
+    public void testSimpleLoading(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, StandardCharsets.UTF_8)).build();
-        CommentedConfigurationNode node = loader.load();
+        final CommentedConfigurationNode node = loader.load();
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
-        CommentedConfigurationNode testNode = node.getNode("test");
-        assertEquals(" Test node", testNode.getComment().orElse(null));
+        final CommentedConfigurationNode testNode = node.getNode("test");
+        assertEquals(" Test node", testNode.getComment());
         assertEquals("dog park", node.getNode("other", "location").getValue());
         loader.save(node);
         assertEquals(Resources.readLines(getClass().getResource("/roundtrip-test.conf"), StandardCharsets.UTF_8), Files
@@ -73,41 +73,43 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testSplitLineCommentInput(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testSplitLineCommentInput(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text2.txt");
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
-                .setURL(getClass().getResource("/splitline-comment-input.conf"))
+                .setUrl(getClass().getResource("/splitline-comment-input.conf"))
                 .build();
-        CommentedConfigurationNode node = loader.load();
+        final CommentedConfigurationNode node = loader.load();
         loader.save(node);
 
-        assertEquals(Resources.readLines(getClass().getResource("/splitline-comment-output.conf"), StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
+        assertEquals(Resources.readLines(getClass().getResource("/splitline-comment-output.conf"), StandardCharsets.UTF_8),
+                Files.readAllLines(saveTo, StandardCharsets.UTF_8));
     }
 
     @Test
-    public void testHeaderSaved(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testHeaderSaved(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text3.txt");
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .build();
-        CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n" +
-                        "Look at meeeeeee!!!"));
+        final CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n"
+                        + "Look at meeeeeee!!!"));
         node.getNode("node").setComment("I have a comment").getNode("party").setValue("now");
 
         loader.save(node);
-        assertEquals(Resources.readLines(getClass().getResource("/header.conf"), StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
+        assertEquals(Resources.readLines(getClass().getResource("/header.conf"), StandardCharsets.UTF_8),
+                Files.readAllLines(saveTo, StandardCharsets.UTF_8));
 
     }
 
     @Test
-    public void testBooleansNotShared(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/comments-test.conf");
+    public void testBooleansNotShared(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(saveTo).setURL(url).build();
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setPath(saveTo).setUrl(url).build();
 
-        CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults());
+        final CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults());
         node.getNode("test", "third").setValue(false).setComment("really?");
         node.getNode("test", "apple").setComment("fruit").setValue(false);
         node.getNode("test", "donut").setValue(true).setComment("tasty");
@@ -119,27 +121,27 @@ public class HoconConfigurationLoaderTest {
 
     @Test
     public void testNewConfigObject() {
-        Map<String, ConfigValue> entries = ImmutableMap.of("a", ConfigValueFactory.fromAnyRef("hi"), "b", ConfigValueFactory.fromAnyRef("bye"));
+        final Map<String, ConfigValue> entries = ImmutableMap.of("a", ConfigValueFactory.fromAnyRef("hi"), "b", ConfigValueFactory.fromAnyRef("bye"));
         HoconConfigurationLoader.newConfigObject(entries);
     }
 
     @Test
     public void testNewConfigList() {
-        List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
+        final List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
         HoconConfigurationLoader.newConfigList(entries);
     }
 
     @Test
-    public void testRoundtripAndMergeEmpty(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testRoundtripAndMergeEmpty(final @TempDirectory.TempDir Path tempDir) throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/44
         final URL rsrc = getClass().getResource("/empty-values.conf");
         final Path output = tempDir.resolve("load-merge-empty.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(output)
-                .setURL(rsrc).build();
+                .setUrl(rsrc).build();
 
-        CommentedConfigurationNode source = loader.load();
-        CommentedConfigurationNode destination = loader.createEmptyNode();
+        final CommentedConfigurationNode source = loader.load();
+        final CommentedConfigurationNode destination = loader.createEmptyNode();
         destination.mergeValuesFrom(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
@@ -160,18 +162,19 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testCreateEmptyObjectmappingSection(@TempDirectory.TempDir Path tempDir) throws IOException, ObjectMappingException {
+    public void testCreateEmptyObjectmappingSection(final @TempDirectory.TempDir Path tempDir) throws IOException, ObjectMappingException {
         // https://github.com/SpongePowered/Configurate/issues/40
         final URL rsrc = getClass().getResource("/empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setDefaultOptions(o -> o.withShouldCopyDefaults(true))
                 .setPath(output)
-                .setURL(rsrc).build();
+                .setUrl(rsrc).build();
 
-        CommentedConfigurationNode source = loader.createEmptyNode();
+        final CommentedConfigurationNode source = loader.createEmptyNode();
         ObjectMapper.forType(OuterConfig.TYPE).bindToNew().populate(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }
+
 }

@@ -16,12 +16,13 @@
  */
 package org.spongepowered.configurate;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Test;
+
 public class AttributedConfigurationNodeTest {
+
     @Test
     public void testIsEmptyIncludesAttributes() {
         final AttributedConfigurationNode node = AttributedConfigurationNode.root();
@@ -37,9 +38,10 @@ public class AttributedConfigurationNodeTest {
     public void testSettingAttributeAttaches() {
         final AttributedConfigurationNode node = AttributedConfigurationNode.root();
 
-        AttributedConfigurationNode child = node.getNode("yoink");
+        final AttributedConfigurationNode child = node.getNode("yoink");
         assertTrue(child.isVirtual());
         child.addAttribute("cheese", "cake");
         assertFalse(child.isVirtual());
     }
+
 }

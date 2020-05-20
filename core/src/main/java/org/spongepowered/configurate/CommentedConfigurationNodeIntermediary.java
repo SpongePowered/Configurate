@@ -19,36 +19,37 @@ package org.spongepowered.configurate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Optional;
-
 public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfigurationNodeIntermediary<N>> extends ScopedConfigurationNode<N> {
+
     /**
      * Gets the current value for the comment.
      *
-     * <p>If the comment contains multiple lines, the lines will be split by \n</p>
+     * <p>If the comment contains multiple lines, the lines will be split
+     * by \n</p>
      *
      * @return The configuration's current comment
      */
-    @NonNull
-    Optional<String> getComment();
+    @Nullable String getComment();
 
     /**
      * Sets the comment for this configuration node.
      *
-     * @param comment The comment to set. Line breaks should be represented as LFs (\n)
+     * @param comment The comment to set. Line breaks should be represented as
+     *                LFs (\n)
      * @return this
      */
-    @NonNull
-    N setComment(@Nullable String comment);
+    @NonNull N setComment(@Nullable String comment);
 
     /**
      * Set a comment on this node if it does not presently have a comment.
      *
-     * The provided comment must not be null, because setting a null comment would be a no-op
+     * <p>The provided comment must not be null, because setting a null comment
+     * would be a no-op</p>
      *
-     * @param comment The comment to set. Line breaks should be represented as LFs (\n)
+     * @param comment The comment to set. Line breaks should be represented as
+     *                LFs (\n)
      * @return this
      */
-    @NonNull
-    N setCommentIfAbsent(String comment);
+    @NonNull N setCommentIfAbsent(String comment);
+
 }

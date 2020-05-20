@@ -17,12 +17,12 @@
 /**
  * Core node data structures and supports
  *
- * At the core of Configurate are nodes.
- * We have 3 variants to work with:
+ * <p>At the core of Configurate are nodes. We have 3 variants to work with:
  * <ul>
  *     <li><code>BasicConfigurationNode</code> for a standard node</li>
  *     <li>{@link org.spongepowered.configurate.CommentedConfigurationNode} for configurations that can have attached comments</li>
- *     <li>{@link org.spongepowered.configurate.AttributedConfigurationNode} for configuration structures that have attributes on each node, like XML</li>
+ *     <li>{@link org.spongepowered.configurate.AttributedConfigurationNode} for configuration structures that have attributes on each node,
+ *     like XML</li>
  * </ul>
  */
 @DefaultQualifier(NonNull.class)

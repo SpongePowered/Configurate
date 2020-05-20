@@ -29,24 +29,26 @@ import java.nio.file.WatchEvent;
 import java.util.concurrent.Executor;
 
 /**
- * A reference to a configuration node, that may or may not be updating
+ * A reference to a configuration node, that may or may not be updating.
  */
-class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>> extends ManualConfigurationReference<N> implements Subscriber<WatchEvent<?>> {
+class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
+        extends ManualConfigurationReference<N> implements Subscriber<WatchEvent<?>> {
+
     private volatile boolean saveSuppressed = false;
     private @MonotonicNonNull Disposable disposable;
 
-    WatchingConfigurationReference(ConfigurationLoader<? extends N> loader, Executor taskExecutor) {
+    WatchingConfigurationReference(final ConfigurationLoader<? extends N> loader, final Executor taskExecutor) {
         super(loader, taskExecutor);
     }
 
     @Override
-    public void save(N newNode) throws IOException {
+    public void save(final N newNode) throws IOException {
         synchronized (getLoader()) {
             try {
-                saveSuppressed = true;
+                this.saveSuppressed = true;
                 super.save(newNode);
             } finally {
-                saveSuppressed = false;
+                this.saveSuppressed = false;
             }
         }
     }
@@ -54,25 +56,25 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>> exten
     @Override
     public void close() {
         super.close();
-        if (disposable != null) {
-            disposable.dispose();
+        if (this.disposable != null) {
+            this.disposable.dispose();
         }
     }
 
     @Override
-    public void submit(WatchEvent<?> item) {
-        if (!saveSuppressed || item.kind() == StandardWatchEventKinds.ENTRY_MODIFY) {
+    public void submit(final WatchEvent<?> item) {
+        if (!this.saveSuppressed || item.kind() == StandardWatchEventKinds.ENTRY_MODIFY) {
             try {
                 load();
-            } catch (Exception e) {
-                errorListener.submit(Maps.immutableEntry(ErrorPhase.LOADING, e));
+            } catch (final Exception e) {
+                this.errorListener.submit(Maps.immutableEntry(ErrorPhase.LOADING, e));
             }
         }
     }
 
     @Override
-    public void onError(Throwable e) {
-        errorListener.submit(Maps.immutableEntry(ErrorPhase.UNKNOWN, e));
+    public void onError(final Throwable e) {
+        this.errorListener.submit(Maps.immutableEntry(ErrorPhase.UNKNOWN, e));
     }
 
     @Override
@@ -80,7 +82,8 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>> exten
         close();
     }
 
-    void setDisposable(Disposable disposable) {
+    void setDisposable(final Disposable disposable) {
         this.disposable = disposable;
     }
+
 }

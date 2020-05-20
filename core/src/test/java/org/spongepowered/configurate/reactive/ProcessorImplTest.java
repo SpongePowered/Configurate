@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate.reactive;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 public class ProcessorImplTest {
 
@@ -36,7 +36,7 @@ public class ProcessorImplTest {
     @Test
     public void testSubmission() {
         final String[] result = new String[1];
-        Processor.Iso<String> proc = create();
+        final Processor.Iso<String> proc = create();
         proc.subscribe(item -> {
             result[0] = item;
         });
@@ -48,10 +48,10 @@ public class ProcessorImplTest {
     public void testUnsubscribe() {
         final String[] result = new String[1];
         final boolean[] closed = new boolean[1];
-        Processor.Iso<String> proc = create();
-        Disposable disp = proc.subscribe(new Subscriber<String>() {
+        final Processor.Iso<String> proc = create();
+        final Disposable disp = proc.subscribe(new Subscriber<String>() {
             @Override
-            public void submit(String item) {
+            public void submit(final String item) {
                 result[0] = item;
             }
 
@@ -70,10 +70,10 @@ public class ProcessorImplTest {
     @Test
     public void testClose() {
         final boolean[] result = new boolean[1];
-        Processor.Iso<String> proc = create();
+        final Processor.Iso<String> proc = create();
         proc.subscribe(new Subscriber<String>() {
             @Override
-            public void submit(String item) {
+            public void submit(final String item) {
                 // no-op -- we are only testing closing
             }
 
@@ -90,9 +90,9 @@ public class ProcessorImplTest {
 
     @Test
     public void testCloseIfUnsubscribed() {
-        Processor.Iso<Boolean> proc = create();
+        final Processor.Iso<Boolean> proc = create();
 
-        Disposable disp = proc.subscribe(x -> {});
+        final Disposable disp = proc.subscribe(x -> {});
         assertFalse(proc.closeIfUnsubscribed());
         disp.dispose();
         assertTrue(proc.closeIfUnsubscribed());
@@ -104,8 +104,8 @@ public class ProcessorImplTest {
     @Test
     public void testMap() {
         final String[] items = new String[2];
-        Processor.Iso<String> orig = create();
-        Publisher<String> mapped = orig.map(x -> "2" + x);
+        final Processor.Iso<String> orig = create();
+        final Publisher<String> mapped = orig.map(x -> "2" + x);
         orig.subscribe(item -> items[0] = item);
         mapped.subscribe(item -> items[1] = item);
         orig.submit("Fast");
@@ -117,7 +117,7 @@ public class ProcessorImplTest {
     @Test
     public void testErrorCloses() {
         final int[] callCount = new int[1];
-        Processor.Iso<String> subject = create();
+        final Processor.Iso<String> subject = create();
         final RuntimeException testExc = new RuntimeException();
 
         subject.subscribe(new Subscriber<String>() {
@@ -146,8 +146,8 @@ public class ProcessorImplTest {
     @Test
     public void testMappedUnsubscribedOnEmpty() {
         final String[] items = new String[2];
-        Processor.Iso<String> orig = create();
-        Publisher<String> mapped = orig.map(x -> "2" + x);
+        final Processor.Iso<String> orig = create();
+        final Publisher<String> mapped = orig.map(x -> "2" + x);
 
         // initial state of unsubscribed
         assertFalse(orig.hasSubscribers());
@@ -165,7 +165,7 @@ public class ProcessorImplTest {
         assertTrue(orig.hasSubscribers());
 
         // only last subscriber should trigger mapping to unsubscribe
-        Disposable disp2 = mapped.subscribe(it -> items[1] = it);
+        final Disposable disp2 = mapped.subscribe(it -> items[1] = it);
         disp.dispose();
         assertTrue(orig.hasSubscribers());
 
@@ -175,14 +175,14 @@ public class ProcessorImplTest {
 
     @Test
     public void testFallbackHandler() {
-        Processor.Iso<String> handler = create();
+        final Processor.Iso<String> handler = create();
         final String[] values = new String[2];
 
         handler.setFallbackHandler(val -> values[0] = val);
         handler.submit("Hello");
         assertEquals("Hello", values[0]);
 
-        Disposable disp = handler.subscribe(val -> values[1] = val);
+        final Disposable disp = handler.subscribe(val -> values[1] = val);
         handler.submit("World");
         assertEquals("Hello", values[0]);
         assertEquals("World", values[1]);
@@ -192,4 +192,5 @@ public class ProcessorImplTest {
         assertEquals("Goodbye", values[0]);
         assertEquals("World", values[1]);
     }
+
 }

@@ -26,23 +26,26 @@ import java.util.concurrent.Executor;
 /**
  * Implementation of a caching publisher
  *
- * All subscriptions are handled by the parent publisher, so transactional and non-transactional subscribers can be handled appropriately by the parent publisher.
- * @param <V>
+ * <p>All subscriptions are handled by the parent publisher, so transactional
+ * and non-transactional subscribers can be handled appropriately by the
+ * parent publisher.
+ *
+ * @param <V> Value type
  */
 class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
+
     private final Publisher<V> parent;
     private final Set<Subscriber<? super V>> subscribers = ConcurrentHashMap.newKeySet();
     private volatile @MonotonicNonNull V value;
     private final Disposable closer;
 
-    public CachedPublisher(Publisher<V> parent, @Nullable V initialValue) {
+    CachedPublisher(final Publisher<V> parent, final @Nullable V initialValue) {
         this.parent = parent;
         this.value = initialValue;
-        closer = this.parent.subscribe(value -> {
+        this.closer = this.parent.subscribe(value -> {
             this.value = value;
         });
     }
-
 
     @Override
     public Disposable subscribe(final Subscriber<? super V> subscriber) {
@@ -73,7 +76,7 @@ class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
     }
 
     @Override
-    public Cached<V> cache(@Nullable V initialValue) {
+    public Cached<V> cache(final @Nullable V initialValue) {
         if (this.value == null) {
             this.value = initialValue;
         }
@@ -91,13 +94,14 @@ class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
     }
 
     @Override
-    public void submit(V value) {
+    public void submit(final V value) {
         this.value = value;
         this.subscribers.forEach(it -> it.submit(value));
     }
 
     @Override
     public void close() {
-        closer.dispose();
+        this.closer.dispose();
     }
+
 }

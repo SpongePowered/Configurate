@@ -17,17 +17,20 @@
 package org.spongepowered.configurate.reactive;
 
 /**
- * A subscriber that is transaction-aware. As opposed to standard Subscribers which receive simple value events,
- * transactional subscribers receive a series of events: first, a {@code beginTransaction}, followed by a {@code commit}
+ * A subscriber that is transaction-aware. As opposed to standard Subscribers
+ * which receive simple value events, transactional subscribers receive a series
+ * of events: first, a {@code beginTransaction}, followed by a {@code commit}
  * or {@code rollback}.
- * <p>
- * A transactional subscriber will only be fully effective when controlled by a {@link Processor.Transactional
- * transaction-aware publisher}. A transaction-aware publisher will roll back all subscribers if the transaction fails
- * on any one subscriber, where a standard publisher will not.
+ *
+ * <p>A transactional subscriber will only be fully effective when controlled by
+ * a {@link Processor.Transactional transaction-aware processor}. A
+ * transaction-aware processor will roll back all subscribers if the transaction
+ * fails on any one subscriber, where a standard publisher will not.
  *
  * @param <V> The value handled by this subscriber
  */
 public interface TransactionalSubscriber<V> extends Subscriber<V> {
+
     @Override
     default void submit(V item) {
         try {
@@ -42,8 +45,9 @@ public interface TransactionalSubscriber<V> extends Subscriber<V> {
     }
 
     /**
-     * Receive a new value, and validate it. The received value must not be made available outside of to other
-     * transaction-aware viewers until {@link #commit()} has been called.
+     * Receive a new value, and validate it. The received value must not be made
+     * available outside of to other transaction-aware viewers until
+     * {@link #commit()} has been called.
      *
      * @param newValue The new value
      * @throws TransactionFailedException if the new value does not validate
@@ -51,18 +55,21 @@ public interface TransactionalSubscriber<V> extends Subscriber<V> {
     void beginTransaction(V newValue) throws TransactionFailedException;
 
     /**
-     * Expose a transaction's result
-     * <p>
-     * This method will be called on all transactional subscribers in a system have received and validated any new data.
-     * Calling this method when a transaction is not in progress should result in a noop.
+     * Expose a transaction's result.
+     *
+     * <p>This method will be called on all transactional subscribers in a
+     * system have received and validated any new data. Calling this method when
+     * a transaction is not in progress should result in a noop.
      */
     void commit();
 
     /**
-     * Called when a transaction has failed, to revert any prepared changes
-     * <p>
-     * This event indicates that it is safe for clients to discard any prepared information from an in-progress
-     * transaction. If there is no transaction in progress, this must be a no-op.
+     * Called when a transaction has failed, to revert any prepared changes.
+     *
+     * <p>This event indicates that it is safe for clients to discard any
+     * prepared information from an in-progress transaction. If there is no
+     * transaction in progress, this must be a no-op.
      */
     void rollback();
+
 }

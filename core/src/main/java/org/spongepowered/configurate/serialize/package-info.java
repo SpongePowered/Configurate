@@ -15,9 +15,15 @@
  * limitations under the License.
  */
 /**
- * Type serializer mechanisms and the standard type serializers shipped with Configurate
+ * Type serializer mechanisms and the standard type serializers
+ * shipped with Configurate.
  *
- * Type serializers are registered and queried using {@link org.spongepowered.configurate.serialize.TypeSerializerCollection}. For scalar serializers (those that take a scalar configuration value only), the {@link org.spongepowered.configurate.serialize.ScalarSerializer} class provides many common behaviours. Core scalar serializers are included in the {@link org.spongepowered.configurate.serialize.Scalars} interface.
+ * <p>Type serializers are registered and queried using
+ * {@link org.spongepowered.configurate.serialize.TypeSerializerCollection}. For
+ * scalar serializers (those that take a scalar configuration value only), the
+ * {@link org.spongepowered.configurate.serialize.ScalarSerializer} class
+ * provides many common behaviours. Core scalar serializers are included in
+ * the {@link org.spongepowered.configurate.serialize.Scalars} interface.
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.serialize;

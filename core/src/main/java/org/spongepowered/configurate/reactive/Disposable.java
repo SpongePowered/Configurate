@@ -17,14 +17,14 @@
 package org.spongepowered.configurate.reactive;
 
 /**
- * A representation of something that requires resources
- *
- * A Disposable
+ * A representation of something that requires resources.
  */
 @FunctionalInterface
 public interface Disposable {
+
     /**
      * Clean up and remove any references to resources used by this object.
      */
     void dispose();
+
 }

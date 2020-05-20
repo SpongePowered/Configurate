@@ -30,15 +30,16 @@ import java.util.concurrent.ConcurrentMap;
  * A {@link ConfigValue} which holds a map of values.
  */
 class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> extends ConfigValue<N, A> {
+
     volatile Map<Object, A> values;
 
-    public MapConfigValue(A holder) {
+    MapConfigValue(final A holder) {
         super(holder);
-        values = newMap();
+        this.values = newMap();
     }
 
     private Map<Object, A> newMap() {
-        Map<Object, A> ret = holder.getOptions().getMapFactory().create();
+        final Map<Object, A> ret = this.holder.getOptions().getMapFactory().create();
         if (!(ret instanceof ConcurrentMap)) {
             return Collections.synchronizedMap(ret);
         } else {
@@ -49,34 +50,34 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
     @Nullable
     @Override
     public Object getValue() {
-        Map<Object, Object> value = new LinkedHashMap<>();
-        for (Map.Entry<Object, A> ent : values.entrySet()) {
+        final Map<Object, Object> value = new LinkedHashMap<>();
+        for (Map.Entry<Object, A> ent : this.values.entrySet()) {
             value.put(ent.getKey(), ent.getValue().getValue()); // unwrap key from the backing node
         }
         return value;
     }
 
     public Map<Object, N> getUnwrapped() {
-        ImmutableMap.Builder<Object, N> build = ImmutableMap.builderWithExpectedSize(values.size());
-        values.forEach((k, v) -> build.put(k, v.self()));
+        final ImmutableMap.Builder<Object, N> build = ImmutableMap.builderWithExpectedSize(this.values.size());
+        this.values.forEach((k, v) -> build.put(k, v.self()));
         return build.build();
     }
 
     @Override
-    public void setValue(@Nullable Object value) {
+    public void setValue(final @Nullable Object value) {
         if (value instanceof Map) {
             final Map<Object, A> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
                 if (ent.getValue() == null) {
                     continue;
                 }
-                A child = holder.createNode(ent.getKey());
+                final A child = this.holder.createNode(ent.getKey());
                 newValue.put(ent.getKey(), child);
                 child.attached = true;
                 child.setValue(ent.getValue());
             }
             synchronized (this) {
-                Map<Object, A> oldMap = this.values;
+                final Map<Object, A> oldMap = this.values;
                 this.values = newValue;
                 detachChildren(oldMap);
             }
@@ -87,40 +88,40 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
 
     @Nullable
     @Override
-    A putChild(@NonNull Object key, @Nullable A value) {
+    A putChild(final @NonNull Object key, final @Nullable A value) {
         if (value == null) {
-            return values.remove(key);
+            return this.values.remove(key);
         } else {
-            return values.put(key, value);
+            return this.values.put(key, value);
         }
     }
 
     @Nullable
     @Override
-    A putChildIfAbsent(@NonNull Object key, @Nullable A value) {
+    A putChildIfAbsent(final @NonNull Object key, final @Nullable A value) {
         if (value == null) {
-            return values.remove(key);
+            return this.values.remove(key);
         } else {
-            return values.putIfAbsent(key, value);
+            return this.values.putIfAbsent(key, value);
         }
     }
 
     @Nullable
     @Override
-    public A getChild(@Nullable Object key) {
-        return values.get(key);
+    public A getChild(final @Nullable Object key) {
+        return this.values.get(key);
     }
 
     @NonNull
     @Override
     public Iterable<A> iterateChildren() {
-        return values.values();
+        return this.values.values();
     }
 
     @NonNull
     @Override
-    MapConfigValue<N, A> copy(@NonNull A holder) {
-        MapConfigValue<N, A> copy = new MapConfigValue<>(holder);
+    MapConfigValue<N, A> copy(final @NonNull A holder) {
+        final MapConfigValue<N, A> copy = new MapConfigValue<>(holder);
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
             copy.values.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy
         }
@@ -129,10 +130,10 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
 
     @Override
     boolean isEmpty() {
-        return values.isEmpty();
+        return this.values.isEmpty();
     }
 
-    private static void detachChildren(Map<Object, ? extends AbstractConfigurationNode<?, ?>> map) {
+    private static void detachChildren(final Map<Object, ? extends AbstractConfigurationNode<?, ?>> map) {
         for (AbstractConfigurationNode<?, ?> value : map.values()) {
             value.attached = false;
             value.clear();
@@ -142,31 +143,32 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
     @Override
     public void clear() {
         synchronized (this) {
-            Map<Object, A> oldMap = this.values;
+            final Map<Object, A> oldMap = this.values;
             this.values = newMap();
             detachChildren(oldMap);
         }
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        MapConfigValue<?, ?> that = (MapConfigValue<?, ?>) o;
-        return Objects.equals(values, that.values);
+        final MapConfigValue<?, ?> that = (MapConfigValue<?, ?>) o;
+        return Objects.equals(this.values, that.values);
     }
 
     @Override
     public int hashCode() {
-        return values.hashCode();
+        return this.values.hashCode();
     }
 
     @Override
     public String toString() {
         return "MapConfigValue{values=" + this.values + '}';
     }
+
 }

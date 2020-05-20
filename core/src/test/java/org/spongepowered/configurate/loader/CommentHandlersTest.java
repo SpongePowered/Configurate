@@ -16,6 +16,10 @@
  */
 package org.spongepowered.configurate.loader;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import com.google.common.base.Joiner;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
@@ -29,32 +33,27 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(TempDirectory.class)
 public class CommentHandlersTest {
 
     @Test
     public void testExtractBlockCommentHeader() throws IOException {
-        final String testDocument = "/*\n" +
-                " * First header line\n" +
-                " * more header\n" +
-                " * even more header\n" +
-                " */";
+        final String testDocument = "/*\n"
+                + " * First header line\n"
+                + " * more header\n"
+                + " * even more header\n"
+                + " */";
 
-        Optional<String> head = CommentHandlers.SLASH_BLOCK.extractHeader(new BufferedReader(new StringReader(testDocument)));
-        assertTrue(head.isPresent());
-        assertEquals("First header line\n" +
-                "more header\n" +
-                "even more header", head.get());
+        final @Nullable String head = CommentHandlers.SLASH_BLOCK.extractHeader(new BufferedReader(new StringReader(testDocument)));
+        assertNotNull(head);
+        assertEquals("First header line\n"
+                + "more header\n"
+                + "even more header", head);
 
         assertEquals(testDocument, Joiner.on('\n').join(CommentHandlers.SLASH_BLOCK.toComment(AbstractConfigurationLoader
                 .LINE_SPLITTER
-                .splitToList(head.get()))));
+                .splitToList(head))));
 
     }
 
@@ -62,35 +61,36 @@ public class CommentHandlersTest {
     public void testExtractSingleLineBlockComment() throws IOException {
         final String testDocument = "/* single line */\n";
         try (BufferedReader read = new BufferedReader(new StringReader(testDocument))) {
-            Optional<String> head = CommentHandlers.SLASH_BLOCK.extractHeader(read);
-            assertTrue(head.isPresent());
-            assertEquals("single line", head.get());
+            final @Nullable String head = CommentHandlers.SLASH_BLOCK.extractHeader(read);
+            assertNotNull(head);
+            assertEquals("single line", head);
         }
     }
 
     @Test
     public void testExtractLineCommentHeader() throws IOException {
-        final String testDocument = "# First header line\n" +
-                "# more header\n" +
-                "# even more header";
+        final String testDocument = "# First header line\n"
+                + "# more header\n"
+                + "# even more header";
 
-        Optional<String> head = CommentHandlers.HASH.extractHeader(new BufferedReader(new StringReader(testDocument)));
-        assertTrue(head.isPresent());
-        assertEquals("First header line\n" +
-                "more header\n" +
-                "even more header", head.get());
+        final @Nullable String head = CommentHandlers.HASH.extractHeader(new BufferedReader(new StringReader(testDocument)));
+        assertNotNull(head);
+        assertEquals("First header line\n"
+                + "more header\n"
+                + "even more header", head);
 
     }
 
     /**
-     * This test needs to have a line longer than the JDK's BufferedReader's default buffer length of 8192 in order to
-     * trigger a mark being invalidated
+     * This test needs to have a line longer than the JDK's BufferedReader's
+     * default buffer length of 8192 in order to trigger a mark
+     * being invalidated.
      *
      * @param tempDir temp directory to work in
      * @throws IOException not expected within test
      */
     @Test
-    public void testExtremelyLongLine(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testExtremelyLongLine(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path testFile = tempDir.resolve("test.json");
         try (BufferedWriter w = Files.newBufferedWriter(testFile, StandardCharsets.UTF_8)) {
             w.write("{test\": \"");
@@ -101,8 +101,9 @@ public class CommentHandlersTest {
         }
 
         try (BufferedReader r = Files.newBufferedReader(testFile, StandardCharsets.UTF_8)) {
-            @Nullable String comment = CommentHandlers.extractComment(r, CommentHandlers.HASH, CommentHandlers.SLASH_BLOCK);
+            final @Nullable String comment = CommentHandlers.extractComment(r, CommentHandlers.HASH, CommentHandlers.SLASH_BLOCK);
             assertNull(comment);
         }
     }
+
 }

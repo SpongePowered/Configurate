@@ -25,24 +25,28 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Serialize a value that can be represented as a scalar value within a node. Implementations must be able
- * to serialize when one of the accepted types is a {@link String}, and may support any other types as desired.
- * <p>
- * When serializing to a node, null values will be passed through directly. If the type serialized by this serializer is
- * one of the native types of the backing node, it will be written directly to the node without any transformation.
- * <p>
- * Any serialized value must be deserializable by the same serializer..
+ * Serialize a value that can be represented as a scalar value within a node.
+ * Implementations must be able to serialize when one of the accepted types is
+ * a {@link String}, and may support any other types as desired.
+ *
+ * <p>When serializing to a node, null values will be passed through directly.
+ * If the type serialized by this serializer is one of the native types of the
+ * backing node, it will be written directly to the node without
+ * any transformation.
+ *
+ * <p>Any serialized value must be deserializable by the same serializer.
  *
  * @param <T> The object type to serialize
  */
 public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
+
     private final TypeToken<T> type;
 
-    protected ScalarSerializer(TypeToken<T> type) {
+    protected ScalarSerializer(final TypeToken<T> type) {
         this.type = type.wrap();
     }
 
-    protected ScalarSerializer(Class<T> type) {
+    protected ScalarSerializer(final Class<T> type) {
         if (type.getTypeParameters().length > 0) {
             throw new IllegalArgumentException("Provided type " + type + " has type parameters but was not provided as a TypeToken!");
         }
@@ -50,7 +54,8 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     /**
-     * Get the general type token applicable for this serializer. This token may be parameterized.
+     * Get the general type token applicable for this serializer. This token may
+     * be parameterized.
      *
      * @return The type token for this serializer
      */
@@ -59,10 +64,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public final <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(TypeToken<?> type, N node) throws ObjectMappingException {
+    public final <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(TypeToken<?> type, final N node) throws ObjectMappingException {
         N deserializeFrom = node;
         if (node.isList()) {
-            List<N> children = node.getChildrenList();
+            final List<N> children = node.getChildrenList();
             if (children.size() == 1) {
                 deserializeFrom = children.get(0);
             }
@@ -72,13 +77,13 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("Value must be provided as a scalar!");
         }
 
-        @Nullable Object value = deserializeFrom.getValue();
+        final @Nullable Object value = deserializeFrom.getValue();
         if (value == null) {
             return null;
         }
 
         type = type.wrap(); // every primitive type should be boxed (cuz generics!)
-        @Nullable T possible = cast(value);
+        final @Nullable T possible = cast(value);
         if (possible != null) {
             return possible;
         }
@@ -86,8 +91,39 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
         return deserialize(type, value);
     }
 
+    /**
+     * Attempt to deserialize the provided object using an unspecialized type.
+     * This may fail on more complicated deserialization processes such as with
+     * enum types.
+     *
+     * @param value The object to deserialize.
+     * @return The deserialized object, if possible
+     * @throws ObjectMappingException If unable to coerce the value to the
+     *                                requested type.
+     */
+    public final T deserialize(final Object value) throws ObjectMappingException {
+        final @Nullable T possible = cast(value);
+        if (possible != null) {
+            return possible;
+        }
+
+        return this.deserialize(this.type(), value);
+    }
+
+    /**
+     * Given an object of unknown type, attempt to convert it into the given
+     * type.
+     *
+     * @param type The specific type of the type's usage
+     * @param obj  The object to convert
+     * @return A converted object
+     * @throws ObjectMappingException If the object could not be converted for
+     *                                any reason
+     */
+    public abstract T deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException;
+
     @Override
-    public final <N extends ScopedConfigurationNode<N>> void serialize(TypeToken<?> type, @Nullable T obj, N node) {
+    public final <N extends ScopedConfigurationNode<N>> void serialize(final TypeToken<?> type, final @Nullable T obj, final N node) {
         if (obj == null) {
             node.setValue(null);
             return;
@@ -102,42 +138,19 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     /**
-     * Given an object of unknown type, attempt to convert it into the given type.
+     * Serialize the provided value to a supported type, testing against the
+     * provided predicate.
      *
-     * @param type The specific type of the type's usage
-     * @param obj  The object to convert
-     * @return A converted object
-     * @throws ObjectMappingException If the object could not be converted for any reason
-     */
-    public abstract T deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException;
-
-    /**
-     * @param item          The value to serialize
-     * @param typeSupported A predicate to allow choosing which types are supported
+     * @param item The value to serialize
+     * @param typeSupported A predicate to allow choosing which types are
+     *                      supported
      * @return A serialized form of this object
      */
-    public abstract Object serialize(T item, Predicate<Class<?>> typeSupported);
-
-    /**
-     * Attempt to deserialize the provided object using an unspecialized type. This may fail on more complicated
-     * deserialization processes
-     *
-     * @param value The object to deserialize.
-     * @return The deserialized object, if possible
-     * @throws ObjectMappingException If unable to coerce the value to the requested type
-     */
-    public final T deserialize(Object value) throws ObjectMappingException {
-        @Nullable T possible = cast(value);
-        if (possible != null) {
-            return possible;
-        }
-
-        return this.deserialize(this.type(), value);
-    }
+    protected abstract Object serialize(T item, Predicate<Class<?>> typeSupported);
 
     @SuppressWarnings("unchecked")
-    private @Nullable T cast(Object value) {
-        Class<?> rawType = this.type().getRawType();
+    private @Nullable T cast(final Object value) {
+        final Class<?> rawType = this.type().getRawType();
         if (rawType.isInstance(value)) {
             return (T) value;
         }
@@ -145,32 +158,33 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     /**
-     * Attempt to deserialize the provided object, but rather than throwing an exception when a parse error occurs,
-     * return null instead.
+     * Attempt to deserialize the provided object, but rather than throwing an
+     * exception when a deserialization error occurs, return null instead.
      *
      * @param obj The object to try to deserialize
      * @return An instance of the appropriate type, or null
      * @see #deserialize(Object)
      */
-    public final @Nullable T tryDeserialize(@Nullable Object obj) {
+    public final @Nullable T tryDeserialize(final @Nullable Object obj) {
         if (obj == null) {
             return null;
         }
 
         try {
             return deserialize(obj);
-        } catch (ObjectMappingException ex) {
+        } catch (final ObjectMappingException ex) {
             return null;
         }
     }
 
     /**
-     * Serialize the item to a {@link String}, in a representation that can be interpreted by this serializer again
+     * Serialize the item to a {@link String}, in a representation that can be
+     * interpreted by this serializer again.
      *
      * @param item The item to serialize
      * @return The serialized form of the item
      */
-    public final String serializeToString(T item) {
+    public final String serializeToString(final T item) {
         if (item instanceof CharSequence) {
             return item.toString();
         }

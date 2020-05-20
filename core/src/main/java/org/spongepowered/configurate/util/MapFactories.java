@@ -16,9 +16,8 @@
  */
 package org.spongepowered.configurate.util;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import static java.util.Objects.requireNonNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,12 +25,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * Default implementations of {@link MapFactory}.
  */
 public final class MapFactories {
+
     private MapFactories() {}
 
     /**
@@ -49,7 +47,7 @@ public final class MapFactories {
      * @param comparator The comparator used to sort the map keys
      * @return A map factory which produces sorted maps
      */
-    public static MapFactory sorted(Comparator<Object> comparator) {
+    public static MapFactory sorted(final Comparator<Object> comparator) {
         return new SortedMapFactory(requireNonNull(comparator, "comparator"));
     }
 
@@ -96,28 +94,29 @@ public final class MapFactories {
     private static final class SortedMapFactory implements MapFactory {
         private final Comparator<Object> comparator;
 
-        private SortedMapFactory(Comparator<Object> comparator) {
+        private SortedMapFactory(final Comparator<Object> comparator) {
             this.comparator = comparator;
         }
 
         @Override
         public <K, V> ConcurrentMap<K, V> create() {
-            return new ConcurrentSkipListMap<>(comparator);
+            return new ConcurrentSkipListMap<>(this.comparator);
         }
 
         @Override
-        public boolean equals(Object obj) {
-            return obj instanceof SortedMapFactory && comparator.equals(((SortedMapFactory) obj).comparator);
+        public boolean equals(final Object obj) {
+            return obj instanceof SortedMapFactory && this.comparator.equals(((SortedMapFactory) obj).comparator);
         }
 
         @Override
         public int hashCode() {
-            return comparator.hashCode();
+            return this.comparator.hashCode();
         }
 
         @Override
         public String toString() {
-            return "SortedMapFactory{comparator=" + comparator + '}';
+            return "SortedMapFactory{comparator=" + this.comparator + '}';
         }
     }
+
 }

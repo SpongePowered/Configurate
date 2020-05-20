@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.reference;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -31,24 +33,23 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * A reference to a configuration node, that may or may not be updating
+ * A reference to a configuration node, that may or may not be updating.
  */
 class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> implements ConfigurationReference<N> {
+
     protected volatile @MonotonicNonNull N node;
     private final ConfigurationLoader<? extends N> loader;
     protected final Processor.TransactionalIso<N> updateListener;
     protected final Processor.Iso<Map.Entry<ErrorPhase, Throwable>> errorListener;
 
-    ManualConfigurationReference(ConfigurationLoader<? extends N> loader, Executor taskExecutor) {
+    ManualConfigurationReference(final ConfigurationLoader<? extends N> loader, final Executor taskExecutor) {
         this.loader = loader;
-        updateListener = Processor.createTransactional(taskExecutor);
-        errorListener = Processor.create(taskExecutor);
-        errorListener.setFallbackHandler(it -> {
-            System.out.println("Unhandled error while performing a " + it.getKey() + " for a " +
-                "configuration reference: " + it.getValue());
+        this.updateListener = Processor.createTransactional(taskExecutor);
+        this.errorListener = Processor.create(taskExecutor);
+        this.errorListener.setFallbackHandler(it -> {
+            System.err.println("Unhandled error while performing a " + it.getKey() + " for a "
+                + "configuration reference: " + it.getValue());
             it.getValue().printStackTrace();
         });
     }
@@ -56,7 +57,7 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     @Override
     public void load() throws IOException {
         synchronized (this.loader) {
-            updateListener.submit(node = loader.load());
+            this.updateListener.submit(this.node = this.loader.load());
         }
     }
 
@@ -66,27 +67,27 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public void save(N newNode) throws IOException {
+    public void save(final N newNode) throws IOException {
         synchronized (this.loader) {
-            loader.save(this.node = requireNonNull(newNode));
+            this.loader.save(this.node = requireNonNull(newNode));
         }
     }
 
     @Override
     public Publisher<N> saveAsync() {
         return Publisher.execute(() -> {
-                save();
-                return getNode();
-        }, updateListener.getExecutor());
+            save();
+            return getNode();
+        }, this.updateListener.getExecutor());
     }
 
     @Override
-    public Publisher<N> updateAsync(Function<N, ? extends N> updater) {
+    public Publisher<N> updateAsync(final Function<N, ? extends N> updater) {
         return Publisher.execute(() -> {
             final N newNode = updater.apply(getNode());
             save(newNode);
             return newNode;
-        }, updateListener.getExecutor());
+        }, this.updateListener.getExecutor());
     }
 
     @Override
@@ -100,33 +101,33 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public N get(Object... path) {
+    public N get(final Object... path) {
         return getNode().getNode(path);
     }
 
     @Override
-    public <T> ValueReference<T, N> referenceTo(TypeToken<T> type, NodePath path, @Nullable T def) throws ObjectMappingException {
+    public <T> ValueReference<T, N> referenceTo(final TypeToken<T> type, final NodePath path, final @Nullable T def) throws ObjectMappingException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 
     @Override
-    public <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path, @Nullable T def) throws ObjectMappingException {
+    public <T> ValueReference<T, N> referenceTo(final Class<T> type, final NodePath path, final @Nullable T def) throws ObjectMappingException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 
     @Override
     public Publisher<N> updates() {
-        return updateListener;
+        return this.updateListener;
     }
 
     @Override
     public Publisher<Map.Entry<ErrorPhase, Throwable>> errors() {
-        return errorListener;
+        return this.errorListener;
     }
 
     @Override
     public void close() {
-        updateListener.onClose();
+        this.updateListener.onClose();
     }
 
 }

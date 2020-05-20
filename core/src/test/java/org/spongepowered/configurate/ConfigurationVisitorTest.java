@@ -16,13 +16,15 @@
  */
 package org.spongepowered.configurate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class ConfigurationVisitorTest {
+
     private static final TestVisitor<BasicConfigurationNode> VISITOR = new TestVisitor<>();
+
     @Test
     public void testTree() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
@@ -66,7 +68,7 @@ public class ConfigurationVisitorTest {
     public void testChangingValueTypeOnEnter() {
         final ConfigurationVisitor.Safe<BasicConfigurationNode, StringBuilder, String> visitor = new TestVisitor<BasicConfigurationNode>() {
             @Override
-            public void enterListNode(BasicConfigurationNode node, StringBuilder state) {
+            public void enterListNode(final BasicConfigurationNode node, final StringBuilder state) {
                 super.enterListNode(node, state);
                 node.setValue(null);
             }
@@ -78,13 +80,16 @@ public class ConfigurationVisitorTest {
     }
 
     /**
-     * A visitor that tracks events and outputs a string with the following tokens
-     * @param <N>
+     * A visitor that tracks events and outputs a string with the
+     * following tokens.
+     *
+     * @param <N> node type
      */
     static class TestVisitor<N extends ScopedConfigurationNode<N>> implements ConfigurationVisitor.Safe<N, StringBuilder, String> {
         static final String VISIT_BEGIN = "b";
         /**
-         * Appended on node enter. If the node has a non-null key, will be followed by {@code -<key>-}
+         * Appended on node enter. If the node has a non-null key, will be
+         * followed by {@code -<key>-}
          */
         static final String NODE_ENTER = "(";
         static final String NODE_MAP = "m";
@@ -99,12 +104,12 @@ public class ConfigurationVisitorTest {
         }
 
         @Override
-        public void beginVisit(N node, StringBuilder state) {
+        public void beginVisit(final N node, final StringBuilder state) {
             state.append(VISIT_BEGIN);
         }
 
         @Override
-        public void enterNode(N node, StringBuilder state) {
+        public void enterNode(final N node, final StringBuilder state) {
             state.append(NODE_ENTER);
             if (node.getKey() != null) {
                 state.append("-").append(node.getKey()).append("-");
@@ -112,34 +117,35 @@ public class ConfigurationVisitorTest {
         }
 
         @Override
-        public void enterMappingNode(N node, StringBuilder state) {
+        public void enterMappingNode(final N node, final StringBuilder state) {
             state.append(NODE_MAP);
         }
 
         @Override
-        public void enterListNode(N node, StringBuilder state) {
+        public void enterListNode(final N node, final StringBuilder state) {
             state.append(NODE_LIST);
         }
 
         @Override
-        public void enterScalarNode(N node, StringBuilder state) {
+        public void enterScalarNode(final N node, final StringBuilder state) {
             state.append(NODE_SCALAR).append(NODE_EXIT);
         }
 
         @Override
-        public void exitMappingNode(N node, StringBuilder state) {
+        public void exitMappingNode(final N node, final StringBuilder state) {
             state.append(NODE_EXIT);
         }
 
         @Override
-        public void exitListNode(N node, StringBuilder state) {
+        public void exitListNode(final N node, final StringBuilder state) {
             state.append(NODE_EXIT);
         }
 
         @Override
-        public String endVisit(StringBuilder state) {
+        public String endVisit(final StringBuilder state) {
             state.append(VISIT_END);
             return state.toString();
         }
     }
+
 }

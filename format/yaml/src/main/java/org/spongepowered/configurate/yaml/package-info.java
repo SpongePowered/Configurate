@@ -16,9 +16,10 @@
  */
 /**
  * Configuration loader for the <a href="https://yaml.org/spec/1.1/">YAML 1.1</a> format, plus supports
- * <p>
- * While by default this loader only declares <a href="https://yaml.org/type/index.html">the YAML 1.1 global tags</a> as
- * supported types, the underlying library is capable of serializing any POJO, and the {@link
- * org.spongepowered.configurate.ConfigurationOptions}'s native types field can be adjusted to customize output.
+ *
+ * <p>While by default this loader only declares <a href="https://yaml.org/type/index.html">the YAML 1.1 global tags</a> as
+ * supported types, the underlying library is capable of serializing any POJO,
+ * and the {@link org.spongepowered.configurate.ConfigurationOptions}'s native
+ * types field can be adjusted to customize output.
  */
 package org.spongepowered.configurate.yaml;

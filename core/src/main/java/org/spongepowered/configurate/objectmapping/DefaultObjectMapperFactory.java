@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -24,12 +26,11 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.concurrent.ExecutionException;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * Factory for a basic {@link ObjectMapper}.
  */
 public class DefaultObjectMapperFactory implements ObjectMapperFactory {
+
     private static final ObjectMapperFactory INSTANCE = new DefaultObjectMapperFactory();
 
     @NonNull
@@ -42,7 +43,7 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
             .maximumSize(500)
             .build(new CacheLoader<TypeToken<?>, ObjectMapper<?>>() {
                 @Override
-                public ObjectMapper<?> load(TypeToken<?> key) throws Exception {
+                public ObjectMapper<?> load(final TypeToken<?> key) throws Exception {
                     return new ObjectMapper<>(key);
                 }
             });
@@ -50,11 +51,11 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException {
+    public <T> ObjectMapper<T> getMapper(final @NonNull TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
         try {
-            return (ObjectMapper<T>) mapperCache.get(type);
-        } catch (ExecutionException e) {
+            return (ObjectMapper<T>) this.mapperCache.get(type);
+        } catch (final ExecutionException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();
             } else {
@@ -67,4 +68,5 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
     public String toString() {
         return "DefaultObjectMapperFactory{}";
     }
+
 }

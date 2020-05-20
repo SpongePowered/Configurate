@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -24,18 +26,16 @@ import org.spongepowered.configurate.util.CheckedConsumer;
 import java.lang.reflect.Array;
 import java.util.function.Predicate;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * A serializer for array classes. Primitive arrays need special handling because they don't have autoboxing like single
- * primitives do.
+ * A serializer for array classes. Primitive arrays need special handling
+ * because they don't have autoboxing like single primitives do.
  *
- * @param <T>
+ * @param <T> array type
  */
 abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     @Override
-    TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
+    TypeToken<?> getElementType(final TypeToken<?> containerType) {
         return requireNonNull(containerType.getComponentType(), "Must be array type");
     }
 
@@ -43,195 +43,212 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
         public static Predicate<TypeToken<Object[]>> predicate() {
             return token -> {
-                @Nullable TypeToken<?> componentType = token.getComponentType();
+                final @Nullable TypeToken<?> componentType = token.getComponentType();
                 return componentType != null && !componentType.isPrimitive();
             };
         }
 
         @Override
-        Object[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        Object[] createNew(final int length, final TypeToken<?> elementType) {
             return (Object[]) Array.newInstance(elementType.getRawType(), length);
         }
 
         @Override
-        void forEachElement(Object[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final Object[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (Object o : collection) {
                 action.accept(o);
             }
         }
 
         @Override
-        void deserializeSingle(int index, Object[] collection, Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final Object[] collection, final @Nullable Object deserialized) {
             collection[index] = deserialized;
         }
 
     }
 
     static class Booleans extends ArraySerializer<boolean[]> {
+
         static final TypeToken<boolean[]> TYPE = TypeToken.of(boolean[].class);
 
         @Override
-        boolean[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        boolean[] createNew(final int length, final TypeToken<?> elementType) {
             return new boolean[length];
         }
 
         @Override
-        void forEachElement(boolean[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final boolean[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (boolean b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, boolean[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final boolean[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? false : Scalars.BOOLEAN.deserialize(deserialized);
         }
+
     }
 
     static class Bytes extends ArraySerializer<byte[]> {
+
         static final TypeToken<byte[]> TYPE = TypeToken.of(byte[].class);
 
         @Override
-        byte[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        byte[] createNew(final int length, final TypeToken<?> elementType) {
             return new byte[length];
         }
 
         @Override
-        void forEachElement(byte[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final byte[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (byte b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, byte[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final byte[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).byteValue();
         }
+
     }
 
     static class Chars extends ArraySerializer<char[]> {
+
         static final TypeToken<char[]> TYPE = TypeToken.of(char[].class);
 
         @Override
-        char[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        char[] createNew(final int length, final TypeToken<?> elementType) {
             return new char[length];
         }
 
         @Override
-        void forEachElement(char[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final char[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (char b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, char[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final char[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.CHAR.deserialize(deserialized);
         }
+
     }
 
     static class Shorts extends ArraySerializer<short[]> {
+
         static final TypeToken<short[]> TYPE = TypeToken.of(short[].class);
 
         @Override
-        short[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        short[] createNew(final int length, final TypeToken<?> elementType) {
             return new short[length];
         }
 
         @Override
-        void forEachElement(short[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final short[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (short b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, short[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final short[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).shortValue();
         }
+
     }
 
     static class Ints extends ArraySerializer<int[]> {
+
         static final TypeToken<int[]> TYPE = TypeToken.of(int[].class);
 
         @Override
-        int[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        int[] createNew(final int length, final TypeToken<?> elementType) {
             return new int[length];
         }
 
         @Override
-        void forEachElement(int[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final int[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (int b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, int[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final int[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized);
         }
+
     }
 
     static class Longs extends ArraySerializer<long[]> {
+
         static final TypeToken<long[]> TYPE = TypeToken.of(long[].class);
 
         @Override
-        long[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        long[] createNew(final int length, final TypeToken<?> elementType) {
             return new long[length];
         }
 
         @Override
-        void forEachElement(long[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final long[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (long b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, long[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final long[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.LONG.deserialize(deserialized);
         }
+
     }
 
     static class Floats extends ArraySerializer<float[]> {
+
         static final TypeToken<float[]> TYPE = TypeToken.of(float[].class);
 
         @Override
-        float[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        float[] createNew(final int length, final TypeToken<?> elementType) {
             return new float[length];
         }
 
         @Override
-        void forEachElement(float[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final float[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (float b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, float[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final float[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.FLOAT.deserialize(deserialized);
         }
+
     }
 
     static class Doubles extends ArraySerializer<double[]> {
+
         static final TypeToken<double[]> TYPE = TypeToken.of(double[].class);
 
         @Override
-        double[] createNew(int length, TypeToken<?> elementType) throws ObjectMappingException {
+        double[] createNew(final int length, final TypeToken<?> elementType) {
             return new double[length];
         }
 
         @Override
-        void forEachElement(double[] collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final double[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
             for (double b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(int index, double[] collection, @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final double[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
             collection[index] = deserialized == null ? 0 : Scalars.DOUBLE.deserialize(deserialized);
         }
+
     }
+
 }

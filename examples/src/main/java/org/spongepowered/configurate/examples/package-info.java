@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 /**
- * Configurate usage examples. Non-API
- * <p>
- * These are some examples of how to use Configurate, provided for informational purposes only. These may change at any
- * time as new best practices are developed.
+ * Configurate usage examples. Non-API.
+ *
+ * <p>These are some examples of how to use Configurate, provided for
+ * informational purposes only. These may change at any time as new best
+ * practices are developed.</p>
  */
 package org.spongepowered.configurate.examples;

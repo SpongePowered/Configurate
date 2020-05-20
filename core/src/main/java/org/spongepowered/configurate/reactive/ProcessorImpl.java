@@ -24,27 +24,27 @@ import java.util.concurrent.Executor;
 // Java 9 has reactive API... but we can't use that :(
 class ProcessorImpl<V> extends AbstractProcessor<V, RegistrationImpl<V>> implements Processor.Iso<V> {
 
-    ProcessorImpl(Executor exec) {
+    ProcessorImpl(final Executor exec) {
         super(exec);
     }
 
     @Override
-    public void submit(V value) {
+    public void submit(final V value) {
         if (this.subscriberCount.get() >= 0) {
             boolean handled = false;
             for (Iterator<RegistrationImpl<V>> it = this.registrations.iterator(); it.hasNext(); ) {
-                RegistrationImpl<V> reg = it.next();
+                final RegistrationImpl<V> reg = it.next();
                 try {
                     handled = true;
                     reg.submit(value);
-                } catch (Throwable t) {
+                } catch (final Throwable t) {
                     it.remove();
-                    subscriberCount.getAndDecrement();
+                    this.subscriberCount.getAndDecrement();
                     reg.subscriber.onError(t);
                 }
             }
             if (!handled) {
-                @Nullable Subscriber<V> fallback = this.fallbackHandler;
+                final @Nullable Subscriber<V> fallback = this.fallbackHandler;
                 if (fallback != null) {
                     fallback.submit(value);
                 }
@@ -53,7 +53,8 @@ class ProcessorImpl<V> extends AbstractProcessor<V, RegistrationImpl<V>> impleme
     }
 
     @Override
-    protected RegistrationImpl<V> createRegistration(Subscriber<? super V> sub) {
+    protected RegistrationImpl<V> createRegistration(final Subscriber<? super V> sub) {
         return new RegistrationImpl<>(this, sub);
     }
+
 }

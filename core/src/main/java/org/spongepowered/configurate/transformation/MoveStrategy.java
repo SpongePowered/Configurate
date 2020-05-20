@@ -19,7 +19,7 @@ package org.spongepowered.configurate.transformation;
 import org.spongepowered.configurate.ConfigurationNode;
 
 /**
- * Strategy to use when moving a node from one path to another
+ * Strategy to use when moving a node from one path to another.
  */
 public enum MoveStrategy {
 
@@ -28,7 +28,7 @@ public enum MoveStrategy {
      */
     MERGE {
         @Override
-        public <T extends ConfigurationNode> void move(T source, T target) {
+        public <T extends ConfigurationNode> void move(final T source, final T target) {
             target.mergeValuesFrom(source);
         }
     },
@@ -38,7 +38,7 @@ public enum MoveStrategy {
      */
     OVERWRITE {
         @Override
-        public <T extends ConfigurationNode> void move(T source, T target) {
+        public <T extends ConfigurationNode> void move(final T source, final T target) {
             target.setValue(source);
         }
     };
@@ -51,4 +51,5 @@ public enum MoveStrategy {
      * @param target The target node
      */
     public abstract <T extends ConfigurationNode> void move(T source, T target);
+
 }

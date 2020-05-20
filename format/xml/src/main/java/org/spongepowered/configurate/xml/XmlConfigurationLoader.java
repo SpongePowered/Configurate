@@ -24,7 +24,10 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.math.DoubleMath;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.*;
+import org.spongepowered.configurate.AttributedConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -36,6 +39,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.NoSuchFileException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,29 +58,22 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Writer;
-import java.nio.file.NoSuchFileException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
 
 /**
- * A loader for XML (Extensible Markup Language), using the native javax library for parsing and
- * generation.
+ * A loader for XML (Extensible Markup Language), using the native javax library
+ * for parsing and generation.
  */
-public class XmlConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
+public final class XmlConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
+
     /**
-     * The prefix of lines within the header
+     * The prefix of lines within the header.
      */
     private static final String HEADER_PREFIX = "~";
 
     private static final String ATTRIBUTE_TYPE = "configurate-type";
 
     /**
-     * The user data used to store comments on nodes
+     * The user data used to store comments on nodes.
      */
     private static final String USER_DATA_COMMENT = "configurate-comment";
 
@@ -108,7 +112,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(int indent) {
+        public Builder setIndent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -119,7 +123,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @return The indent level
          */
         public int getIndent() {
-            return indent;
+            return this.indent;
         }
 
         /**
@@ -128,7 +132,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @param schema The schema
          * @return This builder (for chaining)
          */
-        public Builder setSchema(@Nullable Schema schema) {
+        public Builder setSchema(final @Nullable Schema schema) {
             this.schema = schema;
             return this;
         }
@@ -139,7 +143,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @return The schema
          */
         public @Nullable Schema getSchema() {
-            return schema;
+            return this.schema;
         }
 
         /**
@@ -148,7 +152,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
          * @param defaultTagName The default tag name
          * @return This builder (for chaining)
          */
-        public Builder setDefaultTagName(String defaultTagName) {
+        public Builder setDefaultTagName(final String defaultTagName) {
             this.defaultTagName = defaultTagName;
             return this;
         }
@@ -160,55 +164,59 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
          */
         @NonNull
         public String getDefaultTagName() {
-            return defaultTagName;
+            return this.defaultTagName;
         }
 
         /**
-         * Sets if the resultant loader should write the explicit type of each node
-         * when saving nodes.
+         * Sets if the resultant loader should write the explicit type of each
+         * node when saving nodes.
          *
-         * <p>This is necessary in some cases, as XML has no explicit definition of an array or
-         * list. The loader is able to infer the type in some cases, but this is inaccurate in some
-         * cases, for example lists with only one element.</p>
+         * <p>This is necessary in some cases, as XML has no explicit definition
+         * of an array or list. The loader is able to infer the type in some
+         * cases, but this is inaccurate in some cases, for example lists with
+         * only one element.</p>
          *
          * @param writeExplicitType If the loader should write explicit types
          * @return This builder (for chaining)
          */
-        public Builder setWriteExplicitType(boolean writeExplicitType) {
+        public Builder setWriteExplicitType(final boolean writeExplicitType) {
             this.writeExplicitType = writeExplicitType;
             return this;
         }
 
         /**
-         * Gets if explicit type attributes should be written by the resultant loader.
+         * Gets if explicit type attributes should be written by the loader.
          *
-         * <p>See the method doc for {@link #setWriteExplicitType(boolean)} for a more detailed
-         * explanation.</p>
+         * <p>See the method doc at {@link #setWriteExplicitType(boolean)} for
+         * a more detailed explanation.</p>
          *
          * @return The default tag name
          */
         public boolean shouldWriteExplicitType() {
-            return writeExplicitType;
+            return this.writeExplicitType;
         }
 
         /**
-         * Sets if the resultant loader should include the XML declaration header when saving.
+         * Sets if the resultant loader should include the XML declaration
+         * header when saving.
          *
-         * @param includeXmlDeclaration If the XML declaration should be included
+         * @param includeXmlDeclaration If the XML declaration should be
+         *                              included
          * @return This builder (for chaining)
          */
-        public Builder setIncludeXmlDeclaration(boolean includeXmlDeclaration) {
+        public Builder setIncludeXmlDeclaration(final boolean includeXmlDeclaration) {
             this.includeXmlDeclaration = includeXmlDeclaration;
             return this;
         }
 
         /**
-         * Gets if the resultant loader should include the XML declaration header when saving.
+         * Gets if the resultant loader should include the XML declaration
+         * header when saving.
          *
          * @return If the XML declaration should be included
          */
         public boolean shouldIncludeXmlDeclaration() {
-            return includeXmlDeclaration;
+            return this.includeXmlDeclaration;
         }
 
         @Override
@@ -223,7 +231,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
     private final boolean writeExplicitType;
     private final boolean includeXmlDeclaration;
 
-    private XmlConfigurationLoader(Builder builder) {
+    private XmlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.XML_STYLE});
         this.schema = builder.getSchema();
         this.defaultTagName = builder.getDefaultTagName();
@@ -233,32 +241,32 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     private DocumentBuilder newDocumentBuilder() {
-        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-        if (schema != null) {
-            builderFactory.setSchema(schema);
+        final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+        if (this.schema != null) {
+            builderFactory.setSchema(this.schema);
         }
 
         try {
             return builderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException(e);
         }
     }
 
     private Transformer newTransformer() {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        final TransformerFactory transformerFactory = TransformerFactory.newInstance();
         try {
-            Transformer transformer = transformerFactory.newTransformer();
+            final Transformer transformer = transformerFactory.newTransformer();
 
             // we write the header ourselves.
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
-            if (indent > 0) {
+            if (this.indent > 0) {
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty(INDENT_PROPERTY, Integer.toString(indent));
+                transformer.setOutputProperty(INDENT_PROPERTY, Integer.toString(this.indent));
             }
             return transformer;
-        } catch (TransformerConfigurationException e) {
+        } catch (final TransformerConfigurationException e) {
             throw new RuntimeException(e);
         }
     }
@@ -269,48 +277,48 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
             throw new IOException("No source present to read from!");
         }
         try (BufferedReader reader = source.call()) {
-            DocumentBuilder documentBuilder = newDocumentBuilder();
+            final DocumentBuilder documentBuilder = newDocumentBuilder();
 
-            Document document;
+            final Document document;
             try {
                 document = documentBuilder.parse(new InputSource(reader));
-            } catch (SAXException e) {
+            } catch (final SAXException e) {
                 throw new IOException(e);
             }
 
-            NodeList children = document.getChildNodes();
+            final NodeList children = document.getChildNodes();
             for (int i = 0; i < children.getLength(); ++i) {
-                Node child = children.item(i);
-                System.out.println(child);
+                final Node child = children.item(i);
                 if (child.getNodeType() == Node.COMMENT_NODE) {
                     options = options.withHeader(unwrapHeader(child.getTextContent().trim()));
                 } else if (child.getNodeType() == Node.ELEMENT_NODE) {
-                    AttributedConfigurationNode node = createEmptyNode(options);
+                    final AttributedConfigurationNode node = createEmptyNode(options);
                     readElement(child, node);
                     return node;
                 }
             }
             // empty document, fall through
-        } catch (FileNotFoundException | NoSuchFileException e) {
+        } catch (final FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw e;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new IOException(e);
         }
         return createEmptyNode(options);
     }
 
     /**
-     * Given a single comment node's comment, clear any prefix lines
+     * Given a single comment node's comment, clear any prefix lines.
+     *
      * @param headerContent The content of a header
      * @return A formatted header, with lines separated by {@link #CONFIGURATE_LINE_SEPARATOR}
      */
-    private String unwrapHeader(String headerContent) {
+    private String unwrapHeader(final String headerContent) {
         if (headerContent.isEmpty()) {
             return headerContent;
         }
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         for (Iterator<String> it = LINE_SPLITTER.split(headerContent).iterator(); it.hasNext();) {
             String line = it.next();
             final String trimmedLine = line.trim();
@@ -334,7 +342,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     @Override
-    protected void loadInternal(AttributedConfigurationNode node, BufferedReader reader) {
+    protected void loadInternal(final AttributedConfigurationNode node, final BufferedReader reader) {
         throw new UnsupportedOperationException("XMLConfigurationLoader provides custom loading logic to handle headers");
     }
 
@@ -342,24 +350,24 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
         MAP, LIST
     }
 
-    private void readElement(Node from, AttributedConfigurationNode to) {
+    private void readElement(final Node from, final AttributedConfigurationNode to) {
         @Nullable NodeType type = null;
 
         // copy the name of the tag
         to.setTagName(from.getNodeName());
 
-        String potentialComment = (String) from.getUserData(USER_DATA_COMMENT);
+        final String potentialComment = (String) from.getUserData(USER_DATA_COMMENT);
         if (potentialComment != null) {
             to.setComment(potentialComment);
         }
 
         // copy attributes
         if (from.hasAttributes()) {
-            NamedNodeMap attributes = from.getAttributes();
+            final NamedNodeMap attributes = from.getAttributes();
             for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                String key = attribute.getNodeName();
-                String value = attribute.getNodeValue();
+                final Node attribute = attributes.item(i);
+                final String key = attribute.getNodeName();
+                final String value = attribute.getNodeValue();
 
                 // read the type of the node
                 if (key.equals(ATTRIBUTE_TYPE)) {
@@ -378,12 +386,12 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
         }
 
         // read out the child nodes into a multimap
-        Multimap<String, Node> children = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+        final Multimap<String, Node> children = MultimapBuilder.linkedHashKeys().arrayListValues().build();
         if (from.hasChildNodes()) {
-            StringBuilder comment = new StringBuilder();
-            NodeList childNodes = from.getChildNodes();
+            final StringBuilder comment = new StringBuilder();
+            final NodeList childNodes = from.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
-                Node child = childNodes.item(i);
+                final Node child = childNodes.item(i);
                 if (child.getNodeType() == Node.ELEMENT_NODE) {
                     children.put(child.getNodeName(), child);
                     if (comment.length() > 0) {
@@ -425,7 +433,7 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
 
         // read out the elements
         for (Map.Entry<String, Node> entry : children.entries()) {
-            AttributedConfigurationNode child;
+            final AttributedConfigurationNode child;
             if (type == NodeType.MAP) {
                 child = to.getNode(entry.getKey());
             } else {
@@ -437,44 +445,44 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
     }
 
     @Override
-    protected void writeHeaderInternal(Writer writer) throws IOException {
-        if (includeXmlDeclaration) {
+    protected void writeHeaderInternal(final Writer writer) throws IOException {
+        if (this.includeXmlDeclaration) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             writer.write(SYSTEM_LINE_SEPARATOR);
         }
     }
 
     @Override
-    protected void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
-        DocumentBuilder documentBuilder = newDocumentBuilder();
-        Document document = documentBuilder.newDocument();
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+        final DocumentBuilder documentBuilder = newDocumentBuilder();
+        final Document document = documentBuilder.newDocument();
 
-        @Nullable Node comment = createCommentNode(document, node);
+        final @Nullable Node comment = createCommentNode(document, node);
         if (comment != null) {
             document.appendChild(comment);
         }
 
         document.appendChild(writeNode(document, node, null));
 
-        Transformer transformer = newTransformer();
-        DOMSource source = new DOMSource(document);
+        final Transformer transformer = newTransformer();
+        final DOMSource source = new DOMSource(document);
         try {
             transformer.transform(source, new StreamResult(writer));
-        } catch (TransformerException e) {
+        } catch (final TransformerException e) {
             throw new IOException(e);
         }
     }
 
-    private void appendCommentIfNecessary(Element parent, ConfigurationNode node) {
-        @Nullable Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
+    private void appendCommentIfNecessary(final Element parent, final ConfigurationNode node) {
+        final @Nullable Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
         if (possibleComment != null) {
             parent.appendChild(possibleComment);
         }
     }
 
-    private @Nullable Node createCommentNode(Document doc, ConfigurationNode node) {
+    private @Nullable Node createCommentNode(final Document doc, final ConfigurationNode node) {
         if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
-            @Nullable String comment = ((CommentedConfigurationNodeIntermediary<?>) node).getComment().orElse(null);
+            final @Nullable String comment = ((CommentedConfigurationNodeIntermediary<?>) node).getComment();
             if (comment != null) {
                 return doc.createComment(" " + comment.trim() + " ");
             }
@@ -482,31 +490,31 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
         return null;
     }
 
-    private Element writeNode(Document document, ConfigurationNode node, @Nullable String forcedTag) {
-        String tag = defaultTagName;
+    private Element writeNode(final Document document, final ConfigurationNode node, final @Nullable String forcedTag) {
+        String tag = this.defaultTagName;
         Map<String, String> attributes = ImmutableMap.of();
 
         if (node instanceof AttributedConfigurationNode) {
-            AttributedConfigurationNode attributedNode = ((AttributedConfigurationNode) node);
+            final AttributedConfigurationNode attributedNode = ((AttributedConfigurationNode) node);
             tag = attributedNode.getTagName();
             attributes = attributedNode.getAttributes();
         }
 
-        Element element = document.createElement(forcedTag == null ? tag : forcedTag);
-        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+        final Element element = document.createElement(forcedTag == null ? tag : forcedTag);
+        for (final Map.Entry<String, String> attribute : attributes.entrySet()) {
             element.setAttribute(attribute.getKey(), attribute.getValue());
         }
 
         if (node.isMap()) {
-            for (Map.Entry<Object, ? extends ConfigurationNode> child : node.getChildrenMap().entrySet()) {
+            for (final Map.Entry<Object, ? extends ConfigurationNode> child : node.getChildrenMap().entrySet()) {
                 appendCommentIfNecessary(element, child.getValue());
                 element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
             }
         } else if (node.isList()) {
-            if (writeExplicitType) {
+            if (this.writeExplicitType) {
                 element.setAttribute(ATTRIBUTE_TYPE, "list");
             }
-            for (ConfigurationNode child : node.getChildrenList()) {
+            for (final ConfigurationNode child : node.getChildrenList()) {
                 appendCommentIfNecessary(element, child);
                 element.appendChild(writeNode(document, child, null));
             }
@@ -524,16 +532,16 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
         return AttributedConfigurationNode.root("root", options);
     }
 
-    private static Object parseValue(String value) {
+    private static Object parseValue(final String value) {
         if (value.equals("true") || value.equals("false")) {
             return Boolean.parseBoolean(value);
         }
 
         try {
-            double doubleValue = Double.parseDouble(value);
+            final double doubleValue = Double.parseDouble(value);
             if (DoubleMath.isMathematicalInteger(doubleValue)) {
-                long longValue = (long) doubleValue;
-                int intValue = (int) longValue;
+                final long longValue = (long) doubleValue;
+                final int intValue = (int) longValue;
                 if (longValue == intValue) {
                     return intValue;
                 } else {
@@ -541,8 +549,9 @@ public class XmlConfigurationLoader extends AbstractConfigurationLoader<Attribut
                 }
             }
             return doubleValue;
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             return value;
         }
     }
+
 }

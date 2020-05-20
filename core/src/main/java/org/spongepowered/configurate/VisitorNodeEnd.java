@@ -21,13 +21,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.Objects;
 
 /**
- * A way to know that we've reached the end of a node within a visitor, plus supporting package-private methods
+ * A way to know that we've reached the end of a node within a visitor,
+ * plus associated utility methods.
  */
 class VisitorNodeEnd {
+
     private final ConfigurationNode end;
     private final boolean isMap;
 
-    VisitorNodeEnd(ConfigurationNode end, boolean isMap) {
+    VisitorNodeEnd(final ConfigurationNode end, final boolean isMap) {
         this.end = end;
         this.isMap = isMap;
     }
@@ -37,10 +39,16 @@ class VisitorNodeEnd {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof VisitorNodeEnd)) return false;
-        VisitorNodeEnd that = (VisitorNodeEnd) o;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof VisitorNodeEnd)) {
+            return false;
+        }
+
+        final VisitorNodeEnd that = (VisitorNodeEnd) o;
         return getEnd().equals(that.getEnd());
     }
 
@@ -50,9 +58,10 @@ class VisitorNodeEnd {
     }
 
     @SuppressWarnings("unchecked")
-    static <N extends ConfigurationNode, A extends AbstractConfigurationNode<?, A>, S, E extends Exception> @Nullable A popFromVisitor(Object unknown, ConfigurationVisitor<N, S, ?, E> visitor, S state) throws E {
+    static <N extends ConfigurationNode, A extends AbstractConfigurationNode<?, A>, S, E extends Exception> @Nullable A
+            popFromVisitor(final Object unknown, final ConfigurationVisitor<N, S, ?, E> visitor, final S state) throws E {
         if (unknown instanceof VisitorNodeEnd) {
-            N node = (N) ((VisitorNodeEnd) unknown).getEnd();
+            final N node = (N) ((VisitorNodeEnd) unknown).getEnd();
             if (((VisitorNodeEnd) unknown).isMap) {
                 visitor.exitMappingNode(node, state);
             } else {

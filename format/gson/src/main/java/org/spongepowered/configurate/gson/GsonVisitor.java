@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.gson;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.gson.stream.JsonWriter;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -23,9 +25,8 @@ import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
-import static java.util.Objects.requireNonNull;
-
 class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter, Void, IOException> {
+
     static GsonVisitor INSTANCE = new GsonVisitor();
 
     @Override
@@ -34,7 +35,7 @@ class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter,
     }
 
     @Override
-    public void beginVisit(ConfigurationNode node, JsonWriter state) throws IOException {
+    public void beginVisit(final ConfigurationNode node, final JsonWriter state) throws IOException {
         if (node.getKey() == null && node.getValue() == null) {
             state.beginObject();
             state.endObject();
@@ -42,26 +43,26 @@ class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter,
     }
 
     @Override
-    public void enterNode(ConfigurationNode node, JsonWriter state) throws IOException {
-        @Nullable ConfigurationNode parent = node.getParent();
+    public void enterNode(final ConfigurationNode node, final JsonWriter state) throws IOException {
+        final @Nullable ConfigurationNode parent = node.getParent();
         if (parent != null && parent.isMap()) {
             state.name(requireNonNull(node.getKey(), "Node must have key to be a value in a mapping").toString());
         }
     }
 
     @Override
-    public void enterMappingNode(ConfigurationNode node, JsonWriter state) throws IOException {
+    public void enterMappingNode(final ConfigurationNode node, final JsonWriter state) throws IOException {
         state.beginObject();
     }
 
     @Override
-    public void enterListNode(ConfigurationNode node, JsonWriter state) throws IOException {
+    public void enterListNode(final ConfigurationNode node, final JsonWriter state) throws IOException {
         state.beginArray();
     }
 
     @Override
-    public void enterScalarNode(ConfigurationNode node, JsonWriter writer) throws IOException {
-        @Nullable Object value = node.getValue();
+    public void enterScalarNode(final ConfigurationNode node, final JsonWriter writer) throws IOException {
+        final @Nullable Object value = node.getValue();
         if (value == null) {
             writer.nullValue();
         } else if (value instanceof Double) {
@@ -80,18 +81,19 @@ class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter,
     }
 
     @Override
-    public void exitMappingNode(ConfigurationNode node, JsonWriter state) throws IOException {
+    public void exitMappingNode(final ConfigurationNode node, final JsonWriter state) throws IOException {
         state.endObject();
     }
 
     @Override
-    public void exitListNode(ConfigurationNode node, JsonWriter state) throws IOException {
+    public void exitListNode(final ConfigurationNode node, final JsonWriter state) throws IOException {
         state.endArray();
     }
 
     @Override
-    public Void endVisit(JsonWriter state) throws IOException {
+    public Void endVisit(final JsonWriter state) throws IOException {
         state.flush();
         return null;
     }
+
 }

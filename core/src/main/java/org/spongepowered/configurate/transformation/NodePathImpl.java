@@ -16,43 +16,45 @@
  */
 package org.spongepowered.configurate.transformation;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.Iterators;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-import static java.util.Objects.requireNonNull;
-
 final class NodePathImpl implements NodePath {
+
     Object[] arr;
 
     NodePathImpl() {
 
     }
 
-    NodePathImpl(Object[] arr, boolean copy) {
+    NodePathImpl(final Object[] arr, final boolean copy) {
         requireNonNull(arr);
         this.arr = copy ? Arrays.copyOf(arr, arr.length) : arr;
     }
 
     @Override
-    public Object get(int i) {
-        return arr[i];
+    public Object get(final int i) {
+        return this.arr[i];
     }
 
     @Override
     public int size() {
-        return arr.length;
+        return this.arr.length;
     }
 
     @Override
-    public NodePath withAppendedChild(@NonNull Object childKey) {
+    public NodePath withAppendedChild(final @NonNull Object childKey) {
+        final Object[] arr = this.arr;
         if (arr.length == 0 || (arr.length == 1 && arr[0] == null)) {
             return new NodePathImpl(new Object[] {childKey}, false);
         }
 
-        Object[] childPath = Arrays.copyOf(arr, arr.length + 1);
+        final Object[] childPath = Arrays.copyOf(arr, arr.length + 1);
         childPath[childPath.length - 1] = childKey;
 
         return new NodePathImpl(childPath, false);
@@ -60,35 +62,42 @@ final class NodePathImpl implements NodePath {
 
     @Override
     public Object[] getArray() {
-        return Arrays.copyOf(arr, arr.length);
+        return Arrays.copyOf(this.arr, this.arr.length);
     }
 
     @Override
     public @NonNull Iterator<Object> iterator() {
-        return Iterators.forArray(arr);
+        return Iterators.forArray(this.arr);
     }
 
     @Override
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     public NodePath clone() {
-        return new NodePathImpl(arr, true);
+        return new NodePathImpl(this.arr, true);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        NodePathImpl objects = (NodePathImpl) o;
-        return Arrays.equals(arr, objects.arr);
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final NodePathImpl that = (NodePathImpl) o;
+        return Arrays.equals(this.arr, that.arr);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(arr);
+        return Arrays.hashCode(this.arr);
     }
 
     @Override
     public String toString() {
-        return "NodePathImpl"+ Arrays.toString(arr);
+        return "NodePathImpl" + Arrays.toString(this.arr);
     }
+
 }

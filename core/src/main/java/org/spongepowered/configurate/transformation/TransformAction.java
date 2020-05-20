@@ -21,7 +21,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 
 /**
- * Represents an action to be performed that transforms a node in the configuration tree
+ * Represents an action to be performed that transforms a node in the
+ * configuration tree.
  */
 @FunctionalInterface
 public interface TransformAction<T extends ScopedConfigurationNode<T>> {
@@ -29,8 +30,10 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
     /**
      * Called at a certain path, with the node at that path.
      *
-     * <p><strong>Caution:</strong> The state of the <code>inputPath</code> is only guaranteed to be accurate during a run of
-     * the transform function. Use {@link NodePath#getArray()} if the path's state needs to be stored.</p>
+     * <p><strong>Caution:</strong> The state of the <code>inputPath</code> is
+     * only guaranteed to be accurate during a run of the transform function.
+     * Use {@link NodePath#clone()} if the path's state needs to
+     * be stored.
      *
      * @param inputPath The path of the given node
      * @param valueAtPath The node at the input path. May be modified

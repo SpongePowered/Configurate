@@ -21,6 +21,7 @@ import com.google.common.reflect.TypeToken;
 import java.util.function.Predicate;
 
 final class RegisteredSerializer {
+
     final Predicate<TypeToken<?>> predicate;
     final TypeSerializer<?> serializer;
 
@@ -32,4 +33,5 @@ final class RegisteredSerializer {
         this.predicate = predicate;
         this.serializer = serializer;
     }
+
 }

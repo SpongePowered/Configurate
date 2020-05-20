@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.reactive;
 
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.CheckedSupplier;
@@ -23,21 +25,22 @@ import org.spongepowered.configurate.util.CheckedSupplier;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * Something that can publish events.
- * <p>
- * Each subscriber is responsible for removing itself from this stream, by using the Disposable returned upon
- * subscription
+ *
+ * <p>Each subscriber is responsible for removing itself from this stream, by
+ * using the Disposable returned upon subscription.
  *
  * @param <V> The type of notification received by subscribers
  */
 public interface Publisher<V> {
+
     /**
-     * Execute an action returning a single value on the common {@link ForkJoinPool}, and pass the result to any subscribers.
+     * Execute an action returning a single value on the common {@link ForkJoinPool},
+     * and pass the result to any subscribers.
      *
-     * Subscribers who only begin subscribing after the operation has been completed will receive the result of the operation.
+     * <p>Subscribers who only begin subscribing after the operation has been
+     * completed will receive the result of the operation.
      *
      * @param action The action to perform
      * @param <V> returned value type
@@ -49,9 +52,11 @@ public interface Publisher<V> {
     }
 
     /**
-     * Execute an action returning a single value on the provided {@link Executor}, and pass the result to any subscribers.
+     * Execute an action returning a single value on the provided {@link Executor},
+     * and pass the result to any subscribers.
      *
-     * Subscribers who only begin subscribing after the operation has been completed will receive the result of the operation.
+     * <p>Subscribers who only begin subscribing after the operation has been
+     * completed will receive the result of the operation.
      *
      * @param action The action to perform
      * @param executor The executor to perform this operation on
@@ -64,8 +69,9 @@ public interface Publisher<V> {
     }
 
     /**
-     * Subscribe to updates from this Publisher. If this is already closed, the Subscriber will receive an error event
-     * with an IllegalStateException, and the returned {@link Disposable} will be a no-op.
+     * Subscribe to updates from this Publisher. If this is already closed, the
+     * Subscriber will receive an error event with an IllegalStateException, and
+     * the returned {@link Disposable} will be a no-op.
      *
      * @param subscriber The listener to register
      * @return A disposable that can be used to cancel this subscription
@@ -74,8 +80,9 @@ public interface Publisher<V> {
 
     /**
      * Return whether or not this Publisher has any subscribers.
-     * <p>
-     * In a concurrent environment, this value could change from the time of calling.
+     *
+     * <p>In a concurrent environment, this value could change from the time
+     * of calling.
      *
      * @return if there are subscribers
      */
@@ -86,8 +93,8 @@ public interface Publisher<V> {
     }
 
     /**
-     * Return a publisher that will track its most recent value. The provided processor won't have a value until one is
-     * submitted to its owning publisher.
+     * Return a publisher that will track its most recent value. The provided
+     * processor won't have a value until one is submitted to this publisher.
      *
      * @return A publisher based on this one
      */
@@ -96,30 +103,33 @@ public interface Publisher<V> {
     }
 
     /**
-     * A cached publisher with an initial value
+     * Create a cached publisher with an initial value.
      *
-     * @param initialValue The value to
-     * @return The
+     * @param initialValue value to initialize the returned publisher with
+     * @return publisher that will cache future responses
      */
     default Cached<V> cache(@Nullable V initialValue) {
         return new CachedPublisher<>(this, initialValue);
     }
 
     /**
-     * Get the executor that will be used to handle published
+     * Get the executor used to handle published events.
      *
      * @return the executor
      */
     Executor getExecutor();
 
     /**
-     * A publisher that caches the last value received
+     * A publisher that caches the last value received.
      *
      * @param <V> value type
      */
     interface Cached<V> extends Publisher<V> {
+
         V get();
 
         void submit(V value);
+
     }
+
 }

@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.examples;
 
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
@@ -25,16 +26,19 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class Tutorial {
-    public static void main(String[] args) throws ObjectMappingException {
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+public final class Tutorial {
+
+    private Tutorial() {}
+
+    public static void main(final String[] args) throws ObjectMappingException {
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(Paths.get("myproject.conf")) // Set where we will load and save to
                 .build();
 
-        CommentedConfigurationNode root;
+        final CommentedConfigurationNode root;
         try {
             root = loader.load();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.err.println("An error occurred while loading this configuration: " + e.getMessage());
             if (e.getCause() != null) {
                 e.getCause().printStackTrace();
@@ -43,12 +47,12 @@ public class Tutorial {
             return;
         }
 
-        ConfigurationNode countNode = root.getNode("messages", "count"),
-                moodNode = root.getNode("messages", "mood");
+        final ConfigurationNode countNode = root.getNode("messages", "count");
+        final ConfigurationNode moodNode = root.getNode("messages", "mood");
 
-        String name = root.getNode("name").getString();
-        int count = countNode.getInt(Integer.MIN_VALUE);
-        Mood mood = moodNode.getValue(Mood.TYPE);
+        final @Nullable String name = root.getNode("name").getString();
+        final int count = countNode.getInt(Integer.MIN_VALUE);
+        final @Nullable Mood mood = moodNode.getValue(Mood.TYPE);
 
         if (name == null || count == Integer.MIN_VALUE || mood == null) {
             System.err.println("Invalid configuration");
@@ -72,18 +76,23 @@ public class Tutorial {
         // And save the node back to the file
         try {
             loader.save(root);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.err.println("Unable to save your messages configuration! Sorry! " + e.getMessage());
-                System.exit(1);
+            System.exit(1);
         }
+
     }
+
+    /**
+     * A mood that a message may have.
+     */
+    enum Mood {
+
+        HAPPY, SAD, CONFUSED, NEUTRAL;
+
+        public static final TypeToken<Mood> TYPE = TypeToken.of(Mood.class); // Keep track of our generic type, to avoid reinitialization
+
+    }
+
 }
 
-/**
- * A mood that a message may have
- */
-enum Mood {
-    HAPPY, SAD, CONFUSED, NEUTRAL;
-
-    public static final TypeToken<Mood> TYPE = TypeToken.of(Mood.class); // Keep track of our generic type, to avoid reinitialization
-}

@@ -24,21 +24,23 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 final class PatternSerializer extends ScalarSerializer<Pattern> {
+
     PatternSerializer() {
         super(TypeToken.of(Pattern.class));
     }
 
     @Override
-    public Pattern deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+    public Pattern deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
         try {
             return Pattern.compile(obj.toString());
-        } catch (PatternSyntaxException ex) {
+        } catch (final PatternSyntaxException ex) {
             throw new ObjectMappingException(ex);
         }
     }
 
     @Override
-    public Object serialize(Pattern item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final Pattern item, final Predicate<Class<?>> typeSupported) {
         return item.pattern();
     }
+
 }

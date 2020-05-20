@@ -16,28 +16,28 @@
  */
 package org.spongepowered.configurate;
 
-import com.google.common.collect.ImmutableList;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.google.common.collect.ImmutableList;
+import org.junit.jupiter.api.Test;
+
 public class CopyTest {
 
     @Test
     public void testSimpleCopy() {
-        ConfigurationNode node = BasicConfigurationNode.root();
+        final ConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("test").setValue(5);
         node.getNode("section", "val1").setValue(true);
         node.getNode("section", "val2").setValue("TEST");
-        ConfigurationNode list = node.getNode("section2", "alist");
+        final ConfigurationNode list = node.getNode("section2", "alist");
         list.appendListNode().setValue("value1");
         list.appendListNode().setValue("value2");
 
-        ConfigurationNode copy = node.copy();
+        final ConfigurationNode copy = node.copy();
 
         assertNotSame(node, copy);
         assertEquals(node, copy);
@@ -65,19 +65,19 @@ public class CopyTest {
 
     @Test
     public void testCopyPaths() {
-        ConfigurationNode node = BasicConfigurationNode.root();
+        final ConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("test").setValue(5);
         node.getNode("section", "val1").setValue(true);
         node.getNode("section", "val2").setValue("TEST");
 
-        ConfigurationNode original = node.getNode("section");
-        ConfigurationNode copy = original.copy();
+        final ConfigurationNode original = node.getNode("section");
+        final ConfigurationNode copy = original.copy();
 
         assertNotNull(original.getParent());
         assertNull(copy.getParent());
 
-        ConfigurationNode originalVal = original.getNode("val1");
-        ConfigurationNode copyVal = copy.getNode("val1");
+        final ConfigurationNode originalVal = original.getNode("val1");
+        final ConfigurationNode copyVal = copy.getNode("val1");
 
         assertEquals(2, originalVal.getPath().size());
         assertEquals(1, copyVal.getPath().size());

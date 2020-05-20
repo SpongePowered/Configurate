@@ -2,12 +2,13 @@ package org.spongepowered.configurate.build
 
 import net.minecrell.gradle.licenser.LicenseExtension
 import net.minecrell.gradle.licenser.Licenser
-import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.quality.CheckstyleExtension
+import org.gradle.api.plugins.quality.CheckstylePlugin
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
@@ -21,6 +22,7 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 apply(Licenser::class.java)
                 apply(JavaLibraryPlugin::class.java)
                 apply(ConfiguratePublishingPlugin::class.java)
+                apply(CheckstylePlugin::class.java)
             }
 
             tasks.withType(JavaCompile::class.java).configureEach {
@@ -69,6 +71,16 @@ class ConfigurateDevPlugin : Plugin<Project> {
 
             tasks.withType(Test::class.java).configureEach {
                 it.useJUnitPlatform()
+            }
+
+            // Checkstyle (based on Sponge config)
+            extensions.configure(CheckstyleExtension::class.java) {
+                it.toolVersion = "8.32"
+                it.configDirectory.set(rootProject.projectDir.resolve("etc/checkstyle"))
+                it.configProperties = mapOf(
+                        "basedir" to project.projectDir,
+                        "severity" to "error"
+                )
             }
 
             extensions.configure(ConfiguratePublishingExtension::class.java) {

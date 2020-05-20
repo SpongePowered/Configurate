@@ -31,14 +31,14 @@ import java.lang.annotation.Target;
 public @interface Setting {
 
     /**
-     * The path this setting is located at
+     * The path this setting is located at.
      *
      * @return The path
      */
     String value() default "";
 
     /**
-     * The default comment associated with this configuration node
+     * The default comment associated with this configuration node.
      * This will be applied to any comment-capable configuration loader
      *
      * @return The comment

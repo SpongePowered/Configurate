@@ -42,28 +42,30 @@ import java.util.concurrent.Callable;
 import java.util.function.UnaryOperator;
 
 /**
- * Base class for many stream-based configuration loaders. This class provides conversion from a variety of input
- * sources to CharSource/Sink objects, providing a consistent API for loaders to read from and write to.
+ * Base class for many stream-based configuration loaders. This class provides
+ * conversion from a variety of input sources to {@link BufferedReader}
+ * suppliers, providing a consistent API for loaders to read from and write to.
  *
- * Either the source or sink may be null. If this is true, this loader may not support either loading or saving. In
- * this case, implementing classes are expected to throw an IOException.
+ * <p>Either the source or sink may be null. If this is true, this loader may
+ * not support either loading or saving. In this case, implementing classes are
+ * expected to throw an {@link IOException} for the unsupported operation.</p>
  *
  * @param <N> The {@link ConfigurationNode} type produced by the loader
  */
 public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationNode<N>> implements ConfigurationLoader<N> {
 
     /**
-     * The escape sequence used by Configurate to separate comment lines
+     * The escape sequence used by Configurate to separate comment lines.
      */
     public static final String CONFIGURATE_LINE_SEPARATOR = "\n";
 
     /**
-     * A {@link Splitter} for splitting comment lines
+     * A {@link Splitter} for splitting comment lines.
      */
     protected static final Splitter LINE_SPLITTER = Splitter.on(CONFIGURATE_LINE_SEPARATOR);
 
     /**
-     * The line separator used by the system
+     * The line separator used by the system.
      * @see System#lineSeparator()
      */
     protected static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator();
@@ -86,13 +88,13 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     protected final Callable<BufferedWriter> sink;
 
     /**
-     * The comment handlers defined for this loader
+     * The comment handlers defined for this loader.
      */
     @NonNull
     private final CommentHandler[] commentHandlers;
 
     /**
-     * The mode used to read/write configuration headers
+     * The mode used to read/write configuration headers.
      */
     @NonNull
     private final HeaderMode headerMode;
@@ -103,7 +105,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     @NonNull
     private final ConfigurationOptions defaultOptions;
 
-    protected AbstractConfigurationLoader(@NonNull Builder<?> builder, @NonNull CommentHandler[] commentHandlers) {
+    protected AbstractConfigurationLoader(final @NonNull Builder<?> builder, final @NonNull CommentHandler[] commentHandlers) {
         this.source = builder.getSource();
         this.sink = builder.getSink();
         this.headerMode = builder.getHeaderMode();
@@ -129,23 +131,23 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     @NonNull
     @Override
     public N load(@NonNull ConfigurationOptions options) throws IOException {
-        if (source == null) {
+        if (this.source == null) {
             throw new IOException("No source present to read from!");
         }
-        try (BufferedReader reader = source.call()) {
-            if (headerMode == HeaderMode.PRESERVE || headerMode == HeaderMode.NONE) {
-                @Nullable String comment = CommentHandlers.extractComment(reader, commentHandlers);
+        try (BufferedReader reader = this.source.call()) {
+            if (this.headerMode == HeaderMode.PRESERVE || this.headerMode == HeaderMode.NONE) {
+                final @Nullable String comment = CommentHandlers.extractComment(reader, this.commentHandlers);
                 if (comment != null && comment.length() > 0) {
                     options = options.withHeader(comment);
                 }
             }
-            N node = createEmptyNode(options);
+            final N node = createEmptyNode(options);
             loadInternal(node, reader);
             return node;
-        } catch (FileNotFoundException | NoSuchFileException e) {
+        } catch (final FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
             return createEmptyNode(options);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             if (e instanceof IOException) {
                 throw (IOException) e;
             } else {
@@ -157,14 +159,14 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     protected abstract void loadInternal(N node, BufferedReader reader) throws IOException;
 
     @Override
-    public void save(@NonNull ConfigurationNode node) throws IOException {
-        if (sink == null) {
+    public void save(final @NonNull ConfigurationNode node) throws IOException {
+        if (this.sink == null) {
             throw new IOException("No sink present to write to!");
         }
-        try (Writer writer = sink.call()) {
+        try (Writer writer = this.sink.call()) {
             writeHeaderInternal(writer);
-            if (headerMode != HeaderMode.NONE) {
-                String header = node.getOptions().getHeader();
+            if (this.headerMode != HeaderMode.NONE) {
+                final @Nullable String header = node.getOptions().getHeader();
                 if (header != null && !header.isEmpty()) {
                     for (String line : getDefaultCommentHandler().toComment(ImmutableList.copyOf(LINE_SPLITTER.split(header)))) {
                         writer.write(line);
@@ -174,7 +176,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
                 }
             }
             saveInternal(node, writer);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             if (e instanceof IOException) {
                 throw (IOException) e;
             } else {
@@ -183,9 +185,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         }
     }
 
-    protected void writeHeaderInternal(Writer writer) throws IOException {
-
-    }
+    protected void writeHeaderInternal(final Writer writer) throws IOException {}
 
     protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;
 
@@ -210,7 +210,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      *
      * @param <T> The builders own type (for chaining using generic types)
      */
-    protected static abstract class Builder<T extends Builder<T>> {
+    protected abstract static class Builder<T extends Builder<T>> {
         @NonNull protected HeaderMode headerMode = HeaderMode.PRESERVE;
         @Nullable protected Callable<BufferedReader> source;
         @Nullable protected Callable<BufferedWriter> sink;
@@ -237,7 +237,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setFile(@NonNull File file) {
+        public T setFile(final @NonNull File file) {
             return setPath(Objects.requireNonNull(file, "file").toPath());
         }
 
@@ -254,8 +254,8 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setPath(@NonNull Path path) {
-            Path absPath = Objects.requireNonNull(path, "path").toAbsolutePath();
+        public T setPath(final @NonNull Path path) {
+            final Path absPath = Objects.requireNonNull(path, "path").toAbsolutePath();
             this.source = () -> Files.newBufferedReader(absPath, StandardCharsets.UTF_8);
             this.sink = AtomicFiles.createAtomicWriterFactory(absPath, StandardCharsets.UTF_8);
             return self();
@@ -268,7 +268,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setURL(@NonNull URL url) {
+        public T setUrl(final @NonNull URL url) {
             Objects.requireNonNull(url, "url");
             this.source = () -> new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
             return self();
@@ -283,7 +283,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setSource(@Nullable Callable<BufferedReader> source) {
+        public T setSource(final @Nullable Callable<BufferedReader> source) {
             this.source = source;
             return self();
         }
@@ -297,7 +297,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setSink(@Nullable Callable<BufferedWriter> sink) {
+        public T setSink(final @Nullable Callable<BufferedWriter> sink) {
             this.sink = sink;
             return self();
         }
@@ -329,7 +329,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setHeaderMode(@NonNull HeaderMode mode) {
+        public T setHeaderMode(final @NonNull HeaderMode mode) {
             this.headerMode = Objects.requireNonNull(mode, "mode");
             return self();
         }
@@ -355,7 +355,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          */
         @NonNull
         @Deprecated
-        public T setPreservesHeader(boolean preservesHeader) {
+        public T setPreservesHeader(final boolean preservesHeader) {
             this.headerMode = preservesHeader ? HeaderMode.PRESERVE : HeaderMode.PRESET;
             return self();
         }
@@ -372,32 +372,35 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         }
 
         /**
-         * Sets the default configuration options to be used by the resultant loader.
+         * Sets the default configuration options to be used by the
+         * resultant loader.
          *
          * @param defaultOptions The options
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setDefaultOptions(@NonNull ConfigurationOptions defaultOptions) {
+        public T setDefaultOptions(final @NonNull ConfigurationOptions defaultOptions) {
             this.defaultOptions = Objects.requireNonNull(defaultOptions, "defaultOptions");
             return self();
         }
 
         /**
-         * Sets the default configuration options to be used by the resultant loader by providing
-         * a function which takes the current default options and applies any applicable changes.
+         * Sets the default configuration options to be used by the resultant
+         * loader by providing a function which takes the current default
+         * options and applies any desired changes.
          *
          * @param defaultOptions to transform the existing default options
          * @return This builder (for chaining)
          */
         @NonNull
-        public T setDefaultOptions(@NonNull UnaryOperator<ConfigurationOptions> defaultOptions) {
+        public T setDefaultOptions(final @NonNull UnaryOperator<ConfigurationOptions> defaultOptions) {
             this.defaultOptions = Objects.requireNonNull(defaultOptions.apply(this.defaultOptions), "defaultOptions (updated)");
             return self();
         }
 
         /**
-         * Gets the default configuration options to be used by the resultant loader.
+         * Gets the default configuration options to be used by the resultant
+         * loader.
          *
          * @return The options
          */

@@ -17,5 +17,7 @@
 package org.spongepowered.configurate;
 
 class VisitorSafeNoopException extends Exception {
+
     private static final long serialVersionUID = 3031624503762201856L;
+
 }

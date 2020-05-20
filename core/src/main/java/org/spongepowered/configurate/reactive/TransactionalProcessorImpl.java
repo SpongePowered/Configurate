@@ -23,12 +23,12 @@ import java.util.concurrent.Executor;
 
 class TransactionalProcessorImpl<V> extends AbstractProcessor<V, TransactionalRegistration<V>> implements Processor.TransactionalIso<V> {
 
-    protected TransactionalProcessorImpl(Executor executor) {
+    protected TransactionalProcessorImpl(final Executor executor) {
         super(executor);
     }
 
     @Override
-    public void submit(V item) {
+    public void submit(final V item) {
         executor.execute(() -> {
             Processor.TransactionalIso.super.submit(item);
         });
@@ -39,20 +39,20 @@ class TransactionalProcessorImpl<V> extends AbstractProcessor<V, TransactionalRe
         if (this.subscriberCount.get() >= 0) {
             boolean handled = false;
             for (Iterator<TransactionalRegistration<V>> it = this.registrations.iterator(); it.hasNext(); ) {
-                TransactionalRegistration<V> reg = it.next();
+                final TransactionalRegistration<V> reg = it.next();
                 try {
                     handled = true;
                     reg.beginTransaction(newValue);
-                } catch (TransactionFailedException ex) {
+                } catch (final TransactionFailedException ex) {
                     throw ex;
-                } catch (Throwable t) {
+                } catch (final Throwable t) {
                     it.remove();
                     subscriberCount.getAndDecrement();
                     reg.onError(t);
                 }
             }
             if (!handled) {
-                @Nullable Subscriber<V> fallback = this.fallbackHandler;
+                final @Nullable Subscriber<V> fallback = this.fallbackHandler;
                 if (fallback != null) {
                     fallback.submit(newValue);
                 }
@@ -72,11 +72,12 @@ class TransactionalProcessorImpl<V> extends AbstractProcessor<V, TransactionalRe
 
     @Override
     @SuppressWarnings("unchecked")
-    protected TransactionalRegistration<V> createRegistration(Subscriber<? super V> sub) {
+    protected TransactionalRegistration<V> createRegistration(final Subscriber<? super V> sub) {
         if (sub instanceof TransactionalSubscriber) {
             return new TransactionalRegistration.Fully<>(this, (TransactionalSubscriber<V>) sub);
         } else {
             return new TransactionalRegistration.Wrapped<>(this, sub);
         }
     }
+
 }

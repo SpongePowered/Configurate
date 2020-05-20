@@ -21,24 +21,28 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 /**
- * A TypeSerializer to directly access a {@link ConfigurationNode}. This allows bypassing the ObjectMapper in common cases.
+ * A TypeSerializer to directly access a {@link ConfigurationNode}. This allows
+ * bypassing the ObjectMapper in common cases.
  *
- * This serializer uses copies -- so changing the contents of the mapped node is not reflected in the source, and vice versa.
+ * <p>This serializer uses copied nodes -- so changing the contents of the
+ * mapped node is not reflected in the source, and vice versa.
  */
 class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
+
     static final TypeToken<ConfigurationNode> TYPE = TypeToken.of(ConfigurationNode.class);
 
     @Nullable
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> ConfigurationNode deserialize(@NonNull TypeToken<?> type, @NonNull Node node) throws ObjectMappingException {
+    public <N extends ScopedConfigurationNode<N>> ConfigurationNode deserialize(final @NonNull TypeToken<?> type, final @NonNull N node) {
         return node.copy();
     }
 
     @Override
-    public <Node extends ScopedConfigurationNode<Node>> void serialize(@NonNull TypeToken<?> type, @Nullable ConfigurationNode obj, @NonNull Node node) throws ObjectMappingException {
+    public <N extends ScopedConfigurationNode<N>> void serialize(final @NonNull TypeToken<?> type, final @Nullable ConfigurationNode obj,
+            final @NonNull N node) {
         node.setValue(obj);
     }
+
 }

@@ -23,22 +23,25 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A publisher that handles a single value submitted through a CompletableFuture.
+ * A publisher that handles a single value submitted through
+ * a CompletableFuture.
  *
- * When subscribed after the original action is complete, the original result of the future will be submitted.
+ * <p>When subscribed after the original action is complete, the original result
+ * of the future will be submitted.
  *
  * @param <V> value type
  */
 class ExecutePublisher<V> implements Publisher<V> {
+
     private final CompletableFuture<V> actor;
     private final Executor executor;
 
-    public ExecutePublisher(CheckedSupplier<V, ?> action, Executor exec) {
+    ExecutePublisher(final CheckedSupplier<V, ?> action, final Executor exec) {
         this.actor = new CompletableFuture<>();
         exec.execute(() -> {
             try {
                 this.actor.complete(action.get());
-            } catch (Throwable ex) {
+            } catch (final Throwable ex) {
                 this.actor.completeExceptionally(ex);
             }
         });
@@ -46,7 +49,7 @@ class ExecutePublisher<V> implements Publisher<V> {
     }
 
     @Override
-    public Disposable subscribe(Subscriber<? super V> subscriber) {
+    public Disposable subscribe(final Subscriber<? super V> subscriber) {
         final AtomicBoolean subscribed = new AtomicBoolean();
         this.actor.whenCompleteAsync((value, err) -> {
             if (subscribed.compareAndSet(true, false)) { // guard against multiple values
@@ -56,7 +59,7 @@ class ExecutePublisher<V> implements Publisher<V> {
                     try {
                         subscriber.submit(value);
                         subscriber.onClose();
-                    } catch (Throwable t) {
+                    } catch (final Throwable t) {
                         subscriber.onError(t);
                     }
                 }
@@ -74,4 +77,5 @@ class ExecutePublisher<V> implements Publisher<V> {
     public Executor getExecutor() {
         return this.executor;
     }
+
 }

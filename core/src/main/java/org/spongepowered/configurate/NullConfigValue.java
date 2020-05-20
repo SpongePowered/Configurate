@@ -24,7 +24,8 @@ import java.util.Collections;
 /**
  * A {@link ConfigValue} which holds no value.
  */
-class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+
     @SuppressWarnings("rawtypes")
     private static final NullConfigValue INSTANCE = new NullConfigValue();
 
@@ -45,24 +46,24 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
     @Override
-    public void setValue(@Nullable Object value) {
+    public void setValue(final @Nullable Object value) {
     }
 
     @Nullable
     @Override
-    T putChild(@NonNull Object key, @Nullable T value) {
+    T putChild(final @NonNull Object key, final @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
+    T putChildIfAbsent(final @NonNull Object key, final @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    public T getChild(@Nullable Object key) {
+    public T getChild(final @Nullable Object key) {
         return null;
     }
 
@@ -74,7 +75,7 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
 
     @NonNull
     @Override
-    NullConfigValue<N, T> copy(@NonNull T holder) {
+    NullConfigValue<N, T> copy(final @NonNull T holder) {
         return instance();
     }
 
@@ -88,7 +89,7 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         return o instanceof NullConfigValue;
     }
 
@@ -101,4 +102,5 @@ class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     public String toString() {
         return "NullConfigValue{}";
     }
+
 }

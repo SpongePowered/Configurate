@@ -33,25 +33,26 @@ import java.util.List;
  * @param <T> The type of collection to serialize
  */
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
+
     @Override
-    public <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(TypeToken<?> type, N node) throws ObjectMappingException {
-        TypeToken<?> entryType = getElementType(type);
-        @Nullable TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
+    public <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(final TypeToken<?> type, final N node) throws ObjectMappingException {
+        final TypeToken<?> entryType = getElementType(type);
+        final @Nullable TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
         if (node.isList()) {
-            List<N> values = node.getChildrenList();
-            T ret = createNew(values.size(), entryType);
+            final List<N> values = node.getChildrenList();
+            final T ret = createNew(values.size(), entryType);
             for (int i = 0; i < values.size(); ++i) {
                 deserializeSingle(i, ret, entrySerial.deserialize(entryType, values.get(i)));
             }
             return ret;
         } else {
-            @Nullable Object unwrappedVal = node.getValue();
+            final @Nullable Object unwrappedVal = node.getValue();
             if (unwrappedVal != null) {
-                T ret = createNew(1, entryType);
+                final T ret = createNew(1, entryType);
                 deserializeSingle(0, ret, entrySerial.deserialize(entryType, node));
                 return ret;
             }
@@ -61,9 +62,10 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public <N extends ScopedConfigurationNode<N>> void serialize(TypeToken<?> type, @Nullable T obj, N node) throws ObjectMappingException {
-        TypeToken<?> entryType = getElementType(type);
-        @Nullable TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
+    public <N extends ScopedConfigurationNode<N>> void serialize(final TypeToken<?> type,
+            final @Nullable T obj, final N node) throws ObjectMappingException {
+        final TypeToken<?> entryType = getElementType(type);
+        final @Nullable TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
@@ -77,22 +79,26 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
     }
 
     /**
-     * Given the type of container, provide the expected type of an element. If the element type is not available, an
-     * exception must be thrown.
+     * Given the type of container, provide the expected type of an element. If
+     * the element type is not available, an exception must be thrown.
      *
-     * @param containerType The type of container with type parameters resolved to the extent possible.
+     * @param containerType The type of container with type parameters resolved
+     *                      to the extent possible.
      * @return The element type
      * @throws ObjectMappingException If the element type could not be detected
      */
     abstract TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException;
 
     /**
-     * Create a new instance of the collection. The returned instance must be mutable, but may have a fixed length.
+     * Create a new instance of the collection. The returned instance must be
+     * mutable, but may have a fixed length.
      *
      * @param length The necessary collection length
-     * @param elementType The type of element contained within the collection, as provided by {@link #getElementType(TypeToken)}
+     * @param elementType The type of element contained within the collection,
+     *                    as provided by {@link #getElementType(TypeToken)}
      * @return A newly created collection
-     * @throws ObjectMappingException When an error occurs during the creation of the collection
+     * @throws ObjectMappingException When an error occurs during the creation
+     *                                of the collection
      */
     abstract T createNew(int length, TypeToken<?> elementType) throws ObjectMappingException;
 
@@ -107,5 +113,15 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      */
     abstract void forEachElement(T collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
 
+    /**
+     * Place a single deserialized value into the collection being deserialized.
+     *
+     * @param index Location to set value at
+     * @param collection Collection to modify
+     * @param deserialized value to add
+     * @throws ObjectMappingException if object could not be coerced to an
+     *         appropriate type.
+     */
     abstract void deserializeSingle(int index, T collection, @Nullable Object deserialized) throws ObjectMappingException;
+
 }

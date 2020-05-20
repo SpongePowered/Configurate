@@ -16,19 +16,25 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.spongepowered.configurate.*;
+import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ObjectMapperTest {
 
@@ -96,24 +102,23 @@ public class ObjectMapperTest {
 
     @Test
     public void testCommentsApplied() throws ObjectMappingException {
-        CommentedConfigurationNode node = CommentedConfigurationNode.root();
-        ObjectMapper<CommentedObject>.BoundInstance mapper = ObjectMapper.forClass(CommentedObject.class).bindToNew();
-        CommentedObject obj = mapper.populate(node);
+        final CommentedConfigurationNode node = CommentedConfigurationNode.root();
+        final ObjectMapper<CommentedObject>.BoundInstance mapper = ObjectMapper.forClass(CommentedObject.class).bindToNew();
+        final CommentedObject obj = mapper.populate(node);
         obj.color = "fuchsia";
         obj.politician = "All of them";
         mapper.serialize(node);
-        assertEquals("You look nice today", node.getNode("commented-key").getComment().orElse(null));
+        assertEquals("You look nice today", node.getNode("commented-key").getComment());
         assertEquals("fuchsia", node.getNode("commented-key").getString());
-        assertFalse(node.getNode("no-comment").getComment().isPresent());
+        assertNull(node.getNode("no-comment").getComment());
     }
-
 
     @ConfigSerializable
     private static class NonZeroArgConstructorObject {
         @Setting private long key;
         private final String value;
 
-        protected NonZeroArgConstructorObject(String value) {
+        protected NonZeroArgConstructorObject(final String value) {
             this.value = value;
         }
     }
@@ -121,7 +126,7 @@ public class ObjectMapperTest {
     @Test
     public void testNoArglessConstructor() throws ObjectMappingException {
         Assertions.assertTrue(assertThrows(ObjectMappingException.class, () -> {
-            ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.forClass(NonZeroArgConstructorObject.class);
+            final ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.forClass(NonZeroArgConstructorObject.class);
             assertFalse(mapper.canCreateInstances());
             mapper.bindToNew();
         }).getMessage().startsWith("No zero-arg constructor"));
@@ -135,11 +140,11 @@ public class ObjectMapperTest {
     @Test
     public void testSuperclassFieldsIncluded() throws ObjectMappingException {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.forClass(TestObjectChild.class);
-        BasicConfigurationNode node = BasicConfigurationNode.root();
+        final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("child-setting").setValue(true);
         node.getNode("test-key").setValue("Parents get populated too!");
 
-        TestObjectChild instance = mapper.bindToNew().populate(node);
+        final TestObjectChild instance = mapper.bindToNew().populate(node);
         assertTrue(instance.childSetting);
         assertEquals("Parents get populated too!", instance.stringVal);
     }
@@ -155,7 +160,7 @@ public class ObjectMapperTest {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("loads").setValue(true);
 
-        FieldNameObject obj = mapper.bindToNew().populate(node);
+        final FieldNameObject obj = mapper.bindToNew().populate(node);
         assertTrue(obj.loads);
     }
 
@@ -170,13 +175,13 @@ public class ObjectMapperTest {
 
     @Test
     public void testNestedObjectWithComments() throws ObjectMappingException {
-        CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
+        final CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         final ObjectMapper<ParentObject>.BoundInstance mapper = ObjectMapper.forObject(new ParentObject());
         mapper.populate(node);
-        assertEquals("Comment on parent", node.getNode("inner").getComment().get());
+        assertEquals("Comment on parent", node.getNode("inner").getComment());
         assertTrue(node.getNode("inner").isMap());
         assertEquals("Default value", node.getNode("inner", "test").getString());
-        assertEquals("Something", node.getNode("inner", "test").getComment().get());
+        assertEquals("Something", node.getNode("inner", "test").getComment());
     }
 
     @ConfigSerializable
@@ -188,7 +193,7 @@ public class ObjectMapperTest {
         @Setting(comment = "Something") private String test = "Default value";
 
         @Override public String getTest() {
-            return test;
+            return this.test;
         }
     }
 
@@ -200,7 +205,6 @@ public class ObjectMapperTest {
 
     @Test
     public void testInterfaceSerialization() throws ObjectMappingException {
-        CommentedConfigurationNode node = CommentedConfigurationNode.root();
 
         final ChildObject childObject = new ChildObject();
         childObject.test = "Changed value";
@@ -209,6 +213,7 @@ public class ObjectMapperTest {
         containingObject.list.add(childObject);
         containingObject.inner = childObject;
 
+        final CommentedConfigurationNode node = CommentedConfigurationNode.root();
         final ObjectMapper<ContainingObject> mapper = ObjectMapper.forClass(ContainingObject.class);
         mapper.bind(containingObject).serialize(node);
 
@@ -218,8 +223,8 @@ public class ObjectMapperTest {
         assertEquals(1, node.getNode("list").getChildrenList().size());
         assertEquals("Changed value", node.getNode("inner").getNode("test").getString());
         assertEquals("Changed value", node.getNode("list").getChildrenList().get(0).getNode("test").getString());
-        assertEquals("Something", node.getNode("inner").getNode("test").getComment().get());
-        assertEquals("Something", node.getNode("list").getChildrenList().get(0).getNode("test").getComment().get());
+        assertEquals("Something", node.getNode("inner").getNode("test").getComment());
+        assertEquals("Something", node.getNode("list").getChildrenList().get(0).getNode("test").getComment());
         assertEquals(ChildObject.class.getName(), node.getNode("inner").getNode("__class__").getString());
         assertEquals(ChildObject.class.getName(), node.getNode("list").getChildrenList().get(0).getNode("__class__").getString());
 
@@ -245,16 +250,16 @@ public class ObjectMapperTest {
         final TypeToken<GenericSerializable<String>> stringSerializable = new TypeToken<GenericSerializable<String>>() {};
         final TypeToken<GenericSerializable<Integer>> intSerializable = new TypeToken<GenericSerializable<Integer>>() {};
 
-        ObjectMapper<GenericSerializable<String>> stringMapper = ObjectMapper.forType(stringSerializable);
-        ObjectMapper<GenericSerializable<Integer>> intMapper = ObjectMapper.forType(intSerializable);
+        final ObjectMapper<GenericSerializable<String>> stringMapper = ObjectMapper.forType(stringSerializable);
+        final ObjectMapper<GenericSerializable<Integer>> intMapper = ObjectMapper.forType(intSerializable);
 
-        BasicConfigurationNode stringNode = BasicConfigurationNode.root(p -> {
+        final BasicConfigurationNode stringNode = BasicConfigurationNode.root(p -> {
             p.getNode("elements").act(n -> {
                 n.appendListNode().setValue("hello");
                 n.appendListNode().setValue("world");
             });
         });
-        BasicConfigurationNode intNode = BasicConfigurationNode.root(p -> {
+        final BasicConfigurationNode intNode = BasicConfigurationNode.root(p -> {
             p.getNode("elements").act(n -> {
                 n.appendListNode().setValue(1);
                 n.appendListNode().setValue(1);
@@ -265,18 +270,18 @@ public class ObjectMapperTest {
             });
         });
 
-        GenericSerializable<String> stringObject = stringMapper.bindToNew().populate(stringNode);
+        final GenericSerializable<String> stringObject = stringMapper.bindToNew().populate(stringNode);
         assertEquals(ImmutableList.of("hello", "world"), stringObject.elements);
 
-        GenericSerializable<Integer> intObject = intMapper.bindToNew().populate(intNode);
+        final GenericSerializable<Integer> intObject = intMapper.bindToNew().populate(intNode);
         assertEquals(ImmutableList.of(1, 1, 2, 3, 5, 8), intObject.elements);
     }
 
     @Test
     public void testGenericsResolvedThroughSuperclass() throws ObjectMappingException, MalformedURLException {
-        ObjectMapper<ParentTypesResolved> mapper = ObjectMapper.forClass(ParentTypesResolved.class);
+        final ObjectMapper<ParentTypesResolved> mapper = ObjectMapper.forClass(ParentTypesResolved.class);
 
-        BasicConfigurationNode urlNode = BasicConfigurationNode.root(p -> {
+        final BasicConfigurationNode urlNode = BasicConfigurationNode.root(p -> {
             p.getNode("elements").act(n -> {
                 n.appendListNode().setValue("https://spongepowered.org");
                 n.appendListNode().setValue("https://yaml.org");
@@ -284,14 +289,15 @@ public class ObjectMapperTest {
             p.getNode("test").setValue("bye");
         });
 
-        ParentTypesResolved resolved = mapper.bindToNew().populate(urlNode);
+        final ParentTypesResolved resolved = mapper.bindToNew().populate(urlNode);
         assertEquals(ImmutableList.of(new URL("https://spongepowered.org"), new URL("https://yaml.org")), resolved.elements);
         assertEquals("bye", resolved.test);
 
     }
 
     @Test
-    public void testDirectInterfacesProhibited() throws ObjectMappingException {
+    public void testDirectInterfacesProhibited() {
         assertThrows(ObjectMappingException.class, () -> ObjectMapper.forClass(ParentInterface.class));
     }
+
 }

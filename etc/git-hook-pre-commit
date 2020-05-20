@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ -n "$IN_NIX_SHELL" ]; then # We are using an appropriate gradle version
-gradle licenseCheck
+gradle licenseCheck check
 else # Just use he wrapper
-./gradlew licenseCheck
+./gradlew licenseCheck check
 fi

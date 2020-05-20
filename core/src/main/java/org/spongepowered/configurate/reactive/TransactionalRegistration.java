@@ -21,10 +21,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A registration that is transaction-aware
- * @param <V>
+ * A registration that is transaction-aware.
+ *
+ * @param <V> value type
  */
 interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V> {
+
     TransactionalProcessorImpl<V> getHolder();
 
     @Override
@@ -45,20 +47,24 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
     }
 
     void beginTransaction(V value) throws TransactionFailedException;
+
     void commit();
+
     void rollback();
 
     /**
-     * Wrapper to allow non-transactional subscribers to function within a transactional environment
+     * Wrapper to allow non-transactional subscribers to function within a
+     * transactional environment.
      *
      * @param <V> The value type
      */
     class Wrapped<V> implements TransactionalRegistration<V> {
+
         private final AtomicReference<V> active = new AtomicReference<>();
         private final TransactionalProcessorImpl<V> holder;
         private final Subscriber<? super V> sub;
 
-        Wrapped(TransactionalProcessorImpl<V> holder, Subscriber <? super V> sub) {
+        Wrapped(final TransactionalProcessorImpl<V> holder, final Subscriber<? super V> sub) {
             this.holder = holder;
             this.sub = sub;
 
@@ -70,36 +76,38 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
         }
 
         @Override
-        public void beginTransaction(V value) {
-            active.set(value);
+        public void beginTransaction(final V value) {
+            this.active.set(value);
         }
 
         public void commit() {
-            V active = this.active.getAndSet(null);
+            final V active = this.active.getAndSet(null);
             if (active != null) {
                 this.sub.submit(active);
             }
         }
 
         public void rollback() {
-            active.set(null);
+            this.active.set(null);
         }
-
 
         @Override
         public void onClose() {
-            sub.onClose();
+            this.sub.onClose();
         }
 
         @Override
-        public void onError(Throwable e) {
-            sub.onError(e);
+        public void onError(final Throwable e) {
+            this.sub.onError(e);
         }
     }
 
     /**
-     * A fully transactional registration. To ensure the integrity of values, a lock will be acquired before beginning the transaction, and only released upon a {@link #commit()} or {@link #rollback()}
-     * @param <V>
+     * A fully transactional registration. To ensure the integrity of values,
+     * a lock will be acquired before beginning the transaction,
+     * and only be released upon a {@link #commit()} or {@link #rollback()}
+     *
+     * @param <V> value type
      */
     class Fully<V> implements TransactionalRegistration<V> {
 
@@ -119,7 +127,7 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
 
         @Override
         public void beginTransaction(final V value) throws TransactionFailedException {
-            lock.lock();
+            this.lock.lock();
             this.sub.beginTransaction(value);
         }
 
@@ -128,7 +136,9 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
             try {
                 this.sub.commit();
             } finally {
-                lock.unlock();
+                try {
+                    this.lock.unlock();
+                } catch (final IllegalMonitorStateException ignored) { }
             }
         }
 
@@ -137,7 +147,9 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
             try {
                 this.sub.rollback();
             } finally {
-                lock.unlock();
+                try {
+                    this.lock.unlock();
+                } catch (final IllegalMonitorStateException ignore) { }
             }
         }
 
@@ -147,8 +159,10 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
         }
 
         @Override
-        public void onError(Throwable e) {
+        public void onError(final Throwable e) {
             this.sub.onError(e);
         }
+
     }
+
 }

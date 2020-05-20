@@ -16,9 +16,11 @@
  */
 /**
  * Configuration tree transformations
- * <p>
- * Transformations in this package can be used to evolve a configuration structure over time. Builders are in the {@link
- * org.spongepowered.configurate.transformation.ConfigurationTransformation} class, and provide simple, chained, and
- * versioned transformations for any node.
+ *
+ * <p>Transformations in this package can be used to evolve a configuration
+ * structure over time. Builders are in the
+ * {@link org.spongepowered.configurate.transformation.ConfigurationTransformation}
+ * class, and provide simple, chained, and versioned transformations for
+ * any node.
  */
 package org.spongepowered.configurate.transformation;

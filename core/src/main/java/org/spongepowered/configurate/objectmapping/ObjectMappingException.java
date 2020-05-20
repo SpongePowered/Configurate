@@ -17,27 +17,30 @@
 package org.spongepowered.configurate.objectmapping;
 
 /**
- * Exception thrown on errors encountered while mapping objects
+ * Exception thrown on errors encountered while mapping objects.
  */
 public class ObjectMappingException extends Exception {
+
     public static final long serialVersionUID = 2310268704411616686L;
+
     public ObjectMappingException() {
         super();
     }
 
-    public ObjectMappingException(String message) {
+    public ObjectMappingException(final String message) {
         super(message);
     }
 
-    public ObjectMappingException(String message, Throwable cause) {
+    public ObjectMappingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ObjectMappingException(Throwable cause) {
+    public ObjectMappingException(final Throwable cause) {
         super(cause);
     }
 
-    protected ObjectMappingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected ObjectMappingException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

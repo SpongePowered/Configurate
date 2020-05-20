@@ -22,17 +22,18 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-final class UUIDSerializer extends ScalarSerializer<UUID> {
+final class UuidSerializer extends ScalarSerializer<UUID> {
+
     private static final char DASH = '-';
 
-    UUIDSerializer() {
+    UuidSerializer() {
         super(UUID.class);
     }
 
     @Override
-    public UUID deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException {
+    public UUID deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
         if (obj instanceof long[]) {
-            long[] arr = (long[]) obj;
+            final long[] arr = (long[]) obj;
             if (arr.length == 2) { // big-endian, cuz we're java
                 return new UUID(arr[0], arr[1]);
             }
@@ -49,13 +50,14 @@ final class UUIDSerializer extends ScalarSerializer<UUID> {
         }
         try {
             return UUID.fromString(uuidStr);
-        } catch (IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ex) {
             throw new CoercionFailedException(obj, "UUID");
         }
     }
 
     @Override
-    public Object serialize(UUID item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final UUID item, final Predicate<Class<?>> typeSupported) {
         return item.toString();
     }
+
 }

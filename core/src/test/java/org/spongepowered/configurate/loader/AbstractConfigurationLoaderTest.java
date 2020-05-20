@@ -28,16 +28,17 @@ import java.nio.file.Path;
 public class AbstractConfigurationLoaderTest {
 
     @Test
-    public void testLoadNonexistantPath(@TempDirectory.TempDir Path tempDir) throws IOException {
-        Path tempPath = tempDir.resolve("text5.txt").getRoot().resolve("does-not-exist-dont-edit-testdir");
-        TestConfigurationLoader loader = TestConfigurationLoader.builder().setPath(tempPath).build();
+    public void testLoadNonexistantPath(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final Path tempPath = tempDir.resolve("text5.txt").getRoot().resolve("does-not-exist-dont-edit-testdir");
+        final TestConfigurationLoader loader = TestConfigurationLoader.builder().setPath(tempPath).build();
         loader.load();
     }
 
     @Test
-    public void testLoadNonexistantFile(@TempDirectory.TempDir Path tempDir) throws IOException {
-        File tempFile = new File(tempDir.resolve("text5.txt").getRoot().toFile(), "does-not-exist-dont-edit-testdir");
-        TestConfigurationLoader loader = TestConfigurationLoader.builder().setFile(tempFile).build();
+    public void testLoadNonexistantFile(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final File tempFile = new File(tempDir.resolve("text5.txt").getRoot().toFile(), "does-not-exist-dont-edit-testdir");
+        final TestConfigurationLoader loader = TestConfigurationLoader.builder().setFile(tempFile).build();
         loader.load();
     }
+
 }

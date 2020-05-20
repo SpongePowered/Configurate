@@ -16,13 +16,20 @@
  */
 package org.spongepowered.configurate.reactive;
 
+/**
+ * Indicate that the newly submitted value was invalid, and the transaction that
+ * submitted the new value should be marked as a failure.
+ */
 public class TransactionFailedException extends Exception {
+
     private static final long serialVersionUID = -3726752009864775844L;
+
     public TransactionFailedException() {
         super();
     }
     
-    public TransactionFailedException(Throwable cause) {
+    public TransactionFailedException(final Throwable cause) {
         super(cause);
     }
+
 }

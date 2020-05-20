@@ -29,7 +29,8 @@ import java.util.TreeMap;
 public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
 
     /**
-     * A special object that represents a wildcard in a path provided to a configuration transformer
+     * A special object that represents a wildcard in a path provided to a
+     * configuration transformer.
      */
     public static final Object WILDCARD_OBJECT = new Object();
 
@@ -63,13 +64,14 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      * @param transformations The transformations
      * @return The resultant transformation chain
      */
-    @NonNull
-    public static <T extends ConfigurationNode> ConfigurationTransformation<T> chain(ConfigurationTransformation<? super T>... transformations) {
+    @SafeVarargs
+    public static <T extends ConfigurationNode> ConfigurationTransformation<T>
+        chain(final ConfigurationTransformation<? super T>... transformations) {
         return new ChainedConfigurationTransformation<>(transformations);
     }
 
     /**
-     * Apply this transformation to a given node
+     * Apply this transformation to a given node.
      *
      * @param node The target node
      */
@@ -94,8 +96,8 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder<T> addAction(NodePath path, TransformAction<? super T> action) {
-            actions.put(path, action);
+        public Builder<T> addAction(final NodePath path, final TransformAction<? super T> action) {
+            this.actions.put(path, action);
             return this;
         }
 
@@ -106,7 +108,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          */
         @NonNull
         public MoveStrategy getMoveStrategy() {
-            return strategy;
+            return this.strategy;
         }
 
         /**
@@ -116,7 +118,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder<T> setMoveStrategy(@NonNull MoveStrategy strategy) {
+        public Builder<T> setMoveStrategy(final @NonNull MoveStrategy strategy) {
             this.strategy = strategy;
             return this;
         }
@@ -128,7 +130,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          */
         @NonNull
         public ConfigurationTransformation<T> build() {
-            return new SingleConfigurationTransformation<>(actions, strategy);
+            return new SingleConfigurationTransformation<>(this.actions, this.strategy);
         }
     }
 
@@ -148,7 +150,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          * @return This builder (for chaining)
          */
         @NonNull
-        public VersionedBuilder<T> setVersionKey(@NonNull Object... versionKey) {
+        public VersionedBuilder<T> setVersionKey(final @NonNull Object... versionKey) {
             this.versionKey = NodePath.create(versionKey);
             return this;
         }
@@ -161,8 +163,8 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          * @return This builder (for chaining)
          */
         @NonNull
-        public VersionedBuilder<T> addVersion(int version, @NonNull ConfigurationTransformation<? super T> transformation) {
-            versions.put(version, transformation);
+        public VersionedBuilder<T> addVersion(final int version, final @NonNull ConfigurationTransformation<? super T> transformation) {
+            this.versions.put(version, transformation);
             return this;
         }
 
@@ -173,7 +175,8 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          */
         @NonNull
         public ConfigurationTransformation<T> build() {
-            return new VersionedTransformation<>(versionKey, versions);
+            return new VersionedTransformation<>(this.versionKey, this.versions);
         }
     }
+
 }

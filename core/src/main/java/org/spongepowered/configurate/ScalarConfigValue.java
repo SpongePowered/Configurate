@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate;
 
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -23,26 +25,25 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * A {@link ConfigValue} which holds a single ("scalar") value.
  */
 class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
-    private volatile Object value;
 
-    ScalarConfigValue(T holder) {
+    private volatile @Nullable Object value;
+
+    ScalarConfigValue(final T holder) {
         super(holder);
     }
 
     @Nullable
     @Override
     public Object getValue() {
-        return value;
+        return this.value;
     }
 
     @Override
-    public void setValue(@Nullable Object value) {
+    public void setValue(final @Nullable Object value) {
         if (!holder.getOptions().acceptsType(requireNonNull(value).getClass())) {
             throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
@@ -51,19 +52,19 @@ class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstract
 
     @Nullable
     @Override
-    T putChild(@NonNull Object key, @Nullable T value) {
+    T putChild(final @NonNull Object key, final @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
+    T putChildIfAbsent(final @NonNull Object key, final @Nullable T value) {
         return null;
     }
 
     @Nullable
     @Override
-    public T getChild(@Nullable Object key) {
+    public T getChild(final @Nullable Object key) {
         return null;
     }
 
@@ -75,43 +76,44 @@ class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstract
 
     @NonNull
     @Override
-    ScalarConfigValue<N, T> copy(@NonNull T holder) {
-        ScalarConfigValue<N, T> copy = new ScalarConfigValue<>(holder);
+    ScalarConfigValue<N, T> copy(final @NonNull T holder) {
+        final ScalarConfigValue<N, T> copy = new ScalarConfigValue<>(holder);
         copy.value = this.value;
         return copy;
     }
 
     @Override
     boolean isEmpty() {
-        final Object value = this.value;
+        final @Nullable Object value = this.value;
         return (value instanceof String && ((String) value).isEmpty())
                 || (value instanceof Collection<?> && ((Collection<?>) value).isEmpty());
     }
 
     @Override
     public void clear() {
-       this.value = null;
+        this.value = null;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ScalarConfigValue<?, ?> that = (ScalarConfigValue<?, ?>) o;
-        return Objects.equals(value, that.value);
+        final ScalarConfigValue<?, ?> that = (ScalarConfigValue<?, ?>) o;
+        return Objects.equals(this.value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return 7 + Objects.hashCode(value);
+        return 7 + Objects.hashCode(this.value);
     }
 
     @Override
     public String toString() {
         return "ScalarConfigValue{value=" + this.value + '}';
     }
+
 }

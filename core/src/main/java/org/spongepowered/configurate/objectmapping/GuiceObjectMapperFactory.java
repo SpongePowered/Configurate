@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -23,43 +25,44 @@ import com.google.common.reflect.TypeToken;
 import com.google.inject.Injector;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.concurrent.ExecutionException;
-
-import static java.util.Objects.requireNonNull;
 
 /**
- * A factory for {@link ObjectMapper}s that will inherit the injector from wherever it is provided.
+ * A factory for {@link ObjectMapper}s that will inherit the injector from
+ * wherever it is provided.
  *
- * <p>This class is intended to be constructed through Guice dependency injection.</p>
+ * <p>This class is intended to be constructed through Guice
+ * dependency injection.
  */
 @Singleton
 public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
+
     private final LoadingCache<TypeToken<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
             .weakKeys().maximumSize(512)
             .build(new CacheLoader<TypeToken<?>, ObjectMapper<?>>() {
                 @Override
-                public ObjectMapper<?> load(TypeToken<?> key) throws Exception {
-                    return new GuiceObjectMapper<>(injector, key);
+                public ObjectMapper<?> load(final TypeToken<?> key) throws Exception {
+                    return new GuiceObjectMapper<>(GuiceObjectMapperFactory.this.injector, key);
                 }
             });
 
     private final Injector injector;
 
     @Inject
-    protected GuiceObjectMapperFactory(Injector baseInjector) {
+    protected GuiceObjectMapperFactory(final Injector baseInjector) {
         this.injector = baseInjector;
     }
 
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException {
+    public <T> ObjectMapper<T> getMapper(final @NonNull TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
         try {
-            return (ObjectMapper<T>) cache.get(type);
-        } catch (ExecutionException e) {
+            return (ObjectMapper<T>) this.cache.get(type);
+        } catch (final ExecutionException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();
             } else {
@@ -72,4 +75,5 @@ public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
     public String toString() {
         return "GuiceObjectMapperFactory{}";
     }
+
 }

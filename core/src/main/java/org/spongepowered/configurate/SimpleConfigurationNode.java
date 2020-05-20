@@ -20,17 +20,19 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 class SimpleConfigurationNode extends AbstractConfigurationNode<BasicConfigurationNode, SimpleConfigurationNode> implements BasicConfigurationNode {
-    protected SimpleConfigurationNode(@Nullable Object key, @Nullable SimpleConfigurationNode parent, @NonNull ConfigurationOptions options) {
+
+    protected SimpleConfigurationNode(final @Nullable Object key, final @Nullable SimpleConfigurationNode parent,
+            final @NonNull ConfigurationOptions options) {
         super(key, parent, options);
     }
 
-    protected SimpleConfigurationNode(SimpleConfigurationNode parent, SimpleConfigurationNode copyOf) {
+    protected SimpleConfigurationNode(final @Nullable SimpleConfigurationNode parent, final SimpleConfigurationNode copyOf) {
         super(parent, copyOf);
     }
 
     @NonNull
     @Override
-    protected SimpleConfigurationNode copy(@Nullable SimpleConfigurationNode parent) {
+    protected SimpleConfigurationNode copy(final @Nullable SimpleConfigurationNode parent) {
         return new SimpleConfigurationNode(parent, this);
     }
 
@@ -46,7 +48,8 @@ class SimpleConfigurationNode extends AbstractConfigurationNode<BasicConfigurati
     }
 
     @Override
-    protected SimpleConfigurationNode createNode(Object path) {
+    protected SimpleConfigurationNode createNode(final Object path) {
         return new SimpleConfigurationNode(path, this, getOptions());
     }
+
 }

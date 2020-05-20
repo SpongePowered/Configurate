@@ -19,17 +19,19 @@ package org.spongepowered.configurate.util;
 import java.util.function.Consumer;
 
 /**
- * A functional interface similar to Consumer, except allowing contained methods to throw exceptions
+ * A functional interface similar to Consumer, except allowing contained methods
+ * to throw exceptions.
  *
  * @param <V> The value accepted
  * @param <E> The exception type thrown
  */
 @FunctionalInterface
 public interface CheckedConsumer<V, E extends Throwable> {
+
     void accept(V value) throws E;
 
     /**
-     * Create an instance from an ordinary consumer
+     * Create an instance from an ordinary consumer.
      *
      * @param consumer The consumer to convert
      * @param <V> The type returned by the consumer
@@ -38,4 +40,5 @@ public interface CheckedConsumer<V, E extends Throwable> {
     static <V> CheckedConsumer<V, RuntimeException> fromConsumer(Consumer<V> consumer) {
         return consumer::accept;
     }
+
 }

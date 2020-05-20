@@ -23,14 +23,15 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import java.util.function.Predicate;
 
 final class CharSerializer extends ScalarSerializer<Character> {
+
     CharSerializer() {
         super(Character.class);
     }
 
     @Override
-    public Character deserialize(TypeToken<?> type, Object val) throws ObjectMappingException {
+    public Character deserialize(final TypeToken<?> type, final Object val) throws ObjectMappingException {
         if (val instanceof String) {
-            String strVal = ((String) val);
+            final String strVal = ((String) val);
             if (strVal.length() == 1) {
                 return strVal.charAt(0);
             }
@@ -42,11 +43,12 @@ final class CharSerializer extends ScalarSerializer<Character> {
     }
 
     @Override
-    public Object serialize(@NonNull Character item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final @NonNull Character item, final Predicate<Class<?>> typeSupported) {
         if (typeSupported.test(char.class)) {
             return item;
         } else {
             return item.toString();
         }
     }
+
 }

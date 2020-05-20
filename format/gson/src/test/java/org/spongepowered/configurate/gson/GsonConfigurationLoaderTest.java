@@ -16,6 +16,9 @@
  */
 package org.spongepowered.configurate.gson;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
@@ -36,9 +39,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
  * Basic sanity checks for the loader
  */
@@ -46,13 +46,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GsonConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/example.json");
+    public void testSimpleLoading(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
-        ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
+        final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
-        ConfigurationNode node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
+        final ConfigurationNode node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
@@ -63,24 +63,24 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testSavingEmptyFile(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testSavingEmptyFile(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final File tempFile = tempDir.resolve("text2.txt").toFile();
         tempFile.createNewFile();
 
-        ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
+        final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setFile(tempFile)
                 .build();
 
-        BasicConfigurationNode n = BasicConfigurationNode.root();
+        final BasicConfigurationNode n = BasicConfigurationNode.root();
         loader.save(n);
     }
 
     @Test
-    public void testLoadingEmptyFile(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testLoadingEmptyFile(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final File tempFile = tempDir.resolve("text3.txt").toFile();
         tempFile.createNewFile();
 
-        ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
+        final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setFile(tempFile)
                 .build();
 
@@ -88,44 +88,44 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testLoadingFileWithEmptyObject(@TempDirectory.TempDir Path tempDir) throws IOException {
-        URL url = getClass().getResource("/emptyObject.json");
+    public void testLoadingFileWithEmptyObject(final @TempDirectory.TempDir Path tempDir) throws IOException {
+        final URL url = getClass().getResource("/emptyObject.json");
         final Path tempFile = tempDir.resolve("text4.txt");
-        ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
+        final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
 
-        ConfigurationNode node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
+        final ConfigurationNode node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals(ImmutableMap.of(), node.getValue());
         assertTrue(node.isMap());
     }
 
-    private static final long TEST_LONG_VAL = 584895858588588888l;
+    private static final long TEST_LONG_VAL = 584895858588588888L;
 
     @Test
-    public void testRoundtrippingLong(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testRoundtrippingLong(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
-        ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
-        BasicConfigurationNode start = loader.createEmptyNode();
+        final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
+        final BasicConfigurationNode start = loader.createEmptyNode();
         start.getNode("long-num").setValue(TEST_LONG_VAL);
         loader.save(start);
 
-        BasicConfigurationNode ret = loader.load();
+        final BasicConfigurationNode ret = loader.load();
         assertEquals(TEST_LONG_VAL, ret.getNode("long-num").getValue());
     }
 
     @Test
-    public void testPrimitiveTypes(@TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testPrimitiveTypes(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text6.txt");
-        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
-        ConfigurationNode start = loader.createEmptyNode();
+        final GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
+        final ConfigurationNode start = loader.createEmptyNode();
 
-        int ival = 452252;
-        long lval = 584895858588588888L;
-        float fval = 432.2234F;
-        double dval = 243.333333239413D;
-        boolean blval = true;
-        String stval = "Sphinx of black quartz, judge my vow";
+        final int ival = 452252;
+        final long lval = 584895858588588888L;
+        final float fval = 432.2234F;
+        final double dval = 243.333333239413D;
+        final boolean blval = true;
+        final String stval = "Sphinx of black quartz, judge my vow";
 
         start.getNode("int").setValue(ival);
         start.getNode("long").setValue(lval);
@@ -136,12 +136,13 @@ public class GsonConfigurationLoaderTest {
 
         loader.save(start);
 
-        ConfigurationNode ret = loader.load();
+        final ConfigurationNode ret = loader.load();
         assertEquals(ival, ret.getNode("int").getValue());
         assertEquals(lval, ret.getNode("long").getValue());
-        assertEquals(fval, (double)ret.getNode("float").getValue(), 0.05);
+        assertEquals(fval, (double) ret.getNode("float").getValue(), 0.05);
         assertEquals(dval, ret.getNode("double").getValue());
         assertEquals(blval, ret.getNode("boolean").getValue());
         assertEquals(stval, ret.getNode("string").getValue());
     }
+
 }

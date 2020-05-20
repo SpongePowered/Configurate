@@ -23,7 +23,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * A configuration node that can have both comments and attributes attached to it.
+ * A configuration node that can have both comments and attributes attached
+ * to it.
  */
 public interface AttributedConfigurationNode extends CommentedConfigurationNodeIntermediary<AttributedConfigurationNode> {
 
@@ -52,7 +53,8 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
     }
 
     @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options, Consumer<? super AttributedConfigurationNode> action) {
+    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options,
+            Consumer<? super AttributedConfigurationNode> action) {
         return root(tagName, options).act(action);
     }
 
@@ -131,4 +133,5 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      */
     @NonNull
     Map<String, String> getAttributes();
+
 }

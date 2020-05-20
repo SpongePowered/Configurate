@@ -16,15 +16,15 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by zml on 7/5/15.
@@ -38,19 +38,20 @@ public class GuiceObjectMapperTest {
         }
     }
 
-    private static class ConfigClass {
+    private static final class ConfigClass {
         @Inject
-        private ConfigClass(String msg) {
+        private ConfigClass(final String msg) {
             assertEquals("test value", msg);
         }
     }
 
     @Test
     public void testCreateGuiceObjectMapper() throws ObjectMappingException {
-        Injector injector = Guice.createInjector(new TestModule());
-        GuiceObjectMapperFactory factory = injector.getInstance(GuiceObjectMapperFactory.class);
-        ObjectMapper<ConfigClass> mapper = factory.getMapper(ConfigClass.class);
+        final Injector injector = Guice.createInjector(new TestModule());
+        final GuiceObjectMapperFactory factory = injector.getInstance(GuiceObjectMapperFactory.class);
+        final ObjectMapper<ConfigClass> mapper = factory.getMapper(ConfigClass.class);
         assertTrue(mapper.canCreateInstances());
         assertNotNull(mapper.bindToNew().getInstance());
     }
+
 }

@@ -31,11 +31,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
-import org.spongepowered.configurate.AttributedConfigurationNode
-import org.spongepowered.configurate.BasicConfigurationNode
-import org.spongepowered.configurate.CommentedConfigurationNode
-import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary
-import org.spongepowered.configurate.ScopedConfigurationNode
+import org.spongepowered.configurate.*
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader
@@ -164,7 +160,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             }
         }
         if (node is CommentedConfigurationNodeIntermediary<*>) {
-            node.comment.ifPresent {
+            node.comment?.also {
                 write(heading("Comment"), SPLIT, it)
             }
         }

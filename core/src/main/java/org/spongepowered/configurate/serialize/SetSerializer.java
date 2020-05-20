@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.serialize;
 
 import com.google.common.reflect.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
@@ -25,10 +26,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 class SetSerializer extends AbstractListChildSerializer<Set<?>> {
+
     static TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
     @Override
-    TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
+    TypeToken<?> getElementType(final TypeToken<?> containerType) throws ObjectMappingException {
         if (!(containerType.getType() instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }
@@ -36,12 +38,12 @@ class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    Set<?> createNew(int length, TypeToken<?> elementType) {
+    Set<?> createNew(final int length, final TypeToken<?> elementType) {
         return new LinkedHashSet<>(length);
     }
 
     @Override
-    void forEachElement(Set<?> collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+    void forEachElement(final Set<?> collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
         for (Object el: collection) {
             action.accept(el);
         }
@@ -49,7 +51,8 @@ class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    void deserializeSingle(int index, Set<?> collection, Object deserialized) {
+    void deserializeSingle(final int index, final Set<?> collection, final @Nullable Object deserialized) {
         ((Set) collection).add(deserialized);
     }
+
 }

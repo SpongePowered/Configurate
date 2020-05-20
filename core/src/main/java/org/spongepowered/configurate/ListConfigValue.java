@@ -32,19 +32,21 @@ import java.util.concurrent.atomic.AtomicReference;
  * A {@link ConfigValue} which holds a list of values.
  */
 class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+
     final AtomicReference<List<T>> values = new AtomicReference<>(new ArrayList<>());
 
-    ListConfigValue(T holder) {
+    ListConfigValue(final T holder) {
         super(holder);
     }
 
-    ListConfigValue(T holder, Object startValue) {
+    ListConfigValue(final T holder, final @Nullable Object startValue) {
         super(holder);
-
-        T child = holder.createNode(0);
-        child.attached = true;
-        child.setValue(startValue);
-        this.values.get().add(child);
+        if (startValue != null) {
+            final T child = holder.createNode(0);
+            child.attached = true;
+            child.setValue(startValue);
+            this.values.get().add(child);
+        }
     }
 
     @Nullable
@@ -61,9 +63,9 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
     public List<N> getUnwrapped() {
-        final List<T> orig = values.get();
+        final List<T> orig = this.values.get();
         synchronized (orig) {
-            ImmutableList.Builder<N> ret = ImmutableList.builderWithExpectedSize(orig.size());
+            final ImmutableList.Builder<N> ret = ImmutableList.builderWithExpectedSize(orig.size());
             for (T element : orig) {
                 ret.add(element.self());
             }
@@ -76,37 +78,35 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         if (!(value instanceof Collection)) {
             value = Collections.singleton(value);
         }
-        final Collection<?> valueAsList = (Collection<?>) value;
+        final Collection<@Nullable ?> valueAsList = (Collection<@Nullable ?>) value;
         final List<T> newValue = new ArrayList<>(valueAsList.size());
 
         int count = 0;
-        for (Object o : valueAsList) {
+        for (@Nullable Object o : valueAsList) {
             if (o == null) {
                 continue;
             }
 
-            T child = holder.createNode(count);
+            final T child = this.holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
             child.setValue(o);
             ++count;
         }
-        detachNodes(values.getAndSet(newValue));
+        detachNodes(this.values.getAndSet(newValue));
     }
 
-    @Nullable
     @Override
-    public T putChild(@NonNull Object key, @Nullable T value) {
-        return putChild((int) key, value, false);
+    public @Nullable T putChild(final @NonNull Object key, final @Nullable T value) {
+        return putChildInternal((int) key, value, false);
     }
 
-    @Nullable
     @Override
-    T putChildIfAbsent(@NonNull Object key, @Nullable T value) {
-        return putChild((int) key, value, true);
+    @Nullable T putChildIfAbsent(final @NonNull Object key, final @Nullable T value) {
+        return putChildInternal((int) key, value, true);
     }
 
-    private T putChild(int index, @Nullable T value, boolean onlyIfAbsent) {
+    private T putChildInternal(final int index, final @Nullable T value, final boolean onlyIfAbsent) {
         T ret = null;
         List<T> values;
         do {
@@ -141,10 +141,9 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         return ret;
     }
 
-
     @Override
-    public @Nullable T getChild(@Nullable Object key) {
-        @Nullable Integer value = Scalars.INTEGER.tryDeserialize(key);
+    public @Nullable T getChild(final @Nullable Object key) {
+        final @Nullable Integer value = Scalars.INTEGER.tryDeserialize(key);
         if (value == null || value < 0) {
             return null;
         }
@@ -161,7 +160,7 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     @NonNull
     @Override
     public Iterable<T> iterateChildren() {
-        List<T> values = this.values.get();
+        final List<T> values = this.values.get();
         synchronized (values) {
             return ImmutableList.copyOf(values);
         }
@@ -169,9 +168,9 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
 
     @NonNull
     @Override
-    ListConfigValue<N, T> copy(@NonNull T holder) {
-        ListConfigValue<N, T> copy = new ListConfigValue<>(holder);
-        List<T> copyValues;
+    ListConfigValue<N, T> copy(final @NonNull T holder) {
+        final ListConfigValue<N, T> copy = new ListConfigValue<>(holder);
+        final List<T> copyValues;
 
         final List<T> values = this.values.get();
         synchronized (values) {
@@ -190,7 +189,7 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
         return this.values.get().isEmpty();
     }
 
-    private static void detachNodes(List<? extends AbstractConfigurationNode<?, ?>> children) {
+    private static void detachNodes(final List<? extends AbstractConfigurationNode<?, ?>> children) {
         synchronized (children) {
             for (AbstractConfigurationNode<?, ?> node : children) {
                 node.attached = false;
@@ -201,29 +200,30 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
 
     @Override
     public void clear() {
-        List<T> oldValues = values.getAndSet(new ArrayList<>());
+        final List<T> oldValues = this.values.getAndSet(new ArrayList<>());
         detachNodes(oldValues);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ListConfigValue<?, ?> that = (ListConfigValue<?, ?>) o;
-        return Objects.equals(values.get(), that.values.get());
+        final ListConfigValue<?, ?> that = (ListConfigValue<?, ?>) o;
+        return Objects.equals(this.values.get(), that.values.get());
     }
 
     @Override
     public int hashCode() {
-        return values.get().hashCode();
+        return this.values.get().hashCode();
     }
 
     @Override
     public String toString() {
         return "ListConfigValue{values=" + this.values.get().toString() + '}';
     }
+
 }

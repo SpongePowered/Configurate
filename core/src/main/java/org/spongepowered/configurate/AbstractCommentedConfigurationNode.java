@@ -20,28 +20,29 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>, A extends AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A> implements CommentedConfigurationNodeIntermediary<N> {
+abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>,
+        A extends AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A>
+        implements CommentedConfigurationNodeIntermediary<N> {
+
     protected final AtomicReference<String> comment = new AtomicReference<>();
 
-    protected AbstractCommentedConfigurationNode(A parent, A copyOf) {
+    protected AbstractCommentedConfigurationNode(final @Nullable A parent, final A copyOf) {
         super(parent, copyOf);
     }
 
-    protected AbstractCommentedConfigurationNode(@Nullable Object key, A parent, @NonNull ConfigurationOptions options) {
+    protected AbstractCommentedConfigurationNode(final @Nullable Object key, final @Nullable A parent, final @NonNull ConfigurationOptions options) {
         super(key, parent, options);
     }
 
-    @NonNull
     @Override
-    public Optional<String> getComment() {
-        return Optional.ofNullable(comment.get());
+    public @Nullable String getComment() {
+        return this.comment.get();
     }
 
     @Override
-    public @NonNull N setComment(@Nullable String comment) {
+    public @NonNull N setComment(final @Nullable String comment) {
         if (!Objects.equals(this.comment.getAndSet(comment), comment)) {
             attachIfNecessary();
         }
@@ -49,7 +50,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N setCommentIfAbsent(String comment) {
+    public @NonNull N setCommentIfAbsent(final String comment) {
         if (this.comment.compareAndSet(null, comment)) {
             attachIfNecessary();
         }
@@ -57,36 +58,50 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N setValue(@Nullable Object value) {
+    public @NonNull N setValue(final @Nullable Object value) {
         if (value instanceof CommentedConfigurationNodeIntermediary<?>) {
-            ((CommentedConfigurationNodeIntermediary<?>) value).getComment().ifPresent(this::setComment);
+            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) value).getComment();
+            if (otherComment != null) {
+                setComment(otherComment);
+            }
         }
         return super.setValue(value);
     }
 
     @Override
-    public @NonNull N mergeValuesFrom(@NonNull ConfigurationNode other) {
+    public @NonNull N mergeValuesFrom(final @NonNull ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNodeIntermediary<?>) {
-            Optional<String> otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).getComment();
-            otherComment.ifPresent(this::setCommentIfAbsent);
+            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).getComment();
+            if (otherComment != null) {
+                setCommentIfAbsent(otherComment);
+            }
         }
         return super.mergeValuesFrom(other);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AbstractCommentedConfigurationNode)) return false;
-        if (!super.equals(o)) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
 
-        AbstractCommentedConfigurationNode<?, ?> that = (AbstractCommentedConfigurationNode<?, ?>) o;
-        return Objects.equals(comment.get(), that.comment.get());
+        if (!(o instanceof AbstractCommentedConfigurationNode)) {
+            return false;
+        }
+
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        final AbstractCommentedConfigurationNode<?, ?> that = (AbstractCommentedConfigurationNode<?, ?>) o;
+        return Objects.equals(this.comment.get(), that.comment.get());
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + Objects.hashCode(comment.get());
+        result = 31 * result + Objects.hashCode(this.comment.get());
         return result;
     }
+
 }

@@ -26,8 +26,11 @@ import java.nio.file.Paths;
 /**
  * An example of how to convert a configuration between two formats.
  */
-public class FormatConversion {
-    public static void main(String[] args) {
+public final class FormatConversion {
+
+    private FormatConversion() {}
+
+    public static void main(final String[] args) {
         // First off: we build two loaders, one with our old format pointing to the old location
         final YamlConfigurationLoader oldFormat = YamlConfigurationLoader.builder()
                 .setPath(Paths.get("widgets.yml"))
@@ -42,7 +45,7 @@ public class FormatConversion {
         final ConfigurationNode oldNode;
         try {
             oldNode = oldFormat.load();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.err.println("Unable to read YAML configuration: " + e.getMessage());
             if (e.getCause() != null) {
                 e.getCause().printStackTrace();
@@ -54,12 +57,12 @@ public class FormatConversion {
         // And if we're successful, we save the loaded node using the new loader
         try {
             newFormat.save(oldNode);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("Unable to save HOCON format configuration: " + e.getMessage());
             System.exit(2);
             return;
         }
-
         System.out.println("Successfully converted widgets.yml to widgets.conf!");
     }
+
 }

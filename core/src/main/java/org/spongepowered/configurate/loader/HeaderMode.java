@@ -17,22 +17,26 @@
 package org.spongepowered.configurate.loader;
 
 /**
- * Modes which {@link ConfigurationLoader}s can use to manipulate headers when loading/saving.
+ * Modes which {@link ConfigurationLoader}s can use to manipulate headers
+ * when loading/saving.
  */
 public enum HeaderMode {
 
     /**
-     * Use the header loaded from an existing file, replacing any header set in the options
+     * Use the header loaded from an existing file, replacing any header set in
+     * the options.
      */
     PRESERVE,
 
     /**
-     * Ignore any header present in input, and output a header if one has been set in options
+     * Ignore any header present in input, and output a header if one has been
+     * set in the options.
      */
     PRESET,
 
     /**
-     * Ignore any header present in input, and do not output any header
+     * Ignore any header present in input, and do not output any header.
      */
     NONE
+
 }

@@ -26,19 +26,20 @@ import java.util.SortedMap;
  * according to the configurations current version.
  */
 class VersionedTransformation<T extends ConfigurationNode> extends ConfigurationTransformation<T> {
+
     private final NodePath versionPath;
     private final SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations;
 
-    VersionedTransformation(NodePath versionPath, SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
+    VersionedTransformation(final NodePath versionPath, final SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
         this.versionPath = versionPath;
         this.versionTransformations = versionTransformations;
     }
 
     @Override
-    public void apply(@NonNull T node) {
-        ConfigurationNode versionNode = node.getNode(versionPath);
+    public void apply(final @NonNull T node) {
+        final ConfigurationNode versionNode = node.getNode(this.versionPath);
         int currentVersion = versionNode.getInt(-1);
-        for (SortedMap.Entry<Integer, ConfigurationTransformation<? super T>> entry : versionTransformations.entrySet()) {
+        for (SortedMap.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {
             if (entry.getKey() <= currentVersion) {
                 continue;
             }
@@ -47,4 +48,5 @@ class VersionedTransformation<T extends ConfigurationNode> extends Configuration
         }
         versionNode.setValue(currentVersion);
     }
+
 }

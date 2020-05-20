@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.loader;
 
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedWriter;
@@ -29,16 +31,15 @@ import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * A utility for creating "atomic" file writers.
  *
- * <p>An atomic writer copies any existing file at the given path to a temporary location, then
- * writes to the same temporary location, before moving the file back to the desired output path
- * once the write is fully complete.</p>
+ * <p>An atomic writer copies any existing file at the given path to a temporary
+ * location, then writes to the same temporary location, before moving the file
+ * back to the desired output path once the write is fully complete.</p>
  */
 public final class AtomicFiles {
+
     private AtomicFiles() {}
 
     /**
@@ -49,7 +50,7 @@ public final class AtomicFiles {
      * @return The writer factory
      */
     @NonNull
-    public static Callable<BufferedWriter> createAtomicWriterFactory(@NonNull Path path, @NonNull Charset charset) {
+    public static Callable<BufferedWriter> createAtomicWriterFactory(final @NonNull Path path, final @NonNull Charset charset) {
         requireNonNull(path, "path");
         return () -> createAtomicBufferedWriter(path, charset);
     }
@@ -63,29 +64,31 @@ public final class AtomicFiles {
      * @throws IOException For any underlying filesystem errors
      */
     @NonNull
-    public static BufferedWriter createAtomicBufferedWriter(@NonNull Path path, @NonNull Charset charset) throws IOException {
+    public static BufferedWriter createAtomicBufferedWriter(@NonNull Path path, final @NonNull Charset charset) throws IOException {
         path = path.toAbsolutePath();
 
-        Path writePath = getTemporaryPath(path.getParent(), path.getFileName().toString());
+        final Path writePath = getTemporaryPath(path.getParent(), path.getFileName().toString());
         if (Files.exists(path)) {
             Files.copy(path, writePath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        BufferedWriter output = Files.newBufferedWriter(writePath, charset);
+        final BufferedWriter output = Files.newBufferedWriter(writePath, charset);
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
     }
 
     @NonNull
-    private static Path getTemporaryPath(@NonNull Path parent, @NonNull String key) {
-        String fileName = System.nanoTime() + ThreadLocalRandom.current().nextInt() + requireNonNull(key, "key").replaceAll("\\\\|/|:",
-                "-") + ".tmp";
+    private static Path getTemporaryPath(final @NonNull Path parent, final @NonNull String key) {
+        final String fileName = System.nanoTime() + ThreadLocalRandom.current().nextInt()
+                + requireNonNull(key, "key").replaceAll("\\\\|/|:", "-") + ".tmp";
         return parent.resolve(fileName);
     }
 
     private static class AtomicFileWriter extends FilterWriter {
-        private final Path targetPath, writePath;
 
-        protected AtomicFileWriter(Path writePath, Path targetPath, Writer wrapping) {
+        private final Path targetPath;
+        private final Path writePath;
+
+        protected AtomicFileWriter(final Path writePath, final Path targetPath, final Writer wrapping) {
             super(wrapping);
             this.writePath = writePath;
             this.targetPath = targetPath;
@@ -94,8 +97,10 @@ public final class AtomicFiles {
         @Override
         public void close() throws IOException {
             super.close();
-            Files.createDirectories(targetPath.getParent());
-            Files.move(writePath, targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            Files.createDirectories(this.targetPath.getParent());
+            Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         }
+
     }
+
 }

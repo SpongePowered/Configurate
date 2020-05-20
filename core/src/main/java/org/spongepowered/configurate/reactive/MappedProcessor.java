@@ -23,31 +23,32 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
 class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
+
     private final Processor.TransactionalIso<O> processor;
     private final AtomicReference<Disposable> disposable = new AtomicReference<>();
     private final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper;
     private final @Nullable Publisher<I> parent;
 
-    MappedProcessor(CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, @Nullable Publisher<I> parent) {
+    MappedProcessor(final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, final @Nullable Publisher<I> parent) {
         this.processor = Processor.createTransactional(parent.getExecutor());
         this.mapper = mapper;
         this.parent = parent;
     }
 
     @Override
-    public Disposable subscribe(Subscriber<? super O> subscriber) {
-        Disposable ret = this.processor.subscribe(subscriber);
+    public Disposable subscribe(final Subscriber<? super O> subscriber) {
+        final Disposable ret = this.processor.subscribe(subscriber);
         if (ret != NoOpDisposable.INSTANCE) { // if the processor isn't already closed
-            Disposable ours = this.disposable.updateAndGet(it ->  // register with our parent if present
-                it == null && parent != null ? parent.subscribe(this) : it);
+            final Disposable ours = this.disposable.updateAndGet(it -> // register with our parent if present
+                it == null && this.parent != null ? this.parent.subscribe(this) : it);
             if (ours == NoOpDisposable.INSTANCE) {
-                processor.onClose();
+                this.processor.onClose();
                 return NoOpDisposable.INSTANCE;
             }
             return () -> {
                 ret.dispose();
                 if (!hasSubscribers()) {
-                    Disposable disposable = this.disposable.getAndSet(null);
+                    final Disposable disposable = this.disposable.getAndSet(null);
                     disposable.dispose();
                 }
             };
@@ -57,46 +58,46 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
 
     @Override
     public boolean hasSubscribers() {
-        return processor.hasSubscribers();
+        return this.processor.hasSubscribers();
     }
 
     @Override
     public Executor getExecutor() {
-        return processor.getExecutor();
+        return this.processor.getExecutor();
     }
 
     @Override
-    public void beginTransaction(I newValue) throws TransactionFailedException {
-        processor.beginTransaction(mapper.apply(newValue));
+    public void beginTransaction(final I newValue) throws TransactionFailedException {
+        this.processor.beginTransaction(this.mapper.apply(newValue));
     }
 
     @Override
     public void commit() {
-        processor.commit();
+        this.processor.commit();
     }
 
     @Override
     public void rollback() {
-        processor.rollback();
+        this.processor.rollback();
     }
 
     @Override
     public void onError(final Throwable e) {
-        processor.onError(e);
+        this.processor.onError(e);
     }
 
     @Override
     public void onClose() {
-        Disposable disposable = this.disposable.getAndSet(null);
+        final Disposable disposable = this.disposable.getAndSet(null);
         if (disposable != null) {
             disposable.dispose();
         }
-        processor.onClose();
+        this.processor.onClose();
     }
 
     @Override
     public void inject(final O element) {
-        processor.submit(element);
+        this.processor.submit(element);
     }
 
     @Override
@@ -106,8 +107,8 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
 
     @Override
     public boolean closeIfUnsubscribed() {
-        if (processor.closeIfUnsubscribed()) {
-            Disposable disposable = this.disposable.getAndSet(null);
+        if (this.processor.closeIfUnsubscribed()) {
+            final Disposable disposable = this.disposable.getAndSet(null);
             if (disposable != null) {
                 disposable.dispose();
             }
@@ -115,4 +116,5 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
         }
         return false;
     }
+
 }

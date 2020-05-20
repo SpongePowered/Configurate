@@ -21,6 +21,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.function.Consumer;
 
 public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicConfigurationNode> {
+
     @NonNull
     static BasicConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
@@ -40,4 +41,5 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
     static BasicConfigurationNode root(ConfigurationOptions options, Consumer<BasicConfigurationNode> maker) {
         return root(options).act(maker);
     }
+
 }

@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a> format, plus supports
+ * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a>
+ * format, plus supports.
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.xml;

@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
 
     /**
-     * Get a correctly typed instance of this node
+     * Get a correctly typed instance of this node.
      * @return The node type
      */
     N self();
@@ -51,6 +51,12 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @Override
     @NonNull N getNode(@NonNull Object... path);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NonNull N getNode(@NonNull Iterable<?> path);
 
     /**
      * {@inheritDoc}
@@ -80,7 +86,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
             return setValue(null);
         }
 
-        TypeSerializer<V> serial = getOptions().getSerializers().get(type);
+        final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
         if (serial != null) {
             serial.serialize(type, value, self());
         } else if (getOptions().acceptsType(value.getClass())) {
@@ -104,14 +110,9 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     @NonNull Map<Object, N> getChildrenMap();
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    @NonNull N getNode(@NonNull Iterable<?> path);
-
-    /**
-     * Execute an action on this node. This allows performing multiple operations
-     * on a single node without having to clutter up the surrounding scope.
+     * Execute an action on this node. This allows performing multiple
+     * operations on a single node without having to clutter up the surrounding
+     * scope.
      *
      * @param action The action to perform on this node
      * @return this
@@ -122,35 +123,37 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     }
 
     /**
-     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
      *
      * @param visitor The visitor
      * @param <S> The state type
      * @param <T> The terminal type
      * @param <E> exception type that may be thrown
+     * @return returned terminal from the visitor
      * @throws E when throw by visitor implementation
-     * @return The returned terminal from the visitor
      */
     default <S, T, E extends Exception> T visit(ConfigurationVisitor<N, S, T, E> visitor) throws E {
         return visit(visitor, visitor.newState());
     }
 
     /**
-     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
      *
      * @param visitor The visitor
      * @param state The state to start with
      * @param <T> The terminal type
      * @param <S> The state type
      * @param <E> exception type that may be thrown
+     * @return returned terminal from the visitor
      * @throws E when throw by visitor implementation
-     * @return The returned terminal from the visitor
      */
     <S, T, E extends Exception> T visit(ConfigurationVisitor<? super N, S, T, E> visitor, S state) throws E;
 
     /**
-     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
-     * This overload will remove the need for exception handling for visitors that do not have any checked exceptions.
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
+     *
+     * <p>This overload will remove the need for exception handling for visitors
+     * that do not have any checked exceptions.</p>
      *
      * @param visitor The visitor
      * @param <S> The state type
@@ -162,8 +165,10 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     }
 
     /**
-     * Visit this node hierarchy as described in {@link ConfigurationVisitor}
-     * This overload will remove the need for exception handling for visitors that do not have any checked exceptions.
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
+     *
+     * <p>This overload will remove the need for exception handling for visitors
+     * that do not have any checked exceptions.</p>
      *
      * @param visitor The visitor
      * @param state The state to start with
@@ -172,4 +177,5 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * @return The returned terminal from the visitor
      */
     <S, T> T visit(ConfigurationVisitor.Safe<? super N, S, T> visitor, S state);
+
 }

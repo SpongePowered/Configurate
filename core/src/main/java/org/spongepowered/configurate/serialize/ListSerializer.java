@@ -25,10 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ListSerializer extends AbstractListChildSerializer<List<?>> {
+
     static TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 
     @Override
-    TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException {
+    TypeToken<?> getElementType(final TypeToken<?> containerType) throws ObjectMappingException {
         if (!(containerType.getType() instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }
@@ -36,20 +37,21 @@ class ListSerializer extends AbstractListChildSerializer<List<?>> {
     }
 
     @Override
-    List<?> createNew(int length, TypeToken<?> elementType) {
+    List<?> createNew(final int length, final TypeToken<?> elementType) {
         return new ArrayList<>(length);
     }
 
     @Override
-    void forEachElement(List<?> collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+    void forEachElement(final List<?> collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
         for (Object el: collection) {
             action.accept(el);
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    void deserializeSingle(int index, List<?> collection, Object deserialized) {
+    void deserializeSingle(final int index, final List<?> collection, final Object deserialized) {
         ((List) collection).add(deserialized);
     }
+
 }

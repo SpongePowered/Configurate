@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.reference;
 
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.reactive.Disposable;
 import org.spongepowered.configurate.reactive.Processor;
@@ -30,12 +32,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * Data class holding listeners for a base directory and its children
+ * Data class holding listeners for a base directory and its children.
  */
 class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
+
     private final Lock lock = new ReentrantLock();
     private final WatchKey key;
     private final ConcurrentHashMap<Path, Processor<WatchEvent<?>, WatchEvent<?>>> fileListeners
@@ -43,111 +44,117 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
     private final Executor executor;
     private final Processor<WatchEvent<?>, WatchEvent<?>> dirListeners;
 
-    DirectoryListenerRegistration(WatchKey key, Executor executor) {
+    DirectoryListenerRegistration(final WatchKey key, final Executor executor) {
         this.key = requireNonNull(key, "key");
         this.executor = requireNonNull(executor, "executor");
-        dirListeners = Processor.create(executor);
+        this.dirListeners = Processor.create(executor);
     }
 
     public WatchKey getKey() {
-        return key;
+        return this.key;
     }
 
     @Override
-    public void submit(WatchEvent<?> item) {
+    public void submit(final WatchEvent<?> item) {
         final Path file = (Path) item.context();
-        lock.lock();
+        this.lock.lock();
         try {
-            @Nullable Processor<WatchEvent<?>, WatchEvent<?>> fileListeners
-                = this.fileListeners.computeIfPresent(file,
-                (key, old) -> old.closeIfUnsubscribed() ? null : old);
-            dirListeners.submit(item);
+            final @Nullable Processor<WatchEvent<?>, WatchEvent<?>> fileListeners =
+                this.fileListeners.computeIfPresent(file, (key, old) -> old.closeIfUnsubscribed() ? null : old);
+            this.dirListeners.submit(item);
             if (fileListeners != null) {
                 fileListeners.submit(item);
             }
 
         } finally {
-            lock.unlock();
+            this.lock.unlock();
         }
     }
 
     @Override
     public void onClose() {
-        lock.lock();
+        this.lock.lock();
         try {
             try {
-                dirListeners.onClose();
-            } catch (Throwable t) {
-                dirListeners.onError(t);
+                this.dirListeners.onClose();
+            } catch (final Throwable t) {
+                this.dirListeners.onError(t);
             }
 
-            fileListeners.forEach((k, v) -> {
+            this.fileListeners.forEach((k, v) -> {
                 try {
                     v.onClose();
-                } catch (Throwable t) {
+                } catch (final Throwable t) {
                     v.onError(t);
                 }
             });
 
-            fileListeners.clear();
-            key.cancel();
+            this.fileListeners.clear();
+            this.key.cancel();
         } finally {
-            lock.unlock();
+            this.lock.unlock();
         }
     }
 
-    public Disposable subscribe(Subscriber<WatchEvent<?>> subscriber) {
-        lock.lock();
+    public Disposable subscribe(final Subscriber<WatchEvent<?>> subscriber) {
+        this.lock.lock();
         try {
-            return dirListeners.subscribe(subscriber);
+            return this.dirListeners.subscribe(subscriber);
         } finally {
-            lock.unlock();
+            this.lock.unlock();
         }
     }
 
-    public Disposable subscribe(Path file, Subscriber<WatchEvent<?>> subscriber) {
-        lock.lock();
+    public Disposable subscribe(final Path file, final Subscriber<WatchEvent<?>> subscriber) {
+        this.lock.lock();
         try {
-            return fileListeners.computeIfAbsent(file, f -> Processor.create(executor)).subscribe(subscriber);
+            return this.fileListeners.computeIfAbsent(file, f -> Processor.create(this.executor)).subscribe(subscriber);
         } finally {
-            lock.unlock();
+            this.lock.unlock();
         }
     }
 
     public boolean hasSubscribers() {
-        lock.lock();
+        this.lock.lock();
         try {
-            return dirListeners.hasSubscribers() || !fileListeners.isEmpty();
+            return this.dirListeners.hasSubscribers() || !this.fileListeners.isEmpty();
         } finally {
-            lock.unlock();
+            this.lock.unlock();
         }
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DirectoryListenerRegistration)) return false;
-        DirectoryListenerRegistration that = (DirectoryListenerRegistration) o;
-        return getKey().equals(that.getKey()) &&
-            fileListeners.equals(that.fileListeners) &&
-            dirListeners.equals(that.dirListeners);
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof DirectoryListenerRegistration)) {
+            return false;
+        }
+
+        final DirectoryListenerRegistration that = (DirectoryListenerRegistration) o;
+        return getKey().equals(that.getKey())
+            && this.fileListeners.equals(that.fileListeners)
+            && this.dirListeners.equals(that.dirListeners);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getKey(), fileListeners, dirListeners);
+        return Objects.hash(getKey(), this.fileListeners, this.dirListeners);
     }
 
     public boolean closeIfEmpty() {
-        lock.lock();
+        this.lock.lock();
         try {
             if (!hasSubscribers()) {
                 onClose();
                 return true;
             }
         } finally {
-            lock.unlock();
+            this.lock.unlock();
         }
         return false;
     }
+
 }

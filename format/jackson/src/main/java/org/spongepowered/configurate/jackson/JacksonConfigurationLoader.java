@@ -41,9 +41,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A loader for JSON-formatted configurations, using the jackson library for parsing and generation.
+ * A loader for JSON-formatted configurations, using the jackson library for
+ * parsing and generation.
  */
-public class JacksonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+public final class JacksonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
      * Creates a new {@link JacksonConfigurationLoader} builder.
@@ -64,13 +65,13 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
         private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
 
         protected Builder() {
-            factory.enable(JsonReadFeature.ALLOW_JAVA_COMMENTS);
-            factory.enable(JsonReadFeature.ALLOW_YAML_COMMENTS);
-            factory.enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-            factory.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES);
-            factory.enable(JsonReadFeature.ALLOW_SINGLE_QUOTES);
-            factory.enable(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS);
-            factory.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS);
+            this.factory.enable(JsonReadFeature.ALLOW_JAVA_COMMENTS)
+                    .enable(JsonReadFeature.ALLOW_YAML_COMMENTS)
+                    .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
+                    .enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES)
+                    .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
+                    .enable(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS)
+                    .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS);
         }
 
         /**
@@ -90,7 +91,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(int indent) {
+        public Builder setIndent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -111,19 +112,19 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
          * @return  This builder (for chaining)
          */
         @NonNull
-        public Builder setFieldValueSeparatorStyle(@NonNull FieldValueSeparatorStyle style) {
+        public Builder setFieldValueSeparatorStyle(final @NonNull FieldValueSeparatorStyle style) {
             this.fieldValueSeparatorStyle = style;
             return this;
         }
 
         /**
-         * Gets the field value separator style to be used by the resultant loader.
+         * Gets the field value separator style to be used by the built loader.
          *
          * @return The style
          */
         @NonNull
         public FieldValueSeparatorStyle getFieldValueSeparatorStyle() {
-            return fieldValueSeparatorStyle;
+            return this.fieldValueSeparatorStyle;
         }
 
         @NonNull
@@ -137,7 +138,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
     private final int indent;
     private final FieldValueSeparatorStyle fieldValueSeparatorStyle;
 
-    private JacksonConfigurationLoader(Builder builder) {
+    private JacksonConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
         this.factory = builder.getFactoryBuilder().build();
         this.factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
@@ -146,15 +147,15 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
     }
 
     @Override
-    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) throws IOException {
-        try (JsonParser parser = factory.createParser(reader)) {
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
+        try (JsonParser parser = this.factory.createParser(reader)) {
             parser.nextToken();
             parseValue(parser, node);
         }
     }
 
-    private static void parseValue(JsonParser parser, ConfigurationNode node) throws IOException {
-        JsonToken token = parser.getCurrentToken();
+    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException {
+        final JsonToken token = parser.getCurrentToken();
         switch (token) {
             case START_OBJECT:
                 parseObject(parser, node);
@@ -163,16 +164,16 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
                 parseArray(parser, node);
                 break;
             case VALUE_NUMBER_FLOAT:
-                double doubleVal = parser.getDoubleValue();
-                if ((float)doubleVal != doubleVal) {
+                final double doubleVal = parser.getDoubleValue();
+                if ((float) doubleVal != doubleVal) {
                     node.setValue(parser.getDoubleValue());
                 } else {
                     node.setValue(parser.getFloatValue());
                 }
                 break;
             case VALUE_NUMBER_INT:
-                long longVal = parser.getLongValue();
-                if ((int)longVal != longVal) {
+                final long longVal = parser.getLongValue();
+                if ((int) longVal != longVal) {
                     node.setValue(parser.getLongValue());
                 } else {
                     node.setValue(parser.getIntValue());
@@ -193,7 +194,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
         }
     }
 
-    private static void parseArray(JsonParser parser, ConfigurationNode node) throws IOException {
+    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -212,7 +213,7 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
         throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
     }
 
-    private static void parseObject(JsonParser parser, ConfigurationNode node) throws IOException {
+    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -232,9 +233,9 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
     }
 
     @Override
-    public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
-        try (JsonGenerator generator = factory.createGenerator(writer)) {
-            generator.setPrettyPrinter(new ConfiguratePrettyPrinter(indent, fieldValueSeparatorStyle));
+    public void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+        try (JsonGenerator generator = this.factory.createGenerator(writer)) {
+            generator.setPrettyPrinter(new ConfiguratePrettyPrinter(this.indent, this.fieldValueSeparatorStyle));
             JacksonVisitor.INSTANCE.visit(node, generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
@@ -247,4 +248,5 @@ public class JacksonConfigurationLoader extends AbstractConfigurationLoader<Basi
                 Long.class, Integer.class, Boolean.class, String.class, byte[].class));
         return BasicConfigurationNode.root(options);
     }
+
 }

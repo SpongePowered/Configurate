@@ -21,14 +21,13 @@ import org.checkerframework.checker.interning.qual.InternedDistinct;
 /**
  * A Disposable that is used to indicate that the {@link Publisher} being subscribed to is no longer open.
  */
-class NoOpDisposable implements Disposable {
+final class NoOpDisposable implements Disposable {
+
     static final @InternedDistinct NoOpDisposable INSTANCE = new NoOpDisposable();
 
-    private NoOpDisposable() {
+    private NoOpDisposable() {}
 
-    }
     @Override
-    public void dispose() {
+    public void dispose() {}
 
-    }
 }

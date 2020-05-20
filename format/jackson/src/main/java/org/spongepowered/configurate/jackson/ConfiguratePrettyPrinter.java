@@ -27,16 +27,22 @@ import java.io.IOException;
  * An extension of {@link DefaultPrettyPrinter} which can be customised by loader settings.
  */
 class ConfiguratePrettyPrinter extends DefaultPrettyPrinter {
+
     private static final long serialVersionUID = -3322746834998470769L;
     private final FieldValueSeparatorStyle style;
 
-    public ConfiguratePrettyPrinter(int indent, FieldValueSeparatorStyle style) {
-        this._objectIndenter = indent == 0 ? NopIndenter.instance : DefaultIndenter.SYSTEM_LINEFEED_INSTANCE.withIndent(Strings.repeat(" ", indent));
+    ConfiguratePrettyPrinter(final int indent, final FieldValueSeparatorStyle style) {
+        if (indent == 0) {
+            this._objectIndenter = NopIndenter.instance;
+        } else {
+            this._objectIndenter = DefaultIndenter.SYSTEM_LINEFEED_INSTANCE.withIndent(Strings.repeat(" ", indent));
+        }
         this.style = style;
     }
 
     @Override
-    public void writeObjectFieldValueSeparator(JsonGenerator jg) throws IOException {
-        jg.writeRaw(style.getValue());
+    public void writeObjectFieldValueSeparator(final JsonGenerator jg) throws IOException {
+        jg.writeRaw(this.style.getValue());
     }
+
 }

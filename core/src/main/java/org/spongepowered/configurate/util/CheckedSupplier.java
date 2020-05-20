@@ -19,17 +19,19 @@ package org.spongepowered.configurate.util;
 import java.util.function.Supplier;
 
 /**
- * A functional interface similar to Supplier, except allowing contained methods to throw exceptions
+ * A functional interface similar to Supplier, except allowing contained methods
+ * to throw exceptions.
  *
  * @param <V> The value returned
  * @param <E> The exception type thrown
  */
 @FunctionalInterface
 public interface CheckedSupplier<V, E extends Throwable> {
+
     V get() throws E;
 
     /**
-     * Create an instance from an ordinary supplier
+     * Create an instance from an ordinary supplier.
      *
      * @param consumer The supplier to convert
      * @param <V> The type returned by the consumer
@@ -38,4 +40,5 @@ public interface CheckedSupplier<V, E extends Throwable> {
     static <V> CheckedSupplier<V, RuntimeException> fromSupplier(Supplier<V> consumer) {
         return consumer::get;
     }
+
 }

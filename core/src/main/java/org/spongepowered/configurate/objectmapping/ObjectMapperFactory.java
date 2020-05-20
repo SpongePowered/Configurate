@@ -20,7 +20,7 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * A factory to produce {@link ObjectMapper} instances
+ * A factory to produce {@link ObjectMapper} instances.
  */
 public interface ObjectMapperFactory {
 
@@ -30,7 +30,7 @@ public interface ObjectMapperFactory {
      * @param type The type
      * @param <T> The type
      * @return An object mapper
-     * @throws ObjectMappingException If an exception occured whilst mapping
+     * @throws ObjectMappingException If an exception occured while mapping
      */
     @NonNull
     default <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
@@ -43,7 +43,7 @@ public interface ObjectMapperFactory {
      * @param type The type
      * @param <T> The type
      * @return An object mapper
-     * @throws ObjectMappingException If an exception occured whilst mapping
+     * @throws ObjectMappingException If an exception occured while mapping
      */
     @NonNull
     <T> ObjectMapper<T> getMapper(@NonNull TypeToken<T> type) throws ObjectMappingException;

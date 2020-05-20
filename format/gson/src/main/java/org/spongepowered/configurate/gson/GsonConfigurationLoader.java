@@ -40,9 +40,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A loader for JSON-formatted configurations, using the GSON library for parsing and generation.
+ * A loader for JSON-formatted configurations, using the GSON library for
+ * parsing and generation.
  */
-public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+public final class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
      * Creates a new {@link GsonConfigurationLoader} builder.
@@ -71,7 +72,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(int indent) {
+        public Builder setIndent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -93,7 +94,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
          * @return This builder (for chaining)
          */
         @NonNull
-        public Builder setLenient(boolean lenient) {
+        public Builder setLenient(final boolean lenient) {
             this.lenient = lenient;
             return this;
         }
@@ -117,27 +118,27 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
     private final boolean lenient;
     private final String indent;
 
-    private GsonConfigurationLoader(Builder builder) {
+    private GsonConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
         this.lenient = builder.isLenient();
         this.indent = Strings.repeat(" ", builder.getIndent());
     }
 
     @Override
-    protected void loadInternal(BasicConfigurationNode node, BufferedReader reader) throws IOException {
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
         reader.mark(1);
         if (reader.read() == -1) {
             return;
         }
         reader.reset();
         try (JsonReader parser = new JsonReader(reader)) {
-            parser.setLenient(lenient);
+            parser.setLenient(this.lenient);
             parseValue(parser, node);
         }
     }
 
-    private void parseValue(JsonReader parser, BasicConfigurationNode node) throws IOException {
-        JsonToken token = parser.peek();
+    private void parseValue(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
+        final JsonToken token = parser.peek();
         switch (token) {
             case BEGIN_OBJECT:
                 parseObject(parser, node);
@@ -165,20 +166,20 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
         }
     }
 
-    private Number readNumber(JsonReader reader) throws IOException {
-        String number = reader.nextString();
+    private Number readNumber(final JsonReader reader) throws IOException {
+        final String number = reader.nextString();
         if (number.contains(".")) {
             return Double.parseDouble(number);
         }
-        long nextLong = Long.parseLong(number);
-        int nextInt = (int) nextLong;
+        final long nextLong = Long.parseLong(number);
+        final int nextInt = (int) nextLong;
         if (nextInt == nextLong) {
             return nextInt;
         }
         return nextLong;
     }
 
-    private void parseArray(JsonReader parser, BasicConfigurationNode node) throws IOException {
+    private void parseArray(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
         parser.beginArray();
 
         boolean written = false;
@@ -201,7 +202,7 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
     }
 
-    private void parseObject(JsonReader parser, BasicConfigurationNode node) throws IOException {
+    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
         parser.beginObject();
 
         boolean written = false;
@@ -228,13 +229,13 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
     }
 
     @Override
-    public void saveInternal(ConfigurationNode node, Writer writer) throws IOException {
-        if (!lenient && !node.isMap()) {
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+        if (!this.lenient && !node.isMap()) {
             throw new IOException("Non-lenient json generators must have children of map type");
         }
         try (JsonWriter generator = new JsonWriter(writer)) {
-            generator.setIndent(indent);
-            generator.setLenient(lenient);
+            generator.setIndent(this.indent);
+            generator.setLenient(this.lenient);
             GsonVisitor.INSTANCE.visit(node, generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
@@ -246,4 +247,5 @@ public class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicCo
                 Long.class, Integer.class, Boolean.class, String.class));
         return BasicConfigurationNode.root(options);
     }
+
 }

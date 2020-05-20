@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -54,45 +53,45 @@ public enum CommentHandlers implements CommentHandler {
     XML_STYLE(new AbstractDelineatedHandler("<!--", "-->", "~"));
 
     /**
-     * Limit on the number of characters that may be read by a comment handler while still preserving the mark.
+     * Limit on the number of characters that may be read by a comment handler
+     * while still preserving the mark.
      */
     private static final int READAHEAD_LEN = 4096;
 
     private final CommentHandler delegate;
 
-    CommentHandlers(CommentHandler delegate) {
+    CommentHandlers(final CommentHandler delegate) {
         this.delegate = delegate;
     }
 
-    @NonNull
     @Override
-    public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
-        return delegate.extractHeader(reader);
+    public @Nullable String extractHeader(final @NonNull BufferedReader reader) throws IOException {
+        return this.delegate.extractHeader(reader);
     }
 
     @NonNull
     @Override
-    public Collection<String> toComment(@NonNull Collection<String> lines) {
-        return delegate.toComment(lines);
+    public Collection<String> toComment(final @NonNull Collection<String> lines) {
+        return this.delegate.toComment(lines);
     }
 
     /**
      * Uses provided comment handlers to extract a comment from the reader.
      *
-     * @param reader             The reader
-     * @param allowedHeaderTypes The handlers to try
-     * @return The extracted comment, or null if a comment could not be extracted
+     * @param reader to extract a comment from
+     * @param allowedHeaderTypes handlers to try
+     * @return extracted comment, or null if a comment could not be extracted
      * @throws IOException If an IO error occurs
      */
-    @Nullable
-    public static String extractComment(@NonNull BufferedReader reader, @NonNull CommentHandler... allowedHeaderTypes) throws IOException {
+    public static @Nullable String extractComment(final @NonNull BufferedReader reader,
+            final @NonNull CommentHandler... allowedHeaderTypes) throws IOException {
         reader.mark(READAHEAD_LEN);
         for (CommentHandler handler : allowedHeaderTypes) {
-            Optional<String> comment = handler.extractHeader(reader);
-            if (!comment.isPresent()) {
+            final @Nullable String comment = handler.extractHeader(reader);
+            if (comment == null) {
                 reader.reset();
             } else {
-                return comment.get();
+                return comment;
             }
         }
         return null;
@@ -103,23 +102,22 @@ public enum CommentHandlers implements CommentHandler {
         private final String endSequence;
         private final String lineIndentSequence;
 
-        private AbstractDelineatedHandler(String startSequence, String endSequence, String lineIndentSequence) {
+        private AbstractDelineatedHandler(final String startSequence, final String endSequence, final String lineIndentSequence) {
             this.startSequence = startSequence;
             this.endSequence = endSequence;
             this.lineIndentSequence = lineIndentSequence;
         }
 
-        @NonNull
         @Override
-        public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
+        public @Nullable String extractHeader(final @NonNull BufferedReader reader) throws IOException {
             if (!beginsWithPrefix(this.startSequence, reader)) {
-                return Optional.empty();
+                return null;
             }
 
             final StringBuilder build = new StringBuilder();
             String line = reader.readLine();
             if (line == null) {
-                return Optional.empty();
+                return null;
             }
             if (handleSingleLine(build, line)) {
                 for (line = reader.readLine(); line != null; line = reader.readLine()) {
@@ -130,20 +128,20 @@ public enum CommentHandlers implements CommentHandler {
             }
             line = reader.readLine();
             if (!(line == null || line.trim().isEmpty())) { // Require a blank line after a comment to make it a header
-                return Optional.empty();
+                return null;
             }
 
             if (build.length() > 0) {
-                return Optional.of(build.toString());
+                return build.toString();
             } else {
-                return Optional.empty();
+                return null;
             }
         }
 
-        private boolean handleSingleLine(StringBuilder builder, String line) {
+        private boolean handleSingleLine(final StringBuilder builder, String line) {
             boolean moreLines = true;
-            if (line.trim().endsWith(endSequence)) {
-                line = line.substring(0, line.lastIndexOf(endSequence));
+            if (line.trim().endsWith(this.endSequence)) {
+                line = line.substring(0, line.lastIndexOf(this.endSequence));
                 if (line.endsWith(" ")) {
                     line = line.substring(0, line.length() - 1);
                 }
@@ -153,8 +151,8 @@ public enum CommentHandlers implements CommentHandler {
                     return false;
                 }
             }
-            if (line.trim().startsWith(lineIndentSequence)) {
-                line = line.substring(line.indexOf(lineIndentSequence) + 1);
+            if (line.trim().startsWith(this.lineIndentSequence)) {
+                line = line.substring(line.indexOf(this.lineIndentSequence) + 1);
             }
 
             if (line.startsWith(" ")) {
@@ -170,14 +168,14 @@ public enum CommentHandlers implements CommentHandler {
 
         @NonNull
         @Override
-        public Collection<String> toComment(@NonNull Collection<String> lines) {
+        public Collection<String> toComment(final @NonNull Collection<String> lines) {
             if (lines.size() == 1) {
-                return lines.stream().map(i -> startSequence + " " + i + " " + endSequence).collect(Collectors.toList());
+                return lines.stream().map(i -> this.startSequence + " " + i + " " + this.endSequence).collect(Collectors.toList());
             } else {
-                Collection<String> ret = new ArrayList<>();
-                ret.add(startSequence);
-                ret.addAll(lines.stream().map(i -> " " + lineIndentSequence + " " + i).collect(Collectors.toList()));
-                ret.add(" " + endSequence);
+                final Collection<String> ret = new ArrayList<>();
+                ret.add(this.startSequence);
+                ret.addAll(lines.stream().map(i -> " " + this.lineIndentSequence + " " + i).collect(Collectors.toList()));
+                ret.add(" " + this.endSequence);
                 return ret;
             }
         }
@@ -186,22 +184,21 @@ public enum CommentHandlers implements CommentHandler {
     private static final class AbstractPrefixHandler implements CommentHandler {
         private final String commentPrefix;
 
-        AbstractPrefixHandler(String commentPrefix) {
+        AbstractPrefixHandler(final String commentPrefix) {
             this.commentPrefix = commentPrefix;
         }
 
-        @NonNull
         @Override
-        public Optional<String> extractHeader(@NonNull BufferedReader reader) throws IOException {
-            if (!beginsWithPrefix(commentPrefix, reader)) {
-                return Optional.empty();
+        public @Nullable String extractHeader(final @NonNull BufferedReader reader) throws IOException {
+            if (!beginsWithPrefix(this.commentPrefix, reader)) {
+                return null;
             }
             boolean firstLine = true;
 
-            StringBuilder build = new StringBuilder();
+            final StringBuilder build = new StringBuilder();
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                if (firstLine || line.trim().startsWith(commentPrefix)) {
-                    line = firstLine ? line : line.substring(line.indexOf(commentPrefix) + 1);
+                if (firstLine || line.trim().startsWith(this.commentPrefix)) {
+                    line = firstLine ? line : line.substring(line.indexOf(this.commentPrefix) + 1);
                     firstLine = false;
                     if (line.startsWith(" ")) {
                         line = line.substring(1);
@@ -214,32 +211,31 @@ public enum CommentHandlers implements CommentHandler {
                     if (line.trim().isEmpty()) {
                         break;
                     } else {
-                        return Optional.empty();
+                        return null;
                     }
                 }
             }
             // We've reached the end of the document?
-            return build.length() > 0 ? Optional.of(build.toString()) : Optional.empty();
+            return build.length() > 0 ? build.toString() : null;
         }
 
-        @NonNull
         @Override
-        public Collection<String> toComment(@NonNull Collection<String> lines) {
+        public @NonNull Collection<String> toComment(final @NonNull Collection<String> lines) {
             return Collections2.transform(lines, s -> {
                 if (s.startsWith(" ")) {
-                    return commentPrefix + s;
+                    return this.commentPrefix + s;
                 } else {
-                    return commentPrefix + " " + s;
+                    return this.commentPrefix + " " + s;
                 }
             });
         }
     }
 
     /**
-     * Consumes the length of the comment prefix from the reader and returns whether or not the contents from the reader
-     * matches the expected prefix.
+     * Consumes the length of the comment prefix from the reader and returns
+     * whether or not the contents from the reader matches the expected prefix.
      */
-    static boolean beginsWithPrefix(String commentPrefix, BufferedReader reader) throws IOException {
+    static boolean beginsWithPrefix(final String commentPrefix, final BufferedReader reader) throws IOException {
         final CharBuffer buf = CharBuffer.allocate(commentPrefix.length());
         if (reader.read(buf) != buf.limit()) {
             return false;

@@ -19,7 +19,9 @@ package org.spongepowered.configurate.serialize;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 public class CoercionFailedException extends ObjectMappingException {
-    public CoercionFailedException(Object inputValue, String typeDescription) {
+
+    public CoercionFailedException(final Object inputValue, final String typeDescription) {
         super("Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
     }
+
 }

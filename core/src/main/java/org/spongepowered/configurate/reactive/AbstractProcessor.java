@@ -26,19 +26,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 /**
- * Base implementation for processors
+ * Base implementation for processors.
  *
  * @param <V> value type
  * @param <R> registration type
  */
 abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>> implements Processor.Iso<V> {
+
     private static final int CLOSED_VALUE = Integer.MIN_VALUE / 2;
     final AtomicInteger subscriberCount = new AtomicInteger();
     volatile @Nullable Subscriber<V> fallbackHandler;
     protected final Set<R> registrations = ConcurrentHashMap.newKeySet();
     protected final Executor executor;
 
-    protected AbstractProcessor(Executor executor) {
+    protected AbstractProcessor(final Executor executor) {
         this.executor = executor;
     }
 
@@ -49,14 +50,14 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
 
     protected abstract R createRegistration(Subscriber<? super V> sub);
 
-    public Disposable subscribe(Subscriber<? super V> subscriber) {
+    public Disposable subscribe(final Subscriber<? super V> subscriber) {
         if (this.subscriberCount.get() < 0 || this.subscriberCount.incrementAndGet() <= 0) {
-            subscriber.onError(new IllegalStateException("Processor " + this + " is already " +
-                    "closed!"));
+            subscriber.onError(new IllegalStateException("Processor " + this + " is already "
+                    + "closed!"));
             this.subscriberCount.set(CLOSED_VALUE);
             return NoOpDisposable.INSTANCE;
         }
-        R reg = createRegistration(subscriber);
+        final R reg = createRegistration(subscriber);
         this.registrations.add(reg);
         return reg;
     }
@@ -76,7 +77,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
             for (Registration<V> reg : this.registrations) {
                 try {
                     reg.onClose();
-                } catch (Throwable t) {
+                } catch (final Throwable t) {
                     // not much we can do here, maybe log?
                 }
             }
@@ -90,24 +91,24 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
      *
      * @param processor The processor
      */
-    protected void forEachOrRemove(Consumer<R> processor) {
+    protected void forEachOrRemove(final Consumer<R> processor) {
         for (final Iterator<R> it = this.registrations.iterator(); it.hasNext(); ) {
             final R reg = it.next();
             try {
                 processor.accept(reg);
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 it.remove();
                 this.subscriberCount.getAndDecrement();
                 try {
                     reg.onError(t);
-                } catch (Throwable t2) { // really? how rude
+                } catch (final Throwable t2) { // really? how rude
                     Processor.Iso.super.onError(t2); // just use the uncaught exception handler... oh well
                 }
             }
         }
     }
 
-    public void setFallbackHandler(@Nullable final Subscriber<V> subscriber) {
+    public void setFallbackHandler(final @Nullable Subscriber<V> subscriber) {
         this.fallbackHandler = subscriber;
     }
 
@@ -124,16 +125,19 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
     }
 
     /**
-     * A registered subscriber
-     * <p>
-     * methods mostly replicate those in {@link Subscriber}, delegating to the underlying class
+     * A registered subscriber.
+     *
+     * <p>methods mostly replicate those in {@link Subscriber}, delegating to
+     * the underlying class
      */
     protected interface Registration<V> extends Disposable {
+
         void submit(V value);
 
         void onClose();
 
-        void onError(final Throwable e);
+        void onError(Throwable e);
+
     }
 
 }

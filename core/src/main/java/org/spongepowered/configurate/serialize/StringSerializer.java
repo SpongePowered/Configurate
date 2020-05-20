@@ -27,12 +27,13 @@ final class StringSerializer extends ScalarSerializer<String> {
     }
 
     @Override
-    public String deserialize(TypeToken<?> type, Object obj) {
+    public String deserialize(final TypeToken<?> type, final Object obj) {
         return obj.toString();
     }
 
     @Override
-    public Object serialize(String item, Predicate<Class<?>> typeSupported) {
+    public Object serialize(final String item, final Predicate<Class<?>> typeSupported) {
         return item;
     }
+
 }
