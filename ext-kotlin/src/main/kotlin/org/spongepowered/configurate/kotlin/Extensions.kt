@@ -20,11 +20,11 @@ import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
 
-operator fun <T: ScopedConfigurationNode<T>> T.get(path: Any): T {
+operator fun <T : ScopedConfigurationNode<T>> T.get(path: Any): T {
     return getNode(path)
 }
 
-operator fun <T: ScopedConfigurationNode<T>> T.get(vararg path: Any): T {
+operator fun <T : ScopedConfigurationNode<T>> T.get(vararg path: Any): T {
     return getNode(*path)
 }
 

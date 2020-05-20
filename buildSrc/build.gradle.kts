@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version embeddedKotlinVersion
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     `java-gradle-plugin`
 }
 

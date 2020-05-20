@@ -53,4 +53,3 @@ inline fun <reified T> TypeSerializerCollection.get(): TypeSerializer<T>? {
 
 @PublishedApi
 internal inline fun <reified T> typeTokenOf() = object : TypeToken<T>() {}
-

@@ -34,14 +34,15 @@ fun node(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: 
 /**
  * Create a commented configuration node
  */
-fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() ->
-Unit) =
+fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() -> Unit) =
         CommentedConfigurationNode.root(options, init)
 
-fun attributed(nodeName: String = "root", vararg attributes: Pair<String, String>, options: ConfigurationOptions =
-        ConfigurationOptions.defaults(), init:
-               AttributedConfigurationNode.() ->
-               Unit): AttributedConfigurationNode {
+fun attributed(
+    nodeName: String = "root",
+    vararg attributes: Pair<String, String>,
+    options: ConfigurationOptions = ConfigurationOptions.defaults(),
+    init: AttributedConfigurationNode.() -> Unit
+): AttributedConfigurationNode {
     val node = AttributedConfigurationNode.root(nodeName, options)
     node.attributes = mapOf(*attributes)
     node.init()
@@ -52,8 +53,7 @@ fun attributed(nodeName: String = "root", vararg attributes: Pair<String, String
  * Given a loader, create and configure an empty node. Options may be provided, but otherwise the loader's defaults
  * will be used.
  */
-fun <T : ConfigurationNode> ConfigurationLoader<T>.node(options: ConfigurationOptions = this.defaultOptions, init: T.
-() -> Unit): T {
+fun <T : ConfigurationNode> ConfigurationLoader<T>.node(options: ConfigurationOptions = this.defaultOptions, init: T.() -> Unit): T {
     val ret = createEmptyNode(options)
     ret.init()
     return ret

@@ -1,5 +1,5 @@
-import org.spongepowered.configurate.build.format
 import org.spongepowered.configurate.build.core
+import org.spongepowered.configurate.build.format
 
 plugins {
     id("org.spongepowered.configurate-component")
@@ -19,4 +19,3 @@ application {
 tasks.withType(AbstractPublishToMaven::class.java).configureEach {
     onlyIf { false } // don't publish
 }
-

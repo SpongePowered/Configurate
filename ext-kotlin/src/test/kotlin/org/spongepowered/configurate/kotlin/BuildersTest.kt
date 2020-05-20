@@ -16,12 +16,11 @@
  */
 package org.spongepowered.configurate.kotlin
 
+import java.net.URL
+import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.spongepowered.configurate.AttributedConfigurationNode
 import org.spongepowered.configurate.ScopedConfigurationNode
-import java.net.URL
-import java.util.UUID
-
 
 class BuildersTest {
     @Test
@@ -79,8 +78,12 @@ fun <N : ScopedConfigurationNode<N>> N.child(vararg path: Any, value: Any? = NO_
  *
  * This function returns the child
  */
-fun AttributedConfigurationNode.child(key: String, value: Any? = NO_VALUE, vararg attributes: Pair<String, String>,
-                                      init: AttributedConfigurationNode.() -> Unit): AttributedConfigurationNode {
+fun AttributedConfigurationNode.child(
+    key: String,
+    value: Any? = NO_VALUE,
+    vararg attributes: Pair<String, String>,
+    init: AttributedConfigurationNode.() -> Unit
+): AttributedConfigurationNode {
     val node = this[key]
     tagName = key
     if (value != NO_VALUE) {

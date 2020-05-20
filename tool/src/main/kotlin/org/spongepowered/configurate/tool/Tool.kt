@@ -29,9 +29,18 @@ import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
+import java.io.Console
+import java.io.IOException
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
+import java.nio.file.FileSystems
 import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
-import org.spongepowered.configurate.*
+import org.spongepowered.configurate.AttributedConfigurationNode
+import org.spongepowered.configurate.BasicConfigurationNode
+import org.spongepowered.configurate.CommentedConfigurationNode
+import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary
+import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader
@@ -39,12 +48,6 @@ import org.spongepowered.configurate.loader.HeaderMode
 import org.spongepowered.configurate.xml.XmlConfigurationLoader
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import org.yaml.snakeyaml.DumperOptions
-import java.io.Console
-import java.io.IOException
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.nio.file.FileSystems
-
 
 val HAS_UTF8 = Charset.defaultCharset() == StandardCharsets.UTF_8
 
@@ -81,7 +84,6 @@ class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
             readLine()
         }
     }
-
 }
 
 class Tool : CliktCommand(help = """

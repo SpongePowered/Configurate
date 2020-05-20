@@ -48,7 +48,6 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 it.targetCompatibility = targetVersion
             }
 
-
             tasks.withType(Javadoc::class.java).configureEach {
                 it.applyCommonAttributes()
             }

@@ -1,12 +1,12 @@
 package org.spongepowered.configurate.build
 
+import java.net.URI
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
-import java.net.URI
 
 typealias PublicationConfigureCb = MavenPublication.() -> Unit
 
@@ -70,7 +70,6 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                                     it.url.set("https://github.com/SpongePowered/configurate/")
                                 }
                             }
-
                         }
                     }
                 }
@@ -90,7 +89,7 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
             }
             val mavenPublication = publishing.publications.named("maven", MavenPublication::class.java)
             afterEvaluate {
-                mavenPublication.configure {pub ->
+                mavenPublication.configure { pub ->
                     for (cb in configurateExtension.configureFunctions) {
                         pub.cb()
                     }

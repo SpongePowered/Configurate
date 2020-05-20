@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.kotlin
 
+import java.util.concurrent.Executor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -35,7 +36,6 @@ import org.spongepowered.configurate.reactive.Publisher
 import org.spongepowered.configurate.reactive.Subscriber
 import org.spongepowered.configurate.reactive.TransactionFailedException
 import org.spongepowered.configurate.util.CheckedFunction
-import java.util.concurrent.Executor
 
 /**
  * Given an [Publisher] instance, return a new [Flow] emitting values from the Flow
@@ -70,7 +70,7 @@ suspend fun <V : Any> Flow<V>.asPublisher(): Publisher<V> = coroutineScope {
 }
 
 private class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : Publisher<V> {
-    private val executor = Executor { task -> scope.launch { task.run() }}
+    private val executor = Executor { task -> scope.launch { task.run() } }
     override fun getExecutor(): Executor = this.executor
 
     @OptIn(ExperimentalCoroutinesApi::class)

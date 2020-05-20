@@ -21,12 +21,11 @@ import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.reference.ConfigurationReference
 import org.spongepowered.configurate.reference.ValueReference
 
-
-inline fun <reified T: Any, N: ScopedConfigurationNode<N>> ConfigurationReference<N>.flowOf(vararg path: Any): Flow<T> {
+inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.flowOf(vararg path: Any): Flow<T> {
     return this.referenceTo<T>(typeTokenOf(), *path).asFlow()
 }
 
-inline fun <reified T: Any, N: ScopedConfigurationNode<N>> ConfigurationReference<N>.referenceTo(vararg path: Any): ValueReference<T, N> {
+inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.referenceTo(vararg path: Any): ValueReference<T, N> {
     return this.referenceTo(typeTokenOf(), *path)
 }
 
@@ -38,4 +37,3 @@ operator fun ConfigurationReference<*>.set(vararg path: Any, value: Any?) {
 inline operator fun <reified V> ConfigurationReference<*>.set(vararg path: Any, value: V?) {
     node.getNode(*path).setValue(typeTokenOf(), value)
 }
-

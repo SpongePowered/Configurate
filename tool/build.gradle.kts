@@ -5,8 +5,8 @@ plugins {
     application
     kotlin("jvm")
     id("org.spongepowered.configurate-component")
+    id("org.jlleitschuh.gradle.ktlint")
 }
-
 
 dependencies {
     // Configurate

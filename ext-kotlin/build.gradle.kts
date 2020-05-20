@@ -4,6 +4,7 @@ import org.spongepowered.configurate.build.core
 plugins {
     kotlin("jvm")
     id("org.spongepowered.configurate-component")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 tasks.withType(KotlinCompile::class).configureEach {
