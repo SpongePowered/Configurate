@@ -29,9 +29,7 @@ class TransactionalProcessorImpl<V> extends AbstractProcessor<V, TransactionalRe
 
     @Override
     public void submit(final V item) {
-        executor.execute(() -> {
-            Processor.TransactionalIso.super.submit(item);
-        });
+        executor.execute(() -> TransactionalIso.super.submit(item));
     }
 
     @Override
@@ -45,7 +43,7 @@ class TransactionalProcessorImpl<V> extends AbstractProcessor<V, TransactionalRe
                     reg.beginTransaction(newValue);
                 } catch (final TransactionFailedException ex) {
                     throw ex;
-                } catch (final Throwable t) {
+                } catch (final Exception t) {
                     it.remove();
                     subscriberCount.getAndDecrement();
                     reg.onError(t);

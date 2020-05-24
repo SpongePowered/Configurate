@@ -147,12 +147,10 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         } catch (final FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
             return createNode(options);
+        } catch (final IOException e) {
+            throw e;
         } catch (final Exception e) {
-            if (e instanceof IOException) {
-                throw (IOException) e;
-            } else {
-                throw new IOException(e);
-            }
+            throw new IOException(e);
         }
     }
 
@@ -176,12 +174,10 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
                 }
             }
             saveInternal(node, writer);
+        } catch (final IOException e) {
+            throw e;
         } catch (final Exception e) {
-            if (e instanceof IOException) {
-                throw (IOException) e;
-            } else {
-                throw new IOException(e);
-            }
+            throw new IOException(e);
         }
     }
 
@@ -342,33 +338,6 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         @NonNull
         public HeaderMode getHeaderMode() {
             return this.headerMode;
-        }
-
-        /**
-         * Sets if the header of the configuration should be preserved.
-         *
-         * <p>See {@link HeaderMode#PRESERVE} and {@link HeaderMode#PRESET}.</p>
-         *
-         * @param preservesHeader If the header should be preserved
-         * @return this builder (for chaining)
-         * @deprecated In favour of {@link #setHeaderMode(HeaderMode)}
-         */
-        @NonNull
-        @Deprecated
-        public T setPreservesHeader(final boolean preservesHeader) {
-            this.headerMode = preservesHeader ? HeaderMode.PRESERVE : HeaderMode.PRESET;
-            return self();
-        }
-
-        /**
-         * Gets if the header of the configuration should be preserved.
-         *
-         * @return If the header should be preserved
-         * @deprecated In favour of {@link #getHeaderMode()}
-         */
-        @Deprecated
-        public boolean preservesHeader() {
-            return this.headerMode == HeaderMode.PRESERVE;
         }
 
         /**

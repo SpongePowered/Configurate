@@ -201,9 +201,14 @@ public enum CommentHandlers implements CommentHandler {
 
             final StringBuilder build = new StringBuilder();
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                if (firstLine || line.trim().startsWith(this.commentPrefix)) {
-                    line = firstLine ? line : line.substring(line.indexOf(this.commentPrefix) + 1);
+                if (firstLine) {
+                    if (line.startsWith(" ")) {
+                        line = line.substring(1);
+                    }
+                    build.append(line);
                     firstLine = false;
+                } else if (line.trim().startsWith(this.commentPrefix)) {
+                    line = line.substring(line.indexOf(this.commentPrefix) + 1);
                     if (line.startsWith(" ")) {
                         line = line.substring(1);
                     }
@@ -211,12 +216,10 @@ public enum CommentHandlers implements CommentHandler {
                         build.append(AbstractConfigurationLoader.CONFIGURATE_LINE_SEPARATOR);
                     }
                     build.append(line);
+                } else if (line.trim().isEmpty()) {
+                    break;
                 } else {
-                    if (line.trim().isEmpty()) {
-                        break;
-                    } else {
-                        return null;
-                    }
+                    return null;
                 }
             }
             // We've reached the end of the document?

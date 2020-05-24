@@ -30,7 +30,7 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     private final @Nullable Publisher<I> parent;
 
     MappedProcessor(final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, final @Nullable Publisher<I> parent) {
-        this.processor = Processor.createTransactional(parent.getExecutor());
+        this.processor = parent == null ? Processor.createTransactional() : Processor.createTransactional(parent.getExecutor());
         this.mapper = mapper;
         this.parent = parent;
     }

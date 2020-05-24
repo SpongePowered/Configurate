@@ -47,6 +47,7 @@ import java.nio.file.NoSuchFileException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -85,6 +86,13 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
      */
     private static final String INDENT_PROPERTY = "{http://xml.apache.org/xslt}indent-amount";
 
+    private static final String FEATURE_EXTERNAL_GENERAL_ENTITIES = "http://xml.org/sax/features/external-general-entities";
+
+    private static final String FEATURE_EXTERNAL_PARAMETER_ENTITIES = "http://xml.org/sax/features/external-parameter-entities";
+
+    private static final String FEATURE_LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
+
+
     /**
      * Creates a new {@link XmlConfigurationLoader} builder.
      *
@@ -103,6 +111,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         private String defaultTagName = "element";
         private int indent = 2;
         private boolean writeExplicitType = true;
+        private boolean resolvesExternalContent = false;
         private boolean includeXmlDeclaration = true;
 
         protected Builder() {
@@ -222,6 +231,37 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             return this.includeXmlDeclaration;
         }
 
+        /**
+         * Sets whether external content should be resolved when loading data.
+         *
+         * <p>Resolving this content could result in network requests being
+         * made, and will allow configuration files to access arbitrary URLs
+         * This setting should only be enabled with caution.
+         *
+         * <p>Additionally, through use of features such as entity expansion and
+         * XInclude, documents can be crafted that will grow exponentially
+         * when parsed, requiring an amount of memory to store that may be
+         * greater than what is available for the JVM.
+         *
+         * <p>By default, this is false.
+         *
+         * @param resolvesExternalContent Whether to resolve external entities
+         * @return this
+         */
+        public Builder setResolvesExternalContent(final boolean resolvesExternalContent) {
+            this.resolvesExternalContent = resolvesExternalContent;
+            return this;
+        }
+
+        /**
+         * Get whether external content should be resolved.
+         *
+         * @return value, defaulting to false
+         */
+        public boolean resolvesExternalContent() {
+            return this.resolvesExternalContent;
+        }
+
         @Override
         public XmlConfigurationLoader build() {
             setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
@@ -234,6 +274,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     private final int indent;
     private final boolean writeExplicitType;
     private final boolean includeXmlDeclaration;
+    private final boolean resolvesExternalContent;
 
     private XmlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.XML_STYLE});
@@ -242,12 +283,25 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         this.indent = builder.getIndent();
         this.writeExplicitType = builder.shouldWriteExplicitType();
         this.includeXmlDeclaration = builder.shouldIncludeXmlDeclaration();
+        this.resolvesExternalContent = builder.resolvesExternalContent();
     }
 
-    private DocumentBuilder newDocumentBuilder() {
+    private DocumentBuilder newDocumentBuilder() throws IOException {
         final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         if (this.schema != null) {
             builderFactory.setSchema(this.schema);
+        }
+        if (!this.resolvesExternalContent) {
+            // Settings based on https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+            try {
+                builderFactory.setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, false);
+                builderFactory.setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, false);
+                builderFactory.setFeature(FEATURE_LOAD_EXTERNAL_DTD, false);
+            } catch (final ParserConfigurationException e) {
+                throw new IOException(e);
+            }
+            builderFactory.setXIncludeAware(false);
+            builderFactory.setExpandEntityReferences(false);
         }
 
         try {
@@ -259,6 +313,10 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     private Transformer newTransformer() {
         final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        if (!this.resolvesExternalContent) {
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        }
         try {
             final Transformer transformer = transformerFactory.newTransformer();
 

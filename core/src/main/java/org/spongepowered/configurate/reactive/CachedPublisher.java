@@ -42,9 +42,7 @@ class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
     CachedPublisher(final Publisher<V> parent, final @Nullable V initialValue) {
         this.parent = parent;
         this.value = initialValue;
-        this.closer = this.parent.subscribe(value -> {
-            this.value = value;
-        });
+        this.closer = this.parent.subscribe(next -> this.value = next);
     }
 
     @Override

@@ -77,14 +77,14 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
         try {
             try {
                 this.dirListeners.onClose();
-            } catch (final Throwable t) {
+            } catch (final Exception t) {
                 this.dirListeners.onError(t);
             }
 
             this.fileListeners.forEach((k, v) -> {
                 try {
                     v.onClose();
-                } catch (final Throwable t) {
+                } catch (final Exception t) {
                     v.onError(t);
                 }
             });

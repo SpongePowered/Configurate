@@ -36,12 +36,12 @@ class ExecutePublisher<V> implements Publisher<V> {
     private final CompletableFuture<V> actor;
     private final Executor executor;
 
-    ExecutePublisher(final CheckedSupplier<V, ?> action, final Executor exec) {
+    ExecutePublisher(final CheckedSupplier<V, ? extends Exception> action, final Executor exec) {
         this.actor = new CompletableFuture<>();
         exec.execute(() -> {
             try {
                 this.actor.complete(action.get());
-            } catch (final Throwable ex) {
+            } catch (final Exception ex) {
                 this.actor.completeExceptionally(ex);
             }
         });
@@ -59,7 +59,7 @@ class ExecutePublisher<V> implements Publisher<V> {
                     try {
                         subscriber.submit(value);
                         subscriber.onClose();
-                    } catch (final Throwable t) {
+                    } catch (final Exception t) {
                         subscriber.onError(t);
                     }
                 }

@@ -122,7 +122,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     public boolean update(final Function<@Nullable T, ? extends T> action) {
         try {
             return set(action.apply(get()));
-        } catch (final Throwable t) {
+        } catch (final Exception t) {
             this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, t));
             return false;
         }

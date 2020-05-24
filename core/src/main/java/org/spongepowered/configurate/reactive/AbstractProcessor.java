@@ -81,7 +81,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
             for (Registration<V> reg : this.registrations) {
                 try {
                     reg.onClose();
-                } catch (final Throwable t) {
+                } catch (final Exception t) {
                     // not much we can do here, maybe log?
                 }
             }
@@ -100,12 +100,12 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
             final R reg = it.next();
             try {
                 processor.accept(reg);
-            } catch (final Throwable t) {
+            } catch (final Exception t) {
                 it.remove();
                 this.subscriberCount.getAndDecrement();
                 try {
                     reg.onError(t);
-                } catch (final Throwable t2) { // really? how rude
+                } catch (final Exception t2) { // really? how rude
                     Processor.Iso.super.onError(t2); // just use the uncaught exception handler... oh well
                 }
             }

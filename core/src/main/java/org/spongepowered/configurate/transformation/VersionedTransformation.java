@@ -19,6 +19,7 @@ package org.spongepowered.configurate.transformation;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 
+import java.util.Map;
 import java.util.SortedMap;
 
 /**
@@ -39,7 +40,7 @@ class VersionedTransformation<T extends ConfigurationNode> extends Configuration
     public void apply(final @NonNull T node) {
         final ConfigurationNode versionNode = node.getNode(this.versionPath);
         int currentVersion = versionNode.getInt(-1);
-        for (SortedMap.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {
+        for (Map.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {
             if (entry.getKey() <= currentVersion) {
                 continue;
             }

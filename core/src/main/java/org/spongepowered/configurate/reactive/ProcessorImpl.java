@@ -37,7 +37,7 @@ class ProcessorImpl<V> extends AbstractProcessor<V, RegistrationImpl<V>> impleme
                 try {
                     handled = true;
                     reg.submit(value);
-                } catch (final Throwable t) {
+                } catch (final Exception t) {
                     it.remove();
                     this.subscriberCount.getAndDecrement();
                     reg.subscriber.onError(t);

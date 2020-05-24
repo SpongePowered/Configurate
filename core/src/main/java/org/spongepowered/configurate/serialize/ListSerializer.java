@@ -26,7 +26,7 @@ import java.util.List;
 
 class ListSerializer extends AbstractListChildSerializer<List<?>> {
 
-    static TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
+    static final TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 
     @Override
     TypeToken<?> getElementType(final TypeToken<?> containerType) throws ObjectMappingException {

@@ -27,7 +27,7 @@ import java.util.Set;
 
 class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
-    static TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
+    static final TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
     @Override
     TypeToken<?> getElementType(final TypeToken<?> containerType) throws ObjectMappingException {

@@ -99,7 +99,11 @@ public final class WatchServiceListener implements AutoCloseable {
                 final WatchKey key;
                 try {
                     key = this.watchService.take();
-                } catch (InterruptedException | ClosedWatchServiceException e) {
+                } catch (final InterruptedException e) {
+                    this.open = false;
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (final ClosedWatchServiceException e) {
                     break;
                 }
                 final Path watched = (Path) key.watchable();

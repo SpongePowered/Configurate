@@ -31,7 +31,7 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
 
     @SuppressWarnings("unchecked")
     static <N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> NullConfigValue<N, A> instance() {
-        return (NullConfigValue<N, A>) INSTANCE;
+        return INSTANCE;
     }
 
     @SuppressWarnings({"ConstantConditions"})
@@ -47,6 +47,7 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
 
     @Override
     public void setValue(final @Nullable Object value) {
+        throw new UnsupportedOperationException("Value should be changed from null type before setting value");
     }
 
     @Nullable
@@ -86,6 +87,7 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
 
     @Override
     public void clear() {
+        // empty
     }
 
     @Override
