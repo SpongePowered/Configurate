@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -101,7 +102,7 @@ public class CommentHandlersTest {
         }
 
         try (BufferedReader r = Files.newBufferedReader(testFile, StandardCharsets.UTF_8)) {
-            final @Nullable String comment = CommentHandlers.extractComment(r, CommentHandlers.HASH, CommentHandlers.SLASH_BLOCK);
+            final @Nullable String comment = CommentHandlers.extractComment(r, ImmutableSet.of(CommentHandlers.HASH, CommentHandlers.SLASH_BLOCK));
             assertNull(comment);
         }
     }

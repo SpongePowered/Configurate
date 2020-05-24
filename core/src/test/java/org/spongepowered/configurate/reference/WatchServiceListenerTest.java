@@ -34,6 +34,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -64,6 +65,7 @@ public class WatchServiceListenerTest {
         Files.write(testFile, Collections.singleton("version one"), StandardOpenOption.SYNC,
             StandardOpenOption.CREATE);
 
+        final AtomicBoolean notified = new AtomicBoolean();
         final AtomicInteger callCount = new AtomicInteger(0);
         final Object condition = new Object();
         final AtomicReference<Disposable> disposer = new AtomicReference<>();
@@ -74,6 +76,7 @@ public class WatchServiceListenerTest {
                     disposer.get().dispose();
                     return;
                 }
+                notified.set(true);
                 condition.notify();
                 if (oldVal >= 1) {
                     disposer.get().dispose();
@@ -87,11 +90,17 @@ public class WatchServiceListenerTest {
         assertTimeout(Duration.ofMinutes(1), () -> {
             synchronized (condition) {
                 Files.write(testFile, Collections.singleton("version two"), StandardOpenOption.SYNC);
-                condition.wait();
+                while (!notified.get()) {
+                    condition.wait();
+                }
+                notified.set(false);
                 assertEquals(1, callCount.get());
 
                 Files.write(testFile, Collections.singleton("version three"), StandardOpenOption.SYNC);
-                condition.wait();
+                while (!notified.get()) {
+                    condition.wait();
+                }
+                notified.set(false);
                 assertEquals(2, callCount.get());
             }
 

@@ -50,6 +50,7 @@ import java.util.Map;
 /**
  * Basic sanity checks for the loader
  */
+@SuppressWarnings("UnusedVariable")
 @ExtendWith(TempDirectory.class)
 public class HoconConfigurationLoaderTest {
 

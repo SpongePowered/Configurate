@@ -151,7 +151,7 @@ public final class ConfigurationOptions {
     @NonNull
     public ConfigurationOptions withSerializers(final @NonNull TypeSerializerCollection serializers) {
         requireNonNull(serializers, "serializers");
-        if (this.serializers == serializers) {
+        if (this.serializers.equals(serializers)) {
             return this;
         }
         return new ConfigurationOptions(this.mapFactory, this.header, serializers, this.acceptedTypes, this.objectMapperFactory,

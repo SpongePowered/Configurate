@@ -110,7 +110,7 @@ public class ValueReferences {
             if (next == null) {
                 break;
             }
-            final String[] cmd = next.split(" ");
+            final String[] cmd = next.split(" ", -1);
             if (cmd.length == 0) {
                 continue;
             }

@@ -11,7 +11,8 @@ enum class Versions(val version: String) {
     GUAVA("25.1-jre"),
     HOCON("1.4.0"),
     SNAKEYAML("1.26"),
-    JACKSON("2.10.3");
+    JACKSON("2.10.3"),
+    ERROR_PRONE("2.3.4");
 
     override fun toString(): String {
         return version

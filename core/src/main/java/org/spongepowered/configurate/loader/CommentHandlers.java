@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.loader;
 
 import com.google.common.collect.Collections2;
+import com.google.errorprone.annotations.Immutable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 /**
  * Defines a number of default {@link CommentHandler}s.
  */
+@Immutable
 public enum CommentHandlers implements CommentHandler {
 
     /**
@@ -84,7 +86,7 @@ public enum CommentHandlers implements CommentHandler {
      * @throws IOException If an IO error occurs
      */
     public static @Nullable String extractComment(final @NonNull BufferedReader reader,
-            final @NonNull CommentHandler... allowedHeaderTypes) throws IOException {
+            final @NonNull Iterable<CommentHandler> allowedHeaderTypes) throws IOException {
         reader.mark(READAHEAD_LEN);
         for (CommentHandler handler : allowedHeaderTypes) {
             final @Nullable String comment = handler.extractHeader(reader);
@@ -97,6 +99,7 @@ public enum CommentHandlers implements CommentHandler {
         return null;
     }
 
+    @Immutable
     private static final class AbstractDelineatedHandler implements CommentHandler {
         private final String startSequence;
         private final String endSequence;
@@ -181,6 +184,7 @@ public enum CommentHandlers implements CommentHandler {
         }
     }
 
+    @Immutable
     private static final class AbstractPrefixHandler implements CommentHandler {
         private final String commentPrefix;
 

@@ -27,9 +27,11 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -479,13 +481,14 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             return NodePath.path();
         }
 
-        final LinkedList<Object> pathElements = new LinkedList<>();
+        final Deque<Object> pathElements = new ArrayDeque<>();
         do {
             pathElements.addFirst(pointer.getKey());
         } while ((pointer = pointer.getParent()).getParent() != null);
         return NodePath.create(pathElements);
     }
 
+    @Override
     public @Nullable N getParent() {
         final @Nullable A parent = this.parent;
         return parent == null ? null : parent.self();
@@ -614,6 +617,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
+    @SuppressWarnings("JdkObsolete")
     private <S, T, E extends Exception> T visitInternal(final ConfigurationVisitor<? super N, S, T, E> visitor, final S state) throws E {
         visitor.beginVisit(self(), state);
         if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value

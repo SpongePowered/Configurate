@@ -113,8 +113,8 @@ public class TypeSerializersTest {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("present_val").setValue("first");
         node.getNode("another_present_val").setValue("SECOND");
-        node.getNode(("casematters_val")).setValue("tHiRd");
-        node.getNode(("casematters_val_lowercase")).setValue("third");
+        node.getNode("casematters_val").setValue("tHiRd");
+        node.getNode("casematters_val_lowercase").setValue("third");
         node.getNode("invalid_val").setValue("3rd");
 
         assertEquals(TestEnum.FIRST, enumSerializer.deserialize(enumType, node.getNode("present_val")));

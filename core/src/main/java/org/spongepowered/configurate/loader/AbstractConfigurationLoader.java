@@ -91,7 +91,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * The comment handlers defined for this loader.
      */
     @NonNull
-    private final CommentHandler[] commentHandlers;
+    private final ImmutableList<CommentHandler> commentHandlers;
 
     /**
      * The mode used to read/write configuration headers.
@@ -109,7 +109,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         this.source = builder.getSource();
         this.sink = builder.getSink();
         this.headerMode = builder.getHeaderMode();
-        this.commentHandlers = commentHandlers;
+        this.commentHandlers = ImmutableList.copyOf(commentHandlers);
         this.defaultOptions = builder.getDefaultOptions();
     }
 
@@ -120,7 +120,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      */
     @NonNull
     public CommentHandler getDefaultCommentHandler() {
-        return this.commentHandlers[0];
+        return this.commentHandlers.get(0);
     }
 
     @Override

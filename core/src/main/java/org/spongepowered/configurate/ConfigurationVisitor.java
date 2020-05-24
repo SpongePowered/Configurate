@@ -94,7 +94,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @see ScopedConfigurationNode#visit(ConfigurationVisitor) for the
      *      recommended visitation method
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "JdkObsolete"})
     default T visit(final N node, final S state) throws E {
         if (node instanceof ScopedConfigurationNode) { // bleh
             return ((ScopedConfigurationNode<? extends N>) node).visit(this, state);

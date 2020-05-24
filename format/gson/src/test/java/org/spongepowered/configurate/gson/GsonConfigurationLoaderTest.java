@@ -50,7 +50,7 @@ public class GsonConfigurationLoaderTest {
         final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
+                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
         final ConfigurationNode node = loader.load(loader.defaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
@@ -92,7 +92,7 @@ public class GsonConfigurationLoaderTest {
         final URL url = getClass().getResource("/emptyObject.json");
         final Path tempFile = tempDir.resolve("text4.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
+                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
 
         final ConfigurationNode node = loader.load(loader.defaultOptions().withMapFactory(MapFactories.sortedNatural()));

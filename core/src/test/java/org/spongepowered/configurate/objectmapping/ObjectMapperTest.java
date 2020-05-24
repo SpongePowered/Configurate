@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("UnusedVariable") // test object mapper objects are not always read
 public class ObjectMapperTest {
 
     @ConfigSerializable

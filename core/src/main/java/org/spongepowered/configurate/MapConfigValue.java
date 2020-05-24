@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * A {@link ConfigValue} which holds a map of values.
  */
-class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> extends ConfigValue<N, A> {
+final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> extends ConfigValue<N, A> {
 
     volatile Map<Object, A> values;
 
@@ -150,14 +150,14 @@ class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractCon
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(other instanceof MapConfigValue<?, ?>)) {
             return false;
         }
-        final MapConfigValue<?, ?> that = (MapConfigValue<?, ?>) o;
+        final MapConfigValue<?, ?> that = (MapConfigValue<?, ?>) other;
         return Objects.equals(this.values, that.values);
     }
 

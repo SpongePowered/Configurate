@@ -24,6 +24,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
@@ -68,7 +69,7 @@ public final class TypeSerializerCollection {
     }
 
     private final @Nullable TypeSerializerCollection parent;
-    private final List<RegisteredSerializer> serializers;
+    private final ImmutableList<RegisteredSerializer> serializers;
     private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
     private TypeSerializerCollection(final @Nullable TypeSerializerCollection parent, final List<RegisteredSerializer> serializers) {
@@ -116,6 +117,31 @@ public final class TypeSerializerCollection {
      */
     public Builder childBuilder() {
         return new Builder(this);
+    }
+
+    @Override
+    public String toString() {
+        return "TypeSerializerCollection{"
+                + "parent=" + this.parent
+                + ", serializers=" + this.serializers
+                + '}';
+    }
+
+    @Override public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof TypeSerializerCollection)) {
+            return false;
+        }
+        final TypeSerializerCollection that = (TypeSerializerCollection) other;
+        return Objects.equals(this.parent, that.parent)
+                && this.serializers.equals(that.serializers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.parent, this.serializers);
     }
 
     /**

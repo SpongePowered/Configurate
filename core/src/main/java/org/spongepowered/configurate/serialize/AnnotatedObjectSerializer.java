@@ -79,7 +79,7 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             // serialize obj's concrete type rather than the interface/abstract class
             node.getNode(CLASS_KEY).setValue(obj.getClass().getName());
-            mapper = node.getOptions().getObjectMapperFactory().getMapper((obj.getClass()));
+            mapper = node.getOptions().getObjectMapperFactory().getMapper(obj.getClass());
         } else {
             mapper = node.getOptions().getObjectMapperFactory().getMapper(type);
         }

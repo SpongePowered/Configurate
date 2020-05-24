@@ -28,7 +28,7 @@ import java.util.Objects;
 /**
  * A {@link ConfigValue} which holds a single ("scalar") value.
  */
-class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
 
     private volatile @Nullable Object value;
 
@@ -95,14 +95,14 @@ class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstract
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(other instanceof ScalarConfigValue<?, ?>)) {
             return false;
         }
-        final ScalarConfigValue<?, ?> that = (ScalarConfigValue<?, ?>) o;
+        final ScalarConfigValue<?, ?> that = (ScalarConfigValue<?, ?>) other;
         return Objects.equals(this.value, that.value);
     }
 

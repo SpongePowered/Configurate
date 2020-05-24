@@ -50,6 +50,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
 
     protected abstract R createRegistration(Subscriber<? super V> sub);
 
+    @Override
     public Disposable subscribe(final Subscriber<? super V> subscriber) {
         if (this.subscriberCount.get() < 0 || this.subscriberCount.incrementAndGet() <= 0) {
             subscriber.onError(new IllegalStateException("Processor " + this + " is already "
@@ -62,15 +63,18 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
         return reg;
     }
 
+    @Override
     public boolean hasSubscribers() {
         return this.subscriberCount.get() > 0;
     }
 
+    @Override
     public void onError(final Throwable e) {
         Processor.Iso.super.onError(e);
         onClose();
     }
 
+    @Override
     public void onClose() {
         this.executor.execute(() -> {
             this.subscriberCount.set(CLOSED_VALUE);
@@ -108,10 +112,12 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
         }
     }
 
+    @Override
     public void setFallbackHandler(final @Nullable Subscriber<V> subscriber) {
         this.fallbackHandler = subscriber;
     }
 
+    @Override
     public boolean closeIfUnsubscribed() {
         this.executor.execute(() -> {
             if (this.subscriberCount.compareAndSet(0, CLOSED_VALUE)) {

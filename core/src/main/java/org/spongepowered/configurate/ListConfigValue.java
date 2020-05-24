@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A {@link ConfigValue} which holds a list of values.
  */
-class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
 
     final AtomicReference<List<T>> values = new AtomicReference<>(new ArrayList<>());
 
@@ -205,14 +205,14 @@ class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractCo
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(other instanceof ListConfigValue<?, ?>)) {
             return false;
         }
-        final ListConfigValue<?, ?> that = (ListConfigValue<?, ?>) o;
+        final ListConfigValue<?, ?> that = (ListConfigValue<?, ?>) other;
         return Objects.equals(this.values.get(), that.values.get());
     }
 

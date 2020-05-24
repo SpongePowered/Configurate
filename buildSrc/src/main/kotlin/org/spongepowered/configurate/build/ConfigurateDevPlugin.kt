@@ -1,5 +1,6 @@
 package org.spongepowered.configurate.build
 
+import net.ltgt.gradle.errorprone.errorprone
 import net.minecrell.gradle.licenser.LicenseExtension
 import net.minecrell.gradle.licenser.Licenser
 import org.gradle.api.JavaVersion
@@ -23,13 +24,17 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 apply(JavaLibraryPlugin::class.java)
                 apply(ConfiguratePublishingPlugin::class.java)
                 apply(CheckstylePlugin::class.java)
+                apply("net.ltgt.errorprone")
             }
 
             tasks.withType(JavaCompile::class.java).configureEach {
                 with(it.options) {
+                    val version = JavaVersion.toVersion(it.toolChain.version)
                     compilerArgs.addAll(listOf("-Xlint:all", "-Xlint:-path", "-Xlint:-serial", "-parameters"))
-                    if (JavaVersion.toVersion(it.toolChain.version).isJava9Compatible) {
+                    if (version.isJava9Compatible) {
                         compilerArgs.addAll(listOf("--release", "8"))
+                    } else {
+                        errorprone.isEnabled.set(false)
                     }
                     isDeprecation = true
                     encoding = "UTF-8"
@@ -63,6 +68,11 @@ class ConfigurateDevPlugin : Plugin<Project> {
 
             repositories.addAll(listOf(repositories.mavenLocal(), repositories.mavenCentral(), repositories.jcenter()))
             dependencies.apply {
+                // error-prone compiler
+                add("compileOnly", "com.google.errorprone:error_prone_annotations:${Versions.ERROR_PRONE}")
+                add("errorprone", "com.google.errorprone:error_prone_core:${Versions.ERROR_PRONE}")
+
+                // Testing
                 add("testImplementation", "org.junit.jupiter:junit-jupiter-api:5.2.0")
                 add("testImplementation", "org.junit-pioneer:junit-pioneer:0.1.2")
                 add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.2.0")

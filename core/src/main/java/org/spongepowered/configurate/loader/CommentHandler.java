@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.loader;
 
+import com.google.errorprone.annotations.Immutable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -26,6 +27,7 @@ import java.util.Collection;
 /**
  * Extracts comments from a buffered reader or collection of lines.
  */
+@Immutable
 public interface CommentHandler {
 
     /**

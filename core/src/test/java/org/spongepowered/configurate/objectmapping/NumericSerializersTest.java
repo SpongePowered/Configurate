@@ -31,6 +31,7 @@ import org.spongepowered.configurate.serialize.CoercionFailedException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
+@SuppressWarnings("UnnecessaryParentheses") // for casting negative number literals
 public class NumericSerializersTest {
 
     private <T> TypeSerializer<T> getSerializer(final TypeToken<T> type) {

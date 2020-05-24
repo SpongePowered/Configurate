@@ -61,7 +61,7 @@ public class JacksonConfigurationLoaderTest {
     }
 
     private static final long TEST_LONG_VAL = 584895858588588888L;
-    private static final double TEST_DOUBLE_VAL = 595859682984428959583045732020572045273498409257349587.85485884287387d;
+    private static final double TEST_DOUBLE_VAL = 5.95859682984429e53d;
 
     private void testRoundtripValue(final Path tempDir, final Object value) throws IOException {
         final Path tempFile = tempDir.resolve("text2.txt");

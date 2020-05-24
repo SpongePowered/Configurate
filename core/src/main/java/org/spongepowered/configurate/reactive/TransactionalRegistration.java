@@ -80,6 +80,7 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
             this.active.set(value);
         }
 
+        @Override
         public void commit() {
             final V active = this.active.getAndSet(null);
             if (active != null) {
@@ -87,6 +88,7 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
             }
         }
 
+        @Override
         public void rollback() {
             this.active.set(null);
         }

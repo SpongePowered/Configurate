@@ -64,7 +64,9 @@ class ExecutePublisher<V> implements Publisher<V> {
                     }
                 }
             }
-        }, this.executor);
+        }, this.executor).exceptionally(ex -> {
+            throw new Error(ex);
+        });
         return () -> subscribed.set(false);
     }
 

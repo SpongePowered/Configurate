@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(gradleApi())
     api("gradle.plugin.net.minecrell:licenser:0.4.1")
+    api("net.ltgt.gradle:gradle-errorprone-plugin:1.1.1")
 }
 
 gradlePlugin {
