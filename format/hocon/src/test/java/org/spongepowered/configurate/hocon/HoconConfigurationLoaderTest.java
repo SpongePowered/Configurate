@@ -92,7 +92,7 @@ public class HoconConfigurationLoaderTest {
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
                 .build();
-        final CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n"
+        final CommentedConfigurationNode node = loader.createNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n"
                         + "Look at meeeeeee!!!"));
         node.getNode("node").setComment("I have a comment").getNode("party").setValue("now");
 
@@ -109,7 +109,7 @@ public class HoconConfigurationLoaderTest {
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo).setUrl(url).build();
 
-        final CommentedConfigurationNode node = loader.createEmptyNode(ConfigurationOptions.defaults());
+        final CommentedConfigurationNode node = loader.createNode(ConfigurationOptions.defaults());
         node.getNode("test", "third").setValue(false).setComment("really?");
         node.getNode("test", "apple").setComment("fruit").setValue(false);
         node.getNode("test", "donut").setValue(true).setComment("tasty");
@@ -141,7 +141,7 @@ public class HoconConfigurationLoaderTest {
                 .setUrl(rsrc).build();
 
         final CommentedConfigurationNode source = loader.load();
-        final CommentedConfigurationNode destination = loader.createEmptyNode();
+        final CommentedConfigurationNode destination = loader.createNode();
         destination.mergeValuesFrom(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
@@ -171,7 +171,7 @@ public class HoconConfigurationLoaderTest {
                 .setPath(output)
                 .setUrl(rsrc).build();
 
-        final CommentedConfigurationNode source = loader.createEmptyNode();
+        final CommentedConfigurationNode source = loader.createNode();
         ObjectMapper.forType(OuterConfig.TYPE).bindToNew().populate(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));

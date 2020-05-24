@@ -18,6 +18,7 @@ package org.spongepowered.configurate.loader;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNodeFactory;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.WatchServiceListener;
@@ -34,18 +35,7 @@ import java.util.function.Function;
  *
  * @param <N> The {@link ConfigurationNode} type produced by the loader
  */
-public interface ConfigurationLoader<N extends ConfigurationNode> {
-
-    /**
-     * Gets the default {@link ConfigurationOptions} used by the loader.
-     *
-     * <p>New nodes will be created using the default options if a specific set
-     * is not defined.</p>
-     *
-     * @return The default options
-     */
-    @NonNull
-    ConfigurationOptions getDefaultOptions();
+public interface ConfigurationLoader<N extends ConfigurationNode> extends ConfigurationNodeFactory<N> {
 
     /**
      * Attempts to load a {@link ConfigurationNode} using this loader, from the
@@ -54,7 +44,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      * <p>The resultant node represents the root of the configuration being
      * loaded.</p>
      *
-     * <p>The {@link #getDefaultOptions() default options} will be used to
+     * <p>The {@link #defaultOptions() default options} will be used to
      * construct the resultant configuration nodes.</p>
      *
      * @return The newly constructed node
@@ -63,7 +53,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      */
     @NonNull
     default N load() throws IOException {
-        return load(getDefaultOptions());
+        return load(defaultOptions());
     }
 
     /**
@@ -99,27 +89,6 @@ public interface ConfigurationLoader<N extends ConfigurationNode> {
      *                     generating the configuration
      */
     void save(@NonNull ConfigurationNode node) throws IOException;
-
-    /**
-     * Return an empty node of the most appropriate type for this loader, using
-     * the default options.
-     *
-     * @return The appropriate node type
-     */
-    @NonNull
-    default N createEmptyNode() {
-        return createEmptyNode(getDefaultOptions());
-    }
-
-    /**
-     * Return an empty node of the most appropriate type for this loader.
-     *
-     * @param options The options to use with this node. Must not be null
-     *                (see {@link ConfigurationOptions#defaults()})
-     * @return The appropriate node type
-     */
-    @NonNull
-    N createEmptyNode(@NonNull ConfigurationOptions options);
 
     /**
      * Gets if this loader is capable of loading configurations.

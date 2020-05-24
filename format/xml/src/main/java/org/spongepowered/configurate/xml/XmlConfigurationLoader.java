@@ -65,6 +65,9 @@ import javax.xml.validation.Schema;
  */
 public final class XmlConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
 
+    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Double.class, Long.class,
+            Integer.class, Boolean.class, String.class, Number.class);
+
     /**
      * The prefix of lines within the header.
      */
@@ -221,6 +224,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         @Override
         public XmlConfigurationLoader build() {
+            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
             return new XmlConfigurationLoader(this);
         }
     }
@@ -292,7 +296,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
                 if (child.getNodeType() == Node.COMMENT_NODE) {
                     options = options.withHeader(unwrapHeader(child.getTextContent().trim()));
                 } else if (child.getNodeType() == Node.ELEMENT_NODE) {
-                    final AttributedConfigurationNode node = createEmptyNode(options);
+                    final AttributedConfigurationNode node = createNode(options);
                     readElement(child, node);
                     return node;
                 }
@@ -305,7 +309,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         } catch (final Exception e) {
             throw new IOException(e);
         }
-        return createEmptyNode(options);
+        return createNode(options);
     }
 
     /**
@@ -526,9 +530,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     }
 
     @Override
-    public AttributedConfigurationNode createEmptyNode(ConfigurationOptions options) {
-        options = options.withNativeTypes(ImmutableSet.of(Double.class, Long.class,
-                Integer.class, Boolean.class, String.class, Number.class));
+    public AttributedConfigurationNode createNode(ConfigurationOptions options) {
+        options = options.withNativeTypes(NATIVE_TYPES);
         return AttributedConfigurationNode.root("root", options);
     }
 

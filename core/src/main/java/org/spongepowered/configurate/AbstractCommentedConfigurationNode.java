@@ -22,9 +22,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>,
-        A extends AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A>
-        implements CommentedConfigurationNodeIntermediary<N> {
+abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>, A extends
+        AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A> implements CommentedConfigurationNodeIntermediary<N> {
 
     protected final AtomicReference<String> comment = new AtomicReference<>();
 

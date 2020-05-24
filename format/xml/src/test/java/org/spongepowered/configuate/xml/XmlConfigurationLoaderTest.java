@@ -135,8 +135,8 @@ public class XmlConfigurationLoaderTest {
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
                 .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
 
-        final AttributedConfigurationNode node = loader.createEmptyNode(
-                loader.getDefaultOptions().withHeader("test header\ndo multiple lines work\nyes they do!!")
+        final AttributedConfigurationNode node = loader.createNode(
+                loader.defaultOptions().withHeader("test header\ndo multiple lines work\nyes they do!!")
         ).setTagName("test");
 
         node.getNode("test1").setValue("something");

@@ -46,6 +46,9 @@ import java.util.Map;
  */
 public final class JacksonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
+    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+            Long.class, Integer.class, Boolean.class, String.class, byte[].class);
+
     /**
      * Creates a new {@link JacksonConfigurationLoader} builder.
      *
@@ -130,6 +133,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         @NonNull
         @Override
         public JacksonConfigurationLoader build() {
+            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
             return new JacksonConfigurationLoader(this);
         }
     }
@@ -243,9 +247,8 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
 
     @NonNull
     @Override
-    public BasicConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
-                Long.class, Integer.class, Boolean.class, String.class, byte[].class));
+    public BasicConfigurationNode createNode(@NonNull ConfigurationOptions options) {
+        options = options.withNativeTypes(NATIVE_TYPES);
         return BasicConfigurationNode.root(options);
     }
 

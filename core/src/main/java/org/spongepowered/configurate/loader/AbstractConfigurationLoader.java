@@ -141,12 +141,12 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
                     options = options.withHeader(comment);
                 }
             }
-            final N node = createEmptyNode(options);
+            final N node = createNode(options);
             loadInternal(node, reader);
             return node;
         } catch (final FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
-            return createEmptyNode(options);
+            return createNode(options);
         } catch (final Exception e) {
             if (e instanceof IOException) {
                 throw (IOException) e;
@@ -191,7 +191,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
 
     @NonNull
     @Override
-    public ConfigurationOptions getDefaultOptions() {
+    public ConfigurationOptions defaultOptions() {
         return this.defaultOptions;
     }
 

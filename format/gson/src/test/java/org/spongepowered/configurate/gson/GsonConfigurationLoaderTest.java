@@ -52,7 +52,7 @@ public class GsonConfigurationLoaderTest {
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
-        final ConfigurationNode node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
+        final ConfigurationNode node = loader.load(loader.defaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals("unicorn", node.getNode("test", "op-level").getValue());
         assertEquals("dragon", node.getNode("other", "op-level").getValue());
         assertEquals("dog park", node.getNode("other", "location").getValue());
@@ -95,7 +95,7 @@ public class GsonConfigurationLoaderTest {
                 .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream())))
                 .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).setLenient(true).build();
 
-        final ConfigurationNode node = loader.load(loader.getDefaultOptions().withMapFactory(MapFactories.sortedNatural()));
+        final ConfigurationNode node = loader.load(loader.defaultOptions().withMapFactory(MapFactories.sortedNatural()));
         assertEquals(ImmutableMap.of(), node.getValue());
         assertTrue(node.isMap());
     }
@@ -106,7 +106,7 @@ public class GsonConfigurationLoaderTest {
     public void testRoundtrippingLong(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
-        final BasicConfigurationNode start = loader.createEmptyNode();
+        final BasicConfigurationNode start = loader.createNode();
         start.getNode("long-num").setValue(TEST_LONG_VAL);
         loader.save(start);
 
@@ -118,7 +118,7 @@ public class GsonConfigurationLoaderTest {
     public void testPrimitiveTypes(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text6.txt");
         final GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
-        final ConfigurationNode start = loader.createEmptyNode();
+        final ConfigurationNode start = loader.createNode();
 
         final int ival = 452252;
         final long lval = 584895858588588888L;

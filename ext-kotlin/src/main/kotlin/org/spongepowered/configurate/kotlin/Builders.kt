@@ -53,8 +53,8 @@ fun attributed(
  * Given a loader, create and configure an empty node. Options may be provided, but otherwise the loader's defaults
  * will be used.
  */
-fun <T : ConfigurationNode> ConfigurationLoader<T>.node(options: ConfigurationOptions = this.defaultOptions, init: T.() -> Unit): T {
-    val ret = createEmptyNode(options)
+fun <T : ConfigurationNode> ConfigurationLoader<T>.node(options: ConfigurationOptions = this.defaultOptions(), init: T.() -> Unit): T {
+    val ret = createNode(options)
     ret.init()
     return ret
 }

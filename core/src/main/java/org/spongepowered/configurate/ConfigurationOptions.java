@@ -243,7 +243,7 @@ public final class ConfigurationOptions {
      * set, and all other settings copied from this instance.
      *
      * <p>Native types are format-dependent, and must be provided by a
-     * configuration loader's {@link ConfigurationLoader#getDefaultOptions() default options}</p>
+     * configuration loader's {@link ConfigurationLoader#defaultOptions() default options}</p>
      *
      * <p>Null indicates that all types are accepted.</p>
      *

@@ -76,7 +76,7 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
      * @return The appropriate node type
      */
     @Override
-    public @NonNull BasicConfigurationNode createEmptyNode(final @NonNull ConfigurationOptions options) {
+    public @NonNull BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {
         return BasicConfigurationNode.root(options);
     }
 

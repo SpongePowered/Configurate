@@ -56,6 +56,9 @@ import java.util.regex.Pattern;
  */
 public final class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
+    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Map.class, List.class, Double.class,
+            Long.class, Integer.class, Boolean.class, String.class, Number.class);
+
     /**
      * The pattern used to match newlines.
      */
@@ -158,6 +161,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         @NonNull
         @Override
         public HoconConfigurationLoader build() {
+            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
             return new HoconConfigurationLoader(this);
         }
     }
@@ -274,9 +278,8 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
 
     @NonNull
     @Override
-    public CommentedConfigurationNode createEmptyNode(@NonNull ConfigurationOptions options) {
-        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class,
-                Long.class, Integer.class, Boolean.class, String.class, Number.class));
+    public CommentedConfigurationNode createNode(@NonNull ConfigurationOptions options) {
+        options = options.withNativeTypes(NATIVE_TYPES);
         return CommentedConfigurationNode.root(options);
     }
 

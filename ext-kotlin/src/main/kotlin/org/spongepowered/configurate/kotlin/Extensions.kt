@@ -17,6 +17,8 @@
 package org.spongepowered.configurate.kotlin
 
 import org.spongepowered.configurate.ConfigurationNode
+import org.spongepowered.configurate.ConfigurationNodeFactory
+import org.spongepowered.configurate.ConfigurationOptions
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
 
@@ -62,3 +64,6 @@ inline fun <reified V> ConfigurationNode.get(default: V): V {
 inline fun <reified V> ConfigurationNode.set(value: V?) {
     setValue(typeTokenOf(), value)
 }
+
+operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options: ConfigurationOptions = defaultOptions()): N =
+        createNode(options)

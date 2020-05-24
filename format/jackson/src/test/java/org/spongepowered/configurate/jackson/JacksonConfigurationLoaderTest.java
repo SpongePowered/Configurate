@@ -66,7 +66,7 @@ public class JacksonConfigurationLoaderTest {
     private void testRoundtripValue(final Path tempDir, final Object value) throws IOException {
         final Path tempFile = tempDir.resolve("text2.txt");
         final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder().setPath(tempFile).build();
-        final ConfigurationNode start = loader.createEmptyNode();
+        final ConfigurationNode start = loader.createNode();
         start.getNode("value").setValue(value);
         loader.save(start);
 

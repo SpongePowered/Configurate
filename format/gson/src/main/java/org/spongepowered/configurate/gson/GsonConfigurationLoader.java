@@ -45,6 +45,9 @@ import java.util.Map;
  */
 public final class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
+    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+            Long.class, Integer.class, Boolean.class, String.class);
+
     /**
      * Creates a new {@link GsonConfigurationLoader} builder.
      *
@@ -62,8 +65,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         private boolean lenient = true;
         private int indent = 2;
 
-        protected Builder() {
-        }
+        protected Builder() { }
 
         /**
          * Sets the level of indentation the resultant loader should use.
@@ -111,6 +113,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         @NonNull
         @Override
         public GsonConfigurationLoader build() {
+            this.setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
             return new GsonConfigurationLoader(this);
         }
     }
@@ -242,9 +245,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
-    public BasicConfigurationNode createEmptyNode(ConfigurationOptions options) {
-        options = options.withNativeTypes(ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
-                Long.class, Integer.class, Boolean.class, String.class));
+    public BasicConfigurationNode createNode(ConfigurationOptions options) {
+        options = options.withNativeTypes(NATIVE_TYPES);
         return BasicConfigurationNode.root(options);
     }
 

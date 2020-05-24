@@ -45,6 +45,16 @@ import java.util.Set;
 public final class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
     /**
+     * YAML native types from <a href="https://yaml.org/type/">YAML 1.1 Global tags</a>.
+     *
+     * <p>using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
+     */
+    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(
+            Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
+            byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class, // complex types
+            Set.class, List.class, Map.class); // collections
+
+    /**
      * Creates a new {@link YamlConfigurationLoader} builder.
      *
      * @return A new builder
@@ -62,13 +72,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
 
         protected Builder() {
             setIndent(4);
-            // From the YAML 1.1 Global tags
-            // https://yaml.org/type/
-            // using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
-            setDefaultOptions(getDefaultOptions()
-                    .withNativeTypes(ImmutableSet.of(Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
-                                                     byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class, // complex types
-                                                     Set.class, List.class, Map.class))); // collections
+            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
         }
 
         /**
@@ -155,7 +159,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
 
     @NonNull
     @Override
-    public BasicConfigurationNode createEmptyNode(final @NonNull ConfigurationOptions options) {
+    public BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {
         return BasicConfigurationNode.root(options);
     }
 
