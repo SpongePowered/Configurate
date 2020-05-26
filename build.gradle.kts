@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.spongepowered"
-version = "3.7-SNAPSHOT"
+version = "3.7"
 
 tasks.aggregateJavadoc.configure {
   applyCommonAttributes()

@@ -35,7 +35,7 @@ The current supported loaders provided by the project are:
 * To use configurate, your project must be configured to use Java 8 or higher.
 * Release and snapshot artifacts are hosted on SpongePowered's Maven Repository, available at https://repo.spongepowered.org/maven/.
 
-The latest release is: `3.6.1`
+The latest release is: `3.7`
 
 If your project uses Maven or Gradle, just add the following to your build scripts.
 
@@ -52,7 +52,7 @@ repositories {
 
 dependencies {
     // Modify this line to target the loader you wish to use.
-    compile 'org.spongepowered:configurate-hocon:3.6.1'
+    compile 'org.spongepowered:configurate-hocon:3.7'
 }
 ```
 
@@ -64,7 +64,7 @@ dependencies {
         <groupId>org.spongepowered</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>configurate-hocon</artifactId>
-        <version>3.6.1</version>
+        <version>3.7</version>
     </dependency>
 </dependencies>
 
@@ -95,5 +95,4 @@ In order to build configurate you simply need to run the `gradle build` command.
 We love PRs! However, when contributing, here are some things to keep in mind:
 
 - Take a look at open issues first before you get too far in -- someone might already be working on what you were planning on doing
-- In general, we follow the Oracle style guidelines for code style
 - Please, please, please test PRs. It makes the process a lot easier for everybody :)
