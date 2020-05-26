@@ -24,16 +24,13 @@ gitPublish {
   branch.set("gh-pages")
   contents {
     from("src/site") {
-      val versions = (listOf(project.version as String) + grgit.tag.list().map { it.name }.reversed()).filter {
+      val versions = (listOf(project.version as String) + (grgit.tag.list().map { it.name }.reversed() - (project.version as String))).filter {
         repoDir.get().dir(it).getAsFile().exists() || it == project.version
       }
       expand("project" to project, "versions" to versions)
     }
     from(tasks.aggregateJavadoc) {
       into("$version/apidocs")
-      if (!(version as String).endsWith("SNAPSHOT")) {
-        into("apidocs")
-      }
     }
   }
 
