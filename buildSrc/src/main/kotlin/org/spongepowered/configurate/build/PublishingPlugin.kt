@@ -103,7 +103,7 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                 it.onlyIf {
                     val version = project.version.toString()
                     val forceSign = findProperty("forceSign") as Boolean? ?: false
-                    !version.endsWith("-SNAPSHOT") || forceSign
+                    !project.hasProperty("skipSign") && (!version.endsWith("-SNAPSHOT") || forceSign)
                 }
             }
         }
