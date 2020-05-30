@@ -178,4 +178,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     <S, T> T visit(ConfigurationVisitor.Safe<? super N, S, T> visitor, S state);
 
+    @Override
+    <V> N setHint(RepresentationHint<V> hint, @Nullable V value);
+
 }

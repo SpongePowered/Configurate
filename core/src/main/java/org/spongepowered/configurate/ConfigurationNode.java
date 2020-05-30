@@ -676,4 +676,14 @@ public interface ConfigurationNode {
     @NonNull
     ConfigurationNode copy();
 
+    <V> ConfigurationNode setHint(RepresentationHint<V> hint, @Nullable V value);
+
+    /**
+     * Query a representation hint from this node.
+     * @param hint The hint to get
+     * @param <V> value type
+     * @return value of the hint, or {@link RepresentationHint#getDefaultValue()}
+     */
+    <V> @Nullable V getHint(RepresentationHint<V> hint);
+
 }

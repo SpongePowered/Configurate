@@ -36,6 +36,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -76,6 +77,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      */
     @NonNull
     volatile ConfigValue<N, A> value;
+
+    /**
+     * Storage for representation hints.
+     */
+    private final Map<RepresentationHint<?>, Object> hints = new ConcurrentHashMap<>();
 
     protected AbstractConfigurationNode(final @Nullable Object key, final @Nullable A parent, final @NonNull ConfigurationOptions options) {
         requireNonNull(options, "options");
@@ -650,6 +656,27 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             }
         }
         return visitor.endVisit(state);
+    }
+
+    @Override
+    public <V> N setHint(final RepresentationHint<V> hint, @Nullable final V value) {
+        this.hints.put(hint, value);
+        return self();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <V> @Nullable V getHint(final RepresentationHint<V> hint) {
+        final Object value = this.hints.get(hint);
+        if (value != null) {
+            return (V) value;
+        }
+        final @Nullable A parent = this.parent;
+        if (parent != null) {
+            return parent.getHint(hint);
+        } else {
+            return hint.getDefaultValue();
+        }
     }
 
     @Override
