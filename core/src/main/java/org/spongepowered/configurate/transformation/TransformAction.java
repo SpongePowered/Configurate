@@ -16,9 +16,13 @@
  */
 package org.spongepowered.configurate.transformation;
 
+import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+
+import java.util.function.Supplier;
 
 /**
  * Represents an action to be performed that transforms a node in the
@@ -26,6 +30,75 @@ import org.spongepowered.configurate.ScopedConfigurationNode;
  */
 @FunctionalInterface
 public interface TransformAction<T extends ScopedConfigurationNode<T>> {
+
+    /**
+     * Create a transform action that will remove the node at a specified path.
+     *
+     * @param <N> node type
+     * @return new action
+     */
+    static <N extends ScopedConfigurationNode<N>> TransformAction<N> remove() {
+        return (path, value) -> {
+            value.setValue(null);
+            return null;
+        };
+    }
+
+    /**
+     * Rename a node 
+     *
+     * <p>This transformation cannot be applied to the root node.
+     *
+     * @param newKey The new key
+     * @param <N> node type
+     * @return new action
+     */
+    static <N extends ScopedConfigurationNode<N>> TransformAction<N> rename(Object newKey) {
+        return (path, value) -> {
+            final Object[] arr = path.getArray();
+            if (arr.length == 0) {
+                throw new IllegalArgumentException("The root node cannot be renamed!");
+            }
+            arr[arr.length - 1] = newKey;
+            return arr;
+        };
+    }
+
+    /**
+     * Create a transform action that will change the value of a node to one of
+     * the specified type.
+     *
+     * @param type Value type
+     * @param value value
+     * @param <V> value type
+     * @param <N> node type
+     * @return new transformation action
+     */
+    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(TypeToken<V> type, @Nullable V value) {
+        return setValue(type, (Supplier<V>) () -> value);
+    }
+
+    /**
+     * Create a transform action that will change the value of a node to one of
+     * the specified type.
+     *
+     * @param type Value type
+     * @param valueSupplier supplier returning a value on each call
+     * @param <V> value type
+     * @param <N> node type
+     * @return new transformation action
+     */
+    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(TypeToken<V> type, Supplier<V> valueSupplier) {
+        return (path, value) -> {
+            try {
+                value.setValue(type, valueSupplier.get());
+            } catch (ObjectMappingException e) {
+                // TODO: Error handling
+            }
+            return null;
+        };
+    }
+
 
     /**
      * Called at a certain path, with the node at that path.

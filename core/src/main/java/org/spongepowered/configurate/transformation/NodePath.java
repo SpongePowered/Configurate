@@ -57,6 +57,17 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     NodePath withAppendedChild(@NonNull Object childKey);
 
     /**
+     * Create a new path with the value at {@code index} replaced
+     * with {@code value}.
+     *
+     * @param index position to change
+     * @param value value to insert
+     * @return new path object with changed value
+     * @throws IndexOutOfBoundsException if index &lt; 0 or &ge; {@linkplain #size()}
+     */
+    NodePath with(int index, Object value) throws IndexOutOfBoundsException;
+
+    /**
      * Returns an iterator over the path.
      *
      * @return An iterator of the path

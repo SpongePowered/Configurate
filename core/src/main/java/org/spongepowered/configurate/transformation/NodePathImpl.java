@@ -61,6 +61,17 @@ final class NodePathImpl implements NodePath {
     }
 
     @Override
+    public NodePath with(final int index, final Object value) throws IndexOutOfBoundsException {
+        final Object[] arr = this.arr;
+        if (index < 0 || index >= arr.length) {
+            throw new IndexOutOfBoundsException("Index " + index + " is not within limit of [0," + arr.length + ")");
+        }
+        final Object[] newPath = Arrays.copyOf(arr, arr.length);
+        newPath[index] = value;
+        return new NodePathImpl(newPath, false);
+    }
+
+    @Override
     public Object[] getArray() {
         return Arrays.copyOf(this.arr, this.arr.length);
     }

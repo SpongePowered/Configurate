@@ -158,12 +158,17 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Adds a transformation to this builder for the given version.
          *
+         * <p>The version must be between 0 and {@link Integer#MAX_VALUE}
+         *
          * @param version The version
          * @param transformation The transformation
          * @return This builder (for chaining)
          */
         @NonNull
         public VersionedBuilder<T> addVersion(final int version, final @NonNull ConfigurationTransformation<? super T> transformation) {
+            if (version < 0) {
+                throw new IllegalArgumentException("Version must be at least 0");
+            }
             this.versions.put(version, transformation);
             return this;
         }
@@ -173,9 +178,48 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          *
          * @return The transformation
          */
-        @NonNull
-        public ConfigurationTransformation<T> build() {
+        public ConfigurationTransformation.@NonNull Versioned<T> build() {
             return new VersionedTransformation<>(this.versionKey, this.versions);
+        }
+    }
+
+    /**
+     * A transformation that is aware of node versions.
+     *
+     * @param <N> node type
+     */
+    public abstract static class Versioned<N extends ConfigurationNode> extends ConfigurationTransformation<N> {
+        public static final int VERSION_UNKNOWN = -1;
+
+        /**
+         * Get the path the node's current version is located at.
+         *
+         * @return version path
+         */
+        public abstract NodePath getVersionKey();
+
+        /**
+         * Get the latest version that nodes can be updated to.
+         *
+         * @return the most recent version
+         */
+        public abstract int getLatestVersion();
+
+        /**
+         * Get the version of a node hierarchy.
+         *
+         * <p>Note that the node checked here must be the same node passed to
+         * {@link #apply(ConfigurationNode)}, not any node in a hierarchy.
+         *
+         * <p>If the node value is not present or not coercible to an integer,
+         * {@link #VERSION_UNKNOWN} will be returned. When the transformation is
+         * executed, every version transformation will be applied.
+         *
+         * @param node node to check
+         * @return version, or {@link #VERSION_UNKNOWN} if no value is present
+         */
+        public int getVersion(final N node) {
+            return node.getNode(getVersionKey()).getInt(VERSION_UNKNOWN);
         }
     }
 

@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
+import org.spongepowered.configurate.transformation.TransformAction;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -34,8 +35,7 @@ import java.nio.file.Paths;
  */
 public final class Transformations {
 
-    private static final int VERSION_LATEST = 1; // easy way to track the latest version, update as more revisions are added
-    private static final String VERSION_KEY = "version";
+    private static final int VERSION_LATEST = 2; // easy way to track the latest version, update as more revisions are added
 
     private Transformations() {}
 
@@ -47,10 +47,10 @@ public final class Transformations {
      * @param <N> node type
      * @return versioned transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation<N> create() {
+    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation.Versioned<N> create() {
         return ConfigurationTransformation.<N>versionedBuilder()
-                .setVersionKey(VERSION_KEY) // this is the default, but to show it can be customized
-                .addVersion(VERSION_LATEST, zeroToOne()) // syntax: target version, latest version
+                .addVersion(VERSION_LATEST, oneToTwo()) // syntax: target version, latest version
+                .addVersion(1, zeroToOne())
                 .addVersion(0, initialTransform())
                 .build();
     }
@@ -90,6 +90,12 @@ public final class Transformations {
                 .build();
     }
 
+    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation<N> oneToTwo() {
+        return ConfigurationTransformation.<N>builder()
+                .addAction(path("server", "version"), TransformAction.rename("release"))
+                .build();
+    }
+
     /**
      * Apply the transformations to a node.
      *
@@ -102,10 +108,10 @@ public final class Transformations {
      */
     public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) {
         if (!node.isVirtual()) { // we only want to migrate existing data
-            final ConfigurationTransformation<N> trans = create();
-            final int startVersion = node.getNode(VERSION_KEY).getInt(-1);
+            final ConfigurationTransformation.Versioned<N> trans = create();
+            final int startVersion = trans.getVersion(node);
             trans.apply(node);
-            final int endVersion = node.getNode(VERSION_KEY).getInt();
+            final int endVersion = trans.getVersion(node);
             if (startVersion != endVersion) { // we might not have made any changes
                 System.out.println("Updated config schema from " + startVersion + " to " + endVersion);
             }
