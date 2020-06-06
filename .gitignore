@@ -6,6 +6,9 @@ buildSrc/out/
 /build/
 /format/*/build/
 /format/*/out/
+/extra/*/build/
+/extra/*/out/
+/extra/*/bin/
 
 # IntelliJ project data
 .idea

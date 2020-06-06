@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping;
+package org.spongepowered.configurate.objectmapping.guice;
 
 import static java.util.Objects.requireNonNull;
 
@@ -24,6 +24,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Injector;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.objectmapping.ObjectMapper;
+import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;

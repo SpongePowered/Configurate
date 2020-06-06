@@ -72,7 +72,6 @@ public abstract class RepresentationHint<V> {
      *
      * @return default type
      */
-    @AutoValue.CopyAnnotations
     public abstract @Nullable V getDefaultValue();
 
 }

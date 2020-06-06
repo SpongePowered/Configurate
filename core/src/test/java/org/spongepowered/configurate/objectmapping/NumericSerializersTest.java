@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
@@ -30,6 +29,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.serialize.CoercionFailedException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 @SuppressWarnings("UnnecessaryParentheses") // for casting negative number literals
 public class NumericSerializersTest {
@@ -41,10 +41,10 @@ public class NumericSerializersTest {
     }
 
     private final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-            .withNativeTypes(ImmutableSet.of(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
+            .withNativeTypes(UnmodifiableCollections.toSet(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
 
     @Test
-    public void testSerializeCustomNumber() throws ObjectMappingException {
+    public void testSerializeCustomNumber() {
         final TypeToken<CustomNumber> customNumberType = TypeToken.of(CustomNumber.class);
         final @Nullable TypeSerializer<?> serializer = TypeSerializerCollection.defaults().get(customNumberType);
         assertNull(serializer, "Type serializer for custom number class should be null!");

@@ -78,6 +78,7 @@ public final class UnmodifiableCollections {
      *         instance
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <E> List<E> toList(final E... original) {
         switch (original.length) {
             case 0:
@@ -97,6 +98,7 @@ public final class UnmodifiableCollections {
      * @return a unmodifiable copy of the given array as a {@link Set} instance
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <E> Set<E> toSet(final E... original) {
         switch (original.length) {
             case 0:

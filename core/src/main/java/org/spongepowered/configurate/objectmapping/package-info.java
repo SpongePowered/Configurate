@@ -25,7 +25,6 @@
  * <p>Object mappers work on fields in classes, and can optionally construct new
  * instances of classes -- either if the class has an empty constructor for the
  * {@link org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory},
- * or if the class is injectable through
- * {@link org.spongepowered.configurate.objectmapping.GuiceObjectMapperFactory}.
+ * or using other factories
  */
 package org.spongepowered.configurate.objectmapping;
