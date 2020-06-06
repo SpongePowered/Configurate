@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.loader;
 
-import com.google.common.collect.Collections2;
 import com.google.errorprone.annotations.Immutable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -24,9 +23,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.CharBuffer;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Defines a number of default {@link CommentHandler}s.
@@ -73,7 +71,7 @@ public enum CommentHandlers implements CommentHandler {
 
     @NonNull
     @Override
-    public Collection<String> toComment(final @NonNull Collection<String> lines) {
+    public Stream<String> toComment(final @NonNull Collection<String> lines) {
         return this.delegate.toComment(lines);
     }
 
@@ -171,15 +169,15 @@ public enum CommentHandlers implements CommentHandler {
 
         @NonNull
         @Override
-        public Collection<String> toComment(final @NonNull Collection<String> lines) {
+        public Stream<String> toComment(final @NonNull Collection<String> lines) {
             if (lines.size() == 1) {
-                return lines.stream().map(i -> this.startSequence + " " + i + " " + this.endSequence).collect(Collectors.toList());
+                return lines.stream().map(i -> this.startSequence + " " + i + " " + this.endSequence);
             } else {
-                final Collection<String> ret = new ArrayList<>();
-                ret.add(this.startSequence);
-                ret.addAll(lines.stream().map(i -> " " + this.lineIndentSequence + " " + i).collect(Collectors.toList()));
-                ret.add(" " + this.endSequence);
-                return ret;
+                return Stream.of(
+                        Stream.of(this.startSequence),
+                        lines.stream().map(i -> " " + this.lineIndentSequence + " " + i),
+                        Stream.of(" " + this.endSequence)
+                ).flatMap(x -> x);
             }
         }
     }
@@ -227,14 +225,15 @@ public enum CommentHandlers implements CommentHandler {
         }
 
         @Override
-        public @NonNull Collection<String> toComment(final @NonNull Collection<String> lines) {
-            return Collections2.transform(lines, s -> {
-                if (s.startsWith(" ")) {
-                    return this.commentPrefix + s;
-                } else {
-                    return this.commentPrefix + " " + s;
-                }
-            });
+        public @NonNull Stream<String> toComment(final @NonNull Collection<String> lines) {
+            return lines.stream()
+                    .map(s -> {
+                        if (s.startsWith(" ")) {
+                            return this.commentPrefix + s;
+                        } else {
+                            return this.commentPrefix + " " + s;
+                        }
+                    });
         }
     }
 

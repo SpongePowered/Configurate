@@ -18,10 +18,11 @@ package org.spongepowered.configurate.serialize;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -69,12 +70,12 @@ public final class TypeSerializerCollection {
     }
 
     private final @Nullable TypeSerializerCollection parent;
-    private final ImmutableList<RegisteredSerializer> serializers;
+    private final List<RegisteredSerializer> serializers;
     private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
     private TypeSerializerCollection(final @Nullable TypeSerializerCollection parent, final List<RegisteredSerializer> serializers) {
         this.parent = parent;
-        this.serializers = ImmutableList.copyOf(serializers);
+        this.serializers = UnmodifiableCollections.copyOf(serializers);
     }
 
     /**
@@ -170,7 +171,7 @@ public final class TypeSerializerCollection {
 
     public static class Builder {
         private final @Nullable TypeSerializerCollection parent;
-        private final ImmutableList.Builder<RegisteredSerializer> serializers = ImmutableList.builder();
+        private final List<RegisteredSerializer> serializers = new ArrayList<>();
 
         Builder(final @Nullable TypeSerializerCollection parent) {
             this.parent = parent;
@@ -221,7 +222,7 @@ public final class TypeSerializerCollection {
          * @return The resulting collection
          */
         public TypeSerializerCollection build() {
-            return new TypeSerializerCollection(this.parent, this.serializers.build());
+            return new TypeSerializerCollection(this.parent, this.serializers);
         }
     }
 

@@ -17,10 +17,10 @@
 package org.spongepowered.configurate;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -110,7 +110,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     @NonNull
     @Override
     public Map<String, String> getAttributes() {
-        return ImmutableMap.copyOf(this.attributes);
+        return Collections.unmodifiableMap(new LinkedHashMap<>(this.attributes));
     }
 
     @Override

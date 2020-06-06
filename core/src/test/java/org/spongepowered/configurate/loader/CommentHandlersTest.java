@@ -34,6 +34,7 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 @ExtendWith(TempDirectory.class)
 public class CommentHandlersTest {
@@ -52,9 +53,9 @@ public class CommentHandlersTest {
                 + "more header\n"
                 + "even more header", head);
 
-        assertEquals(testDocument, Joiner.on('\n').join(CommentHandlers.SLASH_BLOCK.toComment(AbstractConfigurationLoader
+        assertEquals(testDocument, CommentHandlers.SLASH_BLOCK.toComment(AbstractConfigurationLoader
                 .LINE_SPLITTER
-                .splitToList(head))));
+                .splitToList(head)).collect(Collectors.joining("\n")));
 
     }
 

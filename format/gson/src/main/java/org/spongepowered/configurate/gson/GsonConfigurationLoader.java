@@ -17,9 +17,6 @@
 package org.spongepowered.configurate.gson;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -32,12 +29,15 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A loader for JSON-formatted configurations, using the GSON library for
@@ -45,7 +45,7 @@ import java.util.Map;
  */
 public final class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
-    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(Map.class, List.class, Double.class, Float.class,
             Long.class, Integer.class, Boolean.class, String.class);
 
     /**
@@ -193,7 +193,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     parser.endArray();
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(ImmutableList.of());
+                        node.setValue(Collections.emptyList());
                     }
                     return;
                 default:
@@ -217,7 +217,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     parser.endObject();
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(ImmutableMap.of());
+                        node.setValue(Collections.emptyMap());
                     }
                     return;
                 case NAME:

@@ -18,7 +18,6 @@ package org.spongepowered.configurate.transformation;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.Iterators;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
@@ -78,7 +77,7 @@ final class NodePathImpl implements NodePath {
 
     @Override
     public @NonNull Iterator<Object> iterator() {
-        return Iterators.forArray(this.arr);
+        return Arrays.asList(this.arr).iterator();
     }
 
     @Override

@@ -23,9 +23,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -33,12 +30,15 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A loader for JSON-formatted configurations, using the jackson library for
@@ -46,7 +46,7 @@ import java.util.Map;
  */
 public final class JacksonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
-    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Map.class, List.class, Double.class, Float.class,
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(Map.class, List.class, Double.class, Float.class,
             Long.class, Integer.class, Boolean.class, String.class, byte[].class);
 
     /**
@@ -206,7 +206,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case END_ARRAY:
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(ImmutableList.of());
+                        node.setValue(Collections.emptyList());
                     }
                     return;
                 default:
@@ -225,7 +225,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case END_OBJECT:
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(ImmutableMap.of());
+                        node.setValue(Collections.emptyMap());
                     }
                     return;
                 default:

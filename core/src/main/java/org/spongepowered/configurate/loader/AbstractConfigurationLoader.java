@@ -17,13 +17,13 @@
 package org.spongepowered.configurate.loader;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.reference.ConfigurationReference;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,9 +37,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 /**
  * Base class for many stream-based configuration loaders. This class provides
@@ -91,7 +93,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * The comment handlers defined for this loader.
      */
     @NonNull
-    private final ImmutableList<CommentHandler> commentHandlers;
+    private final List<CommentHandler> commentHandlers;
 
     /**
      * The mode used to read/write configuration headers.
@@ -109,7 +111,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         this.source = builder.getSource();
         this.sink = builder.getSink();
         this.headerMode = builder.getHeaderMode();
-        this.commentHandlers = ImmutableList.copyOf(commentHandlers);
+        this.commentHandlers = UnmodifiableCollections.toList(commentHandlers);
         this.defaultOptions = builder.getDefaultOptions();
     }
 
@@ -166,7 +168,8 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
             if (this.headerMode != HeaderMode.NONE) {
                 final @Nullable String header = node.getOptions().getHeader();
                 if (header != null && !header.isEmpty()) {
-                    for (String line : getDefaultCommentHandler().toComment(ImmutableList.copyOf(LINE_SPLITTER.split(header)))) {
+                    for (String line : getDefaultCommentHandler().toComment(LINE_SPLITTER.splitToList(header))
+                            .collect(Collectors.toList())) {
                         writer.write(line);
                         writer.write(SYSTEM_LINE_SEPARATOR);
                     }

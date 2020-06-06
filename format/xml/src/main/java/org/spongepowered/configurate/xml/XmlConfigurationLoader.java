@@ -16,9 +16,6 @@
  */
 package org.spongepowered.configurate.xml;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.math.DoubleMath;
@@ -31,6 +28,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -44,9 +42,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.NoSuchFileException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -66,7 +66,7 @@ import javax.xml.validation.Schema;
  */
 public final class XmlConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
 
-    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Double.class, Long.class,
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(Double.class, Long.class,
             Integer.class, Boolean.class, String.class, Number.class);
 
     /**
@@ -488,9 +488,9 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         if (type == NodeType.MAP) {
-            to.setValue(ImmutableMap.of());
+            to.setValue(Collections.emptyMap());
         } else {
-            to.setValue(ImmutableList.of());
+            to.setValue(Collections.emptyList());
         }
 
         // read out the elements
@@ -554,7 +554,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     private Element writeNode(final Document document, final ConfigurationNode node, final @Nullable String forcedTag) {
         String tag = this.defaultTagName;
-        Map<String, String> attributes = ImmutableMap.of();
+        Map<String, String> attributes = Collections.emptyMap();
 
         if (node instanceof AttributedConfigurationNode) {
             final AttributedConfigurationNode attributedNode = ((AttributedConfigurationNode) node);

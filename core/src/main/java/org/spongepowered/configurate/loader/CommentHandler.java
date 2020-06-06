@@ -23,6 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Extracts comments from a buffered reader or collection of lines.
@@ -43,8 +44,8 @@ public interface CommentHandler {
      * Converts the specified lines into a comment.
      *
      * @param lines lines to make a comment
-     * @return transformed lines
+     * @return transformed lines as a stream
      */
-    @NonNull Collection<String> toComment(@NonNull Collection<String> lines);
+    @NonNull Stream<String> toComment(@NonNull Collection<String> lines);
 
 }

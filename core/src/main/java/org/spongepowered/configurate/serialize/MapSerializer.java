@@ -18,7 +18,6 @@ package org.spongepowered.configurate.serialize;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -27,6 +26,7 @@ import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -93,7 +93,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
         }
 
         if (obj == null || obj.isEmpty()) {
-            node.setValue(ImmutableMap.of());
+            node.setValue(Collections.emptyMap());
         } else {
             final Set<Object> unvisitedKeys = new HashSet<>(node.getChildrenMap().keySet());
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.getOptions());
