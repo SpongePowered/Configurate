@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.yaml;
 
-import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -24,6 +23,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -49,7 +49,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
      *
      * <p>using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
      */
-    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
             Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
             byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class, // complex types
             Set.class, List.class, Map.class); // collections

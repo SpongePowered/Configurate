@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.reference;
 
-import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -28,6 +27,7 @@ import org.spongepowered.configurate.reactive.TransactionFailedException;
 import org.spongepowered.configurate.reference.ConfigurationReference.ErrorPhase;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -56,7 +56,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
             try {
                 return deserializedValueFrom(n, def);
             } catch (final ObjectMappingException e) {
-                root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, e));
+                root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.VALUE, e));
                 throw new TransactionFailedException(e);
             }
         }).cache(deserializedValueFrom(root.getNode(), def));
@@ -90,7 +90,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
             this.deserialized.submit(value);
             return true;
         } catch (final ObjectMappingException e) {
-            this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
+            this.root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.SAVING, e));
             return false;
         }
     }
@@ -103,7 +103,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
                 return true;
             }
         } catch (final IOException e) {
-            this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.SAVING, e));
+            this.root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.SAVING, e));
         }
         return false;
     }
@@ -123,7 +123,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         try {
             return set(action.apply(get()));
         } catch (final Exception t) {
-            this.root.errorListener.submit(Maps.immutableEntry(ErrorPhase.VALUE, t));
+            this.root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.VALUE, t));
             return false;
         }
     }

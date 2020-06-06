@@ -16,10 +16,10 @@
  */
 package org.spongepowered.configurate;
 
-import com.google.common.collect.ImmutableList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.Scalars;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,11 +65,11 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     public List<N> getUnwrapped() {
         final List<T> orig = this.values.get();
         synchronized (orig) {
-            final ImmutableList.Builder<N> ret = ImmutableList.builderWithExpectedSize(orig.size());
+            final List<N> ret = new ArrayList<>(orig.size());
             for (T element : orig) {
                 ret.add(element.self());
             }
-            return ret.build();
+            return Collections.unmodifiableList(ret);
         }
     }
 
@@ -162,7 +162,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     public Iterable<T> iterateChildren() {
         final List<T> values = this.values.get();
         synchronized (values) {
-            return ImmutableList.copyOf(values);
+            return UnmodifiableCollections.copyOf(values);
         }
     }
 

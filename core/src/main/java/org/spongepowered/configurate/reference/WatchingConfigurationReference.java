@@ -16,12 +16,12 @@
  */
 package org.spongepowered.configurate.reference;
 
-import com.google.common.collect.Maps;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reactive.Disposable;
 import org.spongepowered.configurate.reactive.Subscriber;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.IOException;
 import java.nio.file.StandardWatchEventKinds;
@@ -67,14 +67,14 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
             try {
                 load();
             } catch (final Exception e) {
-                this.errorListener.submit(Maps.immutableEntry(ErrorPhase.LOADING, e));
+                this.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.LOADING, e));
             }
         }
     }
 
     @Override
     public void onError(final Throwable e) {
-        this.errorListener.submit(Maps.immutableEntry(ErrorPhase.UNKNOWN, e));
+        this.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.UNKNOWN, e));
     }
 
     @Override

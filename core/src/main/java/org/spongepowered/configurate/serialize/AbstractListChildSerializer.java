@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -24,6 +23,7 @@ import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -70,7 +70,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
-        node.setValue(ImmutableList.of());
+        node.setValue(Collections.emptyList());
         if (obj != null) {
             forEachElement(obj, el -> entrySerial.serialize(entryType, el, node.appendListNode()));
         }

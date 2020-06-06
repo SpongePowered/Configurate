@@ -18,7 +18,6 @@ package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -28,6 +27,7 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -189,7 +189,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public <V> List<V> getList(final Function<Object, V> transformer) {
-        final ImmutableList.Builder<V> ret = ImmutableList.builder();
+        final List<V> ret = new ArrayList<>();
         final ConfigValue<N, A> value = this.value;
         if (value instanceof ListConfigValue) {
             // transform each value individually if the node is a list
@@ -207,7 +207,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             }
         }
 
-        return ret.build();
+        return Collections.unmodifiableList(ret);
     }
 
     @Override

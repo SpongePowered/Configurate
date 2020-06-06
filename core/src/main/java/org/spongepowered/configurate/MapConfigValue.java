@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate;
 
-import com.google.common.collect.ImmutableMap;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -58,9 +58,9 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     public Map<Object, N> getUnwrapped() {
-        final ImmutableMap.Builder<Object, N> build = ImmutableMap.builderWithExpectedSize(this.values.size());
-        this.values.forEach((k, v) -> build.put(k, v.self()));
-        return build.build();
+        final Map<Object, N> unwrapped = new LinkedHashMap<>();
+        this.values.forEach((k, v) -> unwrapped.put(k, v.self()));
+        return Collections.unmodifiableMap(unwrapped);
     }
 
     @Override

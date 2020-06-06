@@ -18,7 +18,6 @@ package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -28,7 +27,10 @@ import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -50,7 +52,7 @@ public final class ConfigurationOptions {
     @NonNull private final MapFactory mapFactory;
     @Nullable private final String header;
     @NonNull private final TypeSerializerCollection serializers;
-    @Nullable private final ImmutableSet<Class<?>> acceptedTypes;
+    @Nullable private final Set<Class<?>> acceptedTypes;
     @NonNull private final ObjectMapperFactory objectMapperFactory;
     private final boolean shouldCopyDefaults;
 
@@ -60,7 +62,7 @@ public final class ConfigurationOptions {
         this.mapFactory = mapFactory;
         this.header = header;
         this.serializers = serializers;
-        this.acceptedTypes = acceptedTypes == null ? null : ImmutableSet.copyOf(acceptedTypes);
+        this.acceptedTypes = acceptedTypes == null ? null : UnmodifiableCollections.copyOf(acceptedTypes);
         this.objectMapperFactory = objectMapperFactory;
         this.shouldCopyDefaults = shouldCopyDefaults;
     }

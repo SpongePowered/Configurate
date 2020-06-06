@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -27,6 +26,7 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -425,7 +425,7 @@ public interface ConfigurationNode {
      *                                requested type
      */
     default <V> @NonNull List<V> getList(@NonNull TypeToken<V> type) throws ObjectMappingException {
-        return getList(type, ImmutableList.of());
+        return getList(type, Collections.emptyList());
     }
 
     /**

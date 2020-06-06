@@ -17,9 +17,6 @@
 package org.spongepowered.configurate.hocon;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigList;
@@ -39,6 +36,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,8 +44,10 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -56,7 +56,7 @@ import java.util.regex.Pattern;
  */
 public final class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
-    private static final ImmutableSet<Class<?>> NATIVE_TYPES = ImmutableSet.of(Map.class, List.class, Double.class,
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(Map.class, List.class, Double.class,
             Long.class, Integer.class, Boolean.class, String.class, Number.class);
 
     /**
@@ -192,7 +192,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             case OBJECT:
                 final ConfigObject object = (ConfigObject) value;
                 if (object.isEmpty()) {
-                    node.setValue(ImmutableMap.of());
+                    node.setValue(Collections.emptyMap());
                 } else {
                     for (Map.Entry<String, ConfigValue> ent : object.entrySet()) {
                         readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
@@ -202,7 +202,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             case LIST:
                 final ConfigList list = (ConfigList) value;
                 if (list.isEmpty()) {
-                    node.setValue(ImmutableList.of());
+                    node.setValue(Collections.emptyList());
                 } else {
                     for (int i = 0; i < list.size(); ++i) {
                         readConfigValue(list.get(i), node.getNode(i));

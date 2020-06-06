@@ -18,9 +18,9 @@ package org.spongepowered.configurate.util;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -70,7 +70,7 @@ public final class EnumLookup {
                 ret.put(field.name(), field);
                 ret.putIfAbsent(processKey(field.name()), field);
             }
-            return ImmutableMap.copyOf(ret);
+            return Collections.unmodifiableMap(ret);
         });
 
 
