@@ -22,7 +22,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
@@ -46,6 +45,6 @@ public interface CommentHandler {
      * @param lines lines to make a comment
      * @return transformed lines as a stream
      */
-    @NonNull Stream<String> toComment(@NonNull Collection<String> lines);
+    @NonNull Stream<String> toComment(@NonNull Stream<String> lines);
 
 }

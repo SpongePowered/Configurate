@@ -22,8 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 public class CopyTest {
 
@@ -48,7 +49,7 @@ public class CopyTest {
         assertEquals(5, copy.getNode("test").getValue());
         assertEquals(true, copy.getNode("section", "val1").getValue());
         assertEquals("TEST", copy.getNode("section", "val2").getValue());
-        assertEquals(ImmutableList.of("value1", "value2"), copy.getNode("section2", "alist").getValue());
+        assertEquals(Arrays.asList("value1", "value2"), copy.getNode("section2", "alist").getValue());
 
         // change value on original
         node.getNode("section", "val2").setValue("NOT TEST");

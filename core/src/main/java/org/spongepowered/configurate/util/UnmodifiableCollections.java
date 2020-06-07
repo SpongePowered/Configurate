@@ -16,14 +16,18 @@
  */
 package org.spongepowered.configurate.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Provides a set of methods that produce unmodifiable copies of collections.
@@ -108,6 +112,20 @@ public final class UnmodifiableCollections {
             default:
                 return Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(original)));
         }
+    }
+
+    /**
+     * Build an unmodifiable map.
+     *
+     * @param <K> key type
+     * @param <V> value type
+     * @param handler consumer that will populate the map wih keys
+     * @return a new unmodifiable map
+     */
+    public static <K, V> Map<K, V> buildMap(final Consumer<Map<K, V>> handler) {
+        final Map<K, V> builder = new LinkedHashMap<>();
+        requireNonNull(handler, "handler").accept(builder);
+        return Collections.unmodifiableMap(builder);
     }
 
     /**

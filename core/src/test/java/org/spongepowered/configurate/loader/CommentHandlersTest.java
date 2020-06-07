@@ -20,12 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableSet;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -52,10 +51,9 @@ public class CommentHandlersTest {
         assertEquals("First header line\n"
                 + "more header\n"
                 + "even more header", head);
-
-        assertEquals(testDocument, CommentHandlers.SLASH_BLOCK.toComment(AbstractConfigurationLoader
-                .LINE_SPLITTER
-                .splitToList(head)).collect(Collectors.joining("\n")));
+        assertEquals(testDocument,
+                CommentHandlers.SLASH_BLOCK.toComment(AbstractConfigurationLoader.CONFIGURATE_LINE_PATTERN.splitAsStream(head))
+                        .collect(Collectors.joining("\n")));
 
     }
 
@@ -102,8 +100,9 @@ public class CommentHandlersTest {
             w.write("\"}\n");
         }
 
-        try (BufferedReader r = Files.newBufferedReader(testFile, StandardCharsets.UTF_8)) {
-            final @Nullable String comment = CommentHandlers.extractComment(r, ImmutableSet.of(CommentHandlers.HASH, CommentHandlers.SLASH_BLOCK));
+        try (BufferedReader reader = Files.newBufferedReader(testFile, StandardCharsets.UTF_8)) {
+            final @Nullable String comment = CommentHandlers.extractComment(reader,
+                    UnmodifiableCollections.toSet(CommentHandlers.HASH, CommentHandlers.SLASH_BLOCK));
             assertNull(comment);
         }
     }

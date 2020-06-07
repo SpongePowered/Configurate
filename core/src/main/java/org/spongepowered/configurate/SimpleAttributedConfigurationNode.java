@@ -16,7 +16,8 @@
  */
 package org.spongepowered.configurate;
 
-import com.google.common.base.Strings;
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -54,7 +55,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     @NonNull
     @Override
     public SimpleAttributedConfigurationNode setTagName(final @NonNull String tagName) {
-        if (Strings.isNullOrEmpty(tagName)) {
+        if (requireNonNull(tagName, "tag name").isEmpty()) {
             throw new IllegalArgumentException("Tag name cannot be null/empty");
         }
 
@@ -65,7 +66,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     @NonNull
     @Override
     public SimpleAttributedConfigurationNode addAttribute(final @NonNull String name, final @NonNull String value) {
-        if (Strings.isNullOrEmpty(name)) {
+        if (requireNonNull(name, "name").isEmpty()) {
             throw new IllegalArgumentException("Attribute name cannot be null/empty");
         }
         attachIfNecessary();
@@ -84,7 +85,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     @Override
     public SimpleAttributedConfigurationNode setAttributes(final @NonNull Map<String, String> attributes) {
         for (String name : attributes.keySet()) {
-            if (Strings.isNullOrEmpty(name)) {
+            if (requireNonNull(name, "name").isEmpty()) {
                 throw new IllegalArgumentException("Attribute name cannot be null/empty");
             }
         }

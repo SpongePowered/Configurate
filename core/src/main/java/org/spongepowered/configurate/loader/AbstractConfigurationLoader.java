@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.loader;
 
-import com.google.common.base.Splitter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -37,11 +36,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 
 /**
  * Base class for many stream-based configuration loaders. This class provides
@@ -62,9 +62,9 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     public static final String CONFIGURATE_LINE_SEPARATOR = "\n";
 
     /**
-     * A {@link Splitter} for splitting comment lines.
+     * A pattern that will match line breaks in comments.
      */
-    protected static final Splitter LINE_SPLITTER = Splitter.on(CONFIGURATE_LINE_SEPARATOR);
+    public static final Pattern CONFIGURATE_LINE_PATTERN = Pattern.compile(CONFIGURATE_LINE_SEPARATOR);
 
     /**
      * The line separator used by the system.
@@ -168,9 +168,9 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
             if (this.headerMode != HeaderMode.NONE) {
                 final @Nullable String header = node.getOptions().getHeader();
                 if (header != null && !header.isEmpty()) {
-                    for (String line : getDefaultCommentHandler().toComment(LINE_SPLITTER.splitToList(header))
-                            .collect(Collectors.toList())) {
-                        writer.write(line);
+                    final Iterator<String> lines = getDefaultCommentHandler().toComment(CONFIGURATE_LINE_PATTERN.splitAsStream(header)).iterator();
+                    while (lines.hasNext()) {
+                        writer.write(lines.next());
                         writer.write(SYSTEM_LINE_SEPARATOR);
                     }
                     writer.write(SYSTEM_LINE_SEPARATOR);

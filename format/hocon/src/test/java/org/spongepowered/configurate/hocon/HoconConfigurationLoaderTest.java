@@ -19,7 +19,6 @@ package org.spongepowered.configurate.hocon;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.common.reflect.TypeToken;
@@ -43,6 +42,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,7 +128,7 @@ public class HoconConfigurationLoaderTest {
 
     @Test
     public void testNewConfigList() {
-        final List<ConfigValue> entries = ImmutableList.of(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
+        final List<ConfigValue> entries = Arrays.asList(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
         HoconConfigurationLoader.newConfigList(entries);
     }
 

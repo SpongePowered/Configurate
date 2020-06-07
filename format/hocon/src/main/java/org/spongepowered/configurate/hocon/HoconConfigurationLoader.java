@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.hocon;
 
-import com.google.common.base.Joiner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigList;
@@ -44,11 +43,13 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe
@@ -186,8 +187,11 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
 
     private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
-            node.setComment(CRLF_MATCH.matcher(Joiner.on('\n').join(value.origin().comments())).replaceAll(""));
+            node.setComment(value.origin().comments().stream()
+                    .map(input -> input.replace("\r", ""))
+                    .collect(Collectors.joining("\n")));
         }
+
         switch (value.valueType()) {
             case OBJECT:
                 final ConfigObject object = (ConfigObject) value;
@@ -253,7 +257,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             final CommentedConfigurationNodeIntermediary<?> commentedNode = ((CommentedConfigurationNodeIntermediary<?>) node);
             final @Nullable String origComment = commentedNode.getComment();
             if (origComment != null) {
-                ret = ret.withOrigin(ret.origin().withComments(LINE_SPLITTER.splitToList(origComment)));
+                ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));
             }
         }
         return ret;

@@ -23,7 +23,7 @@ import org.spongepowered.configurate.util.CheckedFunction;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-public final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
+final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
 
     private final CheckedFunction<Object, T, ObjectMappingException> deserializer;
     private final BiFunction<T, Predicate<Class<?>>, Object> serializer;

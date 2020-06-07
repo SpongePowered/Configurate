@@ -23,7 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.CharBuffer;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.stream.Stream;
 
 /**
@@ -71,7 +71,7 @@ public enum CommentHandlers implements CommentHandler {
 
     @NonNull
     @Override
-    public Stream<String> toComment(final @NonNull Collection<String> lines) {
+    public Stream<String> toComment(final @NonNull Stream<String> lines) {
         return this.delegate.toComment(lines);
     }
 
@@ -167,18 +167,25 @@ public enum CommentHandlers implements CommentHandler {
             return moreLines;
         }
 
-        @NonNull
         @Override
-        public Stream<String> toComment(final @NonNull Collection<String> lines) {
-            if (lines.size() == 1) {
-                return lines.stream().map(i -> this.startSequence + " " + i + " " + this.endSequence);
-            } else {
-                return Stream.of(
-                        Stream.of(this.startSequence),
-                        lines.stream().map(i -> " " + this.lineIndentSequence + " " + i),
-                        Stream.of(" " + this.endSequence)
-                ).flatMap(x -> x);
+        public @NonNull Stream<String> toComment(final @NonNull Stream<String> lines) {
+            final Stream.Builder<String> build = Stream.builder();
+            boolean first = true;
+            for (Iterator<String> it = lines.iterator(); it.hasNext();) {
+                final String next = it.next();
+                if (first) {
+                    if (!it.hasNext()) {
+                        build.add(this.startSequence + " " + next + " " + this.endSequence);
+                        return build.build();
+                    } else {
+                        build.add(this.startSequence);
+                    }
+                    first = false;
+                }
+                build.add(" " + this.lineIndentSequence + " " + next);
             }
+            build.add(" " + this.endSequence);
+            return build.build();
         }
     }
 
@@ -225,8 +232,8 @@ public enum CommentHandlers implements CommentHandler {
         }
 
         @Override
-        public @NonNull Stream<String> toComment(final @NonNull Collection<String> lines) {
-            return lines.stream()
+        public @NonNull Stream<String> toComment(final @NonNull Stream<String> lines) {
+            return lines
                     .map(s -> {
                         if (s.startsWith(" ")) {
                             return this.commentPrefix + s;

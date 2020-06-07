@@ -16,9 +16,6 @@
  */
 package org.spongepowered.configurate.xml;
 
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.math.DoubleMath;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.AttributedConfigurationNode;
@@ -42,11 +39,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -380,27 +380,20 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         if (headerContent.isEmpty()) {
             return headerContent;
         }
-        final StringBuilder result = new StringBuilder();
-        for (Iterator<String> it = LINE_SPLITTER.split(headerContent).iterator(); it.hasNext();) {
-            String line = it.next();
-            final String trimmedLine = line.trim();
-            if (trimmedLine.startsWith(HEADER_PREFIX)) {
-                line = line.substring(line.indexOf(HEADER_PREFIX) + 1);
-            }
+        // TODO: 4.0 may have changed behaviour here when moving away from Guava
+        return CONFIGURATE_LINE_PATTERN.splitAsStream(headerContent)
+                .map(line -> {
+                    final String trimmedLine = line.trim();
+                    if (trimmedLine.startsWith(HEADER_PREFIX)) {
+                        line = line.substring(line.indexOf(HEADER_PREFIX) + 1);
+                    }
 
-            if (line.startsWith(" ")) {
-                line = line.substring(1);
-            }
-
-            if (it.hasNext() || !line.isEmpty()) {
-                result.append(line);
-            }
-
-            if (it.hasNext()) {
-                result.append(CONFIGURATE_LINE_SEPARATOR);
-            }
-        }
-        return result.toString();
+                    if (line.startsWith(" ")) {
+                        line = line.substring(1);
+                    }
+                    return line;
+                }).filter(line -> !line.isEmpty())
+                .collect(Collectors.joining(CONFIGURATE_LINE_SEPARATOR));
     }
 
     @Override
@@ -448,14 +441,14 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         // read out the child nodes into a multimap
-        final Multimap<String, Node> children = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+        final Map<String, Collection<Node>> children = new LinkedHashMap<>();
         if (from.hasChildNodes()) {
             final StringBuilder comment = new StringBuilder();
             final NodeList childNodes = from.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
                 final Node child = childNodes.item(i);
                 if (child.getNodeType() == Node.ELEMENT_NODE) {
-                    children.put(child.getNodeName(), child);
+                    children.computeIfAbsent(child.getNodeName(), $ -> new ArrayList<>()).add(child);
                     if (comment.length() > 0) {
                         child.setUserData(USER_DATA_COMMENT, comment.toString(), null);
                         comment.setLength(0);
@@ -480,10 +473,12 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         if (type == null) {
             // if there are no duplicate keys, we can infer that it is a map
             // otherwise, assume it's a list
-            if (children.keys().size() == children.keySet().size()) {
-                type = NodeType.MAP;
-            } else {
-                type = NodeType.LIST;
+            type = NodeType.MAP;
+            for (Collection<Node> child : children.values()) {
+                if (child.size() > 1) {
+                    type = NodeType.LIST;
+                    break;
+                }
             }
         }
 
@@ -494,15 +489,17 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         // read out the elements
-        for (Map.Entry<String, Node> entry : children.entries()) {
-            final AttributedConfigurationNode child;
+        for (Map.Entry<String, Collection<Node>> entry : children.entrySet()) {
+            AttributedConfigurationNode child;
             if (type == NodeType.MAP) {
                 child = to.getNode(entry.getKey());
+                readElement(entry.getValue().iterator().next(), child);
             } else {
-                child = to.appendListNode();
+                for (Node element : entry.getValue()) {
+                    child = to.appendListNode();
+                    readElement(element, child);
+                }
             }
-
-            readElement(entry.getValue(), child);
         }
     }
 
@@ -600,8 +597,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         try {
             final double doubleValue = Double.parseDouble(value);
-            if (DoubleMath.isMathematicalInteger(doubleValue)) {
-                final long longValue = (long) doubleValue;
+            if (isInteger(doubleValue)) {
+                final long longValue = Long.parseLong(value); // prevent losing precision
                 final int intValue = (int) longValue;
                 if (longValue == intValue) {
                     return intValue;
@@ -613,6 +610,10 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         } catch (final NumberFormatException e) {
             return value;
         }
+    }
+
+    private static boolean isInteger(final double value) {
+        return !Double.isNaN(value) && Double.isFinite(value) && value == Math.rint(value);
     }
 
 }

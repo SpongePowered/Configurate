@@ -24,12 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +90,10 @@ public class AbstractConfigurationNodeTest {
         final ConfigurationNode root = BasicConfigurationNode.root();
         final ConfigurationNode a = root.getNode("a").setValue("one");
         final ConfigurationNode b = root.getNode("b").setValue("two");
-        assertEquals(ImmutableMap.<Object, ConfigurationNode>of("a", a, "b", b), root.getChildrenMap());
+        assertEquals(UnmodifiableCollections.<Object, ConfigurationNode>buildMap(map -> {
+            map.put("a", a);
+            map.put("b", b);
+        }), root.getChildrenMap());
     }
 
     @Test
@@ -100,7 +101,7 @@ public class AbstractConfigurationNodeTest {
         final ConfigurationNode root = BasicConfigurationNode.root();
         final ConfigurationNode a = root.appendListNode().setValue("one");
         final ConfigurationNode b = root.appendListNode().setValue("two");
-        assertEquals(ImmutableList.of(a, b), root.getChildrenList());
+        assertEquals(Arrays.asList(a, b), root.getChildrenList());
     }
 
     private static final Map<Object, Object> TEST_MAP = new HashMap<>();
@@ -206,16 +207,24 @@ public class AbstractConfigurationNodeTest {
     @Test
     public void testSettingMultipleTimesWorks() {
         final ConfigurationNode subject = BasicConfigurationNode.root();
-        subject.setValue(ImmutableMap.of("a", "b", "b", "c", "c", "d"));
+        subject.setValue(UnmodifiableCollections.buildMap(build -> {
+            build.put("a", "b");
+            build.put("b", "c");
+            build.put("c", "d");
+        }));
         assertTrue(subject.isMap());
-        subject.setValue(ImmutableMap.of("na", "na", "eh", "eh", "bleugh", "bleugh"));
+        subject.setValue(UnmodifiableCollections.buildMap(build -> {
+            build.put("na", "na");
+            build.put("eh", "eh");
+            build.put("bleugh", "bleugh");
+        }));
         assertTrue(subject.isMap());
     }
 
     @Test
     public void testGetSetValueSerialized() throws ObjectMappingException {
         final ConfigurationNode subject = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(ImmutableSet.of(String.class, Integer.class)));
+                .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         subject.setValue("48");
         assertEquals(Integer.valueOf(48), subject.getValue(TypeToken.of(Integer.class)));
         final UUID testId = UUID.randomUUID();

@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.spongepowered.configurate.transformation.NodePath.path;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -139,7 +138,7 @@ public class ConfigurationTransformationTest {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("a").setValue("something?");
         final List<String> actualOutput = new ArrayList<>();
-        final List<String> expectedOutput = ImmutableList.of("one", "two");
+        final List<String> expectedOutput = Arrays.asList("one", "two");
         transformChained(actualOutput, node);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -212,7 +211,7 @@ public class ConfigurationTransformationTest {
         final List<Integer> updatedVersions = new ArrayList<>();
         this.<BasicConfigurationNode>buildVersionedTransformation(updatedVersions).apply(target);
         assertEquals(2, target.getNode("version").getInt());
-        assertEquals(ImmutableList.of(0, 1, 2), updatedVersions);
+        assertEquals(Arrays.asList(0, 1, 2), updatedVersions);
     }
 
     private <T extends ScopedConfigurationNode<T>> ConfigurationTransformation<T> buildVersionedTransformation(final List<Integer> updatedVersions) {

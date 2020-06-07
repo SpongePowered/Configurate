@@ -18,8 +18,9 @@ package org.spongepowered.configurate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
 
 public class ConfigurationVisitorTest {
 
@@ -73,7 +74,7 @@ public class ConfigurationVisitorTest {
                 node.setValue(null);
             }
         };
-        final BasicConfigurationNode base = BasicConfigurationNode.root().setValue(ImmutableList.of());
+        final BasicConfigurationNode base = BasicConfigurationNode.root().setValue(Collections.emptyList());
         final String result = base.visit(visitor);
 
         assertEquals("b(l)t", result);

@@ -19,7 +19,7 @@ package org.spongepowered.configurate.jackson;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.google.common.base.Strings;
+import org.spongepowered.configurate.util.Strings;
 
 import java.io.IOException;
 

@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,6 +33,7 @@ import org.spongepowered.configurate.serialize.ConfigSerializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("UnusedVariable") // test object mapper objects are not always read
@@ -272,10 +272,10 @@ public class ObjectMapperTest {
         });
 
         final GenericSerializable<String> stringObject = stringMapper.bindToNew().populate(stringNode);
-        assertEquals(ImmutableList.of("hello", "world"), stringObject.elements);
+        assertEquals(Arrays.asList("hello", "world"), stringObject.elements);
 
         final GenericSerializable<Integer> intObject = intMapper.bindToNew().populate(intNode);
-        assertEquals(ImmutableList.of(1, 1, 2, 3, 5, 8), intObject.elements);
+        assertEquals(Arrays.asList(1, 1, 2, 3, 5, 8), intObject.elements);
     }
 
     @Test
@@ -291,7 +291,7 @@ public class ObjectMapperTest {
         });
 
         final ParentTypesResolved resolved = mapper.bindToNew().populate(urlNode);
-        assertEquals(ImmutableList.of(new URL("https://spongepowered.org"), new URL("https://yaml.org")), resolved.elements);
+        assertEquals(Arrays.asList(new URL("https://spongepowered.org"), new URL("https://yaml.org")), resolved.elements);
         assertEquals("bye", resolved.test);
 
     }
