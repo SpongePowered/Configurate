@@ -36,7 +36,7 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.objectmapping.Setting;
+import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.ConfigSerializable;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 

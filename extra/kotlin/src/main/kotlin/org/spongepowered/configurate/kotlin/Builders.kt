@@ -23,18 +23,18 @@ import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ConfigurationOptions
 import org.spongepowered.configurate.loader.ConfigurationLoader
 
-// Factory methods
+// Factory methods //
 
 /**
  * Create a new basic configuration node, optionally providing options
  */
-fun node(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: BasicConfigurationNode.() -> Unit) =
+fun node(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: BasicConfigurationNode.() -> Unit): BasicConfigurationNode =
     BasicConfigurationNode.root(options, init)
 
 /**
  * Create a commented configuration node
  */
-fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() -> Unit) =
+fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() -> Unit): CommentedConfigurationNode =
     CommentedConfigurationNode.root(options, init)
 
 fun attributed(

@@ -18,13 +18,15 @@ package org.spongepowered.configurate.examples;
 
 import static java.util.Objects.requireNonNull;
 
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.objectmapping.Setting;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.io.IOException;
@@ -69,23 +71,26 @@ public final class ObjectMapperExample {
 
         static {
             try {
-                MAPPER = ObjectMapper.forClass(MyConfiguration.class); // We hold on to the instance of our ObjectMapper
+                MAPPER = ObjectMapper.factory().get(MyConfiguration.class); // We hold on to the instance of our ObjectMapper
             } catch (final ObjectMappingException e) {
                 throw new ExceptionInInitializerError(e);
             }
         }
 
-        public static <N extends ScopedConfigurationNode<N>> MyConfiguration loadFrom(final N node) throws ObjectMappingException {
-            return MAPPER.bindToNew().populate(node);
+        public static MyConfiguration loadFrom(final ConfigurationNode node) throws ObjectMappingException {
+            return MAPPER.load(node);
         }
 
-        @Setting(value = "item-name") // The key for a setting is normally provided by the field name, but can be overridden
         private @Nullable String itemName;
-        @Setting(comment = "Here is a comment to describe the purpose of this field")
+
+        @Comment("Here is a comment to describe the purpose of this field")
         private Pattern filter = Pattern.compile("cars?"); // Set defaults by initializing the field
 
         // As long as custom classes are annotated with @ConfigSerializable, they can be nested as ordinary fields.
         private List<Section> sections = new ArrayList<>();
+
+        // This won't be written to the file because it's marked as `transient`
+        private transient @MonotonicNonNull String decoratedName;
 
         public @Nullable String getItemName() {
             return this.itemName;
@@ -103,8 +108,15 @@ public final class ObjectMapperExample {
             return this.sections;
         }
 
+        public String getDecoratedItemName() {
+            if (this.decoratedName == null) {
+                this.decoratedName = "[" + this.itemName + "]";
+            }
+            return this.decoratedName;
+        }
+
         public <N extends ScopedConfigurationNode<N>> void saveTo(final N node) throws ObjectMappingException {
-            MAPPER.bind(this).serialize(node);
+            MAPPER.save(this, node);
         }
 
     }
@@ -112,10 +124,7 @@ public final class ObjectMapperExample {
     @ConfigSerializable
     static class Section {
 
-        @Setting
         private String name;
-
-        @Setting
         private UUID id;
 
         // the ObjectMapper resolves settings based on fields -- these methods are provided as a convenience

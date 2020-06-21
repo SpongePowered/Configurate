@@ -30,7 +30,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.objectmapping.Setting;
+import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.io.BufferedReader;
@@ -170,7 +170,7 @@ public class HoconConfigurationLoaderTest {
                 .setUrl(rsrc).build();
 
         final CommentedConfigurationNode source = loader.createNode();
-        ObjectMapper.forClass(OuterConfig.TYPE).bindToNew().populate(source);
+        ObjectMapper.factory().get(OuterConfig.TYPE).load(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }

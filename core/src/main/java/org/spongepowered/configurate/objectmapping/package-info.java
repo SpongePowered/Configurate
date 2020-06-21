@@ -20,11 +20,14 @@
  * <p>The object mapper provides type serializers that can coerce data from
  * configuration-native types to the desired types, and back again. This removes
  * a lot of the uncertainty in trying to determine which value types are
- * supported by a specific configuration format.
+ * supported by a specific configuration format.</p>
  *
- * <p>Object mappers work on fields in classes, and can optionally construct new
- * instances of classes -- either if the class has an empty constructor for the
- * {@link org.spongepowered.configurate.objectmapping.DefaultObjectMapperFactory},
- * or using other factories
+ * <p>Object mappers work on fields in classes, components in records, and
+ * similar data structures with custom {@link org.spongepowered.configurate.objectmapping.FieldDiscoverer}
+ * implementations.</p>
  */
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.objectmapping;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

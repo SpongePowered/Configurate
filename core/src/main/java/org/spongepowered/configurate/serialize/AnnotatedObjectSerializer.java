@@ -19,10 +19,8 @@ package org.spongepowered.configurate.serialize;
 import static io.leangen.geantyref.GenericTypeReflector.erase;
 
 import io.leangen.geantyref.GenericTypeReflector;
-import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
@@ -41,8 +39,7 @@ final class AnnotatedObjectSerializer implements TypeSerializer<Object> {
     @Override
     public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
         final Type clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
-        // TODO: reconsider usage of ScopedConfigurationNode in ObjectMapper
-        return node.getOptions().getObjectMapperFactory().getMapper(TypeToken.get(clazz)).bindToNew().populate((ScopedConfigurationNode) node);
+        return node.getOptions().getObjectMapperFactory().get(clazz).load(node);
     }
 
     private Type getInstantiableType(final Type type, final @Nullable String configuredName) throws ObjectMappingException {
@@ -84,11 +81,11 @@ final class AnnotatedObjectSerializer implements TypeSerializer<Object> {
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             // serialize obj's concrete type rather than the interface/abstract class
             node.getNode(CLASS_KEY).setValue(obj.getClass().getName());
-            mapper = node.getOptions().getObjectMapperFactory().getMapper(obj.getClass());
+            mapper = node.getOptions().getObjectMapperFactory().get(obj.getClass());
         } else {
-            mapper = node.getOptions().getObjectMapperFactory().getMapper(TypeToken.get(type));
+            mapper = node.getOptions().getObjectMapperFactory().get(type);
         }
-        ((ObjectMapper<Object>) mapper).bind(obj).serialize((ScopedConfigurationNode) node);
+        ((ObjectMapper<Object>) mapper).save(obj, node);
     }
 
 }

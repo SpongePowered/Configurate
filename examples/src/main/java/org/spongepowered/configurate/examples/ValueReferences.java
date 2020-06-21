@@ -21,7 +21,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.configurate.objectmapping.Setting;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.ValueReference;
 import org.spongepowered.configurate.reference.WatchServiceListener;
@@ -45,8 +44,8 @@ public class ValueReferences {
 
     @ConfigSerializable
     static class TestObject {
-        @Setting String name;
-        @Setting UUID id = UUID.randomUUID();
+        String name;
+        UUID id = UUID.randomUUID();
 
         @Override
         public boolean equals(final Object o) {

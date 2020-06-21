@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping;
+package org.spongepowered.configurate.objectmapping.meta;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -23,26 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a field to be mapped by an {@link ObjectMapper}.
+ * Marks a field that gets its value from the node's key.
+ *
+ * <p>Fields annotated as such should be treated as <em>read-only</em>.</p>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-public @interface Setting {
-
-    /**
-     * The path this setting is located at.
-     *
-     * @return The path
-     */
-    String value() default "";
-
-    /**
-     * The default comment associated with this configuration node.
-     * This will be applied to any comment-capable configuration loader
-     *
-     * @return The comment
-     */
-    String comment() default "";
-
+public @interface NodeKey {
 }

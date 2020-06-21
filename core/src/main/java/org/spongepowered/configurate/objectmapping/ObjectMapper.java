@@ -16,340 +16,295 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
-import static io.leangen.geantyref.GenericTypeReflector.erase;
-import static io.leangen.geantyref.GenericTypeReflector.getExactSuperType;
-import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
-import static java.util.Objects.requireNonNull;
-
 import io.leangen.geantyref.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
-import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.serialize.ConfigSerializable;
-import org.spongepowered.configurate.serialize.TypeSerializer;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.objectmapping.meta.Constraint;
+import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
+import org.spongepowered.configurate.objectmapping.meta.Processor;
+import org.spongepowered.configurate.util.NamingScheme;
 
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
- * This is the object mapper. It handles conversion between configuration nodes
- * and fields annotated with {@link Setting} in objects.
+ * A mapper that converts between configuration nodes and Java objects.
  *
- * <p>Values in the node not used by the mapped object will be preserved.
- *
- * @param <T> The type to work with
+ * <p>Mapped objects fall into one of several types: timmutable</p>
+ * @param <V> mapped type
  */
-public class ObjectMapper<T> {
-
-    private final AnnotatedType type;
-    private final Class<?> clazz;
-    @Nullable
-    private final Constructor<?> constructor;
-    private final Map<String, FieldData> cachedFields = new LinkedHashMap<>();
+public interface ObjectMapper<V> {
 
     /**
-     * Create a new object mapper that can work with objects of the given class
-     * using the {@link DefaultObjectMapperFactory}.
+     * Get the default object mapper factory instance.
      *
-     * @param clazz The type of object
-     * @param <T> The type
-     * @return An appropriate object mapper instance. May be a shared instance.
-     * @throws ObjectMappingException If invalid annotated fields are presented
+     * <p>This factory has the following characteristics:</p>
+     * <ul>
+     *     <li>can resolve fields in empty-constructor objects and Records</li>
+     *     <li>will try to resolve any field in objects</li>
+     *     <li>supports {@link org.spongepowered.configurate.objectmapping.meta.NodeKey} and
+     *     {@link org.spongepowered.configurate.objectmapping.meta.Setting} annotations
+     *     for customizing node resolution</li>
+     *     <li>uses the {@link org.spongepowered.configurate.util.NamingSchemes#LOWER_CASE_DASHED}
+     *     naming scheme for other nodes</li>
+     *     <li>supports unlocalized {@link org.spongepowered.configurate.objectmapping.meta.Matches},
+     *     and {@link org.spongepowered.configurate.objectmapping.meta.Required}
+     *     constraints</li>
+     *     <li>processes {@link org.spongepowered.configurate.objectmapping.meta.Comment}
+     *     annotations</li>
+     * </ul>
+     *
+     * @return default factory
      */
-    public static <T> ObjectMapper<T> forClass(final @NonNull Class<T> clazz) throws ObjectMappingException {
-        return DefaultObjectMapperFactory.getInstance().getMapper(clazz);
+    static Factory factory() {
+        return ObjectMapperFactoryImpl.INSTANCE;
     }
 
     /**
-     * Create a new object mapper that can work with objects of the given type
-     * using the {@link DefaultObjectMapperFactory}.
+     * Create an empty builder.
      *
-     * @param type The type of object
-     * @param <T> The type
-     * @return An appropriate object mapper instance. May be a shared instance.
-     * @throws ObjectMappingException If invalid annotated fields are presented
+     * <p>This applies none of the standard formats, processors, constraints or
+     * resolvers. Unless you want to do something particularly specialized,
+     * you should probably be using {@link #factoryBuilder()}.</p>
+     *
+     * @return new empty builder
      */
-    public static <T> ObjectMapper<T> forType(final @NonNull TypeToken<T> type) throws ObjectMappingException {
-        return DefaultObjectMapperFactory.getInstance().getMapper(type);
+    static Factory.Builder emptyFactoryBuilder() {
+        return new ObjectMapperFactoryImpl.Builder();
     }
 
     /**
-     * Creates a new object mapper bound to the given object.
+     * Create a builder populated with default settings.
      *
-     * <strong>CAUTION</strong> Generic type information will be lost when
-     * creating a mapper this way. Provide a {@link TypeToken} to avoid this
+     * <p>This builder is prepared to allow overriding any of the default
+     * object mapper features.</p>
      *
-     * @param obj The object
-     * @param <T> The object type
-     * @return An appropriate object mapper instance.
-     * @throws ObjectMappingException when an object is provided that is not
-     *                              suitable for object mapping.
-     *                              Reasons may include but are not limited to:
-     *                              <ul>
-     *                                  <li>Not annotated with {@link ConfigSerializable} annotation</li>
-     *                                  <li>Invalid field types</li>
-     *                              </ul>
+     * @return new builder
+     * @see #factory() for a description of the default settings
      */
-    @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T>.BoundInstance forObject(final @NonNull T obj) throws ObjectMappingException {
-        return forClass((Class<T>) requireNonNull(obj).getClass()).bind(obj);
+    static Factory.Builder factoryBuilder() {
+        return ObjectMapperFactoryImpl.defaultBuilder();
     }
 
     /**
-     * Creates a new object mapper bound to the given object.
+     * Create a new object instance.
      *
-     * @param type The generic type of the object
-     * @param obj The object
-     * @param <T> The object type
-     * @return An appropriate object mapper instance.
-     * @throws ObjectMappingException when an object is provided that is not
-     *                              suitable for object mapping.
-     *                              Reasons may include but are not limited to:
-     *                              <ul>
-     *                                  <li>Not annotated with {@link ConfigSerializable} annotation</li>
-     *                                  <li>Invalid field types</li>
-     *                                  <li>Specified type is an interface</li>
-     *                              </ul>
+     * @param source object source
+     * @return new instance
+     * @throws ObjectMappingException if any invalid data is present. Loading is
+     *      done in stages, so any deserialization errors will occur before
+     *      anything is written to objects.
+     *
      */
-    @SuppressWarnings("unchecked")
-    public static <T> ObjectMapper<T>.BoundInstance forObject(final TypeToken<T> type, final @NonNull T obj) throws ObjectMappingException {
-        return forType(requireNonNull(type)).bind(obj);
+    V load(ConfigurationNode source) throws ObjectMappingException;
+
+    /**
+     * Write data from the provided object to the target.
+     *
+     * @param value value type
+     * @param target destination
+     * @throws ObjectMappingException if unable to fully save
+     */
+    void save(V value, ConfigurationNode target) throws ObjectMappingException;
+
+    /**
+     * Get the parameters that will be handled by this mapper.
+     *
+     * @return immutable list of fields
+     */
+    List<? extends FieldData<?, V>> getFields();
+
+    /**
+     * The generic type of object that this mapper instance handles.
+     *
+     * @return object type
+     */
+    Type getMappedType();
+
+    /**
+     * Get whether or not this mapper is capable of creating new instances of
+     * its mapped type.
+     *
+     * <p>If this returns {@code false}, {@link #load(ConfigurationNode)} will
+     * always fail.</p>
+     *
+     * @return if the mapped type can be instantiated.
+     */
+    boolean canCreateInstances();
+
+    /**
+     * An object mapper capable of loading data into an existing object.
+     *
+     * @param <V> value type
+     */
+    interface Mutable<V> extends ObjectMapper<V> {
+
+        /**
+         * Load data from {@code node} into an existing instance.
+         *
+         * @param value existing instance
+         * @param node node to load from
+         * @throws ObjectMappingException if unable to deserialize data
+         */
+        void load(V value, ConfigurationNode node) throws ObjectMappingException;
     }
 
     /**
-     * Holder for field-specific information.
+     * Provider for object mappers.
      */
-    protected static class FieldData {
-        private final Field field;
-        private final AnnotatedType fieldType;
-        private final @Nullable String comment;
+    interface Factory {
 
-        public FieldData(final Field field, final @Nullable String comment, final AnnotatedType resolvedFieldType) {
-            this.field = field;
-            this.comment = comment;
-            this.fieldType = resolvedFieldType;
-        }
-
-        public <N extends ScopedConfigurationNode<N>> void deserializeFrom(final Object instance, final N node) throws ObjectMappingException {
-            final @Nullable TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType.getType());
-            if (serial == null) {
-                throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName() + " of type "
-                        + this.fieldType.getType());
-            }
-            final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType.getType(), node);
-            try {
-                if (newVal != null) {
-                    this.field.set(instance, newVal);
-                } else if (node.getOptions().shouldCopyDefaults()) {
-                    final Object existingVal = this.field.get(instance);
-                    if (existingVal != null) {
-                        serializeTo(instance, node);
-                    }
-                }
-            } catch (final IllegalAccessException e) {
-                throw new ObjectMappingException("Unable to deserialize field " + this.field.getName(), e);
-            }
-        }
-
-        @SuppressWarnings({"rawtypes", "unchecked"})
-        public void serializeTo(final Object instance, final ScopedConfigurationNode<?> node) throws ObjectMappingException {
-            try {
-                final Object fieldVal = this.field.get(instance);
-                if (fieldVal == null) {
-                    node.setValue(null);
-                } else {
-                    final @Nullable TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType.getType());
-                    if (serial == null) {
-                        throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName()
-                                + " of type " + this.fieldType.getType());
-                    }
-                    serial.serialize(this.fieldType.getType(), fieldVal, node);
-                }
-
-                if (node instanceof CommentedConfigurationNodeIntermediary<?> && this.comment != null && !this.comment.isEmpty()) {
-                    final CommentedConfigurationNodeIntermediary<?> commentNode = ((CommentedConfigurationNodeIntermediary<?>) node);
-                    commentNode.setCommentIfAbsent(this.comment);
-                }
-            } catch (final IllegalAccessException e) {
-                throw new ObjectMappingException("Unable to serialize field " + this.field.getName(), e);
-            }
-        }
-    }
-
-    /**
-     * Represents an object mapper bound to a certain instance of the object.
-     */
-    public class BoundInstance {
-        private final T boundInstance;
-
-        protected BoundInstance(final T boundInstance) {
-            this.boundInstance = boundInstance;
+        /**
+         * Get an object mapper for the provided type.
+         *
+         * <p>The provided type cannot be a <em>raw type</em>.</p>
+         *
+         * @param type token holding the mapped type
+         * @param <V> mapped type
+         * @return a mapper for the provided type
+         * @throws ObjectMappingException if the type does not correspond to a
+         *     mappable object
+         */
+        @SuppressWarnings("unchecked")
+        default <V> ObjectMapper<V> get(TypeToken<V> type) throws ObjectMappingException {
+            return (ObjectMapper<V>) get(type.getType());
         }
 
         /**
-         * Populate the annotated fields in a pre-created object.
+         * Get an object mapper for the unparameterized type {@code clazz}.
          *
-         * @param <N> The type of node being populated
-         * @param source The source to get data from
-         * @return The object provided, for easier chaining
-         * @throws ObjectMappingException If an error occurs while
-         *                                 populating data.
+         * <p>The provided type cannot be a <em>raw type</em>.</p>
+         *
+         * @param clazz class of the mapped type
+         * @param <V> mapped type
+         * @return a mapper for the provided type
+         * @throws ObjectMappingException if the type does not correspond to a
+         *     mappable object
          */
-        public <N extends ScopedConfigurationNode<N>> T populate(final N source) throws ObjectMappingException {
-            for (Map.Entry<String, FieldData> ent : ObjectMapper.this.cachedFields.entrySet()) {
-                final N node = source.getNode(ent.getKey());
-                ent.getValue().deserializeFrom(this.boundInstance, node);
-            }
-
-            if (source.isVirtual()) { // we didn't save anything
-                source.setValue(Collections.emptyMap());
-            }
-            return this.boundInstance;
+        @SuppressWarnings("unchecked")
+        default <V> ObjectMapper<V> get(Class<V> clazz) throws ObjectMappingException {
+            return (ObjectMapper<V>) get((Type) clazz);
         }
 
         /**
-         * Serialize the data contained in annotated fields to the
-         * configuration node.
+         * Get the object mapper for the provided type.
          *
-         * @param target The target node to serialize to
-         * @param <N> The type of node being serialized to
-         * @throws ObjectMappingException if serialization was not possible due
-         *                                to some error.
+         * <p>The provided type cannot be a <em>raw type</em>.</p>
+         *
+         * @param type object type.
+         * @return a mapper for the provided type
+         * @throws ObjectMappingException if the type does not correspond to a
+         *     mappable object
          */
-        public <N extends ScopedConfigurationNode<N>> void serialize(final N target) throws ObjectMappingException {
-            for (Map.Entry<String, FieldData> ent : ObjectMapper.this.cachedFields.entrySet()) {
-                final N node = target.getNode(ent.getKey());
-                ent.getValue().serializeTo(this.boundInstance, node);
-            }
-        }
+        ObjectMapper<?> get(Type type) throws ObjectMappingException;
 
         /**
-         * Return the instance this mapper is bound to.
+         * A builder for settings to be applied to an object mapper.
          *
-         * @return The active instance
+         * <p>In general, with multiple applicable resolvers, the one registered
+         * last will take priority.</p>
          */
-        public T getInstance() {
-            return this.boundInstance;
-        }
-    }
+        interface Builder {
 
-    /**
-     * Create a new object mapper of a given type. The given type must not be
-     * an interface.
-     *
-     * @param type The type this object mapper will work with
-     * @throws ObjectMappingException When errors occur discovering fields in
-     *                                the class
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    protected ObjectMapper(final AnnotatedType type) throws ObjectMappingException {
-        this.type = type;
-        this.clazz = erase(type.getType());
-        if (this.clazz.isInterface()) {
-            throw new ObjectMappingException("ObjectMapper can only work with concrete types");
-        }
+            /**
+             * Set the naming scheme to use as a default for field names.
+             *
+             * <p>This can be overridden by other
+             * {@link NodeResolver NodeResolvers} for specific nodes.</p>
+             *
+             * @param scheme naming scheme
+             * @return this builder
+             */
+            Builder setDefaultNamingScheme(NamingScheme scheme);
 
-        @Nullable Constructor<?> constructor = null;
-        try {
-            constructor = this.clazz.getDeclaredConstructor();
-            constructor.setAccessible(true);
-        } catch (final NoSuchMethodException ignore) {
-            // a constructor is optional
-        }
-        this.constructor = constructor;
-        AnnotatedType collectType = type;
-        Class<?> collectClass = this.clazz;
-        while (true) {
-            collectFields(this.cachedFields, collectType);
-            collectClass = collectClass.getSuperclass();
-            if (collectClass.equals(Object.class)) {
-                break;
+            /**
+             * Add a resolver that will locate a node for a field.
+             *
+             * @param resolver the resolver
+             * @return this builder
+             */
+            Builder addNodeResolver(NodeResolver.Factory resolver);
+
+            /**
+             * Add a discoverer for a type of object.
+             *
+             * <p>Field discoverers will be tried in order until one can
+             * produce the appropriate metadata.</p>
+             *
+             * @param discoverer field discoverer
+             * @return this builder
+             */
+            Builder addDiscoverer(FieldDiscoverer<?> discoverer);
+
+            /**
+             * Register a {@link Processor} that will process fields after write.
+             *
+             * <p>Processors registered without a specific data type should be
+             * able to operate on any value type.</p>
+             *
+             * @param definition annotation providing data
+             * @param factory factory for callback function
+             * @param <A> annotation type
+             * @return this builder
+             */
+            default <A extends Annotation> Builder addProcessor(Class<A> definition, Processor.Factory<A, Object> factory) {
+                return addProcessor(definition, Object.class, factory);
             }
-            collectType = getExactSuperType(collectType, collectClass);
-        }
-    }
 
-    protected void collectFields(final Map<String, FieldData> cachedFields, final AnnotatedType clazz) throws ObjectMappingException {
-        for (Field field : erase(clazz.getType()).getDeclaredFields()) {
-            if (field.isAnnotationPresent(Setting.class)) {
-                final Setting setting = field.getAnnotation(Setting.class);
-                String path = setting.value();
-                if (path.isEmpty()) {
-                    path = field.getName();
-                }
+            /**
+             * Register a {@link Processor} that will process fields after write.
+             *
+             * <p>All value types will be tested against types normalized to
+             * their boxed variants.</p>
+             *
+             * @param definition annotation providing data
+             * @param valueType value types the processor will handle
+             * @param factory factory for callback function
+             * @param <A> annotation type
+             * @param <T> data type
+             * @return this builder
+             */
+            <A extends Annotation, T> Builder addProcessor(Class<A> definition, Class<T> valueType, Processor.Factory<A, T> factory);
 
-                final AnnotatedType fieldType = getFieldType(field, clazz);
-                final FieldData data = new FieldData(field, setting.comment(), fieldType);
-                field.setAccessible(true);
-                if (!cachedFields.containsKey(path)) {
-                    cachedFields.put(path, data);
-                }
+            /**
+             * Register a {@link Constraint} that will be used to validate fields.
+             *
+             * <p>Constraints registered without a specific data type will be
+             * able to operate on any value type.</p>
+             *
+             * @param definition annotations providing data
+             * @param factory factory for callback function
+             * @param <A> annotation type
+             * @return this builder
+             */
+            default <A extends Annotation> Builder addConstraint(Class<A> definition, Constraint.Factory<A, Object> factory) {
+                return addConstraint(definition, Object.class, factory);
             }
+
+            /**
+             * Register a {@link Constraint} that will be used to validate fields.
+             *
+             * <p>All value types will be tested against types normalized to
+             * their boxed variants.</p>
+             *
+             * @param definition annotations providing data
+             * @param valueType value types the processor will handle
+             * @param factory factory for callback function
+             * @param <A> annotation type
+             * @param <T> data type
+             * @return this builder
+             */
+            <A extends Annotation, T> Builder addConstraint(Class<A> definition, Class<T> valueType, Constraint.Factory<A, T> factory);
+
+            /**
+             * Create a new factory using the current configuration.
+             *
+             * @return new factory instance
+             */
+            Factory build();
+
         }
-    }
 
-    /**
-     * Create a new instance of an object of the appropriate type. This method
-     * is not responsible for any field population.
-     *
-     * @return The new object instance
-     * @throws ObjectMappingException If constructing a new instance was
-     *                                not possible
-     */
-    protected T constructObject() throws ObjectMappingException {
-        if (this.constructor == null) {
-            throw new ObjectMappingException("No zero-arg constructor is available for class "
-                    + this.type + " but one is required to construct new instances!");
-        }
-        try {
-            return (T) this.constructor.newInstance();
-        } catch (final IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            throw new ObjectMappingException("Unable to create instance of target class " + this.type, e);
-        }
-    }
-
-    /**
-     * Returns whether this object mapper can create new object instances. This
-     * may be false if the provided class has no zero-argument constructors.
-     *
-     * @return Whether new object instances can be created
-     */
-    public boolean canCreateInstances() {
-        return this.constructor != null;
-    }
-
-    /**
-     * Return a view on this mapper that is bound to a single object instance.
-     *
-     * @param instance The instance to bind to
-     * @return A view referencing this mapper and the bound instance
-     */
-    public BoundInstance bind(final T instance) {
-        return new BoundInstance(instance);
-    }
-
-    /**
-     * Returns a view on this mapper that is bound to a newly created
-     * object instance.
-     *
-     * @see #bind(Object)
-     * @return Bound mapper attached to a new object instance
-     * @throws ObjectMappingException If the object could not be
-     *                                constructed correctly
-     */
-    public BoundInstance bindToNew() throws ObjectMappingException {
-        return new BoundInstance(constructObject());
-    }
-
-    public Type getType() {
-        return this.type.getType();
     }
 
 }

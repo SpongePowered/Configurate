@@ -25,6 +25,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
@@ -50,10 +51,10 @@ public class GuiceObjectMapperTest {
     @Test
     public void testCreateGuiceObjectMapper() throws ObjectMappingException {
         final Injector injector = Guice.createInjector(new TestModule());
-        final GuiceObjectMapperFactory factory = injector.getInstance(GuiceObjectMapperFactory.class);
-        final ObjectMapper<ConfigClass> mapper = factory.getMapper(ConfigClass.class);
+        final GuiceObjectMapperProvider factory = injector.getInstance(GuiceObjectMapperProvider.class);
+        final ObjectMapper<ConfigClass> mapper = factory.get().get(ConfigClass.class);
         assertTrue(mapper.canCreateInstances());
-        assertNotNull(mapper.bindToNew().getInstance());
+        assertNotNull(mapper.load(BasicConfigurationNode.root()));
     }
 
 }
