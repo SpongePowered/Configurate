@@ -62,6 +62,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
                     header = rootProject.file("LICENSE_HEADER")
                     include("**/*.java")
                     include("**/*.kt")
+                    // TODO: this is probably not very efficient
+                    exclude { it.file.absolutePath.contains("generated") }
                     newLine = false
                 }
             }

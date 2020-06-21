@@ -9,4 +9,7 @@
     <suppress id="LineLengthComment" files="JacksonVisitor\.java"/> <!-- Commented out code -->
     <!-- We don't need javadoc on examples, they already go alongside documentation -->
     <suppress checks="MissingJavadocMethod" files="src[\\/]main[\\/]java[\\/]org[\\/]spongepowered[\\/]configurate[\\/]examples[\\/].*"/>
+
+    <!-- Ignore generated files -->
+    <suppress checks=".*" files="build[\\/]generated(-src)?.*" />
 </suppressions>

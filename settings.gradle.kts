@@ -9,7 +9,7 @@ listOf("core", "tool", "ext-kotlin", "bom", "examples").forEach {
 }
 
 // formats
-listOf("gson", "hocon", "jackson", "xml", "yaml").forEach {
+listOf("gson", "hocon", "jackson", "json5", "xml", "yaml").forEach {
     include(":format:$it")
     // findProject(":format:$it")?.name = "$prefix-$it"
 }
