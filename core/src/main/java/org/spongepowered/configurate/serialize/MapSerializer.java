@@ -19,7 +19,6 @@ package org.spongepowered.configurate.serialize;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.reflect.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;

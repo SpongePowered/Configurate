@@ -28,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;

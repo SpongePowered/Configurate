@@ -82,6 +82,7 @@
         </module>
 
          <!-- Configurate-specific changes -->
+        <module name="UnusedImports"/>
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
@@ -107,6 +108,7 @@
         <module name="IllegalType">
             <property name="illegalClassNames" value="java.util.Optional"/>
         </module>
+
 
         <!-- Standard Google style checks -->
 

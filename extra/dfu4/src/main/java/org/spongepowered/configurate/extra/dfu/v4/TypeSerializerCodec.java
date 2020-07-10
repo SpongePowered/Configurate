@@ -26,7 +26,6 @@ import com.mojang.serialization.DynamicOps;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 

@@ -29,8 +29,6 @@ import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
