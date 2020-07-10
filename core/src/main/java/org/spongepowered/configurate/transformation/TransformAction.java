@@ -45,7 +45,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
     }
 
     /**
-     * Rename a node 
+     * Rename a node
      *
      * <p>This transformation cannot be applied to the root node.
      *
@@ -112,6 +112,6 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param valueAtPath The node at the input path. May be modified
      * @return A modified path, or null if the path is to stay the same
      */
-    Object @Nullable[] visitPath(@NonNull NodePath inputPath, @NonNull T valueAtPath);
+    @Nullable Object @Nullable[] visitPath(@NonNull NodePath inputPath, @NonNull T valueAtPath);
 
 }
