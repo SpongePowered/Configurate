@@ -58,7 +58,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public @Nullable V deserialize(@NonNull final TypeToken<?> type, @NonNull final ConfigurationNode value) throws ObjectMappingException {
+    public V deserialize(@NonNull final TypeToken<?> type, @NonNull final ConfigurationNode value) throws ObjectMappingException {
         final DataResult<Pair<V, ConfigurationNode>> result = this.codec.decode(opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<Pair<V, ConfigurationNode>> error = result.error().orElse(null);
         if (error != null) {

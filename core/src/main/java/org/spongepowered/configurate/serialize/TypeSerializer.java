@@ -19,7 +19,6 @@ package org.spongepowered.configurate.serialize;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
@@ -82,7 +81,7 @@ public interface TypeSerializer<T> {
      * @return An object
      * @throws ObjectMappingException If the presented data is invalid
      */
-    @Nullable T deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException;
+    T deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.

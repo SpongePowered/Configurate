@@ -34,7 +34,7 @@ import java.util.List;
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @Override
-    public @Nullable T deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
+    public T deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
         final TypeToken<?> entryType = getElementType(type);
         final @Nullable TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {

@@ -32,7 +32,6 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
 
     static final TypeToken<ConfigurationNode> TYPE = TypeToken.of(ConfigurationNode.class);
 
-    @Nullable
     @Override
     public ConfigurationNode deserialize(final @NonNull TypeToken<?> type, final @NonNull ConfigurationNode node) {
         return node.copy();

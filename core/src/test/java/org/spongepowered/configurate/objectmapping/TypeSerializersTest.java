@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableMap;
@@ -374,8 +373,6 @@ public class TypeSerializersTest {
         final TypeSerializer<Character> charSerializer = getSerializer(charType);
 
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
-
-        assertNull(charSerializer.deserialize(charType, serializeTo));
 
         serializeTo.setValue("e");
         assertEquals(Character.valueOf('e'), charSerializer.deserialize(charType, serializeTo));

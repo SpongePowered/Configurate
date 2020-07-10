@@ -64,7 +64,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public final @Nullable T deserialize(TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
+    public final T deserialize(TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
         ConfigurationNode deserializeFrom = node;
         if (node.isList()) {
             final List<? extends ConfigurationNode> children = node.getChildrenList();
@@ -79,7 +79,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
 
         final @Nullable Object value = deserializeFrom.getValue();
         if (value == null) {
-            return null;
+            throw new ObjectMappingException("No value present");
         }
 
         type = type.wrap(); // every primitive type should be boxed (cuz generics!)

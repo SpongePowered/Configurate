@@ -37,7 +37,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 
     @Override
-    public Map<?, ?> deserialize(final @NonNull TypeToken<?> type, final @NonNull ConfigurationNode node) throws ObjectMappingException {
+    public Map<?, ?> deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
         final Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
             if (!(type.getType() instanceof ParameterizedType)) {
@@ -59,13 +59,8 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.getOptions());
 
             for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-                final @Nullable Object keyValue = keySerial.deserialize(key, keyNode.setValue(ent.getKey()));
-                final @Nullable Object valueValue = valueSerial.deserialize(value, ent.getValue());
-                if (keyValue == null || valueValue == null) {
-                    continue;
-                }
-
-                ret.put(keyValue, valueValue);
+                ret.put(requireNonNull(keySerial.deserialize(key, keyNode.setValue(ent.getKey())), "key"),
+                    requireNonNull(valueSerial.deserialize(value, ent.getValue()), "value"));
             }
         }
         return ret;

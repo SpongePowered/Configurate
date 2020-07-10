@@ -152,13 +152,13 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     @Override
     @SuppressWarnings("unchecked")
     public <V> V getValue(final @NonNull TypeToken<V> type, final V def) throws ObjectMappingException {
-        final @Nullable Object value = getValue();
-        if (value == null) {
+        if (isEmpty()) {
             return storeDefault(type, def);
         }
 
         final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
+            final Object value = getValue();
             if (type.getRawType().isInstance(value)) {
                 return (V) type.getRawType().cast(value);
             } else {
@@ -171,13 +171,13 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     @Override
     @SuppressWarnings("unchecked")
     public <V> V getValue(final TypeToken<V> type, final Supplier<V> defSupplier) throws ObjectMappingException {
-        final @Nullable Object value = getValue();
-        if (value == null) {
+        if (this.isEmpty()) {
             return storeDefault(type, defSupplier.get());
         }
 
         final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
+            final Object value = getValue();
             if (type.getRawType().isInstance(value)) {
                 return (V) type.getRawType().cast(value);
             } else {
