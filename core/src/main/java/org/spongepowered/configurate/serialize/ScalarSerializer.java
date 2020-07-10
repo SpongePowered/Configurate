@@ -18,7 +18,7 @@ package org.spongepowered.configurate.serialize;
 
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.List;
@@ -64,10 +64,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public final <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(TypeToken<?> type, final N node) throws ObjectMappingException {
-        N deserializeFrom = node;
+    public final @Nullable T deserialize(TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
+        ConfigurationNode deserializeFrom = node;
         if (node.isList()) {
-            final List<N> children = node.getChildrenList();
+            final List<? extends ConfigurationNode> children = node.getChildrenList();
             if (children.size() == 1) {
                 deserializeFrom = children.get(0);
             }
@@ -123,7 +123,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     public abstract T deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException;
 
     @Override
-    public final <N extends ScopedConfigurationNode<N>> void serialize(final TypeToken<?> type, final @Nullable T obj, final N node) {
+    public final void serialize(final TypeToken<?> type, final @Nullable T obj, final ConfigurationNode node) {
         if (obj == null) {
             node.setValue(null);
             return;

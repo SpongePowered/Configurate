@@ -19,7 +19,6 @@ package org.spongepowered.configurate.serialize;
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
@@ -35,7 +34,7 @@ import java.util.List;
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @Override
-    public <N extends ScopedConfigurationNode<N>> @Nullable T deserialize(final TypeToken<?> type, final N node) throws ObjectMappingException {
+    public @Nullable T deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
         final TypeToken<?> entryType = getElementType(type);
         final @Nullable TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
@@ -43,7 +42,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
         }
 
         if (node.isList()) {
-            final List<N> values = node.getChildrenList();
+            final List<? extends ConfigurationNode> values = node.getChildrenList();
             final T ret = createNew(values.size(), entryType);
             for (int i = 0; i < values.size(); ++i) {
                 deserializeSingle(i, ret, entrySerial.deserialize(entryType, values.get(i)));
@@ -62,8 +61,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public <N extends ScopedConfigurationNode<N>> void serialize(final TypeToken<?> type,
-            final @Nullable T obj, final N node) throws ObjectMappingException {
+    public void serialize(final TypeToken<?> type, final @Nullable T obj, final ConfigurationNode node) throws ObjectMappingException {
         final TypeToken<?> entryType = getElementType(type);
         final @Nullable TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {

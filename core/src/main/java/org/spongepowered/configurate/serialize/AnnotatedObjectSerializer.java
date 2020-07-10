@@ -18,6 +18,7 @@ package org.spongepowered.configurate.serialize;
 
 import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -34,9 +35,10 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
     }
 
     @Override
-    public <N extends ScopedConfigurationNode<N>> Object deserialize(final TypeToken<?> type, final N node) throws ObjectMappingException {
+    public Object deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
         final TypeToken<?> clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
-        return node.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate(node);
+        // TODO: reconsider usage of ScopedConfigurationNode in ObjectMapper
+        return node.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate((ScopedConfigurationNode) node);
     }
 
     private TypeToken<?> getInstantiableType(final TypeToken<?> type, final @Nullable String configuredName) throws ObjectMappingException {
@@ -64,10 +66,9 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <N extends ScopedConfigurationNode<N>> void serialize(final TypeToken<?> type,
-            final @Nullable Object obj, final N node) throws ObjectMappingException {
+    public void serialize(final TypeToken<?> type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
         if (obj == null) {
-            final N clazz = node.getNode(CLASS_KEY);
+            final ConfigurationNode clazz = node.getNode(CLASS_KEY);
             node.setValue(null);
             if (!clazz.isVirtual()) {
                 node.getNode(CLASS_KEY).setValue(clazz);
@@ -83,7 +84,7 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
         } else {
             mapper = node.getOptions().getObjectMapperFactory().getMapper(type);
         }
-        ((ObjectMapper<Object>) mapper).bind(obj).serialize(node);
+        ((ObjectMapper<Object>) mapper).bind(obj).serialize((ScopedConfigurationNode) node);
     }
 
 }

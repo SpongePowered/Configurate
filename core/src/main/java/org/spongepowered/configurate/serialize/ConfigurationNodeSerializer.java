@@ -20,7 +20,6 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 
 /**
  * A TypeSerializer to directly access a {@link ConfigurationNode}. This allows
@@ -35,13 +34,12 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
 
     @Nullable
     @Override
-    public <N extends ScopedConfigurationNode<N>> ConfigurationNode deserialize(final @NonNull TypeToken<?> type, final @NonNull N node) {
+    public ConfigurationNode deserialize(final @NonNull TypeToken<?> type, final @NonNull ConfigurationNode node) {
         return node.copy();
     }
 
     @Override
-    public <N extends ScopedConfigurationNode<N>> void serialize(final @NonNull TypeToken<?> type, final @Nullable ConfigurationNode obj,
-            final @NonNull N node) {
+    public void serialize(final @NonNull TypeToken<?> type, final @Nullable ConfigurationNode obj, final @NonNull ConfigurationNode node) {
         node.setValue(obj);
     }
 

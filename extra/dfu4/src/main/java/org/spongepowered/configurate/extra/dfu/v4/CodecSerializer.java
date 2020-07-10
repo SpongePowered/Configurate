@@ -28,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
@@ -59,10 +58,9 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public <N extends ScopedConfigurationNode<N>> @Nullable V deserialize(@NonNull final TypeToken<?> type,
-                                                                          @NonNull final N value) throws ObjectMappingException {
+    public @Nullable V deserialize(@NonNull final TypeToken<?> type, @NonNull final ConfigurationNode value) throws ObjectMappingException {
         final DataResult<Pair<V, ConfigurationNode>> result = this.codec.decode(opsFor(value), value);
-        final DataResult.PartialResult<Pair<V, ConfigurationNode>> error = result.error().orElse(null);
+        final DataResult./* @Nullable */ PartialResult<Pair<V, ConfigurationNode>> error = result.error().orElse(null);
         if (error != null) {
             LOGGER.debug("Unable to decode value using {} due to {}", this.codec, error.message());
             throw new ObjectMappingException(error.message());
@@ -71,10 +69,10 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public <N extends ScopedConfigurationNode<N>> void serialize(@NonNull final TypeToken<?> type, @Nullable final V obj, @NonNull final N value)
+    public void serialize(@NonNull final TypeToken<?> type, @Nullable final V obj, @NonNull final ConfigurationNode value)
             throws ObjectMappingException {
         final DataResult<ConfigurationNode> result = this.codec.encode(obj, opsFor(value), value);
-        final DataResult.PartialResult<ConfigurationNode> error = result.error().orElse(null);
+        final DataResult./* @Nullable */ PartialResult<ConfigurationNode> error = result.error().orElse(null);
         if (error != null) {
             LOGGER.debug("Unable to encode value using {} due to {}", this.codec, error.message());
             throw new ObjectMappingException(error.message());

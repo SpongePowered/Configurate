@@ -22,7 +22,7 @@ import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
@@ -37,8 +37,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 
     @Override
-    public <N extends ScopedConfigurationNode<N>> Map<?, ?> deserialize(final @NonNull TypeToken<?> type, final @NonNull N node)
-            throws ObjectMappingException {
+    public Map<?, ?> deserialize(final @NonNull TypeToken<?> type, final @NonNull ConfigurationNode node) throws ObjectMappingException {
         final Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
             if (!(type.getType() instanceof ParameterizedType)) {
@@ -59,7 +58,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.getOptions());
 
-            for (Map.Entry<Object, N> ent : node.getChildrenMap().entrySet()) {
+            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
                 final @Nullable Object keyValue = keySerial.deserialize(key, keyNode.setValue(ent.getKey()));
                 final @Nullable Object valueValue = valueSerial.deserialize(value, ent.getValue());
                 if (keyValue == null || valueValue == null) {
@@ -74,8 +73,7 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public <N extends ScopedConfigurationNode<N>> void serialize(final TypeToken<?> type, final @Nullable Map<?, ?> obj,
-            final N node) throws ObjectMappingException {
+    public void serialize(final TypeToken<?> type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws ObjectMappingException {
         if (!(type.getType() instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }

@@ -56,27 +56,25 @@ final class TypeSerializerCodec<V> implements Codec<V> {
      * @return A result with a pair of decoded value to the node the result was
      *          extracted from
      */
-    @SuppressWarnings({"unchecked", "rawtypes"}) // TODO: Generics yikes
     @Override
     public <T> DataResult<Pair<V, T>> decode(final DynamicOps<T> ops, final T holder) {
         final ConfigurationNode node = ops.convertTo(this.ops, holder);
         try {
-            return (DataResult) DataResult.success(Pair.of(this.serializer.deserialize(this.token, (ScopedConfigurationNode) node), holder));
+            return DataResult.success(Pair.of(this.serializer.deserialize(this.token, node), holder));
         } catch (final ObjectMappingException ex) {
             LOGGER.debug(() -> "Error decoding value of type " + this.token, ex);
             return DataResult.error(ex.getMessage());
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"}) // TODO: take the generics out of TypeSerializer
     @Override
     public <T> DataResult<T> encode(final V input, final DynamicOps<T> ops, final T container) {
         try {
-            if (container instanceof ScopedConfigurationNode<?>) {
-                this.serializer.serialize(this.token, input, (ScopedConfigurationNode) container);
+            if (container instanceof ConfigurationNode) {
+                this.serializer.serialize(this.token, input, (ConfigurationNode) container);
                 return DataResult.success(container);
             } else {
-                final ScopedConfigurationNode dest = (ScopedConfigurationNode<?>) this.ops.empty();
+                final ConfigurationNode dest = this.ops.empty();
                 this.serializer.serialize(this.token, input, dest);
                 final T result = this.ops.convertTo(ops, dest);
                 if (dest.isList()) {
