@@ -27,7 +27,6 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -75,7 +73,6 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * The current value of this node.
      */
-    @NonNull
     volatile ConfigValue<N, A> value;
 
     /**
@@ -83,7 +80,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      */
     private final Map<RepresentationHint<?>, Object> hints = new ConcurrentHashMap<>();
 
-    protected AbstractConfigurationNode(final @Nullable Object key, final @Nullable A parent, final @NonNull ConfigurationOptions options) {
+    protected AbstractConfigurationNode(final @Nullable Object key, final @Nullable A parent, final ConfigurationOptions options) {
         requireNonNull(options, "options");
         this.key = key;
         this.options = options;
@@ -111,128 +108,57 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * @param <V> the value type
      * @return the same value
      */
-    private <V> @Nullable V storeDefault(final @Nullable V defValue) {
-        if (defValue != null && getOptions().shouldCopyDefaults()) {
-            setValue(defValue);
+    static <V> V storeDefault(final ConfigurationNode node, final V defValue) {
+        requireNonNull(defValue, "defValue");
+        if (node.getOptions().shouldCopyDefaults()) {
+            node.setValue(defValue);
         }
         return defValue;
     }
 
-    private <V> @Nullable V storeDefault(final TypeToken<V> type, final @Nullable V defValue) throws ObjectMappingException {
-        if (defValue != null && getOptions().shouldCopyDefaults()) {
-            setValue(type, defValue);
+    static <V> V storeDefault(final ConfigurationNode node, final TypeToken<V> type, final V defValue) throws ObjectMappingException {
+        requireNonNull(defValue, "defValue");
+        if (node.getOptions().shouldCopyDefaults()) {
+            node.setValue(type, defValue);
         }
         return defValue;
     }
 
     @Override
-    public Object getValue(final @Nullable Object def) {
-        final @Nullable Object ret = this.value.getValue();
-        return ret == null ? storeDefault(def) : ret;
-    }
-
-    @Override
-    public Object getValue(final @NonNull Supplier<Object> defSupplier) {
-        final @Nullable Object ret = this.value.getValue();
-        return ret == null ? storeDefault(defSupplier.get()) : ret;
-    }
-
-    @Override
-    public <V> V getValue(final @NonNull Function<Object, V> transformer, final @Nullable V def) {
-        final V ret = transformer.apply(getValue());
-        return ret == null ? storeDefault(def) : ret;
-    }
-
-    @Override
-    public <V> V getValue(final @NonNull Function<Object, V> transformer, final @NonNull Supplier<V> defSupplier) {
-        final V ret = transformer.apply(getValue());
-        return ret == null ? storeDefault(defSupplier.get()) : ret;
+    public @Nullable Object getValue() {
+        return this.value.getValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <V> V getValue(final @NonNull TypeToken<V> type, final V def) throws ObjectMappingException {
+    public <V> @Nullable V getValue(final @NonNull TypeToken<V> type) throws ObjectMappingException {
         if (isEmpty()) {
-            return storeDefault(type, def);
+            return null;
         }
 
         final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
-            final Object value = getValue();
+            final @Nullable Object value = getValue();
             if (type.getRawType().isInstance(value)) {
                 return (V) type.getRawType().cast(value);
             } else {
-                return storeDefault(type, def);
+                return null;
             }
         }
         return serial.deserialize(type, self());
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <V> V getValue(final TypeToken<V> type, final Supplier<V> defSupplier) throws ObjectMappingException {
-        if (this.isEmpty()) {
-            return storeDefault(type, defSupplier.get());
-        }
-
-        final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
-        if (serial == null) {
-            final Object value = getValue();
-            if (type.getRawType().isInstance(value)) {
-                return (V) type.getRawType().cast(value);
-            } else {
-                return storeDefault(type, defSupplier.get());
-            }
-        }
-        return serial.deserialize(type, self());
-    }
-
-    @Override
-    public <V> List<V> getList(final Function<Object, V> transformer) {
-        final List<V> ret = new ArrayList<>();
-        final ConfigValue<N, A> value = this.value;
-        if (value instanceof ListConfigValue) {
-            // transform each value individually if the node is a list
-            for (A o : value.iterateChildren()) {
-                final V transformed = transformer.apply(o.getValue());
-                if (transformed != null) {
-                    ret.add(transformed);
-                }
-            }
-        } else {
-            // transfer the value as a whole
-            final V transformed = transformer.apply(value.getValue());
-            if (transformed != null) {
-                ret.add(transformed);
-            }
-        }
-
-        return Collections.unmodifiableList(ret);
-    }
-
-    @Override
-    public <V> List<V> getList(final Function<Object, V> transformer, final @Nullable List<V> def) {
-        final List<V> ret = getList(transformer);
-        return ret.isEmpty() ? storeDefault(def) : ret;
-    }
-
-    @Override
-    public <V> List<V> getList(final Function<Object, V> transformer, final Supplier<List<V>> defSupplier) {
-        final List<V> ret = getList(transformer);
-        return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
-    }
-
-    @Override
-    public <V> List<V> getList(final TypeToken<V> type, final @Nullable List<V> def) throws ObjectMappingException {
+    public <V> List<V> getList(final TypeToken<V> type, final List<V> def) throws ObjectMappingException {
         final List<V> ret = getValue(new TypeToken<List<V>>() {}
                 .where(new TypeParameter<V>() {}, type), def);
-        return ret.isEmpty() ? storeDefault(def) : ret;
+        return ret.isEmpty() ? storeDefault(this, def) : ret;
     }
 
     @Override
     public <V> List<V> getList(final TypeToken<V> type, final Supplier<List<V>> defSupplier) throws ObjectMappingException {
         final List<V> ret = getValue(new TypeToken<List<V>>(){}.where(new TypeParameter<V>(){}, type), defSupplier);
-        return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
+        return ret.isEmpty() ? storeDefault(this, defSupplier.get()) : ret;
     }
 
     @Override
@@ -459,8 +385,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return detachIfNonNull(this.value.putChild(key, null)) != null;
     }
 
-    private static <N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> @Nullable T
-        detachIfNonNull(final @Nullable T node) {
+    private static <N extends ScopedConfigurationNode<N>,
+        T extends AbstractConfigurationNode<N, T>> @Nullable T detachIfNonNull(final @Nullable T node) {
         if (node != null) {
             node.attached = false;
             node.clear();
