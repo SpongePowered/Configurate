@@ -95,8 +95,9 @@ indra {
     }
 
     configurePublications {
+        artifactId = archiveName
+
         pom {
-            artifactId = archiveName
 
             inceptionYear.set("2014")
             description.set(providers.provider { project.description })

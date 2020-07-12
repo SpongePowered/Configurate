@@ -9,7 +9,7 @@ jobs:
     # Only run on PRs if the source branch is on someone else's repo
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
 
-    runs-on: ${{ matrix.os }}
+    runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]

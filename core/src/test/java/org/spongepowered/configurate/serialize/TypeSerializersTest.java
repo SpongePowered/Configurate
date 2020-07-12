@@ -169,11 +169,14 @@ public class TypeSerializersTest {
             stringListSerializer.deserialize(stringListType.getType(), value));
         value.set(null);
 
-        stringListSerializer.serialize(stringListType.getType(), UnmodifiableCollections.toSet("hi", "there", "lame", "people"), value);
-        assertEquals("hi", value.node(0).getString());
-        assertEquals("there", value.node(1).getString());
-        assertEquals("lame", value.node(2).getString());
-        assertEquals("people", value.node(3).getString());
+        final Set<String> testSet = UnmodifiableCollections.toSet("hi", "there", "tired", "people");
+        stringListSerializer.serialize(stringListType.getType(), testSet, value);
+        final List<BasicConfigurationNode> children = value.childrenList();
+        // Test equality without expecting a specific order
+        assertEquals(testSet.size(), children.size());
+        for (BasicConfigurationNode child : children) {
+            assertTrue(testSet.contains(child.getString()));
+        }
     }
 
     @Test

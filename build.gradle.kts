@@ -34,13 +34,22 @@ nexusStaging {
 }
 
 tasks.aggregateJavadoc.configure {
+    val gradleJdk = JavaVersion.current()
+    // at least java 11, but not 12 (java 12 is broken for some reason :( )
+    if (gradleJdk < JavaVersion.VERSION_11 || gradleJdk == JavaVersion.VERSION_12) {
+        javadocTool.set(javaToolchains.javadocToolFor { this.languageVersion.set(JavaLanguageVersion.of(11)) })
+    }
+
     applyCommonAttributes()
     title = "Configurate $version (all modules)"
 
     val excludedProjects = listOf("examples").map {
         project(":$it").tasks.named("javadoc", Javadoc::class).get().classpath
     }
-    classpath = classpath.minus(files(excludedProjects))
+    exclude {
+        excludedProjects.find { coll -> coll.contains(it.file) } != null
+    }
+
     (options as? StandardJavadocDocletOptions)?.apply {
         addBooleanOption("Xdoclint:-missing", true)
         links("https://docs.oracle.com/javase/8/docs/api/")

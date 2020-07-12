@@ -19,8 +19,8 @@ package org.spongepowered.configurate;
 import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -93,7 +93,7 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
 
     @Override
     public Map<String, String> attributes() {
-        return Collections.unmodifiableMap(new LinkedHashMap<>(this.attributes));
+        return UnmodifiableCollections.copyOf(this.attributes);
     }
 
     @Override
