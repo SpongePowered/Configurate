@@ -132,7 +132,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     @Override
     @SuppressWarnings("unchecked")
     public <V> @Nullable V getValue(final @NonNull TypeToken<V> type) throws ObjectMappingException {
-        if (isEmpty()) {
+        if (isVirtual()) {
             return null;
         }
 
