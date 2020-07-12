@@ -19,7 +19,6 @@ package org.spongepowered.configurate.yaml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.reflect.TypeToken;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -38,7 +37,6 @@ import java.util.Map;
 public class YamlConfigurationLoaderTest {
 
     @Test
-    @Disabled("Requires wildcard type passthrough to resolve list")
     public void testSimpleLoading() throws IOException, ObjectMappingException {
         final URL url = getClass().getResource("/example.yml");
         final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
@@ -49,8 +47,8 @@ public class YamlConfigurationLoaderTest {
         assertEquals("dog park", node.getNode("other", "location").getValue());
 
 
-        final List<Map<String, List<?>>> fooList = new ArrayList<>(node.getNode("foo")
-            .getList(new TypeToken<Map<String, List<?>>>() {}));
+        final List<Map<String, List<String>>> fooList = new ArrayList<>(node.getNode("foo")
+            .getList(new TypeToken<Map<String, List<String>>>() {}));
         assertEquals(0, fooList.get(0).get("bar").size());
     }
 

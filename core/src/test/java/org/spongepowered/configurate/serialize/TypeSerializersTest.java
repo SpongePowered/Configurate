@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping;
+package org.spongepowered.configurate.serialize;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -32,10 +32,8 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.serialize.ConfigSerializable;
-import org.spongepowered.configurate.serialize.Scalars;
-import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.serialize.TypeSerializerCollection;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.objectmapping.Setting;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.net.MalformedURLException;

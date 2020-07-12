@@ -21,6 +21,8 @@ import com.google.common.reflect.TypeToken;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Type;
+import java.lang.reflect.WildcardType;
 import java.util.function.Predicate;
 
 /**
@@ -63,11 +65,21 @@ final class SuperTypePredicate implements Predicate<TypeToken<?>> {
     @Override
     public boolean test(final TypeToken<?> t) {
         try {
-            return (boolean) SUPERTYPE_TEST.invokeExact(this.type, t);
-        } catch (final Throwable e) {
-            e.printStackTrace();
-            return false;
+            // Test supertype
+            if ((boolean) SUPERTYPE_TEST.invokeExact(this.type, t)) {
+                return true;
+            }
+
+            // Test if we are within the upper bound of a wildcard
+            if (t.getType() instanceof WildcardType) {
+                final Type[] upperBounds = ((WildcardType) this.type).getUpperBounds();
+                if (upperBounds.length == 1) {
+                    return ((boolean) SUPERTYPE_TEST.invokeExact(this.type, TypeToken.of(upperBounds[0])));
+                }
+            }
+        } catch (final Throwable ignore) { // Oh well
         }
+        return false;
     }
 
 }
