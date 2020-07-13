@@ -94,17 +94,8 @@
         </module>
         <module name="IllegalImport">
             <property name="illegalPkgs" value="javax.annotations.*"/>
-            <property name="illegalClasses" value="com.google.common.base.Preconditions.*"/>
-            <property name="illegalClasses" value="com.google.common.base.Preconditions"/>
             <property name="regexp" value="true"/>
         </module>
-        <module name="IllegalImport"> <!-- Warn on all guava usage as we transition away -->
-            <property name="id" value="WarnGuava"/>
-            <property name="illegalPkgs" value="com.google.common.*"/>
-            <property name="regexp" value="true"/>
-            <property name="severity" value="warning"/>
-        </module>
-
         <module name="IllegalType">
             <property name="illegalClassNames" value="java.util.Optional"/>
         </module>
