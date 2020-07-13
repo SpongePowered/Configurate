@@ -21,6 +21,7 @@ import org.spongepowered.configurate.ConfigurationNodeFactory
 import org.spongepowered.configurate.ConfigurationOptions
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
+import org.spongepowered.configurate.transformation.NodePath
 
 operator fun <T : ScopedConfigurationNode<T>> T.get(path: Any): T {
     return getNode(path)
@@ -38,7 +39,7 @@ operator fun ConfigurationNode.set(vararg path: Any, value: Any?) {
  * Multi level contains
  */
 operator fun ConfigurationNode.contains(path: Array<Any>): Boolean {
-    return !getNode(*path).isVirtual()
+    return !getNode(*path).isVirtual
 }
 
 /**
@@ -47,7 +48,7 @@ operator fun ConfigurationNode.contains(path: Array<Any>): Boolean {
  * @param path a single path element
  */
 operator fun ConfigurationNode.contains(path: Any): Boolean {
-    return !getNode(path).isVirtual()
+    return !getNode(path).isVirtual
 }
 
 @Throws(ObjectMappingException::class)
@@ -67,3 +68,23 @@ inline fun <reified V> ConfigurationNode.set(value: V?) {
 
 operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options: ConfigurationOptions = defaultOptions()): N =
     createNode(options)
+
+/**
+ * Concatenate `this` with another [NodePath].
+ */
+operator fun NodePath.plus(other: NodePath): NodePath {
+    return NodePath.create(
+        Array(this.size() + other.size()) {
+            if (it < size()) {
+                this[it]
+            } else {
+                other[it - size()]
+            }
+        }
+    )
+}
+
+/**
+ * Concatenate `this` with a single child path element
+ */
+operator fun NodePath.plus(child: Any): NodePath = withAppendedChild(child)
