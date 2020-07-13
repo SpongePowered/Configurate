@@ -17,25 +17,23 @@
 package org.spongepowered.configurate.loader;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@ExtendWith(TempDirectory.class)
 public class AbstractConfigurationLoaderTest {
 
     @Test
-    public void testLoadNonexistantPath(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testLoadNonexistantPath(final @TempDir Path tempDir) throws IOException {
         final Path tempPath = tempDir.resolve("text5.txt").getRoot().resolve("does-not-exist-dont-edit-testdir");
         final TestConfigurationLoader loader = TestConfigurationLoader.builder().setPath(tempPath).build();
         loader.load();
     }
 
     @Test
-    public void testLoadNonexistantFile(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testLoadNonexistantFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = new File(tempDir.resolve("text5.txt").getRoot().toFile(), "does-not-exist-dont-edit-testdir");
         final TestConfigurationLoader loader = TestConfigurationLoader.builder().setFile(tempFile).build();
         loader.load();

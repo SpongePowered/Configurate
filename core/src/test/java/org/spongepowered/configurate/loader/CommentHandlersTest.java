@@ -22,8 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
+import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
@@ -35,7 +34,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
-@ExtendWith(TempDirectory.class)
 public class CommentHandlersTest {
 
     @Test
@@ -90,7 +88,7 @@ public class CommentHandlersTest {
      * @throws IOException not expected within test
      */
     @Test
-    public void testExtremelyLongLine(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testExtremelyLongLine(final @TempDir Path tempDir) throws IOException {
         final Path testFile = tempDir.resolve("test.json");
         try (BufferedWriter w = Files.newBufferedWriter(testFile, StandardCharsets.UTF_8)) {
             w.write("{test\": \"");

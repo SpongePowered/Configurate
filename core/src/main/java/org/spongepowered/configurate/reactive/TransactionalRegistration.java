@@ -145,7 +145,9 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
             } finally {
                 try {
                     this.lock.unlock();
-                } catch (final IllegalMonitorStateException ignored) { }
+                } catch (final IllegalMonitorStateException ignore) {
+                    // by spec, multiple calls should be a no-op
+                }
             }
         }
 
@@ -157,7 +159,9 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
             } finally {
                 try {
                     this.lock.unlock();
-                } catch (final IllegalMonitorStateException ignore) { }
+                } catch (final IllegalMonitorStateException expected) {
+                   // by spec, multiple calls should be a no-op
+                }
             }
         }
 

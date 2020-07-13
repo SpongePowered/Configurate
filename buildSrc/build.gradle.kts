@@ -9,6 +9,10 @@ repositories {
     gradlePluginPortal()
 }
 
+ktlint {
+    version.set("0.37.2")
+}
+
 dependencies {
     implementation(gradleApi())
     api("gradle.plugin.net.minecrell:licenser:0.4.1")

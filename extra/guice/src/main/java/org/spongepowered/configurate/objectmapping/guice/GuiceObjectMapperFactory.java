@@ -55,7 +55,7 @@ public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
     private final Injector injector;
 
     @Inject
-    protected GuiceObjectMapperFactory(final Injector baseInjector) {
+    GuiceObjectMapperFactory(final Injector baseInjector) {
         this.injector = baseInjector;
     }
 

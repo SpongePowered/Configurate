@@ -18,7 +18,7 @@ dependencies {
 
     // Libraries
     implementation(kotlin("stdlib-jdk8"))
-    implementation("com.github.ajalt:clikt:2.6.0")
+    implementation("com.github.ajalt:clikt:2.8.0")
     implementation("org.fusesource.jansi:jansi:1.18")
 }
 
@@ -30,8 +30,10 @@ tasks.withType<KotlinCompile> {
 tasks.jar {
     manifest {
         attributes(
-                mapOf("Specification-Version" to project.version,
-                "Implementation-Version" to project.version)
+            mapOf(
+                "Specification-Version" to project.version,
+                "Implementation-Version" to project.version
+            )
         )
     }
 }

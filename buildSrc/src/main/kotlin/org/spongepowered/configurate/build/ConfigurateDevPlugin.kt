@@ -73,9 +73,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 add("errorprone", "com.google.errorprone:error_prone_core:${Versions.ERROR_PRONE}")
 
                 // Testing
-                add("testImplementation", "org.junit.jupiter:junit-jupiter-api:5.2.0")
-                add("testImplementation", "org.junit-pioneer:junit-pioneer:0.1.2")
-                add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.2.0")
+                add("testImplementation", "org.junit.jupiter:junit-jupiter-api:5.6.2")
+                add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.6.2")
             }
 
             tasks.withType(Test::class.java).configureEach {
@@ -87,8 +86,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 it.toolVersion = "8.32"
                 it.configDirectory.set(rootProject.projectDir.resolve("etc/checkstyle"))
                 it.configProperties = mapOf(
-                        "basedir" to project.projectDir,
-                        "severity" to "error"
+                    "basedir" to project.projectDir,
+                    "severity" to "error"
                 )
             }
 

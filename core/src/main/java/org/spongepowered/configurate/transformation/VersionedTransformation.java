@@ -20,7 +20,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.NavigableMap;
 
 /**
  * Implements a number of child {@link ConfigurationTransformation}s which are only applied if required,
@@ -29,9 +29,9 @@ import java.util.SortedMap;
 class VersionedTransformation<T extends ConfigurationNode> extends ConfigurationTransformation.Versioned<T> {
 
     private final NodePath versionPath;
-    private final SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations;
+    private final NavigableMap<Integer, ConfigurationTransformation<? super T>> versionTransformations;
 
-    VersionedTransformation(final NodePath versionPath, final SortedMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
+    VersionedTransformation(final NodePath versionPath, final NavigableMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
         this.versionPath = versionPath;
         this.versionTransformations = versionTransformations;
     }

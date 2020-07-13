@@ -66,4 +66,4 @@ inline fun <reified V> ConfigurationNode.set(value: V?) {
 }
 
 operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options: ConfigurationOptions = defaultOptions()): N =
-        createNode(options)
+    createNode(options)

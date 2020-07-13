@@ -22,8 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
+import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
@@ -42,11 +41,10 @@ import java.nio.file.Path;
 /**
  * Basic sanity checks for the loader
  */
-@ExtendWith(TempDirectory.class)
 public class GsonConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
@@ -63,7 +61,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testSavingEmptyFile(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testSavingEmptyFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = tempDir.resolve("text2.txt").toFile();
         tempFile.createNewFile();
 
@@ -76,7 +74,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testLoadingEmptyFile(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testLoadingEmptyFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = tempDir.resolve("text3.txt").toFile();
         tempFile.createNewFile();
 
@@ -88,7 +86,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testLoadingFileWithEmptyObject(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testLoadingFileWithEmptyObject(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/emptyObject.json");
         final Path tempFile = tempDir.resolve("text4.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
@@ -103,7 +101,7 @@ public class GsonConfigurationLoaderTest {
     private static final long TEST_LONG_VAL = 584895858588588888L;
 
     @Test
-    public void testRoundtrippingLong(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testRoundtrippingLong(final @TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
         final BasicConfigurationNode start = loader.createNode();
@@ -115,7 +113,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testPrimitiveTypes(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testPrimitiveTypes(final @TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text6.txt");
         final GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
         final ConfigurationNode start = loader.createNode();

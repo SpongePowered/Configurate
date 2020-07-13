@@ -1,12 +1,12 @@
 package org.spongepowered.configurate.build
 
-import java.net.URI
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
+import java.net.URI
 
 typealias PublicationConfigureCb = MavenPublication.() -> Unit
 
@@ -38,8 +38,10 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                             pom.apply {
                                 artifactId = "configurate-${project.name}"
 
-                                description.set("A simple configuration library for Java applications that can handle a variety of formats and " +
-                                        "provides a node-based data structure able to handle a wide variety of configuration schemas")
+                                description.set(
+                                    "A simple configuration library for Java applications that can handle a variety of formats and " +
+                                        "provides a node-based data structure able to handle a wide variety of configuration schemas"
+                                )
                                 name.set(project.name)
                                 url.set("https://github.com/SpongePowered/configurate/")
 

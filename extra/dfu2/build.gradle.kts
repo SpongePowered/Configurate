@@ -20,7 +20,7 @@ tasks.withType(Javadoc::class) {
     val options = this.options
     if (options is StandardJavadocDocletOptions) {
         options.links(
-                "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/"
+            "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/"
         )
     }
 }

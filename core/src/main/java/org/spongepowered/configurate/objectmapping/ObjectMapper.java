@@ -259,7 +259,9 @@ public class ObjectMapper<T> {
         try {
             constructor = this.clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-        } catch (final NoSuchMethodException ignore) { }
+        } catch (final NoSuchMethodException ignore) {
+            // a constructor is optional
+        }
         this.constructor = constructor;
         AnnotatedType collectType = type;
         Class<?> collectClass = this.clazz;

@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate.kotlin
 
-import java.net.URL
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.spongepowered.configurate.AttributedConfigurationNode
 import org.spongepowered.configurate.ScopedConfigurationNode
+import java.net.URL
+import java.util.UUID
 
 class BuildersTest {
     @Test

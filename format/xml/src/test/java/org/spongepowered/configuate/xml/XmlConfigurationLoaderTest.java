@@ -23,8 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
+import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.AttributedConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.xml.XmlConfigurationLoader;
@@ -41,11 +40,10 @@ import java.util.Map;
 /**
  * Basic sanity checks for the loader
  */
-@ExtendWith(TempDirectory.class)
 public class XmlConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example.xml");
         final Path saveTest = tempDir.resolve("text1.txt");
 
@@ -93,7 +91,7 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    public void testExplicitTypes(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testExplicitTypes(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example2.xml");
         final Path saveTest = tempDir.resolve("text2.txt");
 
@@ -124,7 +122,7 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    public void testComments(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testComments(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example3.xml");
         final Path saveTest = tempDir.resolve("text3.txt");
 
@@ -147,7 +145,7 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    public void testCommentsRoundtrip(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testCommentsRoundtrip(final @TempDir Path tempDir) throws IOException {
         final URL original = getClass().getResource("/example3.xml");
         final Path destination = tempDir.resolve("test3-roundtrip.xml");
 

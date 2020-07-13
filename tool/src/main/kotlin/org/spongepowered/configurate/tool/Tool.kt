@@ -29,11 +29,6 @@ import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
-import java.io.Console
-import java.io.IOException
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.nio.file.FileSystems
 import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
 import org.spongepowered.configurate.AttributedConfigurationNode
@@ -48,6 +43,11 @@ import org.spongepowered.configurate.loader.HeaderMode
 import org.spongepowered.configurate.xml.XmlConfigurationLoader
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import org.yaml.snakeyaml.DumperOptions
+import java.io.Console
+import java.io.IOException
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
+import java.nio.file.FileSystems
 
 val HAS_UTF8 = Charset.defaultCharset() == StandardCharsets.UTF_8
 
@@ -65,11 +65,14 @@ class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
         get() = System.lineSeparator()
 
     override fun print(text: String, error: Boolean) {
-        AnsiRenderer.render(text, if (error) {
-            System.err
-        } else {
-            System.out
-        })
+        AnsiRenderer.render(
+            text,
+            if (error) {
+                System.err
+            } else {
+                System.out
+            }
+        )
     }
 
     override fun promptForLine(prompt: String, hideInput: Boolean): String? {
@@ -86,11 +89,14 @@ class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
     }
 }
 
-class Tool : CliktCommand(help = """
+class Tool : CliktCommand(
+    help =
+        """
     This tool displays the Configurate data structures read from a config file
     
-    This helps to understand how Configurate understands its data
-""".trimIndent()) {
+    This helps to understand the internal structure of Configurate's nodes
+        """.trimIndent()
+) {
     init {
         AnsiConsole.systemInstall()
         versionOption(this::class.java.`package`.implementationVersion)
@@ -185,8 +191,10 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             else -> {
                 val value = node.value
                 if (value != null) {
-                    write(heading("Value"), SPLIT,
-                            "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@", "@|black,bold (a ${value::class.qualifiedName}) |@")
+                    write(
+                        heading("Value"), SPLIT,
+                        "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@", "@|black,bold (a ${value::class.qualifiedName}) |@"
+                    )
                 } else {
                     write(heading("Value: "), SPLIT, "@|black,bold (null)|@")
                 }
@@ -204,12 +212,12 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 
     override fun createLoader(): ConfigurationLoader<AttributedConfigurationNode> {
         return XmlConfigurationLoader.builder()
-                .setPath(this.path)
-                .setHeaderMode(header)
-                .setIndent(indent)
-                .setIncludeXmlDeclaration(includeXmlDeclaration)
-                .setWriteExplicitType(writeExplicitType)
-                .build()
+            .setPath(this.path)
+            .setHeaderMode(header)
+            .setIndent(indent)
+            .setIncludeXmlDeclaration(includeXmlDeclaration)
+            .setWriteExplicitType(writeExplicitType)
+            .build()
     }
 }
 
@@ -218,11 +226,11 @@ class Yaml : FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>().default(DumperOptions.FlowStyle.AUTO)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return YamlConfigurationLoader.builder()
-                .setPath(path)
-                .setHeaderMode(header)
-                .setIndent(indent)
-                .setFlowStyle(flowStyle)
-                .build()
+            .setPath(path)
+            .setHeaderMode(header)
+            .setIndent(indent)
+            .setFlowStyle(flowStyle)
+            .build()
     }
 }
 
@@ -231,11 +239,11 @@ class Json : FormatSubcommand<BasicConfigurationNode>("JSON") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return GsonConfigurationLoader.builder()
-                .setPath(path)
-                .setHeaderMode(header)
-                .setLenient(lenient)
-                .setIndent(indent)
-                .build()
+            .setPath(path)
+            .setHeaderMode(header)
+            .setLenient(lenient)
+            .setIndent(indent)
+            .build()
     }
 }
 
@@ -243,11 +251,11 @@ class Hocon : FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return HoconConfigurationLoader.builder()
-                .setHeaderMode(header)
-                .setPath(path)
-                .build()
+            .setHeaderMode(header)
+            .setPath(path)
+            .build()
     }
 }
 
 fun main(args: Array<String>) = Tool()
-        .main(args)
+    .main(args)

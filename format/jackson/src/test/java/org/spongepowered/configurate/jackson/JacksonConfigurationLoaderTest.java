@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
+import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
@@ -39,11 +38,10 @@ import java.nio.file.Path;
 /**
  * Basic sanity checks for the loader
  */
-@ExtendWith(TempDirectory.class)
 public class JacksonConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder()
@@ -75,12 +73,12 @@ public class JacksonConfigurationLoaderTest {
     }
 
     @Test
-    public void testRoundtrippingLong(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testRoundtrippingLong(final @TempDir Path tempDir) throws IOException {
         testRoundtripValue(tempDir, TEST_LONG_VAL);
     }
 
     @Test
-    public void testRoundtripDouble(final @TempDirectory.TempDir Path tempDir) throws IOException {
+    public void testRoundtripDouble(final @TempDir Path tempDir) throws IOException {
         testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
     }
 

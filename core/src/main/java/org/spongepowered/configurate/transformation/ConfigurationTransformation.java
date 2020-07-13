@@ -20,7 +20,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 
-import java.util.SortedMap;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 
 /**
@@ -82,9 +82,9 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      */
     public static final class Builder<T extends ScopedConfigurationNode<T>> {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
-        private final SortedMap<NodePath, TransformAction<? super T>> actions;
+        private final NavigableMap<NodePath, TransformAction<? super T>> actions;
 
-        protected Builder() {
+        Builder() {
             this.actions = new TreeMap<>(new NodePathComparator());
         }
 
@@ -139,9 +139,9 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      */
     public static final class VersionedBuilder<T extends ConfigurationNode> {
         private NodePath versionKey = NodePath.path("version");
-        private final SortedMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
+        private final NavigableMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
 
-        protected VersionedBuilder() {}
+        VersionedBuilder() {}
 
         /**
          * Sets the path of the version key within the configuration.

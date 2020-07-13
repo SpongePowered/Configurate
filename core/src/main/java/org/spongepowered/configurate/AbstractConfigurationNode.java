@@ -436,7 +436,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     /**
      * The same as {@link #getParent()} - but ensuring that 'parent' is attached via
-     * {@link #attachChildIfAbsent(A)}.
+     * {@link #attachChildIfAbsent(AbstractConfigurationNode)}.
      *
      * @return The parent
      */

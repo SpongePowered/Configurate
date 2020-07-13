@@ -87,7 +87,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         }
     }
 
-    protected ConfigurateOps(final Supplier<? extends ConfigurationNode> factory) {
+    ConfigurateOps(final Supplier<? extends ConfigurationNode> factory) {
         this.factory = factory;
     }
 

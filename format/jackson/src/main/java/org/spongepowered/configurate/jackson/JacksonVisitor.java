@@ -35,7 +35,7 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
     }
 
     @Override
-    public void beginVisit(final ConfigurationNode node, final JsonGenerator state) throws IOException {
+    public void beginVisit(final ConfigurationNode node, final JsonGenerator state) {
     }
 
     @Override
@@ -84,7 +84,7 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
 
     @Override
     public void enterScalarNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
-        final Object value = node.getValue();
+        final @Nullable Object value = node.getValue();
         if (value instanceof Double) {
             generator.writeNumber((Double) value);
         } else if (value instanceof Float) {
@@ -97,6 +97,8 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
             generator.writeBoolean((Boolean) value);
         } else if (value instanceof byte[]) {
             generator.writeBinary((byte[]) value);
+        } else if (value == null) {
+            generator.writeNull();
         } else {
             generator.writeString(value.toString());
         }
