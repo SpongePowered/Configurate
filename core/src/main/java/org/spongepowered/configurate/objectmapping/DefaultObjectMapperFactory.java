@@ -23,14 +23,15 @@ import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.AnnotatedType;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * Factory for a basic {@link ObjectMapper}.
  */
 public class DefaultObjectMapperFactory implements ObjectMapperFactory {
 
+    private static final int MAXIMUM_MAPPERS_SIZE = 64;
     private static final ObjectMapperFactory INSTANCE = new DefaultObjectMapperFactory();
 
     @NonNull
@@ -38,8 +39,12 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
         return INSTANCE;
     }
 
-    // TODO: synchronization + max size
-    private final Map<AnnotatedType, ObjectMapper<?>> mappers = new WeakHashMap<>();
+    private final Map<AnnotatedType, ObjectMapper<?>> mappers = new LinkedHashMap<AnnotatedType, ObjectMapper<?>>() {
+        @Override
+        protected boolean removeEldestEntry(final Map.Entry<AnnotatedType, ObjectMapper<?>> eldest) {
+            return this.size() > MAXIMUM_MAPPERS_SIZE;
+        }
+    };
 
     @NonNull
     @Override
@@ -53,13 +58,15 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
 
         // TODO: abstract this
         try {
-            return (ObjectMapper<T>) this.mappers.computeIfAbsent(canonical, key -> {
-                try {
-                    return new ObjectMapper<>(key);
-                } catch (final ObjectMappingException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            synchronized (this.mappers) {
+                return (ObjectMapper<T>) this.mappers.computeIfAbsent(canonical, key -> {
+                    try {
+                        return new ObjectMapper<>(key);
+                    } catch (final ObjectMappingException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
         } catch (final RuntimeException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();
