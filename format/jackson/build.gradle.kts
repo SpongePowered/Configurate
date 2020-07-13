@@ -8,4 +8,5 @@ plugins {
 dependencies {
     api(core())
     api("com.fasterxml.jackson.core:jackson-core:${Versions.JACKSON}")
+    testImplementation("com.google.guava:guava:29.0-jre")
 }

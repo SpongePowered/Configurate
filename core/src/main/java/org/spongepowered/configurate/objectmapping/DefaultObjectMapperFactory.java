@@ -16,15 +16,15 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.concurrent.ExecutionException;
+import java.lang.reflect.AnnotatedType;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Factory for a basic {@link ObjectMapper}.
@@ -38,28 +38,33 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
         return INSTANCE;
     }
 
-    private final LoadingCache<TypeToken<?>, ObjectMapper<?>> mapperCache = CacheBuilder.newBuilder()
-            .weakKeys()
-            .maximumSize(500)
-            .build(new CacheLoader<TypeToken<?>, ObjectMapper<?>>() {
-                @Override
-                public ObjectMapper<?> load(final TypeToken<?> key) throws Exception {
-                    return new ObjectMapper<>(key);
-                }
-            });
+    // TODO: synchronization + max size
+    private final Map<AnnotatedType, ObjectMapper<?>> mappers = new WeakHashMap<>();
 
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public <T> ObjectMapper<T> getMapper(final @NonNull TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
+        final AnnotatedType canonical = type.getCanonicalType();
+        if (isMissingTypeParameters(canonical.getType())) {
+            throw new ObjectMappingException("Raw types are not supported!");
+        }
+
+        // TODO: abstract this
         try {
-            return (ObjectMapper<T>) this.mapperCache.get(type);
-        } catch (final ExecutionException e) {
+            return (ObjectMapper<T>) this.mappers.computeIfAbsent(canonical, key -> {
+                try {
+                    return new ObjectMapper<>(key);
+                } catch (final ObjectMappingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (final RuntimeException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();
             } else {
-                throw new ObjectMappingException(e);
+                throw e;
             }
         }
     }

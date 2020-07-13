@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -89,6 +89,27 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @return new transformation action
      */
     static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(TypeToken<V> type, Supplier<V> valueSupplier) {
+        return (path, value) -> {
+            try {
+                value.setValue(type, valueSupplier.get());
+            } catch (ObjectMappingException e) {
+                // TODO: Error handling
+            }
+            return null;
+        };
+    }
+
+    /**
+     * Create a transform action that will change the value of a node to one of
+     * the specified type.
+     *
+     * @param type Value type
+     * @param valueSupplier supplier returning a value on each call
+     * @param <V> value type
+     * @param <N> node type
+     * @return new transformation action
+     */
+    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(Class<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
             try {
                 value.setValue(type, valueSupplier.get());

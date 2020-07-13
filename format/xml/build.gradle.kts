@@ -6,4 +6,5 @@ plugins {
 
 dependencies {
     api(core())
+    testImplementation("com.google.guava:guava:29.0-jre")
 }

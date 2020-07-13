@@ -16,11 +16,13 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.GenericTypeReflector;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -42,15 +44,22 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
 
     private final TypeToken<T> type;
 
+    @SuppressWarnings("unchecked")
     protected ScalarSerializer(final TypeToken<T> type) {
-        this.type = type.wrap();
+        final Type boxed = GenericTypeReflector.box(type.getType());
+        this.type = boxed == type.getType() ? type : (TypeToken<T>) TypeToken.get(boxed);
     }
 
     protected ScalarSerializer(final Class<T> type) {
         if (type.getTypeParameters().length > 0) {
             throw new IllegalArgumentException("Provided type " + type + " has type parameters but was not provided as a TypeToken!");
         }
-        this.type = TypeToken.of(type);
+        this.type = TypeToken.get(type);
+    }
+
+    @SuppressWarnings("unchecked")
+    ScalarSerializer(final Type type) {
+        this.type = (TypeToken<T>) TypeToken.get(type);
     }
 
     /**
@@ -64,7 +73,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public final T deserialize(TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
+    public final T deserialize(Type type, final ConfigurationNode node) throws ObjectMappingException {
         ConfigurationNode deserializeFrom = node;
         if (node.isList()) {
             final List<? extends ConfigurationNode> children = node.getChildrenList();
@@ -82,7 +91,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("No value present");
         }
 
-        type = type.wrap(); // every primitive type should be boxed (cuz generics!)
+        type = GenericTypeReflector.box(type); // every primitive type should be boxed (cuz generics!)
         final @Nullable T possible = cast(value);
         if (possible != null) {
             return possible;
@@ -107,7 +116,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             return possible;
         }
 
-        return this.deserialize(this.type(), value);
+        return this.deserialize(this.type().getType(), value);
     }
 
     /**
@@ -120,10 +129,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @throws ObjectMappingException If the object could not be converted for
      *                                any reason
      */
-    public abstract T deserialize(TypeToken<?> type, Object obj) throws ObjectMappingException;
+    public abstract T deserialize(Type type, Object obj) throws ObjectMappingException;
 
     @Override
-    public final void serialize(final TypeToken<?> type, final @Nullable T obj, final ConfigurationNode node) {
+    public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
         if (obj == null) {
             node.setValue(null);
             return;
@@ -150,7 +159,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings("unchecked")
     private @Nullable T cast(final Object value) {
-        final Class<?> rawType = this.type().getRawType();
+        final Class<?> rawType = GenericTypeReflector.erase(this.type().getType());
         if (rawType.isInstance(value)) {
             return (T) value;
         }

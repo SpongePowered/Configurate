@@ -8,7 +8,6 @@ import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
 enum class Versions(val version: String) {
-    GUAVA("25.1-jre"),
     HOCON("1.4.0"),
     SNAKEYAML("1.26"),
     JACKSON("2.10.3"),
@@ -40,7 +39,6 @@ fun Javadoc.applyCommonAttributes() {
     options.encoding = "UTF-8"
     if (options is StandardJavadocDocletOptions) {
         options.links(
-                "https://guava.dev/releases/${Versions.GUAVA}/api/docs/",
                 "https://lightbend.github.io/config/latest/api/",
                 "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
                 "https://checkerframework.org/api/",

@@ -21,13 +21,14 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Injector;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.AnnotatedType;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,11 +43,11 @@ import javax.inject.Singleton;
 @Singleton
 public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
 
-    private final LoadingCache<TypeToken<?>, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
+    private final LoadingCache<AnnotatedType, ObjectMapper<?>> cache = CacheBuilder.newBuilder()
             .weakKeys().maximumSize(512)
-            .build(new CacheLoader<TypeToken<?>, ObjectMapper<?>>() {
+            .build(new CacheLoader<AnnotatedType, ObjectMapper<?>>() {
                 @Override
-                public ObjectMapper<?> load(final TypeToken<?> key) throws Exception {
+                public ObjectMapper<?> load(final AnnotatedType key) throws Exception {
                     return new GuiceObjectMapper<>(GuiceObjectMapperFactory.this.injector, key);
                 }
             });
@@ -64,7 +65,7 @@ public final class GuiceObjectMapperFactory implements ObjectMapperFactory {
     public <T> ObjectMapper<T> getMapper(final @NonNull TypeToken<T> type) throws ObjectMappingException {
         requireNonNull(type, "type");
         try {
-            return (ObjectMapper<T>) this.cache.get(type);
+            return (ObjectMapper<T>) this.cache.get(type.getAnnotatedType());
         } catch (final ExecutionException e) {
             if (e.getCause() instanceof ObjectMappingException) {
                 throw (ObjectMappingException) e.getCause();

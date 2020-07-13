@@ -16,16 +16,17 @@
  */
 package org.spongepowered.configurate;
 
+import static io.leangen.geantyref.GenericTypeReflector.erase;
+import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeParameter;
-import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
+import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 /**
  * Simple implementation of {@link ConfigurationNode}.
@@ -82,6 +82,10 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     protected AbstractConfigurationNode(final @Nullable Object key, final @Nullable A parent, final ConfigurationOptions options) {
         requireNonNull(options, "options");
+        if ((key == null) != (parent == null)) {
+            throw new IllegalArgumentException("A node's key and parent must share the same nullability status");
+        }
+
         this.key = key;
         this.options = options;
         this.parent = parent;
@@ -116,7 +120,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return defValue;
     }
 
-    static <V> V storeDefault(final ConfigurationNode node, final TypeToken<V> type, final V defValue) throws ObjectMappingException {
+    static <V> V storeDefault(final ConfigurationNode node, final Type type, final V defValue) throws ObjectMappingException {
         requireNonNull(defValue, "defValue");
         if (node.getOptions().shouldCopyDefaults()) {
             node.setValue(type, defValue);
@@ -130,35 +134,27 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <V> @Nullable V getValue(final @NonNull TypeToken<V> type) throws ObjectMappingException {
+    public @Nullable Object getValue(final Type type) throws ObjectMappingException {
+        requireNonNull(type, "type");
+        if (isMissingTypeParameters(type)) {
+            throw new IllegalArgumentException("Raw types are not supported");
+        }
+
         if (isVirtual()) {
             return null;
         }
 
-        final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
+        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
             final @Nullable Object value = getValue();
-            if (type.getRawType().isInstance(value)) {
-                return (V) type.getRawType().cast(value);
+            final Class<?> erasure = erase(type);
+            if (erasure.isInstance(value)) {
+                return value;
             } else {
                 return null;
             }
         }
         return serial.deserialize(type, self());
-    }
-
-    @Override
-    public <V> List<V> getList(final TypeToken<V> type, final List<V> def) throws ObjectMappingException {
-        final List<V> ret = getValue(new TypeToken<List<V>>() {}
-                .where(new TypeParameter<V>() {}, type), def);
-        return ret.isEmpty() ? storeDefault(this, def) : ret;
-    }
-
-    @Override
-    public <V> List<V> getList(final TypeToken<V> type, final Supplier<List<V>> defSupplier) throws ObjectMappingException {
-        final List<V> ret = getValue(new TypeToken<List<V>>(){}.where(new TypeParameter<V>(){}, type), defSupplier);
-        return ret.isEmpty() ? storeDefault(this, defSupplier.get()) : ret;
     }
 
     @Override

@@ -16,11 +16,14 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
+import static io.leangen.geantyref.GenericTypeReflector.erase;
+
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.EnumLookup;
 
+import java.lang.reflect.Type;
 import java.util.function.Predicate;
 
 final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
@@ -30,10 +33,10 @@ final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
     }
 
     @Override
-    public Enum<?> deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
+    public Enum<?> deserialize(final Type type, final Object obj) throws ObjectMappingException {
         final String enumConstant = obj.toString();
         @SuppressWarnings("unchecked")
-        final @Nullable Enum<?> ret = EnumLookup.lookupEnum(type.getRawType().asSubclass(Enum.class), enumConstant);
+        final @Nullable Enum<?> ret = EnumLookup.lookupEnum(erase(type).asSubclass(Enum.class), enumConstant);
         if (ret == null) {
             throw new ObjectMappingException("Invalid enum constant provided, expected a value of enum " + type + ", but got " + enumConstant);
         }

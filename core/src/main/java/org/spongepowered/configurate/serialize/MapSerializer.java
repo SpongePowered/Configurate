@@ -18,13 +18,14 @@ package org.spongepowered.configurate.serialize;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -36,14 +37,18 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 
     @Override
-    public Map<?, ?> deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
+    public Map<?, ?> deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
         final Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
-            if (!(type.getType() instanceof ParameterizedType)) {
+            if (!(type instanceof ParameterizedType)) {
                 throw new ObjectMappingException("Raw types are not supported for collections");
             }
-            final TypeToken<?> key = type.resolveType(Map.class.getTypeParameters()[0]);
-            final TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
+            final ParameterizedType param = (ParameterizedType) type;
+            if (param.getActualTypeArguments().length != 2) {
+                throw new ObjectMappingException("Map expected two type arguments!");
+            }
+            final Type key = param.getActualTypeArguments()[0];
+            final Type value = param.getActualTypeArguments()[1];
             final @Nullable TypeSerializer<?> keySerial = node.getOptions().getSerializers().get(key);
             final @Nullable TypeSerializer<?> valueSerial = node.getOptions().getSerializers().get(value);
 
@@ -67,12 +72,16 @@ class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void serialize(final TypeToken<?> type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws ObjectMappingException {
-        if (!(type.getType() instanceof ParameterizedType)) {
+    public void serialize(final Type type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws ObjectMappingException {
+        if (!(type instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }
-        final TypeToken<?> key = type.resolveType(Map.class.getTypeParameters()[0]);
-        final TypeToken<?> value = type.resolveType(Map.class.getTypeParameters()[1]);
+        final ParameterizedType param = (ParameterizedType) type;
+        if (param.getActualTypeArguments().length != 2) {
+            throw new ObjectMappingException("Map expected two type arguments!");
+        }
+        final Type key = param.getActualTypeArguments()[0];
+        final Type value = param.getActualTypeArguments()[1];
         final @Nullable TypeSerializer keySerial = node.getOptions().getSerializers().get(key);
         final @Nullable TypeSerializer valueSerial = node.getOptions().getSerializers().get(value);
 

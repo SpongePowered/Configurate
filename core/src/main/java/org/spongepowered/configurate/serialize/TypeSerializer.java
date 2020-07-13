@@ -16,12 +16,12 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
+import java.lang.reflect.Type;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -40,12 +40,12 @@ public interface TypeSerializer<T> {
      *
      * @param type The type of value returned by the serializer
      * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
-     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(TypeToken, Object)}
+     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
      * @param <T> The type of value to deserialize
      * @return A new and unregistered type serializer
      */
-    static <T> ScalarSerializer<T> of(TypeToken<T> type,
-            BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, ObjectMappingException> deserializer) {
+    static <T> ScalarSerializer<T> of(Type type, BiFunction<T, Predicate<Class<?>>, Object> serializer,
+                                      CheckedFunction<Object, T, ObjectMappingException> deserializer) {
         return new FunctionScalarSerializer<>(type, deserializer, serializer);
     }
 
@@ -57,9 +57,9 @@ public interface TypeSerializer<T> {
      *
      * @param type The type of value. Must not be a parameterized type
      * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
-     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(TypeToken, Object)}
+     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
      * @param <T> The type of value to deserialize
-     * @see #of(TypeToken, BiFunction, CheckedFunction) for the version of this
+     * @see #of(Type, BiFunction, CheckedFunction) for the version of this
      *      function that takes a parameterized type
      * @return A new and unregistered type serializer
      */
@@ -69,7 +69,7 @@ public interface TypeSerializer<T> {
             throw new IllegalArgumentException("Parameterized types must be specified using TypeTokens, not raw classes");
         }
 
-        return new FunctionScalarSerializer<>(TypeToken.of(type), deserializer, serializer);
+        return new FunctionScalarSerializer<T>(type, deserializer, serializer);
     }
 
     /**
@@ -81,7 +81,7 @@ public interface TypeSerializer<T> {
      * @return An object
      * @throws ObjectMappingException If the presented data is invalid
      */
-    T deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException;
+    T deserialize(Type type, ConfigurationNode node) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.
@@ -91,6 +91,6 @@ public interface TypeSerializer<T> {
      * @param node The node to write to
      * @throws ObjectMappingException If the object cannot be serialized
      */
-    void serialize(TypeToken<?> type, @Nullable T obj, ConfigurationNode node) throws ObjectMappingException;
+    void serialize(Type type, @Nullable T obj, ConfigurationNode node) throws ObjectMappingException;
 
 }

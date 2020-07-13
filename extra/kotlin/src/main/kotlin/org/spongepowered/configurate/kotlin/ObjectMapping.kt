@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.kotlin
 
-import com.google.common.reflect.TypeToken
+import io.leangen.geantyref.TypeToken
 import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.objectmapping.ObjectMapperFactory
 import org.spongepowered.configurate.serialize.TypeSerializer

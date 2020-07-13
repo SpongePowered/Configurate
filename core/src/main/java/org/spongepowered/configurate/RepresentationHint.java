@@ -17,7 +17,7 @@
 package org.spongepowered.configurate;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -35,7 +35,7 @@ public abstract class RepresentationHint<V> {
     public static final RepresentationHint<Integer> INDENT = of("indent", Integer.class);
 
     public static <V> RepresentationHint<V> of(final String identifier, final Class<V> valueType) {
-        return new AutoValue_RepresentationHint<>(identifier, TypeToken.of(valueType), null);
+        return new AutoValue_RepresentationHint<>(identifier, TypeToken.get(valueType), null);
     }
 
     public static <V> RepresentationHint<V> of(final String identifier, final TypeToken<V> valueType) {
@@ -43,7 +43,7 @@ public abstract class RepresentationHint<V> {
     }
 
     public static <V> RepresentationHint<V> of(final String identifier, final Class<V> valueType, final V defaultValue) {
-        return new AutoValue_RepresentationHint<>(identifier, TypeToken.of(valueType), defaultValue);
+        return new AutoValue_RepresentationHint<>(identifier, TypeToken.get(valueType), defaultValue);
     }
 
     public static <V> RepresentationHint<V> of(final String identifier, final TypeToken<V> valueType, final V defaultValue) {

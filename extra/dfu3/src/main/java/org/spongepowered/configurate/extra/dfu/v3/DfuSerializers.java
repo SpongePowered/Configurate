@@ -18,9 +18,9 @@ package org.spongepowered.configurate.extra.dfu.v3;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeToken;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Lifecycle;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;

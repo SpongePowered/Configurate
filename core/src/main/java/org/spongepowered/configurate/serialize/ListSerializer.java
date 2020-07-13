@@ -16,11 +16,12 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,15 +30,15 @@ class ListSerializer extends AbstractListChildSerializer<List<?>> {
     static final TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 
     @Override
-    TypeToken<?> getElementType(final TypeToken<?> containerType) throws ObjectMappingException {
-        if (!(containerType.getType() instanceof ParameterizedType)) {
+    Type getElementType(final Type containerType) throws ObjectMappingException {
+        if (!(containerType instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }
-        return containerType.resolveType(List.class.getTypeParameters()[0]);
+        return ((ParameterizedType) containerType).getActualTypeArguments()[0];
     }
 
     @Override
-    List<?> createNew(final int length, final TypeToken<?> elementType) {
+    List<?> createNew(final int length, final Type elementType) {
         return new ArrayList<>(length);
     }
 

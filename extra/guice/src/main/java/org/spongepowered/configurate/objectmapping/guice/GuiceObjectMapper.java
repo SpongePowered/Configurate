@@ -16,13 +16,14 @@
  */
 package org.spongepowered.configurate.objectmapping.guice;
 
-import com.google.common.reflect.TypeToken;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+
+import java.lang.reflect.AnnotatedType;
 
 /**
  * This subclass creates new object instances using a provided {@link Injector}.
@@ -39,15 +40,15 @@ class GuiceObjectMapper<T> extends ObjectMapper<T> {
     /**
      * Create a new object mapper of a given type.
      *
-     * @param clazz The type this object mapper will work with
+     * @param type The type this object mapper will work with
      * @throws ObjectMappingException if the provided class is in
      *         some way invalid
      */
     @SuppressWarnings("unchecked") // for typeKey
-    protected GuiceObjectMapper(final @NonNull Injector injector, final @NonNull TypeToken<T> clazz) throws ObjectMappingException {
-        super(clazz);
+    protected GuiceObjectMapper(final @NonNull Injector injector, final @NonNull AnnotatedType type) throws ObjectMappingException {
+        super(type);
         this.injector = injector;
-        this.typeKey = (Key<T>) Key.get(clazz.getType()); // Converting between flavours of type
+        this.typeKey = (Key<T>) Key.get(type.getType()); // Converting between flavours of type
     }
 
     @Override

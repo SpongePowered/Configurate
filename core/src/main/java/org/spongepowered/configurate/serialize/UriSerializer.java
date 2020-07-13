@@ -16,9 +16,9 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.Predicate;
@@ -30,7 +30,7 @@ final class UriSerializer extends ScalarSerializer<URI> {
     }
 
     @Override
-    public URI deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
+    public URI deserialize(final Type type, final Object obj) throws ObjectMappingException {
         final String plainUri = obj.toString();
         try {
             return new URI(plainUri);

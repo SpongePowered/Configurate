@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
-import com.google.common.reflect.TypeToken;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import org.junit.jupiter.api.Test;
@@ -151,7 +150,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     static class OuterConfig {
-        static TypeToken<OuterConfig> TYPE = TypeToken.of(OuterConfig.class);
+        static Class<OuterConfig> TYPE = OuterConfig.class;
         @Setting
         private Section section = new Section();
     }
@@ -173,7 +172,7 @@ public class HoconConfigurationLoaderTest {
                 .setUrl(rsrc).build();
 
         final CommentedConfigurationNode source = loader.createNode();
-        ObjectMapper.forType(OuterConfig.TYPE).bindToNew().populate(source);
+        ObjectMapper.forClass(OuterConfig.TYPE).bindToNew().populate(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }

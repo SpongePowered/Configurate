@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.reference;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -64,16 +64,16 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
 
     ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final Class<T> type,
                        final @Nullable T def) throws ObjectMappingException {
-        this(root, path, TypeToken.of(type), def);
+        this(root, path, TypeToken.get(type), def);
     }
 
     private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws ObjectMappingException {
         final N node = parent.getNode(this.path);
-        final @Nullable T possible = this.serializer.deserialize(this.type, node);
+        final @Nullable T possible = this.serializer.deserialize(this.type.getType(), node);
         if (possible != null) {
             return possible;
         } else if (defaultVal != null && node.getOptions().shouldCopyDefaults()) {
-            this.serializer.serialize(this.type, defaultVal, node);
+            this.serializer.serialize(this.type.getType(), defaultVal, node);
         }
         return defaultVal;
     }
@@ -86,7 +86,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     @Override
     public boolean set(final @Nullable T value) {
         try {
-            this.serializer.serialize(this.type, value, getNode());
+            this.serializer.serialize(this.type.getType(), value, getNode());
             this.deserialized.submit(value);
             return true;
         } catch (final ObjectMappingException e) {
@@ -111,7 +111,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     @Override
     public Publisher<Boolean> setAndSaveAsync(final @Nullable T value) {
         return Publisher.execute(() -> {
-            this.serializer.serialize(this.type, value, getNode());
+            this.serializer.serialize(this.type.getType(), value, getNode());
             this.deserialized.submit(value);
             this.root.save();
             return true;
@@ -133,7 +133,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         return Publisher.execute(() -> {
             final @Nullable T orig = get();
             final T updated = action.apply(orig);
-            this.serializer.serialize(this.type, updated, getNode());
+            this.serializer.serialize(this.type.getType(), updated, getNode());
             this.deserialized.submit(updated);
             this.root.save();
             return true;

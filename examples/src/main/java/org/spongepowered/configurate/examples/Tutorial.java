@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.examples;
 
-import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -52,7 +51,7 @@ public final class Tutorial {
 
         final @Nullable String name = root.getNode("name").getString();
         final int count = countNode.getInt(Integer.MIN_VALUE);
-        final @Nullable Mood mood = moodNode.getValue(Mood.TYPE);
+        final @Nullable Mood mood = moodNode.getValue(Mood.class);
 
         if (name == null || count == Integer.MIN_VALUE || mood == null) {
             System.err.println("Invalid configuration");
@@ -66,7 +65,7 @@ public final class Tutorial {
 
         // Update values
         countNode.setValue(0); // native type
-        moodNode.setValue(Mood.TYPE, Mood.NEUTRAL); // serialized type
+        moodNode.setValue(Mood.class, Mood.NEUTRAL); // serialized type
 
         root.getNode("accesses").act(n -> {
             n.setCommentIfAbsent("The times messages have been accessed, in milliseconds since the epoch");
@@ -89,8 +88,6 @@ public final class Tutorial {
     enum Mood {
 
         HAPPY, SAD, CONFUSED, NEUTRAL;
-
-        public static final TypeToken<Mood> TYPE = TypeToken.of(Mood.class); // Keep track of our generic type, to avoid reinitialization
 
     }
 

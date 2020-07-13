@@ -16,10 +16,12 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static io.leangen.geantyref.GenericTypeReflector.erase;
+import static io.leangen.geantyref.GenericTypeReflector.getExactSuperType;
+import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.Invokable;
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
@@ -27,8 +29,11 @@ import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.serialize.ConfigSerializable;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -43,10 +48,10 @@ import java.util.Map;
  */
 public class ObjectMapper<T> {
 
-    private final TypeToken<T> type;
-    private final Class<? super T> clazz;
+    private final AnnotatedType type;
+    private final Class<?> clazz;
     @Nullable
-    private final Invokable<T, T> constructor;
+    private final Constructor<?> constructor;
     private final Map<String, FieldData> cachedFields = new LinkedHashMap<>();
 
     /**
@@ -123,22 +128,22 @@ public class ObjectMapper<T> {
      */
     protected static class FieldData {
         private final Field field;
-        private final TypeToken<?> fieldType;
+        private final AnnotatedType fieldType;
         private final @Nullable String comment;
 
-        public FieldData(final Field field, final @Nullable String comment, final TypeToken<?> resolvedFieldType) {
+        public FieldData(final Field field, final @Nullable String comment, final AnnotatedType resolvedFieldType) {
             this.field = field;
             this.comment = comment;
             this.fieldType = resolvedFieldType;
         }
 
         public <N extends ScopedConfigurationNode<N>> void deserializeFrom(final Object instance, final N node) throws ObjectMappingException {
-            final @Nullable TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType);
+            final @Nullable TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType.getType());
             if (serial == null) {
                 throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName() + " of type "
                         + this.fieldType);
             }
-            final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType, node);
+            final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType.getType(), node);
             try {
                 if (newVal == null && node.getOptions().shouldCopyDefaults()) {
                     final Object existingVal = this.field.get(instance);
@@ -160,11 +165,11 @@ public class ObjectMapper<T> {
                 if (fieldVal == null) {
                     node.setValue(null);
                 } else {
-                    final @Nullable TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType);
+                    final @Nullable TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType.getType());
                     if (serial == null) {
                         throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName() + " of type " + this.fieldType);
                     }
-                    serial.serialize(this.fieldType, fieldVal, node);
+                    serial.serialize(this.fieldType.getType(), fieldVal, node);
                 }
 
                 if (node instanceof CommentedConfigurationNodeIntermediary<?> && this.comment != null && !this.comment.isEmpty()) {
@@ -243,33 +248,33 @@ public class ObjectMapper<T> {
      *                                the class
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected ObjectMapper(final TypeToken<T> type) throws ObjectMappingException {
+    protected ObjectMapper(final AnnotatedType type) throws ObjectMappingException {
         this.type = type;
-        this.clazz = type.getRawType();
+        this.clazz = erase(type.getType());
         if (this.clazz.isInterface()) {
             throw new ObjectMappingException("ObjectMapper can only work with concrete types");
         }
 
-        @Nullable Invokable<T, T> constructor = null;
+        @Nullable Constructor<?> constructor = null;
         try {
-            constructor = type.constructor(type.getRawType().getDeclaredConstructor());
+            constructor = this.clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
         } catch (final NoSuchMethodException ignore) { }
         this.constructor = constructor;
-        TypeToken<? super T> collectType = type;
-        Class<? super T> collectClass = type.getRawType();
+        AnnotatedType collectType = type;
+        Class<?> collectClass = this.clazz;
         while (true) {
             collectFields(this.cachedFields, collectType);
             collectClass = collectClass.getSuperclass();
             if (collectClass.equals(Object.class)) {
                 break;
             }
-            collectType = collectType.getSupertype((Class) collectClass);
+            collectType = getExactSuperType(collectType, collectClass);
         }
     }
 
-    protected void collectFields(final Map<String, FieldData> cachedFields, final TypeToken<? super T> clazz) throws ObjectMappingException {
-        for (Field field : clazz.getRawType().getDeclaredFields()) {
+    protected void collectFields(final Map<String, FieldData> cachedFields, final AnnotatedType clazz) throws ObjectMappingException {
+        for (Field field : erase(clazz.getType()).getDeclaredFields()) {
             if (field.isAnnotationPresent(Setting.class)) {
                 final Setting setting = field.getAnnotation(Setting.class);
                 String path = setting.value();
@@ -277,7 +282,7 @@ public class ObjectMapper<T> {
                     path = field.getName();
                 }
 
-                final TypeToken<?> fieldType = clazz.resolveType(field.getGenericType());
+                final AnnotatedType fieldType = getFieldType(field, clazz);
                 final FieldData data = new FieldData(field, setting.comment(), fieldType);
                 field.setAccessible(true);
                 if (!cachedFields.containsKey(path)) {
@@ -301,8 +306,8 @@ public class ObjectMapper<T> {
                     + this.type + " but one is required to construct new instances!");
         }
         try {
-            return this.constructor.invoke(null);
-        } catch (final IllegalAccessException | InvocationTargetException e) {
+            return (T) this.constructor.newInstance();
+        } catch (final IllegalAccessException | InvocationTargetException | InstantiationException e) {
             throw new ObjectMappingException("Unable to create instance of target class " + this.type, e);
         }
     }
@@ -340,8 +345,8 @@ public class ObjectMapper<T> {
         return new BoundInstance(constructObject());
     }
 
-    public TypeToken<T> getMappedType() {
-        return this.type;
+    public Type getType() {
+        return this.type.getType();
     }
 
 }

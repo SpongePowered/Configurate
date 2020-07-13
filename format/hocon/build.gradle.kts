@@ -8,4 +8,5 @@ plugins {
 dependencies {
     api(core())
     api("com.typesafe:config:${Versions.HOCON}")
+    testImplementation("com.google.guava:guava:29.0-jre")
 }

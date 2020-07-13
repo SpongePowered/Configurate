@@ -16,10 +16,11 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+
+import java.lang.reflect.Type;
 
 /**
  * A TypeSerializer to directly access a {@link ConfigurationNode}. This allows
@@ -30,15 +31,15 @@ import org.spongepowered.configurate.ConfigurationNode;
  */
 class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
 
-    static final TypeToken<ConfigurationNode> TYPE = TypeToken.of(ConfigurationNode.class);
+    static final Class<ConfigurationNode> TYPE = ConfigurationNode.class;
 
     @Override
-    public ConfigurationNode deserialize(final @NonNull TypeToken<?> type, final @NonNull ConfigurationNode node) {
+    public ConfigurationNode deserialize(final @NonNull Type type, final @NonNull ConfigurationNode node) {
         return node.copy();
     }
 
     @Override
-    public void serialize(final @NonNull TypeToken<?> type, final @Nullable ConfigurationNode obj, final @NonNull ConfigurationNode node) {
+    public void serialize(final @NonNull Type type, final @Nullable ConfigurationNode obj, final @NonNull ConfigurationNode node) {
         node.setValue(obj);
     }
 

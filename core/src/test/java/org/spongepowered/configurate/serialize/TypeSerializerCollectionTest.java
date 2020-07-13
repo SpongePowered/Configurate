@@ -18,7 +18,7 @@ package org.spongepowered.configurate.serialize;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -34,13 +34,12 @@ public class TypeSerializerCollectionTest {
     @Test
     public void testResolveWildcard() throws ObjectMappingException {
         final ConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-            .withSerializers(b -> b.register(TypeToken.of(Object.class), new PassthroughSerializer())), n -> {
+            .withSerializers(b -> b.register(Object.class, new PassthroughSerializer())), n -> {
                 n.appendListNode().setValue("a string");
                 n.appendListNode().setValue(14);
             });
 
-        final @Nullable List<?> value = node.getValue(new TypeToken<List<?>>() {
-        });
+        final @Nullable List<?> value = node.getValue(new TypeToken<List<?>>() {});
         assertEquals(Arrays.asList("a string", 14), value);
     }
 

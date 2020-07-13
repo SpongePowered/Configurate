@@ -16,7 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
+import static io.leangen.geantyref.GenericTypeReflector.erase;
+
+import io.leangen.geantyref.GenericTypeReflector;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -24,36 +27,37 @@ import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.function.Predicate;
 
 class AnnotatedObjectSerializer implements TypeSerializer<Object> {
 
     public static final String CLASS_KEY = "__class__";
 
-    static Predicate<TypeToken<Object>> predicate() {
-        return it -> it.getRawType().isAnnotationPresent(ConfigSerializable.class);
+    static Predicate<Type> predicate() {
+        return it -> GenericTypeReflector.annotate(it).isAnnotationPresent(ConfigSerializable.class);
     }
 
     @Override
-    public Object deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
-        final TypeToken<?> clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
+    public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+        final Type clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
         // TODO: reconsider usage of ScopedConfigurationNode in ObjectMapper
-        return node.getOptions().getObjectMapperFactory().getMapper(clazz).bindToNew().populate((ScopedConfigurationNode) node);
+        return node.getOptions().getObjectMapperFactory().getMapper(TypeToken.get(clazz)).bindToNew().populate((ScopedConfigurationNode) node);
     }
 
-    private TypeToken<?> getInstantiableType(final TypeToken<?> type, final @Nullable String configuredName) throws ObjectMappingException {
-        final TypeToken<?> retClass;
-        final Class<?> rawType = type.getRawType();
+    private Type getInstantiableType(final Type type, final @Nullable String configuredName) throws ObjectMappingException {
+        final Type retClass;
+        final Class<?> rawType = erase(type);
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             if (configuredName == null) {
                 throw new ObjectMappingException("No available configured type for instances of " + type);
             } else {
                 try {
-                    retClass = TypeToken.of(Class.forName(configuredName));
+                    retClass = Class.forName(configuredName);
                 } catch (final ClassNotFoundException e) {
                     throw new ObjectMappingException("Unknown class of object " + configuredName, e);
                 }
-                if (!retClass.isSubtypeOf(type)) {
+                if (!GenericTypeReflector.isSuperType(type, retClass)) {
                     throw new ObjectMappingException("Configured type " + configuredName + " does not extend "
                             + rawType.getCanonicalName());
                 }
@@ -66,7 +70,7 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void serialize(final TypeToken<?> type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
         if (obj == null) {
             final ConfigurationNode clazz = node.getNode(CLASS_KEY);
             node.setValue(null);
@@ -75,14 +79,14 @@ class AnnotatedObjectSerializer implements TypeSerializer<Object> {
             }
             return;
         }
-        final Class<?> rawType = type.getRawType();
+        final Class<?> rawType = erase(type);
         final ObjectMapper<?> mapper;
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             // serialize obj's concrete type rather than the interface/abstract class
             node.getNode(CLASS_KEY).setValue(obj.getClass().getName());
             mapper = node.getOptions().getObjectMapperFactory().getMapper(obj.getClass());
         } else {
-            mapper = node.getOptions().getObjectMapperFactory().getMapper(type);
+            mapper = node.getOptions().getObjectMapperFactory().getMapper(TypeToken.get(type));
         }
         ((ObjectMapper<Object>) mapper).bind(obj).serialize((ScopedConfigurationNode) node);
     }

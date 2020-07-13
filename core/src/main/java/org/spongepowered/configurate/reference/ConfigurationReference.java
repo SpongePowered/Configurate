@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.reference;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -158,10 +158,31 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
     }
 
     /**
-     * Set the value of the node at {@code path} to the given value, using the
-     * appropriate {@link org.spongepowered.configurate.serialize.TypeSerializer}
-     * to serialize the data if it's not directly supported by the
-     * provided configuration.
+     * Set the value of the node at {@code path} to the given value.
+     *
+     * <p>This uses the appropriate
+     * {@link org.spongepowered.configurate.serialize.TypeSerializer} to
+     * serialize the data if it's not directly supported by the
+     * provided configuration.</p>
+     *
+     * @param path  The path to set the value at
+     * @param type  The type of data to serialize
+     * @param value The value to set
+     * @param <T>   The type parameter for the value
+     * @throws IllegalArgumentException if a raw type is provided
+     * @throws ObjectMappingException If thrown by the serialization mechanism
+     */
+    default <T> void set(Object[] path, Class<T> type, @Nullable T value) throws ObjectMappingException {
+        getNode().getNode(path).setValue(type, value);
+    }
+
+    /**
+     * Set the value of the node at {@code path} to the given value.
+     *
+     * <p>This uses the appropriate
+     * {@link org.spongepowered.configurate.serialize.TypeSerializer} to
+     * serialize the data if it's not directly supported by the
+     * provided configuration.</p>
      *
      * @param path  The path to set the value at
      * @param type  The type of data to serialize
@@ -185,10 +206,30 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
     }
 
     /**
-     * Set the value of the node at {@code path} to the given value, using the
-     * appropriate {@link org.spongepowered.configurate.serialize.TypeSerializer}
-     * to serialize the data if it's not directly supported by the
-     * provided configuration.
+     * Set the value of the node at {@code path} to the given value.
+     *
+     * <p>This uses the appropriate
+     * {@link org.spongepowered.configurate.serialize.TypeSerializer} to
+     * serialize the data if it's not directly supported by the
+     * provided configuration.</p>
+     *
+     * @param path The path to set the value at
+     * @param type The type of data to serialize
+     * @param value The value to set
+     * @param <T> The type parameter for the value
+     * @throws ObjectMappingException If thrown by the serialization mechanism
+     */
+    default <T> void set(NodePath path, Class<T> type, @Nullable T value) throws ObjectMappingException {
+        getNode().getNode(path).setValue(type, value);
+    }
+
+    /**
+     * Set the value of the node at {@code path} to the given value.
+     *
+     * <p>This uses the appropriate
+     * {@link org.spongepowered.configurate.serialize.TypeSerializer} to
+     * serialize the data if it's not directly supported by the
+     * provided configuration.</p>
      *
      * @param path The path to set the value at
      * @param type The type of data to serialize
@@ -275,7 +316,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
     default <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path) throws ObjectMappingException {
         return referenceTo(type, path, null);
     }
-    
+
     /**
      * Create a reference to the node at the provided path. The value will be
      * deserialized according to the provided {@link TypeToken}.

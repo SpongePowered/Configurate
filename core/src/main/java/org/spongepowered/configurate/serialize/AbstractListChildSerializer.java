@@ -16,12 +16,12 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,8 +34,8 @@ import java.util.List;
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @Override
-    public T deserialize(final TypeToken<?> type, final ConfigurationNode node) throws ObjectMappingException {
-        final TypeToken<?> entryType = getElementType(type);
+    public T deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+        final Type entryType = getElementType(type);
         final @Nullable TypeSerializer<?> entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
@@ -61,8 +61,8 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void serialize(final TypeToken<?> type, final @Nullable T obj, final ConfigurationNode node) throws ObjectMappingException {
-        final TypeToken<?> entryType = getElementType(type);
+    public void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) throws ObjectMappingException {
+        final Type entryType = getElementType(type);
         final @Nullable TypeSerializer entrySerial = node.getOptions().getSerializers().get(entryType);
         if (entrySerial == null) {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
@@ -83,7 +83,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * @return The element type
      * @throws ObjectMappingException If the element type could not be detected
      */
-    abstract TypeToken<?> getElementType(TypeToken<?> containerType) throws ObjectMappingException;
+    abstract Type getElementType(Type containerType) throws ObjectMappingException;
 
     /**
      * Create a new instance of the collection. The returned instance must be
@@ -91,12 +91,12 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      *
      * @param length The necessary collection length
      * @param elementType The type of element contained within the collection,
-     *                    as provided by {@link #getElementType(TypeToken)}
+     *                    as provided by {@link #getElementType(Type)}
      * @return A newly created collection
      * @throws ObjectMappingException When an error occurs during the creation
      *                                of the collection
      */
-    abstract T createNew(int length, TypeToken<?> elementType) throws ObjectMappingException;
+    abstract T createNew(int length, Type elementType) throws ObjectMappingException;
 
     /**
      * Perform the provided action on each element of the provided collection.

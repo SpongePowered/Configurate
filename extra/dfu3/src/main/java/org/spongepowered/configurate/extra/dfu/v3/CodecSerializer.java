@@ -18,7 +18,6 @@ package org.spongepowered.configurate.extra.dfu.v3;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeToken;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -31,6 +30,8 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
+
+import java.lang.reflect.Type;
 
 /**
  * TypeSerializer implementation wrapping around codecs.
@@ -58,7 +59,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public V deserialize(@NonNull final TypeToken<?> type, @NonNull final ConfigurationNode value) throws ObjectMappingException {
+    public V deserialize(@NonNull final Type type, @NonNull final ConfigurationNode value) throws ObjectMappingException {
         final DataResult<Pair<V, ConfigurationNode>> result = this.codec.decode(opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<Pair<V, ConfigurationNode>> error = result.error().orElse(null);
         if (error != null) {
@@ -69,7 +70,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public void serialize(@NonNull final TypeToken<?> type, @Nullable final V obj, @NonNull final ConfigurationNode value)
+    public void serialize(@NonNull final Type type, @Nullable final V obj, @NonNull final ConfigurationNode value)
             throws ObjectMappingException {
         final DataResult<ConfigurationNode> result = this.codec.encode(obj, opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<ConfigurationNode> error = result.error().orElse(null);

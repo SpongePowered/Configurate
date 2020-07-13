@@ -16,12 +16,13 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,15 +31,15 @@ class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     static final TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
     @Override
-    TypeToken<?> getElementType(final TypeToken<?> containerType) throws ObjectMappingException {
-        if (!(containerType.getType() instanceof ParameterizedType)) {
+    Type getElementType(final Type containerType) throws ObjectMappingException {
+        if (!(containerType instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }
-        return containerType.resolveType(Set.class.getTypeParameters()[0]);
+        return ((ParameterizedType) containerType).getActualTypeArguments()[0];
     }
 
     @Override
-    Set<?> createNew(final int length, final TypeToken<?> elementType) {
+    Set<?> createNew(final int length, final Type elementType) {
         return new LinkedHashSet<>(length);
     }
 

@@ -18,12 +18,14 @@ package org.spongepowered.configurate.serialize;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
+import org.spongepowered.configurate.util.Typing;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.function.Predicate;
 
 /**
@@ -35,22 +37,26 @@ import java.util.function.Predicate;
 abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     @Override
-    TypeToken<?> getElementType(final TypeToken<?> containerType) {
-        return requireNonNull(containerType.getComponentType(), "Must be array type");
+    Type getElementType(final Type containerType) {
+        return requireNonNull(GenericTypeReflector.getArrayComponentType(containerType), "Must be array type");
     }
 
     static class Objects extends ArraySerializer<Object[]> {
 
-        public static Predicate<TypeToken<Object[]>> predicate() {
+        public static Predicate<Type> predicate() {
             return token -> {
-                final @Nullable TypeToken<?> componentType = token.getComponentType();
-                return componentType != null && !componentType.isPrimitive();
+                if (!Typing.isArray(token)) {
+                    return false;
+                }
+
+                final Type componentType = GenericTypeReflector.getArrayComponentType(token);
+                return componentType.equals(GenericTypeReflector.box(componentType));
             };
         }
 
         @Override
-        Object[] createNew(final int length, final TypeToken<?> elementType) {
-            return (Object[]) Array.newInstance(elementType.getRawType(), length);
+        Object[] createNew(final int length, final Type elementType) {
+            return (Object[]) Array.newInstance(GenericTypeReflector.erase(elementType), length);
         }
 
         @Override
@@ -69,10 +75,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Booleans extends ArraySerializer<boolean[]> {
 
-        static final TypeToken<boolean[]> TYPE = TypeToken.of(boolean[].class);
+        static final Class<boolean[]> TYPE = boolean[].class;
 
         @Override
-        boolean[] createNew(final int length, final TypeToken<?> elementType) {
+        boolean[] createNew(final int length, final Type elementType) {
             return new boolean[length];
         }
 
@@ -92,10 +98,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Bytes extends ArraySerializer<byte[]> {
 
-        static final TypeToken<byte[]> TYPE = TypeToken.of(byte[].class);
+        static final Class<byte[]> TYPE = byte[].class;
 
         @Override
-        byte[] createNew(final int length, final TypeToken<?> elementType) {
+        byte[] createNew(final int length, final Type elementType) {
             return new byte[length];
         }
 
@@ -115,10 +121,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Chars extends ArraySerializer<char[]> {
 
-        static final TypeToken<char[]> TYPE = TypeToken.of(char[].class);
+        static final Class<char[]> TYPE = char[].class;
 
         @Override
-        char[] createNew(final int length, final TypeToken<?> elementType) {
+        char[] createNew(final int length, final Type elementType) {
             return new char[length];
         }
 
@@ -138,10 +144,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Shorts extends ArraySerializer<short[]> {
 
-        static final TypeToken<short[]> TYPE = TypeToken.of(short[].class);
+        static final Class<short[]> TYPE = short[].class;
 
         @Override
-        short[] createNew(final int length, final TypeToken<?> elementType) {
+        short[] createNew(final int length, final Type elementType) {
             return new short[length];
         }
 
@@ -161,10 +167,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Ints extends ArraySerializer<int[]> {
 
-        static final TypeToken<int[]> TYPE = TypeToken.of(int[].class);
+        static final Class<int[]> TYPE = int[].class;
 
         @Override
-        int[] createNew(final int length, final TypeToken<?> elementType) {
+        int[] createNew(final int length, final Type elementType) {
             return new int[length];
         }
 
@@ -184,10 +190,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Longs extends ArraySerializer<long[]> {
 
-        static final TypeToken<long[]> TYPE = TypeToken.of(long[].class);
+        static final Class<long[]> TYPE = long[].class;
 
         @Override
-        long[] createNew(final int length, final TypeToken<?> elementType) {
+        long[] createNew(final int length, final Type elementType) {
             return new long[length];
         }
 
@@ -207,10 +213,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Floats extends ArraySerializer<float[]> {
 
-        static final TypeToken<float[]> TYPE = TypeToken.of(float[].class);
+        static final Class<float[]> TYPE = float[].class;
 
         @Override
-        float[] createNew(final int length, final TypeToken<?> elementType) {
+        float[] createNew(final int length, final Type elementType) {
             return new float[length];
         }
 
@@ -230,10 +236,10 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Doubles extends ArraySerializer<double[]> {
 
-        static final TypeToken<double[]> TYPE = TypeToken.of(double[].class);
+        static final Class<double[]> TYPE = double[].class;
 
         @Override
-        double[] createNew(final int length, final TypeToken<?> elementType) {
+        double[] createNew(final int length, final Type elementType) {
             return new double[length];
         }
 

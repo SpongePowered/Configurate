@@ -22,13 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -226,9 +228,9 @@ public class AbstractConfigurationNodeTest {
         final ConfigurationNode subject = BasicConfigurationNode.root(ConfigurationOptions.defaults()
                 .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         subject.setValue("48");
-        assertEquals(Integer.valueOf(48), subject.getValue(TypeToken.of(Integer.class)));
+        assertEquals(Integer.valueOf(48), subject.getValue(Integer.class));
         final UUID testId = UUID.randomUUID();
-        subject.setValue(TypeToken.of(UUID.class), testId);
+        subject.setValue(UUID.class, testId);
         assertEquals(testId.toString(), subject.getValue());
     }
 
@@ -238,6 +240,20 @@ public class AbstractConfigurationNodeTest {
         assertNull(subject.getValue());
         assertEquals("default value", subject.getValue("default value"));
         assertEquals("default value", subject.getValue());
+    }
+
+    @Test
+    @SuppressWarnings("rawtypes")
+    public void testRawTypeFails() {
+        final ConfigurationNode subject = BasicConfigurationNode.root(b -> {
+            b.getNode("test1").setValue(2);
+            b.getNode("test2").setValue(3);
+        });
+        assertThrows(IllegalArgumentException.class, () -> subject.getValue(Map.class));
+        assertThrows(IllegalArgumentException.class, () -> subject.getValue((Type) Map.class));
+        // expected raw type
+        assertThrows(IllegalArgumentException.class, () -> subject.getValue(new TypeToken<Map>() {}));
+
     }
 
 }

@@ -16,12 +16,13 @@
  */
 package org.spongepowered.configurate;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -81,20 +82,31 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @Override
     @NonNull
-    default <V> N setValue(@NonNull TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
+    @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize
+    default N setValue(@NonNull Type type, @Nullable Object value) throws ObjectMappingException {
         if (value == null) {
             return setValue(null);
         }
 
-        final @Nullable TypeSerializer<V> serial = getOptions().getSerializers().get(type);
+        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
         if (serial != null) {
-            serial.serialize(type, value, self());
+            ((TypeSerializer) serial).serialize(type, value, self());
         } else if (getOptions().acceptsType(value.getClass())) {
             setValue(value); // Just write if no applicable serializer exists?
         } else {
             throw new ObjectMappingException("No serializer available for type " + type);
         }
         return self();
+    }
+
+    @Override
+    default <V> N setValue(Class<V> type, @Nullable V value) throws ObjectMappingException {
+        return setValue((Type) type, value);
+    }
+
+    @Override
+    default <V> N setValue(TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
+        return setValue(type.getType(), value);
     }
 
     /**

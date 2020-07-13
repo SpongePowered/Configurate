@@ -18,7 +18,7 @@ package org.spongepowered.configurate.yaml;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;

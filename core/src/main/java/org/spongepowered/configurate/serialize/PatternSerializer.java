@@ -16,9 +16,9 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.Type;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -26,11 +26,11 @@ import java.util.regex.PatternSyntaxException;
 final class PatternSerializer extends ScalarSerializer<Pattern> {
 
     PatternSerializer() {
-        super(TypeToken.of(Pattern.class));
+        super(Pattern.class);
     }
 
     @Override
-    public Pattern deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
+    public Pattern deserialize(final Type type, final Object obj) throws ObjectMappingException {
         try {
             return Pattern.compile(obj.toString());
         } catch (final PatternSyntaxException ex) {

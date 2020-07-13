@@ -16,12 +16,18 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import static io.leangen.geantyref.GenericTypeReflector.annotate;
+import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
+import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.GenericTypeReflector;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.lang.reflect.Type;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +77,7 @@ public final class TypeSerializerCollection {
 
     private final @Nullable TypeSerializerCollection parent;
     private final List<RegisteredSerializer> serializers;
-    private final Map<TypeToken<?>, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
+    private final Map<Type, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
     private TypeSerializerCollection(final @Nullable TypeSerializerCollection parent, final List<RegisteredSerializer> serializers) {
         this.parent = parent;
@@ -84,19 +90,55 @@ public final class TypeSerializerCollection {
      * <p>First, all registered serializers from this collection are queried
      * then if a parent collection is set, that collection is queried.
      *
-     * @param type The type a serializer is required for
+     * @param token The type a serializer is required for
      * @param <T> The type to serialize
      * @return A serializer if any is present, or null if no applicable
      *          serializer is found
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public <T> @Nullable TypeSerializer<T> get(TypeToken<T> type) {
-        requireNonNull(type, "type");
-        type = type.wrap();
+    @SuppressWarnings("unchecked")
+    public <T> @Nullable TypeSerializer<T> get(final TypeToken<T> token) {
+        requireNonNull(token, "type");
+        return (TypeSerializer<T>) get(token.getType());
+    }
 
-        @Nullable TypeSerializer<?> serial = this.typeMatches.computeIfAbsent(type, token -> {
+    /**
+     * Resolve a type serializer.
+     *
+     * <p>First, all registered serializers from this collection are queried
+     * then if a parent collection is set, that collection is queried.
+     *
+     * <p>This method will fail when provided a raw parameterized type</p>
+     *
+     * @param token The type a serializer is required for
+     * @param <T> The type to serialize
+     * @return A serializer if any is present, or null if no applicable
+     *          serializer is found
+     */
+    @SuppressWarnings("unchecked")
+    public <T> @Nullable TypeSerializer<T> get(final Class<T> token) {
+        requireNonNull(token, "type");
+        if (isMissingTypeParameters(token)) {
+            throw new IllegalArgumentException("Use a TypeToken to represent parameterized types");
+        }
+
+        return (TypeSerializer<T>) get((Type) token);
+    }
+
+    /**
+     * Resolve a type serializer.
+     *
+     * <p>First, all registered serializers from this collection are queried
+     * then if a parent collection is set, that collection is queried.
+     *
+     * @param type The type a serializer is required for
+     * @return A serializer if any is present, or null if no applicable
+     *          serializer is found
+     */
+    public @Nullable TypeSerializer<?> get(Type type) {
+        type = GenericTypeReflector.toCanonicalBoxed(annotate(requireNonNull(type, "type"))).getType();
+        @Nullable TypeSerializer<?> serial = this.typeMatches.computeIfAbsent(type, param -> {
             for (RegisteredSerializer ent : this.serializers) {
-                if (ent.predicate.test(token)) {
+                if (ent.predicate.test(param)) {
                     return ent.serializer;
                 }
             }
@@ -106,8 +148,7 @@ public final class TypeSerializerCollection {
         if (serial == null && this.parent != null) {
             serial = this.parent.get(type);
         }
-
-        return (TypeSerializer) serial;
+        return serial;
     }
 
     /**
@@ -189,10 +230,22 @@ public final class TypeSerializerCollection {
          * @return this
          */
         public <T> Builder register(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
-            requireNonNull(type, "type");
-            requireNonNull(serializer, "serializer");
-            this.serializers.add(new RegisteredSerializer(new SuperTypePredicate(type), serializer));
-            return this;
+            return register0(type.getType(), serializer);
+        }
+
+        /**
+         * Register a type serializer for a given type.
+         *
+         * <p>Serializers registered will match all subclasses of the provided
+         * type, as well as unwrapped primitive equivalents of the type.
+         *
+         * @param type The type to accept
+         * @param serializer The serializer that will be serialized with
+         * @param <T> The type to generify around
+         * @return this
+         */
+        public <T> Builder register(final Class<T> type, final TypeSerializer<? super T> serializer) {
+            return register0(type, serializer);
         }
 
         /**
@@ -203,17 +256,37 @@ public final class TypeSerializerCollection {
          * @param <T> The type parameter
          * @return this
          */
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        public <T> Builder register(final Predicate<TypeToken<T>> test, final TypeSerializer<? super T> serializer) {
+        public <T> Builder register(final Predicate<Type> test, final TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
             requireNonNull(serializer, "serializer");
-            this.serializers.add(new RegisteredSerializer((Predicate) test, serializer));
+            this.serializers.add(new RegisteredSerializer(test, serializer));
             return this;
         }
 
         public <T> Builder register(final ScalarSerializer<T> serializer) {
             requireNonNull(serializer, "serializer");
             return register(serializer.type(), serializer);
+        }
+
+        private Builder register0(final Type type, final TypeSerializer<?> serializer) {
+            requireNonNull(type, "type");
+            requireNonNull(serializer, "serializer");
+            this.serializers.add(new RegisteredSerializer(test -> {
+                // Test direct type
+                if (GenericTypeReflector.isSuperType(type, test)) {
+                    return true;
+                }
+
+                // And upper bounds
+                if (test instanceof WildcardType) {
+                    final Type[] upperBounds = ((WildcardType) test).getUpperBounds();
+                    if (upperBounds.length == 1) {
+                        return isSuperType(type, upperBounds[0]);
+                    }
+                }
+                return false;
+            }, serializer));
+            return this;
         }
 
         /**
@@ -228,10 +301,10 @@ public final class TypeSerializerCollection {
 
     private static final class RegisteredSerializer {
 
-        private final Predicate<TypeToken<?>> predicate;
+        private final Predicate<Type> predicate;
         private final TypeSerializer<?> serializer;
 
-        private RegisteredSerializer(final Predicate<TypeToken<?>> predicate, final TypeSerializer<?> serializer) {
+        private RegisteredSerializer(final Predicate<Type> predicate, final TypeSerializer<?> serializer) {
             this.predicate = predicate;
             this.serializer = serializer;
         }

@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
@@ -34,7 +34,7 @@ public interface ObjectMapperFactory {
      */
     @NonNull
     default <T> ObjectMapper<T> getMapper(@NonNull Class<T> type) throws ObjectMappingException {
-        return getMapper(TypeToken.of(type));
+        return getMapper(TypeToken.get(type));
     }
 
     /**

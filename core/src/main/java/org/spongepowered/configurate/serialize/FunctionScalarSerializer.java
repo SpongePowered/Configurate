@@ -16,10 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
+import java.lang.reflect.Type;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -28,7 +28,7 @@ final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
     private final CheckedFunction<Object, T, ObjectMappingException> deserializer;
     private final BiFunction<T, Predicate<Class<?>>, Object> serializer;
 
-    FunctionScalarSerializer(final TypeToken<T> type,
+    FunctionScalarSerializer(final Type type,
             final CheckedFunction<Object, T, ObjectMappingException> deserializer, final BiFunction<T, Predicate<Class<?>>, Object> serializer) {
         super(type);
         this.deserializer = deserializer;
@@ -36,7 +36,7 @@ final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
     }
 
     @Override
-    public T deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
+    public T deserialize(final Type type, final Object obj) throws ObjectMappingException {
         return this.deserializer.apply(obj);
     }
 

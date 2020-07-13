@@ -16,10 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.Type;
 import java.util.function.Predicate;
 
 final class CharSerializer extends ScalarSerializer<Character> {
@@ -29,7 +29,7 @@ final class CharSerializer extends ScalarSerializer<Character> {
     }
 
     @Override
-    public Character deserialize(final TypeToken<?> type, final Object val) throws ObjectMappingException {
+    public Character deserialize(final Type type, final Object val) throws ObjectMappingException {
         if (val instanceof String) {
             final String strVal = ((String) val);
             if (strVal.length() == 1) {

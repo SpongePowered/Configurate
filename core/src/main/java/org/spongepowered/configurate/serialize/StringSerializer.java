@@ -16,18 +16,17 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
-
+import java.lang.reflect.Type;
 import java.util.function.Predicate;
 
 final class StringSerializer extends ScalarSerializer<String> {
 
     StringSerializer() {
-        super(TypeToken.of(String.class));
+        super(String.class);
     }
 
     @Override
-    public String deserialize(final TypeToken<?> type, final Object obj) {
+    public String deserialize(final Type type, final Object obj) {
         return obj.toString();
     }
 

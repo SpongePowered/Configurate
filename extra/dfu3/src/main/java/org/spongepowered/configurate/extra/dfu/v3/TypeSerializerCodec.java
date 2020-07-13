@@ -18,11 +18,11 @@ package org.spongepowered.configurate.extra.dfu.v3;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.reflect.TypeToken;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
+import io.leangen.geantyref.TypeToken;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -59,7 +59,7 @@ final class TypeSerializerCodec<V> implements Codec<V> {
     public <T> DataResult<Pair<V, T>> decode(final DynamicOps<T> ops, final T holder) {
         final ConfigurationNode node = ops.convertTo(this.ops, holder);
         try {
-            return DataResult.success(Pair.of(this.serializer.deserialize(this.token, node), holder));
+            return DataResult.success(Pair.of(this.serializer.deserialize(this.token.getType(), node), holder));
         } catch (final ObjectMappingException ex) {
             LOGGER.debug(() -> "Error decoding value of type " + this.token, ex);
             return DataResult.error(ex.getMessage());
@@ -70,11 +70,11 @@ final class TypeSerializerCodec<V> implements Codec<V> {
     public <T> DataResult<T> encode(final V input, final DynamicOps<T> ops, final T container) {
         try {
             if (container instanceof ConfigurationNode) {
-                this.serializer.serialize(this.token, input, (ConfigurationNode) container);
+                this.serializer.serialize(this.token.getType(), input, (ConfigurationNode) container);
                 return DataResult.success(container);
             } else {
                 final ConfigurationNode dest = this.ops.empty();
-                this.serializer.serialize(this.token, input, dest);
+                this.serializer.serialize(this.token.getType(), input, dest);
                 final T result = this.ops.convertTo(ops, dest);
                 if (dest.isList()) {
                     return ops.mergeToList(container, result);

@@ -16,9 +16,9 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.Type;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -31,7 +31,7 @@ final class UuidSerializer extends ScalarSerializer<UUID> {
     }
 
     @Override
-    public UUID deserialize(final TypeToken<?> type, final Object obj) throws ObjectMappingException {
+    public UUID deserialize(final Type type, final Object obj) throws ObjectMappingException {
         if (obj instanceof long[]) {
             final long[] arr = (long[]) obj;
             if (arr.length == 2) { // big-endian, cuz we're java

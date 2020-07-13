@@ -119,7 +119,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return super.isEmpty() && this.attributes.isEmpty();
     }
 
-    // Methods from superclass overridden to have correct return types
+    // Typing overrides
 
     @Override
     protected SimpleAttributedConfigurationNode createNode(final Object path) {

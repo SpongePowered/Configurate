@@ -16,9 +16,9 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import com.google.common.reflect.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
+import java.lang.reflect.Type;
 import java.util.Locale;
 import java.util.function.Predicate;
 
@@ -42,7 +42,7 @@ class BooleanSerializer extends ScalarSerializer<Boolean> {
     }
 
     @Override
-    public Boolean deserialize(final TypeToken<?> type, final Object value) throws ObjectMappingException {
+    public Boolean deserialize(final Type type, final Object value) throws ObjectMappingException {
         if (value instanceof Number) {
             return !value.equals(0);
         }

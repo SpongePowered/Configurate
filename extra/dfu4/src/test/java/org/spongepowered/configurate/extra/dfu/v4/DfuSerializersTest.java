@@ -23,13 +23,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.io.Resources;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -49,7 +49,7 @@ import java.util.stream.IntStream;
 
 public class DfuSerializersTest {
 
-    private static final TypeToken<Vector3i> VEC3I_TYPE = TypeToken.of(Vector3i.class);
+    private static final TypeToken<Vector3i> VEC3I_TYPE = TypeToken.get(Vector3i.class);
     static final Codec<Vector3i> VEC3I_CODEC = Codec.INT_STREAM.xmap(stream -> {
         final int[] values = new int[3];
         final PrimitiveIterator.OfInt ints = stream.iterator();
@@ -93,7 +93,7 @@ public class DfuSerializersTest {
             .register(VEC3I_TYPE, DfuSerializers.forCodec(VEC3I_CODEC))
             .build();
 
-        final @Nullable Codec<TestSerializable> codec = DfuSerializers.forSerializer(TypeToken.of(TestSerializable.class), serializers);
+        final @Nullable Codec<TestSerializable> codec = DfuSerializers.forSerializer(TypeToken.get(TestSerializable.class), serializers);
         assertNotNull(codec);
 
         final DataResult<JsonElement> out = codec.encode(new TestSerializable(), JsonOps.INSTANCE, JsonOps.INSTANCE.empty());

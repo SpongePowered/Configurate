@@ -18,8 +18,9 @@ package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.AbstractConfigurationNode.storeDefault;
+import static org.spongepowered.configurate.util.Typing.makeListType;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -27,6 +28,7 @@ import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -274,7 +276,10 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException If the value fails to be converted to the
      *                                requested type
      */
-    <V> @Nullable V getValue(TypeToken<V> type) throws ObjectMappingException;
+    @SuppressWarnings("unchecked") // type token
+    default <V> @Nullable V getValue(TypeToken<V> type) throws ObjectMappingException {
+        return (V) getValue(type.getType());
+    }
 
     /**
      * Get the current value associated with this node.
@@ -286,7 +291,7 @@ public interface ConfigurationNode {
      * {@link TypeSerializer} for the given type, or casting if no type
      * serializer is found.</p>
      *
-     * @param type The type to deserialize to
+     * @param type The type to deserialize as.
      * @param def value to return if {@link #isVirtual()} or value is not of
      *            appropriate type
      * @param <V> the type to get
@@ -294,9 +299,9 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException If the value fails to be converted to the
      *                                requested type
      */
+    @SuppressWarnings("unchecked") // type is verified by the token
     default <V> V getValue(TypeToken<V> type, V def) throws ObjectMappingException {
-        final @Nullable V value = getValue(type);
-        return value == null ? storeDefault(this, type, def) : value;
+        return (V) getValue(type.getType(), def);
     }
 
     /**
@@ -318,8 +323,129 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException If the value fails to be converted to the
      *                                requested type
      */
+    @SuppressWarnings("unchecked") // type is verified by the token
     default <V> V getValue(TypeToken<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
-        final @Nullable V value = getValue(type);
+        return (V) getValue(type.getType(), defSupplier);
+    }
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>If this node has children, this method will recursively unwrap them to
+     * construct a List or a Map.</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * @param type The type to deserialize to
+     * @param <V> the type to get
+     * @return the value if present and of the proper type, else null
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type
+     */
+    @SuppressWarnings("unchecked") // type is verified by the class parameter
+    default <V> @Nullable V getValue(Class<V> type) throws ObjectMappingException {
+        return (V) getValue((Type) type);
+    }
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>If this node has children, this method will recursively unwrap them to
+     * construct a List or a Map.</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * @param type The type to deserialize as.
+     * @param def value to return if {@link #isVirtual()} or value is not of
+     *            appropriate type
+     * @param <V> the type to get
+     * @return the value if of the proper type, else {@code def}
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type
+     */
+    @SuppressWarnings("unchecked") // type is verified by the class parameter
+    default <V> V getValue(Class<V> type, V def) throws ObjectMappingException {
+        return (V) getValue((Type) type, def);
+    }
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>If this node has children, this method will recursively unwrap them to
+     * construct a List or a Map.</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate
+     * TypeSerializer for the given type, or casting if no type serializer is
+     * found.</p>
+     *
+     * @param type The type to deserialize to
+     * @param defSupplier The function that will be called to calculate a
+     *                    default value only if there is no existing value of
+     *                    the correct type
+     * @param <V> the type to get
+     * @return the value if of the proper type, else {@code def}
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type
+     */
+    @SuppressWarnings("unchecked") // type is verified by the class parameter
+    default <V> V getValue(Class<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
+        return (V) getValue((Type) type, defSupplier);
+    }
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link Type} using a configured {@link TypeSerializer} for
+     * the given type, or casting if no type serializer is found.</p>
+     *
+     * @param type The type to deserialize to
+     * @return the value if present and of the proper type, else null
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type
+     */
+    @Nullable Object getValue(Type type) throws ObjectMappingException;
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link Type} using a configured {@link TypeSerializer} for
+     * the given type, or casting if no type serializer is found.</p>
+     *
+     * @param type The type to deserialize as
+     * @param def value to return if {@link #isVirtual()} or value is not of
+     *            appropriate type
+     * @return the value if of the proper type, else {@code def}
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type
+     */
+    default Object getValue(Type type, Object def) throws ObjectMappingException {
+        final @Nullable Object value = getValue(type);
+        return value == null ? storeDefault(this, type, def) : value;
+    }
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link Type} using a configured {@link TypeSerializer} for
+     * the given type, or casting if no type serializer is found.</p>
+     *
+     * @param type The type to deserialize to
+     * @param defSupplier The function that will be called to calculate a
+     *                    default value only if there is no existing value of
+     *                    the correct type
+     * @return the value if of the proper type, else {@code def}
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type
+     */
+    default Object getValue(Type type, Supplier<?> defSupplier) throws ObjectMappingException {
+        final @Nullable Object value = getValue(type);
         return value == null ? storeDefault(this, type, defSupplier.get()) : value;
     }
 
@@ -356,7 +482,10 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException If any value fails to be converted to the
      *                                requested type
      */
-    <V> List<V> getList(TypeToken<V> type, List<V> def) throws ObjectMappingException;
+    default <V> List<V> getList(TypeToken<V> type, List<V> def) throws ObjectMappingException {
+        final List<V> ret = getValue(makeListType(type), def);
+        return ret.isEmpty() ? storeDefault(this, def) : ret;
+    }
 
     /**
      * If this node has list values, this function unwraps them and converts
@@ -376,7 +505,10 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if any value fails to be converted to the
      *                                requested type
      */
-    <V> List<V> getList(TypeToken<V> type, Supplier<List<V>> defSupplier) throws ObjectMappingException;
+    default <V> List<V> getList(TypeToken<V> type, Supplier<List<V>> defSupplier) throws ObjectMappingException {
+        final List<V> ret = getValue(makeListType(type), defSupplier);
+        return ret.isEmpty() ? storeDefault(this, defSupplier.get()) : ret;
+    }
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
@@ -577,6 +709,60 @@ public interface ConfigurationNode {
      *                                the node.
      */
     <V> ConfigurationNode setValue(TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
+
+    /**
+     * Set this node's value to the given value.
+     *
+     * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
+     * the appropriate configuration node structure.</p>
+     *
+     * <p>This method will also perform serialization using the appropriate
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * <p>This method will fail if a raw type
+     * (i.e. a parameterized type without its type parameters) is passed.</p>
+     *
+     * @param type The type to use for serialization type information
+     * @param value The value to set
+     * @param <V> The type to serialize to
+     * @return this
+     * @throws IllegalArgumentException if a raw type is passed
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type. No change will be made to
+     *                                the node.
+     */
+    <V> ConfigurationNode setValue(Class<V> type, @Nullable V value) throws ObjectMappingException;
+
+    /**
+     * Set this node's value to the given value.
+     *
+     * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
+     * the appropriate configuration node structure.</p>
+     *
+     * <p>This method will also perform serialization using the appropriate
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * <p>This method will fail if a raw type
+     * (i.e. a parameterized type without its type parameters) is passed.</p>
+     *
+     * <p>Because this method accepts a non-parameterized {@link Type} parameter,
+     * it has no compile-time type checking. The variants that take
+     * {@link #setValue(TypeToken, Object) TypeToken} and
+     * {@link #setValue(Class, Object)} should be preferred where possible.</p>
+     *
+     * @param type The type to use for serialization type information
+     * @param value The value to set
+     * @return this
+     * @throws IllegalArgumentException if a raw type is passed
+     * @throws IllegalArgumentException if {@code value} is not either
+     *                                  {@code null} or of type {@code type}
+     * @throws ObjectMappingException If the value fails to be converted to the
+     *                                requested type. No change will be made to
+     *                                the node.
+     */
+    ConfigurationNode setValue(Type type, @Nullable Object value) throws ObjectMappingException;
 
     /**
      * Set all the values from the given node that are not present in this node

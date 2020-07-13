@@ -18,7 +18,6 @@ package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.primitives.Primitives;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -27,8 +26,10 @@ import org.spongepowered.configurate.objectmapping.ObjectMapperFactory;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
+import org.spongepowered.configurate.util.Typing;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -221,11 +222,12 @@ public final class ConfigurationOptions {
             return true;
         }
 
-        if (type.isPrimitive() && this.acceptedTypes.contains(Primitives.wrap(type))) {
+        if (type.isPrimitive() && this.acceptedTypes.contains(Typing.box(type))) {
             return true;
         }
 
-        if (Primitives.isWrapperType(type) && this.acceptedTypes.contains(Primitives.unwrap(type))) {
+        final Type unboxed = Typing.unbox(type);
+        if (unboxed != type && this.acceptedTypes.contains(unboxed)) {
             return true;
         }
 
