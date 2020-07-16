@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.LinkedHashMap;
@@ -56,23 +57,41 @@ public class DefaultObjectMapperFactory implements ObjectMapperFactory {
             throw new ObjectMappingException("Raw types are not supported!");
         }
 
-        // TODO: abstract this
+        synchronized (this.mappers) {
+            return (ObjectMapper<T>) computeFromMap(this.mappers, canonical, ObjectMapper::new);
+        }
+    }
+
+    // TODO: expose
+    private static class StacklessWrapper extends RuntimeException {
+
+        StacklessWrapper(final Throwable cause) {
+            super(cause);
+        }
+
+        @Override
+        public synchronized Throwable fillInStackTrace() {
+            // no-op
+            return this;
+        }
+    }
+
+    @SuppressWarnings("unchecked") // for E cast
+    private static <K, V, E extends Exception> V computeFromMap(final Map<K, V> map, final K key, final CheckedFunction<K, V, E> creator) throws E {
         try {
-            synchronized (this.mappers) {
-                return (ObjectMapper<T>) this.mappers.computeIfAbsent(canonical, key -> {
-                    try {
-                        return new ObjectMapper<>(key);
-                    } catch (final ObjectMappingException e) {
-                        throw new RuntimeException(e);
+            return map.computeIfAbsent(key, k -> {
+                try {
+                    return creator.apply(k);
+                } catch (final Exception e) {
+                    if (e instanceof RuntimeException) {
+                        throw (RuntimeException) e;
+                    } else {
+                        throw new StacklessWrapper(e);
                     }
-                });
-            }
-        } catch (final RuntimeException e) {
-            if (e.getCause() instanceof ObjectMappingException) {
-                throw (ObjectMappingException) e.getCause();
-            } else {
-                throw e;
-            }
+                }
+            });
+        } catch (final StacklessWrapper ex) {
+            throw (E) ex.getCause();
         }
     }
 
