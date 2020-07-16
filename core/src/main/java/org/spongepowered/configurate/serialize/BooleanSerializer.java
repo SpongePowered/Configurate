@@ -35,7 +35,7 @@ import java.util.function.Predicate;
  *     <li>Otherwise returns null</li>
  * </ul>
  */
-class BooleanSerializer extends ScalarSerializer<Boolean> {
+final class BooleanSerializer extends ScalarSerializer<Boolean> {
 
     BooleanSerializer() {
         super(Boolean.class);

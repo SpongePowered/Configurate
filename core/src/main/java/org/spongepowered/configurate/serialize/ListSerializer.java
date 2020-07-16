@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-class ListSerializer extends AbstractListChildSerializer<List<?>> {
+final class ListSerializer extends AbstractListChildSerializer<List<?>> {
 
     static final TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 

@@ -32,7 +32,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-class MapSerializer implements TypeSerializer<Map<?, ?>> {
+final class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 

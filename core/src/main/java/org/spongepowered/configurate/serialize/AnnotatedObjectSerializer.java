@@ -30,7 +30,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.function.Predicate;
 
-class AnnotatedObjectSerializer implements TypeSerializer<Object> {
+final class AnnotatedObjectSerializer implements TypeSerializer<Object> {
 
     public static final String CLASS_KEY = "__class__";
 

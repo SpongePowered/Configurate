@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-class SetSerializer extends AbstractListChildSerializer<Set<?>> {
+final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
     static final TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
