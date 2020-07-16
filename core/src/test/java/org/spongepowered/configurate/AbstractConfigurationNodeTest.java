@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Type;
@@ -254,6 +255,52 @@ public class AbstractConfigurationNodeTest {
         // expected raw type
         assertThrows(IllegalArgumentException.class, () -> subject.getValue(new TypeToken<Map>() {}));
 
+    }
+
+    @Test
+    public void testHasChildArray() {
+        final ConfigurationNode node = BasicConfigurationNode.root();
+        assertFalse(node.hasChild("ball"));
+        assertTrue(node.getNode("ball").isVirtual());
+
+        // still shouldn't change
+        assertFalse(node.hasChild("ball"));
+
+        node.getNode("ball").setValue("yarn");
+        assertTrue(node.hasChild("ball"));
+
+        // but still doesn't have child
+        assertFalse(node.hasChild("ball", "another"));
+
+        node.getNode("ball", "another").setValue(48);
+        assertTrue(node.hasChild("ball", "another"));
+    }
+
+    @Test
+    public void testNullElementsForbiddenHasChild() {
+        assertThrows(NullPointerException.class, () -> {
+            BasicConfigurationNode.root(n -> n.getNode("test").setValue("blah"))
+                .hasChild("test", null);
+        });
+    }
+
+    @Test
+    public void testHasChildIterable() {
+        final ConfigurationNode node = BasicConfigurationNode.root();
+        assertFalse(node.hasChild(NodePath.path("ball")));
+        assertTrue(node.getNode("ball").isVirtual());
+
+        // still shouldn't change
+        assertFalse(node.hasChild(NodePath.path("ball")));
+
+        node.getNode("ball").setValue("yarn");
+        assertTrue(node.hasChild(NodePath.path("ball")));
+
+        // but still doesn't have child
+        assertFalse(node.hasChild(NodePath.path("ball", "another")));
+
+        node.getNode("ball", "another").setValue(48);
+        assertTrue(node.hasChild(NodePath.path("ball", "another")));
     }
 
 }

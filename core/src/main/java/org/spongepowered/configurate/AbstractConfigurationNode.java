@@ -305,10 +305,36 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     @Override
     public N getNode(final Iterable<?> path) {
         A pointer = implSelf();
-        for (Object el : path) {
+        for (final Object el : path) {
             pointer = pointer.getChild(requireNonNull(el, () -> "element in path " + path), false);
         }
         return pointer.self();
+    }
+
+    @Override
+    public boolean hasChild(final Object... path) {
+        A pointer = implSelf();
+        for (final Object el : path) {
+            final @Nullable A child = pointer.value.getChild(requireNonNull(el, () -> "element in path " + Arrays.toString(path)));
+            if (child == null) {
+                return false;
+            }
+            pointer = child;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean hasChild(final Iterable<?> path) {
+        A pointer = implSelf();
+        for (final Object el : path) {
+            final @Nullable A child = pointer.value.getChild(requireNonNull(el, () -> "element in path " + path));
+            if (child == null) {
+                return false;
+            }
+            pointer = child;
+        }
+        return true;
     }
 
     @Override

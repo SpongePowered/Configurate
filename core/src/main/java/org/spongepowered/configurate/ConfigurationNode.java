@@ -146,6 +146,30 @@ public interface ConfigurationNode {
     ConfigurationNode getNode(Iterable<?> path);
 
     /**
+     * Checks whether or not a non-virtual node is present at the relative
+     * path {@code path}.
+     *
+     * <p>This allows checking for more remote nodes in the configuration
+     * hierarchy without having to instantiate new unattached node objects.</p>
+     *
+     * @param path Path to search at
+     * @return if a non-virtual child is present
+     */
+    boolean hasChild(Object... path);
+
+    /**
+     * Checks whether or not a non-virtual node is present at the relative
+     * path {@code path}.
+     *
+     * <p>This allows checking for more remote nodes in the configuration
+     * hierarchy without having to instantiate new unattached node objects.</p>
+     *
+     * @param path Path to search at
+     * @return if a non-virtual child is present
+     */
+    boolean hasChild(Iterable<?> path);
+
+    /**
      * Gets if this node is virtual.
      *
      * <p>Virtual nodes are nodes which are not attached to a wider
