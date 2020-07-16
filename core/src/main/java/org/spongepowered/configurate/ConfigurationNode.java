@@ -852,10 +852,26 @@ public interface ConfigurationNode {
 
     /**
      * Query a representation hint from this node.
+     *
+     * <p>If the hint is not set on this node, its parents will be recursively
+     * checked for a value.</p>
+     *
      * @param hint The hint to get
      * @param <V> value type
      * @return value of the hint, or {@link RepresentationHint#getDefaultValue()}
      */
     <V> @Nullable V getHint(RepresentationHint<V> hint);
+
+    /**
+     * Query a representation hint from this node.
+     *
+     * <p>This will only check the current node, and return null rather than
+     * any default value.</p>
+     *
+     * @param hint The hint to get
+     * @param <V> value type
+     * @return value of the hint, or {@code null}
+     */
+    <V> @Nullable V getOwnHint(RepresentationHint<V> hint);
 
 }

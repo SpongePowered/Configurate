@@ -628,6 +628,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <V> @Nullable V getOwnHint(final RepresentationHint<V> hint) {
+        return (V) this.hints.get(hint);
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
