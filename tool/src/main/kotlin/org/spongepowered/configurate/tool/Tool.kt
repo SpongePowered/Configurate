@@ -110,7 +110,8 @@ class Tool : CliktCommand(
     override fun run() = Unit
 }
 
-sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String) : CliktCommand(help = "Display files that are in $formatName format") {
+sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String) :
+    CliktCommand(help = "Display files that are in $formatName format") {
     val path by argument(help = "Location of the file to read").path(mustExist = true, canBeDir = false)
     val header by option("--header-mode", help = "How to read a header from this file").enum<HeaderMode>().default(HeaderMode.PRESERVE)
 
@@ -193,7 +194,8 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                 if (value != null) {
                     write(
                         heading("Value"), SPLIT,
-                        "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@", "@|black,bold (a ${value::class.qualifiedName}) |@"
+                        "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@",
+                        "@|black,bold (a ${value::class.qualifiedName}) |@"
                     )
                 } else {
                     write(heading("Value: "), SPLIT, "@|black,bold (null)|@")
@@ -223,7 +225,8 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 
 class Yaml : FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
-    private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>().default(DumperOptions.FlowStyle.AUTO)
+    private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>()
+        .default(DumperOptions.FlowStyle.AUTO)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return YamlConfigurationLoader.builder()
             .setPath(path)
