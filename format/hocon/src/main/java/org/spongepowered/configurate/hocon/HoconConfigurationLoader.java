@@ -108,7 +108,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     /**
      * Builds a {@link HoconConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, HoconConfigurationLoader> {
         private ConfigRenderOptions render = defaultRenderOptions();
         private ConfigParseOptions parse = defaultParseOptions();
 

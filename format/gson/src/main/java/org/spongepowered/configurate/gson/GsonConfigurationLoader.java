@@ -61,7 +61,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Builds a {@link GsonConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, GsonConfigurationLoader> {
         private boolean lenient = true;
         private int indent = 2;
 
@@ -110,9 +110,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
             return this.lenient;
         }
 
-        @NonNull
         @Override
-        public GsonConfigurationLoader build() {
+        public @NonNull GsonConfigurationLoader build() {
             this.setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
             return new GsonConfigurationLoader(this);
         }

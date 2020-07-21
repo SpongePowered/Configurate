@@ -62,7 +62,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     /**
      * Builds a {@link JacksonConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, JacksonConfigurationLoader> {
         private final JsonFactoryBuilder factory = new JsonFactoryBuilder();
         private int indent = 2;
         private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;

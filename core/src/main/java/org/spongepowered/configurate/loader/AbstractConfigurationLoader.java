@@ -107,7 +107,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     @NonNull
     private final ConfigurationOptions defaultOptions;
 
-    protected AbstractConfigurationLoader(final @NonNull Builder<?> builder, final @NonNull CommentHandler[] commentHandlers) {
+    protected AbstractConfigurationLoader(final @NonNull Builder<?, ?> builder, final @NonNull CommentHandler[] commentHandlers) {
         this.source = builder.getSource();
         this.sink = builder.getSink();
         this.headerMode = builder.getHeaderMode();
@@ -209,7 +209,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      *
      * @param <T> The builders own type (for chaining using generic types)
      */
-    protected abstract static class Builder<T extends Builder<T>> {
+    public abstract static class Builder<T extends Builder<T, L>, L extends AbstractConfigurationLoader<?>> {
         @NonNull protected HeaderMode headerMode = HeaderMode.PRESERVE;
         @Nullable protected Callable<BufferedReader> source;
         @Nullable protected Callable<BufferedWriter> sink;
@@ -387,7 +387,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return The loader
          */
         @NonNull
-        public abstract AbstractConfigurationLoader<?> build();
+        public abstract L build();
 
     }
 

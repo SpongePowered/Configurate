@@ -34,7 +34,7 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
     private ConfigurationNode result;
 
-    public static final class Builder extends AbstractConfigurationLoader.Builder<Builder> {
+    public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, TestConfigurationLoader> {
 
         @NonNull
         @Override

@@ -67,7 +67,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Builds a {@link YamlConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder> {
+    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
         private final DumperOptions options = new DumperOptions();
 
         protected Builder() {
