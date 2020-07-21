@@ -40,7 +40,7 @@ import java.util.Set;
  * transformation works by explicitly providing a mapping between configurate
  * node paths and DFU TypeReferences.</p>
  */
-public final class DataFixerTransformation<N extends ConfigurationNode> extends ConfigurationTransformation.Versioned<N> {
+public final class DataFixerTransformation<N extends ConfigurationNode> implements ConfigurationTransformation.Versioned<N> {
 
     private final NodePath versionPath;
     private final int targetVersion;

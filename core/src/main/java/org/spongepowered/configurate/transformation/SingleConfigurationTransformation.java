@@ -30,7 +30,7 @@ import java.util.Map;
  * <p>Transformations are executed from deepest in the configuration hierarchy
  * outwards.
  */
-class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> extends ConfigurationTransformation<N> {
+final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> implements ConfigurationTransformation<N> {
 
     private final MoveStrategy strategy;
     private final Map<NodePath, TransformAction<? super N>> actions;

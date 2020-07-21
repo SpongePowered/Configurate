@@ -26,22 +26,14 @@ import java.util.TreeMap;
 /**
  * Represents a set of transformations on a configuration.
  */
-public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
+@FunctionalInterface
+public interface ConfigurationTransformation<T extends ConfigurationNode> {
 
     /**
      * A special object that represents a wildcard in a path provided to a
      * configuration transformer.
      */
-    public static final Object WILDCARD_OBJECT = new Object();
-
-    /**
-     * A no-op configuration transformation.
-     */
-    private static final ConfigurationTransformation<?> EMPTY = new ConfigurationTransformation<ConfigurationNode>() {
-        @Override
-        public void apply(final @NonNull ConfigurationNode node) {
-        }
-    };
+    Object WILDCARD_OBJECT = new Object();
 
     /**
      * Get an empty transformation.
@@ -50,9 +42,8 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      * @param <T> node type
      * @return empty transformation
      */
-    @SuppressWarnings("unchecked") // shared empty instance
-    public static <T extends ConfigurationNode> ConfigurationTransformation<T> empty() {
-        return (ConfigurationTransformation<T>) EMPTY;
+    static <T extends ConfigurationNode> ConfigurationTransformation<T> empty() {
+        return (node) -> {};
     }
 
     /**
@@ -63,7 +54,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      * @return a new transformation builder.
      */
     @NonNull
-    public static <T extends ScopedConfigurationNode<T>> Builder<T> builder() {
+    static <T extends ScopedConfigurationNode<T>> Builder<T> builder() {
         return new Builder<>();
     }
 
@@ -74,7 +65,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      * @return A new builder for versioned transformations
      */
     @NonNull
-    public static <T extends ConfigurationNode> VersionedBuilder<T> versionedBuilder() {
+    static <T extends ConfigurationNode> VersionedBuilder<T> versionedBuilder() {
         return new VersionedBuilder<>();
     }
 
@@ -86,7 +77,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      * @return The resultant transformation chain
      */
     @SafeVarargs
-    public static <T extends ConfigurationNode> ConfigurationTransformation<T>
+    static <T extends ConfigurationNode> ConfigurationTransformation<T>
         chain(final ConfigurationTransformation<? super T>... transformations) {
         return new ChainedConfigurationTransformation<>(transformations);
     }
@@ -96,12 +87,12 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      *
      * @param node The target node
      */
-    public abstract void apply(@NonNull T node);
+    void apply(@NonNull T node);
 
     /**
      * Builds a basic {@link ConfigurationTransformation}.
      */
-    public static final class Builder<T extends ScopedConfigurationNode<T>> {
+    final class Builder<T extends ScopedConfigurationNode<T>> {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
         private final NavigableMap<NodePath, TransformAction<? super T>> actions;
 
@@ -158,7 +149,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
     /**
      * Builds a versioned {@link ConfigurationTransformation}.
      */
-    public static final class VersionedBuilder<T extends ConfigurationNode> {
+    final class VersionedBuilder<T extends ConfigurationNode> {
         private NodePath versionKey = NodePath.path("version");
         private final NavigableMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
 
@@ -209,22 +200,22 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
      *
      * @param <N> node type
      */
-    public abstract static class Versioned<N extends ConfigurationNode> extends ConfigurationTransformation<N> {
-        public static final int VERSION_UNKNOWN = -1;
+    interface Versioned<N extends ConfigurationNode> extends ConfigurationTransformation<N> {
+        int VERSION_UNKNOWN = -1;
 
         /**
          * Get the path the node's current version is located at.
          *
          * @return version path
          */
-        public abstract NodePath getVersionKey();
+        NodePath getVersionKey();
 
         /**
          * Get the latest version that nodes can be updated to.
          *
          * @return the most recent version
          */
-        public abstract int getLatestVersion();
+        int getLatestVersion();
 
         /**
          * Get the version of a node hierarchy.
@@ -239,7 +230,7 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
          * @param node node to check
          * @return version, or {@link #VERSION_UNKNOWN} if no value is present
          */
-        public int getVersion(final N node) {
+        default int getVersion(final N node) {
             return node.getNode(getVersionKey()).getInt(VERSION_UNKNOWN);
         }
     }
