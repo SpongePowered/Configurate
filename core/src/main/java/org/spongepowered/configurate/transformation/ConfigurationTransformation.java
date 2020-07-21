@@ -35,6 +35,27 @@ public abstract class ConfigurationTransformation<T extends ConfigurationNode> {
     public static final Object WILDCARD_OBJECT = new Object();
 
     /**
+     * A no-op configuration transformation.
+     */
+    private static final ConfigurationTransformation<?> EMPTY = new ConfigurationTransformation<ConfigurationNode>() {
+        @Override
+        public void apply(final @NonNull ConfigurationNode node) {
+        }
+    };
+
+    /**
+     * Get an empty transformation.
+     *
+     * <p>This transformation will perform no actions.</p>
+     * @param <T> node type
+     * @return empty transformation
+     */
+    @SuppressWarnings("unchecked") // shared empty instance
+    public static <T extends ConfigurationNode> ConfigurationTransformation<T> empty() {
+        return (ConfigurationTransformation<T>) EMPTY;
+    }
+
+    /**
      * Create a new builder to create a basic configuration transformation.
      *
      *
