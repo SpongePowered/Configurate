@@ -22,6 +22,7 @@ import org.spongepowered.configurate.ScopedConfigurationNode;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
 /**
  * Represents a set of transformations on a configuration.
@@ -65,7 +66,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * @return A new builder for versioned transformations
      */
     @NonNull
-    static <T extends ConfigurationNode> VersionedBuilder<T> versionedBuilder() {
+    static <T extends ScopedConfigurationNode<T>> VersionedBuilder<T> versionedBuilder() {
         return new VersionedBuilder<>();
     }
 
@@ -77,9 +78,14 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * @return The resultant transformation chain
      */
     @SafeVarargs
+    @SuppressWarnings("unchecked")
     static <T extends ConfigurationNode> ConfigurationTransformation<T>
         chain(final ConfigurationTransformation<? super T>... transformations) {
-        return new ChainedConfigurationTransformation<>(transformations);
+        if (transformations.length == 1) {
+            return (ConfigurationTransformation<T>) transformations[0];
+        } else {
+            return new ChainedConfigurationTransformation<>(transformations);
+        }
     }
 
     /**
@@ -149,7 +155,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
     /**
      * Builds a versioned {@link ConfigurationTransformation}.
      */
-    final class VersionedBuilder<T extends ConfigurationNode> {
+    final class VersionedBuilder<T extends ScopedConfigurationNode<T>> {
         private NodePath versionKey = NodePath.path("version");
         private final NavigableMap<Integer, ConfigurationTransformation<? super T>> versions = new TreeMap<>();
 
@@ -170,7 +176,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Adds a transformation to this builder for the given version.
          *
-         * <p>The version must be between 0 and {@link Integer#MAX_VALUE}
+         * <p>The version must be between 0 and {@link Integer#MAX_VALUE}, and a version cannot be specified multiple times.
          *
          * @param version The version
          * @param transformation The transformation
@@ -181,8 +187,45 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
             if (version < 0) {
                 throw new IllegalArgumentException("Version must be at least 0");
             }
-            this.versions.put(version, transformation);
+            if (this.versions.putIfAbsent(version, transformation) != null) {
+                throw new IllegalArgumentException("Version '" + version + "' has been specified multiple times.");
+            }
             return this;
+        }
+
+        /**
+         * Adds a new series of transformations for a version.
+         *
+         * <p>The version must be between 0 and {@link Integer#MAX_VALUE}.
+         *
+         * @param version the version
+         * @param transformations the transformations. To perform a version
+         *                        upgrade, these transformations will be
+         *                        executed in order.
+         * @return this builder
+         */
+        @SafeVarargs
+        public final @NonNull VersionedBuilder<T> addVersion(final int version,
+                final @NonNull ConfigurationTransformation<? super T>... transformations) {
+            return this.addVersion(version, chain(transformations));
+        }
+
+        /**
+         * Create and add a new transformation to this builder.
+         *
+         * <p>The transformation will be created from the builder passed to
+         * the callback function</p>
+         *
+         * <p>The version must be between 0 and {@link Integer#MAX_VALUE}
+         *
+         * @param version the version
+         * @param maker the transformation
+         * @return this builder
+         */
+        public @NonNull VersionedBuilder<T> makeVersion(final int version, final @NonNull Consumer<? super Builder<? super T>> maker) {
+            final Builder<T> builder = builder();
+            maker.accept(builder);
+            return this.addVersion(version, builder.build());
         }
 
         /**

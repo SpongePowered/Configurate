@@ -235,4 +235,31 @@ public class ConfigurationTransformationTest {
 
     }
 
+    @Test
+    public void testVersionedTransformationMoveChildToRoot() {
+        final BasicConfigurationNode original = BasicConfigurationNode.root(b -> {
+            b.getNode("test").act(t -> {
+                t.getNode("calico").setValue("purr");
+                t.getNode("sphynx").setValue("meow");
+                t.getNode("russian-blue").setValue("mrow");
+            });
+        });
+        final BasicConfigurationNode transformed = BasicConfigurationNode.root(b -> {
+            b.getNode("calico").setValue("purr");
+            b.getNode("sphynx").setValue("meow");
+            b.getNode("russian-blue").setValue("mrow");
+            b.getNode("version").setValue(1);
+        });
+        final ConfigurationTransformation.Versioned<BasicConfigurationNode> xform =
+                ConfigurationTransformation.<BasicConfigurationNode>versionedBuilder()
+                .makeVersion(1, version -> {
+                    version.addAction(path("test"), (path, value) -> new Object[0]);
+                    version.setMoveStrategy(MoveStrategy.MERGE);
+                })
+                .build();
+        xform.apply(original);
+
+        assertEquals(transformed, original);
+    }
+
 }
