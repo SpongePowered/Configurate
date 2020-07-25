@@ -16,8 +16,6 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -54,7 +52,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * @param childKey The new key to append
      * @return A new path object reflecting the extended path
      */
-    NodePath withAppendedChild(@NonNull Object childKey);
+    NodePath withAppendedChild(Object childKey);
 
     /**
      * Create a new path with the value at {@code index} replaced
@@ -72,7 +70,6 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      *
      * @return An iterator of the path
      */
-    @NonNull
     @Override
     Iterator<Object> iterator();
 

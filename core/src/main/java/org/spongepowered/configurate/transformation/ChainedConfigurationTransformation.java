@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Arrays;
@@ -33,7 +32,7 @@ class ChainedConfigurationTransformation<T extends ConfigurationNode> implements
     }
 
     @Override
-    public void apply(final @NonNull T node) {
+    public void apply(final T node) {
         for (ConfigurationTransformation<? super T> transformation : this.transformations) {
             transformation.apply(node);
         }

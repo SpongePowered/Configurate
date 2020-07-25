@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 
@@ -50,7 +49,7 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
     }
 
     @Override
-    public void apply(final @NonNull N node) {
+    public void apply(final N node) {
         for (Map.Entry<NodePath, TransformAction<? super N>> ent : this.actions.entrySet()) {
             applySingleAction(node, ent.getKey().getArray(), 0, node, ent.getValue());
         }

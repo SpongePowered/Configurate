@@ -18,8 +18,6 @@ package org.spongepowered.configurate.transformation;
 
 import static java.util.Objects.requireNonNull;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -47,7 +45,7 @@ final class NodePathImpl implements NodePath {
     }
 
     @Override
-    public NodePath withAppendedChild(final @NonNull Object childKey) {
+    public NodePath withAppendedChild(final Object childKey) {
         final Object[] arr = this.arr;
         if (arr.length == 0 || (arr.length == 1 && arr[0] == null)) {
             return new NodePathImpl(new Object[] {childKey}, false);
@@ -76,7 +74,7 @@ final class NodePathImpl implements NodePath {
     }
 
     @Override
-    public @NonNull Iterator<Object> iterator() {
+    public Iterator<Object> iterator() {
         return Arrays.asList(this.arr).iterator();
     }
 

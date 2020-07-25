@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.transformation;
 
+import static java.util.Objects.requireNonNull;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -54,7 +56,6 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * @param <T> the type of node being processed
      * @return a new transformation builder.
      */
-    @NonNull
     static <T extends ScopedConfigurationNode<T>> Builder<T> builder() {
         return new Builder<>();
     }
@@ -65,7 +66,6 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * @param <T> the type of node being processed
      * @return A new builder for versioned transformations
      */
-    @NonNull
     static <T extends ScopedConfigurationNode<T>> VersionedBuilder<T> versionedBuilder() {
         return new VersionedBuilder<>();
     }
@@ -81,6 +81,10 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
     @SuppressWarnings("unchecked")
     static <T extends ConfigurationNode> ConfigurationTransformation<T>
         chain(final ConfigurationTransformation<? super T>... transformations) {
+        if (requireNonNull(transformations, "transformations").length == 0) {
+            throw new IllegalArgumentException("Cannot chain an empty array of transformations!");
+        }
+
         if (transformations.length == 1) {
             return (ConfigurationTransformation<T>) transformations[0];
         } else {
@@ -93,7 +97,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      *
      * @param node The target node
      */
-    void apply(@NonNull T node);
+    void apply(T node);
 
     /**
      * Builds a basic {@link ConfigurationTransformation}.
@@ -113,9 +117,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @param action The action
          * @return This builder (for chaining)
          */
-        @NonNull
         public Builder<T> addAction(final NodePath path, final TransformAction<? super T> action) {
-            this.actions.put(path, action);
+            this.actions.put(requireNonNull(path, "path"), requireNonNull(action, "action"));
             return this;
         }
 
@@ -124,7 +127,6 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          *
          * @return The move strategy
          */
-        @NonNull
         public MoveStrategy getMoveStrategy() {
             return this.strategy;
         }
@@ -135,9 +137,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @param strategy The strategy
          * @return This builder (for chaining)
          */
-        @NonNull
-        public Builder<T> setMoveStrategy(final @NonNull MoveStrategy strategy) {
-            this.strategy = strategy;
+        public Builder<T> setMoveStrategy(final MoveStrategy strategy) {
+            this.strategy = requireNonNull(strategy, "strategy");
             return this;
         }
 
@@ -146,8 +147,10 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          *
          * @return The transformation
          */
-        @NonNull
         public ConfigurationTransformation<T> build() {
+            if (this.actions.isEmpty()) {
+                throw new IllegalArgumentException("At least one action must be specified to build a transformation");
+            }
             return new SingleConfigurationTransformation<>(this.actions, this.strategy);
         }
     }
@@ -167,8 +170,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @param versionKey The path to the version key
          * @return This builder (for chaining)
          */
-        @NonNull
-        public VersionedBuilder<T> setVersionKey(final @NonNull Object... versionKey) {
+        public VersionedBuilder<T> setVersionKey(final Object... versionKey) {
             this.versionKey = NodePath.create(versionKey);
             return this;
         }
@@ -187,7 +189,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
             if (version < 0) {
                 throw new IllegalArgumentException("Version must be at least 0");
             }
-            if (this.versions.putIfAbsent(version, transformation) != null) {
+            if (this.versions.putIfAbsent(version, requireNonNull(transformation, "transformation")) != null) {
                 throw new IllegalArgumentException("Version '" + version + "' has been specified multiple times.");
             }
             return this;
@@ -234,6 +236,9 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @return The transformation
          */
         public ConfigurationTransformation.@NonNull Versioned<T> build() {
+            if (this.versions.isEmpty()) {
+                throw new IllegalArgumentException("At least one version must be specified to build a transformation");
+            }
             return new VersionedTransformation<>(this.versionKey, this.versions);
         }
     }

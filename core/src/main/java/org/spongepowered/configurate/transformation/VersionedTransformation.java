@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.transformation;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Map;
@@ -37,7 +36,7 @@ class VersionedTransformation<T extends ConfigurationNode> implements Configurat
     }
 
     @Override
-    public void apply(final @NonNull T node) {
+    public void apply(final T node) {
         final ConfigurationNode versionNode = node.getNode(this.versionPath);
         int currentVersion = versionNode.getInt(-1);
         for (Map.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {

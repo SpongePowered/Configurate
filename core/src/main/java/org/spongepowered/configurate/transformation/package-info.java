@@ -23,4 +23,8 @@
  * class, and provide simple, chained, and versioned transformations for
  * any node.
  */
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.transformation;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

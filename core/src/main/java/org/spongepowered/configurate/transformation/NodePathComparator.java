@@ -34,13 +34,10 @@ class NodePathComparator implements Comparator<NodePath> {
                 }
 
             } else if (a instanceof Comparable) {
-                @SuppressWarnings("unchecked")
+                @SuppressWarnings({"unchecked", "rawtypes"})
                 final int comp = ((Comparable) a).compareTo(b);
-                switch (comp) {
-                    case 0:
-                        break;
-                    default:
-                        return comp;
+                if (comp != 0) {
+                    return comp;
                 }
             } else {
                 return a.equals(b) ? 0 : Integer.compare(a.hashCode(), b.hashCode());

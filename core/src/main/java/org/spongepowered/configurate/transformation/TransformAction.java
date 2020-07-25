@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.transformation;
 
 import io.leangen.geantyref.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -133,6 +132,6 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param valueAtPath The node at the input path. May be modified
      * @return A modified path, or null if the path is to stay the same
      */
-    @Nullable Object @Nullable[] visitPath(@NonNull NodePath inputPath, @NonNull T valueAtPath);
+    @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath);
 
 }
