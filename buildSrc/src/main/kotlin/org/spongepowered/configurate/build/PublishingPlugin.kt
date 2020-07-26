@@ -5,10 +5,17 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 
 typealias PublicationConfigureCb = MavenPublication.() -> Unit
+
+val Project.isRelease: Boolean
+    get() = !version.toString().endsWith("-SNAPSHOT")
+
+val Project.shouldDeployRelease: Boolean
+    get() = findProperty("deployRelease") != null
 
 open class ConfiguratePublishingExtension {
     internal val configureFunctions = mutableListOf<PublicationConfigureCb>()
@@ -76,6 +83,27 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                     }
                 }
 
+                // Only deploy releases when explicitly asked to
+                tasks.withType(PublishToMavenRepository::class.java).configureEach {
+                    it.onlyIf {
+                        !isRelease || shouldDeployRelease
+                    }
+                }
+
+                // Configure repositories
+                val ghPackagesUser = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+                val ghPackagesPassword = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                if (!isRelease && ghPackagesUser != null && ghPackagesPassword != null) {
+                    repositories.maven { repo ->
+                        repo.name = "GitHubPackages"
+                        repo.setUrl("https://maven.pkg.github.com/SpongePowered/Configurate")
+                        repo.credentials {
+                            it.username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+                            it.password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                        }
+                    }
+                }
+
                 if (project.hasProperty("spongeOssrhUsername") && project.hasProperty("spongeOssrhPassword")) {
                     project.extensions.getByType(NexusPublishExtension::class.java).apply {
                         this.repositories.sonatype().apply {
@@ -84,38 +112,28 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                         }
                     }
                 }
-            }
-
-            val mavenPublication = publishing.publications.named("maven", MavenPublication::class.java)
-            afterEvaluate {
                 if (
-                    it.hasProperty("spongeSnapshotRepo") && it.hasProperty("spongeReleaseRepo") &&
-                    it.hasProperty("spongeUsername") && it.hasProperty("spongePassword")
+                    project.hasProperty("spongeSnapshotRepo") && project.hasProperty("spongeReleaseRepo") &&
+                    project.hasProperty("spongeUsername") && project.hasProperty("spongePassword")
                 ) {
-                    val isSnapshot = project.version.toString().endsWith("-SNAPSHOT")
-                    publishing.repositories { handler ->
-                        handler.maven { repo ->
-                            repo.name = "GitHubPackages"
-                            repo.setUrl("https://maven.pkg.github.com/SpongePowered/Configurate")
-                            repo.credentials {
-                                it.username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
-                                it.password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
-                            }
+                    repositories.maven { repo ->
+                        if (!isRelease) {
+                            repo.setUrl(project.property("spongeSnapshotRepo") as String)
+                        } else {
+                            repo.setUrl(project.property("spongeReleaseRepo") as String)
                         }
-                        handler.maven { repo ->
-                            if (isSnapshot) {
-                                repo.setUrl(project.property("spongeSnapshotRepo"))
-                            } else {
-                                repo.setUrl(project.property("spongeReleaseRepo"))
-                            }
-                            repo.name = "sponge-new"
-                            repo.credentials { cred ->
-                                cred.username = project.property("spongeUsername") as String?
-                                cred.password = project.property("spongePassword") as String?
-                            }
+                        repo.name = "sponge-new"
+                        repo.credentials { cred ->
+                            cred.username = project.property("spongeUsername") as String?
+                            cred.password = project.property("spongePassword") as String?
                         }
                     }
                 }
+            }
+
+            // Set up individual project publication
+            val mavenPublication = publishing.publications.named("maven", MavenPublication::class.java)
+            afterEvaluate {
                 mavenPublication.configure { pub ->
                     for (cb in configurateExtension.configureFunctions) {
                         pub.cb()
@@ -123,6 +141,7 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                 }
             }
 
+            // Signing, using specified private key file
             extensions.configure(SigningExtension::class.java) {
                 val spongeSigningKey: String? = it.project.findProperty("spongeSigningKey") as String?
                 val spongeSigningPassword: String? = it.project.findProperty("spongeSigningPassword") as String?
