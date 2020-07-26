@@ -17,6 +17,8 @@ dependencies {
     implementation(gradleApi())
     api("gradle.plugin.net.minecrell:licenser:0.4.1")
     api("net.ltgt.gradle:gradle-errorprone-plugin:1.1.1")
+    api("de.marcphilipp.gradle:nexus-publish-plugin:0.4.0")
+    api("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2")
 }
 
 gradlePlugin {

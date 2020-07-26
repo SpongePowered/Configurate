@@ -7,6 +7,7 @@ plugins {
     id("org.ajoberstar.grgit") version "4.0.2"
     id("org.ajoberstar.git-publish") version "3.0.0-rc.1"
     id("com.github.ben-manes.versions") version "0.28.0"
+    id("io.codearte.nexus-staging")
 }
 
 group = "org.spongepowered"
@@ -28,6 +29,13 @@ subprojects {
     ktlint {
         version.set("0.37.2")
     }
+}
+
+nexusStaging {
+    val spongeOssrhUsername: String? by project
+    val spongeOssrhPassword: String? by project
+    username = spongeOssrhUsername
+    password = spongeOssrhPassword
 }
 
 tasks.aggregateJavadoc.configure {
