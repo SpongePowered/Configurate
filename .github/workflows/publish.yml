@@ -16,12 +16,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Set up signing key
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ env.HOME }}/sponge.gpg
-          contents: ${{ secrets.SPONGE_SIGNING_KEY }}
-          write-mode: overwrite
       - name: Cache Gradle packages
         uses: actions/cache@v1
         with:
@@ -41,5 +35,5 @@ jobs:
           ORG_GRADLE_PROJECT_spongePassword: ${{ secrets.SPONGE_MAVEN_REPO_PASSWORD }}
           ORG_GRADLE_PROJECT_spongeOssrhUsername: ${{ secrets.SPONGE_MAVEN_OSSRH_USER }}
           ORG_GRADLE_PROJECT_spongeOssrhPassword: ${{ secrets.SPONGE_MAVEN_OSSRH_PASSWORD }}
-          ORG_GRADLE_PROJECT_spongeSigningKey: ${{ env.HOME }}/sponge.gpg
+          ORG_GRADLE_PROJECT_spongeSigningKey: ${{ secrets.SPONGE_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_spongeSigningPassword: ${{ secrets.SPONGE_SIGNING_PASSWORD }}

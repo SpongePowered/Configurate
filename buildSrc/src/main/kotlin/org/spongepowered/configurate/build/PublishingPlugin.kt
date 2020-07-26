@@ -127,7 +127,12 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                 val spongeSigningKey: String? = it.project.findProperty("spongeSigningKey") as String?
                 val spongeSigningPassword: String? = it.project.findProperty("spongeSigningPassword") as String?
                 if (spongeSigningKey != null && spongeSigningPassword != null) {
-                    it.useInMemoryPgpKeys(file(spongeSigningKey).readText(Charsets.UTF_8), spongeSigningPassword)
+                    val keyFile = file(spongeSigningKey)
+                    if (keyFile.exists()) {
+                        it.useInMemoryPgpKeys(file(spongeSigningKey).readText(Charsets.UTF_8), spongeSigningPassword)
+                    } else {
+                        it.useInMemoryPgpKeys(spongeSigningKey, spongeSigningPassword)
+                    }
                     it.sign(publishing.publications)
                 }
             }
