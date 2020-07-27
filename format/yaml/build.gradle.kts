@@ -7,5 +7,5 @@ plugins {
 
 dependencies {
     api(core())
-    api("org.yaml:snakeyaml:${Versions.SNAKEYAML}")
+    implementation("org.yaml:snakeyaml:${Versions.SNAKEYAML}")
 }

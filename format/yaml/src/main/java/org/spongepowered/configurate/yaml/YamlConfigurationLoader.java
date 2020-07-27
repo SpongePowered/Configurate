@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.yaml;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
@@ -25,7 +26,6 @@ import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
@@ -69,6 +69,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
      */
     public static class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
         private final DumperOptions options = new DumperOptions();
+        private @Nullable NodeStyle style = null;
 
         protected Builder() {
             setIndent(4);
@@ -97,7 +98,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         }
 
         /**
-         * Sets the flow style the resultant loader should use.
+         * Sets the node style the built loader should use.
          *
          * <p>Flow: the compact, json-like representation.<br>
          * Example: <code>
@@ -113,23 +114,24 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          *     another: value
          * </code></p>
          *
-         * @param style The flow style to use
+         * <p>A {@code null} value will tell the loader to pick a value
+         * automatically based on the contents of each non-scalar node.</p>
+         *
+         * @param style The node style to use
          * @return This builder (for chaining)
          */
-        @NonNull
-        public Builder setFlowStyle(final @NonNull FlowStyle style) {
-            this.options.setDefaultFlowStyle(style);
+        public Builder setNodeStyle(final @Nullable NodeStyle style) {
+            this.style = style;
             return this;
         }
 
         /**
-         * Gets the flow style to be used by the resultant loader.
+         * Gets the node style to be used by the resultant loader.
          *
-         * @return The flow style
+         * @return The node style
          */
-        @NonNull
-        public FlowStyle getFlowSyle() {
-            return this.options.getDefaultFlowStyle();
+        public @Nullable NodeStyle getNodeStyle() {
+            return this.style;
         }
 
         @NonNull
@@ -144,6 +146,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
     private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
         final DumperOptions opts = builder.options;
+        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
         this.yaml = ThreadLocal.withInitial(() -> new Yaml(opts));
     }
 

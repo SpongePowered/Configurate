@@ -41,8 +41,8 @@ import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import org.spongepowered.configurate.loader.ConfigurationLoader
 import org.spongepowered.configurate.loader.HeaderMode
 import org.spongepowered.configurate.xml.XmlConfigurationLoader
+import org.spongepowered.configurate.yaml.NodeStyle
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
-import org.yaml.snakeyaml.DumperOptions
 import java.io.Console
 import java.io.IOException
 import java.nio.charset.Charset
@@ -225,14 +225,13 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 
 class Yaml : FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
-    private val flowStyle by option("-f", "--flow", help = "What flow style to use").enum<DumperOptions.FlowStyle>()
-        .default(DumperOptions.FlowStyle.AUTO)
+    private val flowStyle by option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return YamlConfigurationLoader.builder()
             .setPath(path)
             .setHeaderMode(header)
             .setIndent(indent)
-            .setFlowStyle(flowStyle)
+            .setNodeStyle(flowStyle)
             .build()
     }
 }
