@@ -204,6 +204,15 @@ public interface ConfigurationNode {
     boolean isMap();
 
     /**
+     * Get if this node is a pointer to another node.
+     *
+     * @return The reference target.
+     */
+    default boolean isReference() {
+        return false;
+    }
+
+    /**
      * Return true when this node has a null or empty value.
      *
      * <p>Values that may result in this method returning true include:
@@ -787,6 +796,27 @@ public interface ConfigurationNode {
      *                                the node.
      */
     ConfigurationNode setValue(Type type, @Nullable Object value) throws ObjectMappingException;
+
+    /*
+     * Set this node to be a reference to another node.
+     *
+     * <p>When this node is a reference, all get operations are redirected to
+     * the target.</p>
+     *
+     * @param target Reference target
+     * @return this
+     *
+    ConfigurationNode setReferenceValue(@Nullable ConfigurationNode target);*/
+
+    /*
+     * Dereference the value of this configuration node.
+     *
+     * <p>If this node is not a reference value, {@code null} will
+     * be returned.</p>
+     *
+     * @return node value targeted by a reference.
+     *
+    @Nullable ConfigurationNode dereference();*/
 
     /**
      * Set all the values from the given node that are not present in this node

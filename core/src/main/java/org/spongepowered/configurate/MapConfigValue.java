@@ -46,7 +46,6 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
     public Object getValue() {
         final Map<Object, Object> value = new LinkedHashMap<>();
@@ -85,9 +84,8 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    A putChild(final @NonNull Object key, final @Nullable A value) {
+    @Nullable A putChild(final Object key, final @Nullable A value) {
         if (value == null) {
             return this.values.remove(key);
         } else {
@@ -95,9 +93,8 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    A putChildIfAbsent(final @NonNull Object key, final @Nullable A value) {
+    @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
         if (value == null) {
             return this.values.remove(key);
         } else {
@@ -105,19 +102,16 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    public A getChild(final @Nullable Object key) {
+    public @Nullable A getChild(final @Nullable Object key) {
         return this.values.get(key);
     }
 
-    @NonNull
     @Override
     public Iterable<A> iterateChildren() {
         return this.values.values();
     }
 
-    @NonNull
     @Override
     MapConfigValue<N, A> copy(final @NonNull A holder) {
         final MapConfigValue<N, A> copy = new MapConfigValue<>(holder);
