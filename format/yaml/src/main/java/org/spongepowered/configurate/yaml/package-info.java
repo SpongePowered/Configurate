@@ -22,4 +22,8 @@
  * and the {@link org.spongepowered.configurate.ConfigurationOptions}'s native
  * types field can be adjusted to customize output.
  */
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.yaml;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

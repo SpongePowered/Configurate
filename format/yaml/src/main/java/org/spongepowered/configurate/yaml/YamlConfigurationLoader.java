@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.yaml;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -59,7 +58,6 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
      *
      * @return A new builder
      */
-    @NonNull
     public static Builder builder() {
         return new Builder();
     }
@@ -82,7 +80,6 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          * @param indent The indent level
          * @return This builder (for chaining)
          */
-        @NonNull
         public Builder setIndent(final int indent) {
             this.options.setIndent(indent);
             return this;
@@ -134,7 +131,6 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
             return this.style;
         }
 
-        @NonNull
         @Override
         public YamlConfigurationLoader build() {
             return new YamlConfigurationLoader(this);
@@ -160,9 +156,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         this.yaml.get().dump(node.getValue(), writer);
     }
 
-    @NonNull
     @Override
-    public BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {
+    public BasicConfigurationNode createNode(final ConfigurationOptions options) {
         return BasicConfigurationNode.root(options);
     }
 
