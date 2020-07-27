@@ -1,0 +1,6 @@
+document:
+	we: support tabs
+	and: "literal tabs	in strings"
+	with:
+		- more levels
+		- of indentation

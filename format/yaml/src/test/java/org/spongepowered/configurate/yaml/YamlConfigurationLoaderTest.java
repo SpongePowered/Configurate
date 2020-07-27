@@ -52,4 +52,24 @@ public class YamlConfigurationLoaderTest {
         assertEquals(0, fooList.get(0).get("bar").size());
     }
 
+    @Test
+    public void testReadWithTabs() throws IOException {
+        final ConfigurationNode expected = BasicConfigurationNode.root(n -> {
+            n.getNode("document").act(d -> {
+                d.getNode("we").setValue("support tabs");
+                d.getNode("and").setValue("literal tabs\tin strings");
+                d.getNode("with").act(w -> {
+                    w.appendListNode().setValue("more levels");
+                    w.appendListNode().setValue("of indentation");
+                });
+            });
+        });
+
+        final URL url = getClass().getResource("/tab-example.yml");
+        final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
+                .setUrl(url).build();
+        final ConfigurationNode node = loader.load();
+        assertEquals(expected, node);
+    }
+
 }

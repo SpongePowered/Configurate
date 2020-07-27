@@ -143,7 +143,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
         final DumperOptions opts = builder.options;
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
-        this.yaml = ThreadLocal.withInitial(() -> new Yaml(opts));
+        this.yaml = ThreadLocal.withInitial(() -> new ConfigurateYaml(opts));
     }
 
     @Override

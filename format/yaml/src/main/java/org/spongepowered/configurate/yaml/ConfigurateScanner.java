@@ -108,7 +108,7 @@ import org.yaml.snakeyaml.util.UriEncoder;
  * Read comments in the Scanner code for more details.
  * </pre>
  */
-public final class ConfigurateScanner implements Scanner { // Configurate: rename
+final class ConfigurateScanner implements Scanner { // Configurate: rename + package-private
     /**
      * A regular expression matching characters which are not in the hexadecimal
      * set (0-9, A-F, a-f).
@@ -1210,7 +1210,7 @@ public final class ConfigurateScanner implements Scanner { // Configurate: renam
             int ff = 0;
             // Peek ahead until we find the first non-space character, then
             // move forward directly to that character.
-            while (reader.peek(ff) == ' ') {
+            while (reader.peek(ff) == ' ' || reader.peek(ff) == '\t') { // Configurate -- accept tabs
                 ff++;
             }
             if (ff > 0) {
