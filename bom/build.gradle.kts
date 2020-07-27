@@ -15,7 +15,11 @@ configurate {
 dependencies {
     constraints {
         api(core())
-        api(project(":ext-kotlin"))
+        api(project(":extra:extra-kotlin"))
+        api(project(":extra:extra-guice"))
+        api(project(":extra:extra-dfu2"))
+        api(project(":extra:extra-dfu3"))
+        api(project(":extra:extra-dfu4"))
         api(project(":tool"))
         api(format("gson"))
         api(format("hocon"))

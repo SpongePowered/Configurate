@@ -3,7 +3,7 @@ private val prefix = "configurate"
 rootProject.name = "$prefix-parent"
 
 // core
-listOf("core", "tool", "ext-kotlin", "bom", "examples").forEach {
+listOf("core", "tool", "bom", "examples").forEach {
     include(":$it")
     // findProject(":$it")?.name = "$prefix-$it"
 }
