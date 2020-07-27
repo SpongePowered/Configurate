@@ -33,7 +33,7 @@ The current supported loaders provided by the project are:
 ## Usage
 
 * To use configurate, your project must be configured to use Java 8 or higher.
-* Release and snapshot artifacts are hosted on SpongePowered's Maven Repository, available at https://repo.spongepowered.org/maven/.
+* Release artifacts are hosted on Maven Central, and snapshots are on Sonatype OSS
 
 The latest release is: `3.7`
 
@@ -43,16 +43,18 @@ If your project uses Maven or Gradle, just add the following to your build scrip
 
 ```groovy
 repositories {
+    // Only for releases
     mavenCentral()
+    // Only for snapshots
     maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        name 'sonatypeOss'
     }
 }
 
 dependencies {
     // Modify this line to target the loader you wish to use.
-    compile 'org.spongepowered:configurate-hocon:3.7'
+    implementation 'org.spongepowered:configurate-hocon:3.7'
 }
 ```
 
@@ -69,9 +71,10 @@ dependencies {
 </dependencies>
 
 <repositories>
+    <!-- Only for snapshots -->
     <repository>
-        <id>sponge</id>
-        <url>https://repo.spongepowered.org/maven</url>
+        <id>sonatype-oss</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
 </repositories>
 ```
