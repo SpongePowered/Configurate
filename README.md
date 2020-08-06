@@ -1,7 +1,9 @@
-# [Configurate](https://configurate.aoeu.xyz/) ![Build Status](https://github.com/SpongePowered/Configurate/workflows/Build%20And%20Test/badge.svg)
+# [Configurate](https://configurate.aoeu.xyz/) 
+![Build Status](https://github.com/SpongePowered/Configurate/workflows/Build%20And%20Test/badge.svg) | ![Maven Central](https://img.shields.io/maven-central/v/org.spongepowered/configurate-core?color=%23f6cf17)
+
 Configurate is a simple configuration library for Java applications that provides a node-based representation of data, able to handle a wide variety of configuration formats.
 
-Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs) or the `#spongedev` channel on `irc.esper.net`.
+Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs).
 
 The current supported formats are:
 
@@ -33,9 +35,9 @@ The current supported loaders provided by the project are:
 ## Usage
 
 * To use configurate, your project must be configured to use Java 8 or higher.
-* Release and snapshot artifacts are hosted on SpongePowered's Maven Repository, available at https://repo.spongepowered.org/maven/.
+* Releases are on Maven Central and snapshot artifacts are hosted on Sonatype OSS. Builds are also included on SpongePowered's Maven Repository, available at https://repo.spongepowered.org/maven/.
 
-The latest release is: `3.6.1`
+The latest release is: `3.7`
 
 If your project uses Maven or Gradle, just add the following to your build scripts.
 
@@ -44,15 +46,11 @@ If your project uses Maven or Gradle, just add the following to your build scrip
 ```groovy
 repositories {
     mavenCentral()
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
-    }
 }
 
 dependencies {
     // Modify this line to target the loader you wish to use.
-    compile 'org.spongepowered:configurate-hocon:3.6.1'
+    compile 'org.spongepowered:configurate-hocon:3.7'
 }
 ```
 
@@ -64,16 +62,9 @@ dependencies {
         <groupId>org.spongepowered</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>configurate-hocon</artifactId>
-        <version>3.6.1</version>
+        <version>3.7</version>
     </dependency>
 </dependencies>
-
-<repositories>
-    <repository>
-        <id>sponge</id>
-        <url>https://repo.spongepowered.org/maven</url>
-    </repository>
-</repositories>
 ```
 
 More detailed usage instructions can be found in the [configurate wiki](https://github.com/SpongePowered/configurate/wiki).
