@@ -65,7 +65,17 @@ public final class AtomicFiles {
      */
     @NonNull
     public static BufferedWriter createAtomicBufferedWriter(@NonNull Path path, final @NonNull Charset charset) throws IOException {
+        // absolute
         path = path.toAbsolutePath();
+
+        // unwrap any symbolic links
+        try {
+            while (Files.isSymbolicLink(path)) {
+                path = Files.readSymbolicLink(path);
+            }
+        } catch (final UnsupportedOperationException | IOException ex) {
+            // ignore
+        }
 
         final Path writePath = getTemporaryPath(path.getParent(), path.getFileName().toString());
         if (Files.exists(path)) {
