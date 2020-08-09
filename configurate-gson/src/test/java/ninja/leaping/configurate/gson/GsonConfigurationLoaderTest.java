@@ -20,15 +20,18 @@ import com.google.common.io.Resources;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.loader.AtomicFiles;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.loader.HeaderMode;
 import ninja.leaping.configurate.util.MapFactories;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -143,5 +146,26 @@ public class GsonConfigurationLoaderTest {
         assertEquals(dval, ret.getNode("double").getValue());
         assertEquals(blval, ret.getNode("boolean").getValue());
         assertEquals(stval, ret.getNode("string").getValue());
+    }
+
+    @Test
+    void testWriteNonRootNode() throws IOException {
+        // https://github.com/SpongePowered/Configurate/issues/163
+        final ConfigurationNode source = ConfigurationNode.root(n -> {
+            n.getNode("GriefPrevention", "claim-name", "text")
+                    .setValue("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
+        });
+
+        // Code from GriefDefender's ComponentConfigSerializer
+        // https://github.com/bloodmc/GriefDefender/blob/26efaf2b7386f05c74566c4715dc7068b6c806d8/sponge/src/main/java/com/griefdefender/configuration/serializer/ComponentConfigSerializer.java#L58
+        StringWriter writer = new StringWriter();
+
+        GsonConfigurationLoader gsonLoader = GsonConfigurationLoader.builder()
+                .setIndent(0)
+                .setSink(() -> new BufferedWriter(writer))
+                .setHeaderMode(HeaderMode.NONE)
+                .build();
+
+        gsonLoader.save(source.getNode("GriefPrevention", "claim-name"));
     }
 }

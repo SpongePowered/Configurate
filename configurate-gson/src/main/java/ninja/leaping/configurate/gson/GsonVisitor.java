@@ -26,7 +26,9 @@ import java.io.IOException;
 import static java.util.Objects.requireNonNull;
 
 class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, IOException> {
-    static GsonVisitor INSTANCE = new GsonVisitor();
+    static ThreadLocal<GsonVisitor> INSTANCE = ThreadLocal.withInitial(GsonVisitor::new);
+
+    private ConfigurationNode start;
 
     @Override
     public JsonWriter newState() {
@@ -35,16 +37,18 @@ class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, IOException>
 
     @Override
     public void beginVisit(ConfigurationNode node, JsonWriter state) throws IOException {
-        if (node.getKey() == null && node.getValue() == null) {
+        if (node.isEmpty()) {
             state.beginObject();
             state.endObject();
+        } else {
+            this.start = node;
         }
     }
 
     @Override
     public void enterNode(ConfigurationNode node, JsonWriter state) throws IOException {
         @Nullable ConfigurationNode parent = node.getParent();
-        if (parent != null && parent.isMap()) {
+        if (node != this.start && parent != null && parent.isMap()) {
             state.name(requireNonNull(node.getKey(), "Node must have key to be a value in a mapping").toString());
         }
     }
@@ -92,6 +96,7 @@ class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, IOException>
     @Override
     public Void endVisit(JsonWriter state) throws IOException {
         state.flush();
+        this.start = null;
         return null;
     }
 }
