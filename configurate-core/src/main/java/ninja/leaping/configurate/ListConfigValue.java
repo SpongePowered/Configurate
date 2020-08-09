@@ -106,7 +106,8 @@ class ListConfigValue extends ConfigValue {
             values = this.values.get();
             synchronized (values) {
                 if (value == null) {
-                    if (index < values.size()) {
+                    // only remove actually existing values
+                    if (index >= 0 && index < values.size()) {
                         // remove the value
                         ret = values.remove(index);
                         // update indexes for subsequent elements

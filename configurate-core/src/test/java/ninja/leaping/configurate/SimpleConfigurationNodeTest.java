@@ -229,4 +229,12 @@ public class SimpleConfigurationNodeTest {
         assertEquals("default value", subject.getValue());
     }
 
+    @Test
+    public void testNullOutListValue() {
+        ConfigurationNode.root(n -> {
+            n.appendListNode().setValue("blah");
+            n.appendListNode().setValue(null);
+        });
+    }
+
 }
