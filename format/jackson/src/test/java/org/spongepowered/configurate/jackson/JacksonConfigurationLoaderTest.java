@@ -21,15 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
+import org.spongepowered.configurate.loader.HeaderMode;
 import org.spongepowered.configurate.util.MapFactories;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -80,6 +84,30 @@ public class JacksonConfigurationLoaderTest {
     @Test
     public void testRoundtripDouble(final @TempDir Path tempDir) throws IOException {
         testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
+    }
+
+    @Test
+    void testWriteNonRootNode() throws IOException {
+        // https://github.com/SpongePowered/Configurate/issues/163
+        final ConfigurationNode source = BasicConfigurationNode.root(n -> {
+            n.getNode("GriefPrevention", "claim-name", "text")
+                    .setValue("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
+        });
+
+        // Code from GriefDefender's ComponentConfigSerializer
+        // https://github.com/bloodmc/GriefDefender/blob/26efaf2b7386f05c74566c4715dc7068b6c806d8/sponge/src/main/java/com/griefdefender/configuration/serializer/ComponentConfigSerializer.java#L58
+        final StringWriter writer = new StringWriter();
+
+        final JacksonConfigurationLoader jacksonLoader = JacksonConfigurationLoader.builder()
+                .setIndent(0)
+                .setFieldValueSeparatorStyle(FieldValueSeparatorStyle.NO_SPACE)
+                .setSink(() -> new BufferedWriter(writer))
+                .setHeaderMode(HeaderMode.NONE)
+                .build();
+
+        jacksonLoader.save(source.getNode("GriefPrevention", "claim-name"));
+
+        assertEquals("{\"text\":\"§4§9The §4T§6h§ea§2r§9o§5w §4Estate\"}", writer.toString().trim());
     }
 
 }

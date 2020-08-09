@@ -27,12 +27,15 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
+import org.spongepowered.configurate.loader.HeaderMode;
 import org.spongepowered.configurate.util.MapFactories;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -141,6 +144,29 @@ public class GsonConfigurationLoaderTest {
         assertEquals(dval, ret.getNode("double").getValue());
         assertEquals(blval, ret.getNode("boolean").getValue());
         assertEquals(stval, ret.getNode("string").getValue());
+    }
+
+    @Test
+    void testWriteNonRootNode() throws IOException {
+        // https://github.com/SpongePowered/Configurate/issues/163
+        final ConfigurationNode source = BasicConfigurationNode.root(n -> {
+            n.getNode("GriefPrevention", "claim-name", "text")
+                    .setValue("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
+        });
+
+        // Code from GriefDefender's ComponentConfigSerializer
+        // https://github.com/bloodmc/GriefDefender/blob/26efaf2b7386f05c74566c4715dc7068b6c806d8/sponge/src/main/java/com/griefdefender/configuration/serializer/ComponentConfigSerializer.java#L58
+        final StringWriter writer = new StringWriter();
+
+        final GsonConfigurationLoader gsonLoader = GsonConfigurationLoader.builder()
+                .setIndent(0)
+                .setSink(() -> new BufferedWriter(writer))
+                .setHeaderMode(HeaderMode.NONE)
+                .build();
+
+        gsonLoader.save(source.getNode("GriefPrevention", "claim-name"));
+
+        assertEquals("{\"text\":\"§4§9The §4T§6h§ea§2r§9o§5w §4Estate\"}", writer.toString().trim());
     }
 
 }

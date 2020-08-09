@@ -240,7 +240,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     public void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
         try (JsonGenerator generator = this.factory.createGenerator(writer)) {
             generator.setPrettyPrinter(new ConfiguratePrettyPrinter(this.indent, this.fieldValueSeparatorStyle));
-            JacksonVisitor.INSTANCE.visit(node, generator);
+            JacksonVisitor.INSTANCE.get().visit(node, generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }

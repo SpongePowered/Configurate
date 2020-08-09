@@ -27,7 +27,9 @@ import java.io.IOException;
 
 class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGenerator, Void, IOException> {
 
-    static JacksonVisitor INSTANCE = new JacksonVisitor();
+    static ThreadLocal<JacksonVisitor> INSTANCE = ThreadLocal.withInitial(JacksonVisitor::new);
+
+    private @Nullable ConfigurationNode start;
 
     @Override
     public JsonGenerator newState() {
@@ -36,13 +38,14 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
 
     @Override
     public void beginVisit(final ConfigurationNode node, final JsonGenerator state) {
+        this.start = node;
     }
 
     @Override
     public void enterNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
         //generateComment(generator, ent.getValue(), false);
         final @Nullable ConfigurationNode parent = node.getParent();
-        if (parent != null && parent.isMap()) {
+        if (node != this.start && parent != null && parent.isMap()) {
             generator.writeFieldName(requireNonNull(node.getKey(), "Node must have key to be a value in a mapping").toString());
         }
     }
@@ -117,6 +120,7 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
     @Override
     public Void endVisit(final JsonGenerator state) throws IOException {
         state.flush();
+        this.start = null;
         return null;
     }
 
