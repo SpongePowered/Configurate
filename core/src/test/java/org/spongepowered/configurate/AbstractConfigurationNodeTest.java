@@ -303,4 +303,12 @@ public class AbstractConfigurationNodeTest {
         assertTrue(node.hasChild(NodePath.path("ball", "another")));
     }
 
+    @Test
+    public void testNullOutListValue() {
+        BasicConfigurationNode.root(n -> {
+            n.appendListNode().setValue("blah");
+            n.appendListNode().setValue(null);
+        });
+    }
+
 }
