@@ -1,13 +1,13 @@
 # Making changes? https://github.com/nektos/act may help you test locally
 
-name: Publish
+name: Publish for Release
 
 on:
   release:
       type: [ published ]
 
 jobs:
-  publish:
+  publish-release:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
