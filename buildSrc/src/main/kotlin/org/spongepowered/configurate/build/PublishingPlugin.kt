@@ -93,7 +93,7 @@ class ConfiguratePublishingPlugin : Plugin<Project> {
                 // Configure repositories
                 val ghPackagesUser = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
                 val ghPackagesPassword = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
-                if (!isRelease && ghPackagesUser != null && ghPackagesPassword != null) {
+                if (isRelease && ghPackagesUser != null && ghPackagesPassword != null) {
                     repositories.maven { repo ->
                         repo.name = "GitHubPackages"
                         repo.setUrl("https://maven.pkg.github.com/SpongePowered/Configurate")
