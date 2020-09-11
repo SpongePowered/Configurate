@@ -311,4 +311,70 @@ public class AbstractConfigurationNodeTest {
         });
     }
 
+    /**
+     * A test representation hint which indicates to a serializer that the node
+     * should be represented evilly.
+     */
+    private static final RepresentationHint<Boolean> IS_EVIL = RepresentationHint.of("evil", Boolean.class);
+
+    @Test
+    public void testHintsReadWrite() {
+        final ConfigurationNode node = BasicConfigurationNode.root();
+        node.setValue("I hold hints!");
+        assertNull(node.getHint(IS_EVIL));
+        node.setHint(IS_EVIL, true);
+        assertEquals(true, node.getHint(IS_EVIL));
+
+    }
+
+    @Test
+    public void testHintSetToNull() {
+        final ConfigurationNode node = BasicConfigurationNode.root();
+        node.setHint(IS_EVIL, null);
+        assertNull(node.getHint(IS_EVIL));
+    }
+
+    @Test
+    public void testGetHintInherited() {
+        final ConfigurationNode root = BasicConfigurationNode.root();
+        root.setHint(IS_EVIL, false);
+
+        final ConfigurationNode child = root.getNode("blah");
+        assertEquals(false, child.getHint(IS_EVIL));
+
+        child.setHint(IS_EVIL, true);
+        assertEquals(true, child.getHint(IS_EVIL));
+
+        // check that parent was not changed
+        assertEquals(false, root.getHint(IS_EVIL));
+    }
+
+    @Test
+    public void testHintsCopied() {
+        final ConfigurationNode original = BasicConfigurationNode.root();
+        original.setValue("1234").setHint(IS_EVIL, true);
+
+        final ConfigurationNode copy = original.copy();
+        assertEquals(true, copy.getHint(IS_EVIL));
+
+        final ConfigurationNode copiedSet = BasicConfigurationNode.root();
+        copiedSet.setValue(original);
+        assertEquals(true, copiedSet.getHint(IS_EVIL));
+    }
+
+    @Test
+    public void testHintsMerged() {
+        final ConfigurationNode hintHolder = BasicConfigurationNode.root()
+                .setValue('o')
+                .setHint(IS_EVIL, true);
+        final ConfigurationNode mergeTarget = BasicConfigurationNode.root()
+                .setValue('o')
+                .setHint(RepresentationHint.INDENT, 34);
+
+        mergeTarget.mergeValuesFrom(hintHolder);
+
+        assertEquals(34, mergeTarget.getHint(RepresentationHint.INDENT));
+        assertEquals(true, mergeTarget.getHint(IS_EVIL));
+    }
+
 }

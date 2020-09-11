@@ -874,4 +874,13 @@ public interface ConfigurationNode {
      */
     <V> @Nullable V getOwnHint(RepresentationHint<V> hint);
 
+    /**
+     * Get an unmodifiable copy of representation hints stored on this node.
+     *
+     * <p>This does not include inherited hints.</p>
+     *
+     * @return copy of hints this node has set.
+     */
+    Map<RepresentationHint<?>, ?> getOwnHints();
+
 }

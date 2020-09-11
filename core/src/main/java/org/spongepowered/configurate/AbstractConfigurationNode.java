@@ -25,6 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
@@ -78,7 +79,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * Storage for representation hints.
      */
-    private final Map<RepresentationHint<?>, Object> hints = new ConcurrentHashMap<>();
+    final Map<RepresentationHint<?>, Object> hints;
 
     protected AbstractConfigurationNode(final @Nullable Object key, final @Nullable A parent, final ConfigurationOptions options) {
         requireNonNull(options, "options");
@@ -90,6 +91,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         this.options = options;
         this.parent = parent;
         this.value = NullConfigValue.instance();
+        this.hints = new ConcurrentHashMap<>();
 
         // if the parent is null, this node is a root node, and is therefore "attached"
         if (parent == null) {
@@ -103,6 +105,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         this.key = copyOf.key;
         this.parent = parent;
         this.value = copyOf.value.copy(implSelf());
+        this.hints = new ConcurrentHashMap<>(copyOf.hints);
     }
 
     /**
@@ -166,6 +169,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 return self();
             }
 
+            this.hints.clear();
+            this.hints.putAll(newValueAsNode.getOwnHints());
             if (newValueAsNode.isList()) {
                 // handle list
                 attachIfNecessary();
@@ -250,6 +255,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public N mergeValuesFrom(final ConfigurationNode other) {
+        this.hints.putAll(other.getOwnHints());
         if (other.isMap()) {
             final ConfigValue<N, A> oldValue;
             ConfigValue<N, A> newValue;
@@ -607,8 +613,13 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public <V> N setHint(final RepresentationHint<V> hint, @Nullable final V value) {
-        this.hints.put(hint, value);
+    public <V> N setHint(final RepresentationHint<V> hint, final @Nullable V value) {
+        if (value == null) {
+            this.hints.remove(hint);
+        } else {
+            this.hints.put(hint, value);
+        }
+
         return self();
     }
 
@@ -631,6 +642,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     @SuppressWarnings("unchecked")
     public <V> @Nullable V getOwnHint(final RepresentationHint<V> hint) {
         return (V) this.hints.get(hint);
+    }
+
+    @Override
+    public Map<RepresentationHint<?>, ?> getOwnHints() {
+        return UnmodifiableCollections.buildMap(m -> m.putAll(this.hints));
     }
 
     @Override
