@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
@@ -36,9 +37,13 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.Setting;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -521,7 +526,44 @@ public class TypeSerializersTest {
         nodeSerializer.serialize(nodeType, ret, dest);
 
         assertEquals(sourceNode, dest);
+    }
 
+    @Test
+    public void testPathSerializer() throws ObjectMappingException {
+        final TypeSerializer<Path> pathSerializer = getSerializer(Path.class);
+        assertNotNull(pathSerializer);
+
+        final BasicConfigurationNode source = BasicConfigurationNode.root().setValue("test" + FileSystems.getDefault().getSeparator() + "file.txt");
+        final Path ret = pathSerializer.deserialize(Path.class, source);
+        assertEquals(Paths.get("test", "file.txt"), ret.normalize());
+
+        final BasicConfigurationNode writeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
+                .withNativeTypes(ImmutableSet.of(String.class, Byte.class)));
+        pathSerializer.serialize(Path.class, ret, writeTo);
+        assertEquals(source, writeTo);
+    }
+
+    @Test
+    public void testPathSerializerFromList() throws ObjectMappingException {
+        final TypeSerializer<Path> pathSerializer = getSerializer(Path.class);
+        assertNotNull(pathSerializer);
+
+        final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
+            n.appendListNode().setValue("test");
+            n.appendListNode().setValue("file.txt");
+        });
+        final Path ret = pathSerializer.deserialize(Path.class, source);
+        assertEquals(Paths.get("test", "file.txt"), ret);
+    }
+
+    @Test
+    public void testFileSerializer() throws ObjectMappingException {
+        final TypeSerializer<File> fileSerializer = getSerializer(File.class);
+        assertNotNull(fileSerializer);
+
+        final BasicConfigurationNode source = BasicConfigurationNode.root().setValue("hello/world.png");
+
+        assertEquals(new File("hello/world.png"), fileSerializer.deserialize(File.class, source));
     }
 
 }

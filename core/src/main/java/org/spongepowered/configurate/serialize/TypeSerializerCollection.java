@@ -72,6 +72,8 @@ public final class TypeSerializerCollection {
                 .register(ArraySerializer.Doubles.TYPE, new ArraySerializer.Doubles())
                 .register(SetSerializer.TYPE, new SetSerializer())
                 .register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer())
+                .register(PathSerializer.TYPE, PathSerializer.INSTANCE)
+                .register(FileSerializer.TYPE, FileSerializer.INSTANCE)
                 .build();
     }
 
