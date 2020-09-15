@@ -44,36 +44,36 @@ public final class TypeSerializerCollection {
 
     static {
         DEFAULTS = TypeSerializerCollection.builder()
-                .register(Scalars.STRING)
-                .register(Scalars.BOOLEAN)
+                .registerExact(Scalars.STRING)
+                .registerExact(Scalars.BOOLEAN)
                 .register(MapSerializer.TYPE, new MapSerializer())
                 .register(ListSerializer.TYPE, new ListSerializer())
-                .register(Scalars.BYTE)
-                .register(Scalars.SHORT)
-                .register(Scalars.INTEGER)
-                .register(Scalars.LONG)
-                .register(Scalars.FLOAT)
-                .register(Scalars.DOUBLE)
+                .registerExact(Scalars.BYTE)
+                .registerExact(Scalars.SHORT)
+                .registerExact(Scalars.INTEGER)
+                .registerExact(Scalars.LONG)
+                .registerExact(Scalars.FLOAT)
+                .registerExact(Scalars.DOUBLE)
                 .register(AnnotatedObjectSerializer.predicate(), new AnnotatedObjectSerializer())
                 .register(Scalars.ENUM)
-                .register(Scalars.CHAR)
-                .register(Scalars.URI)
-                .register(Scalars.URL)
-                .register(Scalars.UUID)
-                .register(Scalars.PATTERN)
+                .registerExact(Scalars.CHAR)
+                .registerExact(Scalars.URI)
+                .registerExact(Scalars.URL)
+                .registerExact(Scalars.UUID)
+                .registerExact(Scalars.PATTERN)
                 .register(ArraySerializer.Objects.predicate(), new ArraySerializer.Objects())
-                .register(ArraySerializer.Booleans.TYPE, new ArraySerializer.Booleans())
-                .register(ArraySerializer.Bytes.TYPE, new ArraySerializer.Bytes())
-                .register(ArraySerializer.Chars.TYPE, new ArraySerializer.Chars())
-                .register(ArraySerializer.Shorts.TYPE, new ArraySerializer.Shorts())
-                .register(ArraySerializer.Ints.TYPE, new ArraySerializer.Ints())
-                .register(ArraySerializer.Longs.TYPE, new ArraySerializer.Longs())
-                .register(ArraySerializer.Floats.TYPE, new ArraySerializer.Floats())
-                .register(ArraySerializer.Doubles.TYPE, new ArraySerializer.Doubles())
+                .registerExact(ArraySerializer.Booleans.TYPE, new ArraySerializer.Booleans())
+                .registerExact(ArraySerializer.Bytes.TYPE, new ArraySerializer.Bytes())
+                .registerExact(ArraySerializer.Chars.TYPE, new ArraySerializer.Chars())
+                .registerExact(ArraySerializer.Shorts.TYPE, new ArraySerializer.Shorts())
+                .registerExact(ArraySerializer.Ints.TYPE, new ArraySerializer.Ints())
+                .registerExact(ArraySerializer.Longs.TYPE, new ArraySerializer.Longs())
+                .registerExact(ArraySerializer.Floats.TYPE, new ArraySerializer.Floats())
+                .registerExact(ArraySerializer.Doubles.TYPE, new ArraySerializer.Doubles())
                 .register(SetSerializer.TYPE, new SetSerializer())
                 .register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer())
                 .register(PathSerializer.TYPE, PathSerializer.INSTANCE)
-                .register(FileSerializer.TYPE, FileSerializer.INSTANCE)
+                .registerExact(FileSerializer.TYPE, FileSerializer.INSTANCE)
                 .build();
     }
 
@@ -252,7 +252,7 @@ public final class TypeSerializerCollection {
          * Register a type serializer for a given type.
          *
          * <p>Serializers registered will match all subclasses of the provided
-         * type, as well as unwrapped primitive equivalents of the type.
+         * type, as well as unboxed primitive equivalents of the type.
          *
          * @param type The type to accept
          * @param serializer The serializer that will be serialized with
@@ -278,6 +278,16 @@ public final class TypeSerializerCollection {
             return this;
         }
 
+        /**
+         * Register a scalar serializer with its own attached type token.
+         *
+         * <p>Serializers registered will match all subclasses of the provided
+         * type, as well as unboxed primitive equivalents of the type.</p>
+         *
+         * @param serializer serializer to register
+         * @param <T> value type
+         * @return this builder
+         */
         public <T> Builder register(final ScalarSerializer<T> serializer) {
             requireNonNull(serializer, "serializer");
             return register(serializer.type(), serializer);
@@ -301,6 +311,61 @@ public final class TypeSerializerCollection {
                 }
                 return false;
             }, serializer));
+            return this;
+        }
+
+        /**
+         * Register an <em>exact</em> type serializer for a given type.
+         *
+         * <p>Serializers will only match exact object types. For example, a
+         * serializer registered for {@code List<String>} would not match when
+         * {@code ArrayList<String>} is queried.</p>
+         *
+         * @param type The type to accept
+         * @param serializer The serializer that will be serialized with
+         * @param <T> The type to generify around
+         * @return this
+         */
+        public <T> Builder registerExact(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
+            return registerExact0(type.getType(), serializer);
+        }
+
+        /**
+         * Register an <em>exact</em> type serializer for a given type.
+         *
+         * <p>Serializers will only match exact object types. For example, a
+         * serializer registered for {@code List<String>} would not match when
+         * {@code ArrayList<String>} is queried.</p>
+         *
+         * @param type The type to accept
+         * @param serializer The serializer that will be serialized with
+         * @param <T> The type to generify around
+         * @return this
+         */
+        public <T> Builder registerExact(final Class<T> type, final TypeSerializer<? super T> serializer) {
+            return registerExact0(type, serializer);
+        }
+
+        /**
+         * Register a scalar serializer with its own attached type token.
+         *
+         * <p>Serializers will only match exact object types. For example, a
+         * serializer registered for {@code List<String>} would not match when
+         * {@code ArrayList<String>} is queried.</p>
+         *
+         * @param serializer serializer to register
+         * @param <T> value type
+         * @return this builder
+         */
+        public <T> Builder registerExact(final ScalarSerializer<T> serializer) {
+            requireNonNull(serializer, "serializer");
+            return registerExact(serializer.type(), serializer);
+        }
+
+        private Builder registerExact0(final Type type, final TypeSerializer<?> serializer) {
+            requireNonNull(type, "type");
+            requireNonNull(serializer, "serializer");
+            this.serializers.add(new RegisteredSerializer(test -> test.equals(type), serializer));
             return this;
         }
 
