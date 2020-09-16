@@ -107,6 +107,15 @@ public interface NodePath extends Iterable<Object> {
     }
 
     /**
+     * Get an empty node path. This refers to the root node.
+     *
+     * @return the empty path
+     */
+    static NodePath path() {
+        return NodePathImpl.EMPTY;
+    }
+
+    /**
      * Create a new node path with the same data as this path.
      *
      * @return a new path

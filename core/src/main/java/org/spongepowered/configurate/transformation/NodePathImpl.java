@@ -23,6 +23,8 @@ import java.util.Iterator;
 
 final class NodePathImpl implements NodePath {
 
+    static final NodePath EMPTY = new NodePathImpl(new Object[0], false);
+
     Object[] arr;
 
     NodePathImpl() {
