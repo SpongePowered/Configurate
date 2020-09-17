@@ -25,6 +25,10 @@ import java.util.function.Consumer;
  */
 public interface CommentedConfigurationNode extends CommentedConfigurationNodeIntermediary<CommentedConfigurationNode> {
 
+    static ConfigurationNodeFactory<CommentedConfigurationNode> factory() {
+        return CommentedConfigurationNode::root;
+    }
+
     @NonNull
     static CommentedConfigurationNode root() {
         return root(ConfigurationOptions.defaults());

@@ -28,6 +28,10 @@ import java.util.function.Consumer;
  */
 public interface AttributedConfigurationNode extends CommentedConfigurationNodeIntermediary<AttributedConfigurationNode> {
 
+    static ConfigurationNodeFactory<AttributedConfigurationNode> factory() {
+        return options -> AttributedConfigurationNode.root("root", options);
+    }
+
     @NonNull
     static AttributedConfigurationNode root() {
         return root("root", ConfigurationOptions.defaults());

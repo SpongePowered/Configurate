@@ -22,6 +22,10 @@ import java.util.function.Consumer;
 
 public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicConfigurationNode> {
 
+    static ConfigurationNodeFactory<BasicConfigurationNode> factory() {
+        return BasicConfigurationNode::root;
+    }
+
     @NonNull
     static BasicConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
