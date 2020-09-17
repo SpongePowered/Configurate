@@ -16,10 +16,15 @@
  */
 package org.spongepowered.configurate;
 
+import io.leangen.geantyref.TypeToken;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
 
 /**
- * Various methods to create empty configuration nodes.
+ * Various methods to create configuration nodes with specific options.
  */
 public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
 
@@ -84,6 +89,98 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         final N node = createNode(options);
         action.accept(node);
         return node;
+    }
+
+    /**
+     * Create a collector that appends values to a newly created node as
+     * map children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final TypeToken<V> valueType) {
+        return Collector.of(this::createNode, (node, entry) -> {
+            try {
+                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, (a, b) -> {
+                a.mergeValuesFrom(b);
+                return a;
+            });
+    }
+
+    /**
+     * Create a collector that appends values to a newly created node as
+     * map children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final Class<V> valueType) {
+        return Collector.of(this::createNode, (node, entry) -> {
+            try {
+                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, (a, b) -> {
+                a.mergeValuesFrom(b);
+                return a;
+            });
+    }
+
+    /**
+     * Create a collector that appends values to a newly created node as
+     * list children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<V, N, N> collectorToList(final TypeToken<V> valueType) {
+        return Collector.of(this::createNode, (node, value) -> {
+            try {
+                node.appendListNode().setValue(valueType, value);
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, (a, b) -> {
+                a.mergeValuesFrom(b);
+                return a;
+            });
+    }
+
+    /**
+     * Create a collector that appends values to a newly created node as
+     * list children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<V, N, N> collectorToList(final Class<V> valueType) {
+        return Collector.of(this::createNode, (node, value) -> {
+            try {
+                node.appendListNode().setValue(valueType, value);
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, (a, b) -> {
+                a.mergeValuesFrom(b);
+                return a;
+            });
     }
 
 }

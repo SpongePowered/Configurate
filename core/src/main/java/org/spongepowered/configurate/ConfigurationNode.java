@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 /**
  * A node in the configuration tree.
@@ -243,6 +244,82 @@ public interface ConfigurationNode {
      * @return The map children currently attached to this node
      */
     Map<Object, ? extends ConfigurationNode> getChildrenMap();
+
+    /**
+     * Create a collector that appends values to this node as map children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToMap(final TypeToken<V> valueType) {
+        return Collector.of(() -> this, (node, entry) -> {
+            try {
+                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, ConfigurationNode::mergeValuesFrom);
+    }
+
+    /**
+     * Create a collector that appends values to this node as map children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToMap(final Class<V> valueType) {
+        return Collector.of(() -> this, (node, entry) -> {
+            try {
+                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, ConfigurationNode::mergeValuesFrom);
+    }
+
+    /**
+     * Create a collector that appends values to this node as list children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToList(final TypeToken<V> valueType) {
+        return Collector.of(() -> this, (node, value) -> {
+            try {
+                node.appendListNode().setValue(valueType, value);
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, ConfigurationNode::mergeValuesFrom);
+    }
+
+    /**
+     * Create a collector that appends values to this node as list children.
+     *
+     * <p>This collector does not accept values in parallel.</p>
+     *
+     * @param valueType marker for value type
+     * @param <V> value type
+     * @return a new collector
+     */
+    default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToList(final Class<V> valueType) {
+        return Collector.of(() -> this, (node, value) -> {
+            try {
+                node.appendListNode().setValue(valueType, value);
+            } catch (ObjectMappingException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }, ConfigurationNode::mergeValuesFrom);
+    }
 
     /**
      * Get the current value associated with this node.

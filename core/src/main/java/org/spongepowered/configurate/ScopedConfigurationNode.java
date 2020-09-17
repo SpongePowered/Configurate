@@ -26,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
 
 public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
 
@@ -120,6 +121,42 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @Override
     @NonNull Map<Object, N> getChildrenMap();
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final TypeToken<V> valueType) {
+        return (Collector) ConfigurationNode.super.collectorToMap(valueType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final Class<V> valueType) {
+        return (Collector) ConfigurationNode.super.collectorToMap(valueType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    default <V> Collector<V, N, N> collectorToList(final TypeToken<V> valueType) {
+        return (Collector) ConfigurationNode.super.collectorToList(valueType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    default <V> Collector<V, N, N> collectorToList(final Class<V> valueType) {
+        return (Collector) ConfigurationNode.super.collectorToList(valueType);
+    }
 
     /**
      * Execute an action on this node. This allows performing multiple

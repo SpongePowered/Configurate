@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
@@ -38,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 public class AbstractConfigurationNodeTest {
 
@@ -375,6 +378,28 @@ public class AbstractConfigurationNodeTest {
 
         assertEquals(34, mergeTarget.getHint(RepresentationHint.INDENT));
         assertEquals(true, mergeTarget.getHint(IS_EVIL));
+    }
+
+    @Test
+    public void testCollectToMap() throws ObjectMappingException {
+        final ConfigurationNode target = ImmutableMap.of("one", 3,
+                "two", 28,
+                "test", 14).entrySet().stream()
+                .filter(ent -> ent.getKey().contains("e"))
+                .collect(BasicConfigurationNode.factory().collectorToMap(Integer.class));
+
+        assertTrue(target.getNode("two").isVirtual());
+        assertEquals(3, target.getNode("one").getValue());
+        assertEquals(14, target.getNode("test").getValue());
+    }
+
+    @Test
+    public void testCollectToList() throws ObjectMappingException {
+        final BasicConfigurationNode target = IntStream.of(1, 2, 3, 4, 8).boxed()
+                .collect(BasicConfigurationNode.factory().collectorToList(Integer.class));
+
+        assertEquals(ImmutableList.of(1, 2, 3, 4, 8), target.getList(TypeToken.get(Integer.class)));
+
     }
 
 }
