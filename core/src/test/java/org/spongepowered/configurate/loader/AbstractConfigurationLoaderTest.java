@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.BufferedWriter;
@@ -29,7 +31,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
 public class AbstractConfigurationLoaderTest {
 
@@ -48,6 +49,7 @@ public class AbstractConfigurationLoaderTest {
     }
 
     @Test
+    @DisabledOnOs(value = OS.WINDOWS, disabledReason = "windows FS has transient permissions issues")
     public void testSaveFollowsSymbolicLinks(final @TempDir Path tempDir) throws IOException {
         final Path actualFile = tempDir.resolve(Paths.get("first", "second", "third.json"));
         Files.createDirectories(actualFile.getParent());
@@ -67,8 +69,7 @@ public class AbstractConfigurationLoaderTest {
         assertTrue(Files.isSymbolicLink(layerOne));
         assertEquals(layerOne, Files.readSymbolicLink(layerTwo));
         assertEquals(actualFile, Files.readSymbolicLink(layerOne));
-        assertEquals("I should follow symlinks!", Files.readAllLines(layerTwo, StandardCharsets.UTF_8).stream()
-                .collect(Collectors.joining("\n")));
+        assertEquals("I should follow symlinks!", String.join("\n", Files.readAllLines(layerTwo, StandardCharsets.UTF_8)));
     }
 
 }

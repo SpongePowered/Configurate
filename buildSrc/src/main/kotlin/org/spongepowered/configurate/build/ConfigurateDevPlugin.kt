@@ -73,8 +73,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 add("errorprone", "com.google.errorprone:error_prone_core:${Versions.ERROR_PRONE}")
 
                 // Testing
-                add("testImplementation", "org.junit.jupiter:junit-jupiter-api:5.6.2")
-                add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.6.2")
+                add("testImplementation", "org.junit.jupiter:junit-jupiter-api:5.7.0")
+                add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.7.0")
             }
 
             tasks.withType(Test::class.java).configureEach {
