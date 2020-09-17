@@ -29,6 +29,7 @@ import java.nio.file.WatchKey;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -38,6 +39,7 @@ import java.util.concurrent.locks.ReentrantLock;
 class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
 
     private final Lock lock = new ReentrantLock();
+    private final AtomicBoolean acceptingRegistrations = new AtomicBoolean(true);
     private final WatchKey key;
     private final ConcurrentHashMap<Path, Processor<WatchEvent<?>, WatchEvent<?>>> fileListeners
         = new ConcurrentHashMap<>();
@@ -56,18 +58,16 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
 
     @Override
     public void submit(final WatchEvent<?> item) {
-        final Path file = (Path) item.context();
-        this.lock.lock();
-        try {
-            final @Nullable Processor<WatchEvent<?>, WatchEvent<?>> fileListeners =
-                this.fileListeners.computeIfPresent(file, (key, old) -> old.closeIfUnsubscribed() ? null : old);
-            this.dirListeners.submit(item);
-            if (fileListeners != null) {
-                fileListeners.submit(item);
-            }
+        if (!this.acceptingRegistrations.get()) {
+            return;
+        }
 
-        } finally {
-            this.lock.unlock();
+        final Path file = (Path) item.context();
+        final @Nullable Processor<WatchEvent<?>, WatchEvent<?>> fileListeners =
+                this.fileListeners.computeIfPresent(file, (key, old) -> old.closeIfUnsubscribed() ? null : old);
+        this.dirListeners.submit(item);
+        if (fileListeners != null) {
+            fileListeners.submit(item);
         }
     }
 
@@ -97,6 +97,10 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
     }
 
     public Disposable subscribe(final Subscriber<WatchEvent<?>> subscriber) {
+        if (!this.acceptingRegistrations.get()) {
+            return () -> {};
+        }
+
         this.lock.lock();
         try {
             return this.dirListeners.subscribe(subscriber);
@@ -106,6 +110,10 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
     }
 
     public Disposable subscribe(final Path file, final Subscriber<WatchEvent<?>> subscriber) {
+        if (!this.acceptingRegistrations.get()) {
+            return () -> {};
+        }
+
         this.lock.lock();
         try {
             return this.fileListeners.computeIfAbsent(file, f -> Processor.create(this.executor)).subscribe(subscriber);
