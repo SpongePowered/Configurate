@@ -101,7 +101,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final TypeToken<V> valueType) {
+    default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final TypeToken<V> valueType) {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
                 node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
@@ -124,7 +124,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final Class<V> valueType) {
+    default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final Class<V> valueType) {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
                 node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
@@ -147,7 +147,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<V, N, N> collectorToList(final TypeToken<V> valueType) {
+    default <V> Collector<V, N, N> toListCollector(final TypeToken<V> valueType) {
         return Collector.of(this::createNode, (node, value) -> {
             try {
                 node.appendListNode().setValue(valueType, value);
@@ -170,7 +170,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<V, N, N> collectorToList(final Class<V> valueType) {
+    default <V> Collector<V, N, N> toListCollector(final Class<V> valueType) {
         return Collector.of(this::createNode, (node, value) -> {
             try {
                 node.appendListNode().setValue(valueType, value);

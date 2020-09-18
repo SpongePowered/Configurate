@@ -386,7 +386,7 @@ public class AbstractConfigurationNodeTest {
                 "two", 28,
                 "test", 14).entrySet().stream()
                 .filter(ent -> ent.getKey().contains("e"))
-                .collect(BasicConfigurationNode.factory().collectorToMap(Integer.class));
+                .collect(BasicConfigurationNode.factory().toMapCollector(Integer.class));
 
         assertTrue(target.getNode("two").isVirtual());
         assertEquals(3, target.getNode("one").getValue());
@@ -396,7 +396,7 @@ public class AbstractConfigurationNodeTest {
     @Test
     public void testCollectToList() throws ObjectMappingException {
         final BasicConfigurationNode target = IntStream.of(1, 2, 3, 4, 8).boxed()
-                .collect(BasicConfigurationNode.factory().collectorToList(Integer.class));
+                .collect(BasicConfigurationNode.factory().toListCollector(Integer.class));
 
         assertEquals(ImmutableList.of(1, 2, 3, 4, 8), target.getList(TypeToken.get(Integer.class)));
 

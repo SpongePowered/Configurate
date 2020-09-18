@@ -127,8 +127,8 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final TypeToken<V> valueType) {
-        return (Collector) ConfigurationNode.super.collectorToMap(valueType);
+    default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final TypeToken<V> valueType) {
+        return (Collector) ConfigurationNode.super.toMapCollector(valueType);
     }
 
     /**
@@ -136,8 +136,8 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    default <V> Collector<Map.Entry<?, V>, N, N> collectorToMap(final Class<V> valueType) {
-        return (Collector) ConfigurationNode.super.collectorToMap(valueType);
+    default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final Class<V> valueType) {
+        return (Collector) ConfigurationNode.super.toMapCollector(valueType);
     }
 
     /**
@@ -145,8 +145,8 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    default <V> Collector<V, N, N> collectorToList(final TypeToken<V> valueType) {
-        return (Collector) ConfigurationNode.super.collectorToList(valueType);
+    default <V> Collector<V, N, N> toListCollector(final TypeToken<V> valueType) {
+        return (Collector) ConfigurationNode.super.toListCollector(valueType);
     }
 
     /**
@@ -154,8 +154,8 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    default <V> Collector<V, N, N> collectorToList(final Class<V> valueType) {
-        return (Collector) ConfigurationNode.super.collectorToList(valueType);
+    default <V> Collector<V, N, N> toListCollector(final Class<V> valueType) {
+        return (Collector) ConfigurationNode.super.toListCollector(valueType);
     }
 
     /**

@@ -254,7 +254,7 @@ public interface ConfigurationNode {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToMap(final TypeToken<V> valueType) {
+    default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> toMapCollector(final TypeToken<V> valueType) {
         return Collector.of(() -> this, (node, entry) -> {
             try {
                 node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
@@ -273,7 +273,7 @@ public interface ConfigurationNode {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToMap(final Class<V> valueType) {
+    default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> toMapCollector(final Class<V> valueType) {
         return Collector.of(() -> this, (node, entry) -> {
             try {
                 node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
@@ -292,7 +292,7 @@ public interface ConfigurationNode {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToList(final TypeToken<V> valueType) {
+    default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> toListCollector(final TypeToken<V> valueType) {
         return Collector.of(() -> this, (node, value) -> {
             try {
                 node.appendListNode().setValue(valueType, value);
@@ -311,7 +311,7 @@ public interface ConfigurationNode {
      * @param <V> value type
      * @return a new collector
      */
-    default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> collectorToList(final Class<V> valueType) {
+    default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> toListCollector(final Class<V> valueType) {
         return Collector.of(() -> this, (node, value) -> {
             try {
                 node.appendListNode().setValue(valueType, value);
