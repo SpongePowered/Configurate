@@ -145,13 +145,13 @@ public class ObjectMapper<T> {
             }
             final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType.getType(), node);
             try {
-                if (newVal == null && node.getOptions().shouldCopyDefaults()) {
+                if (newVal != null) {
+                    this.field.set(instance, newVal);
+                } else if (node.getOptions().shouldCopyDefaults()) {
                     final Object existingVal = this.field.get(instance);
                     if (existingVal != null) {
                         serializeTo(instance, node);
                     }
-                } else {
-                    this.field.set(instance, newVal);
                 }
             } catch (final IllegalAccessException e) {
                 throw new ObjectMappingException("Unable to deserialize field " + this.field.getName(), e);
