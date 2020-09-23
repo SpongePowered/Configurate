@@ -16,36 +16,79 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.function.Consumer;
 
 /**
  * A configuration node that can have a comment attached to it.
+ *
+ * <p>All other standard data is supported.</p>
  */
 public interface CommentedConfigurationNode extends CommentedConfigurationNodeIntermediary<CommentedConfigurationNode> {
 
+    /**
+     * Create a new factory providing {@link CommentedConfigurationNode} instances.
+     *
+     * <p>The returned factory will create nodes with default options.</p>
+     *
+     * @return a new factory
+     */
     static ConfigurationNodeFactory<CommentedConfigurationNode> factory() {
         return CommentedConfigurationNode::root;
     }
 
-    @NonNull
+    /**
+     * Create a new empty root node.
+     *
+     * <p>This node will use the {@link ConfigurationOptions#defaults() default options}</p>
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @return a new empty node
+     */
     static CommentedConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    @NonNull
-    static CommentedConfigurationNode root(Consumer<? super CommentedConfigurationNode> action) {
+    /**
+     * Create a new root node with the provided initializer.
+     *
+     * <p>This node will use the {@link ConfigurationOptions#defaults() default options}</p>
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param action action to be applied to the newly created node
+     * @return a new initialized node
+     */
+    static CommentedConfigurationNode root(final Consumer<? super CommentedConfigurationNode> action) {
         return root().act(action);
     }
 
-    @NonNull
-    static CommentedConfigurationNode root(@NonNull ConfigurationOptions options) {
+    /**
+     * Create a new empty root node with the provided options.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param options options to apply
+     * @return a new empty node
+     */
+    static CommentedConfigurationNode root(final ConfigurationOptions options) {
         return new SimpleCommentedConfigurationNode(null, null, options);
     }
 
-    @NonNull
-    static CommentedConfigurationNode root(@NonNull ConfigurationOptions options, Consumer<? super CommentedConfigurationNode> action) {
+    /**
+     * Create a new root node with the provided options and initializer.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param options options to apply
+     * @param action action to be applied to the newly created node
+     * @return a new initialized node
+     */
+    static CommentedConfigurationNode root(final ConfigurationOptions options, final Consumer<? super CommentedConfigurationNode> action) {
         return root(options).act(action);
     }
 

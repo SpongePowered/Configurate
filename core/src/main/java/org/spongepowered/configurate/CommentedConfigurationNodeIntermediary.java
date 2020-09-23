@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfigurationNodeIntermediary<N>> extends ScopedConfigurationNode<N> {
@@ -38,7 +37,7 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      *                LFs (\n)
      * @return this
      */
-    @NonNull N setComment(@Nullable String comment);
+    N setComment(@Nullable String comment);
 
     /**
      * Set a comment on this node if it does not presently have a comment.
@@ -50,6 +49,6 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      *                LFs (\n)
      * @return this
      */
-    @NonNull N setCommentIfAbsent(String comment);
+    N setCommentIfAbsent(String comment);
 
 }

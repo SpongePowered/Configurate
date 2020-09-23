@@ -16,33 +16,77 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.function.Consumer;
 
+/**
+ * A standard configuration node, without any additional options.
+ */
 public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicConfigurationNode> {
 
+    /**
+     * Create a new factory providing {@link BasicConfigurationNode} instances.
+     *
+     * <p>The returned factory will create nodes with default options.</p>
+     *
+     * @return a new factory
+     */
     static ConfigurationNodeFactory<BasicConfigurationNode> factory() {
         return BasicConfigurationNode::root;
     }
 
-    @NonNull
+    /**
+     * Create a new empty root node.
+     *
+     * <p>This node will use the {@link ConfigurationOptions#defaults() default options}</p>
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @return a new empty node
+     */
     static BasicConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
     }
 
-    @NonNull
-    static BasicConfigurationNode root(Consumer<BasicConfigurationNode> maker) {
+    /**
+     * Create a new root node with the provided initializer.
+     *
+     * <p>This node will use the {@link ConfigurationOptions#defaults() default options}</p>
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param maker action to be applied to the newly created node
+     * @return a new initialized node
+     */
+    static BasicConfigurationNode root(final Consumer<BasicConfigurationNode> maker) {
         return root().act(maker);
     }
 
-    @NonNull
-    static BasicConfigurationNode root(@NonNull ConfigurationOptions options) {
+    /**
+     * Create a new empty root node with the provided options.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param options options to apply.
+     * @return a new empty node
+     */
+    static BasicConfigurationNode root(final ConfigurationOptions options) {
         return new SimpleConfigurationNode(null, null, options);
     }
 
-    @NonNull
-    static BasicConfigurationNode root(ConfigurationOptions options, Consumer<BasicConfigurationNode> maker) {
+    /**
+     * Create a new root node with the provided options and initializer.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param options options to apply.
+     * @param maker action to be applied to the newly created node
+     * @return a new initialized node
+     */
+    static BasicConfigurationNode root(final ConfigurationOptions options, final Consumer<BasicConfigurationNode> maker) {
         return root(options).act(maker);
     }
 

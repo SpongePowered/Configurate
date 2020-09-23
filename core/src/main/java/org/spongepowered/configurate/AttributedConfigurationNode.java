@@ -16,48 +16,102 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * A configuration node that can have both comments and attributes attached
- * to it.
+ * A configuration node that can have both comments and attributes attached.
  */
 public interface AttributedConfigurationNode extends CommentedConfigurationNodeIntermediary<AttributedConfigurationNode> {
 
+    /**
+     * The default tag name for a root node.
+     */
+    String TAG_ROOT = "root";
+
+    /**
+     * Create a new factory providing {@link AttributedConfigurationNode} instances.
+     *
+     * <p>The returned factory will create nodes with default options and the
+     * tag name {@code root}.</p>
+     *
+     * @return a new factory
+     */
     static ConfigurationNodeFactory<AttributedConfigurationNode> factory() {
-        return options -> AttributedConfigurationNode.root("root", options);
+        return options -> AttributedConfigurationNode.root(TAG_ROOT, options);
     }
 
-    @NonNull
+    /**
+     * Create a new root node with the {@link #TAG_ROOT default} tag name.
+     *
+     * @return a new empty node
+     */
     static AttributedConfigurationNode root() {
-        return root("root", ConfigurationOptions.defaults());
+        return root(TAG_ROOT, ConfigurationOptions.defaults());
     }
 
-    static AttributedConfigurationNode root(Consumer<? super AttributedConfigurationNode> action) {
+    static AttributedConfigurationNode root(final Consumer<? super AttributedConfigurationNode> action) {
         return root().act(action);
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName) {
+    /**
+     * Create a new root node with the provided tag name but default options.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param tagName node's tag name
+     * @return a new empty node
+     */
+    static AttributedConfigurationNode root(final String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, Consumer<? super AttributedConfigurationNode> action) {
+    /**
+     * Create a new root node with the provided tag name and default options.
+     *
+     * <p>The node will be initialized with the {@code action}.</p>
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param tagName node's tag name
+     * @param action initialization action
+     * @return a new empty node
+     */
+    static AttributedConfigurationNode root(final String tagName, final Consumer<? super AttributedConfigurationNode> action) {
         return root(tagName).act(action);
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options) {
+    /**
+     * Create a new root node with the provided tag name and options.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param tagName node's tag name
+     * @param options options to apply
+     * @return a new empty node
+     */
+    static AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options) {
         return new SimpleAttributedConfigurationNode(tagName, null, null, options);
     }
 
-    @NonNull
-    static AttributedConfigurationNode root(@NonNull String tagName, @NonNull ConfigurationOptions options,
+    /**
+     * Create a new root node with the provided tag name, options
+     * and initializer.
+     *
+     * <p>A root node is always attached, and has no parent and an
+     * empty path.</p>
+     *
+     * @param tagName node's tag name
+     * @param options options to apply
+     * @param action action to initialize the node with
+     * @return a new initialized node
+     */
+    static AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,
             Consumer<? super AttributedConfigurationNode> action) {
         return root(tagName, options).act(action);
     }
@@ -67,7 +121,6 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @return The tag name
      */
-    @NonNull
     String getTagName();
 
     /**
@@ -80,8 +133,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name The name to set, cannot be null
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode setTagName(@NonNull String name);
+    AttributedConfigurationNode setTagName(String name);
 
     /**
      * Adds an attribute to this node.
@@ -90,8 +142,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param value The value of the attribute
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode addAttribute(@NonNull String name, @NonNull String value);
+    AttributedConfigurationNode addAttribute(String name, String value);
 
     /**
      * Removes an attribute from this node.
@@ -99,8 +150,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name The name of the attribute to remove
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode removeAttribute(@NonNull String name);
+    AttributedConfigurationNode removeAttribute(String name);
 
     /**
      * Sets the attributes of this node.
@@ -108,8 +158,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param attributes the attributes to set
      * @return this
      */
-    @NonNull
-    AttributedConfigurationNode setAttributes(@NonNull Map<String, String> attributes);
+    AttributedConfigurationNode setAttributes(Map<String, String> attributes);
 
     /**
      * Gets if this node has any attributes.
@@ -125,8 +174,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name The name of the attribute to get
      * @return this
      */
-    @Nullable
-    String getAttribute(@NonNull String name);
+    @Nullable String getAttribute(String name);
 
     /**
      * Gets the attributes this node has.
@@ -135,7 +183,6 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @return The map of attributes
      */
-    @NonNull
     Map<String, String> getAttributes();
 
 }
