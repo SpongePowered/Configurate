@@ -141,7 +141,7 @@ public class ObjectMapper<T> {
             final @Nullable TypeSerializer<?> serial = node.getOptions().getSerializers().get(this.fieldType.getType());
             if (serial == null) {
                 throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName() + " of type "
-                        + this.fieldType);
+                        + this.fieldType.getType());
             }
             final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(this.fieldType.getType(), node);
             try {
@@ -167,7 +167,8 @@ public class ObjectMapper<T> {
                 } else {
                     final @Nullable TypeSerializer serial = node.getOptions().getSerializers().get(this.fieldType.getType());
                     if (serial == null) {
-                        throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName() + " of type " + this.fieldType);
+                        throw new ObjectMappingException("No TypeSerializer found for field " + this.field.getName()
+                                + " of type " + this.fieldType.getType());
                     }
                     serial.serialize(this.fieldType.getType(), fieldVal, node);
                 }
