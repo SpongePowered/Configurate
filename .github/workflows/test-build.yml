@@ -13,7 +13,7 @@ jobs:
         java: [
                 # 8, # Compatibility
                 11, # LTS
-                13 # Latest
+                15 # Latest
         ]
     steps:
       - name: Check out
