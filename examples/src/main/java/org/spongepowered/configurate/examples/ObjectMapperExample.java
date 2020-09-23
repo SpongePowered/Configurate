@@ -48,6 +48,7 @@ public final class ObjectMapperExample {
     public static void main(final String[] args) throws IOException, ObjectMappingException {
         final Path file = Paths.get(args[0]);
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .setDefaultOptions(opts -> opts.withShouldCopyDefaults(true))
                 .setPath(file) // or setUrl(), or setFile(), or setSource/Sink
                 .build();
 
