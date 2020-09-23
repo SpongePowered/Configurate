@@ -3,7 +3,7 @@ import org.spongepowered.configurate.build.format
 
 plugins {
     id("org.spongepowered.configurate-component")
-    `application`
+    application
 }
 
 dependencies {
@@ -16,6 +16,12 @@ application {
     mainClassName = "org.spongepowered.configurate.examples.ValueReferences"
 }
 
-tasks.withType(AbstractPublishToMaven::class.java).configureEach {
+tasks.withType<AbstractPublishToMaven>().configureEach {
     onlyIf { false } // don't publish
+}
+
+tasks.withType<Javadoc>().configureEach {
+    (options as? StandardJavadocDocletOptions)?.apply {
+        addBooleanOption("Xdoclint:-missing", true)
+    }
 }
