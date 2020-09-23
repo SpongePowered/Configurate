@@ -82,6 +82,7 @@ public final class AtomicFiles {
             Files.copy(path, writePath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
         }
 
+        Files.createDirectories(writePath.getParent());
         final BufferedWriter output = Files.newBufferedWriter(writePath, charset);
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
     }
@@ -107,7 +108,6 @@ public final class AtomicFiles {
         @Override
         public void close() throws IOException {
             super.close();
-            Files.createDirectories(this.targetPath.getParent());
             Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         }
 
