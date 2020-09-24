@@ -163,19 +163,6 @@ public final class TypeSerializerCollection {
         return new Builder(this);
     }
 
-    /**
-     * Populate a builder with all serializers from this collection.
-     *
-     * <p>Creating a child collection should be preferred, but when merging
-     * multiple sets of serializers together, directly adding other collections
-     * may be the best choice.</p>
-     *
-     * @param other builder
-     */
-    public void populate(final TypeSerializerCollection.Builder other) {
-        requireNonNull(other, "other").serializers.addAll(this.serializers);
-    }
-    
     @Override
     public String toString() {
         return "TypeSerializerCollection{"
@@ -366,6 +353,21 @@ public final class TypeSerializerCollection {
             requireNonNull(type, "type");
             requireNonNull(serializer, "serializer");
             this.serializers.add(new RegisteredSerializer(test -> test.equals(type), serializer));
+            return this;
+        }
+
+        /**
+         * Register all serializers from {@code other} into this collection.
+         *
+         * <p>Creating a child collection should be preferred, but when merging
+         * multiple sets of serializers together, directly adding other
+         * collections may be the best choice.</p>
+         *
+         * @param other source collection
+         * @return this builder
+         */
+        public Builder registerAll(final TypeSerializerCollection other) {
+            this.serializers.addAll(requireNonNull(other, "other").serializers);
             return this;
         }
 
