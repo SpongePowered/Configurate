@@ -133,6 +133,11 @@ public final class WatchServiceListener implements AutoCloseable {
                         oldListeners.onClose();
                     }
                 }
+                try {
+                    Thread.sleep(20);
+                } catch (final InterruptedException e) {
+                    break;
+                }
             }
         });
         this.taskExecutor = taskExecutor;
