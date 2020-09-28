@@ -1,7 +1,7 @@
 import org.spongepowered.configurate.build.applyCommonAttributes
 
 plugins {
-    kotlin("jvm") version "1.3.72" apply false
+    kotlin("jvm") version "1.4.10" apply false
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("io.freefair.aggregate-javadoc-jar") version "5.1.0"
     id("org.ajoberstar.grgit") version "4.0.2"

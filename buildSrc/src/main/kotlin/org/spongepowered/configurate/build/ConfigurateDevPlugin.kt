@@ -7,6 +7,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.api.plugins.quality.CheckstylePlugin
@@ -69,12 +70,12 @@ class ConfigurateDevPlugin : Plugin<Project> {
             repositories.addAll(listOf(repositories.mavenLocal(), repositories.mavenCentral(), repositories.jcenter()))
             dependencies.apply {
                 // error-prone compiler
-                add("compileOnly", "com.google.errorprone:error_prone_annotations:${Versions.ERROR_PRONE}")
+                add(JavaPlugin.COMPILE_ONLY_CONFIGURATION_NAME, "com.google.errorprone:error_prone_annotations:${Versions.ERROR_PRONE}")
                 add("errorprone", "com.google.errorprone:error_prone_core:${Versions.ERROR_PRONE}")
 
                 // Testing
-                add("testImplementation", "org.junit.jupiter:junit-jupiter-api:5.7.0")
-                add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.7.0")
+                add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, "org.junit.jupiter:junit-jupiter-api:5.7.0")
+                add(JavaPlugin.TEST_RUNTIME_ONLY_CONFIGURATION_NAME, "org.junit.jupiter:junit-jupiter-engine:5.7.0")
             }
 
             tasks.withType(Test::class.java).configureEach {
