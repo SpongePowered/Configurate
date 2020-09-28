@@ -215,6 +215,7 @@ public final class WatchServiceListener implements AutoCloseable {
         this.activeListeners.forEachValue(PARALLEL_THRESHOLD, DirectoryListenerRegistration::onClose);
         this.activeListeners.clear();
         try {
+            this.executor.interrupt();
             this.executor.join();
         } catch (final InterruptedException e) {
             throw new IOException("Failed to await termination of executor thread!");
