@@ -1,4 +1,3 @@
-import org.spongepowered.configurate.build.Versions
 import org.spongepowered.configurate.build.core
 
 plugins {
@@ -7,6 +6,6 @@ plugins {
 
 dependencies {
     api(core())
-    implementation("com.typesafe:config:${Versions.HOCON}")
+    implementation("com.typesafe:config:1.4.0")
     testImplementation("com.google.guava:guava:29.0-jre")
 }

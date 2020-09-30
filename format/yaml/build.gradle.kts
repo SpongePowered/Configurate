@@ -1,4 +1,3 @@
-import org.spongepowered.configurate.build.Versions
 import org.spongepowered.configurate.build.core
 
 plugins {
@@ -7,5 +6,5 @@ plugins {
 
 dependencies {
     api(core())
-    implementation("org.yaml:snakeyaml:${Versions.SNAKEYAML}")
+    implementation("org.yaml:snakeyaml:1.26")
 }

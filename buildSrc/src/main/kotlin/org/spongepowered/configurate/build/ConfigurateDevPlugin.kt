@@ -15,6 +15,7 @@ import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.api.tasks.testing.Test
+
 internal val targetVersion = JavaVersion.VERSION_1_8
 
 class ConfigurateDevPlugin : Plugin<Project> {
@@ -70,12 +71,14 @@ class ConfigurateDevPlugin : Plugin<Project> {
             repositories.addAll(listOf(repositories.mavenLocal(), repositories.mavenCentral(), repositories.jcenter()))
             dependencies.apply {
                 // error-prone compiler
-                add(JavaPlugin.COMPILE_ONLY_CONFIGURATION_NAME, "com.google.errorprone:error_prone_annotations:${Versions.ERROR_PRONE}")
-                add("errorprone", "com.google.errorprone:error_prone_core:${Versions.ERROR_PRONE}")
+                val errorProneVersion = properties["errorProneVersion"]
+                add(JavaPlugin.COMPILE_ONLY_CONFIGURATION_NAME, "com.google.errorprone:error_prone_annotations:$errorProneVersion")
+                add("errorprone", "com.google.errorprone:error_prone_core:$errorProneVersion")
 
                 // Testing
-                add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, "org.junit.jupiter:junit-jupiter-api:5.7.0")
-                add(JavaPlugin.TEST_RUNTIME_ONLY_CONFIGURATION_NAME, "org.junit.jupiter:junit-jupiter-engine:5.7.0")
+                val junitVersion = properties["junitVersion"]
+                add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, "org.junit.jupiter:junit-jupiter-api:$junitVersion")
+                add(JavaPlugin.TEST_RUNTIME_ONLY_CONFIGURATION_NAME, "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
             }
 
             tasks.withType(Test::class.java).configureEach {
@@ -83,13 +86,23 @@ class ConfigurateDevPlugin : Plugin<Project> {
             }
 
             // Checkstyle (based on Sponge config)
+            val checkstyleVersion = properties["checkstyleVersion"].toString()
             extensions.configure(CheckstyleExtension::class.java) {
-                it.toolVersion = "8.32"
+                it.toolVersion = checkstyleVersion
                 it.configDirectory.set(rootProject.projectDir.resolve("etc/checkstyle"))
                 it.configProperties = mapOf(
                     "basedir" to project.projectDir,
                     "severity" to "error"
                 )
+            }
+
+            // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot
+            if (checkstyleVersion.endsWith("-SNAPSHOT")) {
+                repositories.mavenLocal {
+                    it.content {
+                        it.includeGroup("com.puppycrawl.tools")
+                    }
+                }
             }
 
             extensions.configure(ConfiguratePublishingExtension::class.java) {

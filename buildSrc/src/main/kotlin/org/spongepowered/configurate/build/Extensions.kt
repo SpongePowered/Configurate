@@ -7,17 +7,6 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
-enum class Versions(val version: String) {
-    HOCON("1.4.0"),
-    SNAKEYAML("1.26"),
-    JACKSON("2.11.1"),
-    ERROR_PRONE("2.4.0");
-
-    override fun toString(): String {
-        return version
-    }
-}
-
 /**
  * Create a dependency on a specific component in this project
  */
