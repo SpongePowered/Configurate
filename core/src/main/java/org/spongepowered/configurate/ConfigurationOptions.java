@@ -20,7 +20,6 @@ import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
@@ -44,23 +43,20 @@ import java.util.function.Consumer;
 public final class ConfigurationOptions {
 
     private static final ConfigurationOptions DEFAULTS = new ConfigurationOptions(MapFactories.insertionOrdered(), null,
-        TypeSerializerCollection.defaults(), null, ObjectMapper.factory(), false);
+        TypeSerializerCollection.defaults(), null, false);
 
     private final MapFactory mapFactory;
     private final @Nullable String header;
     private final TypeSerializerCollection serializers;
     private final @Nullable Set<Class<?>> acceptedTypes;
-    private final ObjectMapper.Factory objectMapperFactory;
     private final boolean shouldCopyDefaults;
 
-    private ConfigurationOptions(final MapFactory mapFactory, final @Nullable String header,
-            final TypeSerializerCollection serializers, final @Nullable Set<Class<?>> acceptedTypes,
-            final ObjectMapper.Factory objectMapperFactory, final boolean shouldCopyDefaults) {
+    private ConfigurationOptions(final MapFactory mapFactory, final @Nullable String header, final TypeSerializerCollection serializers,
+            final @Nullable Set<Class<?>> acceptedTypes, final boolean shouldCopyDefaults) {
         this.mapFactory = mapFactory;
         this.header = header;
         this.serializers = serializers;
         this.acceptedTypes = acceptedTypes == null ? null : UnmodifiableCollections.copyOf(acceptedTypes);
-        this.objectMapperFactory = objectMapperFactory;
         this.shouldCopyDefaults = shouldCopyDefaults;
     }
 
@@ -97,8 +93,7 @@ public final class ConfigurationOptions {
         if (this.mapFactory == mapFactory) {
             return this;
         }
-        return new ConfigurationOptions(mapFactory, this.header, this.serializers, this.acceptedTypes, this.objectMapperFactory,
-                this.shouldCopyDefaults);
+        return new ConfigurationOptions(mapFactory, this.header, this.serializers, this.acceptedTypes, this.shouldCopyDefaults);
     }
 
     /**
@@ -121,8 +116,7 @@ public final class ConfigurationOptions {
         if (Objects.equals(this.header, header)) {
             return this;
         }
-        return new ConfigurationOptions(this.mapFactory, header, this.serializers, this.acceptedTypes, this.objectMapperFactory,
-                this.shouldCopyDefaults);
+        return new ConfigurationOptions(this.mapFactory, header, this.serializers, this.acceptedTypes, this.shouldCopyDefaults);
     }
 
     /**
@@ -146,8 +140,7 @@ public final class ConfigurationOptions {
         if (this.serializers.equals(serializers)) {
             return this;
         }
-        return new ConfigurationOptions(this.mapFactory, this.header, serializers, this.acceptedTypes, this.objectMapperFactory,
-                this.shouldCopyDefaults);
+        return new ConfigurationOptions(this.mapFactory, this.header, serializers, this.acceptedTypes, this.shouldCopyDefaults);
     }
 
     /**
@@ -164,34 +157,7 @@ public final class ConfigurationOptions {
         requireNonNull(serializerBuilder, "serializerBuilder");
         final TypeSerializerCollection.Builder builder = this.serializers.childBuilder();
         serializerBuilder.accept(builder);
-        return new ConfigurationOptions(this.mapFactory, this.header, builder.build(), this.acceptedTypes, this.objectMapperFactory,
-                this.shouldCopyDefaults);
-    }
-
-    /**
-     * Gets the {@link ObjectMapper.Factory} specified in these options.
-     *
-     * @return The factory used to construct ObjectMapper instances
-     */
-    public ObjectMapper.Factory getObjectMapperFactory() {
-        return this.objectMapperFactory;
-    }
-
-    /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified {@link ObjectMapper.Factory}
-     * set, and all other settings copied from this instance.
-     *
-     * @param objectMapperFactory The factory to use to produce object mapper
-     *                            instances. Must not be null
-     * @return updated options object
-     */
-    public ConfigurationOptions withObjectMapperFactory(final ObjectMapper.Factory objectMapperFactory) {
-        requireNonNull(objectMapperFactory, "factory");
-        if (this.objectMapperFactory == objectMapperFactory) {
-            return this;
-        }
-        return new ConfigurationOptions(this.mapFactory, this.header, this.serializers, this.acceptedTypes, objectMapperFactory,
-                this.shouldCopyDefaults);
+        return new ConfigurationOptions(this.mapFactory, this.header, builder.build(), this.acceptedTypes, this.shouldCopyDefaults);
     }
 
     /**
@@ -245,8 +211,7 @@ public final class ConfigurationOptions {
         if (Objects.equals(this.acceptedTypes, acceptedTypes)) {
             return this;
         }
-        return new ConfigurationOptions(this.mapFactory, this.header, this.serializers, acceptedTypes, this.objectMapperFactory,
-                this.shouldCopyDefaults);
+        return new ConfigurationOptions(this.mapFactory, this.header, this.serializers, acceptedTypes, this.shouldCopyDefaults);
     }
 
     /**
@@ -271,8 +236,7 @@ public final class ConfigurationOptions {
         if (this.shouldCopyDefaults == shouldCopyDefaults) {
             return this;
         }
-        return new ConfigurationOptions(this.mapFactory, this.header, this.serializers, this.acceptedTypes, this.objectMapperFactory,
-                shouldCopyDefaults);
+        return new ConfigurationOptions(this.mapFactory, this.header, this.serializers, this.acceptedTypes, shouldCopyDefaults);
     }
 
     @Override
@@ -290,13 +254,12 @@ public final class ConfigurationOptions {
                 && Objects.equals(this.mapFactory, that.mapFactory)
                 && Objects.equals(this.header, that.header)
                 && Objects.equals(this.serializers, that.serializers)
-                && Objects.equals(this.acceptedTypes, that.acceptedTypes)
-                && Objects.equals(this.objectMapperFactory, that.objectMapperFactory);
+                && Objects.equals(this.acceptedTypes, that.acceptedTypes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.mapFactory, this.header, this.serializers, this.acceptedTypes, this.objectMapperFactory, this.shouldCopyDefaults);
+        return Objects.hash(this.mapFactory, this.header, this.serializers, this.acceptedTypes, this.shouldCopyDefaults);
     }
 
     @Override
@@ -306,7 +269,6 @@ public final class ConfigurationOptions {
                 + ", header='" + this.header + '\''
                 + ", serializers=" + this.serializers
                 + ", acceptedTypes=" + this.acceptedTypes
-                + ", objectMapperFactory=" + this.objectMapperFactory
                 + ", shouldCopyDefaults=" + this.shouldCopyDefaults
                 + '}';
     }

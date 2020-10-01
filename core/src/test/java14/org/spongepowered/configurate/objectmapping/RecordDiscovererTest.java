@@ -24,7 +24,6 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Required;
-import org.spongepowered.configurate.serialize.ConfigSerializable;
 
 import java.net.MalformedURLException;
 import java.net.URL;

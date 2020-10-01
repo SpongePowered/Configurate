@@ -18,17 +18,21 @@ package org.spongepowered.configurate.objectmapping;
 
 import static io.leangen.geantyref.GenericTypeReflector.annotate;
 import static io.leangen.geantyref.GenericTypeReflector.box;
+import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
 import static java.util.Objects.requireNonNull;
 
+import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.Matches;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.objectmapping.meta.Required;
+import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.NamingScheme;
 import org.spongepowered.configurate.util.NamingSchemes;
@@ -36,6 +40,7 @@ import org.spongepowered.configurate.util.NamingSchemes;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +53,7 @@ import java.util.function.BiConsumer;
 /**
  * Factory for a basic {@link ObjectMapper}.
  */
-final class ObjectMapperFactoryImpl implements ObjectMapper.Factory {
+final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSerializer<Object> {
 
     private static final int MAXIMUM_MAPPERS_SIZE = 64;
 
@@ -101,6 +106,11 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory {
         synchronized (this.mappers) {
             return computeFromMap(this.mappers, type, this::computeMapper);
         }
+    }
+
+    @Override
+    public TypeSerializer<Object> asTypeSerializer() {
+        return this;
     }
 
     private ObjectMapper<?> computeMapper(final Type type) throws ObjectMappingException {
@@ -179,6 +189,62 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory {
         }
 
         fields.add(FieldData.of(name, type, constraints, processors, deserializer, serializer, resolver));
+    }
+
+    // TypeSerializer //
+
+    public static final String CLASS_KEY = "__class__";
+
+    @Override
+    public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+        final Type clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
+        return get(clazz).load(node);
+    }
+
+    private Type getInstantiableType(final Type type, final @Nullable String configuredName) throws ObjectMappingException {
+        final Type retClass;
+        final Class<?> rawType = erase(type);
+        if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
+            if (configuredName == null) {
+                throw new ObjectMappingException("No available configured type for instances of " + type);
+            } else {
+                try {
+                    retClass = Class.forName(configuredName);
+                } catch (final ClassNotFoundException e) {
+                    throw new ObjectMappingException("Unknown class of object " + configuredName, e);
+                }
+                if (!GenericTypeReflector.isSuperType(type, retClass)) {
+                    throw new ObjectMappingException("Configured type " + configuredName + " does not extend "
+                            + rawType.getCanonicalName());
+                }
+            }
+        } else {
+            retClass = type;
+        }
+        return retClass;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
+        if (obj == null) {
+            final ConfigurationNode clazz = node.getNode(CLASS_KEY);
+            node.setValue(null);
+            if (!clazz.isVirtual()) {
+                node.getNode(CLASS_KEY).setValue(clazz);
+            }
+            return;
+        }
+        final Class<?> rawType = erase(type);
+        final ObjectMapper<?> mapper;
+        if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
+            // serialize obj's concrete type rather than the interface/abstract class
+            node.getNode(CLASS_KEY).setValue(obj.getClass().getName());
+            mapper = get(obj.getClass());
+        } else {
+            mapper = get(type);
+        }
+        ((ObjectMapper<Object>) mapper).save(obj, node);
     }
 
     // Helpers to get value from map

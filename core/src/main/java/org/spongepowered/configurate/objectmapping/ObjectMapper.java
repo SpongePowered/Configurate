@@ -16,24 +16,47 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
+import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.NamingScheme;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * A mapper that converts between configuration nodes and Java objects.
  *
- * <p>Mapped objects fall into one of several types: timmutable</p>
+ * <p>Object mappers are created through a {@link Factory}, either the default
+ * one or one created with additional options. See that class's
+ * documentation for details.</p>
+ *
+ * <p>The object mapper can be accessed directly, through its {@link #factory()},
+ * or through a {@link ConfigurationNode}'s
+ * {@link ConfigurationNode#getValue(TypeToken)} method. To use a custom factory
+ * instance through a node, a custom TypeSerializer has to be registered to the
+ * {@link org.spongepowered.configurate.serialize.TypeSerializerCollection} used
+ * by the node.</p>
+ *
  * @param <V> mapped type
  */
 public interface ObjectMapper<V> {
+
+    /**
+     * A predicate to restrict the type serializer created by
+     * {@link Factory#asTypeSerializer()} to annotated types.
+     *
+     * @return a predicate checking for the {@link ConfigSerializable} annotation.
+     */
+    static Predicate<Type> annotatedSerializerPredicate() {
+        return it -> GenericTypeReflector.annotate(it).isAnnotationPresent(ConfigSerializable.class);
+    }
 
     /**
      * Get the default object mapper factory instance.
@@ -197,6 +220,18 @@ public interface ObjectMapper<V> {
          *     mappable object
          */
         ObjectMapper<?> get(Type type) throws ObjectMappingException;
+
+        /**
+         * Creates a {@link TypeSerializer} that uses this factory.
+         *
+         * <p>The serializer will accept any object type that could otherwise be
+         * handled by this factory. To match a standard configuration,
+         * register this serializer with the {@link #annotatedSerializerPredicate()}
+         * to enforce the presence of {@link ConfigSerializable} annotations.</p>
+         *
+         * @return a type serializer
+         */
+        TypeSerializer<Object> asTypeSerializer();
 
         /**
          * A builder for settings to be applied to an object mapper.

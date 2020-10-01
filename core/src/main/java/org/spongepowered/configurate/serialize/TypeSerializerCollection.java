@@ -24,6 +24,7 @@ import static java.util.Objects.requireNonNull;
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Type;
@@ -54,7 +55,7 @@ public final class TypeSerializerCollection {
                 .registerExact(Scalars.LONG)
                 .registerExact(Scalars.FLOAT)
                 .registerExact(Scalars.DOUBLE)
-                .register(AnnotatedObjectSerializer.predicate(), new AnnotatedObjectSerializer())
+                .registerAnnotatedObjects(ObjectMapper.factory())
                 .register(Scalars.ENUM)
                 .registerExact(Scalars.CHAR)
                 .registerExact(Scalars.URI)
@@ -212,6 +213,9 @@ public final class TypeSerializerCollection {
         return DEFAULTS;
     }
 
+    /**
+     * A builder to construct new serializer collections.
+     */
     public static class Builder {
         private final @Nullable TypeSerializerCollection parent;
         private final List<RegisteredSerializer> serializers = new ArrayList<>();
@@ -369,6 +373,17 @@ public final class TypeSerializerCollection {
         public Builder registerAll(final TypeSerializerCollection other) {
             this.serializers.addAll(requireNonNull(other, "other").serializers);
             return this;
+        }
+
+        /**
+         * Register a customized object mapper to handle
+         * {@link org.spongepowered.configurate.objectmapping.ConfigSerializable}-annotated objects.
+         *
+         * @param factory factory to retrieve object mappers from
+         * @return this builder
+         */
+        public Builder registerAnnotatedObjects(final ObjectMapper.Factory factory) {
+            return register(ObjectMapper.annotatedSerializerPredicate(), factory.asTypeSerializer());
         }
 
         /**

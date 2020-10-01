@@ -39,6 +39,7 @@ public enum NamingSchemes implements NamingScheme {
      */
     CAMEL_CASE {
         @Override
+        @SuppressWarnings("JdkObsolete") // StringBuilder methods not present until JDK 9
         public String coerce(final String input) {
             final Matcher match = DASH_UNDERSCORE.matcher(input);
             if (!match.find()) {
