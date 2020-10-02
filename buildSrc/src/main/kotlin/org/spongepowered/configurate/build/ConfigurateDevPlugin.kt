@@ -1,8 +1,8 @@
 package org.spongepowered.configurate.build
 
 import net.ltgt.gradle.errorprone.errorprone
-import net.minecrell.gradle.licenser.LicenseExtension
-import net.minecrell.gradle.licenser.Licenser
+import org.cadixdev.gradle.licenser.LicenseExtension
+import org.cadixdev.gradle.licenser.Licenser
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project

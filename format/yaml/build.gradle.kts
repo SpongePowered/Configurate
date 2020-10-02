@@ -6,5 +6,5 @@ plugins {
 
 dependencies {
     api(core())
-    implementation("org.yaml:snakeyaml:1.26")
+    implementation("org.yaml:snakeyaml:1.27")
 }

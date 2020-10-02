@@ -6,6 +6,6 @@ plugins {
 
 dependencies {
     api(core())
-    api("com.fasterxml.jackson.core:jackson-core:2.11.1")
+    api("com.fasterxml.jackson.core:jackson-core:2.11.3")
     testImplementation("com.google.guava:guava:29.0-jre")
 }
