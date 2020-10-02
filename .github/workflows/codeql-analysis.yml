@@ -47,10 +47,8 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - name: Make gradle wrapper executable
-      run: chmod +x ./gradlew
-    - name: Build with Gradle
-      run: ./gradlew assemble testClasses
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
