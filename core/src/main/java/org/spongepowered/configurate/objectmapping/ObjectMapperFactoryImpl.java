@@ -296,7 +296,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
                 .addConstraint(Matches.class, String.class, Constraint.pattern())
                 .addConstraint(Required.class, Constraint.required())
                 // Field discovers //
-                .addDiscoverer(FieldDiscoverer.ofEmptyConstructorPojo())
+                .addDiscoverer(FieldDiscoverer.ofEmptyConstructorObject())
                 .addDiscoverer(FieldDiscoverer.ofRecord());
     }
 

@@ -45,7 +45,7 @@ public interface FieldDiscoverer<I> {
     }
 
     /**
-     * Create a new discoverer for fields in POJOs.
+     * Create a new discoverer for object instance fields.
      *
      * <p>This discoverer will process any non-static and non-transient field
      * in the object.</p>
@@ -53,21 +53,21 @@ public interface FieldDiscoverer<I> {
      * @param instanceFactory A factory for instance providers
      * @return new discoverer
      */
-    static FieldDiscoverer<?> ofPojo(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
-        return new PojoFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
+    static FieldDiscoverer<?> ofObject(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
     }
 
     /**
-     * Create a new discoverer for fields in POJOs.
+     * Create a new discoverer for object instance fields.
      *
      * <p>Only objects with empty constructors can be created.</p>
      *
      * @return new discoverer
-     * @see #ofPojo(CheckedFunction) for more details on which fields will
+     * @see #ofObject(CheckedFunction) for more details on which fields will
      *      be discovered.
      */
-    static FieldDiscoverer<?> ofEmptyConstructorPojo() {
-        return PojoFieldDiscoverer.EMPTY_CONSTRUCTOR_INSTANCE;
+    static FieldDiscoverer<?> ofEmptyConstructorObject() {
+        return ObjectFieldDiscoverer.EMPTY_CONSTRUCTOR_INSTANCE;
     }
 
     /**

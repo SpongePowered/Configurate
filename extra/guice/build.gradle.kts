@@ -6,5 +6,5 @@ plugins {
 
 dependencies {
     implementation(core())
-    implementation("com.google.inject:guice:4.2.3")
+    implementation("com.google.inject:guice:4.1.0")
 }

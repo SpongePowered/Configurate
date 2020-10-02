@@ -42,7 +42,7 @@ public final class GuiceObjectMapperProvider {
     @Inject
     GuiceObjectMapperProvider(final Injector baseInjector) {
         this.factory = ObjectMapper.factoryBuilder()
-                .addDiscoverer(ofInjectedPojo(baseInjector))
+                .addDiscoverer(injectedObjectDiscoverer(baseInjector))
                 .build();
     }
 
@@ -61,8 +61,8 @@ public final class GuiceObjectMapperProvider {
      * @param injector injector to create instances with
      * @return new discoverer
      */
-    public static FieldDiscoverer<?> ofInjectedPojo(final Injector injector) {
-        return FieldDiscoverer.ofPojo(type -> {
+    public static FieldDiscoverer<?> injectedObjectDiscoverer(final Injector injector) {
+        return FieldDiscoverer.ofObject(type -> {
             try {
                 final Provider<?> prov = injector.getProvider(Key.get(type.getType()));
                 return prov::get;

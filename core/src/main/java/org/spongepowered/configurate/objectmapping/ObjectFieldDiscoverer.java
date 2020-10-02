@@ -33,9 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-class PojoFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
+class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
-    static final PojoFieldDiscoverer EMPTY_CONSTRUCTOR_INSTANCE = new PojoFieldDiscoverer(type -> {
+    static final ObjectFieldDiscoverer EMPTY_CONSTRUCTOR_INSTANCE = new ObjectFieldDiscoverer(type -> {
         try {
             final Constructor<?> constructor;
             constructor = erase(type.getType()).getDeclaredConstructor();
@@ -54,7 +54,7 @@ class PojoFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
     private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory;
 
-    PojoFieldDiscoverer(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
+    ObjectFieldDiscoverer(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
         this.instanceFactory = instanceFactory;
     }
 
