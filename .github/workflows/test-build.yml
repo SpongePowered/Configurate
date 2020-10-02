@@ -35,8 +35,8 @@ jobs:
         with:
           name: test-results
           path: |
-          build/test-results/test/
-          core/build/test-results/test/
-          format/*/build/test-results/test
-          extra/*/build/test-results/test/
+            build/test-results/test/
+            */build/test-results/test/
+            format/*/build/test-results/test
+            extra/*/build/test-results/test/
 
