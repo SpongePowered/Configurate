@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.serialize;
+package org.spongepowered.configurate.objectmapping.meta;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -23,15 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation is used to indicate that the given type is capable of being
- * serialized and deserialized by an object mapper.
+ * Marks a field that gets its value from the node's key.
  *
- * <p>Types with this annotation must have a zero-argument constructor to be
- * instantiated by the object mapper (though already instantiated objects can
- * be passed to the object mapper to be populated with settings)</p>
+ * <p>Fields annotated as such should be treated as <em>read-only</em>.</p>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Documented
-public @interface ConfigSerializable {
+public @interface NodeKey {
 }

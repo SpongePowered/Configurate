@@ -78,11 +78,16 @@ The following steps will ensure your project is cloned properly.
 #### Building
 **Note:** If you do not have [Gradle](https://www.gradle.org/) installed then use ./gradlew for Unix systems or Git Bash and gradlew.bat for Windows systems in place of any 'gradle' command.
 
-In order to build configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in each subproject) labeled similarly to 'configurate-subproject-x.x-SNAPSHOT.jar'.
+In order to build configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in
+ each subproject) labeled similarly to '<subproject>-x.x.x-SNAPSHOT.jar'.
+ 
+ While the entire project can be built on Java 8, some tests require at least Java 14 to run. Our CI will run these for you if you don't have the
+  latest JDK set up locally.
 
 #### Pull Requests
 We love PRs! However, when contributing, here are some things to keep in mind:
 
 - Take a look at open issues first before you get too far in -- someone might already be working on what you were planning on doing
-- In general, we follow the Oracle style guidelines for code style
+- In general, we follow the [Sponge style guidelines](https://docs.spongepowered.org/stable/en/contributing/implementation/codestyle.html) for code
+ style -- see the [Contributing Guidelines](CONTRIBUTING.md) for details.
 - Please, please, please test PRs. It makes the process a lot easier for everybody :)

@@ -72,7 +72,6 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      */
     protected static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator();
 
-
     /**
      * The reader source for this loader.
      *

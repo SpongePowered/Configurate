@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.reactive.Disposable;
 
@@ -110,6 +111,7 @@ public class WatchServiceListenerTest {
     }
 
     @Test
+    @Disabled
     public void testListenToDirectory() throws IOException {
         final Path tempFolder = Files.createTempDirectory("configurate-test");
         final Path test1 = tempFolder.resolve("test1");

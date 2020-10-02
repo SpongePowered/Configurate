@@ -97,19 +97,22 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Sets the node style the built loader should use.
          *
-         * <p>Flow: the compact, json-like representation.<br>
+         * <dl><dt>Flow</dt>
+         * <dd>the compact, json-like representation.<br>
          * Example: <code>
          *     {value: [list, of, elements], another: value}
-         * </code></p>
+         * </code></dd>
          *
-         * <p>Block: expanded, traditional YAML<br>
+         * <dt>Block</dt>
+         * <dd>expanded, traditional YAML<br>
          * Example: <code>
          *     value:
          *     - list
          *     - of
          *     - elements
          *     another: value
-         * </code></p>
+         * </code></dd>
+         * </dl>
          *
          * <p>A {@code null} value will tell the loader to pick a value
          * automatically based on the contents of each non-scalar node.</p>

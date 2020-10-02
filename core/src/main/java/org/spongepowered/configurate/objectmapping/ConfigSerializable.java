@@ -23,26 +23,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a field to be mapped by an {@link ObjectMapper}.
+ * Indicates that the given type is capable of being serialized and deserialized
+ * by an object mapper.
+ *
+ * <p>Types with this annotation must be instantiable by the object mapper. By
+ * default, this includes objects with zero-argument constructors and records,
+ * but this may be extended using a customized
+ * {@link org.spongepowered.configurate.objectmapping.ObjectMapper.Factory}.</p>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Documented
-public @interface Setting {
-
-    /**
-     * The path this setting is located at.
-     *
-     * @return The path
-     */
-    String value() default "";
-
-    /**
-     * The default comment associated with this configuration node.
-     * This will be applied to any comment-capable configuration loader
-     *
-     * @return The comment
-     */
-    String comment() default "";
-
+public @interface ConfigSerializable {
 }
