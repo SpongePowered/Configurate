@@ -72,6 +72,7 @@
         <property name="message" value="Leave empty row before end of class/interface/enum!"/>
         <property name="fileExtensions" value="groovy,java"/>
     </module>
+    <module name="SuppressWarningsFilter"/>
 
     <module name="TreeWalker">
         <module name="RedundantImport"/>
@@ -99,6 +100,7 @@
         <module name="IllegalType">
             <property name="illegalClassNames" value="java.util.Optional"/>
         </module>
+        <module name="SuppressWarningsHolder"/>
 
 
         <!-- Standard Google style checks -->
