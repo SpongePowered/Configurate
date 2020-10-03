@@ -91,9 +91,11 @@ class ObjectMappingTest {
 
     @Test
     fun `collections are initialized implicitly`() {
-        val node = CommentedConfigurationNode.root(ConfigurationOptions.defaults()
+        val node = CommentedConfigurationNode.root(
+            ConfigurationOptions.defaults()
                 .withImplicitInitialization(true)
-                .withSerializers { it.registerAnnotatedObjects(objectMapperFactory()) })
+                .withSerializers { it.registerAnnotatedObjects(objectMapperFactory()) }
+        )
 
         val tester = objectMapper<ImplicitTest>().load(node)
 
