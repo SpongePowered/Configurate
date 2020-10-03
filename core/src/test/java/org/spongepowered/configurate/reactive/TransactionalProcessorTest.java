@@ -30,7 +30,7 @@ public class TransactionalProcessorTest {
     }
 
     @Test
-    public void testTransaction() {
+    void testTransaction() {
         final Processor.TransactionalIso<String> proc = create();
         final SubscriberTransactionalTest subject = new SubscriberTransactionalTest();
 
@@ -41,7 +41,7 @@ public class TransactionalProcessorTest {
     }
 
     @Test
-    public void testFailureRollsBack() {
+    void testFailureRollsBack() {
         final Processor.TransactionalIso<String> proc = create();
         final SubscriberTransactionalTest subject = new SubscriberTransactionalTest();
 
@@ -54,7 +54,7 @@ public class TransactionalProcessorTest {
     }
 
     @Test
-    public void testFailurePreventsCommits() {
+    void testFailurePreventsCommits() {
         final Processor.TransactionalIso<String> proc = create();
         final SubscriberTransactionalTest subject1 = new SubscriberTransactionalTest();
         final SubscriberTransactionalTest subject2 = new SubscriberTransactionalTest();

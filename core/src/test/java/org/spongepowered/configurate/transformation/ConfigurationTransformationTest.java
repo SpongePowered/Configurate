@@ -36,7 +36,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testComparator() {
+    void testComparator() {
         doTestComparator(BasicConfigurationNode.root());
     }
 
@@ -81,7 +81,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testWildcardMatching() {
+    void testWildcardMatching() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final List<NodePath> wildcardMatch = Arrays.asList(
                 path("a", ConfigurationTransformation.WILDCARD_OBJECT, "c"),
@@ -120,7 +120,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testMoveNode() {
+    void testMoveNode() {
 
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final Object nodeValue = new Object();
@@ -134,7 +134,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testChainedTransformations() {
+    void testChainedTransformations() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("a").setValue("something?");
         final List<String> actualOutput = new ArrayList<>();
@@ -155,7 +155,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testMoveToBase() {
+    void testMoveToBase() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("sub", "key").setValue("value");
         node.getNode("at-parent").setValue("until-change");
@@ -172,7 +172,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testMoveStrategy() {
+    void testMoveStrategy() {
         final ConfigurationTransformation.Builder<BasicConfigurationNode> build = ConfigurationTransformation.<BasicConfigurationNode>builder()
                 .addAction(path("one"), (inputPath, valueAtPath) -> arr("two"));
         final BasicConfigurationNode overwritten = createMoveNode();
@@ -194,7 +194,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testCorrectNodePassed() {
+    void testCorrectNodePassed() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final BasicConfigurationNode child = node.getNode("childNode").setValue("something");
         ConfigurationTransformation.<BasicConfigurationNode>builder()
@@ -205,7 +205,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testVersionedTransformation() {
+    void testVersionedTransformation() {
         final BasicConfigurationNode target = BasicConfigurationNode.root();
         target.getNode("dummy").setValue("whatever");
         final List<Integer> updatedVersions = new ArrayList<>();
@@ -236,7 +236,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    public void testVersionedTransformationMoveChildToRoot() {
+    void testVersionedTransformationMoveChildToRoot() {
         final BasicConfigurationNode original = BasicConfigurationNode.root(b -> {
             b.getNode("test").act(t -> {
                 t.getNode("calico").setValue("purr");

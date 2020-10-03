@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class SimpleCommentedConfigurationNodeTest {
 
     @Test
-    public void testCommentsTransferred() {
+    void testCommentsTransferred() {
         final CommentedConfigurationNode subject = CommentedConfigurationNode.root();
         final CommentedConfigurationNode firstChild = subject.getNode("first");
         firstChild.setValue("test value");
@@ -42,7 +42,7 @@ public class SimpleCommentedConfigurationNodeTest {
     }
 
     @Test
-    public void testNestedCommentsTransferred() {
+    void testNestedCommentsTransferred() {
         final CommentedConfigurationNode subject = CommentedConfigurationNode.root();
         final CommentedConfigurationNode firstChild = subject.getNode("first");
         final CommentedConfigurationNode firstChildChild = firstChild.getNode("child");
@@ -61,7 +61,7 @@ public class SimpleCommentedConfigurationNodeTest {
     }
 
     @Test
-    public void testCommentsMerged() {
+    void testCommentsMerged() {
         final CommentedConfigurationNode source = CommentedConfigurationNode.root();
         final CommentedConfigurationNode target = CommentedConfigurationNode.root();
 

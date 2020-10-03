@@ -42,7 +42,7 @@ public class NumericSerializersTest {
             .withNativeTypes(UnmodifiableCollections.toSet(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
 
     @Test
-    public void testSerializeCustomNumber() {
+    void testSerializeCustomNumber() {
         final TypeToken<CustomNumber> customNumberType = TypeToken.get(CustomNumber.class);
         final @Nullable TypeSerializer<?> serializer = TypeSerializerCollection.defaults().get(customNumberType);
         assertNull(serializer, "Type serializer for custom number class should be null!");
@@ -73,7 +73,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    public void testByte() throws ObjectMappingException {
+    void testByte() throws ObjectMappingException {
         final TypeSerializer<Byte> serializer = getSerializer(Byte.class);
 
         final byte b = (byte) 65;
@@ -108,7 +108,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    public void testShort() throws ObjectMappingException {
+    void testShort() throws ObjectMappingException {
         final TypeSerializer<Short> serializer = getSerializer(Short.class);
 
         final short b = (short) 32486;
@@ -145,7 +145,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    public void testInt() throws Exception {
+    void testInt() throws Exception {
         final TypeSerializer<Integer> serializer = getSerializer(Integer.class);
 
         final int i = 48888333;
@@ -188,7 +188,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    public void testLong() throws Exception {
+    void testLong() throws Exception {
         final TypeSerializer<Long> serializer = getSerializer(Long.class);
 
         final long i = 48888333494404L;
@@ -219,7 +219,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    public void testFloat() throws Exception {
+    void testFloat() throws Exception {
         final TypeSerializer<Float> serializer = getSerializer(Float.class);
 
         final float i = 3.1415f;
@@ -246,7 +246,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    public void testDouble() throws Exception {
+    void testDouble() throws Exception {
         final TypeSerializer<Double> serializer = getSerializer(Double.class);
 
         final double i = 3.1415e180d;

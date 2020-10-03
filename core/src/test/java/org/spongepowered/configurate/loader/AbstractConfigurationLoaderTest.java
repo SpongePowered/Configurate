@@ -35,14 +35,14 @@ import java.nio.file.Paths;
 public class AbstractConfigurationLoaderTest {
 
     @Test
-    public void testLoadNonexistantPath(final @TempDir Path tempDir) throws IOException {
+    void testLoadNonexistantPath(final @TempDir Path tempDir) throws IOException {
         final Path tempPath = tempDir.resolve("text5.txt").getRoot().resolve("does-not-exist-dont-edit-testdir");
         final TestConfigurationLoader loader = TestConfigurationLoader.builder().setPath(tempPath).build();
         loader.load();
     }
 
     @Test
-    public void testLoadNonexistantFile(final @TempDir Path tempDir) throws IOException {
+    void testLoadNonexistantFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = new File(tempDir.resolve("text5.txt").getRoot().toFile(), "does-not-exist-dont-edit-testdir");
         final TestConfigurationLoader loader = TestConfigurationLoader.builder().setFile(tempFile).build();
         loader.load();
@@ -50,7 +50,7 @@ public class AbstractConfigurationLoaderTest {
 
     @Test
     @DisabledOnOs(value = OS.WINDOWS, disabledReason = "windows FS has transient permissions issues")
-    public void testSaveFollowsSymbolicLinks(final @TempDir Path tempDir) throws IOException {
+    void testSaveFollowsSymbolicLinks(final @TempDir Path tempDir) throws IOException {
         final Path actualFile = tempDir.resolve(Paths.get("first", "second", "third.json"));
         Files.createDirectories(actualFile.getParent());
         final Path layerOne = tempDir.resolve("general.json");

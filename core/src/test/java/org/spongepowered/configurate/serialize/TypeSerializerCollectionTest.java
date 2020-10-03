@@ -32,7 +32,7 @@ import java.util.List;
 public class TypeSerializerCollectionTest {
 
     @Test
-    public void testResolveWildcard() throws ObjectMappingException {
+    void testResolveWildcard() throws ObjectMappingException {
         final ConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
             .withSerializers(b -> b.register(Object.class, new PassthroughSerializer())), n -> {
                 n.appendListNode().setValue("a string");

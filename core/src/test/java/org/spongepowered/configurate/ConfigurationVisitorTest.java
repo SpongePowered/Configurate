@@ -27,7 +27,7 @@ public class ConfigurationVisitorTest {
     private static final TestVisitor<BasicConfigurationNode> VISITOR = new TestVisitor<>();
 
     @Test
-    public void testTree() {
+    void testTree() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
 
         base.getNode("cats").act(c -> {
@@ -51,14 +51,14 @@ public class ConfigurationVisitorTest {
     }
 
     @Test
-    public void testEmptyRoot() {
+    void testEmptyRoot() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
         final String result = base.visit(VISITOR);
         assertEquals("bt", result);
     }
 
     @Test
-    public void testSingleScalar() {
+    void testSingleScalar() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
         base.setValue("test");
         final String result = base.visit(VISITOR);
@@ -66,7 +66,7 @@ public class ConfigurationVisitorTest {
     }
 
     @Test
-    public void testChangingValueTypeOnEnter() {
+    void testChangingValueTypeOnEnter() {
         final ConfigurationVisitor.Safe<BasicConfigurationNode, StringBuilder, String> visitor = new TestVisitor<BasicConfigurationNode>() {
             @Override
             public void enterListNode(final BasicConfigurationNode node, final StringBuilder state) {

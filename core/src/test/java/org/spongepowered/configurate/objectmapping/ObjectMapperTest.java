@@ -46,7 +46,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testCreateFromNode() throws ObjectMappingException {
+    void testCreateFromNode() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         source.getNode("test-key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
@@ -56,14 +56,14 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testNullsPreserved() throws ObjectMappingException {
+    void testNullsPreserved() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final TestObject obj = mapper.load(BasicConfigurationNode.root());
         assertNull(obj.stringVal);
     }
 
     @Test
-    public void testLoadExistingObject() throws ObjectMappingException {
+    void testLoadExistingObject() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         final TestObject instance = new TestObject();
@@ -76,7 +76,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testDefaultsNotAppiledUnlessCopyDefaults() throws ObjectMappingException {
+    void testDefaultsNotAppiledUnlessCopyDefaults() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         final TestObject instance = new TestObject();
@@ -88,7 +88,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testDefaultsApplied() throws ObjectMappingException {
+    void testDefaultsApplied() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         final TestObject instance = new TestObject();
@@ -108,7 +108,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testCommentsApplied() throws ObjectMappingException {
+    void testCommentsApplied() throws ObjectMappingException {
         final CommentedConfigurationNode node = CommentedConfigurationNode.root();
         final ObjectMapper<CommentedObject> mapper = ObjectMapper.factory().get(CommentedObject.class);
         final CommentedObject obj = mapper.load(node);
@@ -131,7 +131,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testNoArglessConstructor() throws ObjectMappingException {
+    void testNoArglessConstructor() throws ObjectMappingException {
         Assertions.assertTrue(assertThrows(ObjectMappingException.class, () -> {
             final ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.factory().get(NonZeroArgConstructorObject.class);
             assertFalse(mapper.canCreateInstances());
@@ -145,7 +145,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testSuperclassFieldsIncluded() throws ObjectMappingException {
+    void testSuperclassFieldsIncluded() throws ObjectMappingException {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.factory().get(TestObjectChild.class);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("child-setting").setValue(true);
@@ -162,7 +162,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testKeyFromFieldName() throws ObjectMappingException {
+    void testKeyFromFieldName() throws ObjectMappingException {
         final ObjectMapper<FieldNameObject> mapper = ObjectMapper.factory().get(FieldNameObject.class);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("loads").setValue(true);
@@ -181,7 +181,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testNestedObjectWithComments() throws ObjectMappingException {
+    void testNestedObjectWithComments() throws ObjectMappingException {
         final CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
         final ObjectMapper<ParentObject> mapper = ObjectMapper.factory().get(ParentObject.class);
         mapper.load(node);
@@ -211,7 +211,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testInterfaceSerialization() throws ObjectMappingException {
+    void testInterfaceSerialization() throws ObjectMappingException {
 
         final ChildObject childObject = new ChildObject();
         childObject.test = "Changed value";
@@ -253,7 +253,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testGenericTypesResolved() throws ObjectMappingException {
+    void testGenericTypesResolved() throws ObjectMappingException {
         final TypeToken<GenericSerializable<String>> stringSerializable = new TypeToken<GenericSerializable<String>>() {};
         final TypeToken<GenericSerializable<Integer>> intSerializable = new TypeToken<GenericSerializable<Integer>>() {};
 
@@ -285,7 +285,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testGenericsResolvedThroughSuperclass() throws ObjectMappingException, MalformedURLException {
+    void testGenericsResolvedThroughSuperclass() throws ObjectMappingException, MalformedURLException {
         final ObjectMapper<ParentTypesResolved> mapper = ObjectMapper.factory().get(ParentTypesResolved.class);
 
         final BasicConfigurationNode urlNode = BasicConfigurationNode.root(p -> {
@@ -303,7 +303,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testDirectInterfacesProhibited() {
+    void testDirectInterfacesProhibited() {
         assertThrows(ObjectMappingException.class, () -> ObjectMapper.factory().get(ParentInterface.class));
     }
 

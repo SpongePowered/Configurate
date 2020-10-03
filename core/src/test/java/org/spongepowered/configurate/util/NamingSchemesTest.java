@@ -23,61 +23,61 @@ import org.junit.jupiter.api.Test;
 public class NamingSchemesTest {
 
     @Test
-    public void testCamelCasePassthrough() {
+    void testCamelCasePassthrough() {
         assertEquals("camelCase", NamingSchemes.CAMEL_CASE.coerce("camelCase"));
         assertEquals("camels", NamingSchemes.CAMEL_CASE.coerce("camels"));
     }
 
     @Test
-    public void testSnakeCasePassthrough() {
+    void testSnakeCasePassthrough() {
         assertEquals("snake_case", NamingSchemes.SNAKE_CASE.coerce("snake_case"));
         assertEquals("snake", NamingSchemes.SNAKE_CASE.coerce("snake"));
     }
 
     @Test
-    public void testDashSeparatedPassthrough() {
+    void testDashSeparatedPassthrough() {
         assertEquals("dash-separated", NamingSchemes.LOWER_CASE_DASHED.coerce("dash-separated"));
         assertEquals("dash", NamingSchemes.LOWER_CASE_DASHED.coerce("dash"));
     }
 
     @Test
-    public void testCamelToSnake() {
+    void testCamelToSnake() {
         assertEquals("chat_radius", NamingSchemes.SNAKE_CASE.coerce("chatRadius"));
         assertEquals("max_growth_area", NamingSchemes.SNAKE_CASE.coerce("maxGrowthArea"));
     }
 
     @Test
-    public void testCamelToDashed() {
+    void testCamelToDashed() {
         assertEquals("quick-fix", NamingSchemes.LOWER_CASE_DASHED.coerce("quickFix"));
         assertEquals("lets-go-again", NamingSchemes.LOWER_CASE_DASHED.coerce("letsGoAgain"));
     }
 
     @Test
-    public void testSnakeToCamel() {
+    void testSnakeToCamel() {
         assertEquals("getDamageSource", NamingSchemes.CAMEL_CASE.coerce("get_damage_source"));
         assertEquals("setTarget", NamingSchemes.CAMEL_CASE.coerce("set_target"));
     }
 
     @Test
-    public void testSnakeToDashed() {
+    void testSnakeToDashed() {
         assertEquals("get-damage-source", NamingSchemes.LOWER_CASE_DASHED.coerce("get_damage_source"));
         assertEquals("set-target", NamingSchemes.LOWER_CASE_DASHED.coerce("set_target"));
     }
 
     @Test
-    public void testDashedToCamel() {
+    void testDashedToCamel() {
         assertEquals("nextTarget", NamingSchemes.CAMEL_CASE.coerce("next-target"));
         assertEquals("defaultSpawnPoint", NamingSchemes.CAMEL_CASE.coerce("default-spawn-point"));
     }
 
     @Test
-    public void testDashedToSnake() {
+    void testDashedToSnake() {
         assertEquals("next_target", NamingSchemes.SNAKE_CASE.coerce("next-target"));
         assertEquals("default_spawn_point", NamingSchemes.SNAKE_CASE.coerce("default-spawn-point"));
     }
 
     @Test
-    public void testLeadingDelimiterPassesThrough() {
+    void testLeadingDelimiterPassesThrough() {
         assertEquals("-days", NamingSchemes.SNAKE_CASE.coerce("-days"));
         assertEquals("-days", NamingSchemes.LOWER_CASE_DASHED.coerce("-days"));
         assertEquals("-days", NamingSchemes.CAMEL_CASE.coerce("-days"));
@@ -87,7 +87,7 @@ public class NamingSchemesTest {
     }
 
     @Test
-    public void testTrailingDelimiterPassesThrough() {
+    void testTrailingDelimiterPassesThrough() {
         assertEquals("days-", NamingSchemes.LOWER_CASE_DASHED.coerce("days-"));
         assertEquals("days-", NamingSchemes.SNAKE_CASE.coerce("days-"));
         assertEquals("days-", NamingSchemes.CAMEL_CASE.coerce("days-"));
@@ -97,7 +97,7 @@ public class NamingSchemesTest {
     }
 
     @Test
-    public void testAccents() {
+    void testAccents() {
         assertEquals("usingÜmlauts", NamingSchemes.CAMEL_CASE.coerce("using-ümlauts"));
         assertEquals("with_àccents", NamingSchemes.SNAKE_CASE.coerce("with-àccents"));
         assertEquals("with_àccents", NamingSchemes.SNAKE_CASE.coerce("withÀccents"));
@@ -105,7 +105,7 @@ public class NamingSchemesTest {
     }
 
     @Test
-    public void testNonBmpCodePoints() {
+    void testNonBmpCodePoints() {
         assertEquals("using𝔐ath", NamingSchemes.CAMEL_CASE.coerce("using-𝔐ath"));
         assertEquals("asdf-𐐴hjkl", NamingSchemes.LOWER_CASE_DASHED.coerce("asdf𐐌hjkl"));
     }

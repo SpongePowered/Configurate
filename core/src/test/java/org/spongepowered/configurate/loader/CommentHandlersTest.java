@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public class CommentHandlersTest {
 
     @Test
-    public void testExtractBlockCommentHeader() throws IOException {
+    void testExtractBlockCommentHeader() throws IOException {
         final String testDocument = "/*\n"
                 + " * First header line\n"
                 + " * more header\n"
@@ -56,7 +56,7 @@ public class CommentHandlersTest {
     }
 
     @Test
-    public void testExtractSingleLineBlockComment() throws IOException {
+    void testExtractSingleLineBlockComment() throws IOException {
         final String testDocument = "/* single line */\n";
         try (BufferedReader read = new BufferedReader(new StringReader(testDocument))) {
             final @Nullable String head = CommentHandlers.SLASH_BLOCK.extractHeader(read);
@@ -66,7 +66,7 @@ public class CommentHandlersTest {
     }
 
     @Test
-    public void testExtractLineCommentHeader() throws IOException {
+    void testExtractLineCommentHeader() throws IOException {
         final String testDocument = "# First header line\n"
                 + "# more header\n"
                 + "# even more header";
@@ -88,7 +88,7 @@ public class CommentHandlersTest {
      * @throws IOException not expected within test
      */
     @Test
-    public void testExtremelyLongLine(final @TempDir Path tempDir) throws IOException {
+    void testExtremelyLongLine(final @TempDir Path tempDir) throws IOException {
         final Path testFile = tempDir.resolve("test.json");
         try (BufferedWriter w = Files.newBufferedWriter(testFile, StandardCharsets.UTF_8)) {
             w.write("{test\": \"");
