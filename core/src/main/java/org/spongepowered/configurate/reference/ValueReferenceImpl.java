@@ -72,7 +72,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         final @Nullable T possible = this.serializer.deserialize(this.type.getType(), node);
         if (possible != null) {
             return possible;
-        } else if (defaultVal != null && node.getOptions().shouldCopyDefaults()) {
+        } else if (defaultVal != null && node.getOptions().getShouldCopyDefaults()) {
             this.serializer.serialize(this.type.getType(), defaultVal, node);
         }
         return defaultVal;

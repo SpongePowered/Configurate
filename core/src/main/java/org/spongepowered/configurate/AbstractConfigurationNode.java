@@ -117,7 +117,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      */
     static <V> V storeDefault(final ConfigurationNode node, final V defValue) {
         requireNonNull(defValue, "defValue");
-        if (node.getOptions().shouldCopyDefaults()) {
+        if (node.getOptions().getShouldCopyDefaults()) {
             node.setValue(defValue);
         }
         return defValue;
@@ -125,7 +125,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     static <V> V storeDefault(final ConfigurationNode node, final Type type, final V defValue) throws ObjectMappingException {
         requireNonNull(defValue, "defValue");
-        if (node.getOptions().shouldCopyDefaults()) {
+        if (node.getOptions().getShouldCopyDefaults()) {
             node.setValue(type, defValue);
         }
         return defValue;

@@ -76,7 +76,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 // load field into intermediate object
                 field.deserializer().accept(intermediate, newVal, implicitInitializer);
 
-                if (newVal == null && source.getOptions().shouldCopyDefaults()) {
+                if (newVal == null && source.getOptions().getShouldCopyDefaults()) {
                     if (unseenFields == null) {
                         unseenFields = new ArrayList<>();
                     }

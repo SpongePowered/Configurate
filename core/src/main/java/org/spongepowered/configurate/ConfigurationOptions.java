@@ -88,7 +88,7 @@ public abstract class ConfigurationOptions {
             return this;
         }
         return new AutoValue_ConfigurationOptions(mapFactory, getHeader(), getSerializers(), getNativeTypes(),
-                shouldCopyDefaults(), isImplicitInitialization());
+                getShouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class ConfigurationOptions {
             return this;
         }
         return new AutoValue_ConfigurationOptions(getMapFactory(), header, getSerializers(), getNativeTypes(),
-                shouldCopyDefaults(), isImplicitInitialization());
+                getShouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class ConfigurationOptions {
             return this;
         }
         return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), serializers, getNativeTypes(),
-                shouldCopyDefaults(), isImplicitInitialization());
+                getShouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -211,7 +211,7 @@ public abstract class ConfigurationOptions {
             return this;
         }
         return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(),
-                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), shouldCopyDefaults(), isImplicitInitialization());
+                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), getShouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -220,19 +220,19 @@ public abstract class ConfigurationOptions {
      *
      * @return Whether defaults should be copied into value
      */
-    public abstract boolean shouldCopyDefaults();
+    public abstract boolean getShouldCopyDefaults();
 
     /**
      * Creates a new {@link ConfigurationOptions} instance, with the specified
      * 'copy defaults' setting set, and all other settings copied from
      * this instance.
      *
-     * @see #shouldCopyDefaults() for information on what this method does
+     * @see #getShouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
      */
     public ConfigurationOptions withShouldCopyDefaults(final boolean shouldCopyDefaults) {
-        if (this.shouldCopyDefaults() == shouldCopyDefaults) {
+        if (this.getShouldCopyDefaults() == shouldCopyDefaults) {
             return this;
         }
 
@@ -267,7 +267,7 @@ public abstract class ConfigurationOptions {
         }
 
         return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(), getNativeTypes(),
-                shouldCopyDefaults(), implicitInitialization);
+                getShouldCopyDefaults(), implicitInitialization);
     }
 
 }
