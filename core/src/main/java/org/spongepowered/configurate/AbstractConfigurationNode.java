@@ -117,7 +117,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      */
     static <V> V storeDefault(final ConfigurationNode node, final V defValue) {
         requireNonNull(defValue, "defValue");
-        if (node.getOptions().shouldCopyDefaults()) {
+        if (node.getOptions().getShouldCopyDefaults()) {
             node.setValue(defValue);
         }
         return defValue;
@@ -125,7 +125,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     static <V> V storeDefault(final ConfigurationNode node, final Type type, final V defValue) throws ObjectMappingException {
         requireNonNull(defValue, "defValue");
-        if (node.getOptions().shouldCopyDefaults()) {
+        if (node.getOptions().getShouldCopyDefaults()) {
             node.setValue(type, defValue);
         }
         return defValue;
@@ -143,11 +143,17 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             throw new IllegalArgumentException("Raw types are not supported");
         }
 
-        if (isVirtual()) {
+        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
+        if (this.value instanceof NullConfigValue) {
+            if (serial != null && getOptions().isImplicitInitialization()) {
+                final @Nullable Object emptyValue = serial.emptyValue(type, this.options);
+                if (emptyValue != null) {
+                    return storeDefault(this, type, emptyValue);
+                }
+            }
             return null;
         }
 
-        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
             final @Nullable Object value = getValue();
             final Class<?> erasure = erase(type);

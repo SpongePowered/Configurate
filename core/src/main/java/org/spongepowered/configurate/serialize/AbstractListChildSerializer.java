@@ -18,6 +18,7 @@ package org.spongepowered.configurate.serialize;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
@@ -71,6 +72,15 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
         node.setValue(Collections.emptyList());
         if (obj != null) {
             forEachElement(obj, el -> entrySerial.serialize(entryType, el, node.appendListNode()));
+        }
+    }
+
+    @Override
+    public @Nullable T emptyValue(final Type specificType, final ConfigurationOptions options) {
+        try {
+            return this.createNew(0, getElementType(specificType));
+        } catch (final ObjectMappingException ex) {
+            return null;
         }
     }
 

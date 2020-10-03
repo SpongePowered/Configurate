@@ -42,8 +42,19 @@ import kotlin.reflect.jvm.javaMethod
 
 private val dataClassMapperFactory = ObjectMapper.factoryBuilder().addDiscoverer(DataClassFieldDiscoverer).build()
 
+/**
+ * Get an object mapper factory with standard capabilities and settings, except
+ * for the added ability to interpret data clasess with a [dataClassFieldDiscoverer].
+ */
 fun objectMapperFactory(): Factory {
     return dataClassMapperFactory
+}
+
+/**
+ * Get a field discoverer that can determine field information from data classes.
+ */
+fun dataClassFieldDiscoverer(): FieldDiscoverer<*> {
+    return DataClassFieldDiscoverer
 }
 
 /**
@@ -90,11 +101,11 @@ annotation class Fancy(val value: String, val message: String = "")
  *
  * See [KT-39369](https://youtrack.jetbrains.com/issue/KT-39369) for details.
  */
-object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter, Any>> {
+private object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter, Any?>> {
     override fun <V> discover(
         target: AnnotatedType,
-        collector: FieldDiscoverer.FieldCollector<MutableMap<KParameter, Any>, V>
-    ): FieldDiscoverer.InstanceFactory<MutableMap<KParameter, Any>>? {
+        collector: FieldDiscoverer.FieldCollector<MutableMap<KParameter, Any?>, V>
+    ): FieldDiscoverer.InstanceFactory<MutableMap<KParameter, Any?>>? {
         val klass = erase(target.type).kotlin
         if (!klass.isData) {
             return null
@@ -114,17 +125,25 @@ object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter, Any>> {
                 param.name,
                 resolvedType,
                 combinedAnnotations(param.type.javaElement, param.javaElement, field.javaField), // type, backing field, etc
-                { intermediate, arg -> intermediate[param] = arg },
+                // deserializer
+                { intermediate, arg, implicitProvider ->
+                    if (arg != null) {
+                        intermediate[param] = arg
+                    } else if (!param.isOptional) {
+                        intermediate[param] = implicitProvider.get()
+                    }
+                },
+                // serializer
                 { (field as KProperty1<V, *>).get(it) }
             )
         }
 
-        return object : FieldDiscoverer.InstanceFactory<MutableMap<KParameter, Any>> {
-            override fun begin(): MutableMap<KParameter, Any> {
+        return object : FieldDiscoverer.InstanceFactory<MutableMap<KParameter, Any?>> {
+            override fun begin(): MutableMap<KParameter, Any?> {
                 return mutableMapOf()
             }
 
-            override fun complete(intermediate: MutableMap<KParameter, Any>): Any {
+            override fun complete(intermediate: MutableMap<KParameter, Any?>): Any {
                 return constructor.callBy(intermediate)
             }
 

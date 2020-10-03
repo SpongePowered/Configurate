@@ -18,6 +18,7 @@ package org.spongepowered.configurate.serialize;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
@@ -92,5 +93,19 @@ public interface TypeSerializer<T> {
      * @throws ObjectMappingException If the object cannot be serialized
      */
     void serialize(Type type, @Nullable T obj, ConfigurationNode node) throws ObjectMappingException;
+
+    /**
+     * Create an empty value of the appropriate type.
+     *
+     * <p>This method is for the most part designed to create empty collection
+     * types, though it may be useful for scalars in limited cases.</p>
+     *
+     * @param specificType specific subtype to create an empty value of
+     * @param options options used from the loading node
+     * @return new empty value
+     */
+    default @Nullable T emptyValue(final Type specificType, ConfigurationOptions options) {
+        return null;
+    }
 
 }

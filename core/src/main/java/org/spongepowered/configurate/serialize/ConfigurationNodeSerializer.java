@@ -18,7 +18,9 @@ package org.spongepowered.configurate.serialize;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 
 import java.lang.reflect.Type;
 
@@ -41,6 +43,11 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
     @Override
     public void serialize(final @NonNull Type type, final @Nullable ConfigurationNode obj, final @NonNull ConfigurationNode node) {
         node.setValue(obj);
+    }
+
+    @Override
+    public @Nullable ConfigurationNode emptyValue(final Type specificType, final ConfigurationOptions options) {
+        return BasicConfigurationNode.root(options);
     }
 
 }

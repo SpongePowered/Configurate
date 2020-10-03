@@ -18,6 +18,7 @@ package org.spongepowered.configurate.objectmapping;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -79,6 +80,39 @@ public class RecordDiscovererTest {
         assertEquals(0xFACE, target.getNode("element", "testable").getValue());
         assertEquals("https://spongepowered.org/", target.getNode("fetch-loc").getValue());
         assertEquals("The most url", target.getNode("fetch-loc").getComment());
+    }
+
+    @ConfigSerializable
+    record Empty(@Nullable String value) {
+
+        @SuppressWarnings("checkstyle:RequireThis") // TODO remove when https://github.com/checkstyle/checkstyle/issues/8873 is resolved
+        public Empty {
+            if (value == null) {
+                value = "<unknown>";
+            }
+        }
+
+    }
+
+    @ConfigSerializable
+    record ImplicitlyFillable(Empty something, Set<String> somethingElse) {
+
+        @SuppressWarnings("checkstyle:RequireThis") // TODO remove when https://github.com/checkstyle/checkstyle/issues/8873 is resolved
+        public ImplicitlyFillable {
+            somethingElse = Set.copyOf(somethingElse);
+        }
+
+    }
+
+    @Test
+    void testImplicitDefaultsLoaded() throws ObjectMappingException {
+        final var filled =
+                ObjectMapper.factory().get(ImplicitlyFillable.class)
+                        .load(BasicConfigurationNode.root(ConfigurationOptions.defaults()
+                                .withImplicitInitialization(true)));
+
+        assertEquals(new Empty("<unknown>"), filled.something());
+        assertEquals(Set.of(), filled.somethingElse());
     }
 
 }

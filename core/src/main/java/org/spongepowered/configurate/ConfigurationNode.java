@@ -634,7 +634,7 @@ public interface ConfigurationNode {
         if (value != null) {
             return value;
         }
-        if (getOptions().shouldCopyDefaults()) {
+        if (getOptions().getShouldCopyDefaults()) {
             setValue(def);
         }
         return def;
@@ -662,7 +662,7 @@ public interface ConfigurationNode {
         if (val != null) {
             return val;
         }
-        if (getOptions().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
             setValue(def);
         }
         return def;
@@ -690,7 +690,7 @@ public interface ConfigurationNode {
         if (val != null) {
             return val;
         }
-        if (getOptions().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
             setValue(def);
         }
         return def;
@@ -718,7 +718,7 @@ public interface ConfigurationNode {
         if (val != null) {
             return val;
         }
-        if (getOptions().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
             setValue(def);
         }
         return def;
@@ -746,7 +746,7 @@ public interface ConfigurationNode {
         if (val != null) {
             return val;
         }
-        if (getOptions().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
             setValue(def);
         }
         return def;
@@ -774,7 +774,7 @@ public interface ConfigurationNode {
         if (val != null) {
             return val;
         }
-        if (getOptions().shouldCopyDefaults()) {
+        if (getOptions().getShouldCopyDefaults()) {
             setValue(def);
         }
         return def;
