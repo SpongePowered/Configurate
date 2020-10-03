@@ -31,7 +31,7 @@ import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 /**
  * Holder for field-specific information.
@@ -55,8 +55,8 @@ public abstract class FieldData<I, O> {
      * @return new field data
      */
     static <I, O> FieldData<I, O> of(final String name, final AnnotatedType resolvedFieldType,
-            final List<Constraint<?>> constraints, final List<Processor<?>> processors, final BiConsumer<I, Object> deserializer,
-            final CheckedFunction<O, @Nullable Object, Exception> serializer, final NodeResolver resolver) {
+            final List<Constraint<?>> constraints, final List<Processor<?>> processors,
+            final Deserializer<I> deserializer, final CheckedFunction<O, @Nullable Object, Exception> serializer, final NodeResolver resolver) {
         return new AutoValue_FieldData<>(name, resolvedFieldType,
                 UnmodifiableCollections.copyOf(constraints),
                 UnmodifiableCollections.copyOf(processors),
@@ -87,7 +87,7 @@ public abstract class FieldData<I, O> {
 
     abstract List<Processor<?>> processors();
 
-    abstract BiConsumer<I, Object> deserializer();
+    abstract Deserializer<I> deserializer();
 
     abstract CheckedFunction<O, @Nullable Object, Exception> serializer();
 
@@ -141,6 +141,25 @@ public abstract class FieldData<I, O> {
      */
     public @Nullable ConfigurationNode resolveNode(final ConfigurationNode source) {
         return this.nodeResolver().resolve(source);
+    }
+
+    /**
+     * A deserialization handler to appropriately place object data into fields.
+     *
+     * @param <I> intermediate data type
+     */
+    @FunctionalInterface
+    public interface Deserializer<I> {
+
+        /**
+         * Apply either a new value or implicit initializer to the
+         * {@code intermediate} object as appropriate.
+         *
+         * @param intermediate the intermediate container
+         * @param newValue new value to store
+         * @param implicitInitializer the implicit initializer
+         */
+        void accept(I intermediate, @Nullable Object newValue, Supplier<@Nullable Object> implicitInitializer);
     }
 
 }

@@ -25,7 +25,9 @@ import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.Matches;
@@ -48,7 +50,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * Factory for a basic {@link ObjectMapper}.
@@ -149,7 +150,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private <I, O> void makeData(final List<FieldData<I, O>> fields, final String name, final AnnotatedType type,
-            final AnnotatedElement container, final BiConsumer<I, Object> deserializer, final CheckedFunction<O, Object, Exception> serializer) {
+            final AnnotatedElement container, final FieldData.Deserializer<I> deserializer, final CheckedFunction<O, Object, Exception> serializer) {
         @Nullable NodeResolver resolver = null;
         for (NodeResolver.Factory factory : this.resolverFactories) {
             final @Nullable NodeResolver next = factory.make(name, container);
@@ -245,6 +246,16 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
             mapper = get(type);
         }
         ((ObjectMapper<Object>) mapper).save(obj, node);
+    }
+
+    @Override
+    public @Nullable Object emptyValue(final Type specificType, final ConfigurationOptions options) {
+        try {
+            // preserve options, but don't copy defaults into temporary node
+            return get(specificType).load(BasicConfigurationNode.root(options.withShouldCopyDefaults(false)));
+        } catch (final ObjectMappingException ex) {
+            return null;
+        }
     }
 
     // Helpers to get value from map

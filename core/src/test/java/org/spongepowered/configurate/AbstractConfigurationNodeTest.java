@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -36,9 +37,11 @@ import org.spongepowered.configurate.util.UnmodifiableCollections;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -399,7 +402,32 @@ public class AbstractConfigurationNodeTest {
                 .collect(BasicConfigurationNode.factory().toListCollector(Integer.class));
 
         assertEquals(ImmutableList.of(1, 2, 3, 4, 8), target.getList(TypeToken.get(Integer.class)));
+    }
 
+    @ConfigSerializable
+    static class Empty {
+        String ignoreMe = "hello";
+
+        @Override
+        public boolean equals(final Object that) {
+            return that instanceof Empty
+                    && Objects.equals(this.ignoreMe, ((Empty) that).ignoreMe);
+        }
+
+        @Override
+        public int hashCode() {
+            return 31 * Objects.hashCode(this.ignoreMe);
+        }
+    }
+
+    @Test
+    void testImplicitInitialization() throws ObjectMappingException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults().withImplicitInitialization(true));
+
+        assertNull(node.getValue());
+        assertEquals(Collections.emptyList(), node.getValue(new TypeToken<List<String>>() {}));
+        assertEquals(Collections.emptyMap(), node.getValue(new TypeToken<Map<String, Integer>>() {}));
+        assertEquals(new Empty(), node.getValue(Empty.class));
     }
 
 }

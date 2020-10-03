@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.spongepowered.configurate.BasicConfigurationNode
 import org.spongepowered.configurate.CommentedConfigurationNode
+import org.spongepowered.configurate.ConfigurationOptions
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
 import org.spongepowered.configurate.objectmapping.meta.Comment
 import org.spongepowered.configurate.objectmapping.meta.Matches
@@ -78,5 +80,25 @@ class ObjectMappingTest {
                 }
             )
         }
+    }
+
+    // can't be local to the function: https://youtrack.jetbrains.com/issue/KT-42440
+    @ConfigSerializable
+    data class Empty(val empty: String?)
+
+    @ConfigSerializable
+    data class ImplicitTest(val test: Set<String>, val help: Map<String, String>, val empty: Empty)
+
+    @Test
+    fun `collections are initialized implicitly`() {
+        val node = CommentedConfigurationNode.root(ConfigurationOptions.defaults()
+                .withImplicitInitialization(true)
+                .withSerializers { it.registerAnnotatedObjects(objectMapperFactory()) })
+
+        val tester = objectMapper<ImplicitTest>().load(node)
+
+        assertEquals(setOf<String>(), tester.test)
+        assertEquals(mapOf<String, String>(), tester.help)
+        assertEquals(null, tester.empty.empty)
     }
 }

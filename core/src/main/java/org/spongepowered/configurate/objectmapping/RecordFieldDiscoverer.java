@@ -114,7 +114,13 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
                         final AnnotatedElement annotationContainer = Typing.combinedAnnotations(component, backingField, accessor);
                         final int targetIdx = i;
                         collector.accept(name, resolvedType, annotationContainer,
-                            (intermediate, el) -> intermediate[targetIdx] = el, accessor::invoke);
+                            (intermediate, el, implicitSupplier) -> {
+                                if (el != null) {
+                                    intermediate[targetIdx] = el;
+                                } else {
+                                    intermediate[targetIdx] = implicitSupplier.get();
+                                }
+                            }, accessor::invoke);
                     }
 
                     // canonical constructor, which we'll use to make new instances
@@ -127,7 +133,8 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
                             return new Object[recordComponents.length];
                         }
 
-                        @Override public Object complete(final Object[] intermediate) throws ObjectMappingException {
+                        @Override
+                        public Object complete(final Object[] intermediate) throws ObjectMappingException {
                             try {
                                 return clazzConstructor.newInstance(intermediate);
                             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -135,7 +142,8 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
                             }
                         }
 
-                        @Override public boolean canCreateInstances() {
+                        @Override
+                        public boolean canCreateInstances() {
                             return true;
                         }
                     };

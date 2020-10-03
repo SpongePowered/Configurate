@@ -27,6 +27,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
@@ -62,15 +63,25 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(field.resolvedType().getType(), node);
                 field.validate(newVal);
 
-                if (newVal == null) {
+                // set up an implicit initializer
+                // only the instance factory has knowledge of the underlying data type,
+                // so we have to pass both implicit and explicit options along to it.
+                final Supplier<@Nullable Object> implicitInitializer;
+                if (newVal == null && node.getOptions().isImplicitInitialization()) {
+                    implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.getOptions());
+                } else {
+                    implicitInitializer = () -> null;
+                }
+
+                // load field into intermediate object
+                field.deserializer().accept(intermediate, newVal, implicitInitializer);
+
+                if (newVal == null && source.getOptions().shouldCopyDefaults()) {
                     if (unseenFields == null) {
                         unseenFields = new ArrayList<>();
                     }
                     unseenFields.add(field);
                 }
-
-                // load field into intermediate object
-                field.deserializer().accept(intermediate, newVal);
             } catch (final ObjectMappingException ex) {
                 if (failure == null) {
                     failure = ex;
@@ -84,9 +95,8 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
             throw failure;
         }
 
-
         final V complete = completer.apply(intermediate);
-        if (source.getOptions().shouldCopyDefaults() && unseenFields != null) {
+        if (unseenFields != null) {
             for (FieldData<I, V> field : unseenFields) {
                 saveSingle(field, complete, source);
             }

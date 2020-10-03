@@ -90,7 +90,17 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
             public void complete(final Object instance, final Map<Field, Object> intermediate) throws ObjectMappingException {
                 for (Map.Entry<Field, Object> entry : intermediate.entrySet()) {
                     try {
-                        entry.getKey().set(instance, entry.getValue());
+                        // Handle implicit field initialization by detecting any existing information in the object
+                        if (entry.getValue() instanceof ImplicitProvider) {
+                            final @Nullable Object implicit = ((ImplicitProvider) entry.getValue()).provider.get();
+                            if (implicit != null) {
+                                if (entry.getKey().get(instance) == null) {
+                                    entry.getKey().set(instance, implicit);
+                                }
+                            }
+                        } else {
+                            entry.getKey().set(instance, entry.getValue());
+                        }
                     } catch (final IllegalAccessException e) {
                         throw new ObjectMappingException(e);
                     }
@@ -124,12 +134,24 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
             field.setAccessible(true);
             final AnnotatedType fieldType = getFieldType(field, clazz);
             fieldMaker.accept(field.getName(), fieldType, Typing.combinedAnnotations(fieldType, field),
-                (intermediate, val) -> {
+                (intermediate, val, implicitProvider) -> {
                     if (val != null) {
                         intermediate.put(field, val);
+                    } else {
+                        intermediate.put(field, new ImplicitProvider(implicitProvider));
                     }
                 }, field::get);
         }
+    }
+
+    static class ImplicitProvider {
+
+        final Supplier<Object> provider;
+
+        ImplicitProvider(final Supplier<Object> provider) {
+            this.provider = provider;
+        }
+
     }
 
 }

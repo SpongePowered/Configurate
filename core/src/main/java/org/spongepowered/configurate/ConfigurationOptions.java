@@ -49,7 +49,7 @@ public abstract class ConfigurationOptions {
         // avoid initialization cycles
 
         static final ConfigurationOptions DEFAULTS = new AutoValue_ConfigurationOptions(MapFactories.insertionOrdered(), null,
-                TypeSerializerCollection.defaults(), null, false);
+                TypeSerializerCollection.defaults(), null, false, false);
 
     }
 
@@ -87,7 +87,8 @@ public abstract class ConfigurationOptions {
         if (this.getMapFactory() == mapFactory) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(mapFactory, getHeader(), getSerializers(), getNativeTypes(), shouldCopyDefaults());
+        return new AutoValue_ConfigurationOptions(mapFactory, getHeader(), getSerializers(), getNativeTypes(),
+                shouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -108,7 +109,8 @@ public abstract class ConfigurationOptions {
         if (Objects.equals(this.getHeader(), header)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(getMapFactory(), header, getSerializers(), getNativeTypes(), shouldCopyDefaults());
+        return new AutoValue_ConfigurationOptions(getMapFactory(), header, getSerializers(), getNativeTypes(),
+                shouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -130,7 +132,8 @@ public abstract class ConfigurationOptions {
         if (this.getSerializers().equals(serializers)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), serializers, getNativeTypes(), shouldCopyDefaults());
+        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), serializers, getNativeTypes(),
+                shouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -208,7 +211,7 @@ public abstract class ConfigurationOptions {
             return this;
         }
         return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(),
-                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), shouldCopyDefaults());
+                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), shouldCopyDefaults(), isImplicitInitialization());
     }
 
     /**
@@ -220,8 +223,9 @@ public abstract class ConfigurationOptions {
     public abstract boolean shouldCopyDefaults();
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified 'copy defaults' setting
-     * set, and all other settings copied from this instance.
+     * Creates a new {@link ConfigurationOptions} instance, with the specified
+     * 'copy defaults' setting set, and all other settings copied from
+     * this instance.
      *
      * @see #shouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults whether to copy defaults
@@ -232,7 +236,38 @@ public abstract class ConfigurationOptions {
             return this;
         }
 
-        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(), getNativeTypes(), shouldCopyDefaults);
+        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(), getNativeTypes(),
+                shouldCopyDefaults, isImplicitInitialization());
+    }
+
+    /**
+     * Get whether values should be implicitly initialized.
+     *
+     * <p>When this is true, any value get operations will return an empty value
+     * rather than null. This extends through to fields loaded into
+     * object-mapped classes.</p>
+     *
+     * <p>This option is disabled by default</p>
+     *
+     * @return if implicit initialization is enabled.
+     */
+    public abstract boolean isImplicitInitialization();
+
+    /**
+     * Create a new {@link ConfigurationOptions} instance with the specified
+     * implicit initialization setting.
+     *
+     * @param implicitInitialization whether to initialize implicitly
+     * @return a new options object
+     * @see #isImplicitInitialization() for more details
+     */
+    public ConfigurationOptions withImplicitInitialization(final boolean implicitInitialization) {
+        if (this.isImplicitInitialization() == implicitInitialization) {
+            return this;
+        }
+
+        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(), getNativeTypes(),
+                shouldCopyDefaults(), implicitInitialization);
     }
 
 }

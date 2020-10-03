@@ -23,7 +23,6 @@ import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 /**
@@ -155,7 +154,7 @@ public interface FieldDiscoverer<I> {
          * @param serializer a function to extract a value from a completed
          *                   object instance.
          */
-        void accept(String name, AnnotatedType type, AnnotatedElement enclosing, BiConsumer<I, Object> deserializer,
+        void accept(String name, AnnotatedType type, AnnotatedElement enclosing, FieldData.Deserializer<I> deserializer,
                 CheckedFunction<V, Object, Exception> serializer);
     }
 

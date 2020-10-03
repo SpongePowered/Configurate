@@ -22,6 +22,7 @@ import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
@@ -109,6 +110,11 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
                 node.removeChild(unusedChild);
             }
         }
+    }
+
+    @Override
+    public Map<?, ?> emptyValue(final Type specificType, final ConfigurationOptions options) {
+        return new LinkedHashMap<>();
     }
 
 }

@@ -143,11 +143,17 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             throw new IllegalArgumentException("Raw types are not supported");
         }
 
-        if (isVirtual()) {
+        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
+        if (this.value instanceof NullConfigValue) {
+            if (serial != null && getOptions().isImplicitInitialization()) {
+                final @Nullable Object emptyValue = serial.emptyValue(type, this.options);
+                if (emptyValue != null) {
+                    return storeDefault(this, type, emptyValue);
+                }
+            }
             return null;
         }
 
-        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
         if (serial == null) {
             final @Nullable Object value = getValue();
             final Class<?> erasure = erase(type);
