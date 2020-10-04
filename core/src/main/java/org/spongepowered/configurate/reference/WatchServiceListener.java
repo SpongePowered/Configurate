@@ -208,6 +208,16 @@ public final class WatchServiceListener implements AutoCloseable {
         return getRegistration(directory).subscribe(callback);
     }
 
+    /**
+     * Create a new {@link ConfigurationReference} subscribed to FS updates.
+     *
+     * @param loaderFunc function that will create a new loader
+     * @param path path to to for changes
+     * @param <N> node type
+     * @return new reference
+     * @throws IOException if unable to complete an initial load of
+     *      the configuration.
+     */
     public <N extends ScopedConfigurationNode<N>> ConfigurationReference<N>
         listenToConfiguration(final Function<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws IOException {
         return ConfigurationReference.createWatching(loaderFunc, path, this);

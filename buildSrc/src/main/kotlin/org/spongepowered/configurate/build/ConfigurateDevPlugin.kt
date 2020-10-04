@@ -9,12 +9,14 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.api.plugins.quality.CheckstylePlugin
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.api.tasks.testing.Test
+import org.gradle.language.base.plugins.LifecycleBasePlugin
 
 internal val targetVersion = JavaVersion.VERSION_1_8
 
@@ -65,7 +67,6 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 }
             }
 
-            repositories.addAll(listOf(repositories.mavenLocal(), repositories.mavenCentral(), repositories.jcenter()))
             dependencies.apply {
                 // error-prone compiler
                 val errorProneVersion = properties["errorProneVersion"]
@@ -83,6 +84,8 @@ class ConfigurateDevPlugin : Plugin<Project> {
             }
 
             // Checkstyle (based on Sponge config)
+            // We have the checkstyle version exposed as a property for use in checkstyle's own CI
+            // do not modify the checkstyle configuration without an understanding of how they test against Configurate
             val checkstyleVersion = properties["checkstyleVersion"].toString()
             extensions.configure(CheckstyleExtension::class.java) {
                 it.toolVersion = checkstyleVersion
@@ -96,10 +99,22 @@ class ConfigurateDevPlugin : Plugin<Project> {
             // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot
             if (checkstyleVersion.endsWith("-SNAPSHOT")) {
                 repositories.mavenLocal {
-                    it.content {
-                        it.includeGroup("com.puppycrawl.tools")
+                    it.content { desc ->
+                        desc.includeGroup("com.puppycrawl.tools")
                     }
                 }
+            }
+
+            // Create task for executing all checkstyle tasks
+            tasks.register("checkstyleAll") {
+                it.group = LifecycleBasePlugin.VERIFICATION_GROUP
+                it.dependsOn(tasks.withType(Checkstyle::class.java))
+            }
+
+            // now set up other repositories
+            repositories.apply {
+                mavenCentral()
+                jcenter()
             }
 
             extensions.configure(ConfiguratePublishingExtension::class.java) {

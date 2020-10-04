@@ -60,9 +60,9 @@ public interface TypeSerializer<T> {
      * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
      * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
      * @param <T> The type of value to deserialize
+     * @return A new and unregistered type serializer
      * @see #of(Type, BiFunction, CheckedFunction) for the version of this
      *      function that takes a parameterized type
-     * @return A new and unregistered type serializer
      */
     static <T> ScalarSerializer<T> of(Class<T> type,
             BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, ObjectMappingException> deserializer) {

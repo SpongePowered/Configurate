@@ -62,12 +62,12 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     /**
      * Builds a {@link JacksonConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, JacksonConfigurationLoader> {
+    public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, JacksonConfigurationLoader> {
         private final JsonFactoryBuilder factory = new JsonFactoryBuilder();
         private int indent = 2;
         private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
 
-        protected Builder() {
+        Builder() {
             this.factory.enable(JsonReadFeature.ALLOW_JAVA_COMMENTS)
                     .enable(JsonReadFeature.ALLOW_YAML_COMMENTS)
                     .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)

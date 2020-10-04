@@ -70,6 +70,12 @@ public final class ConfigurateOpsBuilder {
         return factory(() -> CommentedConfigurationNode.root(ConfigurationOptions.defaults().withSerializers(collection)));
     }
 
+    /**
+     * Set the node factory based on the options of the provided node.
+     *
+     * @param node node to use
+     * @return this builder
+     */
     public ConfigurateOpsBuilder factoryFromNode(final ConfigurationNode node) {
         final ConfigurationOptions options = requireNonNull(node, "node").getOptions();
         return factory(() -> CommentedConfigurationNode.root(options));
@@ -78,9 +84,9 @@ public final class ConfigurateOpsBuilder {
     /**
      * Set whether {@link com.mojang.serialization.Keyable} values should be compressed.
      *
-     * @see ConfigurateOps#compressMaps() for more about what compression is
      * @param compressed whether to compress values
      * @return this
+     * @see ConfigurateOps#compressMaps() for more about what compression is
      */
     public ConfigurateOpsBuilder compressed(final boolean compressed) {
         this.compressed = compressed;
@@ -122,12 +128,12 @@ public final class ConfigurateOpsBuilder {
     /**
      * Set how nodes will be protected from both read and write modifications.
      *
+     * @param protection protection level
+     * @return this
      * @see #readProtection(ConfigurateOps.Protection) for how this level
      *      affects value reads
      * @see #writeProtection(ConfigurateOps.Protection) for how this level
      *      affects value writes
-     * @param protection protection level
-     * @return this
      */
     public ConfigurateOpsBuilder readWriteProtection(final ConfigurateOps.Protection protection) {
         requireNonNull(protection, "protection");

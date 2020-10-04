@@ -28,14 +28,20 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface CheckedSupplier<V, E extends Throwable> {
 
+    /**
+     * Perform an operation that returns a value.
+     *
+     * @return the result value
+     * @throws E an implementation-dependent error
+     */
     V get() throws E;
 
     /**
      * Create an instance from an ordinary supplier.
      *
-     * @param consumer The supplier to convert
-     * @param <V> The type returned by the consumer
-     * @return A function that executes the provided consumer
+     * @param consumer the supplier to convert
+     * @param <V> the type returned by the consumer
+     * @return a function that executes the provided consumer
      */
     static <V> CheckedSupplier<V, RuntimeException> fromSupplier(Supplier<V> consumer) {
         return consumer::get;

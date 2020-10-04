@@ -65,11 +65,11 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Builds a {@link YamlConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
+    public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
         private final DumperOptions options = new DumperOptions();
         private @Nullable NodeStyle style = null;
 
-        protected Builder() {
+        Builder() {
             setIndent(4);
             setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
         }

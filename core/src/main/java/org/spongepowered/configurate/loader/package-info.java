@@ -26,4 +26,8 @@
  * to find other solutions, since the abstract loader assumes in many places
  * that configuration files are text files.
  */
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.loader;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

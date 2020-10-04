@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.loader;
 
 import com.google.errorprone.annotations.Immutable;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
@@ -65,13 +64,12 @@ public enum CommentHandlers implements CommentHandler {
     }
 
     @Override
-    public @Nullable String extractHeader(final @NonNull BufferedReader reader) throws IOException {
+    public @Nullable String extractHeader(final BufferedReader reader) throws IOException {
         return this.delegate.extractHeader(reader);
     }
 
-    @NonNull
     @Override
-    public Stream<String> toComment(final @NonNull Stream<String> lines) {
+    public Stream<String> toComment(final Stream<String> lines) {
         return this.delegate.toComment(lines);
     }
 
@@ -83,8 +81,8 @@ public enum CommentHandlers implements CommentHandler {
      * @return extracted comment, or null if a comment could not be extracted
      * @throws IOException If an IO error occurs
      */
-    public static @Nullable String extractComment(final @NonNull BufferedReader reader,
-            final @NonNull Iterable<CommentHandler> allowedHeaderTypes) throws IOException {
+    public static @Nullable String extractComment(final BufferedReader reader,
+            final Iterable<CommentHandler> allowedHeaderTypes) throws IOException {
         reader.mark(READAHEAD_LEN);
         for (CommentHandler handler : allowedHeaderTypes) {
             final @Nullable String comment = handler.extractHeader(reader);
@@ -110,7 +108,7 @@ public enum CommentHandlers implements CommentHandler {
         }
 
         @Override
-        public @Nullable String extractHeader(final @NonNull BufferedReader reader) throws IOException {
+        public @Nullable String extractHeader(final BufferedReader reader) throws IOException {
             if (!beginsWithPrefix(this.startSequence, reader)) {
                 return null;
             }
@@ -168,7 +166,7 @@ public enum CommentHandlers implements CommentHandler {
         }
 
         @Override
-        public @NonNull Stream<String> toComment(final @NonNull Stream<String> lines) {
+        public Stream<String> toComment(final Stream<String> lines) {
             final Stream.Builder<String> build = Stream.builder();
             boolean first = true;
             for (Iterator<String> it = lines.iterator(); it.hasNext();) {
@@ -198,7 +196,7 @@ public enum CommentHandlers implements CommentHandler {
         }
 
         @Override
-        public @Nullable String extractHeader(final @NonNull BufferedReader reader) throws IOException {
+        public @Nullable String extractHeader(final BufferedReader reader) throws IOException {
             if (!beginsWithPrefix(this.commentPrefix, reader)) {
                 return null;
             }
@@ -232,7 +230,7 @@ public enum CommentHandlers implements CommentHandler {
         }
 
         @Override
-        public @NonNull Stream<String> toComment(final @NonNull Stream<String> lines) {
+        public Stream<String> toComment(final Stream<String> lines) {
             return lines
                     .map(s -> {
                         if (s.startsWith(" ")) {

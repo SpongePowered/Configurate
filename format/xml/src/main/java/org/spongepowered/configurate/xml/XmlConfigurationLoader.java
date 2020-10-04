@@ -106,7 +106,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     /**
      * Builds a {@link XmlConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, XmlConfigurationLoader> {
+    public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, XmlConfigurationLoader> {
         private @Nullable Schema schema = null;
         private String defaultTagName = "element";
         private int indent = 2;
@@ -114,7 +114,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         private boolean resolvesExternalContent = false;
         private boolean includeXmlDeclaration = true;
 
-        protected Builder() {
+        Builder() {
         }
 
         /**

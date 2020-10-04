@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.loader;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNodeFactory;
 import org.spongepowered.configurate.ConfigurationOptions;
@@ -51,7 +50,6 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @throws IOException if any sort of error occurs with reading or parsing
      *                     the configuration
      */
-    @NonNull
     default N load() throws IOException {
         return load(defaultOptions());
     }
@@ -67,8 +65,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @throws IOException if any sort of error occurs with reading or parsing
      *                     the configuration
      */
-    @NonNull
-    N load(@NonNull ConfigurationOptions options) throws IOException;
+    N load(ConfigurationOptions options) throws IOException;
 
     /**
      * Attempts to load data from the defined source into a {@link ConfigurationReference}.
@@ -88,7 +85,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @throws IOException if any sort of error occurs with writing or
      *                     generating the configuration
      */
-    void save(@NonNull ConfigurationNode node) throws IOException;
+    void save(ConfigurationNode node) throws IOException;
 
     /**
      * Gets if this loader is capable of loading configurations.

@@ -24,10 +24,19 @@ public class TransactionFailedException extends Exception {
 
     private static final long serialVersionUID = -3726752009864775844L;
 
+    /**
+     * Create an exception indicating a transaction has failed for an
+     * unknown reason.
+     */
     public TransactionFailedException() {
         super();
     }
-    
+
+    /**
+     * Create an exception wrapping the cause of a transaction failure.
+     *
+     * @param cause the original exception cause
+     */
     public TransactionFailedException(final Throwable cause) {
         super(cause);
     }

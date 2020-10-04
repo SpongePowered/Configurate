@@ -156,10 +156,24 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
             return this;
         }
 
+        /**
+         * Map values at {@code path} to being of {@code type}.
+         *
+         * @param type value type reference
+         * @param path target path
+         * @return this builder
+         */
         public Builder<N> type(final DSL.TypeReference type, final Object... path) {
             return type(type, NodePath.create(path));
         }
 
+        /**
+         * Map values at {@code path} to being of {@code type}.
+         *
+         * @param type value type reference
+         * @param path target path
+         * @return this builder
+         */
         public Builder<N> type(final DSL.TypeReference type, final NodePath path) {
             this.dataFixes.add(Pair.of(type, path));
             return this;

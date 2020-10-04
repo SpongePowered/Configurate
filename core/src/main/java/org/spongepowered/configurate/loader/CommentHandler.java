@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.loader;
 
 import com.google.errorprone.annotations.Immutable;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.BufferedReader;
@@ -37,7 +36,7 @@ public interface CommentHandler {
      * @return The comment
      * @throws IOException If any IO error occurs in the process
      */
-    @Nullable String extractHeader(@NonNull BufferedReader reader) throws IOException;
+    @Nullable String extractHeader(BufferedReader reader) throws IOException;
 
     /**
      * Converts the specified lines into a comment.
@@ -45,6 +44,6 @@ public interface CommentHandler {
      * @param lines lines to make a comment
      * @return transformed lines as a stream
      */
-    @NonNull Stream<String> toComment(@NonNull Stream<String> lines);
+    Stream<String> toComment(Stream<String> lines);
 
 }

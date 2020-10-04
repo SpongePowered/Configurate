@@ -18,8 +18,6 @@ package org.spongepowered.configurate.loader;
 
 import static java.util.Objects.requireNonNull;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.io.BufferedWriter;
 import java.io.FilterWriter;
 import java.io.IOException;
@@ -49,8 +47,7 @@ public final class AtomicFiles {
      * @param charset The charset to be used by the writer
      * @return The writer factory
      */
-    @NonNull
-    public static Callable<BufferedWriter> createAtomicWriterFactory(final @NonNull Path path, final @NonNull Charset charset) {
+    public static Callable<BufferedWriter> createAtomicWriterFactory(final Path path, final Charset charset) {
         requireNonNull(path, "path");
         return () -> createAtomicBufferedWriter(path, charset);
     }
@@ -63,8 +60,7 @@ public final class AtomicFiles {
      * @return The writer factory
      * @throws IOException For any underlying filesystem errors
      */
-    @NonNull
-    public static BufferedWriter createAtomicBufferedWriter(@NonNull Path path, final @NonNull Charset charset) throws IOException {
+    public static BufferedWriter createAtomicBufferedWriter(Path path, final Charset charset) throws IOException {
         // absolute
         path = path.toAbsolutePath();
 
@@ -87,10 +83,9 @@ public final class AtomicFiles {
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
     }
 
-    @NonNull
-    private static Path getTemporaryPath(final @NonNull Path parent, final @NonNull String key) {
+    private static Path getTemporaryPath(final Path parent, final String key) {
         final String fileName = System.nanoTime() + ThreadLocalRandom.current().nextInt()
-                + requireNonNull(key, "key").replaceAll("\\\\|/|:", "-") + ".tmp";
+                + requireNonNull(key, "key").replaceAll("[\\\\/:]", "-") + ".tmp";
         return parent.resolve(fileName);
     }
 

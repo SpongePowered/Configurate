@@ -19,10 +19,16 @@ package org.spongepowered.configurate.serialize;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 /**
- * Error thrown when a type fails to be converted to an expected type.
+ * Error thrown when a value fails to be converted to an expected type.
  */
 public class CoercionFailedException extends ObjectMappingException {
 
+    /**
+     * Indicate that a value transformation has failed.
+     *
+     * @param inputValue original value
+     * @param typeDescription description of the expected type
+     */
     public CoercionFailedException(final Object inputValue, final String typeDescription) {
         super("Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
     }

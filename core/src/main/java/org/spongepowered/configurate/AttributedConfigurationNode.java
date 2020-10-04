@@ -52,6 +52,15 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
         return root(TAG_ROOT, ConfigurationOptions.defaults());
     }
 
+    /**
+     * Create a new root node with {@link #TAG_ROOT default} tag name
+     * and default options.
+     *
+     * <p>{@code action} will be applied to the new new node.</p>
+     *
+     * @param action action to perform
+     * @return a new empty node
+     */
     static AttributedConfigurationNode root(final Consumer<? super AttributedConfigurationNode> action) {
         return root().act(action);
     }

@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * Exception thrown on errors encountered while mapping objects.
  */
@@ -23,24 +25,39 @@ public class ObjectMappingException extends Exception {
 
     public static final long serialVersionUID = 2310268704411616686L;
 
+    /**
+     * Create an exception with unknown message and cause.
+     */
     public ObjectMappingException() {
         super();
     }
 
+    /**
+     * Create an exception without a cause.
+     *
+     * @param message message with information about the exception
+     */
     public ObjectMappingException(final String message) {
         super(message);
     }
 
-    public ObjectMappingException(final String message, final Throwable cause) {
+    /**
+     * Create an exception with message and wrapped cause.
+     *
+     * @param message informational message
+     * @param cause cause to be wrapped
+     */
+    public ObjectMappingException(final @Nullable String message, final @Nullable Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Create an exception with a cause and no additonal information.
+     *
+     * @param cause wrapped causing throwable
+     */
     public ObjectMappingException(final Throwable cause) {
         super(cause);
-    }
-
-    protected ObjectMappingException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 
 }

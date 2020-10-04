@@ -35,12 +35,11 @@
         <property name="optional" value="true"/>
     </module>
 
-    <!-- Checks for whitespace                               -->
+    <!-- Checks for whitespace                            -->
     <!-- See http://checkstyle.org/config_whitespace.html -->
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
-
 
     <!-- Sponge code style extras -->
     <module name="LineLength">
@@ -77,30 +76,25 @@
     <module name="SuppressWarningsFilter"/>
 
     <module name="TreeWalker">
+        <module name="JavadocVariable">
+            <property name="scope" value="public"/>
+        </module>
+        <module name="MissingJavadocType">
+            <property name="scope" value="public"/>
+        </module>
         <module name="RedundantImport"/>
         <module name="RedundantModifier"/>
         <module name="RequireThis">
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="false" />
         </module>
-        <module name="MissingJavadocType">
-            <property name="scope" value="public"/>
-        </module>
-        <module name="JavadocVariable">
-            <property name="scope" value="public"/>
-        </module>
 
          <!-- Configurate-specific changes -->
-        <module name="UnusedImports"/>
         <module name="FinalClass"/>
-        <module name="HideUtilityClassConstructor"/>
-        <module name="InterfaceIsType"/>
-        <module name="SingleSpaceSeparator">
-            <property name="validateComments" value="true"/>
-        </module>
         <module name="FinalLocalVariable">
             <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
         </module>
+        <module name="HideUtilityClassConstructor"/>
         <module name="IllegalImport">
             <property name="illegalPkgs" value="javax.annotations.*"/>
             <property name="regexp" value="true"/>
@@ -108,7 +102,24 @@
         <module name="IllegalType">
             <property name="illegalClassNames" value="java.util.Optional"/>
         </module>
+        <module name="InterfaceIsType"/>
+        <module name="SingleSpaceSeparator">
+            <property name="validateComments" value="true"/>
+        </module>
         <module name="SuppressWarningsHolder"/>
+        <module name="UnusedImports"/>
+        <!-- TODO: this might need a custom check -->
+        <module name="WriteTag">
+            <property name="id" value="ForbiddenJavadocContents"/>
+            <property name="tag" value="@[^\s]+"/>
+            <property name="tagFormat" value="(?:[A-Z].*)|(?:^this)"/>
+            <property name="tagSeverity" value="error"/>
+            <property name="severity" value="ignore"/>
+            <message key="javadoc.writeTag" value="Javadoc tag {0} has invalid contents {1}"/>
+            <property name="tokens" value="INTERFACE_DEF, CLASS_DEF, ENUM_DEF, ANNOTATION_DEF,
+                                           RECORD_DEF, METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,
+                                           RECORD_DEF, COMPACT_CTOR_DEF"/>
+        </module>
 
 
         <!-- Standard Google style checks -->
@@ -200,7 +211,7 @@
         <module name="UpperEll"/>
         <module name="ModifierOrder"/>
         <module name="EmptyLineSeparator">
-            <!-- No new line after the license header -->
+            <!-- Configurate: No new line after the license header -->
             <property name="tokens"
              value="IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
                     STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF, RECORD_DEF,
@@ -379,7 +390,7 @@
         <module name="JavadocParagraph"/>
         <module name="RequireEmptyLineBeforeBlockTagGroup"/>
         <module name="AtclauseOrder">
-            <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
+            <property name="tagOrder" value="@param, @return, @throws, @see, @since, @deprecated"/> <!-- Configurate: extra tags -->
             <property name="target"
              value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module>
@@ -390,10 +401,9 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="scope" value="public"/>
-            <property name="minLineCount" value="2"/>
+            <!-- <property name="minLineCount" value="2"/> Configurate: no minimum lines -->
             <property name="allowedAnnotations" value="Override, Test"/>
-            <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,
-                                          COMPACT_CTOR_DEF"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF"/>
         </module>
         <module name="MethodName">
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>

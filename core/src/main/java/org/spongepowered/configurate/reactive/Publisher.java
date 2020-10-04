@@ -88,6 +88,13 @@ public interface Publisher<V> {
      */
     boolean hasSubscribers();
 
+    /**
+     * Create a new publisher that will transform events published.
+     *
+     * @param mapper transformer function
+     * @param <R> output value type
+     * @return a new publisher
+     */
     default <R> Publisher<R> map(CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
         return new MappedProcessor<>(mapper, this);
     }
@@ -96,7 +103,7 @@ public interface Publisher<V> {
      * Return a publisher that will track its most recent value. The provided
      * processor won't have a value until one is submitted to this publisher.
      *
-     * @return A publisher based on this one
+     * @return a publisher based on this one
      */
     default Cached<V> cache() {
         return cache(null);

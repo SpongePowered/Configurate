@@ -61,11 +61,11 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Builds a {@link GsonConfigurationLoader}.
      */
-    public static class Builder extends AbstractConfigurationLoader.Builder<Builder, GsonConfigurationLoader> {
+    public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, GsonConfigurationLoader> {
         private boolean lenient = true;
         private int indent = 2;
 
-        protected Builder() { }
+        Builder() { }
 
         /**
          * Sets the level of indentation the resultant loader should use.

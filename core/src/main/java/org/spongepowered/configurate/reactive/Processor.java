@@ -72,7 +72,16 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
         return createTransactional(ForkJoinPool.commonPool());
     }
 
-    static <V> Processor.TransactionalIso<V> createTransactional(Executor exec) {
+    /**
+     * Create a processor instance that is aware of transactions.
+     *
+     * <p>Operations will be submitted to the provided executor.</p>
+     *
+     * @param exec executor to run operations on
+     * @param <V> The value type
+     * @return a new transactional processor
+     */
+    static <V> Processor.TransactionalIso<V> createTransactional(final Executor exec) {
         return new TransactionalProcessorImpl<>(exec);
     }
 

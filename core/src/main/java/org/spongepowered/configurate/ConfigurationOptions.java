@@ -227,9 +227,9 @@ public abstract class ConfigurationOptions {
      * 'copy defaults' setting set, and all other settings copied from
      * this instance.
      *
-     * @see #getShouldCopyDefaults() for information on what this method does
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
+     * @see #getShouldCopyDefaults() for information on what this method does
      */
     public ConfigurationOptions withShouldCopyDefaults(final boolean shouldCopyDefaults) {
         if (this.getShouldCopyDefaults() == shouldCopyDefaults) {
