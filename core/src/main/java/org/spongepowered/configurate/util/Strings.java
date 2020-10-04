@@ -18,6 +18,9 @@ package org.spongepowered.configurate.util;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Extra string utilities.
+ */
 public final class Strings {
 
     private Strings() {}

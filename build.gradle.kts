@@ -46,6 +46,9 @@ tasks.aggregateJavadoc.configure {
         project(":$it").tasks.named("javadoc", Javadoc::class).get().classpath
     }
     classpath = classpath.minus(files(excludedProjects))
+    (options as? StandardJavadocDocletOptions)?.apply {
+        addBooleanOption("Xdoclint:-missing", true)
+    }
 }
 
 gitPublish {

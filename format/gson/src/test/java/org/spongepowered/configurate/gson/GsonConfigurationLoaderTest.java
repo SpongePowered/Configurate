@@ -42,7 +42,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Basic sanity checks for the loader
+ * Basic sanity checks for the loader.
  */
 public class GsonConfigurationLoaderTest {
 

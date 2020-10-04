@@ -18,6 +18,11 @@ package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+/**
+ * Intermediate interface for different types of commented configuration nodes.
+ *
+ * @param <N> self type
+ */
 public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfigurationNodeIntermediary<N>> extends ScopedConfigurationNode<N> {
 
     /**

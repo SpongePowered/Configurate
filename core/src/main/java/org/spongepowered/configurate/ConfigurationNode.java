@@ -58,6 +58,9 @@ import java.util.stream.Collector;
  */
 public interface ConfigurationNode {
 
+    /**
+     * Default value for unknown number results.
+     */
     int NUMBER_DEF = 0;
 
     /**

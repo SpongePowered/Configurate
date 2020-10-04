@@ -124,10 +124,21 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
             submit(element);
         }
     }
-    
+
+    /**
+     * A processor that supports transactions.
+     *
+     * @param <I> input type
+     * @param <O> output type
+     */
     interface Transactional<I, O> extends Processor<I, O>, Publisher<O>, TransactionalSubscriber<I> {
     }
-    
+
+    /**
+     * A processor that supports transactions using the same input and outputs.
+     *
+     * @param <V> input/output type
+     */
     interface TransactionalIso<V> extends Transactional<V, V>, Iso<V> {
 
     }

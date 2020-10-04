@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Basic sanity checks for the loader
+ * Basic sanity checks for the loader.
  */
 @SuppressWarnings("UnusedVariable")
 public class HoconConfigurationLoaderTest {

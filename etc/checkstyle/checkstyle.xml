@@ -14,6 +14,8 @@
     To suppress certain violations please review suppression filters.
 
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
+
+    This file modified to incorporate Sponge and Configurate customizations.
  -->
 
 <module name="Checker">
@@ -80,6 +82,12 @@
         <module name="RequireThis">
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="false" />
+        </module>
+        <module name="MissingJavadocType">
+            <property name="scope" value="public"/>
+        </module>
+        <module name="JavadocVariable">
+            <property name="scope" value="public"/>
         </module>
 
          <!-- Configurate-specific changes -->

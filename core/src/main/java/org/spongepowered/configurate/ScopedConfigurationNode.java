@@ -28,6 +28,15 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 
+/**
+ * Intermediate node type to reduce need for casting.
+ *
+ * <p>Any methods that return {@link ConfigurationNode} in
+ * {@link ConfigurationNode} should be overridden to return the {@link N}
+ * self-type instead.</p>
+ *
+ * @param <N> self type
+ */
 public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
 
     /**
