@@ -323,6 +323,18 @@ public class AbstractConfigurationNodeTest {
      */
     private static final RepresentationHint<Boolean> IS_EVIL = RepresentationHint.of("evil", Boolean.class);
 
+    /**
+     * A representation hint for indentation
+     */
+    public static final RepresentationHint<Integer> INDENT = RepresentationHint.of("indent", Integer.class);
+
+    public static final RepresentationHint<String> NAME =
+            RepresentationHint.<String>builder()
+                    .setIdentifier("name")
+                    .setValueType(String.class)
+                    .setInheritable(false)
+                    .build();
+
     @Test
     void testHintsReadWrite() {
         final ConfigurationNode node = BasicConfigurationNode.root();
@@ -356,6 +368,15 @@ public class AbstractConfigurationNodeTest {
     }
 
     @Test
+    void testNonInheritableHints() {
+        final ConfigurationNode root = BasicConfigurationNode.root();
+        root.setHint(NAME, "secondary");
+
+        final ConfigurationNode child = root.getNode("other");
+        assertNull(child.getHint(NAME));
+    }
+
+    @Test
     void testHintsCopied() {
         final ConfigurationNode original = BasicConfigurationNode.root();
         original.setValue("1234").setHint(IS_EVIL, true);
@@ -375,16 +396,16 @@ public class AbstractConfigurationNodeTest {
                 .setHint(IS_EVIL, true);
         final ConfigurationNode mergeTarget = BasicConfigurationNode.root()
                 .setValue('o')
-                .setHint(RepresentationHint.INDENT, 34);
+                .setHint(INDENT, 34);
 
         mergeTarget.mergeValuesFrom(hintHolder);
 
-        assertEquals(34, mergeTarget.getHint(RepresentationHint.INDENT));
+        assertEquals(34, mergeTarget.getHint(INDENT));
         assertEquals(true, mergeTarget.getHint(IS_EVIL));
     }
 
     @Test
-    void testCollectToMap() throws ObjectMappingException {
+    void testCollectToMap() {
         final ConfigurationNode target = ImmutableMap.of("one", 3,
                 "two", 28,
                 "test", 14).entrySet().stream()

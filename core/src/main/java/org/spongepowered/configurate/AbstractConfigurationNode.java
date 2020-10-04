@@ -637,7 +637,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             return (V) value;
         }
         final @Nullable A parent = this.parent;
-        if (parent != null) {
+        if (parent != null && hint.isInheritable()) {
             return parent.getHint(hint);
         } else {
             return hint.getDefaultValue();

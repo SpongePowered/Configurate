@@ -32,22 +32,44 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @AutoValue
 public abstract class RepresentationHint<V> {
 
-    public static final RepresentationHint<Integer> INDENT = of("indent", Integer.class);
-
+    /**
+     * Create a new basic representation hint.
+     *
+     * <p>The created hint will be inheritable and have no default
+     * value set.</p>
+     *
+     * @param identifier hint identifier
+     * @param valueType type of value the hint will hold
+     * @param <V> value type
+     * @return a new hint
+     */
     public static <V> RepresentationHint<V> of(final String identifier, final Class<V> valueType) {
-        return new AutoValue_RepresentationHint<>(identifier, TypeToken.get(valueType), null);
+        return RepresentationHint.<V>builder().setIdentifier(identifier).setValueType(valueType).build();
     }
 
+    /**
+     * Create a new basic representation hint.
+     *
+     * <p>The created hint will be inheritable and have no default
+     * value set.</p>
+     *
+     * @param identifier hint identifier
+     * @param valueType type of value the hint will hold
+     * @param <V> value type
+     * @return a new hint
+     */
     public static <V> RepresentationHint<V> of(final String identifier, final TypeToken<V> valueType) {
-        return new AutoValue_RepresentationHint<>(identifier, valueType, null);
+        return RepresentationHint.<V>builder().setIdentifier(identifier).setValueType(valueType).build();
     }
 
-    public static <V> RepresentationHint<V> of(final String identifier, final Class<V> valueType, final V defaultValue) {
-        return new AutoValue_RepresentationHint<>(identifier, TypeToken.get(valueType), defaultValue);
-    }
-
-    public static <V> RepresentationHint<V> of(final String identifier, final TypeToken<V> valueType, final V defaultValue) {
-        return new AutoValue_RepresentationHint<>(identifier, valueType, defaultValue);
+    /**
+     * Create a builder for a new hint.
+     *
+     * @param <V> value type
+     * @return a new builder
+     */
+    public static <V> Builder<V> builder() {
+        return new AutoValue_RepresentationHint.Builder<>();
     }
 
     RepresentationHint() { }
@@ -73,5 +95,87 @@ public abstract class RepresentationHint<V> {
      * @return default type
      */
     public abstract @Nullable V getDefaultValue();
+
+    /**
+     * Get whether or not this hint can draw its value from parent nodes.
+     *
+     * @return if inheritable
+     */
+    public abstract boolean isInheritable();
+
+    /**
+     * A builder for {@link RepresentationHint}s.
+     *
+     * @param <V> value type
+     */
+    @AutoValue.Builder
+    public abstract static class Builder<V> {
+
+        Builder() {
+            this.setInheritable(true);
+        }
+
+        /**
+         * Set the identifier to refer to this hint.
+         *
+         * @param identifier hint identifier
+         * @return this builder
+         */
+        public abstract Builder<V> setIdentifier(String identifier);
+
+        /**
+         * Set the type used for this node's value.
+         *
+         * <p>Raw types are forbidden.</p>
+         *
+         * @param valueType the value type
+         * @return this builder
+         */
+        public final Builder<V> setValueType(final Class<V> valueType) {
+            return setValueType(TypeToken.get(valueType));
+        }
+
+        /**
+         * Set the type used for this node's value.
+         *
+         * <p>Raw types are forbidden.</p>
+         *
+         * @param valueType the value type
+         * @return this builder
+         */
+        public abstract Builder<V> setValueType(TypeToken<V> valueType);
+
+        /**
+         * Set the default value when this hint is not present in the hierarchy.
+         *
+         * <p>This defaults to {@code null}.</p>
+         *
+         * @param defaultValue Default value
+         * @return this builder
+         */
+        public abstract Builder<V> setDefaultValue(@Nullable V defaultValue);
+
+        /**
+         * Set whether or not the hint can be inherited.
+         *
+         * <p>Defaults to {@code true}.</p>
+         *
+         * @param inheritable if inheritable
+         * @return this builder
+         * @see #isInheritable()
+         */
+        public abstract Builder<V> setInheritable(boolean inheritable);
+
+        /**
+         * Create a new hint from the provided options.
+         *
+         * <p>The {@code identifier} and {@code valueType} must have been set to
+         * build a complete hint.</p>
+         *
+         * @return a new representation hint
+         */
+        public abstract RepresentationHint<V> build();
+
+    }
 
 }
