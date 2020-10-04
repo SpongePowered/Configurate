@@ -42,6 +42,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * Get an empty transformation.
      *
      * <p>This transformation will perform no actions.</p>
+     *
      * @param <T> node type
      * @return empty transformation
      */

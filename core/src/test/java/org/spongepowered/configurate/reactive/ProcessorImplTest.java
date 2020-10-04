@@ -25,7 +25,8 @@ import org.junit.jupiter.api.Test;
 public class ProcessorImplTest {
 
     /**
-     * Create a single-threaded processor for testing purposes
+     * Create a single-threaded processor for testing purposes.
+     *
      * @param <T> The value type
      * @return new processor
      */

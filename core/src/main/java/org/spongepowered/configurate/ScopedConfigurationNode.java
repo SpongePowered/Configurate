@@ -41,6 +41,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
 
     /**
      * Get a correctly typed instance of this node.
+     *
      * @return The node type
      */
     N self();

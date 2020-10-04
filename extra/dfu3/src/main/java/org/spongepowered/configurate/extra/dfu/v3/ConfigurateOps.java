@@ -200,6 +200,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * <p>For example, for an enum new values could only be appended, not added
      * in the middle of the constants.
+     *
      * @return whether maps are compressed
      */
     @Override
