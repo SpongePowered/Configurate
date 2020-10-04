@@ -60,15 +60,15 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 }
 
                 final TypeSerializer<?> serial = field.serializerFrom(node);
-                final @Nullable Object newVal = node.isVirtual() ? null : serial.deserialize(field.resolvedType().getType(), node);
+                final @Nullable Object newVal = node.virtual() ? null : serial.deserialize(field.resolvedType().getType(), node);
                 field.validate(newVal);
 
                 // set up an implicit initializer
                 // only the instance factory has knowledge of the underlying data type,
                 // so we have to pass both implicit and explicit options along to it.
                 final Supplier<@Nullable Object> implicitInitializer;
-                if (newVal == null && node.getOptions().isImplicitInitialization()) {
-                    implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.getOptions());
+                if (newVal == null && node.options().implicitInitialization()) {
+                    implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.options());
                 } else {
                     implicitInitializer = () -> null;
                 }
@@ -76,7 +76,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 // load field into intermediate object
                 field.deserializer().accept(intermediate, newVal, implicitInitializer);
 
-                if (newVal == null && source.getOptions().getShouldCopyDefaults()) {
+                if (newVal == null && source.options().shouldCopyDefaults()) {
                     if (unseenFields == null) {
                         unseenFields = new ArrayList<>();
                     }
@@ -110,8 +110,8 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
             saveSingle(field, value, target);
         }
 
-        if (target.isVirtual()) { // we didn't save anything
-            target.setValue(Collections.emptyMap());
+        if (target.virtual()) { // we didn't save anything
+            target.set(Collections.emptyMap());
         }
     }
 
@@ -132,7 +132,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
         }
 
         if (fieldVal == null) {
-            node.setValue(null);
+            node.set(null);
         } else {
             final TypeSerializer<Object> serial = (TypeSerializer<Object>) field.serializerFrom(node);
             serial.serialize(field.resolvedType().getType(), fieldVal, node);
@@ -143,12 +143,12 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
     }
 
     @Override
-    public List<FieldData<I, V>> getFields() {
+    public List<FieldData<I, V>> fields() {
         return this.fields;
     }
 
     @Override
-    public Type getMappedType() {
+    public Type mappedType() {
         return this.type;
     }
 

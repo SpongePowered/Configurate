@@ -109,7 +109,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * @param subscriber the fallback subscriber to add. Provide {@code null} to
      *                   remove the handler
      */
-    void setFallbackHandler(@Nullable Subscriber<O> subscriber);
+    void fallbackHandler(@Nullable Subscriber<O> subscriber);
 
     /**
      * Close this processor if there are no remaining subscriptions. Any signals

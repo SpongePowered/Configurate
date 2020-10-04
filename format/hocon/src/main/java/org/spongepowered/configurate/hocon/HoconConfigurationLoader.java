@@ -99,7 +99,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @param prettyPrinting whether to pretty-print
          * @return this builder
          */
-        public Builder setPrettyPrinting(final boolean prettyPrinting) {
+        public Builder prettyPrinting(final boolean prettyPrinting) {
             this.render = this.render.setFormatted(prettyPrinting);
             return this;
         }
@@ -113,7 +113,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @param emitComments whether to emit comments
          * @return this builder
          */
-        public Builder setEmitComments(final boolean emitComments) {
+        public Builder emitComments(final boolean emitComments) {
             this.render = this.render.setComments(emitComments);
             return this;
         }
@@ -129,7 +129,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @param jsonCompatible to emit json-format output
          * @return this builder
          */
-        public Builder setEmitJsonCompatible(final boolean jsonCompatible) {
+        public Builder emitJsonCompatible(final boolean jsonCompatible) {
             this.render = this.render.setJson(jsonCompatible);
             return this;
         }
@@ -137,7 +137,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         @NonNull
         @Override
         public HoconConfigurationLoader build() {
-            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
+            defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
             return new HoconConfigurationLoader(this);
         }
     }
@@ -154,13 +154,13 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         Config hoconConfig = ConfigFactory.parseReader(reader);
         hoconConfig = hoconConfig.resolve();
         for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
-            readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
+            readConfigValue(ent.getValue(), node.node(ent.getKey()));
         }
     }
 
     private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
-            node.setComment(value.origin().comments().stream()
+            node.comment(value.origin().comments().stream()
                     .map(input -> input.replace("\r", ""))
                     .collect(Collectors.joining("\n")));
         }
@@ -169,34 +169,34 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             case OBJECT:
                 final ConfigObject object = (ConfigObject) value;
                 if (object.isEmpty()) {
-                    node.setValue(Collections.emptyMap());
+                    node.set(Collections.emptyMap());
                 } else {
                     for (Map.Entry<String, ConfigValue> ent : object.entrySet()) {
-                        readConfigValue(ent.getValue(), node.getNode(ent.getKey()));
+                        readConfigValue(ent.getValue(), node.node(ent.getKey()));
                     }
                 }
                 break;
             case LIST:
                 final ConfigList list = (ConfigList) value;
                 if (list.isEmpty()) {
-                    node.setValue(Collections.emptyList());
+                    node.set(Collections.emptyList());
                 } else {
                     for (int i = 0; i < list.size(); ++i) {
-                        readConfigValue(list.get(i), node.getNode(i));
+                        readConfigValue(list.get(i), node.node(i));
                     }
                 }
                 break;
             case NULL:
                 return;
             default:
-                node.setValue(value.unwrapped());
+                node.set(value.unwrapped());
         }
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
         if (!node.isMap()) {
-            if (node.getValue() == null) {
+            if (node.get() == null) {
                 writer.write(SYSTEM_LINE_SEPARATOR);
                 return;
             } else {
@@ -211,24 +211,24 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     private static ConfigValue fromValue(final ConfigurationNode node) {
         ConfigValue ret;
         if (node.isMap()) {
-            final Map<String, ConfigValue> children = node.getOptions().getMapFactory().create();
-            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
+            final Map<String, ConfigValue> children = node.options().mapFactory().create();
+            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
                 children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));
             }
             ret = newConfigObject(children);
         } else if (node.isList()) {
             final List<ConfigValue> children = new ArrayList<>();
-            for (ConfigurationNode ent : node.getChildrenList()) {
+            for (ConfigurationNode ent : node.childrenList()) {
                 children.add(fromValue(ent));
             }
             ret = newConfigList(children);
 
         } else {
-            ret = ConfigValueFactory.fromAnyRef(node.getValue(), CONFIGURATE_ORIGIN.description());
+            ret = ConfigValueFactory.fromAnyRef(node.get(), CONFIGURATE_ORIGIN.description());
         }
         if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
             final CommentedConfigurationNodeIntermediary<?> commentedNode = (CommentedConfigurationNodeIntermediary<?>) node;
-            final @Nullable String origComment = commentedNode.getComment();
+            final @Nullable String origComment = commentedNode.comment();
             if (origComment != null) {
                 ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));
             }
@@ -256,12 +256,12 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     @NonNull
     @Override
     public CommentedConfigurationNode createNode(@NonNull ConfigurationOptions options) {
-        options = options.withNativeTypes(NATIVE_TYPES);
+        options = options.nativeTypes(NATIVE_TYPES);
         return CommentedConfigurationNode.root(options);
     }
 
-    // -- Comment handling -- this might have to be updated as the hocon dep changes (But tests should detect this
-    // breakage
+    // -- Comment handling -- this might have to be updated as the hocon dep changes
+    // (But tests should detect this breakage)
     private static final Constructor<? extends ConfigValue> CONFIG_OBJECT_CONSTRUCTOR;
     private static final Constructor<? extends ConfigValue> CONFIG_LIST_CONSTRUCTOR;
 

@@ -42,7 +42,7 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
 
     @Override
     public void serialize(final @NonNull Type type, final @Nullable ConfigurationNode obj, final @NonNull ConfigurationNode node) {
-        node.setValue(obj);
+        node.set(obj);
     }
 
     @Override

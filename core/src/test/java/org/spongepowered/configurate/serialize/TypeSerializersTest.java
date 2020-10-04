@@ -55,13 +55,13 @@ import java.util.regex.Pattern;
 
 public class TypeSerializersTest {
 
-    private <T> TypeSerializer<T> getSerializer(final TypeToken<T> type) {
+    private <T> TypeSerializer<T> serializer(final TypeToken<T> type) {
         final @Nullable TypeSerializer<T> ret = TypeSerializerCollection.defaults().get(type);
         assertNotNull(ret);
         return ret;
     }
 
-    private <T> TypeSerializer<T> getSerializer(final Class<T> type) {
+    private <T> TypeSerializer<T> serializer(final Class<T> type) {
         final @Nullable TypeSerializer<T> ret = TypeSerializerCollection.defaults().get(type);
         assertNotNull(ret);
         return ret;
@@ -70,8 +70,8 @@ public class TypeSerializersTest {
     @Test
     void testStringSerializer() throws ObjectMappingException {
         final TypeToken<String> stringType = TypeToken.get(String.class);
-        final TypeSerializer<String> stringSerializer = getSerializer(stringType);
-        final BasicConfigurationNode node = BasicConfigurationNode.root().setValue("foobar");
+        final TypeSerializer<String> stringSerializer = serializer(stringType);
+        final BasicConfigurationNode node = BasicConfigurationNode.root().set("foobar");
 
         assertEquals("foobar", stringSerializer.deserialize(stringType.getType(), node));
         stringSerializer.serialize(stringType.getType(), "foobarbaz", node);
@@ -97,13 +97,13 @@ public class TypeSerializersTest {
     void testBooleanSerializer() throws ObjectMappingException {
         final TypeToken<Boolean> booleanType = TypeToken.get(Boolean.class);
 
-        final TypeSerializer<Boolean> booleanSerializer = getSerializer(booleanType);
+        final TypeSerializer<Boolean> booleanSerializer = serializer(booleanType);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("direct").setValue(true);
-        node.getNode("fromstring").setValue("true");
+        node.node("direct").set(true);
+        node.node("fromstring").set("true");
 
-        assertEquals(true, booleanSerializer.deserialize(Boolean.class, node.getNode("direct")));
-        assertEquals(true, booleanSerializer.deserialize(Boolean.class, node.getNode("fromstring")));
+        assertEquals(true, booleanSerializer.deserialize(Boolean.class, node.node("direct")));
+        assertEquals(true, booleanSerializer.deserialize(Boolean.class, node.node("fromstring")));
     }
 
     private enum TestEnum {
@@ -117,70 +117,70 @@ public class TypeSerializersTest {
     void testEnumValueSerializer() throws ObjectMappingException {
         final TypeToken<TestEnum> enumType = TypeToken.get(TestEnum.class);
 
-        final TypeSerializer<TestEnum> enumSerializer = getSerializer(enumType);
+        final TypeSerializer<TestEnum> enumSerializer = serializer(enumType);
 
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("present_val").setValue("first");
-        node.getNode("another_present_val").setValue("SECOND");
-        node.getNode("casematters_val").setValue("tHiRd");
-        node.getNode("casematters_val_lowercase").setValue("third");
-        node.getNode("invalid_val").setValue("3rd");
+        node.node("present_val").set("first");
+        node.node("another_present_val").set("SECOND");
+        node.node("casematters_val").set("tHiRd");
+        node.node("casematters_val_lowercase").set("third");
+        node.node("invalid_val").set("3rd");
 
-        assertEquals(TestEnum.FIRST, enumSerializer.deserialize(enumType.getType(), node.getNode("present_val")));
-        assertEquals(TestEnum.SECOND, enumSerializer.deserialize(enumType.getType(), node.getNode("another_present_val")));
-        assertEquals(TestEnum.Third, enumSerializer.deserialize(enumType.getType(), node.getNode("casematters_val")));
-        assertEquals(TestEnum.third, enumSerializer.deserialize(enumType.getType(), node.getNode("casematters_val_lowercase")));
+        assertEquals(TestEnum.FIRST, enumSerializer.deserialize(enumType.getType(), node.node("present_val")));
+        assertEquals(TestEnum.SECOND, enumSerializer.deserialize(enumType.getType(), node.node("another_present_val")));
+        assertEquals(TestEnum.Third, enumSerializer.deserialize(enumType.getType(), node.node("casematters_val")));
+        assertEquals(TestEnum.third, enumSerializer.deserialize(enumType.getType(), node.node("casematters_val_lowercase")));
         Assertions.assertThrows(ObjectMappingException.class, () -> {
-            enumSerializer.deserialize(enumType.getType(), node.getNode("invalid_val"));
+            enumSerializer.deserialize(enumType.getType(), node.node("invalid_val"));
         });
     }
 
     @Test
     void testListSerializer() throws ObjectMappingException {
         final TypeToken<List<String>> stringListType = new TypeToken<List<String>>() {};
-        final TypeSerializer<List<String>> stringListSerializer = getSerializer(stringListType);
+        final TypeSerializer<List<String>> stringListSerializer = serializer(stringListType);
         final BasicConfigurationNode value = BasicConfigurationNode.root();
-        value.appendListNode().setValue("hi");
-        value.appendListNode().setValue("there");
-        value.appendListNode().setValue("beautiful");
-        value.appendListNode().setValue("people");
+        value.appendListNode().set("hi");
+        value.appendListNode().set("there");
+        value.appendListNode().set("beautiful");
+        value.appendListNode().set("people");
 
         assertEquals(Arrays.asList("hi", "there", "beautiful", "people"), stringListSerializer.deserialize(stringListType.getType(), value));
-        value.setValue(null);
+        value.set(null);
 
         stringListSerializer.serialize(stringListType.getType(), Arrays.asList("hi", "there", "lame", "people"), value);
-        assertEquals("hi", value.getNode(0).getString());
-        assertEquals("there", value.getNode(1).getString());
-        assertEquals("lame", value.getNode(2).getString());
-        assertEquals("people", value.getNode(3).getString());
+        assertEquals("hi", value.node(0).getString());
+        assertEquals("there", value.node(1).getString());
+        assertEquals("lame", value.node(2).getString());
+        assertEquals("people", value.node(3).getString());
     }
 
     @Test
     void testSetSerializer() throws ObjectMappingException {
         final TypeToken<Set<String>> stringListType = new TypeToken<Set<String>>() {};
-        final TypeSerializer<Set<String>> stringListSerializer = getSerializer(stringListType);
+        final TypeSerializer<Set<String>> stringListSerializer = serializer(stringListType);
         final BasicConfigurationNode value = BasicConfigurationNode.root();
-        value.appendListNode().setValue("hi");
-        value.appendListNode().setValue("there");
-        value.appendListNode().setValue("beautiful");
-        value.appendListNode().setValue("people");
+        value.appendListNode().set("hi");
+        value.appendListNode().set("there");
+        value.appendListNode().set("beautiful");
+        value.appendListNode().set("people");
 
         assertEquals(UnmodifiableCollections.toSet("hi", "there", "beautiful", "people"),
             stringListSerializer.deserialize(stringListType.getType(), value));
-        value.setValue(null);
+        value.set(null);
 
         stringListSerializer.serialize(stringListType.getType(), UnmodifiableCollections.toSet("hi", "there", "lame", "people"), value);
-        assertEquals("hi", value.getNode(0).getString());
-        assertEquals("there", value.getNode(1).getString());
-        assertEquals("lame", value.getNode(2).getString());
-        assertEquals("people", value.getNode(3).getString());
+        assertEquals("hi", value.node(0).getString());
+        assertEquals("there", value.node(1).getString());
+        assertEquals("lame", value.node(2).getString());
+        assertEquals("people", value.node(3).getString());
     }
 
     @Test
     void testListSerializerPreservesEmptyList() throws ObjectMappingException {
         final TypeToken<List<String>> listStringType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> listStringSerializer =
-                getSerializer(listStringType);
+                serializer(listStringType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
@@ -193,13 +193,13 @@ public class TypeSerializersTest {
     @SuppressWarnings("rawtypes")
     void testListRawTypes() {
         final TypeToken<List> rawType = TypeToken.get(List.class);
-        final TypeSerializer<List> serial = getSerializer(rawType);
+        final TypeSerializer<List> serial = serializer(rawType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
-        value.appendListNode().setValue(1);
-        value.appendListNode().setValue("dog");
-        value.appendListNode().setValue(2.4);
+        value.appendListNode().set(1);
+        value.appendListNode().set("dog");
+        value.appendListNode().set(2.4);
 
         Assertions.assertTrue(Assertions.assertThrows(Exception.class, () -> {
             serial.deserialize(rawType.getType(), value);
@@ -210,67 +210,67 @@ public class TypeSerializersTest {
     void testMapSerializer() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
-                getSerializer(mapStringIntType);
+                serializer(mapStringIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
-        value.getNode("fish").setValue(5);
-        value.getNode("bugs").setValue("124880");
-        value.getNode("time").setValue("-1");
+        value.node("fish").set(5);
+        value.node("bugs").set("124880");
+        value.node("time").set("-1");
 
         final Map<String, Integer> expectedValues = ImmutableMap.of("fish", 5, "bugs", 124880, "time", -1);
 
         assertEquals(expectedValues, mapStringIntSerializer.deserialize(mapStringIntType.getType(), value));
 
-        value.setValue(null);
+        value.set(null);
 
         mapStringIntSerializer.serialize(mapStringIntType.getType(), expectedValues, value);
-        assertEquals(5, value.getNode("fish").getInt());
-        assertEquals(124880, value.getNode("bugs").getInt());
-        assertEquals(-1, value.getNode("time").getInt());
+        assertEquals(5, value.node("fish").getInt());
+        assertEquals(124880, value.node("bugs").getInt());
+        assertEquals(-1, value.node("time").getInt());
     }
 
     @Test
     void testInvalidMapValueTypes() throws ObjectMappingException {
         final TypeToken<Map<TestEnum, Integer>> mapTestEnumIntType = new TypeToken<Map<TestEnum, Integer>>() {};
         final TypeSerializer<Map<TestEnum, Integer>> mapTestEnumIntSerializer =
-                getSerializer(mapTestEnumIntType);
+                serializer(mapTestEnumIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
-        value.getNode("FIRST").setValue(5);
-        value.getNode("SECOND").setValue(8);
+        value.node("FIRST").set(5);
+        value.node("SECOND").set(8);
 
         final @Nullable Map<TestEnum, Integer> des = mapTestEnumIntSerializer.deserialize(mapTestEnumIntType.getType(), value);
         final BasicConfigurationNode serialVal = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
+                .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         mapTestEnumIntSerializer.serialize(mapTestEnumIntType.getType(), des, serialVal);
-        assertEquals(value.getValue(), serialVal.getValue());
+        assertEquals(value.get(), serialVal.get());
         //assertEquals(value, serialVal);
     }
 
     @Test
     void testMapSerializerRemovesDeletedKeys() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
-        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer = getSerializer(mapStringIntType);
+        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer = serializer(mapStringIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
-        value.getNode("fish").setValue(5);
-        value.getNode("bugs").setValue("124880");
-        value.getNode("time").setValue("-1");
+        value.node("fish").set(5);
+        value.node("bugs").set("124880");
+        value.node("time").set("-1");
 
         @SuppressWarnings("unchecked")
         final @Nullable Map<String, Integer> deserialized = mapStringIntSerializer.deserialize(mapStringIntType.getType(), value);
         requireNonNull(deserialized).remove("fish");
 
         mapStringIntSerializer.serialize(mapStringIntType.getType(), deserialized, value);
-        assertTrue(value.getNode("fish").isVirtual());
-        assertFalse(value.getNode("bugs").isVirtual());
+        assertTrue(value.node("fish").virtual());
+        assertFalse(value.node("bugs").virtual());
     }
 
     @Test
     void testMapSerializerPreservesEmptyMap() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
-                getSerializer(mapStringIntType);
+                serializer(mapStringIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
@@ -283,16 +283,16 @@ public class TypeSerializersTest {
     void testMapSerializerPreservesChildComments() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
-                getSerializer(mapStringIntType);
+                serializer(mapStringIntType);
 
         final CommentedConfigurationNode commentNode = CommentedConfigurationNode.root();
 
-        commentNode.getNode("hi").setComment("test").setValue(3);
+        commentNode.node("hi").comment("test").set(3);
 
         mapStringIntSerializer.serialize(mapStringIntType.getType(), ImmutableMap.of("hi", 5, "no", 2), commentNode);
 
-        assertEquals(5, commentNode.getNode("hi").getValue());
-        assertEquals("test", commentNode.getNode("hi").getComment());
+        assertEquals(5, commentNode.node("hi").get());
+        assertEquals("test", commentNode.node("hi").comment());
 
     }
 
@@ -305,10 +305,10 @@ public class TypeSerializersTest {
     @Test
     void testAnnotatedObjectSerializer() throws ObjectMappingException {
         final TypeToken<TestObject> testNodeType = TypeToken.get(TestObject.class);
-        final TypeSerializer<TestObject> testObjectSerializer = getSerializer(testNodeType);
+        final TypeSerializer<TestObject> testObjectSerializer = serializer(testNodeType);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("int").setValue("42");
-        node.getNode("name").setValue("Bob");
+        node.node("int").set("42");
+        node.node("name").set("Bob");
 
         final TestObject object = testObjectSerializer.deserialize(testNodeType.getType(), node);
         assertEquals(42, object.value);
@@ -318,48 +318,48 @@ public class TypeSerializersTest {
     @Test
     void testUriSerializer() throws ObjectMappingException {
         final TypeToken<URI> uriType = TypeToken.get(URI.class);
-        final TypeSerializer<URI> uriSerializer = getSerializer(uriType);
+        final TypeSerializer<URI> uriSerializer = serializer(uriType);
 
         final String uriString = "http://google.com";
         final URI testUri = URI.create(uriString);
 
         final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)))
-                .setValue(uriString);
+                .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)))
+                .set(uriString);
         assertEquals(testUri, uriSerializer.deserialize(uriType.getType(), node));
 
         uriSerializer.serialize(uriType.getType(), testUri, node);
-        assertEquals(uriString, node.getValue());
+        assertEquals(uriString, node.get());
     }
 
     @Test
     void testUrlSerializer() throws ObjectMappingException, MalformedURLException {
         final TypeToken<URL> urlType = TypeToken.get(URL.class);
-        final TypeSerializer<URL> urlSerializer = getSerializer(urlType);
+        final TypeSerializer<URL> urlSerializer = serializer(urlType);
 
         final String urlString = "http://google.com";
         final URL testUrl = new URL(urlString);
 
         final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)))
-                .setValue(urlString);
+                .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)))
+                .set(urlString);
         assertEquals(testUrl, urlSerializer.deserialize(urlType.getType(), node));
 
         urlSerializer.serialize(urlType.getType(), testUrl, node);
-        assertEquals(urlString, node.getValue());
+        assertEquals(urlString, node.get());
     }
 
     @Test
     void testUuidSerializer() throws ObjectMappingException {
         final TypeToken<UUID> uuidType = TypeToken.get(UUID.class);
-        final TypeSerializer<UUID> uuidSerializer = getSerializer(uuidType);
+        final TypeSerializer<UUID> uuidSerializer = serializer(uuidType);
 
         final UUID testUuid = UUID.randomUUID();
 
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
+                .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         uuidSerializer.serialize(uuidType.getType(), testUuid, serializeTo);
-        assertEquals(testUuid.toString(), serializeTo.getValue());
+        assertEquals(testUuid.toString(), serializeTo.get());
 
         assertEquals(testUuid, uuidSerializer.deserialize(uuidType.getType(), serializeTo));
 
@@ -368,155 +368,155 @@ public class TypeSerializersTest {
     @Test
     void testPatternSerializer() throws ObjectMappingException {
         final TypeToken<Pattern> patternType = TypeToken.get(Pattern.class);
-        final TypeSerializer<Pattern> patternSerializer = getSerializer(patternType);
+        final TypeSerializer<Pattern> patternSerializer = serializer(patternType);
 
         final Pattern testPattern = Pattern.compile("(na )+batman");
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
+                .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         patternSerializer.serialize(patternType.getType(), testPattern, serializeTo);
-        assertEquals("(na )+batman", serializeTo.getValue());
+        assertEquals("(na )+batman", serializeTo.get());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType.getType(), serializeTo).pattern());
     }
 
     @Test
     void testCharSerializer() throws ObjectMappingException {
         final TypeToken<Character> charType = TypeToken.get(Character.class);
-        final TypeSerializer<Character> charSerializer = getSerializer(charType);
+        final TypeSerializer<Character> charSerializer = serializer(charType);
 
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
 
-        serializeTo.setValue("e");
+        serializeTo.set("e");
         assertEquals(Character.valueOf('e'), charSerializer.deserialize(charType.getType(), serializeTo));
 
-        serializeTo.setValue('P');
+        serializeTo.set('P');
         assertEquals(Character.valueOf('P'), charSerializer.deserialize(charType.getType(), serializeTo));
 
-        serializeTo.setValue(0x2a);
+        serializeTo.set(0x2a);
         assertEquals(Character.valueOf('*'), charSerializer.deserialize(charType.getType(), serializeTo));
 
         charSerializer.serialize(charType.getType(), 'z', serializeTo);
-        assertEquals('z', serializeTo.getValue());
+        assertEquals('z', serializeTo.get());
     }
 
     @Test
     void testArraySerializer() throws ObjectMappingException {
         final TypeToken<String[]> arrayType = TypeToken.get(String[].class);
-        final TypeSerializer<String[]> arraySerializer = getSerializer(arrayType);
+        final TypeSerializer<String[]> arraySerializer = serializer(arrayType);
 
         final String[] testArray = new String[] {"hello", "world"};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         arraySerializer.serialize(arrayType.getType(), testArray, serializeTo);
-        assertEquals(Arrays.asList("hello", "world"), serializeTo.getValue());
+        assertEquals(Arrays.asList("hello", "world"), serializeTo.get());
         assertArrayEquals(testArray, arraySerializer.deserialize(arrayType.getType(), serializeTo));
     }
 
     @Test
     void testArraySerializerBooleanPrimitive() throws ObjectMappingException {
         final TypeToken<boolean[]> booleanArrayType = TypeToken.get(boolean[].class);
-        final TypeSerializer<boolean[]> booleanArraySerializer = getSerializer(booleanArrayType);
+        final TypeSerializer<boolean[]> booleanArraySerializer = serializer(booleanArrayType);
 
         final boolean[] testArray = new boolean[] {true, false, true, true, false};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         booleanArraySerializer.serialize(booleanArrayType.getType(), testArray, serializeTo);
-        assertEquals(Arrays.asList(true, false, true, true, false), serializeTo.getValue());
+        assertEquals(Arrays.asList(true, false, true, true, false), serializeTo.get());
         assertArrayEquals(testArray, booleanArraySerializer.deserialize(booleanArrayType.getType(), serializeTo));
     }
 
     @Test
     void testArraySerializerBytePrimitive() throws ObjectMappingException {
         final TypeToken<byte[]> byteArrayType = TypeToken.get(byte[].class);
-        final TypeSerializer<byte[]> byteArraySerializer = getSerializer(byteArrayType);
+        final TypeSerializer<byte[]> byteArraySerializer = serializer(byteArrayType);
 
         final byte[] testArray = new byte[] {1, 5, 3, -7, 9, 0};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         byteArraySerializer.serialize(byteArrayType.getType(), testArray, serializeTo);
-        assertEquals(Arrays.asList((byte) 1, (byte) 5, (byte) 3, (byte) -7, (byte) 9, (byte) 0), serializeTo.getValue());
+        assertEquals(Arrays.asList((byte) 1, (byte) 5, (byte) 3, (byte) -7, (byte) 9, (byte) 0), serializeTo.get());
         assertArrayEquals(testArray, byteArraySerializer.deserialize(byteArrayType.getType(), serializeTo));
     }
 
     @Test
     void testArraySerializerCharPrimitive() throws ObjectMappingException {
         final Class<char[]> charArrayType = char[].class;
-        final TypeSerializer<char[]> charArraySerializer = getSerializer(charArrayType);
+        final TypeSerializer<char[]> charArraySerializer = serializer(charArrayType);
 
         final char[] testArray = new char[] {'s', 'l', 'e', 'e', 'p'};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         charArraySerializer.serialize(charArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList('s', 'l', 'e', 'e', 'p'), serializeTo.getValue());
+        assertEquals(Arrays.asList('s', 'l', 'e', 'e', 'p'), serializeTo.get());
         assertArrayEquals(testArray, charArraySerializer.deserialize(charArrayType, serializeTo));
     }
 
     @Test
     void testArraySerializerShortPrimitive() throws ObjectMappingException {
         final Class<short[]> shortArrayType = short[].class;
-        final TypeSerializer<short[]> shortArraySerializer = getSerializer(shortArrayType);
+        final TypeSerializer<short[]> shortArraySerializer = serializer(shortArrayType);
 
         final short[] testArray = new short[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         shortArraySerializer.serialize(shortArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList((short) 1, (short) 5, (short) 3, (short) 7, (short) 9), serializeTo.getValue());
+        assertEquals(Arrays.asList((short) 1, (short) 5, (short) 3, (short) 7, (short) 9), serializeTo.get());
         assertArrayEquals(testArray, shortArraySerializer.deserialize(shortArrayType, serializeTo));
     }
 
     @Test
     void testArraySerializerIntPrimitive() throws ObjectMappingException {
         final Class<int[]> intArrayType = int[].class;
-        final TypeSerializer<int[]> intArraySerializer = getSerializer(intArrayType);
+        final TypeSerializer<int[]> intArraySerializer = serializer(intArrayType);
 
         final int[] testArray = new int[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         intArraySerializer.serialize(intArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1, 5, 3, 7, 9), serializeTo.getValue());
+        assertEquals(Arrays.asList(1, 5, 3, 7, 9), serializeTo.get());
         assertArrayEquals(testArray, intArraySerializer.deserialize(intArrayType, serializeTo));
     }
 
     @Test
     void testArraySerializerLongPrimitive() throws ObjectMappingException {
         final Class<long[]> longArrayType = long[].class;
-        final TypeSerializer<long[]> longArraySerializer = getSerializer(longArrayType);
+        final TypeSerializer<long[]> longArraySerializer = serializer(longArrayType);
 
         final long[] testArray = new long[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         longArraySerializer.serialize(longArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1L, 5L, 3L, 7L, 9L), serializeTo.getValue());
+        assertEquals(Arrays.asList(1L, 5L, 3L, 7L, 9L), serializeTo.get());
         assertArrayEquals(testArray, longArraySerializer.deserialize(longArrayType, serializeTo));
     }
 
     @Test
     void testArraySerializerFloatPrimitive() throws ObjectMappingException {
         final Class<float[]> floatArrayType = float[].class;
-        final TypeSerializer<float[]> floatArraySerializer = getSerializer(floatArrayType);
+        final TypeSerializer<float[]> floatArraySerializer = serializer(floatArrayType);
 
         final float[] testArray = new float[] {1.02f, 5.66f, 3.2f, 7.9f, 9f};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         floatArraySerializer.serialize(floatArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1.02f, 5.66f, 3.2f, 7.9f, 9f), serializeTo.getValue());
+        assertEquals(Arrays.asList(1.02f, 5.66f, 3.2f, 7.9f, 9f), serializeTo.get());
         assertArrayEquals(testArray, floatArraySerializer.deserialize(floatArrayType, serializeTo));
     }
 
     @Test
     void testArraySerializerDoublePrimitive() throws ObjectMappingException {
         final Class<double[]> doubleArrayType = double[].class;
-        final TypeSerializer<double[]> doubleArraySerializer = getSerializer(doubleArrayType);
+        final TypeSerializer<double[]> doubleArraySerializer = serializer(doubleArrayType);
 
         final double[] testArray = new double[] {1.02d, 5.66d, 3.2d, 7.9d, 9d};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         doubleArraySerializer.serialize(doubleArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.getValue());
+        assertEquals(Arrays.asList(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.get());
         assertArrayEquals(testArray, doubleArraySerializer.deserialize(doubleArrayType, serializeTo));
     }
 
     @Test
     void testConfigurationNodeSerializer() throws ObjectMappingException {
         final Class<ConfigurationNode> nodeType = ConfigurationNode.class;
-        final TypeSerializer<ConfigurationNode> nodeSerializer = getSerializer(nodeType);
+        final TypeSerializer<ConfigurationNode> nodeSerializer = serializer(nodeType);
         assertNotNull(nodeSerializer);
 
         final BasicConfigurationNode sourceNode = BasicConfigurationNode.root(n -> {
-            n.getNode("hello").setValue("world");
-            n.getNode("lorg").act(c -> {
-                c.appendListNode().setValue("doggo");
-                c.appendListNode().setValue("pupper");
+            n.node("hello").set("world");
+            n.node("lorg").act(c -> {
+                c.appendListNode().set("doggo");
+                c.appendListNode().set("pupper");
             });
         });
 
@@ -531,27 +531,27 @@ public class TypeSerializersTest {
 
     @Test
     void testPathSerializer() throws ObjectMappingException {
-        final TypeSerializer<Path> pathSerializer = getSerializer(Path.class);
+        final TypeSerializer<Path> pathSerializer = serializer(Path.class);
         assertNotNull(pathSerializer);
 
-        final BasicConfigurationNode source = BasicConfigurationNode.root().setValue("test" + FileSystems.getDefault().getSeparator() + "file.txt");
+        final BasicConfigurationNode source = BasicConfigurationNode.root().set("test" + FileSystems.getDefault().getSeparator() + "file.txt");
         final Path ret = pathSerializer.deserialize(Path.class, source);
         assertEquals(Paths.get("test", "file.txt"), ret.normalize());
 
         final BasicConfigurationNode writeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(ImmutableSet.of(String.class, Byte.class)));
+                .nativeTypes(ImmutableSet.of(String.class, Byte.class)));
         pathSerializer.serialize(Path.class, ret, writeTo);
         assertEquals(source, writeTo);
     }
 
     @Test
     void testPathSerializerFromList() throws ObjectMappingException {
-        final TypeSerializer<Path> pathSerializer = getSerializer(Path.class);
+        final TypeSerializer<Path> pathSerializer = serializer(Path.class);
         assertNotNull(pathSerializer);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.appendListNode().setValue("test");
-            n.appendListNode().setValue("file.txt");
+            n.appendListNode().set("test");
+            n.appendListNode().set("file.txt");
         });
         final Path ret = pathSerializer.deserialize(Path.class, source);
         assertEquals(Paths.get("test", "file.txt"), ret);
@@ -559,10 +559,10 @@ public class TypeSerializersTest {
 
     @Test
     void testFileSerializer() throws ObjectMappingException {
-        final TypeSerializer<File> fileSerializer = getSerializer(File.class);
+        final TypeSerializer<File> fileSerializer = serializer(File.class);
         assertNotNull(fileSerializer);
 
-        final BasicConfigurationNode source = BasicConfigurationNode.root().setValue("hello/world.png");
+        final BasicConfigurationNode source = BasicConfigurationNode.root().set("hello/world.png");
 
         assertEquals(new File("hello/world.png"), fileSerializer.deserialize(File.class, source));
     }

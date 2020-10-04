@@ -38,10 +38,10 @@ public class AttributedConfigurationNodeTest {
     void testSettingAttributeAttaches() {
         final AttributedConfigurationNode node = AttributedConfigurationNode.root();
 
-        final AttributedConfigurationNode child = node.getNode("yoink");
-        assertTrue(child.isVirtual());
+        final AttributedConfigurationNode child = node.node("yoink");
+        assertTrue(child.virtual());
         child.addAttribute("cheese", "cake");
-        assertFalse(child.isVirtual());
+        assertFalse(child.virtual());
     }
 
 }

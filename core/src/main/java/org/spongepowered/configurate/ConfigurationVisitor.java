@@ -116,11 +116,11 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
                 if (current.isMap()) {
                     enterMappingNode(current, state);
                     toVisit.addFirst(new VisitorNodeEnd(current, true));
-                    toVisit.addAll(0, current.getChildrenMap().values());
+                    toVisit.addAll(0, current.childrenMap().values());
                 } else if (current.isList()) {
                     enterListNode(current, state);
                     toVisit.addFirst(new VisitorNodeEnd(current, false));
-                    toVisit.addAll(0, current.getChildrenList());
+                    toVisit.addAll(0, current.childrenList());
                 } else {
                     enterScalarNode(current, state);
                 }

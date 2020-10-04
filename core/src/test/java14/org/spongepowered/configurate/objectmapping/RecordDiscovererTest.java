@@ -39,8 +39,8 @@ public class RecordDiscovererTest {
     @Test
     void testDeserializeToRecord() throws ObjectMappingException {
         final var node = BasicConfigurationNode.root(n -> {
-            n.getNode("name").setValue("Hello");
-            n.getNode("testable").setValue(13);
+            n.node("name").set("Hello");
+            n.node("testable").set(13);
         });
 
         final var element = ObjectMapper.factory().get(TestRecord.class).load(node);
@@ -55,8 +55,8 @@ public class RecordDiscovererTest {
 
         ObjectMapper.factory().get(TestRecord.class).save(record, target);
 
-        assertEquals("meow", target.getNode("name").getValue());
-        assertEquals(32, target.getNode("testable").getValue());
+        assertEquals("meow", target.node("name").get());
+        assertEquals(32, target.node("testable").get());
     }
 
     @ConfigSerializable
@@ -72,14 +72,14 @@ public class RecordDiscovererTest {
                 new URL("https://spongepowered.org/"));
 
         final var target = CommentedConfigurationNode.root(ConfigurationOptions.defaults()
-                .withNativeTypes(Set.of(String.class, Integer.class)));
+                .nativeTypes(Set.of(String.class, Integer.class)));
 
         ObjectMapper.factory().get(AnnotatedRecord.class).save(record, target);
 
-        assertEquals("nested", target.getNode("element", "name").getValue());
-        assertEquals(0xFACE, target.getNode("element", "testable").getValue());
-        assertEquals("https://spongepowered.org/", target.getNode("fetch-loc").getValue());
-        assertEquals("The most url", target.getNode("fetch-loc").getComment());
+        assertEquals("nested", target.node("element", "name").get());
+        assertEquals(0xFACE, target.node("element", "testable").get());
+        assertEquals("https://spongepowered.org/", target.node("fetch-loc").get());
+        assertEquals("The most url", target.node("fetch-loc").comment());
     }
 
     @ConfigSerializable
@@ -109,7 +109,7 @@ public class RecordDiscovererTest {
         final var filled =
                 ObjectMapper.factory().get(ImplicitlyFillable.class)
                         .load(BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                                .withImplicitInitialization(true)));
+                                .implicitInitialization(true)));
 
         assertEquals(new Empty("<unknown>"), filled.something());
         assertEquals(Set.of(), filled.somethingElse());

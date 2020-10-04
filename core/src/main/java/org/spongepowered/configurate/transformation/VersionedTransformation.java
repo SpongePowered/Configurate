@@ -37,7 +37,7 @@ class VersionedTransformation<T extends ConfigurationNode> implements Configurat
 
     @Override
     public void apply(final T node) {
-        final ConfigurationNode versionNode = node.getNode(this.versionPath);
+        final ConfigurationNode versionNode = node.node(this.versionPath);
         int currentVersion = versionNode.getInt(-1);
         for (Map.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {
             if (entry.getKey() <= currentVersion) {
@@ -46,16 +46,16 @@ class VersionedTransformation<T extends ConfigurationNode> implements Configurat
             entry.getValue().apply(node);
             currentVersion = entry.getKey();
         }
-        versionNode.setValue(currentVersion);
+        versionNode.set(currentVersion);
     }
 
     @Override
-    public NodePath getVersionKey() {
+    public NodePath versionKey() {
         return this.versionPath;
     }
 
     @Override
-    public int getLatestVersion() {
+    public int latestVersion() {
         return this.versionTransformations.lastKey();
     }
 

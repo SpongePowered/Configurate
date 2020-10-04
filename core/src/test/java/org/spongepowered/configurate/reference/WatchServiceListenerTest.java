@@ -44,7 +44,7 @@ public class WatchServiceListenerTest {
     private static @MonotonicNonNull WatchServiceListener listener;
 
     @BeforeAll
-    public static void setUpClass() throws IOException {
+    public static void prepareClass() throws IOException {
         listener = WatchServiceListener.create();
     }
 

@@ -52,7 +52,7 @@ public class ConstraintTest {
             () -> {
                 assertThrows(ObjectMappingException.class, () -> {
                     mapper.load(BasicConfigurationNode.root(n -> {
-                        n.getNode("optional").setValue(UUID.randomUUID().toString());
+                        n.node("optional").set(UUID.randomUUID().toString());
                     }));
                 });
             },
@@ -60,7 +60,7 @@ public class ConstraintTest {
             () -> {
                 final UUID expected = UUID.randomUUID();
                 final TestRequired result = mapper.load(BasicConfigurationNode.root(n -> {
-                    n.getNode("mandatory").setValue(expected);
+                    n.node("mandatory").set(expected);
                 }));
                 assertEquals(expected, result.mandatory);
                 assertNull(result.optional);
@@ -70,8 +70,8 @@ public class ConstraintTest {
                 final UUID optionalVal = UUID.randomUUID();
                 final UUID requiredVal = UUID.randomUUID();
                 final TestRequired result = mapper.load(BasicConfigurationNode.root(n -> {
-                    n.getNode("optional").setValue(optionalVal.toString());
-                    n.getNode("mandatory").setValue(requiredVal.toString());
+                    n.node("optional").set(optionalVal.toString());
+                    n.node("mandatory").set(requiredVal.toString());
                 }));
                 assertEquals(optionalVal, result.optional);
                 assertEquals(requiredVal, result.mandatory);
@@ -95,14 +95,14 @@ public class ConstraintTest {
                 // Valid value loads without error
                 () -> {
                     final TestPattern result = mapper.load(BasicConfigurationNode.root(n -> {
-                        n.getNode("test").setValue("lowercase");
+                        n.node("test").set("lowercase");
                     }));
                     assertEquals("lowercase", result.test);
                 },
                 // Invalid value throws ObjectMappingException
                 () -> assertThrows(ObjectMappingException.class, () -> {
                     mapper.load(BasicConfigurationNode.root(n -> {
-                        n.getNode("test").setValue("LOUD");
+                        n.node("test").set("LOUD");
                     }));
                 })
         );
@@ -131,8 +131,8 @@ public class ConstraintTest {
                 // Matches both
                 () -> {
                     final BasicConfigurationNode node = BasicConfigurationNode.root(n -> {
-                        n.getNode("pattern").setValue("Test");
-                        n.getNode("number-like").setValue("0.0.42+4");
+                        n.node("pattern").set("Test");
+                        n.node("number-like").set("0.0.42+4");
                     });
                     final TestLocalizedPattern result = mapper.load(node);
 
@@ -142,8 +142,8 @@ public class ConstraintTest {
                 // Fails one with localized key
                 () -> {
                     final BasicConfigurationNode node = BasicConfigurationNode.root(n -> {
-                        n.getNode("pattern").setValue("bad");
-                        n.getNode("number-like").setValue("0.0.42+4");
+                        n.node("pattern").set("bad");
+                        n.node("number-like").set("0.0.42+4");
                     });
 
                     assertEquals("failed for input string \"bad\" against pattern \"Test\"!", assertThrows(ObjectMappingException.class, () -> {
@@ -153,8 +153,8 @@ public class ConstraintTest {
                 // Fails second with non-localized passthrough
                 () -> {
                     final BasicConfigurationNode node = BasicConfigurationNode.root(n -> {
-                        n.getNode("pattern").setValue("Test");
-                        n.getNode("number-like").setValue("invalid");
+                        n.node("pattern").set("Test");
+                        n.node("number-like").set("invalid");
                     });
 
                     assertEquals("Value invalid is non-numeric", assertThrows(ObjectMappingException.class, () -> {

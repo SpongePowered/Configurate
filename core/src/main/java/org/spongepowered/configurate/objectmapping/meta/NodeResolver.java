@@ -66,7 +66,7 @@ public interface NodeResolver {
     static NodeResolver.Factory nodeKey() {
         return (name, element) -> {
             if (element.isAnnotationPresent(NodeKey.class)) {
-                return node -> BasicConfigurationNode.root(node.getOptions()).setValue(node.getKey());
+                return node -> BasicConfigurationNode.root(node.options()).set(node.key());
             }
             return null;
         };
@@ -82,7 +82,7 @@ public interface NodeResolver {
             if (element.isAnnotationPresent(Setting.class)) {
                 final String key = element.getAnnotation(Setting.class).value();
                 if (!key.isEmpty()) {
-                    return node -> node.getNode(key);
+                    return node -> node.node(key);
                 }
             }
             return null;

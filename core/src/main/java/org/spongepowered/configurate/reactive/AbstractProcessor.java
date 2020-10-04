@@ -44,7 +44,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
     }
 
     @Override
-    public Executor getExecutor() {
+    public Executor executor() {
         return this.executor;
     }
 
@@ -113,7 +113,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
     }
 
     @Override
-    public void setFallbackHandler(final @Nullable Subscriber<V> subscriber) {
+    public void fallbackHandler(final @Nullable Subscriber<V> subscriber) {
         this.fallbackHandler = subscriber;
     }
 

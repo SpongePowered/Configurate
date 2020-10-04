@@ -33,7 +33,7 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      *
      * @return the configuration's current comment
      */
-    @Nullable String getComment();
+    @Nullable String comment();
 
     /**
      * Sets the comment for this configuration node.
@@ -42,7 +42,7 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      *                LFs (\n)
      * @return this node
      */
-    N setComment(@Nullable String comment);
+    N comment(@Nullable String comment);
 
     /**
      * Set a comment on this node if it does not presently have a comment.
@@ -54,6 +54,6 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      *                LFs (\n)
      * @return this node
      */
-    N setCommentIfAbsent(String comment);
+    N commentIfAbsent(String comment);
 
 }

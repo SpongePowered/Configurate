@@ -45,8 +45,8 @@ public class ProcessorTest {
 
         mapper.save(object, target);
 
-        assertEquals("An important option", target.getNode("first").getComment());
-        assertEquals("Another important option!", target.getNode("second").getComment());
+        assertEquals("An important option", target.node("first").comment());
+        assertEquals("Another important option!", target.node("second").comment());
     }
 
     static class TestCommentLocalized {
@@ -66,8 +66,8 @@ public class ProcessorTest {
         final CommentedConfigurationNode target = CommentedConfigurationNode.root();
         mapper.save(new TestCommentLocalized(), target);
 
-        assertEquals("First property", target.getNode("hello").getComment());
-        assertEquals("Missing comment passthrough", target.getNode("goodbye").getComment());
+        assertEquals("First property", target.node("hello").comment());
+        assertEquals("Missing comment passthrough", target.node("goodbye").comment());
     }
 
 }

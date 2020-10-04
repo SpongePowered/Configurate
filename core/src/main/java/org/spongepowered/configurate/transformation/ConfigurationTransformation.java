@@ -128,7 +128,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          *
          * @return the move strategy
          */
-        public MoveStrategy getMoveStrategy() {
+        public MoveStrategy moveStrategy() {
             return this.strategy;
         }
 
@@ -138,7 +138,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @param strategy the strategy
          * @return this builder (for chaining)
          */
-        public Builder<T> setMoveStrategy(final MoveStrategy strategy) {
+        public Builder<T> moveStrategy(final MoveStrategy strategy) {
             this.strategy = requireNonNull(strategy, "strategy");
             return this;
         }
@@ -171,8 +171,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @param versionKey the path to the version key
          * @return this builder (for chaining)
          */
-        public VersionedBuilder<T> setVersionKey(final Object... versionKey) {
-            this.versionKey = NodePath.create(versionKey);
+        public VersionedBuilder<T> versionKey(final Object... versionKey) {
+            this.versionKey = NodePath.of(versionKey);
             return this;
         }
 
@@ -257,14 +257,14 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          *
          * @return version path
          */
-        NodePath getVersionKey();
+        NodePath versionKey();
 
         /**
          * Get the latest version that nodes can be updated to.
          *
          * @return the most recent version
          */
-        int getLatestVersion();
+        int latestVersion();
 
         /**
          * Get the version of a node hierarchy.
@@ -279,8 +279,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @param node node to check
          * @return version, or {@link #VERSION_UNKNOWN} if no value is present
          */
-        default int getVersion(final N node) {
-            return node.getNode(getVersionKey()).getInt(VERSION_UNKNOWN);
+        default int version(final N node) {
+            return node.node(versionKey()).getInt(VERSION_UNKNOWN);
         }
     }
 

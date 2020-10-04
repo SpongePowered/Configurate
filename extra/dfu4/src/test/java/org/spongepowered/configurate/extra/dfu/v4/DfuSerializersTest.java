@@ -63,16 +63,16 @@ public class DfuSerializersTest {
     @Test
     void testCodecSerializer() throws ObjectMappingException {
         final TypeSerializerCollection serializers = TypeSerializerCollection.defaults().childBuilder()
-            .register(VEC3I_TYPE, DfuSerializers.forCodec(VEC3I_CODEC))
+            .register(VEC3I_TYPE, DfuSerializers.serializer(VEC3I_CODEC))
             .build();
 
-        final ConfigurationNode testElement = BasicConfigurationNode.root(ConfigurationOptions.defaults().withSerializers(serializers), n -> {
-            n.appendListNode().setValue(4);
-            n.appendListNode().setValue(5);
-            n.appendListNode().setValue(8);
+        final ConfigurationNode testElement = BasicConfigurationNode.root(ConfigurationOptions.defaults().serializers(serializers), n -> {
+            n.appendListNode().set(4);
+            n.appendListNode().set(5);
+            n.appendListNode().set(8);
         });
 
-        final Vector3i pos = testElement.getValue(VEC3I_TYPE);
+        final Vector3i pos = testElement.get(VEC3I_TYPE);
 
         assertEquals(new Vector3i(4, 5, 8), pos);
     }
@@ -90,10 +90,10 @@ public class DfuSerializersTest {
     @Test
     void testSerializerCodec() throws IOException {
         final TypeSerializerCollection serializers = TypeSerializerCollection.defaults().childBuilder()
-            .register(VEC3I_TYPE, DfuSerializers.forCodec(VEC3I_CODEC))
+            .register(VEC3I_TYPE, DfuSerializers.serializer(VEC3I_CODEC))
             .build();
 
-        final @Nullable Codec<TestSerializable> codec = DfuSerializers.forSerializer(TypeToken.get(TestSerializable.class), serializers);
+        final @Nullable Codec<TestSerializable> codec = DfuSerializers.codec(TypeToken.get(TestSerializable.class), serializers);
         assertNotNull(codec);
 
         final DataResult<JsonElement> out = codec.encode(new TestSerializable(), JsonOps.INSTANCE, JsonOps.INSTANCE.empty());

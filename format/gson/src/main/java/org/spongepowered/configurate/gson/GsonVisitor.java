@@ -48,9 +48,9 @@ class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter,
 
     @Override
     public void enterNode(final ConfigurationNode node, final JsonWriter state) throws IOException {
-        final @Nullable ConfigurationNode parent = node.getParent();
+        final @Nullable ConfigurationNode parent = node.parent();
         if (node != this.start && parent != null && parent.isMap()) {
-            state.name(requireNonNull(node.getKey(), "Node must have key to be a value in a mapping").toString());
+            state.name(requireNonNull(node.key(), "Node must have key to be a value in a mapping").toString());
         }
     }
 
@@ -66,7 +66,7 @@ class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter,
 
     @Override
     public void enterScalarNode(final ConfigurationNode node, final JsonWriter writer) throws IOException {
-        final @Nullable Object value = node.getValue();
+        final @Nullable Object value = node.get();
         if (value == null) {
             writer.nullValue();
         } else if (value instanceof Double) {

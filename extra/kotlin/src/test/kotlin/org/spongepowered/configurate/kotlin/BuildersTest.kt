@@ -26,13 +26,13 @@ class BuildersTest {
     @Test
     fun testBuildAttributed() {
         attributed("ServerPack", "version" to "1.15.2", "url" to "https://permissionsex.stellardrift.ca") {
-            this["a"] = "Hello"
-            this["Game, over"] = 5
+            this.node("a").set("Hello")
+            this.node("Game, over").set(5)
             child("Haa") {
-                value = "nope"
+                set("nope")
             }
             child("list", "parameter" to "test") {
-                setComment("I'm a list!")
+                comment("I'm a list!")
                 this += "hello"
                 this += "world"
             }
@@ -43,9 +43,9 @@ class BuildersTest {
     fun testBuildCommented() {
         commented {
             child("a", value = "b") {
-                setComment("The most important thing")
+                comment("The most important thing")
             }
-            this["cow"] = "potato"
+            this.node("cow").set("potato")
             set(UUID.randomUUID())
         }
     }
@@ -53,8 +53,8 @@ class BuildersTest {
     @Test
     fun testBuildBasic() {
         node {
-            this["test"] = "hello"
-            this["value"].set(URL("https://spongepowered.org"))
+            this.node("test").set("hello")
+            this.node("value").set(URL::class.java, URL("https://spongepowered.org"))
         }
     }
 }
@@ -66,9 +66,9 @@ private val NO_VALUE: Any = Any()
 // Creating children
 
 fun <N : ScopedConfigurationNode<N>> N.child(vararg path: Any, value: Any? = NO_VALUE, init: N.() -> Unit = {}) {
-    val node = this.getNode(*path)
+    val node = this.node(*path)
     if (value != NO_VALUE) {
-        node.value = value
+        node.set(value)
     }
     node.init()
 }
@@ -84,18 +84,18 @@ fun AttributedConfigurationNode.child(
     vararg attributes: Pair<String, String>,
     init: AttributedConfigurationNode.() -> Unit
 ): AttributedConfigurationNode {
-    val node = this[key]
-    tagName = key
+    val node = this.node(key)
+    tagName(key)
     if (value != NO_VALUE) {
-        node.value = value
+        node.set(value)
     }
     if (!attributes.isEmpty()) {
-        node.attributes = mapOf(*attributes)
+        node.attributes(mapOf(*attributes))
     }
     node.init()
     return node
 }
 
 operator fun <N : ScopedConfigurationNode<N>> N.plusAssign(value: Any?) {
-    appendListNode().value = value
+    appendListNode().set(value)
 }

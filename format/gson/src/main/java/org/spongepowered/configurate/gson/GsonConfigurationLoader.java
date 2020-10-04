@@ -74,7 +74,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @return this builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(final int indent) {
+        public Builder indent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -84,7 +84,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          *
          * @return the indent level
          */
-        public int getIndent() {
+        public int indent() {
             return this.indent;
         }
 
@@ -96,7 +96,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @return this builder (for chaining)
          */
         @NonNull
-        public Builder setLenient(final boolean lenient) {
+        public Builder lenient(final boolean lenient) {
             this.lenient = lenient;
             return this;
         }
@@ -106,13 +106,13 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          *
          * @return whether the parser should parse leniently
          */
-        public boolean isLenient() {
+        public boolean lenient() {
             return this.lenient;
         }
 
         @Override
         public @NonNull GsonConfigurationLoader build() {
-            this.setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
+            this.defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
             return new GsonConfigurationLoader(this);
         }
     }
@@ -122,8 +122,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
     private GsonConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
-        this.lenient = builder.isLenient();
-        this.indent = Strings.repeat(" ", builder.getIndent());
+        this.lenient = builder.lenient();
+        this.indent = Strings.repeat(" ", builder.indent());
     }
 
     @Override
@@ -149,17 +149,17 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                 parseArray(parser, node);
                 break;
             case NUMBER:
-                node.setValue(readNumber(parser));
+                node.set(readNumber(parser));
                 break;
             case STRING:
-                node.setValue(parser.nextString());
+                node.set(parser.nextString());
                 break;
             case BOOLEAN:
-                node.setValue(parser.nextBoolean());
+                node.set(parser.nextBoolean());
                 break;
             case NULL: // Ignored values
                 parser.nextNull();
-                node.setValue(null);
+                node.set(null);
                 break;
             case NAME:
                 break;
@@ -192,7 +192,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     parser.endArray();
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(Collections.emptyList());
+                        node.set(Collections.emptyList());
                     }
                     return;
                 default:
@@ -216,11 +216,11 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     parser.endObject();
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(Collections.emptyMap());
+                        node.set(Collections.emptyMap());
                     }
                     return;
                 case NAME:
-                    parseValue(parser, node.getNode(parser.nextName()));
+                    parseValue(parser, node.node(parser.nextName()));
                     written = true;
                     break;
                 default:
@@ -245,7 +245,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
     @Override
     public BasicConfigurationNode createNode(ConfigurationOptions options) {
-        options = options.withNativeTypes(NATIVE_TYPES);
+        options = options.nativeTypes(NATIVE_TYPES);
         return BasicConfigurationNode.root(options);
     }
 

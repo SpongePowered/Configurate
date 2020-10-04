@@ -48,7 +48,7 @@ final class PathSerializer implements TypeSerializer<Path> {
         } else if (node.isMap()) {
             throw new ObjectMappingException("Paths must be a list of strings, or a single string");
         }
-        final @Nullable Object value = node.getValue();
+        final @Nullable Object value = node.get();
         if (value == null) {
             throw new ObjectMappingException("must have value");
         }
@@ -63,19 +63,19 @@ final class PathSerializer implements TypeSerializer<Path> {
     @Override
     public void serialize(final Type type, final @Nullable Path obj, final ConfigurationNode node) throws ObjectMappingException {
         if (obj == null) {
-            node.setValue(null);
+            node.set(null);
             return;
         }
 
         if (node.isList()) {
-            node.setValue(null);
+            node.set(null);
             for (Path element : obj) {
-                node.appendListNode().setValue(element.toString());
+                node.appendListNode().set(element.toString());
             }
         } else if (!obj.getFileSystem().equals(FileSystems.getDefault())) { // try to do something for non-default filesystems
-            node.setValue(URI.class, obj.toUri());
+            node.set(URI.class, obj.toUri());
         } else {
-            node.setValue(obj.toString());
+            node.set(obj.toString());
         }
     }
 

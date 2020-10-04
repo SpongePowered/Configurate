@@ -29,11 +29,11 @@ inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationRefere
     return this.referenceTo(typeTokenOf(), *path)
 }
 
-operator fun ConfigurationReference<*>.set(vararg path: Any, value: Any?) {
-    node.getNode(*path).value = value
+fun ConfigurationReference<*>.set(vararg path: Any, value: Any?) {
+    node().node(*path).set(value)
 }
 
 @JvmName("set\$serialized")
-inline operator fun <reified V> ConfigurationReference<*>.set(vararg path: Any, value: V?) {
-    node.getNode(*path).setValue(typeTokenOf(), value)
+inline fun <reified V> ConfigurationReference<*>.set(vararg path: Any, value: V?) {
+    node().node(*path).set(typeTokenOf(), value)
 }

@@ -27,7 +27,7 @@ public class PassthroughSerializer implements TypeSerializer<Object> {
 
     @Override
     public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
-        final @Nullable Object o = node.getValue();
+        final @Nullable Object o = node.get();
         if (o == null) {
             throw new ObjectMappingException("No value present for node");
         }
@@ -39,7 +39,7 @@ public class PassthroughSerializer implements TypeSerializer<Object> {
 
     @Override
     public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
-        node.setValue(obj);
+        node.set(obj);
     }
 
 }

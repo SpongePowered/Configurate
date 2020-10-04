@@ -40,15 +40,15 @@ final class FileSerializer implements TypeSerializer<File> {
 
     @Override
     public File deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
-        return requireNonNull(node.getValue(Path.class), "node did not contain a valid path").toFile();
+        return requireNonNull(node.get(Path.class), "node did not contain a valid path").toFile();
     }
 
     @Override
     public void serialize(final Type type, final @Nullable File obj, final ConfigurationNode node) throws ObjectMappingException {
         if (obj == null) {
-            node.setValue(null);
+            node.set(null);
         } else {
-            node.setValue(Path.class, obj.toPath());
+            node.set(Path.class, obj.toPath());
         }
     }
 

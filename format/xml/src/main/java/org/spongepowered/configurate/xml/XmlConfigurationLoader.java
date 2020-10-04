@@ -124,7 +124,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @return this builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(final int indent) {
+        public Builder indent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -134,7 +134,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @return the indent level
          */
-        public int getIndent() {
+        public int indent() {
             return this.indent;
         }
 
@@ -144,7 +144,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @param schema the schema
          * @return this builder (for chaining)
          */
-        public Builder setSchema(final @Nullable Schema schema) {
+        public Builder schema(final @Nullable Schema schema) {
             this.schema = schema;
             return this;
         }
@@ -154,7 +154,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @return the schema
          */
-        public @Nullable Schema getSchema() {
+        public @Nullable Schema schema() {
             return this.schema;
         }
 
@@ -164,7 +164,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @param defaultTagName the default tag name
          * @return this builder (for chaining)
          */
-        public Builder setDefaultTagName(final String defaultTagName) {
+        public Builder defaultTagName(final String defaultTagName) {
             this.defaultTagName = defaultTagName;
             return this;
         }
@@ -175,7 +175,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @return the default tag name
          */
         @NonNull
-        public String getDefaultTagName() {
+        public String defaultTagName() {
             return this.defaultTagName;
         }
 
@@ -191,7 +191,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @param writeExplicitType if the loader should write explicit types
          * @return this builder (for chaining)
          */
-        public Builder setWriteExplicitType(final boolean writeExplicitType) {
+        public Builder writesExplicitType(final boolean writeExplicitType) {
             this.writeExplicitType = writeExplicitType;
             return this;
         }
@@ -199,12 +199,12 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Gets if explicit type attributes should be written by the loader.
          *
-         * <p>See the method doc at {@link #setWriteExplicitType(boolean)} for
+         * <p>See the method doc at {@link #writesExplicitType(boolean)} for
          * a more detailed explanation.</p>
          *
          * @return the default tag name
          */
-        public boolean shouldWriteExplicitType() {
+        public boolean writesExplicitType() {
             return this.writeExplicitType;
         }
 
@@ -216,7 +216,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *                              included
          * @return this builder (for chaining)
          */
-        public Builder setIncludeXmlDeclaration(final boolean includeXmlDeclaration) {
+        public Builder includesXmlDeclaration(final boolean includeXmlDeclaration) {
             this.includeXmlDeclaration = includeXmlDeclaration;
             return this;
         }
@@ -227,7 +227,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @return if the XML declaration should be included
          */
-        public boolean shouldIncludeXmlDeclaration() {
+        public boolean includesXmlDeclaration() {
             return this.includeXmlDeclaration;
         }
 
@@ -248,7 +248,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @param resolvesExternalContent whether to resolve external entities
          * @return this builder
          */
-        public Builder setResolvesExternalContent(final boolean resolvesExternalContent) {
+        public Builder resolvesExternalContent(final boolean resolvesExternalContent) {
             this.resolvesExternalContent = resolvesExternalContent;
             return this;
         }
@@ -264,7 +264,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         @Override
         public XmlConfigurationLoader build() {
-            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
+            defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
             return new XmlConfigurationLoader(this);
         }
     }
@@ -278,11 +278,11 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     private XmlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.XML_STYLE});
-        this.schema = builder.getSchema();
-        this.defaultTagName = builder.getDefaultTagName();
-        this.indent = builder.getIndent();
-        this.writeExplicitType = builder.shouldWriteExplicitType();
-        this.includeXmlDeclaration = builder.shouldIncludeXmlDeclaration();
+        this.schema = builder.schema();
+        this.defaultTagName = builder.defaultTagName();
+        this.indent = builder.indent();
+        this.writeExplicitType = builder.writesExplicitType();
+        this.includeXmlDeclaration = builder.includesXmlDeclaration();
         this.resolvesExternalContent = builder.resolvesExternalContent();
     }
 
@@ -352,7 +352,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             for (int i = 0; i < children.getLength(); ++i) {
                 final Node child = children.item(i);
                 if (child.getNodeType() == Node.COMMENT_NODE) {
-                    options = options.withHeader(unwrapHeader(child.getTextContent().trim()));
+                    options = options.header(unwrapHeader(child.getTextContent().trim()));
                 } else if (child.getNodeType() == Node.ELEMENT_NODE) {
                     final AttributedConfigurationNode node = createNode(options);
                     readElement(child, node);
@@ -409,11 +409,11 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         @Nullable NodeType type = null;
 
         // copy the name of the tag
-        to.setTagName(from.getNodeName());
+        to.tagName(from.getNodeName());
 
         final String potentialComment = (String) from.getUserData(USER_DATA_COMMENT);
         if (potentialComment != null) {
-            to.setComment(potentialComment);
+            to.comment(potentialComment);
         }
 
         // copy attributes
@@ -465,7 +465,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         // if there are no child nodes present, assume it's a scalar value
         if (children.isEmpty()) {
-            to.setValue(parseValue(from.getTextContent()));
+            to.set(parseValue(from.getTextContent()));
             return;
         }
 
@@ -483,16 +483,16 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         if (type == NodeType.MAP) {
-            to.setValue(Collections.emptyMap());
+            to.set(Collections.emptyMap());
         } else {
-            to.setValue(Collections.emptyList());
+            to.set(Collections.emptyList());
         }
 
         // read out the elements
         for (Map.Entry<String, Collection<Node>> entry : children.entrySet()) {
             AttributedConfigurationNode child;
             if (type == NodeType.MAP) {
-                child = to.getNode(entry.getKey());
+                child = to.node(entry.getKey());
                 readElement(entry.getValue().iterator().next(), child);
             } else {
                 for (Node element : entry.getValue()) {
@@ -541,7 +541,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     private @Nullable Node createCommentNode(final Document doc, final ConfigurationNode node) {
         if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
-            final @Nullable String comment = ((CommentedConfigurationNodeIntermediary<?>) node).getComment();
+            final @Nullable String comment = ((CommentedConfigurationNodeIntermediary<?>) node).comment();
             if (comment != null) {
                 return doc.createComment(" " + comment.trim() + " ");
             }
@@ -555,8 +555,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         if (node instanceof AttributedConfigurationNode) {
             final AttributedConfigurationNode attributedNode = (AttributedConfigurationNode) node;
-            tag = attributedNode.getTagName();
-            attributes = attributedNode.getAttributes();
+            tag = attributedNode.tagName();
+            attributes = attributedNode.attributes();
         }
 
         final Element element = document.createElement(forcedTag == null ? tag : forcedTag);
@@ -565,7 +565,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         if (node.isMap()) {
-            for (final Map.Entry<Object, ? extends ConfigurationNode> child : node.getChildrenMap().entrySet()) {
+            for (final Map.Entry<Object, ? extends ConfigurationNode> child : node.childrenMap().entrySet()) {
                 appendCommentIfNecessary(element, child.getValue());
                 element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
             }
@@ -573,12 +573,12 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             if (this.writeExplicitType) {
                 element.setAttribute(ATTRIBUTE_TYPE, "list");
             }
-            for (final ConfigurationNode child : node.getChildrenList()) {
+            for (final ConfigurationNode child : node.childrenList()) {
                 appendCommentIfNecessary(element, child);
                 element.appendChild(writeNode(document, child, null));
             }
         } else {
-            element.appendChild(document.createTextNode(Objects.toString(node.getValue())));
+            element.appendChild(document.createTextNode(Objects.toString(node.get())));
         }
 
         return element;
@@ -586,7 +586,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     @Override
     public AttributedConfigurationNode createNode(ConfigurationOptions options) {
-        options = options.withNativeTypes(NATIVE_TYPES);
+        options = options.nativeTypes(NATIVE_TYPES);
         return AttributedConfigurationNode.root("root", options);
     }
 

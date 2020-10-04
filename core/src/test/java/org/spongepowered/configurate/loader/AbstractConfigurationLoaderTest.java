@@ -37,14 +37,14 @@ public class AbstractConfigurationLoaderTest {
     @Test
     void testLoadNonexistantPath(final @TempDir Path tempDir) throws IOException {
         final Path tempPath = tempDir.resolve("text5.txt").getRoot().resolve("does-not-exist-dont-edit-testdir");
-        final TestConfigurationLoader loader = TestConfigurationLoader.builder().setPath(tempPath).build();
+        final TestConfigurationLoader loader = TestConfigurationLoader.builder().path(tempPath).build();
         loader.load();
     }
 
     @Test
     void testLoadNonexistantFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = new File(tempDir.resolve("text5.txt").getRoot().toFile(), "does-not-exist-dont-edit-testdir");
-        final TestConfigurationLoader loader = TestConfigurationLoader.builder().setFile(tempFile).build();
+        final TestConfigurationLoader loader = TestConfigurationLoader.builder().file(tempFile).build();
         loader.load();
     }
 
@@ -60,7 +60,7 @@ public class AbstractConfigurationLoaderTest {
         Files.createSymbolicLink(layerOne, actualFile);
         Files.createSymbolicLink(layerTwo, layerOne);
 
-        try (BufferedWriter writer = AtomicFiles.createAtomicBufferedWriter(layerTwo, StandardCharsets.UTF_8)) {
+        try (BufferedWriter writer = AtomicFiles.atomicBufferedWriter(layerTwo, StandardCharsets.UTF_8)) {
             writer.write("I should follow symlinks!\n");
         }
 

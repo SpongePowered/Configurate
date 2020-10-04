@@ -64,7 +64,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * @param value the value
      * @return true if successful, false if serialization fails
      */
-    boolean setAndSave(@Nullable T value);
+    boolean setAndSave(@Nullable T value); // @cs-: NoGetSetPrefix (not a property accessor)
 
     /**
      * Set the new value of this node and save the underlying configuration
@@ -76,7 +76,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * @param value the value
      * @return true if successful, false if serialization fails
      */
-    Publisher<Boolean> setAndSaveAsync(@Nullable T value);
+    Publisher<Boolean> setAndSaveAsync(@Nullable T value); // @cs-: NoGetSetPrefix (not a property accessor)
 
     /**
      * Update this value and the underlying node, without saving.
@@ -106,6 +106,6 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      *
      * @return the node
      */
-    N getNode();
+    N node();
 
 }

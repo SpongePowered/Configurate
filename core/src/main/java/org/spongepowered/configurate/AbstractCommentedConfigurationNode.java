@@ -36,12 +36,12 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @Nullable String getComment() {
+    public @Nullable String comment() {
         return this.comment.get();
     }
 
     @Override
-    public @NonNull N setComment(final @Nullable String comment) {
+    public @NonNull N comment(final @Nullable String comment) {
         if (!Objects.equals(this.comment.getAndSet(comment), comment)) {
             attachIfNecessary();
         }
@@ -49,7 +49,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N setCommentIfAbsent(final String comment) {
+    public @NonNull N commentIfAbsent(final String comment) {
         if (this.comment.compareAndSet(null, comment)) {
             attachIfNecessary();
         }
@@ -57,25 +57,25 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N setValue(final @Nullable Object value) {
+    public @NonNull N set(final @Nullable Object value) {
         if (value instanceof CommentedConfigurationNodeIntermediary<?>) {
-            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) value).getComment();
+            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) value).comment();
             if (otherComment != null) {
-                setComment(otherComment);
+                comment(otherComment);
             }
         }
-        return super.setValue(value);
+        return super.set(value);
     }
 
     @Override
-    public @NonNull N mergeValuesFrom(final @NonNull ConfigurationNode other) {
+    public @NonNull N mergeFrom(final @NonNull ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNodeIntermediary<?>) {
-            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).getComment();
+            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).comment();
             if (otherComment != null) {
-                setCommentIfAbsent(otherComment);
+                commentIfAbsent(otherComment);
             }
         }
-        return super.mergeValuesFrom(other);
+        return super.mergeFrom(other);
     }
 
     @Override

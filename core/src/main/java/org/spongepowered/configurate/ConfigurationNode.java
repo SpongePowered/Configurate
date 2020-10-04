@@ -45,10 +45,10 @@ import java.util.stream.Collector;
  * <p>{@link ConfigurationNode}s can hold different types of value. They can:</p>
  *
  * <ul>
- *     <li>Hold a single "scalar" value (accessed by {@link #getValue()}</li>
- *     <li>Represent a "list" of child {@link ConfigurationNode}s (accessed by {@link #isList()} and {@link #getChildrenList()})</li>
- *     <li>Represent a "map" of child {@link ConfigurationNode}s (accessed by {@link #isMap()} and {@link #getChildrenMap()})</li>
- *     <li>Hold no value at all (when {@link #isVirtual()} is true)</li>
+ *     <li>Hold a single "scalar" value (accessed by {@link #get()}</li>
+ *     <li>Represent a "list" of child {@link ConfigurationNode}s (accessed by {@link #isList()} and {@link #childrenList()})</li>
+ *     <li>Represent a "map" of child {@link ConfigurationNode}s (accessed by {@link #isMap()} and {@link #childrenMap()})</li>
+ *     <li>Hold no value at all (when {@link #virtual()} is true)</li>
  * </ul>
  *
  * <p>The overall configuration stems from a single "root" node, which is
@@ -69,27 +69,27 @@ public interface ConfigurationNode {
      * <p>The key determines this {@link ConfigurationNode}s position within
      * the overall configuration structure.</p>
      *
-     * <p>If this node is currently {@link #isVirtual() virtual}, this method's
+     * <p>If this node is currently {@link #virtual() virtual}, this method's
      * result may be inaccurate.</p>
      *
      * <p>Note that this method only returns the nearest "link" in the
      * hierarchy, and does not return a representation of the full path. See
-     * {@link #getPath()} for that.</p>
+     * {@link #path()} for that.</p>
      *
      * <p>The {@link ConfigurationNode}s returned as values from
-     * {@link #getChildrenMap()} will have keys derived from their pairing in
+     * {@link #childrenMap()} will have keys derived from their pairing in
      * the map node.</p>
      *
      * <p>The {@link ConfigurationNode}s returned from
-     * {@link #getChildrenList()} will have keys derived from their position
+     * {@link #childrenList()} will have keys derived from their position
      * (index) in the list node.</p>
      *
      * @return the key of this node
      */
-    @Nullable Object getKey();
+    @Nullable Object key();
 
     /**
-     * Gets the full path of {@link #getKey() keys} from the root node to this
+     * Gets the full path of {@link #key() keys} from the root node to this
      * node.
      *
      * <p>Node implementations may not keep a full path for each node, so this
@@ -98,17 +98,17 @@ public interface ConfigurationNode {
      *
      * @return an array compiled from the keys for each node up the hierarchy
      */
-    NodePath getPath();
+    NodePath path();
 
     /**
      * Gets the parent of this node.
      *
-     * <p>If this node is currently {@link #isVirtual() virtual}, this method's
+     * <p>If this node is currently {@link #virtual() virtual}, this method's
      * result may be inaccurate.</p>
      *
      * @return the nodes parent
      */
-    @Nullable ConfigurationNode getParent();
+    @Nullable ConfigurationNode parent();
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple
@@ -122,13 +122,13 @@ public interface ConfigurationNode {
      * will navigate one level down in the configuration hierarchy</p>
      *
      * <p>A node is <b>always</b> returned by this method. If the given node
-     * does not exist in the structure, a {@link #isVirtual() virtual} node will
+     * does not exist in the structure, a {@link #virtual() virtual} node will
      * be returned which represents the position.</p>
      *
      * @param path the path to fetch the node at
      * @return the node at the given path, possibly virtual
      */
-    ConfigurationNode getNode(Object... path);
+    ConfigurationNode node(Object... path);
 
     /**
      * Gets the node at the given (relative) path, possibly traversing multiple
@@ -141,13 +141,13 @@ public interface ConfigurationNode {
      * the unique position of a given node within the structure.</p>
      *
      * <p>A node is <b>always</b> returned by this method. If the given node
-     * does not exist in the structure, a {@link #isVirtual() virtual} node will
+     * does not exist in the structure, a {@link #virtual() virtual} node will
      * be returned which represents the position.</p>
      *
      * @param path the path to fetch the node at
      * @return the node at the given path, possibly virtual
      */
-    ConfigurationNode getNode(Iterable<?> path);
+    ConfigurationNode node(Iterable<?> path);
 
     /**
      * Checks whether or not a non-virtual node is present at the relative
@@ -183,7 +183,7 @@ public interface ConfigurationNode {
      *
      * @return {@code true} if this node is virtual
      */
-    boolean isVirtual();
+    boolean virtual();
 
     /**
      * Gets the options that currently apply to this node.
@@ -191,7 +191,7 @@ public interface ConfigurationNode {
      * @return the {@link ConfigurationOptions} instance controlling the functionality
      *          of this node.
      */
-    ConfigurationOptions getOptions();
+    ConfigurationOptions options();
 
     /**
      * Gets if this node has "list children".
@@ -220,7 +220,7 @@ public interface ConfigurationNode {
      *     <li>Any other type of empty collection</li>
      * </ul>
      *
-     * <p>This is a separate value from {@link #isVirtual()}. Emptiness refers
+     * <p>This is a separate value from {@link #virtual()}. Emptiness refers
      * to the value of this node itself, while virtuality refers to whether or
      * not this node is attached to a configuration structure.
      *
@@ -236,7 +236,7 @@ public interface ConfigurationNode {
      *
      * @return the list children currently attached to this node
      */
-    List<? extends ConfigurationNode> getChildrenList();
+    List<? extends ConfigurationNode> childrenList();
 
     /**
      * Gets the "map children" attached to this node, if it has any.
@@ -246,7 +246,7 @@ public interface ConfigurationNode {
      *
      * @return the map children currently attached to this node
      */
-    Map<Object, ? extends ConfigurationNode> getChildrenMap();
+    Map<Object, ? extends ConfigurationNode> childrenMap();
 
     /**
      * Create a collector that appends values to this node as map children.
@@ -260,11 +260,11 @@ public interface ConfigurationNode {
     default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> toMapCollector(final TypeToken<V> valueType) {
         return Collector.of(() -> this, (node, entry) -> {
             try {
-                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+                node.node(entry.getKey()).set(valueType, entry.getValue());
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
-        }, ConfigurationNode::mergeValuesFrom);
+        }, ConfigurationNode::mergeFrom);
     }
 
     /**
@@ -279,11 +279,11 @@ public interface ConfigurationNode {
     default <V> Collector<Map.Entry<?, V>, ? extends ConfigurationNode, ? extends ConfigurationNode> toMapCollector(final Class<V> valueType) {
         return Collector.of(() -> this, (node, entry) -> {
             try {
-                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+                node.node(entry.getKey()).set(valueType, entry.getValue());
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
-        }, ConfigurationNode::mergeValuesFrom);
+        }, ConfigurationNode::mergeFrom);
     }
 
     /**
@@ -298,11 +298,11 @@ public interface ConfigurationNode {
     default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> toListCollector(final TypeToken<V> valueType) {
         return Collector.of(() -> this, (node, value) -> {
             try {
-                node.appendListNode().setValue(valueType, value);
+                node.appendListNode().set(valueType, value);
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
-        }, ConfigurationNode::mergeValuesFrom);
+        }, ConfigurationNode::mergeFrom);
     }
 
     /**
@@ -317,11 +317,11 @@ public interface ConfigurationNode {
     default <V> Collector<V, ? extends ConfigurationNode, ? extends ConfigurationNode> toListCollector(final Class<V> valueType) {
         return Collector.of(() -> this, (node, value) -> {
             try {
-                node.appendListNode().setValue(valueType, value);
+                node.appendListNode().set(valueType, value);
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
-        }, ConfigurationNode::mergeValuesFrom);
+        }, ConfigurationNode::mergeFrom);
     }
 
     /**
@@ -331,9 +331,9 @@ public interface ConfigurationNode {
      * construct a List or a Map.</p>
      *
      * @return this configuration's current value, or null if there is none
-     * @see #getValue(Object)
+     * @see #get(Object)
      */
-    @Nullable Object getValue();
+    @Nullable Object get();
 
     /**
      * Get the current value associated with this node.
@@ -344,8 +344,8 @@ public interface ConfigurationNode {
      * @param def the default value to return if this node has no set value
      * @return this configuration's current value, or {@code def} if none.
      */
-    default Object getValue(Object def) {
-        final @Nullable Object value = getValue();
+    default Object get(Object def) {
+        final @Nullable Object value = get();
         return value == null ? storeDefault(this, def) : value;
     }
 
@@ -359,8 +359,8 @@ public interface ConfigurationNode {
      *                    default value only if there is no existing value
      * @return this configuration's current value, or {@code def} if none
      */
-    default Object getValue(Supplier<Object> defSupplier) {
-        final @Nullable Object value = getValue();
+    default Object get(Supplier<Object> defSupplier) {
+        final @Nullable Object value = get();
         return value == null ? storeDefault(this, defSupplier.get()) : value;
     }
 
@@ -381,8 +381,8 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type token
-    default <V> @Nullable V getValue(TypeToken<V> type) throws ObjectMappingException {
-        return (V) getValue(type.getType());
+    default <V> @Nullable V get(TypeToken<V> type) throws ObjectMappingException {
+        return (V) get(type.getType());
     }
 
     /**
@@ -396,7 +396,7 @@ public interface ConfigurationNode {
      * serializer is found.</p>
      *
      * @param type the type to deserialize as.
-     * @param def value to return if {@link #isVirtual()} or value is not of
+     * @param def value to return if {@link #virtual()} or value is not of
      *            appropriate type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
@@ -404,8 +404,8 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V getValue(TypeToken<V> type, V def) throws ObjectMappingException {
-        return (V) getValue(type.getType(), def);
+    default <V> V get(TypeToken<V> type, V def) throws ObjectMappingException {
+        return (V) get(type.getType(), def);
     }
 
     /**
@@ -428,8 +428,8 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V getValue(TypeToken<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
-        return (V) getValue(type.getType(), defSupplier);
+    default <V> V get(TypeToken<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
+        return (V) get(type.getType(), defSupplier);
     }
 
     /**
@@ -449,8 +449,8 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> @Nullable V getValue(Class<V> type) throws ObjectMappingException {
-        return (V) getValue((Type) type);
+    default <V> @Nullable V get(Class<V> type) throws ObjectMappingException {
+        return (V) get((Type) type);
     }
 
     /**
@@ -464,7 +464,7 @@ public interface ConfigurationNode {
      * serializer is found.</p>
      *
      * @param type the type to deserialize as.
-     * @param def value to return if {@link #isVirtual()} or value is not of
+     * @param def value to return if {@link #virtual()} or value is not of
      *            appropriate type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
@@ -472,8 +472,8 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V getValue(Class<V> type, V def) throws ObjectMappingException {
-        return (V) getValue((Type) type, def);
+    default <V> V get(Class<V> type, V def) throws ObjectMappingException {
+        return (V) get((Type) type, def);
     }
 
     /**
@@ -496,8 +496,8 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V getValue(Class<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
-        return (V) getValue((Type) type, defSupplier);
+    default <V> V get(Class<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
+        return (V) get((Type) type, defSupplier);
     }
 
     /**
@@ -512,7 +512,7 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if the value fails to be converted to the
      *                                requested type
      */
-    @Nullable Object getValue(Type type) throws ObjectMappingException;
+    @Nullable Object get(Type type) throws ObjectMappingException;
 
     /**
      * Get the current value associated with this node.
@@ -522,14 +522,14 @@ public interface ConfigurationNode {
      * the given type, or casting if no type serializer is found.</p>
      *
      * @param type the type to deserialize as
-     * @param def value to return if {@link #isVirtual()} or value is not of
+     * @param def value to return if {@link #virtual()} or value is not of
      *            appropriate type
      * @return the value if of the proper type, else {@code def}
      * @throws ObjectMappingException if the value fails to be converted to the
      *                                requested type
      */
-    default Object getValue(Type type, Object def) throws ObjectMappingException {
-        final @Nullable Object value = getValue(type);
+    default Object get(Type type, Object def) throws ObjectMappingException {
+        final @Nullable Object value = get(type);
         return value == null ? storeDefault(this, type, def) : value;
     }
 
@@ -548,8 +548,8 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if the value fails to be converted to the
      *                                requested type
      */
-    default Object getValue(Type type, Supplier<?> defSupplier) throws ObjectMappingException {
-        final @Nullable Object value = getValue(type);
+    default Object get(Type type, Supplier<?> defSupplier) throws ObjectMappingException {
+        final @Nullable Object value = get(type);
         return value == null ? storeDefault(this, type, defSupplier.get()) : value;
     }
 
@@ -566,7 +566,7 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if any value fails to be converted to the
      *                                requested type
      */
-    default <V> List<V> getList(TypeToken<V> type) throws ObjectMappingException {
+    default <V> List<V> getList(TypeToken<V> type) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
         return getList(type, Collections.emptyList());
     }
 
@@ -586,8 +586,8 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if any value fails to be converted to the
      *                                requested type
      */
-    default <V> List<V> getList(TypeToken<V> type, List<V> def) throws ObjectMappingException {
-        final List<V> ret = getValue(makeListType(type), def);
+    default <V> List<V> getList(TypeToken<V> type, List<V> def) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+        final List<V> ret = get(makeListType(type), def);
         return ret.isEmpty() ? storeDefault(this, def) : ret;
     }
 
@@ -609,8 +609,9 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if any value fails to be converted to the
      *                                requested type
      */
+    // @cs-: NoGetSetPrefix (not a bean method)
     default <V> List<V> getList(TypeToken<V> type, Supplier<List<V>> defSupplier) throws ObjectMappingException {
-        final List<V> ret = getValue(makeListType(type), defSupplier);
+        final List<V> ret = get(makeListType(type), defSupplier);
         return ret.isEmpty() ? storeDefault(this, defSupplier.get()) : ret;
     }
 
@@ -618,10 +619,10 @@ public interface ConfigurationNode {
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return the value coerced to a {@link String}, or null if no value
-     * @see #getValue()
+     * @see #get()
      */
-    default @Nullable String getString() {
-        return Scalars.STRING.tryDeserialize(getValue());
+    default @Nullable String getString() { // @cs-: NoGetSetPrefix (not a bean method)
+        return Scalars.STRING.tryDeserialize(get());
     }
 
     /**
@@ -629,16 +630,16 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return the value coerced to a {@link String}, or {@code def} if no value
-     * @see #getValue()
+     * @see #get()
      */
-    default String getString(final String def) {
+    default String getString(final String def) { // @cs-: NoGetSetPrefix (not a bean method)
         requireNonNull(def, "def");
         final @Nullable String value = getString();
         if (value != null) {
             return value;
         }
-        if (getOptions().getShouldCopyDefaults()) {
-            setValue(def);
+        if (options().shouldCopyDefaults()) {
+            set(def);
         }
         return def;
     }
@@ -646,10 +647,10 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
-     * @return the value coerced to a float, or 0 if not a float
-     * @see #getValue()
+     * @return the value coerced to a float, or {@link #NUMBER_DEF} if not a float
+     * @see #get()
      */
-    default float getFloat() {
+    default float getFloat() { // @cs-: NoGetSetPrefix (not a bean method)
         return getFloat(NUMBER_DEF);
     }
 
@@ -658,15 +659,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return the value coerced to a float, or {@code def} if not a float
-     * @see #getValue()
+     * @see #get()
      */
-    default float getFloat(float def) {
-        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(getValue());
+    default float getFloat(float def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(get());
         if (val != null) {
             return val;
         }
-        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
-            setValue(def);
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+            set(def);
         }
         return def;
     }
@@ -674,10 +675,11 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
-     * @return the value coerced to a double, or 0 if coercion failed
-     * @see #getValue()
+     * @return the value coerced to a double, or {@link #NUMBER_DEF} if
+     *         coercion failed
+     * @see #get()
      */
-    default double getDouble() {
+    default double getDouble() { // @cs-: NoGetSetPrefix (not a bean method)
         return getDouble(NUMBER_DEF);
     }
 
@@ -686,15 +688,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return the value coerced to a double, or {@code def} if coercion failed
-     * @see #getValue()
+     * @see #get()
      */
-    default double getDouble(double def) {
-        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(getValue());
+    default double getDouble(double def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(get());
         if (val != null) {
             return val;
         }
-        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
-            setValue(def);
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+            set(def);
         }
         return def;
     }
@@ -703,9 +705,9 @@ public interface ConfigurationNode {
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return value coerced to an integer, or 0 if coercion failed.
-     * @see #getValue()
+     * @see #get()
      */
-    default int getInt() {
+    default int getInt() { // @cs-: NoGetSetPrefix (not a bean method)
         return getInt(NUMBER_DEF);
     }
 
@@ -714,15 +716,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return value coerced to an integer, or {@code def} if coercion failed.
-     * @see #getValue()
+     * @see #get()
      */
-    default int getInt(int def) {
-        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(getValue());
+    default int getInt(int def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(get());
         if (val != null) {
             return val;
         }
-        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
-            setValue(def);
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+            set(def);
         }
         return def;
     }
@@ -731,9 +733,9 @@ public interface ConfigurationNode {
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return value coerced to a long, or 0 if coercion failed
-     * @see #getValue()
+     * @see #get()
      */
-    default long getLong() {
+    default long getLong() { // @cs-: NoGetSetPrefix (not a bean method)
         return getLong(NUMBER_DEF);
     }
 
@@ -742,15 +744,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return value coerced to a long, or {@code def} if coercion failed
-     * @see #getValue()
+     * @see #get()
      */
-    default long getLong(long def) {
-        final @Nullable Long val = Scalars.LONG.tryDeserialize(getValue());
+    default long getLong(long def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Long val = Scalars.LONG.tryDeserialize(get());
         if (val != null) {
             return val;
         }
-        if (getOptions().getShouldCopyDefaults() && def != NUMBER_DEF) {
-            setValue(def);
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+            set(def);
         }
         return def;
     }
@@ -759,9 +761,9 @@ public interface ConfigurationNode {
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return value coerced to a boolean, or 0 if coercion failed
-     * @see #getValue()
+     * @see #get()
      */
-    default boolean getBoolean() {
+    default boolean getBoolean() { // @cs-: NoGetSetPrefix (not a bean method)
         return getBoolean(false);
     }
 
@@ -770,15 +772,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return value coerced to a boolean, or {@code def} if coercion failed
-     * @see #getValue()
+     * @see #get()
      */
-    default boolean getBoolean(boolean def) {
-        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(getValue());
+    default boolean getBoolean(boolean def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(get());
         if (val != null) {
             return val;
         }
-        if (getOptions().getShouldCopyDefaults()) {
-            setValue(def);
+        if (options().shouldCopyDefaults()) {
+            set(def);
         }
         return def;
     }
@@ -792,7 +794,7 @@ public interface ConfigurationNode {
      * @param value the value to set
      * @return this node
      */
-    ConfigurationNode setValue(@Nullable Object value);
+    ConfigurationNode set(@Nullable Object value);
 
     /**
      * Set this node's value to the given value.
@@ -812,7 +814,7 @@ public interface ConfigurationNode {
      *                                requested type. No change will be made to
      *                                the node.
      */
-    <V> ConfigurationNode setValue(TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
+    <V> ConfigurationNode set(TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
@@ -836,7 +838,7 @@ public interface ConfigurationNode {
      *                                requested type. No change will be made to
      *                                the node.
      */
-    <V> ConfigurationNode setValue(Class<V> type, @Nullable V value) throws ObjectMappingException;
+    <V> ConfigurationNode set(Class<V> type, @Nullable V value) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
@@ -853,8 +855,8 @@ public interface ConfigurationNode {
      *
      * <p>Because this method accepts a non-parameterized {@link Type} parameter,
      * it has no compile-time type checking. The variants that take
-     * {@link #setValue(TypeToken, Object) TypeToken} and
-     * {@link #setValue(Class, Object)} should be preferred where possible.</p>
+     * {@link #set(TypeToken, Object) TypeToken} and
+     * {@link #set(Class, Object)} should be preferred where possible.</p>
      *
      * @param type the type to use for serialization type information
      * @param value the value to set
@@ -866,7 +868,7 @@ public interface ConfigurationNode {
      *                                requested type. No change will be made to
      *                                the node.
      */
-    ConfigurationNode setValue(Type type, @Nullable Object value) throws ObjectMappingException;
+    ConfigurationNode set(Type type, @Nullable Object value) throws ObjectMappingException;
 
     /**
      * Set all the values from the given node that are not present in this node
@@ -877,7 +879,7 @@ public interface ConfigurationNode {
      * @param other the node to merge values from
      * @return this node
      */
-    ConfigurationNode mergeValuesFrom(ConfigurationNode other);
+    ConfigurationNode mergeFrom(ConfigurationNode other);
 
     /**
      * Removes a direct child of this node.
@@ -928,7 +930,7 @@ public interface ConfigurationNode {
      * @param <V> hint value type
      * @return this node
      */
-    <V> ConfigurationNode setHint(RepresentationHint<V> hint, @Nullable V value);
+    <V> ConfigurationNode hint(RepresentationHint<V> hint, @Nullable V value);
 
     /**
      * Query a representation hint from this node.
@@ -938,9 +940,9 @@ public interface ConfigurationNode {
      *
      * @param hint the hint to get
      * @param <V> value type
-     * @return value of the hint, or {@link RepresentationHint#getDefaultValue()}
+     * @return value of the hint, or {@link RepresentationHint#defaultValue()}
      */
-    <V> @Nullable V getHint(RepresentationHint<V> hint);
+    <V> @Nullable V hint(RepresentationHint<V> hint);
 
     /**
      * Query a representation hint from this node.
@@ -952,7 +954,7 @@ public interface ConfigurationNode {
      * @param <V> value type
      * @return value of the hint, or {@code null}
      */
-    <V> @Nullable V getOwnHint(RepresentationHint<V> hint);
+    <V> @Nullable V ownHint(RepresentationHint<V> hint);
 
     /**
      * Get an unmodifiable copy of representation hints stored on this node.
@@ -961,6 +963,6 @@ public interface ConfigurationNode {
      *
      * @return copy of hints this node has set.
      */
-    Map<RepresentationHint<?>, ?> getOwnHints();
+    Map<RepresentationHint<?>, ?> ownHints();
 
 }

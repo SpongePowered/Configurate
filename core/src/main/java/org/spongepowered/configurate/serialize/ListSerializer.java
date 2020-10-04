@@ -30,7 +30,7 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     static final TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 
     @Override
-    Type getElementType(final Type containerType) throws ObjectMappingException {
+    Type elementType(final Type containerType) throws ObjectMappingException {
         if (!(containerType instanceof ParameterizedType)) {
             throw new ObjectMappingException("Raw types are not supported for collections");
         }

@@ -40,7 +40,7 @@ public final class DfuSerializers {
      * @param <V> value type
      * @return a new serializer
      */
-    public static <V> TypeSerializer<V> forCodec(final Codec<V> codec) {
+    public static <V> TypeSerializer<V> serializer(final Codec<V> codec) {
         return new CodecSerializer<>(requireNonNull(codec, "codec"));
     }
 
@@ -53,8 +53,8 @@ public final class DfuSerializers {
      * @return a codec for the type, or null if an appropriate
      *      {@link TypeSerializer} could not be found.
      */
-    public static <S> @Nullable Codec<S> forSerializer(final TypeToken<S> type) {
-        return forSerializer(requireNonNull(type, "type"), TypeSerializerCollection.defaults());
+    public static <S> @Nullable Codec<S> codec(final TypeToken<S> type) {
+        return codec(requireNonNull(type, "type"), TypeSerializerCollection.defaults());
     }
 
     /**
@@ -66,12 +66,12 @@ public final class DfuSerializers {
      * @return a codec, or null if an appropriate {@link TypeSerializer}
      *      could not be found for the TypeToken.
      */
-    public static <V> @Nullable Codec<V> forSerializer(final TypeToken<V> type, final TypeSerializerCollection collection) {
+    public static <V> @Nullable Codec<V> codec(final TypeToken<V> type, final TypeSerializerCollection collection) {
         final @Nullable TypeSerializer<V> serial = collection.get(requireNonNull(type, "type"));
         if (serial == null) {
             return null;
         }
-        return new TypeSerializerCodec<>(type, serial, ConfigurateOps.getForSerializers(collection)).withLifecycle(Lifecycle.stable());
+        return new TypeSerializerCodec<>(type, serial, ConfigurateOps.forSerializers(collection)).withLifecycle(Lifecycle.stable());
     }
 
 }

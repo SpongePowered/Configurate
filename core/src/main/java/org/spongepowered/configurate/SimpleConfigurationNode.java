@@ -49,7 +49,7 @@ class SimpleConfigurationNode extends AbstractConfigurationNode<BasicConfigurati
 
     @Override
     protected SimpleConfigurationNode createNode(final Object path) {
-        return new SimpleConfigurationNode(path, this, getOptions());
+        return new SimpleConfigurationNode(path, this, options());
     }
 
 }

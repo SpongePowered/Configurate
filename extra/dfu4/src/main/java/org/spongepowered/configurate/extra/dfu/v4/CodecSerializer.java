@@ -42,7 +42,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     private static final ConfigurateOps DEFAULT_OPS = ConfigurateOps.builder().readWriteProtection(ConfigurateOps.Protection.NONE).build();
 
     static DynamicOps<ConfigurationNode> opsFor(final ConfigurationNode node) {
-        if (node.getOptions().getSerializers().equals(TypeSerializerCollection.defaults())) {
+        if (node.options().serializers().equals(TypeSerializerCollection.defaults())) {
             return DEFAULT_OPS;
         } else {
             return ConfigurateOps.builder()
@@ -79,7 +79,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
             throw new ObjectMappingException(error.message());
         }
 
-        value.setValue(result.result().orElseThrow(() -> new ObjectMappingException("Neither a result or error was present")));
+        value.set(result.result().orElseThrow(() -> new ObjectMappingException("Neither a result or error was present")));
     }
 
 }

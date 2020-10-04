@@ -49,12 +49,12 @@ public class JacksonConfigurationLoaderTest {
         final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder()
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
-                        .setSink(AtomicFiles.createAtomicWriterFactory(tempFile, StandardCharsets.UTF_8)).build();
-        final ConfigurationNode node = loader.load(ConfigurationOptions.defaults().withMapFactory(MapFactories.sortedNatural()));
-        assertEquals("unicorn", node.getNode("test", "op-level").getValue());
-        assertEquals("dragon", node.getNode("other", "op-level").getValue());
-        assertEquals("dog park", node.getNode("other", "location").getValue());
+                .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
+                        .sink(AtomicFiles.atomicWriterFactory(tempFile, StandardCharsets.UTF_8)).build();
+        final ConfigurationNode node = loader.load(ConfigurationOptions.defaults().mapFactory(MapFactories.sortedNatural()));
+        assertEquals("unicorn", node.node("test", "op-level").get());
+        assertEquals("dragon", node.node("other", "op-level").get());
+        assertEquals("dog park", node.node("other", "location").get());
 
         loader.save(node);
         assertEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files
@@ -67,13 +67,13 @@ public class JacksonConfigurationLoaderTest {
 
     private void testRoundtripValue(final Path tempDir, final Object value) throws IOException {
         final Path tempFile = tempDir.resolve("text2.txt");
-        final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder().setPath(tempFile).build();
+        final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder().path(tempFile).build();
         final ConfigurationNode start = loader.createNode();
-        start.getNode("value").setValue(value);
+        start.node("value").set(value);
         loader.save(start);
 
         final ConfigurationNode ret = loader.load();
-        assertEquals(value, ret.getNode("value").getValue());
+        assertEquals(value, ret.node("value").get());
     }
 
     @Test
@@ -90,8 +90,8 @@ public class JacksonConfigurationLoaderTest {
     void testWriteNonRootNode() throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/163
         final ConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.getNode("GriefPrevention", "claim-name", "text")
-                    .setValue("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
+            n.node("GriefPrevention", "claim-name", "text")
+                    .set("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
         });
 
         // Code from GriefDefender's ComponentConfigSerializer
@@ -99,13 +99,13 @@ public class JacksonConfigurationLoaderTest {
         final StringWriter writer = new StringWriter();
 
         final JacksonConfigurationLoader jacksonLoader = JacksonConfigurationLoader.builder()
-                .setIndent(0)
-                .setFieldValueSeparatorStyle(FieldValueSeparatorStyle.NO_SPACE)
-                .setSink(() -> new BufferedWriter(writer))
-                .setHeaderMode(HeaderMode.NONE)
+                .indent(0)
+                .fieldValueSeparatorStyle(FieldValueSeparatorStyle.NO_SPACE)
+                .sink(() -> new BufferedWriter(writer))
+                .headerMode(HeaderMode.NONE)
                 .build();
 
-        jacksonLoader.save(source.getNode("GriefPrevention", "claim-name"));
+        jacksonLoader.save(source.node("GriefPrevention", "claim-name"));
 
         assertEquals("{\"text\":\"§4§9The §4T§6h§ea§2r§9o§5w §4Estate\"}", writer.toString().trim());
     }

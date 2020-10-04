@@ -70,8 +70,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         private @Nullable NodeStyle style;
 
         Builder() {
-            setIndent(4);
-            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
+            indent(4);
+            defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
         }
 
         /**
@@ -80,7 +80,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          * @param indent the indent level
          * @return this builder (for chaining)
          */
-        public Builder setIndent(final int indent) {
+        public Builder indent(final int indent) {
             this.options.setIndent(indent);
             return this;
         }
@@ -90,7 +90,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          *
          * @return the indent level
          */
-        public int getIndent() {
+        public int indent() {
             return this.options.getIndent();
         }
 
@@ -120,7 +120,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          * @param style the node style to use
          * @return this builder (for chaining)
          */
-        public Builder setNodeStyle(final @Nullable NodeStyle style) {
+        public Builder nodeStyle(final @Nullable NodeStyle style) {
             this.style = style;
             return this;
         }
@@ -130,7 +130,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          *
          * @return the node style
          */
-        public @Nullable NodeStyle getNodeStyle() {
+        public @Nullable NodeStyle nodeStyle() {
             return this.style;
         }
 
@@ -151,12 +151,12 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
 
     @Override
     protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) {
-        node.setValue(this.yaml.get().load(reader));
+        node.set(this.yaml.get().load(reader));
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        this.yaml.get().dump(node.getValue(), writer);
+        this.yaml.get().dump(node.get(), writer);
     }
 
     @Override

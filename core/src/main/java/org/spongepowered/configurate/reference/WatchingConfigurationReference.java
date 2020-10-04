@@ -43,7 +43,7 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
 
     @Override
     public void save(final N newNode) throws IOException {
-        synchronized (getLoader()) {
+        synchronized (loader()) {
             try {
                 this.saveSuppressed = true;
                 super.save(newNode);
@@ -82,7 +82,7 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
         close();
     }
 
-    void setDisposable(final Disposable disposable) {
+    void disposable(final Disposable disposable) {
         this.disposable = disposable;
     }
 

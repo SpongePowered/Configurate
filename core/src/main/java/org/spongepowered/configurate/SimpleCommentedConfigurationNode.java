@@ -39,7 +39,7 @@ class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNod
 
     @Override
     protected SimpleCommentedConfigurationNode createNode(final Object path) {
-        return new SimpleCommentedConfigurationNode(path, this, getOptions());
+        return new SimpleCommentedConfigurationNode(path, this, options());
     }
 
     @NonNull

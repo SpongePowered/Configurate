@@ -104,12 +104,12 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
     default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final TypeToken<V> valueType) {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
-                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+                node.node(entry.getKey()).set(valueType, entry.getValue());
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
-                a.mergeValuesFrom(b);
+                a.mergeFrom(b);
                 return a;
             });
     }
@@ -127,12 +127,12 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
     default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final Class<V> valueType) {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
-                node.getNode(entry.getKey()).setValue(valueType, entry.getValue());
+                node.node(entry.getKey()).set(valueType, entry.getValue());
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
-                a.mergeValuesFrom(b);
+                a.mergeFrom(b);
                 return a;
             });
     }
@@ -150,12 +150,12 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
     default <V> Collector<V, N, N> toListCollector(final TypeToken<V> valueType) {
         return Collector.of(this::createNode, (node, value) -> {
             try {
-                node.appendListNode().setValue(valueType, value);
+                node.appendListNode().set(valueType, value);
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
-                a.mergeValuesFrom(b);
+                a.mergeFrom(b);
                 return a;
             });
     }
@@ -173,12 +173,12 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
     default <V> Collector<V, N, N> toListCollector(final Class<V> valueType) {
         return Collector.of(this::createNode, (node, value) -> {
             try {
-                node.appendListNode().setValue(valueType, value);
+                node.appendListNode().set(valueType, value);
             } catch (ObjectMappingException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
-                a.mergeValuesFrom(b);
+                a.mergeFrom(b);
                 return a;
             });
     }

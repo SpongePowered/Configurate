@@ -73,7 +73,7 @@ public abstract class ConfigurationOptions {
      *
      * @return the map factory
      */
-    public abstract MapFactory getMapFactory();
+    public abstract MapFactory mapFactory();
 
     /**
      * Creates a new {@link ConfigurationOptions} instance, with the specified
@@ -82,13 +82,13 @@ public abstract class ConfigurationOptions {
      * @param mapFactory the new factory to use to create a map
      * @return the new options object
      */
-    public ConfigurationOptions withMapFactory(final MapFactory mapFactory) {
+    public ConfigurationOptions mapFactory(final MapFactory mapFactory) {
         requireNonNull(mapFactory, "mapFactory");
-        if (this.getMapFactory() == mapFactory) {
+        if (this.mapFactory() == mapFactory) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(mapFactory, getHeader(), getSerializers(), getNativeTypes(),
-                getShouldCopyDefaults(), isImplicitInitialization());
+        return new AutoValue_ConfigurationOptions(mapFactory, header(), serializers(), nativeTypes(),
+                shouldCopyDefaults(), implicitInitialization());
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class ConfigurationOptions {
      * @return the current header. Lines are split by \n, with no
      *         trailing newline
      */
-    public abstract @Nullable String getHeader();
+    public abstract @Nullable String header();
 
     /**
      * Creates a new {@link ConfigurationOptions} instance, with the specified
@@ -106,12 +106,12 @@ public abstract class ConfigurationOptions {
      * @param header the new header to use
      * @return the new options object
      */
-    public ConfigurationOptions withHeader(final @Nullable String header) {
-        if (Objects.equals(this.getHeader(), header)) {
+    public ConfigurationOptions header(final @Nullable String header) {
+        if (Objects.equals(this.header(), header)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(getMapFactory(), header, getSerializers(), getNativeTypes(),
-                getShouldCopyDefaults(), isImplicitInitialization());
+        return new AutoValue_ConfigurationOptions(mapFactory(), header, serializers(), nativeTypes(),
+                shouldCopyDefaults(), implicitInitialization());
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class ConfigurationOptions {
      *
      * @return the type serializers
      */
-    public abstract TypeSerializerCollection getSerializers();
+    public abstract TypeSerializerCollection serializers();
 
     /**
      * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection}
@@ -128,13 +128,13 @@ public abstract class ConfigurationOptions {
      * @param serializers the serializers to use
      * @return the new options object
      */
-    public ConfigurationOptions withSerializers(final TypeSerializerCollection serializers) {
+    public ConfigurationOptions serializers(final TypeSerializerCollection serializers) {
         requireNonNull(serializers, "serializers");
-        if (this.getSerializers().equals(serializers)) {
+        if (this.serializers().equals(serializers)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), serializers, getNativeTypes(),
-                getShouldCopyDefaults(), isImplicitInitialization());
+        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers, nativeTypes(),
+                shouldCopyDefaults(), implicitInitialization());
     }
 
     /**
@@ -147,15 +147,36 @@ public abstract class ConfigurationOptions {
      *                          be used in the returned options object.
      * @return the new options object
      */
-    public final ConfigurationOptions withSerializers(final Consumer<TypeSerializerCollection.Builder> serializerBuilder) {
+    public final ConfigurationOptions serializers(final Consumer<TypeSerializerCollection.Builder> serializerBuilder) {
         requireNonNull(serializerBuilder, "serializerBuilder");
-        final TypeSerializerCollection.Builder builder = this.getSerializers().childBuilder();
+        final TypeSerializerCollection.Builder builder = this.serializers().childBuilder();
         serializerBuilder.accept(builder);
-        return withSerializers(builder.build());
+        return serializers(builder.build());
     }
 
     @SuppressWarnings("AutoValueImmutableFields") // we don't use guava
-    abstract @Nullable Set<Class<?>> getNativeTypes();
+    abstract @Nullable Set<Class<?>> nativeTypes();
+
+    /**
+     * Creates a new {@link ConfigurationOptions} instance, with the specified native types
+     * set, and all other settings copied from this instance.
+     *
+     * <p>Native types are format-dependent, and must be provided by a
+     * configuration loader's {@link ConfigurationLoader#defaultOptions() default options}</p>
+     *
+     * <p>Null indicates that all types are accepted.</p>
+     *
+     * @param nativeTypes the types that will be accepted to a
+     *                     call to {@link ConfigurationNode#set(Object)}
+     * @return updated options object
+     */
+    public ConfigurationOptions nativeTypes(final @Nullable Set<Class<?>> nativeTypes) {
+        if (Objects.equals(this.nativeTypes(), nativeTypes)) {
+            return this;
+        }
+        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(),
+                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), shouldCopyDefaults(), implicitInitialization());
+    }
 
     /**
      * Gets whether objects of the provided type are natively accepted as values
@@ -167,7 +188,7 @@ public abstract class ConfigurationOptions {
     public final boolean acceptsType(final Class<?> type) {
         requireNonNull(type, "type");
 
-        final @Nullable Set<Class<?>> nativeTypes = getNativeTypes();
+        final @Nullable Set<Class<?>> nativeTypes = nativeTypes();
 
         if (nativeTypes == null) {
             return true;
@@ -196,32 +217,12 @@ public abstract class ConfigurationOptions {
     }
 
     /**
-     * Creates a new {@link ConfigurationOptions} instance, with the specified native types
-     * set, and all other settings copied from this instance.
-     *
-     * <p>Native types are format-dependent, and must be provided by a
-     * configuration loader's {@link ConfigurationLoader#defaultOptions() default options}</p>
-     *
-     * <p>Null indicates that all types are accepted.</p>
-     *
-     * @param nativeTypes the types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
-     * @return updated options object
-     */
-    public ConfigurationOptions withNativeTypes(final @Nullable Set<Class<?>> nativeTypes) {
-        if (Objects.equals(this.getNativeTypes(), nativeTypes)) {
-            return this;
-        }
-        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(),
-                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), getShouldCopyDefaults(), isImplicitInitialization());
-    }
-
-    /**
      * Gets whether or not default parameters provided to {@link ConfigurationNode} getter methods
      * should be set to the node when used.
      *
      * @return whether defaults should be copied into value
      */
-    public abstract boolean getShouldCopyDefaults();
+    public abstract boolean shouldCopyDefaults();
 
     /**
      * Creates a new {@link ConfigurationOptions} instance, with the specified
@@ -230,15 +231,15 @@ public abstract class ConfigurationOptions {
      *
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
-     * @see #getShouldCopyDefaults() for information on what this method does
+     * @see #shouldCopyDefaults() for information on what this method does
      */
-    public ConfigurationOptions withShouldCopyDefaults(final boolean shouldCopyDefaults) {
-        if (this.getShouldCopyDefaults() == shouldCopyDefaults) {
+    public ConfigurationOptions shouldCopyDefaults(final boolean shouldCopyDefaults) {
+        if (this.shouldCopyDefaults() == shouldCopyDefaults) {
             return this;
         }
 
-        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(), getNativeTypes(),
-                shouldCopyDefaults, isImplicitInitialization());
+        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(), nativeTypes(),
+                shouldCopyDefaults, implicitInitialization());
     }
 
     /**
@@ -252,7 +253,7 @@ public abstract class ConfigurationOptions {
      *
      * @return if implicit initialization is enabled.
      */
-    public abstract boolean isImplicitInitialization();
+    public abstract boolean implicitInitialization();
 
     /**
      * Create a new {@link ConfigurationOptions} instance with the specified
@@ -260,15 +261,15 @@ public abstract class ConfigurationOptions {
      *
      * @param implicitInitialization whether to initialize implicitly
      * @return a new options object
-     * @see #isImplicitInitialization() for more details
+     * @see #implicitInitialization() for more details
      */
-    public ConfigurationOptions withImplicitInitialization(final boolean implicitInitialization) {
-        if (this.isImplicitInitialization() == implicitInitialization) {
+    public ConfigurationOptions implicitInitialization(final boolean implicitInitialization) {
+        if (this.implicitInitialization() == implicitInitialization) {
             return this;
         }
 
-        return new AutoValue_ConfigurationOptions(getMapFactory(), getHeader(), getSerializers(), getNativeTypes(),
-                getShouldCopyDefaults(), implicitInitialization);
+        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(), nativeTypes(),
+                shouldCopyDefaults(), implicitInitialization);
     }
 
 }

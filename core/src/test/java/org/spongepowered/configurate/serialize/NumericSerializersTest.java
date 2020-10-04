@@ -32,14 +32,14 @@ import org.spongepowered.configurate.util.UnmodifiableCollections;
 @SuppressWarnings("UnnecessaryParentheses") // for casting negative number literals
 public class NumericSerializersTest {
 
-    private <T> TypeSerializer<T> getSerializer(final Class<T> type) {
+    private <T> TypeSerializer<T> serializer(final Class<T> type) {
         final @Nullable TypeSerializer<T> ret = TypeSerializerCollection.defaults().get(type);
         assertNotNull(ret, "Serializer for " + type + " must be present!");
         return ret;
     }
 
     private final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-            .withNativeTypes(UnmodifiableCollections.toSet(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
+            .nativeTypes(UnmodifiableCollections.toSet(Byte.class, Float.class, String.class, Integer.class, Long.class, Double.class)));
 
     @Test
     void testSerializeCustomNumber() {
@@ -74,197 +74,197 @@ public class NumericSerializersTest {
 
     @Test
     void testByte() throws ObjectMappingException {
-        final TypeSerializer<Byte> serializer = getSerializer(Byte.class);
+        final TypeSerializer<Byte> serializer = serializer(Byte.class);
 
         final byte b = (byte) 65;
 
         // roundtrip actual value
-        this.node.setValue(b);
+        this.node.set(b);
         assertEquals((Byte) b, serializer.deserialize(Byte.class, this.node));
 
         // test negative
-        this.node.setValue(-65);
+        this.node.set(-65);
         assertEquals(Byte.valueOf((byte) -65), serializer.deserialize(Byte.class, this.node));
 
         // test too large
-        this.node.setValue(348);
+        this.node.set(348);
         assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Byte.class, this.node));
 
         // from float
-        this.node.setValue(65f);
+        this.node.set(65f);
         assertEquals((Byte) b, serializer.deserialize(Byte.class, this.node));
 
         // from string
-        this.node.setValue("65");
+        this.node.set("65");
         assertEquals((Byte) b, serializer.deserialize(Byte.class, this.node));
 
         // from hex
-        this.node.setValue("0x41");
+        this.node.set("0x41");
         assertEquals((Byte) b, serializer.deserialize(Byte.class, this.node));
 
         // from binary
-        this.node.setValue("0b1000001");
+        this.node.set("0b1000001");
         assertEquals((Byte) b, serializer.deserialize(Byte.class, this.node));
     }
 
     @Test
     void testShort() throws ObjectMappingException {
-        final TypeSerializer<Short> serializer = getSerializer(Short.class);
+        final TypeSerializer<Short> serializer = serializer(Short.class);
 
         final short b = (short) 32486;
 
         // roundtrip actual value
-        this.node.setValue((int) b);
+        this.node.set((int) b);
         assertEquals((Short) b, serializer.deserialize(Short.class, this.node));
 
         // test negative
-        this.node.setValue(-32486);
+        this.node.set(-32486);
         assertEquals(Short.valueOf((short) -32486), serializer.deserialize(Short.class, this.node));
 
         // test too large
-        this.node.setValue(348333333);
+        this.node.set(348333333);
         assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Short.class, this.node));
 
         // from float
 
-        this.node.setValue(32486f);
+        this.node.set(32486f);
         assertEquals((Short) b, serializer.deserialize(Short.class, this.node));
 
         // from string
-        this.node.setValue("32486");
+        this.node.set("32486");
         assertEquals((Short) b, serializer.deserialize(Short.class, this.node));
 
         // from hex
-        this.node.setValue("0x7ee6");
+        this.node.set("0x7ee6");
         assertEquals((Short) b, serializer.deserialize(Short.class, this.node));
 
         // from binary
-        this.node.setValue("0b111111011100110");
+        this.node.set("0b111111011100110");
         assertEquals((Short) b, serializer.deserialize(Short.class, this.node));
 
     }
 
     @Test
     void testInt() throws Exception {
-        final TypeSerializer<Integer> serializer = getSerializer(Integer.class);
+        final TypeSerializer<Integer> serializer = serializer(Integer.class);
 
         final int i = 48888333;
 
         // roundtrip actual value
-        this.node.setValue(i);
+        this.node.set(i);
         assertEquals((Integer) i, serializer.deserialize(Integer.class, this.node));
 
         // test negative
-        this.node.setValue(-595959595);
+        this.node.set(-595959595);
         assertEquals((Integer) (-595959595), serializer.deserialize(Integer.class, this.node));
 
         // test too large
-        this.node.setValue(333339003003030L);
+        this.node.set(333339003003030L);
         assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Integer.class, this.node));
 
         // from double
-        this.node.setValue(48888333d);
+        this.node.set(48888333d);
         assertEquals((Integer) i, serializer.deserialize(Integer.class, this.node));
 
         // with fraction
-        this.node.setValue(48888333.4d);
+        this.node.set(48888333.4d);
         assertThrows(CoercionFailedException.class, () -> serializer.deserialize(Integer.class, this.node));
 
         // from string
-        this.node.setValue("48888333");
+        this.node.set("48888333");
         assertEquals((Integer) i, serializer.deserialize(Integer.class, this.node));
 
         // from hex
-        this.node.setValue("0x2E9FA0D");
+        this.node.set("0x2E9FA0D");
         assertEquals((Integer) i, serializer.deserialize(Integer.class, this.node));
 
         // from hex but lowercase
-        this.node.setValue("0x2e9fa0d");
+        this.node.set("0x2e9fa0d");
         assertEquals((Integer) i, serializer.deserialize(Integer.class, this.node));
 
         // from binary
-        this.node.setValue("0b10111010011111101000001101");
+        this.node.set("0b10111010011111101000001101");
         assertEquals((Integer) i, serializer.deserialize(Integer.class, this.node));
     }
 
     @Test
     void testLong() throws Exception {
-        final TypeSerializer<Long> serializer = getSerializer(Long.class);
+        final TypeSerializer<Long> serializer = serializer(Long.class);
 
         final long i = 48888333494404L;
 
         // roundtrip actual value
-        this.node.setValue(i);
+        this.node.set(i);
         assertEquals((Long) i, serializer.deserialize(Long.class, this.node));
 
         // test negative
-        this.node.setValue(-595959595);
+        this.node.set(-595959595);
         assertEquals((Long) (-595959595L), serializer.deserialize(Long.class, this.node));
 
         // from float
-        this.node.setValue(48888333494404d);
+        this.node.set(48888333494404d);
         assertEquals((Long) i, serializer.deserialize(Long.class, this.node));
 
         // from string
-        this.node.setValue("48888333494404");
+        this.node.set("48888333494404");
         assertEquals((Long) i, serializer.deserialize(Long.class, this.node));
 
         // from hex
-        this.node.setValue("0x2c76b3c06884");
+        this.node.set("0x2c76b3c06884");
         assertEquals((Long) i, serializer.deserialize(Long.class, this.node));
 
         // from binary
-        this.node.setValue("0b1011000111011010110011110000000110100010000100");
+        this.node.set("0b1011000111011010110011110000000110100010000100");
         assertEquals((Long) i, serializer.deserialize(Long.class, this.node));
     }
 
     @Test
     void testFloat() throws Exception {
-        final TypeSerializer<Float> serializer = getSerializer(Float.class);
+        final TypeSerializer<Float> serializer = serializer(Float.class);
 
         final float i = 3.1415f;
 
         // roundtrip actual value
-        this.node.setValue(i);
+        this.node.set(i);
         assertEquals((Float) i, serializer.deserialize(Float.class, this.node));
 
         // test negative
-        this.node.setValue(-595.34f);
+        this.node.set(-595.34f);
         assertEquals((Float) (-595.34f), serializer.deserialize(Float.class, this.node));
 
         // test too large
-        this.node.setValue(13.4e129d);
+        this.node.set(13.4e129d);
         assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Float.class, this.node));
 
         // from int
-        this.node.setValue(448);
+        this.node.set(448);
         assertEquals((Float) 448f, serializer.deserialize(Float.class, this.node));
 
         // from string
-        this.node.setValue("3.1415");
+        this.node.set("3.1415");
         assertEquals((Float) i, serializer.deserialize(Float.class, this.node));
     }
 
     @Test
     void testDouble() throws Exception {
-        final TypeSerializer<Double> serializer = getSerializer(Double.class);
+        final TypeSerializer<Double> serializer = serializer(Double.class);
 
         final double i = 3.1415e180d;
 
         // roundtrip actual value
-        this.node.setValue(i);
+        this.node.set(i);
         assertEquals((Double) i, serializer.deserialize(Double.class, this.node));
 
         // test negative
-        this.node.setValue(-595.34e180d);
+        this.node.set(-595.34e180d);
         assertEquals((Double) (-595.34e180d), serializer.deserialize(Double.class, this.node));
 
         // from int
-        this.node.setValue(448);
+        this.node.set(448);
         assertEquals((Double) 448d, serializer.deserialize(Double.class, this.node));
 
         // from string
-        this.node.setValue("3.1415e180");
+        this.node.set("3.1415e180");
         assertEquals((Double) i, serializer.deserialize(Double.class, this.node));
     }
 

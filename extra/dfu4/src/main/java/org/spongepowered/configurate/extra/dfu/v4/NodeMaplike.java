@@ -56,7 +56,7 @@ final class NodeMaplike implements MapLike<ConfigurationNode> {
     @Override
     public Stream<Pair<ConfigurationNode, ConfigurationNode>> entries() {
         return this.node.entrySet().stream()
-                .map(ent -> Pair.of(BasicConfigurationNode.root(this.options).setValue(ent.getKey()), this.ops.guardOutputRead(ent.getValue())));
+                .map(ent -> Pair.of(BasicConfigurationNode.root(this.options).set(ent.getKey()), this.ops.guardOutputRead(ent.getValue())));
     }
 
 }

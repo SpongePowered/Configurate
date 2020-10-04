@@ -44,9 +44,9 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
     @Override
     public void enterNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
         //generateComment(generator, ent.getValue(), false);
-        final @Nullable ConfigurationNode parent = node.getParent();
+        final @Nullable ConfigurationNode parent = node.parent();
         if (node != this.start && parent != null && parent.isMap()) {
-            generator.writeFieldName(requireNonNull(node.getKey(), "Node must have key to be a value in a mapping").toString());
+            generator.writeFieldName(requireNonNull(node.key(), "Node must have key to be a value in a mapping").toString());
         }
     }
 
@@ -87,7 +87,7 @@ class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGene
 
     @Override
     public void enterScalarNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
-        final @Nullable Object value = node.getValue();
+        final @Nullable Object value = node.get();
         if (value instanceof Double) {
             generator.writeNumber((Double) value);
         } else if (value instanceof Float) {

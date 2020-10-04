@@ -24,22 +24,22 @@ import org.spongepowered.configurate.ConfigurationNode;
 public enum MoveStrategy {
 
     /**
-     * Moves nodes using {@link ConfigurationNode#mergeValuesFrom(ConfigurationNode)}.
+     * Moves nodes using {@link ConfigurationNode#mergeFrom(ConfigurationNode)}.
      */
     MERGE {
         @Override
         public <T extends ConfigurationNode> void move(final T source, final T target) {
-            target.mergeValuesFrom(source);
+            target.mergeFrom(source);
         }
     },
 
     /**
-     * Moves nodes using {@link ConfigurationNode#setValue(Object)}.
+     * Moves nodes using {@link ConfigurationNode#set(Object)}.
      */
     OVERWRITE {
         @Override
         public <T extends ConfigurationNode> void move(final T source, final T target) {
-            target.setValue(source);
+            target.set(source);
         }
     };
 

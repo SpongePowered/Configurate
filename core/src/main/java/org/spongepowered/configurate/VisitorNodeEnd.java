@@ -34,7 +34,7 @@ class VisitorNodeEnd {
         this.isMap = isMap;
     }
 
-    ConfigurationNode getEnd() {
+    ConfigurationNode end() {
         return this.end;
     }
 
@@ -49,19 +49,19 @@ class VisitorNodeEnd {
         }
 
         final VisitorNodeEnd that = (VisitorNodeEnd) o;
-        return getEnd().equals(that.getEnd());
+        return end().equals(that.end());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEnd());
+        return Objects.hash(end());
     }
 
     @SuppressWarnings("unchecked")
     static <N extends ConfigurationNode, A extends AbstractConfigurationNode<?, A>, S, E extends Exception> @Nullable A
             popFromVisitor(final Object unknown, final ConfigurationVisitor<N, S, ?, E> visitor, final S state) throws E {
         if (unknown instanceof VisitorNodeEnd) {
-            final N node = (N) ((VisitorNodeEnd) unknown).getEnd();
+            final N node = (N) ((VisitorNodeEnd) unknown).end();
             if (((VisitorNodeEnd) unknown).isMap) {
                 visitor.exitMappingNode(node, state);
             } else {

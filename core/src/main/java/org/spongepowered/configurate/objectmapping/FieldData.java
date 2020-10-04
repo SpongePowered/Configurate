@@ -126,7 +126,7 @@ public abstract class FieldData<I, O> {
     }
 
     TypeSerializer<?> serializerFrom(final ConfigurationNode node) throws ObjectMappingException {
-        final @Nullable TypeSerializer<?> serial = node.getOptions().getSerializers().get(resolvedType().getType());
+        final @Nullable TypeSerializer<?> serial = node.options().serializers().get(resolvedType().getType());
         if (serial == null) {
             throw new ObjectMappingException("No TypeSerializer found for field " + name() + " of type " + resolvedType().getType());
         }

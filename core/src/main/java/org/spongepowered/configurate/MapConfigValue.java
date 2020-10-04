@@ -38,7 +38,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     private Map<Object, A> newMap() {
-        final Map<Object, A> ret = this.holder.getOptions().getMapFactory().create();
+        final Map<Object, A> ret = this.holder.options().mapFactory().create();
         if (!(ret instanceof ConcurrentMap)) {
             return Collections.synchronizedMap(ret);
         } else {
@@ -48,22 +48,22 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
 
     @Nullable
     @Override
-    public Object getValue() {
+    public Object get() {
         final Map<Object, Object> value = new LinkedHashMap<>();
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
-            value.put(ent.getKey(), ent.getValue().getValue()); // unwrap key from the backing node
+            value.put(ent.getKey(), ent.getValue().get()); // unwrap key from the backing node
         }
         return value;
     }
 
-    public Map<Object, N> getUnwrapped() {
+    public Map<Object, N> unwrapped() {
         final Map<Object, N> unwrapped = new LinkedHashMap<>();
         this.values.forEach((k, v) -> unwrapped.put(k, v.self()));
         return Collections.unmodifiableMap(unwrapped);
     }
 
     @Override
-    public void setValue(final @Nullable Object value) {
+    public void set(final @Nullable Object value) {
         if (value instanceof Map) {
             final Map<Object, A> newValue = newMap();
             for (Map.Entry<?, ?> ent : ((Map<?, ?>) value).entrySet()) {
@@ -73,7 +73,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
                 final A child = this.holder.createNode(ent.getKey());
                 newValue.put(ent.getKey(), child);
                 child.attached = true;
-                child.setValue(ent.getValue());
+                child.set(ent.getValue());
             }
             synchronized (this) {
                 final Map<Object, A> oldMap = this.values;
@@ -107,7 +107,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
 
     @Nullable
     @Override
-    public A getChild(final @Nullable Object key) {
+    public A child(final @Nullable Object key) {
         return this.values.get(key);
     }
 

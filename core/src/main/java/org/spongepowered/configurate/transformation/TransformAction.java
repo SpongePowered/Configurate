@@ -38,7 +38,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      */
     static <N extends ScopedConfigurationNode<N>> TransformAction<N> remove() {
         return (path, value) -> {
-            value.setValue(null);
+            value.set(null);
             return null;
         };
     }
@@ -54,7 +54,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      */
     static <N extends ScopedConfigurationNode<N>> TransformAction<N> rename(Object newKey) {
         return (path, value) -> {
-            final Object[] arr = path.getArray();
+            final Object[] arr = path.array();
             if (arr.length == 0) {
                 throw new IllegalArgumentException("The root node cannot be renamed!");
             }
@@ -73,8 +73,8 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param <N> node type
      * @return new transformation action
      */
-    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(TypeToken<V> type, @Nullable V value) {
-        return setValue(type, (Supplier<V>) () -> value);
+    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(TypeToken<V> type, @Nullable V value) {
+        return set(type, (Supplier<V>) () -> value);
     }
 
     /**
@@ -87,10 +87,10 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param <N> node type
      * @return new transformation action
      */
-    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(TypeToken<V> type, Supplier<V> valueSupplier) {
+    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(TypeToken<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
             try {
-                value.setValue(type, valueSupplier.get());
+                value.set(type, valueSupplier.get());
             } catch (ObjectMappingException e) {
                 // TODO: Error handling
             }
@@ -108,10 +108,10 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param <N> node type
      * @return new transformation action
      */
-    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> setValue(Class<V> type, Supplier<V> valueSupplier) {
+    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(Class<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
             try {
-                value.setValue(type, valueSupplier.get());
+                value.set(type, valueSupplier.get());
             } catch (ObjectMappingException e) {
                 // TODO: Error handling
             }

@@ -126,7 +126,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
         try {
             val node = loader.load()
             echo("Reading from @|blue,bold $path|@")
-            val header = node.options.header
+            val header = node.options().header()
             if (header != null) {
                 echo(heading("Header") + " $SPLIT " + header.replace("\n", "\n$CHILD_CONT "))
                 echo("")
@@ -157,31 +157,31 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                 entryPrefix = CHILD_END
             }
 
-            write(entryPrefix, heading(child.key?.toString() ?: "(unnamed)"))
+            write(entryPrefix, heading(child.key()?.toString() ?: "(unnamed)"))
             return prefix + childPrefix
         }
 
         if (node is AttributedConfigurationNode) {
-            write(heading("Tag name"), SPLIT, node.tagName)
-            val attributes = node.attributes
+            write(heading("Tag name"), SPLIT, node.tagName())
+            val attributes = node.attributes()
             if (!attributes.isEmpty()) {
                 write(heading("Attributes"), SPLIT, attributes.map { (k, v) -> "@|green \"$k\"|@=@|green \"$v\"|@" }.joinToString(", "))
             }
         }
         if (node is CommentedConfigurationNodeIntermediary<*>) {
-            node.comment?.also {
+            node.comment()?.also {
                 write(heading("Comment"), SPLIT, it)
             }
         }
         when {
-            node.isList -> node.childrenList.iterator().also {
+            node.isList -> node.childrenList().iterator().also {
                 while (it.hasNext()) {
                     val child = it.next()
                     val nextPrefix = enterChild(it, child)
                     dumpTree(child, nextPrefix)
                 }
             }
-            node.isMap -> node.childrenMap.iterator().also {
+            node.isMap -> node.childrenMap().iterator().also {
                 while (it.hasNext()) {
                     val (_, value) = it.next()
                     val nextPrefix = enterChild(it, value)
@@ -190,7 +190,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                 }
             }
             else -> {
-                val value = node.value
+                val value = node.get()
                 if (value != null) {
                     write(
                         heading("Value"), SPLIT,
@@ -214,11 +214,11 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 
     override fun createLoader(): ConfigurationLoader<AttributedConfigurationNode> {
         return XmlConfigurationLoader.builder()
-            .setPath(this.path)
-            .setHeaderMode(header)
-            .setIndent(indent)
-            .setIncludeXmlDeclaration(includeXmlDeclaration)
-            .setWriteExplicitType(writeExplicitType)
+            .path(this.path)
+            .headerMode(header)
+            .indent(indent)
+            .includesXmlDeclaration(includeXmlDeclaration)
+            .writesExplicitType(writeExplicitType)
             .build()
     }
 }
@@ -228,10 +228,10 @@ class Yaml : FormatSubcommand<BasicConfigurationNode>("YAML") {
     private val flowStyle by option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return YamlConfigurationLoader.builder()
-            .setPath(path)
-            .setHeaderMode(header)
-            .setIndent(indent)
-            .setNodeStyle(flowStyle)
+            .path(path)
+            .headerMode(header)
+            .indent(indent)
+            .nodeStyle(flowStyle)
             .build()
     }
 }
@@ -241,10 +241,10 @@ class Json : FormatSubcommand<BasicConfigurationNode>("JSON") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return GsonConfigurationLoader.builder()
-            .setPath(path)
-            .setHeaderMode(header)
-            .setLenient(lenient)
-            .setIndent(indent)
+            .path(path)
+            .headerMode(header)
+            .lenient(lenient)
+            .indent(indent)
             .build()
     }
 }
@@ -253,8 +253,8 @@ class Hocon : FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return HoconConfigurationLoader.builder()
-            .setHeaderMode(header)
-            .setPath(path)
+            .headerMode(header)
+            .path(path)
             .build()
     }
 }

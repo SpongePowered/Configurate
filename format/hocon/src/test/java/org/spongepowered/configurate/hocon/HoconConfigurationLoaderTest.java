@@ -57,14 +57,14 @@ public class HoconConfigurationLoaderTest {
         final Path saveTest = tempDir.resolve("text1.txt");
 
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
-                .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, StandardCharsets.UTF_8)).build();
+                .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
+                .sink(AtomicFiles.atomicWriterFactory(saveTest, StandardCharsets.UTF_8)).build();
         final CommentedConfigurationNode node = loader.load();
-        assertEquals("unicorn", node.getNode("test", "op-level").getValue());
-        assertEquals("dragon", node.getNode("other", "op-level").getValue());
-        final CommentedConfigurationNode testNode = node.getNode("test");
-        assertEquals(" Test node", testNode.getComment());
-        assertEquals("dog park", node.getNode("other", "location").getValue());
+        assertEquals("unicorn", node.node("test", "op-level").get());
+        assertEquals("dragon", node.node("other", "op-level").get());
+        final CommentedConfigurationNode testNode = node.node("test");
+        assertEquals(" Test node", testNode.comment());
+        assertEquals("dog park", node.node("other", "location").get());
         loader.save(node);
         assertEquals(Resources.readLines(getClass().getResource("/roundtrip-test.conf"), StandardCharsets.UTF_8), Files
                 .readAllLines(saveTest, StandardCharsets.UTF_8));
@@ -74,8 +74,8 @@ public class HoconConfigurationLoaderTest {
     void testSplitLineCommentInput(final @TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text2.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(saveTo)
-                .setUrl(getClass().getResource("/splitline-comment-input.conf"))
+                .path(saveTo)
+                .url(getClass().getResource("/splitline-comment-input.conf"))
                 .build();
         final CommentedConfigurationNode node = loader.load();
         loader.save(node);
@@ -88,11 +88,11 @@ public class HoconConfigurationLoaderTest {
     void testHeaderSaved(final @TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text3.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(saveTo)
+                .path(saveTo)
                 .build();
-        final CommentedConfigurationNode node = loader.createNode(ConfigurationOptions.defaults().withHeader("Hi! I am a header!\n"
+        final CommentedConfigurationNode node = loader.createNode(ConfigurationOptions.defaults().header("Hi! I am a header!\n"
                         + "Look at meeeeeee!!!"));
-        node.getNode("node").setComment("I have a comment").getNode("party").setValue("now");
+        node.node("node").comment("I have a comment").node("party").set("now");
 
         loader.save(node);
         assertEquals(Resources.readLines(getClass().getResource("/header.conf"), StandardCharsets.UTF_8),
@@ -105,13 +105,13 @@ public class HoconConfigurationLoaderTest {
         final URL url = getClass().getResource("/comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(saveTo).setUrl(url).build();
+                .path(saveTo).url(url).build();
 
         final CommentedConfigurationNode node = loader.createNode(ConfigurationOptions.defaults());
-        node.getNode("test", "third").setValue(false).setComment("really?");
-        node.getNode("test", "apple").setComment("fruit").setValue(false);
-        node.getNode("test", "donut").setValue(true).setComment("tasty");
-        node.getNode("test", "guacamole").setValue(true).setComment("and chips?");
+        node.node("test", "third").set(false).comment("really?");
+        node.node("test", "apple").comment("fruit").set(false);
+        node.node("test", "donut").set(true).comment("tasty");
+        node.node("test", "guacamole").set(true).comment("and chips?");
 
         loader.save(node);
         assertEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
@@ -135,12 +135,12 @@ public class HoconConfigurationLoaderTest {
         final URL rsrc = getClass().getResource("/empty-values.conf");
         final Path output = tempDir.resolve("load-merge-empty.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(output)
-                .setUrl(rsrc).build();
+                .path(output)
+                .url(rsrc).build();
 
         final CommentedConfigurationNode source = loader.load();
         final CommentedConfigurationNode destination = loader.createNode();
-        destination.mergeValuesFrom(source);
+        destination.mergeFrom(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
         loader.save(destination);
@@ -165,9 +165,9 @@ public class HoconConfigurationLoaderTest {
         final URL rsrc = getClass().getResource("/empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setDefaultOptions(o -> o.withShouldCopyDefaults(true))
-                .setPath(output)
-                .setUrl(rsrc).build();
+                .defaultOptions(o -> o.shouldCopyDefaults(true))
+                .path(output)
+                .url(rsrc).build();
 
         final CommentedConfigurationNode source = loader.createNode();
         ObjectMapper.factory().get(OuterConfig.TYPE).load(source);

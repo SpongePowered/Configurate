@@ -39,7 +39,7 @@ import java.util.function.Predicate;
  *
  * <p>The object mapper can be accessed directly, through its {@link #factory()},
  * or through a {@link ConfigurationNode}'s
- * {@link ConfigurationNode#getValue(TypeToken)} method. To use a custom factory
+ * {@link ConfigurationNode#get(TypeToken)} method. To use a custom factory
  * instance through a node, a custom TypeSerializer has to be registered to the
  * {@link org.spongepowered.configurate.serialize.TypeSerializerCollection} used
  * by the node.</p>
@@ -135,14 +135,14 @@ public interface ObjectMapper<V> {
      *
      * @return immutable list of fields
      */
-    List<? extends FieldData<?, V>> getFields();
+    List<? extends FieldData<?, V>> fields();
 
     /**
      * The generic type of object that this mapper instance handles.
      *
      * @return object type
      */
-    Type getMappedType();
+    Type mappedType();
 
     /**
      * Get whether or not this mapper is capable of creating new instances of
@@ -250,7 +250,7 @@ public interface ObjectMapper<V> {
              * @param scheme naming scheme
              * @return this builder
              */
-            Builder setDefaultNamingScheme(NamingScheme scheme);
+            Builder defaultNamingScheme(NamingScheme scheme);
 
             /**
              * Add a resolver that will locate a node for a field.

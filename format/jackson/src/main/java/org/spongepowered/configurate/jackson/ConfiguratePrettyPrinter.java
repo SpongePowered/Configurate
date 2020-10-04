@@ -42,7 +42,7 @@ class ConfiguratePrettyPrinter extends DefaultPrettyPrinter {
 
     @Override
     public void writeObjectFieldValueSeparator(final JsonGenerator jg) throws IOException {
-        jg.writeRaw(this.style.getValue());
+        jg.writeRaw(this.style.value());
     }
 
 }

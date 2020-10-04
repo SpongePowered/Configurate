@@ -51,7 +51,7 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
     @Override
     public void apply(final N node) {
         for (Map.Entry<NodePath, TransformAction<? super N>> ent : this.actions.entrySet()) {
-            applySingleAction(node, ent.getKey().getArray(), 0, node, ent.getValue());
+            applySingleAction(node, ent.getKey().array(), 0, node, ent.getValue());
         }
     }
 
@@ -59,14 +59,14 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.isList()) {
-                    final List<N> children = node.getChildrenList();
+                    final List<N> children = node.childrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
                         applySingleAction(start, path, i + 1, children.get(di), action);
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else if (node.isMap()) {
-                    for (Map.Entry<Object, N> ent : node.getChildrenMap().entrySet()) {
+                    for (Map.Entry<Object, N> ent : node.childrenMap().entrySet()) {
                         path[i] = ent.getKey();
                         applySingleAction(start, path, i + 1, ent.getValue(), action);
                     }
@@ -77,8 +77,8 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
                 }
                 return;
             } else {
-                node = node.getNode(path[i]);
-                if (node.isVirtual()) {
+                node = node.node(path[i]);
+                if (node.virtual()) {
                     return;
                 }
             }
@@ -90,8 +90,8 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
 
         final Object @Nullable [] transformedPath = action.visitPath(nodePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
-            this.strategy.move(node, start.getNode(transformedPath));
-            node.setValue(null);
+            this.strategy.move(node, start.node(transformedPath));
+            node.set(null);
         }
     }
 

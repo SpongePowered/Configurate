@@ -62,7 +62,7 @@ public final class GuiceObjectMapperProvider {
      * @return new discoverer
      */
     public static FieldDiscoverer<?> injectedObjectDiscoverer(final Injector injector) {
-        return FieldDiscoverer.ofObject(type -> {
+        return FieldDiscoverer.object(type -> {
             try {
                 final Provider<?> prov = injector.getProvider(Key.get(type.getType()));
                 return prov::get;
