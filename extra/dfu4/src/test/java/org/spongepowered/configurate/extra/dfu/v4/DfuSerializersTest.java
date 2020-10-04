@@ -61,7 +61,7 @@ public class DfuSerializersTest {
     }, vec -> IntStream.of(vec.getX(), vec.getY(), vec.getZ()));
 
     @Test
-    public void testCodecSerializer() throws ObjectMappingException {
+    void testCodecSerializer() throws ObjectMappingException {
         final TypeSerializerCollection serializers = TypeSerializerCollection.defaults().childBuilder()
             .register(VEC3I_TYPE, DfuSerializers.forCodec(VEC3I_CODEC))
             .build();
@@ -88,7 +88,7 @@ public class DfuSerializersTest {
     }
 
     @Test
-    public void testSerializerCodec() throws IOException {
+    void testSerializerCodec() throws IOException {
         final TypeSerializerCollection serializers = TypeSerializerCollection.defaults().childBuilder()
             .register(VEC3I_TYPE, DfuSerializers.forCodec(VEC3I_CODEC))
             .build();

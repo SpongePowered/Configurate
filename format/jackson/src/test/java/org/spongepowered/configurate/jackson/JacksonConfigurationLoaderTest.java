@@ -45,7 +45,7 @@ import java.nio.file.Path;
 public class JacksonConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder()
@@ -77,12 +77,12 @@ public class JacksonConfigurationLoaderTest {
     }
 
     @Test
-    public void testRoundtrippingLong(final @TempDir Path tempDir) throws IOException {
+    void testRoundtrippingLong(final @TempDir Path tempDir) throws IOException {
         testRoundtripValue(tempDir, TEST_LONG_VAL);
     }
 
     @Test
-    public void testRoundtripDouble(final @TempDir Path tempDir) throws IOException {
+    void testRoundtripDouble(final @TempDir Path tempDir) throws IOException {
         testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
     }
 

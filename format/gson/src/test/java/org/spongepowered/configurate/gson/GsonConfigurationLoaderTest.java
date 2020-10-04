@@ -47,7 +47,7 @@ import java.nio.file.Path;
 public class GsonConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
@@ -64,7 +64,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testSavingEmptyFile(final @TempDir Path tempDir) throws IOException {
+    void testSavingEmptyFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = tempDir.resolve("text2.txt").toFile();
         tempFile.createNewFile();
 
@@ -77,7 +77,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testLoadingEmptyFile(final @TempDir Path tempDir) throws IOException {
+    void testLoadingEmptyFile(final @TempDir Path tempDir) throws IOException {
         final File tempFile = tempDir.resolve("text3.txt").toFile();
         tempFile.createNewFile();
 
@@ -89,7 +89,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testLoadingFileWithEmptyObject(final @TempDir Path tempDir) throws IOException {
+    void testLoadingFileWithEmptyObject(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/emptyObject.json");
         final Path tempFile = tempDir.resolve("text4.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
@@ -104,7 +104,7 @@ public class GsonConfigurationLoaderTest {
     private static final long TEST_LONG_VAL = 584895858588588888L;
 
     @Test
-    public void testRoundtrippingLong(final @TempDir Path tempDir) throws IOException {
+    void testRoundtrippingLong(final @TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text5.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
         final BasicConfigurationNode start = loader.createNode();
@@ -116,7 +116,7 @@ public class GsonConfigurationLoaderTest {
     }
 
     @Test
-    public void testPrimitiveTypes(final @TempDir Path tempDir) throws IOException {
+    void testPrimitiveTypes(final @TempDir Path tempDir) throws IOException {
         final Path tempFile = tempDir.resolve("text6.txt");
         final GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setPath(tempFile).build();
         final ConfigurationNode start = loader.createNode();

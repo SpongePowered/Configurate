@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class CopyTest {
 
     @Test
-    public void testSimpleCopy() {
+    void testSimpleCopy() {
         final ConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("test").setValue(5);
         node.getNode("section", "val1").setValue(true);
@@ -65,7 +65,7 @@ public class CopyTest {
     }
 
     @Test
-    public void testCopyPaths() {
+    void testCopyPaths() {
         final ConfigurationNode node = BasicConfigurationNode.root();
         node.getNode("test").setValue(5);
         node.getNode("section", "val1").setValue(true);

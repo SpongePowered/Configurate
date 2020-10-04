@@ -37,7 +37,7 @@ public class RecordDiscovererTest {
     }
 
     @Test
-    public void testDeserializeToRecord() throws ObjectMappingException {
+    void testDeserializeToRecord() throws ObjectMappingException {
         final var node = BasicConfigurationNode.root(n -> {
             n.getNode("name").setValue("Hello");
             n.getNode("testable").setValue(13);
@@ -49,7 +49,7 @@ public class RecordDiscovererTest {
     }
 
     @Test
-    public void testSerializeFromRecord() throws ObjectMappingException {
+    void testSerializeFromRecord() throws ObjectMappingException {
         final var record = new TestRecord("meow", 32);
         final var target = BasicConfigurationNode.root();
 
@@ -66,7 +66,7 @@ public class RecordDiscovererTest {
     ) {}
 
     @Test
-    public void testAnnotationsApplied() throws ObjectMappingException, MalformedURLException {
+    void testAnnotationsApplied() throws ObjectMappingException, MalformedURLException {
 
         final var record = new AnnotatedRecord(new TestRecord("nested", 0xFACE),
                 new URL("https://spongepowered.org/"));

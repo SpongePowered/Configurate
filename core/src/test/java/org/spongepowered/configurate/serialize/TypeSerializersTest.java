@@ -68,7 +68,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testStringSerializer() throws ObjectMappingException {
+    void testStringSerializer() throws ObjectMappingException {
         final TypeToken<String> stringType = TypeToken.get(String.class);
         final TypeSerializer<String> stringSerializer = getSerializer(stringType);
         final BasicConfigurationNode node = BasicConfigurationNode.root().setValue("foobar");
@@ -79,7 +79,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testAsBoolean() throws Exception {
+    void testAsBoolean() throws Exception {
         final boolean actual = true;
         final String[] trueEvaluating = new String[] {"true", "yes", "1", "t", "y"};
         final String[] falseEvaluating = new String[] {"false", "no", "0", "f", "n"};
@@ -94,7 +94,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testBooleanSerializer() throws ObjectMappingException {
+    void testBooleanSerializer() throws ObjectMappingException {
         final TypeToken<Boolean> booleanType = TypeToken.get(Boolean.class);
 
         final TypeSerializer<Boolean> booleanSerializer = getSerializer(booleanType);
@@ -114,7 +114,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testEnumValueSerializer() throws ObjectMappingException {
+    void testEnumValueSerializer() throws ObjectMappingException {
         final TypeToken<TestEnum> enumType = TypeToken.get(TestEnum.class);
 
         final TypeSerializer<TestEnum> enumSerializer = getSerializer(enumType);
@@ -136,7 +136,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testListSerializer() throws ObjectMappingException {
+    void testListSerializer() throws ObjectMappingException {
         final TypeToken<List<String>> stringListType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> stringListSerializer = getSerializer(stringListType);
         final BasicConfigurationNode value = BasicConfigurationNode.root();
@@ -156,7 +156,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testSetSerializer() throws ObjectMappingException {
+    void testSetSerializer() throws ObjectMappingException {
         final TypeToken<Set<String>> stringListType = new TypeToken<Set<String>>() {};
         final TypeSerializer<Set<String>> stringListSerializer = getSerializer(stringListType);
         final BasicConfigurationNode value = BasicConfigurationNode.root();
@@ -177,7 +177,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testListSerializerPreservesEmptyList() throws ObjectMappingException {
+    void testListSerializerPreservesEmptyList() throws ObjectMappingException {
         final TypeToken<List<String>> listStringType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> listStringSerializer =
                 getSerializer(listStringType);
@@ -191,7 +191,7 @@ public class TypeSerializersTest {
 
     @Test
     @SuppressWarnings("rawtypes")
-    public void testListRawTypes() {
+    void testListRawTypes() {
         final TypeToken<List> rawType = TypeToken.get(List.class);
         final TypeSerializer<List> serial = getSerializer(rawType);
 
@@ -207,7 +207,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testMapSerializer() throws ObjectMappingException {
+    void testMapSerializer() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
                 getSerializer(mapStringIntType);
@@ -230,7 +230,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testInvalidMapValueTypes() throws ObjectMappingException {
+    void testInvalidMapValueTypes() throws ObjectMappingException {
         final TypeToken<Map<TestEnum, Integer>> mapTestEnumIntType = new TypeToken<Map<TestEnum, Integer>>() {};
         final TypeSerializer<Map<TestEnum, Integer>> mapTestEnumIntSerializer =
                 getSerializer(mapTestEnumIntType);
@@ -248,7 +248,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testMapSerializerRemovesDeletedKeys() throws ObjectMappingException {
+    void testMapSerializerRemovesDeletedKeys() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer = getSerializer(mapStringIntType);
 
@@ -267,7 +267,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testMapSerializerPreservesEmptyMap() throws ObjectMappingException {
+    void testMapSerializerPreservesEmptyMap() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
                 getSerializer(mapStringIntType);
@@ -280,7 +280,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testMapSerializerPreservesChildComments() throws ObjectMappingException {
+    void testMapSerializerPreservesChildComments() throws ObjectMappingException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
                 getSerializer(mapStringIntType);
@@ -303,7 +303,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testAnnotatedObjectSerializer() throws ObjectMappingException {
+    void testAnnotatedObjectSerializer() throws ObjectMappingException {
         final TypeToken<TestObject> testNodeType = TypeToken.get(TestObject.class);
         final TypeSerializer<TestObject> testObjectSerializer = getSerializer(testNodeType);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
@@ -316,7 +316,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testUriSerializer() throws ObjectMappingException {
+    void testUriSerializer() throws ObjectMappingException {
         final TypeToken<URI> uriType = TypeToken.get(URI.class);
         final TypeSerializer<URI> uriSerializer = getSerializer(uriType);
 
@@ -333,7 +333,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testUrlSerializer() throws ObjectMappingException, MalformedURLException {
+    void testUrlSerializer() throws ObjectMappingException, MalformedURLException {
         final TypeToken<URL> urlType = TypeToken.get(URL.class);
         final TypeSerializer<URL> urlSerializer = getSerializer(urlType);
 
@@ -350,7 +350,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testUuidSerializer() throws ObjectMappingException {
+    void testUuidSerializer() throws ObjectMappingException {
         final TypeToken<UUID> uuidType = TypeToken.get(UUID.class);
         final TypeSerializer<UUID> uuidSerializer = getSerializer(uuidType);
 
@@ -366,7 +366,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testPatternSerializer() throws ObjectMappingException {
+    void testPatternSerializer() throws ObjectMappingException {
         final TypeToken<Pattern> patternType = TypeToken.get(Pattern.class);
         final TypeSerializer<Pattern> patternSerializer = getSerializer(patternType);
 
@@ -379,7 +379,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testCharSerializer() throws ObjectMappingException {
+    void testCharSerializer() throws ObjectMappingException {
         final TypeToken<Character> charType = TypeToken.get(Character.class);
         final TypeSerializer<Character> charSerializer = getSerializer(charType);
 
@@ -399,7 +399,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializer() throws ObjectMappingException {
+    void testArraySerializer() throws ObjectMappingException {
         final TypeToken<String[]> arrayType = TypeToken.get(String[].class);
         final TypeSerializer<String[]> arraySerializer = getSerializer(arrayType);
 
@@ -411,7 +411,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerBooleanPrimitive() throws ObjectMappingException {
+    void testArraySerializerBooleanPrimitive() throws ObjectMappingException {
         final TypeToken<boolean[]> booleanArrayType = TypeToken.get(boolean[].class);
         final TypeSerializer<boolean[]> booleanArraySerializer = getSerializer(booleanArrayType);
 
@@ -423,7 +423,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerBytePrimitive() throws ObjectMappingException {
+    void testArraySerializerBytePrimitive() throws ObjectMappingException {
         final TypeToken<byte[]> byteArrayType = TypeToken.get(byte[].class);
         final TypeSerializer<byte[]> byteArraySerializer = getSerializer(byteArrayType);
 
@@ -435,7 +435,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerCharPrimitive() throws ObjectMappingException {
+    void testArraySerializerCharPrimitive() throws ObjectMappingException {
         final Class<char[]> charArrayType = char[].class;
         final TypeSerializer<char[]> charArraySerializer = getSerializer(charArrayType);
 
@@ -447,7 +447,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerShortPrimitive() throws ObjectMappingException {
+    void testArraySerializerShortPrimitive() throws ObjectMappingException {
         final Class<short[]> shortArrayType = short[].class;
         final TypeSerializer<short[]> shortArraySerializer = getSerializer(shortArrayType);
 
@@ -459,7 +459,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerIntPrimitive() throws ObjectMappingException {
+    void testArraySerializerIntPrimitive() throws ObjectMappingException {
         final Class<int[]> intArrayType = int[].class;
         final TypeSerializer<int[]> intArraySerializer = getSerializer(intArrayType);
 
@@ -471,7 +471,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerLongPrimitive() throws ObjectMappingException {
+    void testArraySerializerLongPrimitive() throws ObjectMappingException {
         final Class<long[]> longArrayType = long[].class;
         final TypeSerializer<long[]> longArraySerializer = getSerializer(longArrayType);
 
@@ -483,7 +483,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerFloatPrimitive() throws ObjectMappingException {
+    void testArraySerializerFloatPrimitive() throws ObjectMappingException {
         final Class<float[]> floatArrayType = float[].class;
         final TypeSerializer<float[]> floatArraySerializer = getSerializer(floatArrayType);
 
@@ -495,7 +495,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testArraySerializerDoublePrimitive() throws ObjectMappingException {
+    void testArraySerializerDoublePrimitive() throws ObjectMappingException {
         final Class<double[]> doubleArrayType = double[].class;
         final TypeSerializer<double[]> doubleArraySerializer = getSerializer(doubleArrayType);
 
@@ -507,7 +507,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testConfigurationNodeSerializer() throws ObjectMappingException {
+    void testConfigurationNodeSerializer() throws ObjectMappingException {
         final Class<ConfigurationNode> nodeType = ConfigurationNode.class;
         final TypeSerializer<ConfigurationNode> nodeSerializer = getSerializer(nodeType);
         assertNotNull(nodeSerializer);
@@ -530,7 +530,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testPathSerializer() throws ObjectMappingException {
+    void testPathSerializer() throws ObjectMappingException {
         final TypeSerializer<Path> pathSerializer = getSerializer(Path.class);
         assertNotNull(pathSerializer);
 
@@ -545,7 +545,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testPathSerializerFromList() throws ObjectMappingException {
+    void testPathSerializerFromList() throws ObjectMappingException {
         final TypeSerializer<Path> pathSerializer = getSerializer(Path.class);
         assertNotNull(pathSerializer);
 
@@ -558,7 +558,7 @@ public class TypeSerializersTest {
     }
 
     @Test
-    public void testFileSerializer() throws ObjectMappingException {
+    void testFileSerializer() throws ObjectMappingException {
         final TypeSerializer<File> fileSerializer = getSerializer(File.class);
         assertNotNull(fileSerializer);
 

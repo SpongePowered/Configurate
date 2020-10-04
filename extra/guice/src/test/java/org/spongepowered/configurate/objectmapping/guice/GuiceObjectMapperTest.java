@@ -49,7 +49,7 @@ public class GuiceObjectMapperTest {
     }
 
     @Test
-    public void testCreateGuiceObjectMapper() throws ObjectMappingException {
+    void testCreateGuiceObjectMapper() throws ObjectMappingException {
         final Injector injector = Guice.createInjector(new TestModule());
         final GuiceObjectMapperProvider factory = injector.getInstance(GuiceObjectMapperProvider.class);
         final ObjectMapper<ConfigClass> mapper = factory.get().get(ConfigClass.class);

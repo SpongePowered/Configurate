@@ -54,13 +54,13 @@ public class WatchServiceListenerTest {
     }
 
     @Test
-    public void testListenToRelativePath() throws IOException {
+    void testListenToRelativePath() throws IOException {
         // We test that this doesn't throw any exceptions
         listener.listenToFile(Paths.get("testfile.conf"), event -> {}).dispose();
     }
 
     @Test
-    public void testListenToPath() throws IOException {
+    void testListenToPath() throws IOException {
         final Path tempFolder = Files.createTempDirectory("configurate-test");
         final Path testFile = tempFolder.resolve("listenPath.txt");
         Files.write(testFile, Collections.singleton("version one"), StandardOpenOption.SYNC,
@@ -112,7 +112,7 @@ public class WatchServiceListenerTest {
 
     @Test
     @Disabled
-    public void testListenToDirectory() throws IOException {
+    void testListenToDirectory() throws IOException {
         final Path tempFolder = Files.createTempDirectory("configurate-test");
         final Path test1 = tempFolder.resolve("test1");
         final Path test2 = tempFolder.resolve("test2");

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class AttributedConfigurationNodeTest {
 
     @Test
-    public void testIsEmptyIncludesAttributes() {
+    void testIsEmptyIncludesAttributes() {
         final AttributedConfigurationNode node = AttributedConfigurationNode.root();
 
         assertTrue(node.isEmpty());
@@ -35,7 +35,7 @@ public class AttributedConfigurationNodeTest {
     }
 
     @Test
-    public void testSettingAttributeAttaches() {
+    void testSettingAttributeAttaches() {
         final AttributedConfigurationNode node = AttributedConfigurationNode.root();
 
         final AttributedConfigurationNode child = node.getNode("yoink");

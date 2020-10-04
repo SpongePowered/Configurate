@@ -37,7 +37,7 @@ import java.util.Map;
 public class YamlConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading() throws IOException, ObjectMappingException {
+    void testSimpleLoading() throws IOException, ObjectMappingException {
         final URL url = getClass().getResource("/example.yml");
         final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .setUrl(url).build();
@@ -53,7 +53,7 @@ public class YamlConfigurationLoaderTest {
     }
 
     @Test
-    public void testReadWithTabs() throws IOException {
+    void testReadWithTabs() throws IOException {
         final ConfigurationNode expected = BasicConfigurationNode.root(n -> {
             n.getNode("document").act(d -> {
                 d.getNode("we").setValue("support tabs");

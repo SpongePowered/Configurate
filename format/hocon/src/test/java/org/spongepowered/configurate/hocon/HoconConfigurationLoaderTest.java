@@ -52,7 +52,7 @@ import java.util.Map;
 public class HoconConfigurationLoaderTest {
 
     @Test
-    public void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
@@ -71,7 +71,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testSplitLineCommentInput(final @TempDir Path tempDir) throws IOException {
+    void testSplitLineCommentInput(final @TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text2.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
@@ -85,7 +85,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testHeaderSaved(final @TempDir Path tempDir) throws IOException {
+    void testHeaderSaved(final @TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text3.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .setPath(saveTo)
@@ -101,7 +101,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testBooleansNotShared(final @TempDir Path tempDir) throws IOException {
+    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException {
         final URL url = getClass().getResource("/comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
@@ -118,19 +118,19 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testNewConfigObject() {
+    void testNewConfigObject() {
         final Map<String, ConfigValue> entries = ImmutableMap.of("a", ConfigValueFactory.fromAnyRef("hi"), "b", ConfigValueFactory.fromAnyRef("bye"));
         HoconConfigurationLoader.newConfigObject(entries);
     }
 
     @Test
-    public void testNewConfigList() {
+    void testNewConfigList() {
         final List<ConfigValue> entries = Arrays.asList(ConfigValueFactory.fromAnyRef("hello"), ConfigValueFactory.fromAnyRef("goodbye"));
         HoconConfigurationLoader.newConfigList(entries);
     }
 
     @Test
-    public void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException {
+    void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/44
         final URL rsrc = getClass().getResource("/empty-values.conf");
         final Path output = tempDir.resolve("load-merge-empty.conf");
@@ -160,7 +160,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    public void testCreateEmptyObjectmappingSection(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
+    void testCreateEmptyObjectmappingSection(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
         // https://github.com/SpongePowered/Configurate/issues/40
         final URL rsrc = getClass().getResource("/empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");

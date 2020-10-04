@@ -34,7 +34,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testSubmission() {
+    void testSubmission() {
         final String[] result = new String[1];
         final Processor.Iso<String> proc = create();
         proc.subscribe(item -> {
@@ -45,7 +45,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testUnsubscribe() {
+    void testUnsubscribe() {
         final String[] result = new String[1];
         final boolean[] closed = new boolean[1];
         final Processor.Iso<String> proc = create();
@@ -68,7 +68,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testClose() {
+    void testClose() {
         final boolean[] result = new boolean[1];
         final Processor.Iso<String> proc = create();
         proc.subscribe(new Subscriber<String>() {
@@ -89,7 +89,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testCloseIfUnsubscribed() {
+    void testCloseIfUnsubscribed() {
         final Processor.Iso<Boolean> proc = create();
 
         final Disposable disp = proc.subscribe(x -> {});
@@ -102,7 +102,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testMap() {
+    void testMap() {
         final String[] items = new String[2];
         final Processor.Iso<String> orig = create();
         final Publisher<String> mapped = orig.map(x -> "2" + x);
@@ -115,7 +115,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testErrorCloses() {
+    void testErrorCloses() {
         final int[] callCount = new int[1];
         final Processor.Iso<String> subject = create();
         final RuntimeException testExc = new RuntimeException();
@@ -144,7 +144,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testMappedUnsubscribedOnEmpty() {
+    void testMappedUnsubscribedOnEmpty() {
         final String[] items = new String[2];
         final Processor.Iso<String> orig = create();
         final Publisher<String> mapped = orig.map(x -> "2" + x);
@@ -174,7 +174,7 @@ public class ProcessorImplTest {
     }
 
     @Test
-    public void testFallbackHandler() {
+    void testFallbackHandler() {
         final Processor.Iso<String> handler = create();
         final String[] values = new String[2];
 

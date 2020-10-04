@@ -88,7 +88,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (Empty) -> Gson (Null)")
-    public void emptyToGson() {
+    void emptyToGson() {
         final ConfigurationNode node = BasicConfigurationNode.root();
         final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.getInstance(), node);
         final JsonElement element = wrapped.convert(JsonOps.INSTANCE).getValue();
@@ -98,7 +98,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Gson (Null) -> Configurate (Empty)")
-    public void emptyFromGson() {
+    void emptyFromGson() {
         final JsonNull jsonNull = JsonNull.INSTANCE;
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, jsonNull);
         final ConfigurationNode result = wrapped.convert(ConfigurateOps.getInstance()).getValue();
@@ -108,7 +108,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (String) -> Gson")
-    public void toGsonFromString() {
+    void toGsonFromString() {
         final ConfigurationNode node = BasicConfigurationNode.root().setValue("Test String");
         final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.getInstance(), node);
         final JsonElement output = wrapped.convert(JsonOps.INSTANCE).getValue();
@@ -120,7 +120,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Gson (String) -> Configurate")
-    public void fromGsonFromString() {
+    void fromGsonFromString() {
         final JsonPrimitive string = new JsonPrimitive("Test String");
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, string);
         final ConfigurationNode output = wrapped.convert(ConfigurateOps.getInstance()).getValue();
@@ -131,7 +131,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Gson (Integer Array) -> Configurate")
-    public void fromGsonFromList() {
+    void fromGsonFromList() {
         final List<Integer> expectedElements = new ArrayList<>();
         expectedElements.add(1);
         expectedElements.add(3);
@@ -155,7 +155,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (Integer List) -> Gson")
-    public void toGsonFromList() {
+    void toGsonFromList() {
         final List<Integer> expectedElements = new ArrayList<>();
         expectedElements.add(1);
         expectedElements.add(3);
@@ -178,7 +178,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Gson (JsonObject) -> Configurate")
-    public void fromGsonToMap() throws ObjectMappingException {
+    void fromGsonToMap() throws ObjectMappingException {
         final Map<String, String> expectedValues = new HashMap<>();
         expectedValues.put("foo", "bar");
         expectedValues.put("bar", "baz");
@@ -197,7 +197,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (Map) -> Gson")
-    public void toGsonFromMap() {
+    void toGsonFromMap() {
         final Map<String, String> expectedValues = new HashMap<>();
         expectedValues.put("foo", "bar");
         expectedValues.put("bar", "baz");
@@ -213,7 +213,7 @@ public final class ConfigurateOpsTests {
     }
 
     @Test
-    public void testCompressed() throws IOException {
+    void testCompressed() throws IOException {
         final TestRegistry<Vector3i> positionRegistry = new TestRegistry<>();
         positionRegistry.put("test1", new Vector3i(1, 2, 3));
         positionRegistry.put("spawn", new Vector3i(32, 85, 884));
