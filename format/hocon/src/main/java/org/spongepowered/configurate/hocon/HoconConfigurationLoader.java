@@ -227,7 +227,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             ret = ConfigValueFactory.fromAnyRef(node.getValue(), CONFIGURATE_ORIGIN.description());
         }
         if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
-            final CommentedConfigurationNodeIntermediary<?> commentedNode = ((CommentedConfigurationNodeIntermediary<?>) node);
+            final CommentedConfigurationNodeIntermediary<?> commentedNode = (CommentedConfigurationNodeIntermediary<?>) node;
             final @Nullable String origComment = commentedNode.getComment();
             if (origComment != null) {
                 ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));

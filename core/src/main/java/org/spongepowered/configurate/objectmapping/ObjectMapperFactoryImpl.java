@@ -135,7 +135,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         }
 
         if (candidate instanceof FieldDiscoverer.MutableInstanceFactory<?>) {
-            return new ObjectMapperImpl.Mutable<>(type, fields, ((FieldDiscoverer.MutableInstanceFactory<I>) candidate));
+            return new ObjectMapperImpl.Mutable<>(type, fields, (FieldDiscoverer.MutableInstanceFactory<I>) candidate);
         } else {
             return new ObjectMapperImpl<>(type, fields, candidate);
         }

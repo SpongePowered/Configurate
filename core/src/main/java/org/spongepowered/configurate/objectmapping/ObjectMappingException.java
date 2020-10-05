@@ -29,7 +29,6 @@ public class ObjectMappingException extends Exception {
      * Create an exception with unknown message and cause.
      */
     public ObjectMappingException() {
-        super();
     }
 
     /**

@@ -399,7 +399,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 // attach ourselves first
                 attachIfNecessary();
                 // insert the child node into the value
-                final @Nullable A existingChild = this.value.putChildIfAbsent(key, (child = createNode(key)));
+                final @Nullable A existingChild = this.value.putChildIfAbsent(key, child = createNode(key));
                 if (existingChild != null) {
                     child = existingChild;
                 } else {

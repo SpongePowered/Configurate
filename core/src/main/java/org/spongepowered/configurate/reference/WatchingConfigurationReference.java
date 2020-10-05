@@ -34,7 +34,7 @@ import java.util.concurrent.Executor;
 class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
         extends ManualConfigurationReference<N> implements Subscriber<WatchEvent<?>> {
 
-    private volatile boolean saveSuppressed = false;
+    private volatile boolean saveSuppressed;
     private @MonotonicNonNull Disposable disposable;
 
     WatchingConfigurationReference(final ConfigurationLoader<? extends N> loader, final Executor taskExecutor) {

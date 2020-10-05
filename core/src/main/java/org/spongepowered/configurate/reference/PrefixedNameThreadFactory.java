@@ -35,7 +35,7 @@ class PrefixedNameThreadFactory implements ThreadFactory {
         this.name = prefix.endsWith("-") ? prefix : (prefix + "-");
         this.daemon = daemon;
     }
-    
+
     @Override
     public Thread newThread(final Runnable runnable) {
         final Thread ret = new Thread(runnable, this.name + this.counter.getAndIncrement());
