@@ -73,3 +73,8 @@ gitPublish {
 
     commitMessage.set("Publish javadocs (via gradle-git-publish)")
 }
+
+tasks.dependencyUpdates {
+    gradleReleaseChannel = "current"
+    revision = "release"
+}
