@@ -947,9 +947,9 @@ final class ConfigurateScanner implements Scanner { // Configurate: rename + pac
 
     /**
      * Fetch an anchor. Anchors take the form:
-     *
+     * <!-- Configurate: entity to &amp; -->
      * <pre>
-     * &(anchor name)
+     * &amp;(anchor name)
      * </pre>
      *
      * @see <a href="http://www.yaml.org/spec/1.1/#id863390">3.2.2.2. Anchors and Aliases</a>

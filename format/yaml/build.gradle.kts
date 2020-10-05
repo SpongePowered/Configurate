@@ -2,7 +2,7 @@ import net.ltgt.gradle.errorprone.errorprone
 import org.spongepowered.configurate.build.core
 
 plugins {
-    id("org.spongepowered.configurate-component")
+    id("org.spongepowered.configurate.build.component")
 }
 
 dependencies {
@@ -12,4 +12,6 @@ dependencies {
 
 tasks.compileJava {
     options.errorprone.excludedPaths.set(".*org[\\\\/]spongepowered[\\\\/]configurate[\\\\/]yaml[\\\\/]ConfigurateScanner.*")
+    // our vendored version of ScannerImpl has invalid JD, so we have to suppress some warnings
+    options.compilerArgs.add("-Xdoclint:-html")
 }

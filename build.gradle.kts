@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "1.4.10" apply false
     id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
     id("io.freefair.aggregate-javadoc-jar") version "5.2.1"
-    id("org.ajoberstar.grgit") version "4.1.0"
+    id("org.ajoberstar.grgit")
     id("org.ajoberstar.git-publish") version "3.0.0"
     id("com.github.ben-manes.versions") version "0.33.0"
     id("io.codearte.nexus-staging")
@@ -13,18 +13,14 @@ plugins {
 group = "org.spongepowered"
 version = "4.0.0-SNAPSHOT"
 
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+}
+
 allprojects {
     repositories {
         jcenter()
     }
-}
-
-ktlint {
-    version.set("0.39.0")
-}
-
-subprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     ktlint {
         version.set("0.39.0")
@@ -32,10 +28,10 @@ subprojects {
 }
 
 nexusStaging {
-    val spongeOssrhUsername: String? by project
-    val spongeOssrhPassword: String? by project
-    username = spongeOssrhUsername
-    password = spongeOssrhPassword
+    val sonatypeUsername: String? by project
+    val sonatypePassword: String? by project
+    username = sonatypeUsername
+    password = sonatypePassword
 }
 
 tasks.aggregateJavadoc.configure {
@@ -55,8 +51,9 @@ gitPublish {
     branch.set("gh-pages")
     contents {
         from("src/site") {
-            val versions = (listOf(project.version as String) + grgit.tag.list().map { it.name }.reversed()).filter {
-                repoDir.get().dir(it).getAsFile().exists() || it == project.version
+            val versions = {
+                (listOf(project.version as String) + grgit.tag.list().map { it.name }.reversed())
+                    .filter { repoDir.get().dir(it).getAsFile().exists() || it == project.version }
             }
             expand("project" to project, "versions" to versions)
         }

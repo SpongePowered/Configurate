@@ -3,7 +3,7 @@ import org.spongepowered.configurate.build.core
 
 plugins {
     kotlin("jvm")
-    id("org.spongepowered.configurate-component")
+    id("org.spongepowered.configurate.build.component")
     id("org.jlleitschuh.gradle.ktlint")
 }
 

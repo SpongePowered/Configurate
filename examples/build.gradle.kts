@@ -2,7 +2,7 @@ import org.spongepowered.configurate.build.core
 import org.spongepowered.configurate.build.format
 
 plugins {
-    id("org.spongepowered.configurate-component")
+    id("org.spongepowered.configurate.build.component")
     application
 }
 

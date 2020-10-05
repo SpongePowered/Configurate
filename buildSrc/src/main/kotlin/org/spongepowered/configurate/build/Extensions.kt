@@ -4,8 +4,10 @@ import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
+import org.gradle.kotlin.dsl.maven
 
 /**
  * Create a dependency on a specific component in this project
@@ -16,6 +18,12 @@ fun DependencyHandler.format(component: String): Dependency {
 
 fun DependencyHandler.core(): Dependency {
     return project(mapOf("path" to ":core"))
+}
+
+fun RepositoryHandler.mojang() {
+    maven(url = "https://libraries.minecraft.net") {
+        name = "mojang"
+    }
 }
 
 fun Javadoc.applyCommonAttributes() {
@@ -32,10 +40,9 @@ fun Javadoc.applyCommonAttributes() {
         options.links(
             "https://lightbend.github.io/config/latest/api/",
             "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
-            "https://checkerframework.org/api/",
-            "https://docs.oracle.com/javase/8/docs/api"
+            "https://checkerframework.org/api/"
         )
-        options.source = targetVersion.toString()
+        options.source = "1.8"
         if (version.isJava9Compatible) {
             options.addBooleanOption("html5", true)
         }

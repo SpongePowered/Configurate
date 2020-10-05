@@ -58,9 +58,9 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     /**
      * Path of this node.
-     * <p/>
-     * Internally, may only be modified when an operation that adds or removes a
-     * node at the same or higher level in the node tree
+     *
+     * <p>Internally, may only be modified when an operation that adds or
+     * removes a node at the same or higher level in the node tree</p>
      */
     @Nullable
     volatile Object key;

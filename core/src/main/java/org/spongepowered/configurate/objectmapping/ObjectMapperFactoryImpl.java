@@ -266,6 +266,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
      */
     private static class StacklessWrapper extends RuntimeException {
 
+        private static final long serialVersionUID = 1759625646560465255L;
+
         StacklessWrapper(final Throwable cause) {
             super(cause);
         }

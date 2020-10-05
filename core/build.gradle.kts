@@ -1,5 +1,5 @@
 plugins {
-    id("org.spongepowered.configurate-component")
+    id("org.spongepowered.configurate.build.component")
 }
 
 val exposedCompileOnly by configurations.registering
