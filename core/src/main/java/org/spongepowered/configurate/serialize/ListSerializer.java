@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.serialize;
 
 import io.leangen.geantyref.TypeToken;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
@@ -30,9 +29,9 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     static final TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 
     @Override
-    Type elementType(final Type containerType) throws ObjectMappingException {
+    Type elementType(final Type containerType) throws SerializationException {
         if (!(containerType instanceof ParameterizedType)) {
-            throw new ObjectMappingException("Raw types are not supported for collections");
+            throw new SerializationException(containerType, "Raw types are not supported for collections");
         }
         return ((ParameterizedType) containerType).getActualTypeArguments()[0];
     }
@@ -43,7 +42,7 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     }
 
     @Override
-    void forEachElement(final List<?> collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+    void forEachElement(final List<?> collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
         for (Object el: collection) {
             action.accept(el);
         }

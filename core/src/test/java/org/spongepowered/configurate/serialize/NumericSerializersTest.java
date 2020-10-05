@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 @SuppressWarnings("UnnecessaryParentheses") // for casting negative number literals
@@ -73,7 +72,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    void testByte() throws ObjectMappingException {
+    void testByte() throws SerializationException {
         final TypeSerializer<Byte> serializer = serializer(Byte.class);
 
         final byte b = (byte) 65;
@@ -88,7 +87,7 @@ public class NumericSerializersTest {
 
         // test too large
         this.node.set(348);
-        assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Byte.class, this.node));
+        assertThrows(SerializationException.class, () -> serializer.deserialize(Byte.class, this.node));
 
         // from float
         this.node.set(65f);
@@ -108,7 +107,7 @@ public class NumericSerializersTest {
     }
 
     @Test
-    void testShort() throws ObjectMappingException {
+    void testShort() throws SerializationException {
         final TypeSerializer<Short> serializer = serializer(Short.class);
 
         final short b = (short) 32486;
@@ -123,7 +122,7 @@ public class NumericSerializersTest {
 
         // test too large
         this.node.set(348333333);
-        assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Short.class, this.node));
+        assertThrows(SerializationException.class, () -> serializer.deserialize(Short.class, this.node));
 
         // from float
 
@@ -160,7 +159,7 @@ public class NumericSerializersTest {
 
         // test too large
         this.node.set(333339003003030L);
-        assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Integer.class, this.node));
+        assertThrows(SerializationException.class, () -> serializer.deserialize(Integer.class, this.node));
 
         // from double
         this.node.set(48888333d);
@@ -234,7 +233,7 @@ public class NumericSerializersTest {
 
         // test too large
         this.node.set(13.4e129d);
-        assertThrows(ObjectMappingException.class, () -> serializer.deserialize(Float.class, this.node));
+        assertThrows(SerializationException.class, () -> serializer.deserialize(Float.class, this.node));
 
         // from int
         this.node.set(448);

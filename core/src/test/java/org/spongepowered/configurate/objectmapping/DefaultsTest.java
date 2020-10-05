@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +51,7 @@ public class DefaultsTest {
     }
 
     @Test
-    void testFieldsInitialized() throws ObjectMappingException {
+    void testFieldsInitialized() throws SerializationException {
         final ImplicitDefaultsOnly instance = ObjectMapper.factory().get(ImplicitDefaultsOnly.class).load(BasicConfigurationNode.root(IMPLICIT_OPTS));
         assertEquals(Collections.emptyList(), instance.myStrings);
         assertNotNull(instance.funTimes);
@@ -59,7 +60,7 @@ public class DefaultsTest {
     }
 
     @Test
-    void testImplicitDefaultsSaved() throws ObjectMappingException {
+    void testImplicitDefaultsSaved() throws SerializationException {
         final BasicConfigurationNode node = BasicConfigurationNode.root(IMPLICIT_OPTS.shouldCopyDefaults(true));
         node.get(ImplicitDefaultsOnly.class);
 

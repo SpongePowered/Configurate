@@ -19,26 +19,25 @@ package org.spongepowered.configurate.serialize;
 import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Type;
 
 public class PassthroughSerializer implements TypeSerializer<Object> {
 
     @Override
-    public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+    public Object deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         final @Nullable Object o = node.raw();
         if (o == null) {
-            throw new ObjectMappingException("No value present for node");
+            throw new SerializationException("No value present for node");
         }
         if (!GenericTypeReflector.isSuperType(type, o.getClass())) {
-            throw new ObjectMappingException("Value returned was of type '" + o.getClass() + "', but was expected to be a subtype of '" + type + "'");
+            throw new SerializationException("Value returned was of type '" + o.getClass() + "', but was expected to be a subtype of '" + type + "'");
         }
         return o;
     }
 
     @Override
-    public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws SerializationException {
         node.set(obj);
     }
 

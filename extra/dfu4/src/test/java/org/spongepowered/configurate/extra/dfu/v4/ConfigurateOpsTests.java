@@ -40,9 +40,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.gson.GsonConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -60,7 +61,7 @@ import java.util.stream.StreamSupport;
  */
 public final class ConfigurateOpsTests {
 
-    private static void compareToJson(final ConfigurationNode node, final JsonElement element) throws IOException {
+    private static void compareToJson(final ConfigurationNode node, final JsonElement element) throws IOException, ConfigurateException {
         final StringWriter configurate = new StringWriter();
         final GsonConfigurationLoader loader = GsonConfigurationLoader.builder()
                 .sink(() -> new BufferedWriter(configurate)).build();
@@ -155,7 +156,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (Integer List) -> Gson")
-    void toGsonFromList() throws ObjectMappingException {
+    void toGsonFromList() throws SerializationException {
         final List<Integer> expectedElements = new ArrayList<>();
         expectedElements.add(1);
         expectedElements.add(3);
@@ -178,7 +179,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Gson (JsonObject) -> Configurate")
-    void fromGsonToMap() throws ObjectMappingException {
+    void fromGsonToMap() throws SerializationException {
         final Map<String, String> expectedValues = new HashMap<>();
         expectedValues.put("foo", "bar");
         expectedValues.put("bar", "baz");
@@ -196,7 +197,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (Map) -> Gson")
-    void toGsonFromMap() throws ObjectMappingException {
+    void toGsonFromMap() throws SerializationException {
         final Map<String, String> expectedValues = new HashMap<>();
         expectedValues.put("foo", "bar");
         expectedValues.put("bar", "baz");
@@ -212,7 +213,7 @@ public final class ConfigurateOpsTests {
     }
 
     @Test
-    void testCompressed() throws IOException {
+    void testCompressed() throws IOException, ConfigurateException {
         final TestRegistry<Vector3i> positionRegistry = new TestRegistry<>();
         positionRegistry.put("test1", new Vector3i(1, 2, 3));
         positionRegistry.put("spawn", new Vector3i(32, 85, 884));

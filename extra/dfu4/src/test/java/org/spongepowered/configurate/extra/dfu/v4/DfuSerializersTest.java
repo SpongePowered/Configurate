@@ -36,8 +36,8 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 import java.io.IOException;
@@ -61,7 +61,7 @@ public class DfuSerializersTest {
     }, vec -> IntStream.of(vec.getX(), vec.getY(), vec.getZ()));
 
     @Test
-    void testCodecSerializer() throws ObjectMappingException {
+    void testCodecSerializer() throws SerializationException {
         final TypeSerializerCollection serializers = TypeSerializerCollection.defaults().childBuilder()
             .register(VEC3I_TYPE, DfuSerializers.serializer(VEC3I_CODEC))
             .build();

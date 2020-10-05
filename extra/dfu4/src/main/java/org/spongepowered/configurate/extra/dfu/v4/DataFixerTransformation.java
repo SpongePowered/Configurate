@@ -24,9 +24,9 @@ import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import org.spongepowered.configurate.transformation.NodePath;
 
@@ -67,7 +67,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
     }
 
     @Override
-    public void apply(@NonNull final N node) throws ObjectMappingException {
+    public void apply(@NonNull final N node) throws ConfigurateException {
         final ConfigurationNode versionNode = node.node(this.versionPath);
         final int currentVersion = versionNode.getInt(-1);
         if (currentVersion < this.targetVersion) {
@@ -75,7 +75,8 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
             this.wrapped.apply(node);
             versionNode.set(this.targetVersion);
         } else if (currentVersion > this.targetVersion) {
-            // TODO: Logging or throw error
+            throw new ConfigurateException(node, "The target version (" + this.targetVersion
+                    + ") is older than the data's current version (" + currentVersion + ")");
         }
     }
 

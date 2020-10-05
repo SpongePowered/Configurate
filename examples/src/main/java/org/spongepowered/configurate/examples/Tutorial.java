@@ -18,18 +18,18 @@ package org.spongepowered.configurate.examples;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 public final class Tutorial {
 
     private Tutorial() {}
 
-    public static void main(final String[] args) throws ObjectMappingException {
+    public static void main(final String[] args) throws SerializationException {
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(Paths.get("myproject.conf")) // Set where we will load and save to
                 .build();
@@ -37,7 +37,7 @@ public final class Tutorial {
         final CommentedConfigurationNode root;
         try {
             root = loader.load();
-        } catch (final IOException e) {
+        } catch (final ConfigurateException e) {
             System.err.println("An error occurred while loading this configuration: " + e.getMessage());
             if (e.getCause() != null) {
                 e.getCause().printStackTrace();
@@ -69,13 +69,13 @@ public final class Tutorial {
 
         root.node("accesses").act(n -> {
             n.commentIfAbsent("The times messages have been accessed, in milliseconds since the epoch");
-            n.appendListNode().raw(System.currentTimeMillis()); // TODO: error handling
+            n.appendListNode().set(System.currentTimeMillis());
         });
 
         // And save the node back to the file
         try {
             loader.save(root);
-        } catch (final IOException e) {
+        } catch (final ConfigurateException e) {
             System.err.println("Unable to save your messages configuration! Sorry! " + e.getMessage());
             System.exit(1);
         }

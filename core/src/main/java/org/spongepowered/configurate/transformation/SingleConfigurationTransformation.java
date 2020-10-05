@@ -17,8 +17,8 @@
 package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,12 +50,12 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
     }
 
     @Override
-    public void apply(final N node) throws ObjectMappingException {
-        @Nullable ObjectMappingException thrown = null;
+    public void apply(final N node) throws ConfigurateException {
+        @Nullable ConfigurateException thrown = null;
         for (Map.Entry<NodePath, TransformAction<? super N>> ent : this.actions.entrySet()) {
             try {
                 applySingleAction(node, ent.getKey().array(), 0, node, ent.getValue());
-            } catch (final ObjectMappingException ex) {
+            } catch (final ConfigurateException ex) {
                 if (thrown == null) {
                     thrown = ex;
                 } else {
@@ -70,8 +70,8 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
     }
 
     private void applySingleAction(final N start, final Object[] path, final int startIdx, N node, final TransformAction<? super N> action)
-            throws ObjectMappingException {
-        @Nullable ObjectMappingException thrown = null;
+            throws ConfigurateException {
+        @Nullable ConfigurateException thrown = null;
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.isList()) {
@@ -80,7 +80,7 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
                         path[i] = di;
                         try {
                             applySingleAction(start, path, i + 1, children.get(di), action);
-                        } catch (final ObjectMappingException ex) {
+                        } catch (final ConfigurateException ex) {
                             if (thrown == null) {
                                 thrown = ex;
                             } else {
@@ -94,7 +94,7 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
                         path[i] = ent.getKey();
                         try {
                             applySingleAction(start, path, i + 1, ent.getValue(), action);
-                        } catch (final ObjectMappingException ex) {
+                        } catch (final ConfigurateException ex) {
                             if (thrown == null) {
                                 thrown = ex;
                             } else {

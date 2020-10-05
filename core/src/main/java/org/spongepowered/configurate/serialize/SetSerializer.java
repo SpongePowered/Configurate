@@ -18,7 +18,6 @@ package org.spongepowered.configurate.serialize;
 
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
@@ -31,9 +30,9 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     static final TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
     @Override
-    Type elementType(final Type containerType) throws ObjectMappingException {
+    Type elementType(final Type containerType) throws SerializationException {
         if (!(containerType instanceof ParameterizedType)) {
-            throw new ObjectMappingException("Raw types are not supported for collections");
+            throw new SerializationException("Raw types are not supported for collections");
         }
         return ((ParameterizedType) containerType).getActualTypeArguments()[0];
     }
@@ -44,7 +43,7 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    void forEachElement(final Set<?> collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+    void forEachElement(final Set<?> collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
         for (Object el: collection) {
             action.accept(el);
         }

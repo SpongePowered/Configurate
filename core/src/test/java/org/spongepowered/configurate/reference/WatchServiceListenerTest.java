@@ -24,6 +24,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.reactive.Disposable;
 
 import java.io.IOException;
@@ -54,13 +55,13 @@ public class WatchServiceListenerTest {
     }
 
     @Test
-    void testListenToRelativePath() throws IOException {
+    void testListenToRelativePath() throws ConfigurateException {
         // We test that this doesn't throw any exceptions
         listener.listenToFile(Paths.get("testfile.conf"), event -> {}).dispose();
     }
 
     @Test
-    void testListenToPath() throws IOException {
+    void testListenToPath() throws IOException, ConfigurateException {
         final Path tempFolder = Files.createTempDirectory("configurate-test");
         final Path testFile = tempFolder.resolve("listenPath.txt");
         Files.write(testFile, Collections.singleton("version one"), StandardOpenOption.SYNC,
@@ -112,7 +113,7 @@ public class WatchServiceListenerTest {
 
     @Test
     @Disabled
-    void testListenToDirectory() throws IOException {
+    void testListenToDirectory() throws IOException, ConfigurateException {
         final Path tempFolder = Files.createTempDirectory("configurate-test");
         final Path test1 = tempFolder.resolve("test1");
         final Path test2 = tempFolder.resolve("test2");

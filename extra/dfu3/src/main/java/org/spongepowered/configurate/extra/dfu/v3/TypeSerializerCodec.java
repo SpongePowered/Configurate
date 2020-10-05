@@ -26,7 +26,7 @@ import io.leangen.geantyref.TypeToken;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 
 final class TypeSerializerCodec<V> implements Codec<V> {
@@ -60,7 +60,7 @@ final class TypeSerializerCodec<V> implements Codec<V> {
         final ConfigurationNode node = ops.convertTo(this.ops, holder);
         try {
             return DataResult.success(Pair.of(this.serializer.deserialize(this.token.getType(), node), holder));
-        } catch (final ObjectMappingException ex) {
+        } catch (final SerializationException ex) {
             LOGGER.debug(() -> "Error decoding value of type " + this.token, ex);
             return DataResult.error(ex.getMessage());
         }
@@ -84,7 +84,7 @@ final class TypeSerializerCodec<V> implements Codec<V> {
                     return ops.mergeToPrimitive(container, result);
                 }
             }
-        } catch (final ObjectMappingException ex) {
+        } catch (final SerializationException ex) {
             LOGGER.debug(() -> "Error encoding value of type " + this.token, ex);
             return DataResult.error(ex.getMessage());
         }

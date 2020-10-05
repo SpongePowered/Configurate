@@ -17,12 +17,12 @@
 package org.spongepowered.configurate;
 
 import static io.leangen.geantyref.GenericTypeReflector.erase;
+import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static java.util.Objects.requireNonNull;
-import static org.spongepowered.configurate.util.Types.requireCompleteParameters;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -117,7 +117,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * @param <V> the value type
      * @return the same value
      */
-    static <V> V storeDefault(final ConfigurationNode node, final Type type, final V defValue) throws ObjectMappingException {
+    static <V> V storeDefault(final ConfigurationNode node, final Type type, final V defValue) throws SerializationException {
         requireNonNull(defValue, "defValue");
         if (node.options().shouldCopyDefaults()) {
             node.set(type, defValue);
@@ -126,9 +126,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public final @Nullable Object get(final Type type) throws ObjectMappingException {
+    public final @Nullable Object get(final Type type) throws SerializationException {
         requireNonNull(type, "type");
-        requireCompleteParameters(type);
+        if (isMissingTypeParameters(type)) {
+            throw new SerializationException(this, type, "Raw types are not supported");
+        }
 
         final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
         if (this.value instanceof NullConfigValue) {
@@ -150,11 +152,17 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 return null;
             }
         }
-        return serial.deserialize(type, self());
+        try {
+            return serial.deserialize(type, self());
+        } catch (final SerializationException ex) {
+            ex.initPath(this::path);
+            ex.initType(type);
+            throw ex;
+        }
     }
 
     @Override
-    public final N set(final @Nullable Object newValue) throws ObjectMappingException {
+    public final N set(final @Nullable Object newValue) throws SerializationException {
         // if the value to be set is a configuration node already, unwrap and store the raw data
         if (newValue instanceof ConfigurationNode) {
             from((ConfigurationNode) newValue);

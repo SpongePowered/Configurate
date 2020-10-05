@@ -16,16 +16,15 @@
  */
 package org.spongepowered.configurate.jackson;
 
-import static java.util.Objects.requireNonNull;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
-class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, IOException> {
+class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, ConfigurateException> {
 
     static final ThreadLocal<JacksonVisitor> INSTANCE = ThreadLocal.withInitial(JacksonVisitor::new);
 
@@ -42,11 +41,19 @@ class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, IOExce
     }
 
     @Override
-    public void enterNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
-        //generateComment(generator, ent.getValue(), false);
+    public void enterNode(final ConfigurationNode node, final JsonGenerator generator) throws ConfigurateException {
+        // generateComment(generator, ent.getValue(), false);
         final @Nullable ConfigurationNode parent = node.parent();
         if (node != this.start && parent != null && parent.isMap()) {
-            generator.writeFieldName(requireNonNull(node.key(), "Node must have key to be a value in a mapping").toString());
+            final @Nullable Object key = node.key();
+            if (key == null) {
+                throw new ConfigurateException(node, "Node must have key to be a value in a mapping");
+            }
+            try {
+                generator.writeFieldName(key.toString());
+            } catch (final IOException ex) {
+                throw new ConfigurateException(node, ex);
+            }
         }
     }
 
@@ -76,51 +83,76 @@ class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, IOExce
     }*/
 
     @Override
-    public void enterMappingNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
-        state.writeStartObject();
-    }
-
-    @Override
-    public void enterListNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
-        state.writeStartArray();
-    }
-
-    @Override
-    public void enterScalarNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
-        final @Nullable Object value = node.rawScalar();
-        if (value instanceof Double) {
-            generator.writeNumber((Double) value);
-        } else if (value instanceof Float) {
-            generator.writeNumber((Float) value);
-        } else if (value instanceof Long) {
-            generator.writeNumber((Long) value);
-        } else if (value instanceof Integer) {
-            generator.writeNumber((Integer) value);
-        } else if (value instanceof Boolean) {
-            generator.writeBoolean((Boolean) value);
-        } else if (value instanceof byte[]) {
-            generator.writeBinary((byte[]) value);
-        } else if (value == null) {
-            generator.writeNull();
-        } else {
-            generator.writeString(value.toString());
+    public void enterMappingNode(final ConfigurationNode node, final JsonGenerator state) throws ConfigurateException {
+        try {
+            state.writeStartObject();
+        } catch (final IOException ex) {
+            throw new ConfigurateException(node, ex);
         }
     }
 
     @Override
-    public void exitMappingNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
-        state.writeEndObject();
+    public void enterListNode(final ConfigurationNode node, final JsonGenerator state) throws ConfigurateException {
+        try {
+            state.writeStartArray();
+        } catch (final IOException ex) {
+            throw new ConfigurateException(node, ex);
+        }
     }
 
     @Override
-    public void exitListNode(final ConfigurationNode node, final JsonGenerator state) throws IOException {
-        state.writeEndArray();
+    public void enterScalarNode(final ConfigurationNode node, final JsonGenerator generator) throws ConfigurateException {
+        final @Nullable Object value = node.rawScalar();
+        try {
+            if (value instanceof Double) {
+                generator.writeNumber((Double) value);
+            } else if (value instanceof Float) {
+                generator.writeNumber((Float) value);
+            } else if (value instanceof Long) {
+                generator.writeNumber((Long) value);
+            } else if (value instanceof Integer) {
+                generator.writeNumber((Integer) value);
+            } else if (value instanceof Boolean) {
+                generator.writeBoolean((Boolean) value);
+            } else if (value instanceof byte[]) {
+                generator.writeBinary((byte[]) value);
+            } else if (value == null) {
+                generator.writeNull();
+            } else {
+                generator.writeString(value.toString());
+            }
+        } catch (final IOException ex) {
+            throw new ConfigurateException(node, ex);
+        }
     }
 
     @Override
-    public Void endVisit(final JsonGenerator state) throws IOException {
-        state.flush();
+    public void exitMappingNode(final ConfigurationNode node, final JsonGenerator state) throws ConfigurateException {
+        try {
+            state.writeEndObject();
+        } catch (final IOException ex) {
+            throw new ConfigurateException(node, ex);
+        }
+    }
+
+    @Override
+    public void exitListNode(final ConfigurationNode node, final JsonGenerator state) throws ConfigurateException {
+        try {
+            state.writeEndArray();
+        } catch (final IOException ex) {
+            throw new ConfigurateException(node, ex);
+        }
+    }
+
+    @Override
+    public Void endVisit(final JsonGenerator state) throws ConfigurateException {
+        final @Nullable ConfigurationNode start = this.start;
         this.start = null;
+        try {
+            state.flush();
+        } catch (final IOException ex) {
+            throw new ConfigurateException(start, ex);
+        }
         return null;
     }
 

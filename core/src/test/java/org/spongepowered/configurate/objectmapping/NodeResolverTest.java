@@ -24,6 +24,7 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.NodeKey;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 public class NodeResolverTest {
 
@@ -35,7 +36,7 @@ public class NodeResolverTest {
     }
 
     @Test
-    void testNodeKey() throws ObjectMappingException {
+    void testNodeKey() throws SerializationException {
         final ObjectMapper<TestNodeKey> mapper = ObjectMapper.factory().get(TestNodeKey.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root().node("test");
         source.node("own").set("yeet");
@@ -53,7 +54,7 @@ public class NodeResolverTest {
     }
 
     @Test
-    void testSettingKey() throws ObjectMappingException {
+    void testSettingKey() throws SerializationException {
         final ObjectMapper<TestSettingKey> mapper = ObjectMapper.factory().get(TestSettingKey.class);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
@@ -73,7 +74,7 @@ public class NodeResolverTest {
     }
 
     @Test
-    void testOnlyWithAnnotation() throws ObjectMappingException {
+    void testOnlyWithAnnotation() throws SerializationException {
         final ObjectMapper<TestOnlyWithAnnotation> mapper = ObjectMapper.factoryBuilder()
                 .addNodeResolver(NodeResolver.onlyWithAnnotation(Setting.class))
                 .build().get(TestOnlyWithAnnotation.class);

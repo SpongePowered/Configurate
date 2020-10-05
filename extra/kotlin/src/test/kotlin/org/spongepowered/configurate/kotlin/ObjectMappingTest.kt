@@ -23,9 +23,9 @@ import org.spongepowered.configurate.BasicConfigurationNode
 import org.spongepowered.configurate.CommentedConfigurationNode
 import org.spongepowered.configurate.ConfigurationOptions
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
-import org.spongepowered.configurate.objectmapping.ObjectMappingException
 import org.spongepowered.configurate.objectmapping.meta.Comment
 import org.spongepowered.configurate.objectmapping.meta.Matches
+import org.spongepowered.configurate.serialize.SerializationException
 
 class ObjectMappingTest {
 
@@ -72,7 +72,7 @@ class ObjectMappingTest {
         assertEquals("sad", node.node("name").comment())
         assertEquals("SHOUTING", node.node("attributes").raw())
 
-        assertThrows<ObjectMappingException> {
+        assertThrows<SerializationException> {
             mapper.load(
                 node {
                     this.node("name").set("meow")

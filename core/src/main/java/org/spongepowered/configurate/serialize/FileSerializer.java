@@ -20,7 +20,6 @@ import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -39,12 +38,12 @@ final class FileSerializer implements TypeSerializer<File> {
     }
 
     @Override
-    public File deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+    public File deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         return requireNonNull(node.get(Path.class), "node did not contain a valid path").toFile();
     }
 
     @Override
-    public void serialize(final Type type, final @Nullable File obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable File obj, final ConfigurationNode node) throws SerializationException {
         if (obj == null) {
             node.set(null);
         } else {

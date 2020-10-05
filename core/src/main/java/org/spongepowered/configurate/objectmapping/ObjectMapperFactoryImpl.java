@@ -34,6 +34,7 @@ import org.spongepowered.configurate.objectmapping.meta.Matches;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.objectmapping.meta.Required;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.NamingScheme;
@@ -98,10 +99,10 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     }
 
     @Override
-    public ObjectMapper<?> get(final Type type) throws ObjectMappingException {
+    public ObjectMapper<?> get(final Type type) throws SerializationException {
         requireNonNull(type, "type");
         if (isMissingTypeParameters(type)) {
-            throw new ObjectMappingException("Raw types are not supported!");
+            throw new SerializationException(type, "Raw types are not supported!");
         }
 
         synchronized (this.mappers) {
@@ -114,7 +115,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         return this;
     }
 
-    private ObjectMapper<?> computeMapper(final Type type) throws ObjectMappingException {
+    private ObjectMapper<?> computeMapper(final Type type) throws SerializationException {
         for (FieldDiscoverer<?> discoverer : this.fieldDiscoverers) {
             final @Nullable ObjectMapper<?> result = newMapper(type, discoverer);
             if (result != null) {
@@ -122,10 +123,10 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
             }
         }
 
-        throw new ObjectMappingException("Could not find factory for type " + type);
+        throw new SerializationException(type, "Could not find factory for type " + type);
     }
 
-    private <I, V> @Nullable ObjectMapper<V> newMapper(final Type type, final FieldDiscoverer<I> discoverer) throws ObjectMappingException {
+    private <I, V> @Nullable ObjectMapper<V> newMapper(final Type type, final FieldDiscoverer<I> discoverer) throws SerializationException {
         final List<FieldData<I, V>> fields = new ArrayList<>();
         final FieldDiscoverer.@Nullable InstanceFactory<I> candidate = discoverer.<V>discover(annotate(type),
             (name, fieldType, container, deserializer, serializer) -> makeData(fields, name, fieldType, container, deserializer, serializer));
@@ -197,25 +198,26 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     public static final String CLASS_KEY = "__class__";
 
     @Override
-    public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
-        final Type clazz = instantiableType(type, node.node(CLASS_KEY).getString());
+    public Object deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
+        final Type clazz = instantiableType(node, type, node.node(CLASS_KEY).getString());
         return get(clazz).load(node);
     }
 
-    private Type instantiableType(final Type type, final @Nullable String configuredName) throws ObjectMappingException {
+    private Type instantiableType(final ConfigurationNode node, final Type type,
+            final @Nullable String configuredName) throws SerializationException {
         final Type retClass;
         final Class<?> rawType = erase(type);
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             if (configuredName == null) {
-                throw new ObjectMappingException("No available configured type for instances of " + type);
+                throw new SerializationException(node, type, "No available configured type for instances of this type");
             } else {
                 try {
                     retClass = Class.forName(configuredName);
                 } catch (final ClassNotFoundException e) {
-                    throw new ObjectMappingException("Unknown class of object " + configuredName, e);
+                    throw new SerializationException(node, type, "Unknown class of object " + configuredName, e);
                 }
                 if (!GenericTypeReflector.isSuperType(type, retClass)) {
-                    throw new ObjectMappingException("Configured type " + configuredName + " does not extend "
+                    throw new SerializationException(node, type, "Configured type " + configuredName + " does not extend "
                             + rawType.getCanonicalName());
                 }
             }
@@ -227,7 +229,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
 
     @Override
     @SuppressWarnings("unchecked")
-    public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws SerializationException {
         if (obj == null) {
             final ConfigurationNode clazz = node.node(CLASS_KEY);
             node.set(null);
@@ -253,7 +255,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         try {
             // preserve options, but don't copy defaults into temporary node
             return get(specificType).load(BasicConfigurationNode.root(options.shouldCopyDefaults(false)));
-        } catch (final ObjectMappingException ex) {
+        } catch (final SerializationException ex) {
             return null;
         }
     }

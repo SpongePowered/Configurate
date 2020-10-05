@@ -19,6 +19,7 @@ package org.spongepowered.configurate.objectmapping;
 import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.AnnotatedElement;
@@ -52,7 +53,7 @@ public interface FieldDiscoverer<I> {
      * @param instanceFactory a factory for instance providers
      * @return new discoverer
      */
-    static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
+    static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
         return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
     }
 
@@ -82,9 +83,9 @@ public interface FieldDiscoverer<I> {
      * @param <V> object type
      * @return a factory for handling the construction of object instances, or
      *      {@code null} if {@code target} is not of a handleable type.
-     * @throws ObjectMappingException if any fields have invalid data
+     * @throws SerializationException if any fields have invalid data
      */
-    <V> @Nullable InstanceFactory<I> discover(AnnotatedType target, FieldCollector<I, V> collector) throws ObjectMappingException;
+    <V> @Nullable InstanceFactory<I> discover(AnnotatedType target, FieldCollector<I, V> collector) throws SerializationException;
 
     /**
      * A handler for controlling the deserialization process for an object.
@@ -105,9 +106,9 @@ public interface FieldDiscoverer<I> {
          *
          * @param intermediate intermediate container to hold values
          * @return final value
-         * @throws ObjectMappingException if unable to construct a
+         * @throws SerializationException if unable to construct a
          */
-        Object complete(I intermediate) throws ObjectMappingException;
+        Object complete(I intermediate) throws SerializationException;
 
         /**
          * Get whether or not new object instances can be created.
@@ -129,9 +130,9 @@ public interface FieldDiscoverer<I> {
          *
          * @param instance instance to write to
          * @param intermediate intermediate container
-         * @throws ObjectMappingException if unable to apply info
+         * @throws SerializationException if unable to apply info
          */
-        void complete(Object instance, I intermediate) throws ObjectMappingException;
+        void complete(Object instance, I intermediate) throws SerializationException;
     }
 
     /**

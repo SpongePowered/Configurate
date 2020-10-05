@@ -30,7 +30,7 @@ import com.google.common.collect.ImmutableMap;
 import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -88,7 +88,7 @@ public class AbstractConfigurationNodeTest {
     }
 
     @Test
-    void testGetDefaultValue() throws ObjectMappingException {
+    void testGetDefaultValue() throws SerializationException {
         final ConfigurationNode root = BasicConfigurationNode.root();
         final Object testObj = new Object();
         assertEquals(testObj, root.node("nonexistent").get(Object.class, testObj));
@@ -231,7 +231,7 @@ public class AbstractConfigurationNodeTest {
     }
 
     @Test
-    void testGetSetValueSerialized() throws ObjectMappingException {
+    void testGetSetValueSerialized() throws SerializationException {
         final ConfigurationNode subject = BasicConfigurationNode.root(ConfigurationOptions.defaults()
                 .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         subject.set("48");
@@ -256,10 +256,10 @@ public class AbstractConfigurationNodeTest {
             b.node("test1").raw(2);
             b.node("test2").raw(3);
         });
-        assertThrows(IllegalArgumentException.class, () -> subject.get(Map.class));
-        assertThrows(IllegalArgumentException.class, () -> subject.get((Type) Map.class));
+        assertThrows(SerializationException.class, () -> subject.get(Map.class));
+        assertThrows(SerializationException.class, () -> subject.get((Type) Map.class));
         // expected raw type
-        assertThrows(IllegalArgumentException.class, () -> subject.get(new TypeToken<Map>() {}));
+        assertThrows(SerializationException.class, () -> subject.get(new TypeToken<Map>() {}));
 
     }
 
@@ -418,7 +418,7 @@ public class AbstractConfigurationNodeTest {
     }
 
     @Test
-    void testCollectToList() throws ObjectMappingException {
+    void testCollectToList() throws SerializationException {
         final BasicConfigurationNode target = IntStream.of(1, 2, 3, 4, 8).boxed()
                 .collect(BasicConfigurationNode.factory().toListCollector(Integer.class));
 
@@ -442,7 +442,7 @@ public class AbstractConfigurationNodeTest {
     }
 
     @Test
-    void testImplicitInitialization() throws ObjectMappingException {
+    void testImplicitInitialization() throws SerializationException {
         final BasicConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults().implicitInitialization(true));
 
         assertNull(node.raw());

@@ -19,13 +19,12 @@ package org.spongepowered.configurate.examples;
 import static org.spongepowered.configurate.transformation.NodePath.path;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import org.spongepowered.configurate.transformation.TransformAction;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
@@ -107,7 +106,7 @@ public final class Transformations {
      * @param <N> node type
      * @return provided node, after transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) throws ObjectMappingException {
+    public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) throws ConfigurateException {
         if (!node.virtual()) { // we only want to migrate existing data
             final ConfigurationTransformation.Versioned<N> trans = create();
             final int startVersion = trans.version(node);
@@ -120,7 +119,7 @@ public final class Transformations {
         return node;
     }
 
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) throws ConfigurateException {
         if (args.length != 1) {
             System.err.println("Not enough arguments, usage: transformations <file>");
             System.err.println("Apply the test transformations to a single file");
@@ -131,7 +130,7 @@ public final class Transformations {
 
         try {
             loader.save(updateNode(loader.load())); // tada
-        } catch (final ObjectMappingException ex) {
+        } catch (final ConfigurateException ex) {
             // We try to update as much as possible, so could theoretically save a partially updated file here
             System.err.println("Failed to fully update node: " + ex.getMessage());
             ex.printStackTrace();

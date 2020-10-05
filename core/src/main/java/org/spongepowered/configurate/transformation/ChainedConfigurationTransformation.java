@@ -17,8 +17,8 @@
 package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Arrays;
 
@@ -34,12 +34,12 @@ class ChainedConfigurationTransformation<T extends ConfigurationNode> implements
     }
 
     @Override
-    public void apply(final T node) throws ObjectMappingException {
-        @Nullable ObjectMappingException thrown = null;
+    public void apply(final T node) throws ConfigurateException {
+        @Nullable ConfigurateException thrown = null;
         for (ConfigurationTransformation<? super T> transformation : this.transformations) {
             try {
                 transformation.apply(node);
-            } catch (final ObjectMappingException ex) {
+            } catch (final ConfigurateException ex) {
                 if (thrown == null) {
                     thrown = ex;
                 } else {

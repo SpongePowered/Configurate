@@ -17,7 +17,7 @@
 package org.spongepowered.configurate;
 
 import io.leangen.geantyref.TypeToken;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.util.Map;
@@ -109,7 +109,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
@@ -132,7 +132,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
@@ -155,7 +155,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {
@@ -178,7 +178,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, (a, b) -> {

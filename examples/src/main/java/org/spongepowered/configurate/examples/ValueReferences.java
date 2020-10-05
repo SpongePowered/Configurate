@@ -19,9 +19,9 @@ package org.spongepowered.configurate.examples;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.ValueReference;
 import org.spongepowered.configurate.reference.WatchServiceListener;
@@ -76,7 +76,7 @@ public class ValueReferences {
         }
     }
 
-    public ValueReferences(final Path configFile) throws IOException, ObjectMappingException {
+    public ValueReferences(final Path configFile) throws IOException, ConfigurateException {
         this.listener = WatchServiceListener.create();
         this.base = this.listener.listenToConfiguration(file -> HoconConfigurationLoader.builder()
                 .defaultOptions(o -> o.shouldCopyDefaults(true)).path(file).build(), configFile);
@@ -166,7 +166,7 @@ public class ValueReferences {
         final Path path = Paths.get(args[0]);
         try {
             new ValueReferences(path).repl();
-        } catch (IOException | ObjectMappingException e) {
+        } catch (IOException | ConfigurateException e) {
             System.out.println("Error loading configuration: " + e.getMessage());
             e.printStackTrace();
         }

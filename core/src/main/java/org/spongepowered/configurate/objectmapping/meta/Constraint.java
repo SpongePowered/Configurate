@@ -17,7 +17,7 @@
 package org.spongepowered.configurate.objectmapping.meta;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -37,9 +37,9 @@ public interface Constraint<V> {
      * Check if the provided deserialized value matches an expected condition.
      *
      * @param value value to test
-     * @throws ObjectMappingException if the value falls outside its constraint.
+     * @throws SerializationException if the value falls outside its constraint.
      */
-    void validate(@Nullable V value) throws ObjectMappingException;
+    void validate(@Nullable V value) throws SerializationException;
 
     /**
      * Provider for a specific constraint given a field type.
@@ -69,7 +69,7 @@ public interface Constraint<V> {
     static <T extends Annotation> Constraint.Factory<T, Object> required() {
         return (data, type) -> value -> {
             if (value == null) {
-                throw new ObjectMappingException("A value is required for this field");
+                throw new SerializationException("A value is required for this field");
             }
         };
     }
@@ -89,7 +89,7 @@ public interface Constraint<V> {
                 if (value != null) {
                     final Matcher match = test.matcher(value);
                     if (!match.matches()) {
-                        throw new ObjectMappingException(format.format(new Object[]{value, data.value()}));
+                        throw new SerializationException(format.format(new Object[]{value, data.value()}));
                     }
                 }
             };
@@ -113,7 +113,7 @@ public interface Constraint<V> {
                 if (value != null) {
                     final Matcher match = test.matcher(value);
                     if (!match.matches()) {
-                        throw new ObjectMappingException(format.format(new Object[]{value, data.value()}));
+                        throw new SerializationException(format.format(new Object[]{value, data.value()}));
                     }
                 }
             };

@@ -20,7 +20,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Type;
 
@@ -41,7 +40,7 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
     }
 
     @Override
-    public void serialize(final Type type, final @Nullable ConfigurationNode obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable ConfigurationNode obj, final ConfigurationNode node) throws SerializationException {
         node.set(obj);
     }
 

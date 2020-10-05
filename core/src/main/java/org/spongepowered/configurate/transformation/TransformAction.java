@@ -18,8 +18,8 @@ package org.spongepowered.configurate.transformation;
 
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.function.Supplier;
 
@@ -56,7 +56,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
         return (path, value) -> {
             final Object[] arr = path.array();
             if (arr.length == 0) {
-                throw new ObjectMappingException("The root node cannot be renamed!"); // TODO: plain ConfigurateException
+                throw new ConfigurateException(value, "The root node cannot be renamed!");
             }
             arr[arr.length - 1] = newKey;
             return arr;
@@ -124,6 +124,6 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param valueAtPath the node at the input path. May be modified
      * @return a modified path, or null if the path is to stay the same
      */
-    @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath) throws ObjectMappingException;
+    @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath) throws ConfigurateException;
 
 }

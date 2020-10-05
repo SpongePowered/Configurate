@@ -19,17 +19,21 @@ package org.spongepowered.configurate.jackson;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonFactoryBuilder;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
@@ -54,7 +58,6 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
      *
      * @return a new builder
      */
-    @NonNull
     public static Builder builder() {
         return new Builder();
     }
@@ -82,7 +85,6 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          *
          * @return the json factory
          */
-        @NonNull
         public JsonFactoryBuilder factoryBuilder() {
             return this.factory;
         }
@@ -93,7 +95,6 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @param indent the indent level
          * @return this builder (for chaining)
          */
-        @NonNull
         public Builder indent(final int indent) {
             this.indent = indent;
             return this;
@@ -114,8 +115,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @param style the style
          * @return this builder (for chaining)
          */
-        @NonNull
-        public Builder fieldValueSeparatorStyle(final @NonNull FieldValueSeparatorStyle style) {
+        public Builder fieldValueSeparatorStyle(final FieldValueSeparatorStyle style) {
             this.fieldValueSeparatorStyle = style;
             return this;
         }
@@ -125,12 +125,10 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          *
          * @return the style
          */
-        @NonNull
         public FieldValueSeparatorStyle fieldValueSeparatorStyle() {
             return this.fieldValueSeparatorStyle;
         }
 
-        @NonNull
         @Override
         public JacksonConfigurationLoader build() {
             defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
@@ -150,55 +148,66 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         this.fieldValueSeparatorStyle = builder.fieldValueSeparatorStyle();
     }
 
+    private static final int MAX_CTX_LENGTH = 80;
+
     @Override
-    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws ParsingException {
         try (JsonParser parser = this.factory.createParser(reader)) {
             parser.nextToken();
             parseValue(parser, node);
+        } catch (final StreamReadException ex) {
+            throw newException(node, ex.getLocation(), ex.getRequestPayloadAsString(), ex.getMessage(), ex.getCause());
+        } catch (final IOException ex) {
+            throw new ParsingException(node, -1, -1, null, null, ex);
         }
     }
 
-    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException {
-        final JsonToken token = parser.getCurrentToken();
-        switch (token) {
-            case START_OBJECT:
-                parseObject(parser, node);
-                break;
-            case START_ARRAY:
-                parseArray(parser, node);
-                break;
-            case VALUE_NUMBER_FLOAT:
-                final double doubleVal = parser.getDoubleValue();
-                if ((float) doubleVal != doubleVal) {
-                    node.raw(parser.getDoubleValue());
-                } else {
-                    node.raw(parser.getFloatValue());
-                }
-                break;
-            case VALUE_NUMBER_INT:
-                final long longVal = parser.getLongValue();
-                if ((int) longVal != longVal) {
-                    node.raw(parser.getLongValue());
-                } else {
-                    node.raw(parser.getIntValue());
-                }
-                break;
-            case VALUE_STRING:
-                node.raw(parser.getText());
-                break;
-            case VALUE_TRUE:
-            case VALUE_FALSE:
-                node.raw(parser.getBooleanValue());
-                break;
-            case VALUE_NULL: // Ignored values
-            case FIELD_NAME:
-                break;
-            default:
-                throw new IOException("Unsupported token type: " + token + " (at " + parser.getTokenLocation() + ")");
+    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {
+        try {
+            final JsonToken token = parser.getCurrentToken();
+            switch (token) {
+                case START_OBJECT:
+                    parseObject(parser, node);
+                    break;
+                case START_ARRAY:
+                    parseArray(parser, node);
+                    break;
+                case VALUE_NUMBER_FLOAT:
+                    final double doubleVal = parser.getDoubleValue();
+                    if ((float) doubleVal != doubleVal) {
+                        node.raw(parser.getDoubleValue());
+                    } else {
+                        node.raw(parser.getFloatValue());
+                    }
+                    break;
+                case VALUE_NUMBER_INT:
+                    final long longVal = parser.getLongValue();
+                    if ((int) longVal != longVal) {
+                        node.raw(parser.getLongValue());
+                    } else {
+                        node.raw(parser.getIntValue());
+                    }
+                    break;
+                case VALUE_STRING:
+                    node.raw(parser.getText());
+                    break;
+                case VALUE_TRUE:
+                case VALUE_FALSE:
+                    node.raw(parser.getBooleanValue());
+                    break;
+                case VALUE_NULL: // Ignored values
+                case FIELD_NAME:
+                    break;
+                default:
+                    final JsonLocation loc = parser.getTokenLocation();
+                    throw new ParsingException(node, loc.getLineNr(), loc.getColumnNr(), parser.getText(), "Unsupported token type: " + token, null);
+            }
+        } catch (final StreamReadException ex) {
+            throw newException(node, ex.getLocation(), ex.getRequestPayloadAsString(), ex.getMessage(), ex.getCause());
         }
     }
 
-    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException {
+    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -214,42 +223,66 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                     written = true;
             }
         }
-        throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
+        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);
     }
 
-    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException {
+    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
-            switch (token) {
-                case END_OBJECT:
-                    // ensure the type is preserved
-                    if (!written) {
-                        node.raw(Collections.emptyMap());
-                    }
-                    return;
-                default:
-                    parseValue(parser, node.node(parser.getCurrentName()));
-                    written = true;
+            if (token == JsonToken.END_OBJECT) { // ensure the type is preserved
+                if (!written) {
+                    node.raw(Collections.emptyMap());
+                }
+                return;
+            } else {
+                parseValue(parser, node.node(parser.getCurrentName()));
+                written = true;
             }
         }
-        throw new JsonParseException(parser, "Reached end of stream with unclosed array!", parser.getCurrentLocation());
+        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed object!", null);
     }
 
     @Override
-    public void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+    public void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
         try (JsonGenerator generator = this.factory.createGenerator(writer)) {
             generator.setPrettyPrinter(new ConfiguratePrettyPrinter(this.indent, this.fieldValueSeparatorStyle));
             node.visit(JacksonVisitor.INSTANCE.get(), generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
+        } catch (final IOException ex) {
+            throw new ConfigurateException(ex);
         }
     }
 
-    @NonNull
     @Override
-    public BasicConfigurationNode createNode(@NonNull ConfigurationOptions options) {
-        options = options.nativeTypes(NATIVE_TYPES);
-        return BasicConfigurationNode.root(options);
+    public BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {
+        return BasicConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));
+    }
+
+    private static ParsingException newException(final ConfigurationNode node,
+            final JsonLocation position,
+            final @Nullable String content,
+            final @Nullable String message,
+            final @Nullable Throwable cause) {
+        @Nullable String context = content == null ? null : content.substring((int) position.getCharOffset());
+        if (context != null) {
+            int nextLine = context.indexOf('\n');
+            if (nextLine == -1) {
+                nextLine = context.length();
+            } else if (context.charAt(nextLine - 1) == '\r') {
+                nextLine--;
+            }
+
+            if (nextLine > MAX_CTX_LENGTH) {
+                context = context.substring(0, MAX_CTX_LENGTH) + "...";
+            } else {
+                context = context.substring(0, nextLine);
+            }
+        }
+        // no newline: set to length
+        // too long: truncate
+        // otherwise: trim to position of next newline
+        return new ParsingException(node, position.getLineNr(), position.getColumnNr(), context, message, cause);
     }
 
 }

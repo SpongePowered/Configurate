@@ -19,7 +19,6 @@ package org.spongepowered.configurate.serialize;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -37,7 +36,7 @@ final class PathSerializer implements TypeSerializer<Path> {
     static TypeToken<String> STRING = TypeToken.get(String.class);
 
     @Override
-    public Path deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+    public Path deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         if (node.isList()) {
             final List<String> elements = node.getList(STRING);
             switch (elements.size()) {
@@ -46,11 +45,11 @@ final class PathSerializer implements TypeSerializer<Path> {
                 default: return Paths.get(elements.get(0), elements.subList(1, elements.size()).toArray(EMPTY_STRING_ARRAY));
             }
         } else if (node.isMap()) {
-            throw new ObjectMappingException("Paths must be a list of strings, or a single string");
+            throw new SerializationException("Paths must be a list of strings, or a single string");
         }
         final @Nullable Object value = node.rawScalar();
         if (value == null) {
-            throw new ObjectMappingException("must have scalar value");
+            throw new SerializationException("must have scalar value");
         }
 
         if (value instanceof URI) {
@@ -61,7 +60,7 @@ final class PathSerializer implements TypeSerializer<Path> {
     }
 
     @Override
-    public void serialize(final Type type, final @Nullable Path obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable Path obj, final ConfigurationNode node) throws SerializationException {
         if (obj == null) {
             node.set(null);
             return;

@@ -20,11 +20,13 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.AttributedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,6 +35,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -286,7 +289,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         this.resolvesExternalContent = builder.resolvesExternalContent();
     }
 
-    private DocumentBuilder newDocumentBuilder() throws IOException {
+    private DocumentBuilder newDocumentBuilder() throws ConfigurateException {
         final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         if (this.schema != null) {
             builderFactory.setSchema(this.schema);
@@ -298,7 +301,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
                 builderFactory.setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, false);
                 builderFactory.setFeature(FEATURE_LOAD_EXTERNAL_DTD, false);
             } catch (final ParserConfigurationException e) {
-                throw new IOException(e);
+                throw new ConfigurateException(e);
             }
             builderFactory.setXIncludeAware(false);
             builderFactory.setExpandEntityReferences(false);
@@ -307,11 +310,11 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         try {
             return builderFactory.newDocumentBuilder();
         } catch (final ParserConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new ConfigurateException(e);
         }
     }
 
-    private Transformer newTransformer() {
+    private Transformer newTransformer() throws ConfigurateException {
         final TransformerFactory transformerFactory = TransformerFactory.newInstance();
         if (!this.resolvesExternalContent) {
             transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
@@ -329,14 +332,14 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             }
             return transformer;
         } catch (final TransformerConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new ConfigurateException(e);
         }
     }
 
     @Override
-    public @NonNull AttributedConfigurationNode load(@NonNull ConfigurationOptions options) throws IOException {
+    public @NonNull AttributedConfigurationNode load(@NonNull ConfigurationOptions options) throws ParsingException {
         if (source == null) {
-            throw new IOException("No source present to read from!");
+            throw new ParsingException(-1, -1, "", "No source present to read from!", null);
         }
         try (BufferedReader reader = source.call()) {
             final DocumentBuilder documentBuilder = newDocumentBuilder();
@@ -344,8 +347,10 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             final Document document;
             try {
                 document = documentBuilder.parse(new InputSource(reader));
+            } catch (final SAXParseException ex) {
+                throw new ParsingException(ex.getLineNumber(), ex.getColumnNumber(), "", ex.getMessage(), ex.getCause());
             } catch (final SAXException e) {
-                throw new IOException(e);
+                throw new ParsingException(-1, -1, null, null, e);
             }
 
             final NodeList children = document.getChildNodes();
@@ -362,10 +367,10 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             // empty document, fall through
         } catch (final FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
-        } catch (final IOException e) {
-            throw e;
+        } catch (final ParsingException ex) {
+            throw ex;
         } catch (final Exception e) {
-            throw new IOException(e);
+            throw new ParsingException(-1, -1, "", null, e);
         }
         return createNode(options);
     }
@@ -512,7 +517,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     }
 
     @Override
-    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
         final DocumentBuilder documentBuilder = newDocumentBuilder();
         final Document document = documentBuilder.newDocument();
 
@@ -528,7 +533,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         try {
             transformer.transform(source, new StreamResult(writer));
         } catch (final TransformerException e) {
-            throw new IOException(e);
+            throw new ConfigurateException(node, e);
         }
     }
 

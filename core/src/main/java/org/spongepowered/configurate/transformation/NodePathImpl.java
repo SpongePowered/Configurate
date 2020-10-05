@@ -106,7 +106,7 @@ final class NodePathImpl implements NodePath {
 
     @Override
     public String toString() {
-        return "NodePathImpl" + Arrays.toString(this.arr);
+        return Arrays.toString(this.arr);
     }
 
 }

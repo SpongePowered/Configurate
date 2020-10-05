@@ -19,6 +19,7 @@ package org.spongepowered.configurate.reference;
 import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reactive.Disposable;
@@ -136,6 +137,7 @@ public final class WatchServiceListener implements AutoCloseable {
                 try {
                     Thread.sleep(20);
                 } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     break;
                 }
             }
@@ -150,10 +152,10 @@ public final class WatchServiceListener implements AutoCloseable {
      *
      * @param directory the directory to listen to
      * @return a registration, created new if necessary.
-     * @throws IOException if produced while registering the path with
+     * @throws ConfigurateException if produced while registering the path with
      *          our WatchService
      */
-    private DirectoryListenerRegistration registration(final Path directory) throws IOException {
+    private DirectoryListenerRegistration registration(final Path directory) throws ConfigurateException {
         final @Nullable DirectoryListenerRegistration reg = this.activeListeners.computeIfAbsent(directory, dir -> {
             try {
                 return new DirectoryListenerRegistration(dir.register(this.watchService, DEFAULT_WATCH_EVENTS), this.taskExecutor);
@@ -164,7 +166,7 @@ public final class WatchServiceListener implements AutoCloseable {
         });
 
         if (reg == null) {
-            throw exceptionHolder.get();
+            throw new ConfigurateException("While adding listener for " + directory, exceptionHolder.get());
         }
         return reg;
     }
@@ -175,10 +177,10 @@ public final class WatchServiceListener implements AutoCloseable {
      * @param file the path of the file or directory to listen for changes on.
      * @param callback a subscriber that will be notified when changes occur.
      * @return a {@link Disposable} that can be used to cancel this subscription
-     * @throws IOException if a filesystem error occurs.
+     * @throws ConfigurateException if a filesystem error occurs.
      * @throws IllegalArgumentException if the provided path is a directory.
      */
-    public Disposable listenToFile(Path file, final Subscriber<WatchEvent<?>> callback) throws IOException, IllegalArgumentException {
+    public Disposable listenToFile(Path file, final Subscriber<WatchEvent<?>> callback) throws ConfigurateException, IllegalArgumentException {
         file = file.toAbsolutePath();
         if (Files.isDirectory(file)) {
             throw new IllegalArgumentException("Path " + file + " must be a file");
@@ -195,11 +197,12 @@ public final class WatchServiceListener implements AutoCloseable {
      * @param directory the directory to listen to
      * @param callback a subscriber that will be notified when changes occur.
      * @return a {@link Disposable} that can be used to cancel this subscription
-     * @throws IOException when an error occurs registering with the underlying
-     *          watch service.
+     * @throws ConfigurateException when an error occurs registering with the
+     *                              underlying watch service.
      * @throws IllegalArgumentException if the provided path is not a directory
      */
-    public Disposable listenToDirectory(Path directory, final Subscriber<WatchEvent<?>> callback) throws IOException, IllegalArgumentException {
+    public Disposable listenToDirectory(Path directory, final Subscriber<WatchEvent<?>> callback)
+            throws ConfigurateException, IllegalArgumentException {
         directory = directory.toAbsolutePath();
         if (!(Files.isDirectory(directory) || !Files.exists(directory))) {
             throw new IllegalArgumentException("Path " + directory + " must be a directory");
@@ -215,11 +218,11 @@ public final class WatchServiceListener implements AutoCloseable {
      * @param path path to to for changes
      * @param <N> node type
      * @return new reference
-     * @throws IOException if unable to complete an initial load of
+     * @throws ConfigurateException if unable to complete an initial load of
      *      the configuration.
      */
     public <N extends ScopedConfigurationNode<N>> ConfigurationReference<N>
-        listenToConfiguration(final Function<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws IOException {
+        listenToConfiguration(final Function<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws ConfigurateException {
         return ConfigurationReference.watching(loaderFunc, path, this);
     }
 

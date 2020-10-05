@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +31,7 @@ import java.util.List;
 public class TypeSerializerCollectionTest {
 
     @Test
-    void testResolveWildcard() throws ObjectMappingException {
+    void testResolveWildcard() throws SerializationException {
         final ConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
             .serializers(b -> b.register(Object.class, new PassthroughSerializer())), n -> {
                 n.appendListNode().raw("a string");

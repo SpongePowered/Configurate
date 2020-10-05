@@ -26,11 +26,11 @@ import com.typesafe.config.ConfigValueFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
 import java.io.BufferedReader;
@@ -52,7 +52,7 @@ import java.util.Map;
 public class HoconConfigurationLoaderTest {
 
     @Test
-    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+    void testSimpleLoading(final @TempDir Path tempDir) throws ConfigurateException, IOException {
         final URL url = getClass().getResource("/example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
@@ -71,7 +71,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testSplitLineCommentInput(final @TempDir Path tempDir) throws IOException {
+    void testSplitLineCommentInput(final @TempDir Path tempDir) throws ConfigurateException, IOException {
         final Path saveTo = tempDir.resolve("text2.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo)
@@ -85,7 +85,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testHeaderSaved(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
+    void testHeaderSaved(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         final Path saveTo = tempDir.resolve("text3.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo)
@@ -101,7 +101,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
+    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         final URL url = getClass().getResource("/comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
@@ -130,7 +130,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException {
+    void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         // https://github.com/SpongePowered/Configurate/issues/44
         final URL rsrc = getClass().getResource("/empty-values.conf");
         final Path output = tempDir.resolve("load-merge-empty.conf");
@@ -160,7 +160,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testCreateEmptyObjectmappingSection(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
+    void testCreateEmptyObjectmappingSection(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         // https://github.com/SpongePowered/Configurate/issues/40
         final URL rsrc = getClass().getResource("/empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");

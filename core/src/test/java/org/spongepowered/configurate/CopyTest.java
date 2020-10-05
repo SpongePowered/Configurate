@@ -23,14 +23,14 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Arrays;
 
 public class CopyTest {
 
     @Test
-    void testSimpleCopy() throws ObjectMappingException {
+    void testSimpleCopy() throws SerializationException {
         final ConfigurationNode node = BasicConfigurationNode.root();
         node.node("test").set(5);
         node.node("section", "val1").set(true);
@@ -66,7 +66,7 @@ public class CopyTest {
     }
 
     @Test
-    void testCopyPaths() throws ObjectMappingException {
+    void testCopyPaths() throws SerializationException {
         final ConfigurationNode node = BasicConfigurationNode.root();
         node.node("test").set(5);
         node.node("section", "val1").set(true);

@@ -16,8 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,7 +28,7 @@ final class UriSerializer extends ScalarSerializer<URI> {
     }
 
     @Override
-    public URI deserialize(final Type type, final Object obj) throws ObjectMappingException {
+    public URI deserialize(final Type type, final Object obj) throws SerializationException {
         final String plainUri = obj.toString();
         try {
             return new URI(plainUri);

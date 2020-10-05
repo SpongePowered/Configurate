@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.hocon;
 
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigList;
 import com.typesafe.config.ConfigObject;
@@ -29,11 +30,13 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.io.BufferedReader;
@@ -150,9 +153,15 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     }
 
     @Override
-    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
-        Config hoconConfig = ConfigFactory.parseReader(reader);
-        hoconConfig = hoconConfig.resolve();
+    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {
+        Config hoconConfig;
+        try {
+            hoconConfig = ConfigFactory.parseReader(reader);
+            hoconConfig = hoconConfig.resolve();
+        } catch (final ConfigException ex) {
+            throw new ParsingException(node, ex.origin().lineNumber(), 0, ex.origin().description(), null, ex);
+        }
+
         for (Map.Entry<String, ConfigValue> ent : hoconConfig.root().entrySet()) {
             readConfigValue(ent.getValue(), node.node(ent.getKey()));
         }
@@ -194,18 +203,22 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     }
 
     @Override
-    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
-        if (!node.isMap()) {
-            if (node.virtual() || node.raw() == null) {
-                writer.write(SYSTEM_LINE_SEPARATOR);
-                return;
-            } else {
-                throw new IOException("HOCON can only write nodes that are in map format!");
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
+        try {
+            if (!node.isMap()) {
+                if (node.virtual() || node.raw() == null) {
+                    writer.write(SYSTEM_LINE_SEPARATOR);
+                    return;
+                } else {
+                    throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");
+                }
             }
+            final ConfigValue value = fromValue(node);
+            final String renderedValue = value.render(this.render);
+            writer.write(renderedValue);
+        } catch (final IOException io) {
+            throw new ConfigurateException(node, io);
         }
-        final ConfigValue value = fromValue(node);
-        final String renderedValue = value.render(this.render);
-        writer.write(renderedValue);
     }
 
     private static ConfigValue fromValue(final ConfigurationNode node) {

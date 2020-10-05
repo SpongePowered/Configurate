@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
@@ -59,27 +59,27 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public V deserialize(@NonNull final Type type, @NonNull final ConfigurationNode value) throws ObjectMappingException {
+    public V deserialize(@NonNull final Type type, @NonNull final ConfigurationNode value) throws SerializationException {
         final DataResult<Pair<V, ConfigurationNode>> result = this.codec.decode(opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<Pair<V, ConfigurationNode>> error = result.error().orElse(null);
         if (error != null) {
             LOGGER.debug("Unable to decode value using {} due to {}", this.codec, error.message());
-            throw new ObjectMappingException(error.message());
+            throw new SerializationException(error.message());
         }
-        return result.result().orElseThrow(() -> new ObjectMappingException("Neither a result or error was present")).getFirst();
+        return result.result().orElseThrow(() -> new SerializationException("Neither a result or error was present")).getFirst();
     }
 
     @Override
     public void serialize(@NonNull final Type type, @Nullable final V obj, @NonNull final ConfigurationNode value)
-            throws ObjectMappingException {
+            throws SerializationException {
         final DataResult<ConfigurationNode> result = this.codec.encode(obj, opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<ConfigurationNode> error = result.error().orElse(null);
         if (error != null) {
             LOGGER.debug("Unable to encode value using {} due to {}", this.codec, error.message());
-            throw new ObjectMappingException(error.message());
+            throw new SerializationException(error.message());
         }
 
-        value.set(result.result().orElseThrow(() -> new ObjectMappingException("Neither a result or error was present")));
+        value.set(result.result().orElseThrow(() -> new SerializationException("Neither a result or error was present")));
     }
 
 }

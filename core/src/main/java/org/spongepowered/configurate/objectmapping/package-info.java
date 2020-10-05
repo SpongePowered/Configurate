@@ -17,10 +17,11 @@
 /**
  * Object mapper to handle converting between raw nodes and POJOs.
  *
- * <p>The object mapper provides type serializers that can coerce data from
- * configuration-native types to the desired types, and back again. This removes
- * a lot of the uncertainty in trying to determine which value types are
- * supported by a specific configuration format.</p>
+ * <p>The {@link org.spongepowered.configurate.objectmapping.ObjectMapper}
+ * provides type serializers that can coerce data from configuration-native
+ * types to the desired types, and back again. This removes a lot of the
+ * uncertainty in trying to determine which value types are supported by a
+ * specific configuration format.</p>
  *
  * <p>Object mappers work on fields in classes, components in records, and
  * similar data structures with custom {@link org.spongepowered.configurate.objectmapping.FieldDiscoverer}

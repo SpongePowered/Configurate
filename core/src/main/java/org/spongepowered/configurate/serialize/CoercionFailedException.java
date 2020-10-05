@@ -16,12 +16,12 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import java.lang.reflect.Type;
 
 /**
  * Error thrown when a value fails to be converted to an expected type.
  */
-public class CoercionFailedException extends ObjectMappingException {
+public class CoercionFailedException extends SerializationException {
 
     private static final long serialVersionUID = 5800074754243723221L;
 
@@ -33,6 +33,17 @@ public class CoercionFailedException extends ObjectMappingException {
      */
     public CoercionFailedException(final Object inputValue, final String typeDescription) {
         super("Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
+    }
+
+    /**
+     * Indicate that a value transformation has failed.
+     *
+     * @param target expected type
+     * @param inputValue original value
+     * @param typeDescription description of the expected type
+     */
+    public CoercionFailedException(final Type target, final Object inputValue, final String typeDescription) {
+        super(target, "Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
     }
 
 }
