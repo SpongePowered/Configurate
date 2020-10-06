@@ -77,10 +77,8 @@ public final class Typing {
             return ((Class<?>) input).isArray();
         } else if (input instanceof ParameterizedType) {
             return isArray(((ParameterizedType) input).getRawType());
-        } else if (input instanceof GenericArrayType) {
-            return true;
-        } else { // unknown type
-            return false;
+        } else {
+            return input instanceof GenericArrayType;
         }
     }
 

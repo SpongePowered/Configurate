@@ -29,7 +29,6 @@ public class TransactionFailedException extends Exception {
      * unknown reason.
      */
     public TransactionFailedException() {
-        super();
     }
 
     /**

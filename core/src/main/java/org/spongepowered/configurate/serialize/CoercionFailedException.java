@@ -23,6 +23,8 @@ import org.spongepowered.configurate.objectmapping.ObjectMappingException;
  */
 public class CoercionFailedException extends ObjectMappingException {
 
+    private static final long serialVersionUID = 5800074754243723221L;
+
     /**
      * Indicate that a value transformation has failed.
      *

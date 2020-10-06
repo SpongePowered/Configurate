@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 public final class ConfigurateOpsBuilder {
 
     private Supplier<ConfigurationNode> nodeSupplier = ConfigurateOpsBuilder::createDefaultNode;
-    private boolean compressed = false;
+    private boolean compressed;
     private ConfigurateOps.Protection readProtection = ConfigurateOps.Protection.COPY_DEEP;
     private ConfigurateOps.Protection writeProtection = ConfigurateOps.Protection.COPY_DEEP;
 

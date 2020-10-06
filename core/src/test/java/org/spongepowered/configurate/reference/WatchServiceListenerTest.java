@@ -124,7 +124,7 @@ public class WatchServiceListenerTest {
 
         listener.listenToDirectory(tempFolder, event -> {
             if (event.context() instanceof Path) {
-                lastPath.set(((Path) event.context()));
+                lastPath.set((Path) event.context());
             } else {
                 throw new RuntimeException("Event " + event + " received, was not expected");
             }

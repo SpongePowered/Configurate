@@ -4,8 +4,7 @@ import org.spongepowered.configurate.build.format
 plugins {
     application
     kotlin("jvm")
-    id("org.spongepowered.configurate-component")
-    id("org.jlleitschuh.gradle.ktlint")
+    id("org.spongepowered.configurate.build.component")
 }
 
 dependencies {

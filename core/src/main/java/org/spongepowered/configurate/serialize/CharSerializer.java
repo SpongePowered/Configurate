@@ -31,7 +31,7 @@ final class CharSerializer extends ScalarSerializer<Character> {
     @Override
     public Character deserialize(final Type type, final Object val) throws ObjectMappingException {
         if (val instanceof String) {
-            final String strVal = ((String) val);
+            final String strVal = (String) val;
             if (strVal.length() == 1) {
                 return strVal.charAt(0);
             }

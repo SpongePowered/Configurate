@@ -76,10 +76,10 @@ public class TransactionalProcessorTest {
     }
 
     static class SubscriberTransactionalTest implements TransactionalSubscriber<String> {
-        boolean shouldThrow = false;
+        boolean shouldThrow;
         @MonotonicNonNull String value;
         @Nullable String nextValue;
-        int rollBackCount = 0;
+        int rollBackCount;
 
         @Override
         public void beginTransaction(final String newValue) throws TransactionFailedException {

@@ -1,13 +1,12 @@
 import org.spongepowered.configurate.build.core
+import org.spongepowered.configurate.build.mojang
 
 plugins {
-    id("org.spongepowered.configurate-component")
+    id("org.spongepowered.configurate.build.component")
 }
 
 repositories {
-    maven(url = "https://libraries.minecraft.net") {
-        name = "mojang"
-    }
+    mojang()
 }
 
 dependencies {

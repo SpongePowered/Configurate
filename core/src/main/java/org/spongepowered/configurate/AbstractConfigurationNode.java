@@ -58,9 +58,9 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     /**
      * Path of this node.
-     * <p/>
-     * Internally, may only be modified when an operation that adds or removes a
-     * node at the same or higher level in the node tree
+     *
+     * <p>Internally, may only be modified when an operation that adds or
+     * removes a node at the same or higher level in the node tree</p>
      */
     @Nullable
     volatile Object key;
@@ -399,7 +399,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 // attach ourselves first
                 attachIfNecessary();
                 // insert the child node into the value
-                final @Nullable A existingChild = this.value.putChildIfAbsent(key, (child = createNode(key)));
+                final @Nullable A existingChild = this.value.putChildIfAbsent(key, child = createNode(key));
                 if (existingChild != null) {
                     child = existingChild;
                 } else {

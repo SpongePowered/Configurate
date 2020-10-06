@@ -135,7 +135,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         }
 
         if (candidate instanceof FieldDiscoverer.MutableInstanceFactory<?>) {
-            return new ObjectMapperImpl.Mutable<>(type, fields, ((FieldDiscoverer.MutableInstanceFactory<I>) candidate));
+            return new ObjectMapperImpl.Mutable<>(type, fields, (FieldDiscoverer.MutableInstanceFactory<I>) candidate);
         } else {
             return new ObjectMapperImpl<>(type, fields, candidate);
         }
@@ -265,6 +265,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
      * own stacktrace.
      */
     private static class StacklessWrapper extends RuntimeException {
+
+        private static final long serialVersionUID = 1759625646560465255L;
 
         StacklessWrapper(final Throwable cause) {
             super(cause);

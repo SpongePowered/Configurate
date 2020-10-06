@@ -73,6 +73,14 @@
         <property name="message" value="Leave empty row before end of class/interface/enum!"/>
         <property name="fileExtensions" value="groovy,java"/>
     </module>
+
+    <!-- https://checkstyle.org/config_regexp.html#RegexpSingleline -->
+    <module name="RegexpSingleline">
+        <property name="id" value="NoTrailingWhitespace"/>
+        <property name="format" value="\s+$"/>
+        <property name="message" value="No white space an the end of lines"/>
+    </module>
+
     <module name="SuppressWarningsFilter"/>
 
     <module name="TreeWalker">
@@ -90,6 +98,16 @@
         </module>
 
          <!-- Configurate-specific changes -->
+
+        <!-- https://checkstyle.org/config_coding.html#AvoidDoubleBraceInitialization -->
+        <module name="AvoidDoubleBraceInitialization"/>
+
+        <!-- https://checkstyle.org/config_coding.html#AvoidNoArgumentSuperConstructorCall -->
+        <module name="AvoidNoArgumentSuperConstructorCall"/>
+
+        <!-- https://checkstyle.org/config_coding.html#ExplicitInitialization -->
+        <module name="ExplicitInitialization"/>
+
         <module name="FinalClass"/>
         <module name="FinalLocalVariable">
             <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
@@ -103,10 +121,32 @@
             <property name="illegalClassNames" value="java.util.Optional"/>
         </module>
         <module name="InterfaceIsType"/>
+
+        <!-- https://checkstyle.org/config_coding.html#SimplifyBooleanExpression -->
+        <module name="SimplifyBooleanExpression"/>
+
+        <!-- https://checkstyle.org/config_coding.html#SimplifyBooleanReturn -->
+        <module name="SimplifyBooleanReturn"/>
+
+        <!-- https://checkstyle.org/config_whitespace.html#SingleSpaceSeparator -->
         <module name="SingleSpaceSeparator">
             <property name="validateComments" value="true"/>
         </module>
+
         <module name="SuppressWarningsHolder"/>
+
+        <!-- https://checkstyle.org/config_coding.html#UnnecessaryParentheses -->
+        <module name="UnnecessaryParentheses"/>
+
+        <!-- https://checkstyle.org/config_coding.html#UnnecessarySemicolonAfterOuterTypeDeclaration -->
+        <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
+
+        <!-- https://checkstyle.org/config_coding.html#UnnecessarySemicolonAfterTypeMemberDeclaration -->
+        <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
+
+        <!-- https://checkstyle.org/config_coding.html#UnnecessarySemicolonInTryWithResources -->
+        <module name="UnnecessarySemicolonInTryWithResources"/>
+
         <module name="UnusedImports"/>
         <!-- TODO: this might need a custom check -->
         <module name="WriteTag">

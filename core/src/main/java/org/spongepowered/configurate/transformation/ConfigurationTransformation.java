@@ -47,7 +47,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * @return empty transformation
      */
     static <T extends ConfigurationNode> ConfigurationTransformation<T> empty() {
-        return (node) -> {};
+        return node -> {};
     }
 
     /**

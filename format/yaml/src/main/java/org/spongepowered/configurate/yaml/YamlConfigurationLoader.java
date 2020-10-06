@@ -67,7 +67,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
         private final DumperOptions options = new DumperOptions();
-        private @Nullable NodeStyle style = null;
+        private @Nullable NodeStyle style;
 
         Builder() {
             setIndent(4);

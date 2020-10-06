@@ -3,11 +3,11 @@ import org.spongepowered.configurate.build.format
 
 plugins {
     `java-platform`
-    id("org.spongepowered.configurate-publishing")
+    id("org.spongepowered.configurate.build.publishing")
 }
 
-configurate {
-    publish {
+indra {
+    configurePublications {
         from(components["javaPlatform"])
     }
 }

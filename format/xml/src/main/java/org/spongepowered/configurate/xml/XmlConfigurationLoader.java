@@ -107,11 +107,11 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
      * Builds a {@link XmlConfigurationLoader}.
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, XmlConfigurationLoader> {
-        private @Nullable Schema schema = null;
+        private @Nullable Schema schema;
         private String defaultTagName = "element";
         private int indent = 2;
         private boolean writeExplicitType = true;
-        private boolean resolvesExternalContent = false;
+        private boolean resolvesExternalContent;
         private boolean includeXmlDeclaration = true;
 
         Builder() {
@@ -554,7 +554,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         Map<String, String> attributes = Collections.emptyMap();
 
         if (node instanceof AttributedConfigurationNode) {
-            final AttributedConfigurationNode attributedNode = ((AttributedConfigurationNode) node);
+            final AttributedConfigurationNode attributedNode = (AttributedConfigurationNode) node;
             tag = attributedNode.getTagName();
             attributes = attributedNode.getAttributes();
         }
