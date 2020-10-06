@@ -106,7 +106,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * Get the shared instance of this class, which creates new nodes using
      * the default factory. The returned instance will not be compressed
      *
-     * @return The shared instance
+     * @return the shared instance
      */
     public static DynamicOps<ConfigurationNode> getInstance() {
         return getInstance(false);
@@ -119,9 +119,9 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * <p>See {@link #compressMaps()} for a description of what the
      * <pre>compressed</pre> parameter does.
      *
-     * @param compressed Whether keys should be compressed in the output of
+     * @param compressed whether keys should be compressed in the output of
      *     this serializer
-     * @return The shared instance
+     * @return the shared instance
      */
     public static DynamicOps<ConfigurationNode> getInstance(final boolean compressed) {
         return compressed ? COMPRESSED : UNCOMPRESSED;
@@ -130,7 +130,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Get an ops instance that will create nodes using the provided collection.
      *
-     * @param collection Collection to provide through created nodes' options
+     * @param collection collection to provide through created nodes' options
      * @return ops instance
      */
     public static DynamicOps<ConfigurationNode> getForSerializers(final TypeSerializerCollection collection) {
@@ -146,7 +146,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * Dynamic will use the same type serializer collection as the original node
      * for its operations.
      *
-     * @param node The node to wrap
+     * @param node the node to wrap
      * @return a wrapped node
      */
     public static Dynamic<ConfigurationNode> wrap(final ConfigurationNode node) {
@@ -160,7 +160,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Configure an ops instance using the options of an existing node.
      *
-     * @param value The value type
+     * @param value the value type
      * @return values
      */
     public static DynamicOps<ConfigurationNode> fromNode(final ConfigurationNode value) {
@@ -230,7 +230,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @implNote Currently, this will make a deep copy of the node.
      *
-     * @param untrusted Original node
+     * @param untrusted original node
      * @return a node with equivalent data
      */
     ConfigurationNode guardOutputRead(final ConfigurationNode untrusted) {
@@ -252,7 +252,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Create a new empty node using this ops instance's factory.
      *
-     * @return The new node
+     * @return the new node
      */
     @Override
     public ConfigurationNode empty() {
@@ -285,8 +285,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * <p>Value types will be preserved as much as possible, but a reverse
      * conversion will most likely be lossy
      *
-     * @param targetOps Output type
-     * @param source Source value
+     * @param targetOps output type
+     * @param source source value
      * @param <U> output type
      * @return output value
      */
@@ -369,7 +369,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * a {@link String}.
      *
      * @param input data source
-     * @return String | error
+     * @return string | error
      */
     @Override
     public DataResult<String> getStringValue(final ConfigurationNode input) {
@@ -421,7 +421,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * Return a result where if {@code prefix} is empty, the node is
      * {@code value}, but otherwise returns an error.
      *
-     * @param prefix Starting value
+     * @param prefix starting value
      * @param value to update base with
      * @return result of updated node or error
      */
@@ -436,7 +436,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Appends element {@code value} to list node {@code input}.
      *
-     * @param input Base node. Must be empty or of list type
+     * @param input base node. Must be empty or of list type
      * @param value value to add as element to the list
      * @return success with modified node, or error if {@code input} contains a
      *          non-{@link ConfigurationNode#isList() list} value
@@ -455,8 +455,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Appends nodes in {@code values} to copy of list node {@code input}.
      *
-     * @param input Base node. Must be empty or of list type
-     * @param values List of values to append to base node
+     * @param input base node. Must be empty or of list type
+     * @param values list of values to append to base node
      * @return success with modified node, or error if {@code input} contains a
      *          non-{@link ConfigurationNode#isList() list} value
      */
@@ -478,9 +478,9 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * <p>This operation will only affect the returned copy of the input node
      *
-     * @param input Base node. Must be empty or of map type
-     * @param key Key relative to base node
-     * @param value Value to set at empty node
+     * @param input base node. Must be empty or of map type
+     * @param key key relative to base node
+     * @param value value to set at empty node
      * @return success with modified node, or error if {@code input} contains a
      *          non-{@link ConfigurationNode#isList() list} value
      */
@@ -501,7 +501,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * <p>If the input node is non-empty and not a map, the result will
      * be a failure.
      *
-     * @param input Input node
+     * @param input input node
      * @return result, if successful, of a stream of pairs (key, value) of
      *          entries in the input node.
      */
@@ -586,7 +586,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * currently access direct children.
      *
      * @param values entries in the map
-     * @return Newly created node
+     * @return newly created node
      */
     @Override
     public ConfigurationNode createMap(final Stream<Pair<ConfigurationNode, ConfigurationNode>> values) {
@@ -604,8 +604,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * <p>Keys will be interpreted as a single Object, and can only
      * currently access direct children.
      *
-     * @param values Unwrapped node map
-     * @return Newly created node
+     * @param values unwrapped node map
+     * @return newly created node
      */
     @Override
     public ConfigurationNode createMap(final Map<ConfigurationNode, ConfigurationNode> values) {
@@ -690,7 +690,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * @param input data source
      * @param key key of child node
      * @param value value for child node
-     * @return Updated parent node
+     * @return updated parent node
      */
     @Override
     public ConfigurationNode set(final ConfigurationNode input, final String key, final ConfigurationNode value) {
@@ -710,8 +710,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param input base value
      * @param key key to change
-     * @param function Function to process the node at {@code wrappedKey}
-     * @return An updated copy of input node
+     * @param function function to process the node at {@code wrappedKey}
+     * @return an updated copy of input node
      */
     @Override
     public ConfigurationNode update(final ConfigurationNode input, final String key, final Function<ConfigurationNode, ConfigurationNode> function) {
@@ -739,8 +739,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param input base value
      * @param wrappedKey key to change
-     * @param function Function to process the node at {@code wrappedKey}
-     * @return An updated copy of input node
+     * @param function function to process the node at {@code wrappedKey}
+     * @return an updated copy of input node
      */
     @Override
     public ConfigurationNode updateGeneric(final ConfigurationNode input, final ConfigurationNode wrappedKey,

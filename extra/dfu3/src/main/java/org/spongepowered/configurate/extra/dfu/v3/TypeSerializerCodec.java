@@ -52,7 +52,7 @@ final class TypeSerializerCodec<V> implements Codec<V> {
      * @param ops operations for source type
      * @param holder source data object
      * @param <T> source data type
-     * @return A result with a pair of decoded value to the node the result was
+     * @return a result with a pair of decoded value to the node the result was
      *          extracted from
      */
     @Override

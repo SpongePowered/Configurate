@@ -102,8 +102,8 @@ public final class Transformations {
      * <p>This method also prints information about the version update that
      * occurred</p>
      *
-     * @param node The node to transform
-     * @param <N>  node type
+     * @param node the node to transform
+     * @param <N> node type
      * @return provided node, after transformation
      */
     public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) {

@@ -220,8 +220,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * Handles the process of setting a new value for this node.
      *
-     * @param newValue The new value
-     * @param onlyIfNull If the insertion should only take place if the current
+     * @param newValue the new value
+     * @param onlyIfNull if the insertion should only take place if the current
      *                    value is null
      */
     private void insertNewValue(final Object newValue, final boolean onlyIfNull) {
@@ -386,9 +386,9 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * Gets a child node, relative to this.
      *
-     * @param key The key
-     * @param attach If the resultant node should be automatically attached
-     * @return The child node
+     * @param key the key
+     * @param attach if the resultant node should be automatically attached
+     * @return the child node
      */
     protected A getChild(final Object key, final boolean attach) {
         @Nullable A child = this.value.getChild(key);
@@ -476,7 +476,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * The same as {@link #getParent()} - but ensuring that 'parent' is attached via
      * {@link #attachChildIfAbsent(AbstractConfigurationNode)}.
      *
-     * @return The parent
+     * @return the parent
      */
     A getParentEnsureAttached() {
         @Nullable A parent = this.parent;
@@ -504,8 +504,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * Attaches a child to this node.
      *
-     * @param child The child
-     * @return The resultant value
+     * @param child the child
+     * @return the resultant value
      */
     private A attachChild(final A child, final boolean onlyIfAbsent) {
         // ensure this node is attached

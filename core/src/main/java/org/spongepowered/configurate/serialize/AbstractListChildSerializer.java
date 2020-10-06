@@ -30,7 +30,7 @@ import java.util.List;
  * A serializer for nodes that are 'list-like' (i.e may be stored in nodes where {@link ConfigurationNode#isList()} is
  * {@literal true}.
  *
- * @param <T> The type of collection to serialize
+ * @param <T> the type of collection to serialize
  */
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
@@ -88,10 +88,10 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * Given the type of container, provide the expected type of an element. If
      * the element type is not available, an exception must be thrown.
      *
-     * @param containerType The type of container with type parameters resolved
+     * @param containerType the type of container with type parameters resolved
      *                      to the extent possible.
-     * @return The element type
-     * @throws ObjectMappingException If the element type could not be detected
+     * @return the element type
+     * @throws ObjectMappingException if the element type could not be detected
      */
     abstract Type getElementType(Type containerType) throws ObjectMappingException;
 
@@ -99,11 +99,11 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * Create a new instance of the collection. The returned instance must be
      * mutable, but may have a fixed length.
      *
-     * @param length The necessary collection length
-     * @param elementType The type of element contained within the collection,
+     * @param length the necessary collection length
+     * @param elementType the type of element contained within the collection,
      *                    as provided by {@link #getElementType(Type)}
-     * @return A newly created collection
-     * @throws ObjectMappingException When an error occurs during the creation
+     * @return a newly created collection
+     * @throws ObjectMappingException when an error occurs during the creation
      *                                of the collection
      */
     abstract T createNew(int length, Type elementType) throws ObjectMappingException;
@@ -113,17 +113,17 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      *
      * <p>This is equivalent to a foreach loop on the collection
      *
-     * @param collection The collection to act on
-     * @param action The action to perform
-     * @throws ObjectMappingException When thrown by the underlying action
+     * @param collection the collection to act on
+     * @param action the action to perform
+     * @throws ObjectMappingException when thrown by the underlying action
      */
     abstract void forEachElement(T collection, CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException;
 
     /**
      * Place a single deserialized value into the collection being deserialized.
      *
-     * @param index Location to set value at
-     * @param collection Collection to modify
+     * @param index location to set value at
+     * @param collection collection to modify
      * @param deserialized value to add
      * @throws ObjectMappingException if object could not be coerced to an
      *         appropriate type.

@@ -96,7 +96,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     /**
      * Creates a new {@link XmlConfigurationLoader} builder.
      *
-     * @return A new builder
+     * @return a new builder
      */
     @NonNull
     public static Builder builder() {
@@ -120,8 +120,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Sets the level of indentation the resultant loader should use.
          *
-         * @param indent The indent level
-         * @return This builder (for chaining)
+         * @param indent the indent level
+         * @return this builder (for chaining)
          */
         @NonNull
         public Builder setIndent(final int indent) {
@@ -132,7 +132,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Gets the level of indentation to be used by the resultant loader.
          *
-         * @return The indent level
+         * @return the indent level
          */
         public int getIndent() {
             return this.indent;
@@ -141,8 +141,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Sets the {@link Schema} the resultant loader should use.
          *
-         * @param schema The schema
-         * @return This builder (for chaining)
+         * @param schema the schema
+         * @return this builder (for chaining)
          */
         public Builder setSchema(final @Nullable Schema schema) {
             this.schema = schema;
@@ -152,7 +152,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Gets the {@link Schema} to be used by the resultant loader.
          *
-         * @return The schema
+         * @return the schema
          */
         public @Nullable Schema getSchema() {
             return this.schema;
@@ -161,8 +161,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Sets the default tag name the resultant loader should use.
          *
-         * @param defaultTagName The default tag name
-         * @return This builder (for chaining)
+         * @param defaultTagName the default tag name
+         * @return this builder (for chaining)
          */
         public Builder setDefaultTagName(final String defaultTagName) {
             this.defaultTagName = defaultTagName;
@@ -172,7 +172,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         /**
          * Gets the default tag name to be used by the resultant loader.
          *
-         * @return The default tag name
+         * @return the default tag name
          */
         @NonNull
         public String getDefaultTagName() {
@@ -188,8 +188,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * cases, but this is inaccurate in some cases, for example lists with
          * only one element.</p>
          *
-         * @param writeExplicitType If the loader should write explicit types
-         * @return This builder (for chaining)
+         * @param writeExplicitType if the loader should write explicit types
+         * @return this builder (for chaining)
          */
         public Builder setWriteExplicitType(final boolean writeExplicitType) {
             this.writeExplicitType = writeExplicitType;
@@ -202,7 +202,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * <p>See the method doc at {@link #setWriteExplicitType(boolean)} for
          * a more detailed explanation.</p>
          *
-         * @return The default tag name
+         * @return the default tag name
          */
         public boolean shouldWriteExplicitType() {
             return this.writeExplicitType;
@@ -212,9 +212,9 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * Sets if the resultant loader should include the XML declaration
          * header when saving.
          *
-         * @param includeXmlDeclaration If the XML declaration should be
+         * @param includeXmlDeclaration if the XML declaration should be
          *                              included
-         * @return This builder (for chaining)
+         * @return this builder (for chaining)
          */
         public Builder setIncludeXmlDeclaration(final boolean includeXmlDeclaration) {
             this.includeXmlDeclaration = includeXmlDeclaration;
@@ -225,7 +225,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * Gets if the resultant loader should include the XML declaration
          * header when saving.
          *
-         * @return If the XML declaration should be included
+         * @return if the XML declaration should be included
          */
         public boolean shouldIncludeXmlDeclaration() {
             return this.includeXmlDeclaration;
@@ -245,8 +245,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * <p>By default, this is false.
          *
-         * @param resolvesExternalContent Whether to resolve external entities
-         * @return this
+         * @param resolvesExternalContent whether to resolve external entities
+         * @return this builder
          */
         public Builder setResolvesExternalContent(final boolean resolvesExternalContent) {
             this.resolvesExternalContent = resolvesExternalContent;
@@ -373,8 +373,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     /**
      * Given a single comment node's comment, clear any prefix lines.
      *
-     * @param headerContent The content of a header
-     * @return A formatted header, with lines separated by {@link #CONFIGURATE_LINE_SEPARATOR}
+     * @param headerContent the content of a header
+     * @return a formatted header, with lines separated by {@link #CONFIGURATE_LINE_SEPARATOR}
      */
     private String unwrapHeader(final String headerContent) {
         if (headerContent.isEmpty()) {

@@ -39,7 +39,7 @@ public @interface Setting {
     /**
      * The path this setting is located at.
      *
-     * @return The path
+     * @return the path
      */
     String value() default "";
 

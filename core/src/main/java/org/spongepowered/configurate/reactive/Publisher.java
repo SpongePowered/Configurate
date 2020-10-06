@@ -31,7 +31,7 @@ import java.util.concurrent.ForkJoinPool;
  * <p>Each subscriber is responsible for removing itself from this stream, by
  * using the Disposable returned upon subscription.
  *
- * @param <V> The type of notification received by subscribers
+ * @param <V> the type of notification received by subscribers
  */
 public interface Publisher<V> {
 
@@ -42,7 +42,7 @@ public interface Publisher<V> {
      * <p>Subscribers who only begin subscribing after the operation has been
      * completed will receive the result of the operation.
      *
-     * @param action The action to perform
+     * @param action the action to perform
      * @param <V> returned value type
      * @param <E> exception thrown
      * @return a publisher
@@ -58,8 +58,8 @@ public interface Publisher<V> {
      * <p>Subscribers who only begin subscribing after the operation has been
      * completed will receive the result of the operation.
      *
-     * @param action The action to perform
-     * @param executor The executor to perform this operation on
+     * @param action the action to perform
+     * @param executor the executor to perform this operation on
      * @param <V> returned value type
      * @param <E> exception thrown
      * @return a publisher
@@ -73,8 +73,8 @@ public interface Publisher<V> {
      * Subscriber will receive an error event with an IllegalStateException, and
      * the returned {@link Disposable} will be a no-op.
      *
-     * @param subscriber The listener to register
-     * @return A disposable that can be used to cancel this subscription
+     * @param subscriber the listener to register
+     * @return a disposable that can be used to cancel this subscription
      */
     Disposable subscribe(Subscriber<? super V> subscriber);
 

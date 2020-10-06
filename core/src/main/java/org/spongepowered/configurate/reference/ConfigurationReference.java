@@ -35,17 +35,17 @@ import java.util.function.Function;
 /**
  * An updating reference to a base configuration node.
  *
- * @param <N> The type of node to work with
+ * @param <N> the type of node to work with
  */
 public interface ConfigurationReference<N extends ConfigurationNode> extends AutoCloseable {
 
     /**
      * Create a new configuration reference that will only update when loaded.
      *
-     * @param loader The loader to load and save from
-     * @param <N>    The type of node
-     * @return The newly created reference, with an initial load performed
-     * @throws IOException If the configuration contained fails to load
+     * @param loader the loader to load and save from
+     * @param <N> the type of node
+     * @return the newly created reference, with an initial load performed
+     * @throws IOException if the configuration contained fails to load
      */
     static <N extends ScopedConfigurationNode<N>> ConfigurationReference<N> createFixed(ConfigurationLoader<? extends N> loader) throws IOException {
         final ConfigurationReference<N> ret = new ManualConfigurationReference<>(loader, ForkJoinPool.commonPool());
@@ -57,12 +57,12 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Create a new configuration reference that will automatically update when
      * triggered by the provided {@link WatchServiceListener}.
      *
-     * @param loaderCreator A function that can create a {@link ConfigurationLoader}
-     * @param file          The file to load this configuration from
-     * @param listener      The watch service listener that will receive events
-     * @param <T>           The node type
-     * @return The created reference
-     * @throws IOException If the underlying loader fails to load
+     * @param loaderCreator a function that can create a {@link ConfigurationLoader}
+     * @param file the file to load this configuration from
+     * @param listener the watch service listener that will receive events
+     * @param <T> the node type
+     * @return the created reference
+     * @throws IOException if the underlying loader fails to load
      *         a configuration
      * @see WatchServiceListener#listenToConfiguration(Function, Path)
      */
@@ -81,14 +81,14 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * <p>If the load fails, this reference will continue pointing to old
      * configuration values.
      *
-     * @throws IOException When an error occurs
+     * @throws IOException when an error occurs
      */
     void load() throws IOException;
 
     /**
      * Save this configuration using the provided loader.
      *
-     * @throws IOException When an error occurs in the underlying ID
+     * @throws IOException when an error occurs in the underlying IO
      */
     void save() throws IOException;
 
@@ -99,8 +99,8 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * <p>Even if the loader fails to save this new node, the node pointed to by
      * this reference will be updated.
      *
-     * @param newNode The new node to save
-     * @throws IOException When an error occurs within the loader
+     * @param newNode the new node to save
+     * @throws IOException when an error occurs within the loader
      */
     void save(N newNode) throws IOException;
 
@@ -126,22 +126,22 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
     /**
      * Get the base node this reference refers to.
      *
-     * @return The node
+     * @return the node
      */
     N getNode();
 
     /**
      * Get the loader this reference uses to load and save its node.
      *
-     * @return The loader
+     * @return the loader
      */
     ConfigurationLoader<? extends N> getLoader();
 
     /**
      * Get the node at the given path, using the root node.
      *
-     * @param path The path, a series of path elements
-     * @return A child node
+     * @param path the path, a series of path elements
+     * @return a child node
      * @see ConfigurationNode#getNode(Object...)
      */
     N get(Object... path);
@@ -150,8 +150,8 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Update the value of the node at the given path, using the root node as
      * a base.
      *
-     * @param path  The path to get the child at
-     * @param value The value to set the child node to
+     * @param path the path to get the child at
+     * @param value the value to set the child node to
      */
     default void set(Object[] path, @Nullable Object value) {
         getNode().getNode(path).setValue(value);
@@ -165,12 +165,12 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * serialize the data if it's not directly supported by the
      * provided configuration.</p>
      *
-     * @param path  The path to set the value at
-     * @param type  The type of data to serialize
-     * @param value The value to set
-     * @param <T>   The type parameter for the value
+     * @param path the path to set the value at
+     * @param type the type of data to serialize
+     * @param value the value to set
+     * @param <T> the type parameter for the value
      * @throws IllegalArgumentException if a raw type is provided
-     * @throws ObjectMappingException If thrown by the serialization mechanism
+     * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(Object[] path, Class<T> type, @Nullable T value) throws ObjectMappingException {
         getNode().getNode(path).setValue(type, value);
@@ -184,11 +184,11 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * serialize the data if it's not directly supported by the
      * provided configuration.</p>
      *
-     * @param path  The path to set the value at
-     * @param type  The type of data to serialize
-     * @param value The value to set
-     * @param <T>   The type parameter for the value
-     * @throws ObjectMappingException If thrown by the serialization mechanism
+     * @param path the path to set the value at
+     * @param type the type of data to serialize
+     * @param value the value to set
+     * @param <T> the type parameter for the value
+     * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(Object[] path, TypeToken<T> type, @Nullable T value) throws ObjectMappingException {
         getNode().getNode(path).setValue(type, value);
@@ -198,8 +198,8 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Update the value of the node at the given path, using the root node as
      * a base.
      *
-     * @param path The path to get the child at
-     * @param value The value to set the child node to
+     * @param path the path to get the child at
+     * @param value the value to set the child node to
      */
     default void set(NodePath path, @Nullable Object value) {
         getNode().getNode(path).setValue(value);
@@ -213,11 +213,11 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * serialize the data if it's not directly supported by the
      * provided configuration.</p>
      *
-     * @param path The path to set the value at
-     * @param type The type of data to serialize
-     * @param value The value to set
-     * @param <T> The type parameter for the value
-     * @throws ObjectMappingException If thrown by the serialization mechanism
+     * @param path the path to set the value at
+     * @param type the type of data to serialize
+     * @param value the value to set
+     * @param <T> the type parameter for the value
+     * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(NodePath path, Class<T> type, @Nullable T value) throws ObjectMappingException {
         getNode().getNode(path).setValue(type, value);
@@ -231,11 +231,11 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * serialize the data if it's not directly supported by the
      * provided configuration.</p>
      *
-     * @param path The path to set the value at
-     * @param type The type of data to serialize
-     * @param value The value to set
-     * @param <T> The type parameter for the value
-     * @throws ObjectMappingException If thrown by the serialization mechanism
+     * @param path the path to set the value at
+     * @param type the type of data to serialize
+     * @param value the value to set
+     * @param <T> the type parameter for the value
+     * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(NodePath path, TypeToken<T> type, @Nullable T value) throws ObjectMappingException {
         getNode().getNode(path).setValue(type, value);
@@ -249,10 +249,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * value of the provided configuration. Any serialization errors encountered
      * will be submitted to the {@link #errors()} stream.
      *
-     * @param type The value's type
-     * @param path The path from the root node to the node containing the value
-     * @param <T>  The value type
-     * @return A deserializing reference to the node at the given path
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @param <T>  the value type
+     * @return a deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found
      *         for the provided type
      */
@@ -268,10 +268,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * value of the provided configuration. Any serialization errors encountered
      * will be submitted to the {@link #errors()} stream.
      *
-     * @param type The value's type
-     * @param path The path from the root node to the node containing the value
-     * @param <T>  The value type
-     * @return A deserializing reference to the node at the given path
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @param <T>  the value type
+     * @return a deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found
      *         for the provided type
      */
@@ -287,10 +287,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * value of the provided configuration. Any serialization errors encountered
      * will be submitted to the {@link #errors()} stream.
      *
-     * @param type The value's type
-     * @param path The path from the root node to the node containing the value
-     * @param <T> The value type
-     * @return A deserializing reference to the node at the given path
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @param <T> the value type
+     * @return a deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found
      *          for the provided type
      */
@@ -306,10 +306,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * value of the provided configuration. Any serialization errors encountered
      * will be submitted to the {@link #errors()} stream.
      *
-     * @param type The value's type
-     * @param path The path from the root node to the node containing the value
-     * @param <T> The value type
-     * @return A deserializing reference to the node at the given path
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @param <T> the value type
+     * @return a deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found
      *          for the provided type
      */
@@ -325,12 +325,12 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * value of the provided configuration. Any serialization errors encountered
      * will be submitted to the {@link #errors()} stream.
      *
-     * @param type The value's type.
-     * @param path The path from the root node to the node containing the value
-     * @param defaultValue The value to use when there is no data present
+     * @param type the value's type.
+     * @param path the path from the root node to the node containing the value
+     * @param defaultValue the value to use when there is no data present
      *                     in the targeted node.
-     * @param <T> The value type
-     * @return A deserializing reference to the node at the given path
+     * @param <T> the value type
+     * @return a deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found
      *         for the provided type
      */
@@ -349,7 +349,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param defaultValue value to use when there is no data present
      *                     in the targeted node.
      * @param <T> value type
-     * @return A deserializing reference to the node at the given path
+     * @return a deserializing reference to the node at the given path
      * @throws ObjectMappingException if a type serializer could not be found
      *          for the provided type
      */
@@ -360,7 +360,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * publisher will be transaction-aware, i.e. any {@link TransactionalSubscriber} attached will progress through
      * their phases appropriately
      *
-     * @return The publisher
+     * @return the publisher
      */
     Publisher<N> updates();
 
@@ -368,7 +368,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * A stream that will receive errors that occur while loading or saving to
      * this reference.
      *
-     * @return The publisher
+     * @return the publisher
      */
     Publisher<Map.Entry<ErrorPhase, Throwable>> errors();
 

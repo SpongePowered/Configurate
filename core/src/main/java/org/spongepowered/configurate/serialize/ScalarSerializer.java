@@ -38,7 +38,7 @@ import java.util.function.Predicate;
  *
  * <p>Any serialized value must be deserializable by the same serializer.
  *
- * @param <T> The object type to serialize
+ * @param <T> the object type to serialize
  */
 public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
 
@@ -66,7 +66,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * Get the general type token applicable for this serializer. This token may
      * be parameterized.
      *
-     * @return The type token for this serializer
+     * @return the type token for this serializer
      */
     public final TypeToken<T> type() {
         return this.type;
@@ -105,9 +105,9 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * This may fail on more complicated deserialization processes such as with
      * enum types.
      *
-     * @param value The object to deserialize.
-     * @return The deserialized object, if possible
-     * @throws ObjectMappingException If unable to coerce the value to the
+     * @param value the object to deserialize.
+     * @return the deserialized object, if possible
+     * @throws ObjectMappingException if unable to coerce the value to the
      *                                requested type.
      */
     public final T deserialize(final Object value) throws ObjectMappingException {
@@ -123,10 +123,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * Given an object of unknown type, attempt to convert it into the given
      * type.
      *
-     * @param type The specific type of the type's usage
-     * @param obj  The object to convert
-     * @return A converted object
-     * @throws ObjectMappingException If the object could not be converted for
+     * @param type the specific type of the type's usage
+     * @param obj the object to convert
+     * @return a converted object
+     * @throws ObjectMappingException if the object could not be converted for
      *                                any reason
      */
     public abstract T deserialize(Type type, Object obj) throws ObjectMappingException;
@@ -150,10 +150,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * Serialize the provided value to a supported type, testing against the
      * provided predicate.
      *
-     * @param item The value to serialize
-     * @param typeSupported A predicate to allow choosing which types are
+     * @param item the value to serialize
+     * @param typeSupported a predicate to allow choosing which types are
      *                      supported
-     * @return A serialized form of this object
+     * @return a serialized form of this object
      */
     protected abstract Object serialize(T item, Predicate<Class<?>> typeSupported);
 
@@ -170,8 +170,8 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * Attempt to deserialize the provided object, but rather than throwing an
      * exception when a deserialization error occurs, return null instead.
      *
-     * @param obj The object to try to deserialize
-     * @return An instance of the appropriate type, or null
+     * @param obj the object to try to deserialize
+     * @return an instance of the appropriate type, or null
      * @see #deserialize(Object)
      */
     public final @Nullable T tryDeserialize(final @Nullable Object obj) {
@@ -190,8 +190,8 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * Serialize the item to a {@link String}, in a representation that can be
      * interpreted by this serializer again.
      *
-     * @param item The item to serialize
-     * @return The serialized form of the item
+     * @param item the item to serialize
+     * @return the serialized form of the item
      */
     public final String serializeToString(final T item) {
         if (item instanceof CharSequence) {

@@ -69,8 +69,8 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
     }
 
     @Override
-    public void onError(final Throwable e) {
-        Processor.Iso.super.onError(e);
+    public void onError(final Throwable thrown) {
+        Processor.Iso.super.onError(thrown);
         onClose();
     }
 
@@ -93,7 +93,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
      * Perform an action on each registration, deregistering and calling {@link Registration#onError(Throwable)} to
      * notify in the event of an error.
      *
-     * @param processor The processor
+     * @param processor the processor
      */
     protected void forEachOrRemove(final Consumer<R> processor) {
         for (final Iterator<R> it = this.registrations.iterator(); it.hasNext(); ) {

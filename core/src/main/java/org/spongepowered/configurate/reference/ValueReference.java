@@ -29,8 +29,8 @@ import java.util.function.Function;
  * configuration file. Subscribers will be provided the current value upon
  * subscription, followed by any changes.
  *
- * @param <T> The type of value to return
- * @param <N> The type of node
+ * @param <T> the type of value to return
+ * @param <N> the type of node
  */
 public interface ValueReference<T, N extends ConfigurationNode> extends Publisher<T> {
 
@@ -50,7 +50,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * <p>Any serialization errors will be provided to the error callback of
      * the owning {@link ConfigurationReference}
      *
-     * @param value The value
+     * @param value the value
      * @return true if successful, false if serialization fails
      */
     boolean set(@Nullable T value);
@@ -61,7 +61,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * <p>Any serialization errors will be provided to the error callback of the
      * owning {@link ConfigurationReference}
      *
-     * @param value The value
+     * @param value the value
      * @return true if successful, false if serialization fails
      */
     boolean setAndSave(@Nullable T value);
@@ -73,7 +73,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * <p>Any serialization errors will be submitted to subscribers of the
      * returned {@link Publisher}
      *
-     * @param value The value
+     * @param value the value
      * @return true if successful, false if serialization fails
      */
     Publisher<Boolean> setAndSaveAsync(@Nullable T value);
@@ -104,7 +104,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
     /**
      * Get the node this value reference points to.
      *
-     * @return The node
+     * @return the node
      */
     N getNode();
 

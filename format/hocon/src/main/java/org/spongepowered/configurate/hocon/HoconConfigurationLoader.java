@@ -73,7 +73,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     /**
      * Creates a new {@link HoconConfigurationLoader} builder.
      *
-     * @return A new builder
+     * @return a new builder
      */
     @NonNull
     public static Builder builder() {
@@ -97,7 +97,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * become customizable at some point in the future.</p>
          *
          * @param prettyPrinting whether to pretty-print
-         * @return this
+         * @return this builder
          */
         public Builder setPrettyPrinting(final boolean prettyPrinting) {
             this.render = this.render.setFormatted(prettyPrinting);
@@ -111,7 +111,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * stored in memory.</p>
          *
          * @param emitComments whether to emit comments
-         * @return this
+         * @return this builder
          */
         public Builder setEmitComments(final boolean emitComments) {
             this.render = this.render.setComments(emitComments);
@@ -127,7 +127,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * be disabled.</p>
          *
          * @param jsonCompatible to emit json-format output
-         * @return this
+         * @return this builder
          */
         public Builder setEmitJsonCompatible(final boolean jsonCompatible) {
             this.render = this.render.setJson(jsonCompatible);

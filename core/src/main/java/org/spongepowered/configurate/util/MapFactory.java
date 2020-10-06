@@ -28,9 +28,9 @@ public interface MapFactory {
     /**
      * Create a new map instance for the given types.
      *
-     * @param <K> The key
-     * @param <V> The value
-     * @return A new map instance
+     * @param <K> key type
+     * @param <V> value type
+     * @return a new map instance
      */
     <K, V> Map<K, V> create();
 

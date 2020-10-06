@@ -36,7 +36,7 @@ public final class DfuSerializers {
     /**
      * Create a new serializer wrapping the provided {@link Codec}.
      *
-     * @param codec Codec to use for the serialization operation
+     * @param codec codec to use for the serialization operation
      * @param <V> value type
      * @return a new serializer
      */
@@ -48,7 +48,7 @@ public final class DfuSerializers {
      * Create a new codec that uses the default type serializer collection
      * to serialize an object of the provided type.
      *
-     * @param type Token representing a value type
+     * @param type token representing a value type
      * @param <S> value type
      * @return a codec for the type, or null if an appropriate
      *      {@link TypeSerializer} could not be found.

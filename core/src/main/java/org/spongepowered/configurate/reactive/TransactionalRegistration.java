@@ -59,7 +59,7 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
      * Wrapper to allow non-transactional subscribers to function within a
      * transactional environment.
      *
-     * @param <V> The value type
+     * @param <V> the value type
      */
     class Wrapped<V> implements TransactionalRegistration<V> {
 

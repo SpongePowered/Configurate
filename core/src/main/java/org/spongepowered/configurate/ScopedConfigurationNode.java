@@ -42,7 +42,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     /**
      * Get a correctly typed instance of this node.
      *
-     * @return The node type
+     * @return the node type
      */
     N self();
 
@@ -173,8 +173,8 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * operations on a single node without having to clutter up the surrounding
      * scope.
      *
-     * @param action The action to perform on this node
-     * @return this
+     * @param action the action to perform on this node
+     * @return this node
      */
     default N act(Consumer<? super N> action) {
         action.accept(self());
@@ -184,9 +184,9 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     /**
      * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
      *
-     * @param visitor The visitor
-     * @param <S> The state type
-     * @param <T> The terminal type
+     * @param visitor the visitor
+     * @param <S> the state type
+     * @param <T> the terminal type
      * @param <E> exception type that may be thrown
      * @return returned terminal from the visitor
      * @throws E when throw by visitor implementation
@@ -198,10 +198,10 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     /**
      * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
      *
-     * @param visitor The visitor
-     * @param state The state to start with
-     * @param <T> The terminal type
-     * @param <S> The state type
+     * @param visitor the visitor
+     * @param state the state to start with
+     * @param <T> the terminal type
+     * @param <S> the state type
      * @param <E> exception type that may be thrown
      * @return returned terminal from the visitor
      * @throws E when throw by visitor implementation
@@ -214,10 +214,10 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * <p>This overload will remove the need for exception handling for visitors
      * that do not have any checked exceptions.</p>
      *
-     * @param visitor The visitor
-     * @param <S> The state type
-     * @param <T> The terminal type
-     * @return The returned terminal from the visitor
+     * @param visitor the visitor
+     * @param <S> the state type
+     * @param <T> the terminal type
+     * @return the returned terminal from the visitor
      */
     default <S, T> T visit(ConfigurationVisitor.Safe<N, S, T> visitor) {
         return visit(visitor, visitor.newState());
@@ -229,11 +229,11 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * <p>This overload will remove the need for exception handling for visitors
      * that do not have any checked exceptions.</p>
      *
-     * @param visitor The visitor
-     * @param state The state to start with
-     * @param <T> The terminal type
-     * @param <S> The state type
-     * @return The returned terminal from the visitor
+     * @param visitor the visitor
+     * @param state the state to start with
+     * @param <T> the terminal type
+     * @param <S> the state type
+     * @return the returned terminal from the visitor
      */
     <S, T> T visit(ConfigurationVisitor.Safe<? super N, S, T> visitor, S state);
 

@@ -128,7 +128,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
     /**
      * Gets the tag name of this node.
      *
-     * @return The tag name
+     * @return the tag name
      */
     String getTagName();
 
@@ -139,25 +139,25 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * {@link #getChildrenMap() child map}, as the corresponding key is used as
      * the tag name.</p>
      *
-     * @param name The name to set, cannot be null
-     * @return this
+     * @param name the name to set, cannot be null
+     * @return this node
      */
     AttributedConfigurationNode setTagName(String name);
 
     /**
      * Adds an attribute to this node.
      *
-     * @param name The name of the attribute
-     * @param value The value of the attribute
-     * @return this
+     * @param name the name of the attribute
+     * @param value the value of the attribute
+     * @return this node
      */
     AttributedConfigurationNode addAttribute(String name, String value);
 
     /**
      * Removes an attribute from this node.
      *
-     * @param name The name of the attribute to remove
-     * @return this
+     * @param name the name of the attribute to remove
+     * @return this node
      */
     AttributedConfigurationNode removeAttribute(String name);
 
@@ -165,7 +165,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * Sets the attributes of this node.
      *
      * @param attributes the attributes to set
-     * @return this
+     * @return this node
      */
     AttributedConfigurationNode setAttributes(Map<String, String> attributes);
 
@@ -180,8 +180,8 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * Gets the value of an attribute, or null if this node doesn't have the
      * given attribute.
      *
-     * @param name The name of the attribute to get
-     * @return this
+     * @param name the name of the attribute to get
+     * @return this node
      */
     @Nullable String getAttribute(String name);
 
@@ -190,7 +190,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * <p>The returned map is immutable.</p>
      *
-     * @return The map of attributes
+     * @return the map of attributes
      */
     Map<String, String> getAttributes();
 

@@ -27,15 +27,15 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Gets a specific element from the path array.
      *
-     * @param i The index to get
-     * @return Object at the index
+     * @param i the index to get
+     * @return object at the index
      */
     Object get(int i);
 
     /**
      * Gets the length of the path.
      *
-     * @return Length of the path array
+     * @return length of the path array
      */
     int size();
 
@@ -49,8 +49,8 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Create a new path with the provided element appended to the end.
      *
-     * @param childKey The new key to append
-     * @return A new path object reflecting the extended path
+     * @param childKey the new key to append
+     * @return a new path object reflecting the extended path
      */
     NodePath withAppendedChild(Object childKey);
 
@@ -68,7 +68,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Returns an iterator over the path.
      *
-     * @return An iterator of the path
+     * @return an iterator of the path elements
      */
     @Override
     Iterator<Object> iterator();
@@ -76,8 +76,8 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Create a node path reference.
      *
-     * @param path The path to reference. The provided array will be copied.
-     * @return The path instance
+     * @param path the path to reference. The provided array will be copied.
+     * @return the path instance
      */
     static NodePath create(Object[] path) {
         return new NodePathImpl(path, true);
@@ -86,8 +86,8 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Create a node path reference.
      *
-     * @param path A collection containing elements of the path to reference
-     * @return The path instance
+     * @param path a collection containing elements of the path to reference
+     * @return the path instance
      */
     static NodePath create(Collection<?> path) {
         return new NodePathImpl(path.toArray(), false);
@@ -99,8 +99,8 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * <p>This overload takes varargs, and is designed to be imported statically
      * to create paths.
      *
-     * @param elements The path to reference. The provided array will be copied.
-     * @return The path instance
+     * @param elements the path to reference. The provided array will be copied.
+     * @return the path instance
      */
     static NodePath path(Object... elements) {
         return create(elements);
@@ -109,7 +109,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
     /**
      * Create a new node path with the same data as this path.
      *
-     * @return The resulting path
+     * @return a new path
      */
     NodePath clone();
 

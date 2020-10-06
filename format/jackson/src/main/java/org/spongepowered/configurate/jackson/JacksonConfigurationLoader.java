@@ -52,7 +52,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     /**
      * Creates a new {@link JacksonConfigurationLoader} builder.
      *
-     * @return A new builder
+     * @return a new builder
      */
     @NonNull
     public static Builder builder() {
@@ -80,7 +80,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         /**
          * Gets the {@link JsonFactory} used to configure the implementation.
          *
-         * @return The json factory
+         * @return the json factory
          */
         @NonNull
         public JsonFactoryBuilder getFactoryBuilder() {
@@ -90,8 +90,8 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         /**
          * Sets the level of indentation the resultant loader should use.
          *
-         * @param indent The indent level
-         * @return This builder (for chaining)
+         * @param indent the indent level
+         * @return this builder (for chaining)
          */
         @NonNull
         public Builder setIndent(final int indent) {
@@ -102,7 +102,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         /**
          * Gets the level of indentation to be used by the resultant loader.
          *
-         * @return The indent level
+         * @return the indent level
          */
         public int getIndent() {
             return this.indent;
@@ -111,8 +111,8 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         /**
          * Sets the field value separator style the resultant loader should use.
          *
-         * @param style The style
-         * @return  This builder (for chaining)
+         * @param style the style
+         * @return this builder (for chaining)
          */
         @NonNull
         public Builder setFieldValueSeparatorStyle(final @NonNull FieldValueSeparatorStyle style) {
@@ -123,7 +123,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         /**
          * Gets the field value separator style to be used by the built loader.
          *
-         * @return The style
+         * @return the style
          */
         @NonNull
         public FieldValueSeparatorStyle getFieldValueSeparatorStyle() {

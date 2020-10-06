@@ -73,8 +73,8 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
     }
 
     @Override
-    public void onError(final Throwable e) {
-        this.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.UNKNOWN, e));
+    public void onError(final Throwable thrown) {
+        this.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.UNKNOWN, thrown));
     }
 
     @Override

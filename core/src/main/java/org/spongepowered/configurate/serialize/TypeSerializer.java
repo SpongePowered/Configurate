@@ -30,7 +30,7 @@ import java.util.function.Predicate;
  * Represents an object which can serialize and deserialize objects of a
  * given type.
  *
- * @param <T> The type
+ * @param <T> the type
  */
 public interface TypeSerializer<T> {
 
@@ -39,11 +39,11 @@ public interface TypeSerializer<T> {
      *
      * <p>The returned serializer must fulfill all the requirements of a {@link ScalarSerializer}
      *
-     * @param type The type of value returned by the serializer
-     * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
-     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
-     * @param <T> The type of value to deserialize
-     * @return A new and unregistered type serializer
+     * @param type the type of value returned by the serializer
+     * @param serializer the serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
+     * @param deserializer the deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
+     * @param <T> the type of value to deserialize
+     * @return a new and unregistered type serializer
      */
     static <T> ScalarSerializer<T> of(Type type, BiFunction<T, Predicate<Class<?>>, Object> serializer,
                                       CheckedFunction<Object, T, ObjectMappingException> deserializer) {
@@ -56,11 +56,11 @@ public interface TypeSerializer<T> {
      * <p>The returned serializer must fulfill all the requirements of
      * a {@link ScalarSerializer}
      *
-     * @param type The type of value. Must not be a parameterized type
-     * @param serializer The serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
-     * @param deserializer The deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
-     * @param <T> The type of value to deserialize
-     * @return A new and unregistered type serializer
+     * @param type the type of value. Must not be a parameterized type
+     * @param serializer the serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
+     * @param deserializer the deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
+     * @param <T> the type of value to deserialize
+     * @return a new and unregistered type serializer
      * @see #of(Type, BiFunction, CheckedFunction) for the version of this
      *      function that takes a parameterized type
      */
@@ -77,20 +77,20 @@ public interface TypeSerializer<T> {
      * Deserialize an object (of the correct type) from the given configuration
      * node.
      *
-     * @param type The type of return value required
-     * @param node The node containing serialized data
-     * @return An object
-     * @throws ObjectMappingException If the presented data is invalid
+     * @param type the type of return value required
+     * @param node the node containing serialized data
+     * @return an object
+     * @throws ObjectMappingException if the presented data is invalid
      */
     T deserialize(Type type, ConfigurationNode node) throws ObjectMappingException;
 
     /**
      * Serialize an object to the given configuration node.
      *
-     * @param type The type of the input object
-     * @param obj The object to be serialized
-     * @param node The node to write to
-     * @throws ObjectMappingException If the object cannot be serialized
+     * @param type the type of the input object
+     * @param obj the object to be serialized
+     * @param node the node to write to
+     * @throws ObjectMappingException if the object cannot be serialized
      */
     void serialize(Type type, @Nullable T obj, ConfigurationNode node) throws ObjectMappingException;
 

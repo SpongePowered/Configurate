@@ -74,7 +74,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * Returns a new builder for a WatchServiceListener to create a
      * customized listener.
      *
-     * @return A builder
+     * @return a new builder
      */
     public static Builder builder() {
         return new Builder();
@@ -84,8 +84,8 @@ public final class WatchServiceListener implements AutoCloseable {
      * Create a new {@link WatchServiceListener} using a new cached thread pool
      * executor and the default filesystem.
      *
-     * @return A new instance with default values
-     * @throws IOException If a watch service cannot be created
+     * @return a new instance with default values
+     * @throws IOException if a watch service cannot be created
      * @see #builder() for customization
      */
     public static WatchServiceListener create() throws IOException {
@@ -148,9 +148,9 @@ public final class WatchServiceListener implements AutoCloseable {
      * Gets or creates a registration holder for a specific directory. This
      * handles registering with the watch service if necessary.
      *
-     * @param directory The directory to listen to
-     * @return A registration, created new if necessary.
-     * @throws IOException If produced while registering the path with
+     * @param directory the directory to listen to
+     * @return a registration, created new if necessary.
+     * @throws IOException if produced while registering the path with
      *          our WatchService
      */
     private DirectoryListenerRegistration getRegistration(final Path directory) throws IOException {
@@ -172,9 +172,9 @@ public final class WatchServiceListener implements AutoCloseable {
     /**
      * Listen for changes to a specific file or directory.
      *
-     * @param file The path of the file or directory to listen for changes on.
-     * @param callback A subscriber that will be notified when changes occur.
-     * @return A {@link Disposable} that can be used to cancel this subscription
+     * @param file the path of the file or directory to listen for changes on.
+     * @param callback a subscriber that will be notified when changes occur.
+     * @return a {@link Disposable} that can be used to cancel this subscription
      * @throws IOException if a filesystem error occurs.
      * @throws IllegalArgumentException if the provided path is a directory.
      */
@@ -192,12 +192,12 @@ public final class WatchServiceListener implements AutoCloseable {
      * Listen to a directory. Callbacks will receive events both for the
      * directory and for its contents.
      *
-     * @param directory The directory to listen to
-     * @param callback A subscriber that will be notified when changes occur.
-     * @return A {@link Disposable} that can be used to cancel this subscription
-     * @throws IOException When an error occurs registering with the underlying
+     * @param directory the directory to listen to
+     * @param callback a subscriber that will be notified when changes occur.
+     * @return a {@link Disposable} that can be used to cancel this subscription
+     * @throws IOException when an error occurs registering with the underlying
      *          watch service.
-     * @throws IllegalArgumentException If the provided path is not a directory
+     * @throws IllegalArgumentException if the provided path is not a directory
      */
     public Disposable listenToDirectory(Path directory, final Subscriber<WatchEvent<?>> callback) throws IOException, IllegalArgumentException {
         directory = directory.toAbsolutePath();
@@ -253,8 +253,8 @@ public final class WatchServiceListener implements AutoCloseable {
          * Set the thread factory that will be used to create the polling thread
          * for the returned watch service.
          *
-         * @param factory The thread factory to create the deamon thread
-         * @return this
+         * @param factory the thread factory to use to create the deamon thread
+         * @return this builder
          */
         public Builder setThreadFactory(final ThreadFactory factory) {
             this.threadFactory = requireNonNull(factory, "factory");
@@ -266,8 +266,8 @@ public final class WatchServiceListener implements AutoCloseable {
          * received events. By default, the
          * {@link ForkJoinPool#commonPool() common pool} is used.
          *
-         * @param executor The executor to use
-         * @return this
+         * @param executor the executor to use
+         * @return this builder
          */
         public Builder setTaskExecutor(final Executor executor) {
             this.taskExecutor = requireNonNull(executor, "executor");
@@ -279,8 +279,8 @@ public final class WatchServiceListener implements AutoCloseable {
          * {@link WatchServiceListener} should be created to listen to events on
          * each different file system.
          *
-         * @param system The file system to use.
-         * @return this
+         * @param system the file system to use.
+         * @return this builder
          */
         public Builder setFileSystem(final FileSystem system) {
             this.fileSystem = system;
@@ -290,7 +290,7 @@ public final class WatchServiceListener implements AutoCloseable {
         /**
          * Create a new listener, using default values for any unset parameters.
          *
-         * @return A newly created executor
+         * @return a newly created executor
          * @throws IOException if thrown by {@link WatchServiceListener}'s constructor
          */
         public WatchServiceListener build() throws IOException {

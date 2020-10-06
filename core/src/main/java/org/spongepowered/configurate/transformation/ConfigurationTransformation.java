@@ -65,7 +65,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * This creates a builder for versioned transformations.
      *
      * @param <T> the type of node being processed
-     * @return A new builder for versioned transformations
+     * @return a new builder for versioned transformations
      */
     static <T extends ScopedConfigurationNode<T>> VersionedBuilder<T> versionedBuilder() {
         return new VersionedBuilder<>();
@@ -75,8 +75,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * Creates a chain of {@link ConfigurationTransformation}s.
      *
      * @param <T> the type of node being processed
-     * @param transformations The transformations
-     * @return The resultant transformation chain
+     * @param transformations the transformations
+     * @return a new transformation chain
      */
     @SafeVarargs
     @SuppressWarnings("unchecked")
@@ -96,7 +96,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
     /**
      * Apply this transformation to a given node.
      *
-     * @param node The target node
+     * @param node the target node
      */
     void apply(T node);
 
@@ -114,9 +114,9 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Adds an action to the transformation.
          *
-         * @param path The path to apply the action at
-         * @param action The action
-         * @return This builder (for chaining)
+         * @param path the path to apply the action at
+         * @param action the action
+         * @return this builder (for chaining)
          */
         public Builder<T> addAction(final NodePath path, final TransformAction<? super T> action) {
             this.actions.put(requireNonNull(path, "path"), requireNonNull(action, "action"));
@@ -126,7 +126,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Gets the move strategy to be used by the resultant transformation.
          *
-         * @return The move strategy
+         * @return the move strategy
          */
         public MoveStrategy getMoveStrategy() {
             return this.strategy;
@@ -135,8 +135,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Sets the mode strategy to be used by the resultant transformation.
          *
-         * @param strategy The strategy
-         * @return This builder (for chaining)
+         * @param strategy the strategy
+         * @return this builder (for chaining)
          */
         public Builder<T> setMoveStrategy(final MoveStrategy strategy) {
             this.strategy = requireNonNull(strategy, "strategy");
@@ -146,7 +146,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Builds the transformation.
          *
-         * @return The transformation
+         * @return the transformation
          */
         public ConfigurationTransformation<T> build() {
             if (this.actions.isEmpty()) {
@@ -168,8 +168,8 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Sets the path of the version key within the configuration.
          *
-         * @param versionKey The path to the version key
-         * @return This builder (for chaining)
+         * @param versionKey the path to the version key
+         * @return this builder (for chaining)
          */
         public VersionedBuilder<T> setVersionKey(final Object... versionKey) {
             this.versionKey = NodePath.create(versionKey);
@@ -181,9 +181,9 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          *
          * <p>The version must be between 0 and {@link Integer#MAX_VALUE}, and a version cannot be specified multiple times.
          *
-         * @param version The version
-         * @param transformation The transformation
-         * @return This builder (for chaining)
+         * @param version the version
+         * @param transformation the transformation
+         * @return this builder (for chaining)
          */
         @NonNull
         public VersionedBuilder<T> addVersion(final int version, final @NonNull ConfigurationTransformation<? super T> transformation) {
@@ -234,7 +234,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
         /**
          * Builds the transformation.
          *
-         * @return The transformation
+         * @return the transformation
          */
         public ConfigurationTransformation.@NonNull Versioned<T> build() {
             if (this.versions.isEmpty()) {

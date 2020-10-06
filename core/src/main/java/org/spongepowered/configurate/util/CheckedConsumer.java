@@ -22,8 +22,8 @@ import java.util.function.Consumer;
  * A functional interface similar to Consumer, except allowing contained methods
  * to throw exceptions.
  *
- * @param <V> The value accepted
- * @param <E> The exception type thrown
+ * @param <V> the value accepted
+ * @param <E> the exception type thrown
  */
 @FunctionalInterface
 public interface CheckedConsumer<V, E extends Throwable> {
@@ -39,9 +39,9 @@ public interface CheckedConsumer<V, E extends Throwable> {
     /**
      * Create an instance from an ordinary consumer.
      *
-     * @param consumer The consumer to convert
-     * @param <V> The type returned by the consumer
-     * @return A function that executes the provided consumer
+     * @param consumer the consumer to convert
+     * @param <V> the type returned by the consumer
+     * @return a function that executes the provided consumer
      */
     static <V> CheckedConsumer<V, RuntimeException> from(Consumer<V> consumer) {
         return consumer::accept;

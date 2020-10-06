@@ -33,8 +33,8 @@ import java.util.concurrent.ForkJoinPool;
  * event being passed to every subscriber, and the rejection of further events
  * being submitted.
  *
- * @param <I> The type observed
- * @param <O> The type produced
+ * @param <I> the type observed
+ * @param <O> the type produced
  */
 public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
 
@@ -43,8 +43,8 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * values to its subscribers. Broadcasts will occur on the
      * common {@link ForkJoinPool}.
      *
-     * @param <V> The type
-     * @return A new processor instance
+     * @param <V> the type
+     * @return a new processor instance
      */
     static <V> Processor.Iso<V> create() {
         return create(ForkJoinPool.commonPool());
@@ -54,9 +54,9 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * Create a {@link Processor} instance that simply broadcasts submitted
      * values to its subscribers.
      *
-     * @param <V> The type
+     * @param <V> the type
      * @param executor task executor
-     * @return A new processor instance
+     * @return a new processor instance
      */
     static <V> Processor.Iso<V> create(Executor executor) {
         return new ProcessorImpl<>(executor);
@@ -65,7 +65,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
     /**
      * Create a processor instance that is aware of transactions.
      *
-     * @param <V> The value type
+     * @param <V> the value type
      * @return a new transactional processor
      */
     static <V> Processor.TransactionalIso<V> createTransactional() {
@@ -78,7 +78,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * <p>Operations will be submitted to the provided executor.</p>
      *
      * @param exec executor to run operations on
-     * @param <V> The value type
+     * @param <V> the value type
      * @return a new transactional processor
      */
     static <V> Processor.TransactionalIso<V> createTransactional(final Executor exec) {
@@ -98,7 +98,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * Processor may do. If the input type of this processor equals the output
      * type, this is equivalent to {@link #submit(Object)}
      *
-     * @param element The element to submit
+     * @param element the element to submit
      */
     void inject(O element);
 
@@ -106,7 +106,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * Provide a {@link Subscriber} that will handle events submitted to this
      * processor, but only if no other subscription is active.
      *
-     * @param subscriber The fallback subscriber to add. Provide {@code null} to
+     * @param subscriber the fallback subscriber to add. Provide {@code null} to
      *                   remove the handler
      */
     void setFallbackHandler(@Nullable Subscriber<O> subscriber);
@@ -125,7 +125,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
     /**
      * A Processor that has the same type for inputs and outputs.
      *
-     * @param <V> The input and output type
+     * @param <V> the input and output type
      */
     interface Iso<V> extends Processor<V, V> {
         @Override

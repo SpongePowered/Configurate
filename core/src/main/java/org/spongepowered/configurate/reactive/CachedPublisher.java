@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
  * and non-transactional subscribers can be handled appropriately by the
  * parent publisher.
  *
- * @param <V> Value type
+ * @param <V> value type
  */
 class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
 

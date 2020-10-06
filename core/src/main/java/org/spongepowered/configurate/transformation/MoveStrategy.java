@@ -46,9 +46,9 @@ public enum MoveStrategy {
     /**
      * Moves <code>source</code> to <code>target</code>.
      *
-     * @param <T> The type of node being processed
-     * @param source The source node
-     * @param target The target node
+     * @param <T> the type of node being processed
+     * @param source the source node
+     * @param target the target node
      */
     public abstract <T extends ConfigurationNode> void move(T source, T target);
 

@@ -79,7 +79,7 @@ public enum CommentHandlers implements CommentHandler {
      * @param reader to extract a comment from
      * @param allowedHeaderTypes handlers to try
      * @return extracted comment, or null if a comment could not be extracted
-     * @throws IOException If an IO error occurs
+     * @throws IOException if an IO error occurs
      */
     public static @Nullable String extractComment(final BufferedReader reader,
             final Iterable<CommentHandler> allowedHeaderTypes) throws IOException {

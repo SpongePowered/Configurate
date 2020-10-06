@@ -56,7 +56,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Creates a new {@link YamlConfigurationLoader} builder.
      *
-     * @return A new builder
+     * @return a new builder
      */
     public static Builder builder() {
         return new Builder();
@@ -77,8 +77,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Sets the level of indentation the resultant loader should use.
          *
-         * @param indent The indent level
-         * @return This builder (for chaining)
+         * @param indent the indent level
+         * @return this builder (for chaining)
          */
         public Builder setIndent(final int indent) {
             this.options.setIndent(indent);
@@ -88,7 +88,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Gets the level of indentation to be used by the resultant loader.
          *
-         * @return The indent level
+         * @return the indent level
          */
         public int getIndent() {
             return this.options.getIndent();
@@ -117,8 +117,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
          * <p>A {@code null} value will tell the loader to pick a value
          * automatically based on the contents of each non-scalar node.</p>
          *
-         * @param style The node style to use
-         * @return This builder (for chaining)
+         * @param style the node style to use
+         * @return this builder (for chaining)
          */
         public Builder setNodeStyle(final @Nullable NodeStyle style) {
             this.style = style;
@@ -128,7 +128,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Gets the node style to be used by the resultant loader.
          *
-         * @return The node style
+         * @return the node style
          */
         public @Nullable NodeStyle getNodeStyle() {
             return this.style;

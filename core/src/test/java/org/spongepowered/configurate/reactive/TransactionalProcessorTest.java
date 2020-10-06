@@ -104,8 +104,8 @@ public class TransactionalProcessorTest {
         }
 
         @Override
-        public void onError(final Throwable e) {
-            throw new RuntimeException("Unexpected error", e);
+        public void onError(final Throwable thrown) {
+            throw new RuntimeException("Unexpected error", thrown);
         }
 
     }

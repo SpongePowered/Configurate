@@ -27,7 +27,7 @@ public class ProcessorImplTest {
     /**
      * Create a single-threaded processor for testing purposes.
      *
-     * @param <T> The value type
+     * @param <T> value type
      * @return new processor
      */
     private <T> Processor.Iso<T> create() {
@@ -129,8 +129,8 @@ public class ProcessorImplTest {
             }
 
             @Override
-            public void onError(final Throwable e) {
-                assertEquals(testExc, e);
+            public void onError(final Throwable thrown) {
+                assertEquals(testExc, thrown);
             }
         });
 

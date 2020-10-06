@@ -35,7 +35,7 @@ public final class MapFactories {
     /**
      * Returns a {@link MapFactory} which creates maps without an order.
      *
-     * @return A map factory which produces unordered maps
+     * @return a map factory which produces unordered maps
      */
     public static MapFactory unordered() {
         return DefaultFactory.UNORDERED;
@@ -44,8 +44,8 @@ public final class MapFactories {
     /**
      * Returns a {@link MapFactory} which creates maps which are sorted using the given comparator.
      *
-     * @param comparator The comparator used to sort the map keys
-     * @return A map factory which produces sorted maps
+     * @param comparator the comparator used to sort the map keys
+     * @return a map factory which produces sorted maps
      */
     public static MapFactory sorted(final Comparator<Object> comparator) {
         return new SortedMapFactory(requireNonNull(comparator, "comparator"));
@@ -54,7 +54,7 @@ public final class MapFactories {
     /**
      * Returns a {@link MapFactory} which creates maps which are naturally sorted.
      *
-     * @return A map factory which produces naturally sorted maps
+     * @return a map factory which produces naturally sorted maps
      * @see Comparator#naturalOrder()
      */
     public static MapFactory sortedNatural() {
@@ -64,7 +64,7 @@ public final class MapFactories {
     /**
      * Returns a {@link MapFactory} which creates maps which are sorted by insertion order.
      *
-     * @return A map factory which produces maps sorted by insertion order
+     * @return a map factory which produces maps sorted by insertion order
      */
     public static MapFactory insertionOrdered() {
         return DefaultFactory.INSERTION_ORDERED;

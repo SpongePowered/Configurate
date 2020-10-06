@@ -50,8 +50,8 @@ public interface Processor<V> {
         /**
          * Create a new processor given the annotation and data type.
          *
-         * @param data Annotation type on record field
-         * @param value Declared field type
+         * @param data annotation type on record field
+         * @param value declared field type
          * @return new processor
          */
         Processor<T> make(A data, Type value);

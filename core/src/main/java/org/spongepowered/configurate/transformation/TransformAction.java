@@ -48,7 +48,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      *
      * <p>This transformation cannot be applied to the root node.
      *
-     * @param newKey The new key
+     * @param newKey the new key
      * @param <N> node type
      * @return new action
      */
@@ -67,7 +67,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * Create a transform action that will change the value of a node to one of
      * the specified type.
      *
-     * @param type Value type
+     * @param type value type
      * @param value value
      * @param <V> value type
      * @param <N> node type
@@ -81,7 +81,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * Create a transform action that will change the value of a node to one of
      * the specified type.
      *
-     * @param type Value type
+     * @param type value type
      * @param valueSupplier supplier returning a value on each call
      * @param <V> value type
      * @param <N> node type
@@ -102,7 +102,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * Create a transform action that will change the value of a node to one of
      * the specified type.
      *
-     * @param type Value type
+     * @param type value type
      * @param valueSupplier supplier returning a value on each call
      * @param <V> value type
      * @param <N> node type
@@ -128,9 +128,9 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * Use {@link NodePath#clone()} if the path's state needs to
      * be stored.
      *
-     * @param inputPath The path of the given node
-     * @param valueAtPath The node at the input path. May be modified
-     * @return A modified path, or null if the path is to stay the same
+     * @param inputPath the path of the given node
+     * @param valueAtPath the node at the input path. May be modified
+     * @return a modified path, or null if the path is to stay the same
      */
     @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath);
 

@@ -71,7 +71,7 @@ public abstract class ConfigurationOptions {
     /**
      * Gets the {@link MapFactory} specified in these options.
      *
-     * @return The map factory
+     * @return the map factory
      */
     public abstract MapFactory getMapFactory();
 
@@ -79,8 +79,8 @@ public abstract class ConfigurationOptions {
      * Creates a new {@link ConfigurationOptions} instance, with the specified
      * {@link MapFactory} set, and all other settings copied from this instance.
      *
-     * @param mapFactory The new factory to use to create a map
-     * @return The new options object
+     * @param mapFactory the new factory to use to create a map
+     * @return the new options object
      */
     public ConfigurationOptions withMapFactory(final MapFactory mapFactory) {
         requireNonNull(mapFactory, "mapFactory");
@@ -94,7 +94,8 @@ public abstract class ConfigurationOptions {
     /**
      * Gets the header specified in these options.
      *
-     * @return The current header. Lines are split by \n,
+     * @return the current header. Lines are split by \n, with no
+     *         trailing newline
      */
     public abstract @Nullable String getHeader();
 
@@ -102,8 +103,8 @@ public abstract class ConfigurationOptions {
      * Creates a new {@link ConfigurationOptions} instance, with the specified
      * header set, and all other settings copied from this instance.
      *
-     * @param header The new header to use
-     * @return The new options object
+     * @param header the new header to use
+     * @return the new options object
      */
     public ConfigurationOptions withHeader(final @Nullable String header) {
         if (Objects.equals(this.getHeader(), header)) {
@@ -116,7 +117,7 @@ public abstract class ConfigurationOptions {
     /**
      * Gets the {@link TypeSerializerCollection} specified in these options.
      *
-     * @return The type serializers
+     * @return the type serializers
      */
     public abstract TypeSerializerCollection getSerializers();
 
@@ -124,8 +125,8 @@ public abstract class ConfigurationOptions {
      * Creates a new {@link ConfigurationOptions} instance, with the specified {@link TypeSerializerCollection}
      * set, and all other settings copied from this instance.
      *
-     * @param serializers The serializers to use
-     * @return The new options object
+     * @param serializers the serializers to use
+     * @return the new options object
      */
     public ConfigurationOptions withSerializers(final TypeSerializerCollection serializers) {
         requireNonNull(serializers, "serializers");
@@ -144,7 +145,7 @@ public abstract class ConfigurationOptions {
      *
      * @param serializerBuilder accepts a builder for the collection that will
      *                          be used in the returned options object.
-     * @return The new options object
+     * @return the new options object
      */
     public final ConfigurationOptions withSerializers(final Consumer<TypeSerializerCollection.Builder> serializerBuilder) {
         requireNonNull(serializerBuilder, "serializerBuilder");
@@ -160,8 +161,8 @@ public abstract class ConfigurationOptions {
      * Gets whether objects of the provided type are natively accepted as values
      * for nodes with this as their options object.
      *
-     * @param type The type to check
-     * @return Whether the type is accepted
+     * @param type the type to check
+     * @return whether the type is accepted
      */
     public final boolean acceptsType(final Class<?> type) {
         requireNonNull(type, "type");
@@ -203,7 +204,7 @@ public abstract class ConfigurationOptions {
      *
      * <p>Null indicates that all types are accepted.</p>
      *
-     * @param nativeTypes The types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
+     * @param nativeTypes the types that will be accepted to a call to {@link ConfigurationNode#setValue(Object)}
      * @return updated options object
      */
     public ConfigurationOptions withNativeTypes(final @Nullable Set<Class<?>> nativeTypes) {
@@ -218,7 +219,7 @@ public abstract class ConfigurationOptions {
      * Gets whether or not default parameters provided to {@link ConfigurationNode} getter methods
      * should be set to the node when used.
      *
-     * @return Whether defaults should be copied into value
+     * @return whether defaults should be copied into value
      */
     public abstract boolean getShouldCopyDefaults();
 

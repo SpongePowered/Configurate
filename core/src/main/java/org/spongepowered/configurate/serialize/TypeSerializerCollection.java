@@ -93,9 +93,9 @@ public final class TypeSerializerCollection {
      * <p>First, all registered serializers from this collection are queried
      * then if a parent collection is set, that collection is queried.
      *
-     * @param token The type a serializer is required for
-     * @param <T> The type to serialize
-     * @return A serializer if any is present, or null if no applicable
+     * @param token the type a serializer is required for
+     * @param <T> the type to serialize
+     * @return a serializer if any is present, or null if no applicable
      *          serializer is found
      */
     @SuppressWarnings("unchecked")
@@ -112,9 +112,9 @@ public final class TypeSerializerCollection {
      *
      * <p>This method will fail when provided a raw parameterized type</p>
      *
-     * @param token The type a serializer is required for
-     * @param <T> The type to serialize
-     * @return A serializer if any is present, or null if no applicable
+     * @param token the type a serializer is required for
+     * @param <T> the type to serialize
+     * @return a serializer if any is present, or null if no applicable
      *          serializer is found
      */
     @SuppressWarnings("unchecked")
@@ -133,8 +133,8 @@ public final class TypeSerializerCollection {
      * <p>First, all registered serializers from this collection are queried
      * then if a parent collection is set, that collection is queried.
      *
-     * @param type The type a serializer is required for
-     * @return A serializer if any is present, or null if no applicable
+     * @param type the type a serializer is required for
+     * @return a serializer if any is present, or null if no applicable
      *          serializer is found
      */
     public @Nullable TypeSerializer<?> get(Type type) {
@@ -158,7 +158,7 @@ public final class TypeSerializerCollection {
      * Create a new builder to begin building a collection of type serializers
      * that inherits from this collection.
      *
-     * @return The new builder
+     * @return the new builder
      */
     public Builder childBuilder() {
         return new Builder(this);
@@ -197,7 +197,7 @@ public final class TypeSerializerCollection {
      * are desired, either the default collection or a collection inheriting
      * from the default collection should be applied.
      *
-     * @return The builder
+     * @return the builder
      */
     public static Builder builder() {
         return new Builder(null);
@@ -207,7 +207,7 @@ public final class TypeSerializerCollection {
      * Get a collection containing all of Configurate's built-in
      * type serializers.
      *
-     * @return The collection
+     * @return the collection
      */
     public static TypeSerializerCollection defaults() {
         return DEFAULTS;
@@ -230,10 +230,10 @@ public final class TypeSerializerCollection {
          * <p>Serializers registered will match all subclasses of the provided
          * type, as well as unwrapped primitive equivalents of the type.
          *
-         * @param type The type to accept
-         * @param serializer The serializer that will be serialized with
-         * @param <T> The type to generify around
-         * @return this
+         * @param type the type to accept
+         * @param serializer the serializer that will be serialized with
+         * @param <T> the type to generify around
+         * @return this builder
          */
         public <T> Builder register(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
             return register0(type.getType(), serializer);
@@ -245,10 +245,10 @@ public final class TypeSerializerCollection {
          * <p>Serializers registered will match all subclasses of the provided
          * type, as well as unboxed primitive equivalents of the type.
          *
-         * @param type The type to accept
-         * @param serializer The serializer that will be serialized with
-         * @param <T> The type to generify around
-         * @return this
+         * @param type the type to accept
+         * @param serializer the serializer that will be serialized with
+         * @param <T> the type to generify around
+         * @return this builder
          */
         public <T> Builder register(final Class<T> type, final TypeSerializer<? super T> serializer) {
             return register0(type, serializer);
@@ -257,10 +257,10 @@ public final class TypeSerializerCollection {
         /**
          * Register a type serializer matching against a given predicate.
          *
-         * @param test The predicate to match types against
-         * @param serializer The serializer to serialize matching types with
-         * @param <T> The type parameter
-         * @return this
+         * @param test the predicate to match types against
+         * @param serializer the serializer to serialize matching types with
+         * @param <T> the type parameter
+         * @return this builder
          */
         public <T> Builder register(final Predicate<Type> test, final TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
@@ -312,10 +312,10 @@ public final class TypeSerializerCollection {
          * serializer registered for {@code List<String>} would not match when
          * {@code ArrayList<String>} is queried.</p>
          *
-         * @param type The type to accept
-         * @param serializer The serializer that will be serialized with
-         * @param <T> The type to generify around
-         * @return this
+         * @param type the type to accept
+         * @param serializer the serializer that will be serialized with
+         * @param <T> the type to generify around
+         * @return this builder
          */
         public <T> Builder registerExact(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
             return registerExact0(type.getType(), serializer);
@@ -328,10 +328,10 @@ public final class TypeSerializerCollection {
          * serializer registered for {@code List<String>} would not match when
          * {@code ArrayList<String>} is queried.</p>
          *
-         * @param type The type to accept
-         * @param serializer The serializer that will be serialized with
-         * @param <T> The type to generify around
-         * @return this
+         * @param type the type to accept
+         * @param serializer the serializer that will be serialized with
+         * @param <T> the type to generify around
+         * @return this builder
          */
         public <T> Builder registerExact(final Class<T> type, final TypeSerializer<? super T> serializer) {
             return registerExact0(type, serializer);
@@ -389,7 +389,7 @@ public final class TypeSerializerCollection {
         /**
          * Create a new type serializer collection.
          *
-         * @return The resulting collection
+         * @return a newly created collection
          */
         public TypeSerializerCollection build() {
             return new TypeSerializerCollection(this.parent, this.serializers);

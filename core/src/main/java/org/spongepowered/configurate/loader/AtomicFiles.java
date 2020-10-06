@@ -43,9 +43,9 @@ public final class AtomicFiles {
     /**
      * Creates and returns an "atomic" writer factory for the given path.
      *
-     * @param path The path
-     * @param charset The charset to be used by the writer
-     * @return The writer factory
+     * @param path path the complete file should be written to
+     * @param charset the charset to be used by the writer
+     * @return a new writer factory
      */
     public static Callable<BufferedWriter> createAtomicWriterFactory(final Path path, final Charset charset) {
         requireNonNull(path, "path");
@@ -55,10 +55,10 @@ public final class AtomicFiles {
     /**
      * Creates and returns an "atomic" writer for the given path.
      *
-     * @param path The path
-     * @param charset The charset to be used by the writer
-     * @return The writer factory
-     * @throws IOException For any underlying filesystem errors
+     * @param path the path
+     * @param charset the charset to be used by the writer
+     * @return a new writer factory
+     * @throws IOException for any underlying filesystem errors
      */
     public static BufferedWriter createAtomicBufferedWriter(Path path, final Charset charset) throws IOException {
         // absolute

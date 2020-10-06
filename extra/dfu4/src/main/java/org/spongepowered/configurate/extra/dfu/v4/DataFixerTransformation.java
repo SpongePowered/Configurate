@@ -82,7 +82,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
      * Get the version from a specific configuration node, using the configured
      * {@linkplain #getVersionKey() version key}.
      *
-     * @param root Base node to query
+     * @param root base node to query
      * @return version, or -1 if this node is unversioned.
      */
     @Override
@@ -113,7 +113,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * Set the fixer to use to process.
          *
          * @param fixer the fixer
-         * @return this
+         * @return this builder
          */
         public Builder<N> setDataFixer(final DataFixer fixer) {
             this.fixer = requireNonNull(fixer);
@@ -125,7 +125,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * version at.
          *
          * @param path the path
-         * @return this
+         * @return this builder
          */
         public Builder<N> setVersionKey(final Object... path) {
             this.versionPath = NodePath.create(requireNonNull(path, "path"));
@@ -137,7 +137,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * version at.
          *
          * @param path the path
-         * @return this
+         * @return this builder
          */
         public Builder<N> setVersionKey(final NodePath path) {
             this.versionPath = requireNonNull(path, "path");
@@ -149,7 +149,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * available version will be determined from the DataFixer.
          *
          * @param targetVersion target version
-         * @return this
+         * @return this builder
          */
         public Builder<N> setTargetVersion(final int targetVersion) {
             this.targetVersion = targetVersion;

@@ -31,16 +31,16 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      * <p>If the comment contains multiple lines, the lines will be split
      * by \n</p>
      *
-     * @return The configuration's current comment
+     * @return the configuration's current comment
      */
     @Nullable String getComment();
 
     /**
      * Sets the comment for this configuration node.
      *
-     * @param comment The comment to set. Line breaks should be represented as
+     * @param comment the comment to set. Line breaks should be represented as
      *                LFs (\n)
-     * @return this
+     * @return this node
      */
     N setComment(@Nullable String comment);
 
@@ -50,9 +50,9 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      * <p>The provided comment must not be null, because setting a null comment
      * would be a no-op</p>
      *
-     * @param comment The comment to set. Line breaks should be represented as
+     * @param comment the comment to set. Line breaks should be represented as
      *                LFs (\n)
-     * @return this
+     * @return this node
      */
     N setCommentIfAbsent(String comment);
 

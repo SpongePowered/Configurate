@@ -25,9 +25,9 @@ import java.util.function.Function;
 /**
  * A function with one input and one output which may throw a checked exception.
  *
- * @param <I> The input parameter type
- * @param <O> The output parameter type
- * @param <E> The type thrown
+ * @param <I> the input parameter type
+ * @param <O> the output parameter type
+ * @param <E> the type thrown
  */
 @FunctionalInterface
 public interface CheckedFunction<I, O, E extends Exception> {
@@ -37,17 +37,17 @@ public interface CheckedFunction<I, O, E extends Exception> {
      *
      * @param one parameter
      * @return return value
-     * @throws E Thrown when defined by types accepting this function
+     * @throws E thrown when defined by types accepting this function
      */
     O apply(I one) throws E;
 
     /**
      * Convert a JDK {@link Function} into its checked variant.
      *
-     * @param func The function
-     * @param <I> Parameter type
+     * @param func the function
+     * @param <I> parameter type
      * @param <O> return type
-     * @return The function as a checked function
+     * @return the function as a checked function
      */
     static <I, O> CheckedFunction<I, O, RuntimeException> fromFunction(Function<I, @NonNull O> func) {
         return requireNonNull(func, "func")::apply;

@@ -31,7 +31,7 @@ public final class Strings {
      *
      * <p>Available in {@link String} itself as of JDK 11.
      *
-     * @param content Text to repeat
+     * @param content text to repeat
      * @param times amount to repeat
      * @return repeated string
      */

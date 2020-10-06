@@ -50,8 +50,8 @@ public abstract class FieldData<I, O> {
      * @param resolvedFieldType type resolved for specific data
      * @param constraints constraints to verify on this field
      * @param processors processors to apply to fields backing this node
-     * @param <I> Intermediate type
-     * @param <O> Container type
+     * @param <I> intermediate type
+     * @param <O> container type
      * @return new field data
      */
     static <I, O> FieldData<I, O> of(final String name, final AnnotatedType resolvedFieldType,
@@ -136,7 +136,7 @@ public abstract class FieldData<I, O> {
     /**
      * Use this field's node resolvers to determine a target node.
      *
-     * @param source Parent node
+     * @param source parent node
      * @return resolved node
      */
     public @Nullable ConfigurationNode resolveNode(final ConfigurationNode source) {

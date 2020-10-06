@@ -50,7 +50,7 @@ public final class ConfigurateOpsBuilder {
      *
      * @param supplier source for new nodes created to store values in
      *     the {@code create*} methods
-     * @return this
+     * @return this builder
      */
     public ConfigurateOpsBuilder factory(final Supplier<ConfigurationNode> supplier) {
         this.nodeSupplier = requireNonNull(supplier, "nodeSupplier");
@@ -63,7 +63,7 @@ public final class ConfigurateOpsBuilder {
      * <p>This will replace any set {@link #factory(Supplier)}.
      *
      * @param collection type serializers to use for nodes.
-     * @return this
+     * @return this builder
      */
     public ConfigurateOpsBuilder factoryFromSerializers(final TypeSerializerCollection collection) {
         requireNonNull(collection, "collection");
@@ -85,7 +85,7 @@ public final class ConfigurateOpsBuilder {
      * Set whether {@link com.mojang.serialization.Keyable} values should be compressed.
      *
      * @param compressed whether to compress values
-     * @return this
+     * @return this builder
      * @see ConfigurateOps#compressMaps() for more about what compression is
      */
     public ConfigurateOpsBuilder compressed(final boolean compressed) {
@@ -102,7 +102,7 @@ public final class ConfigurateOpsBuilder {
      * {@code get*} methods.
      *
      * @param readProtection protection level
-     * @return this
+     * @return this builder
      */
     public ConfigurateOpsBuilder readProtection(final ConfigurateOps.Protection readProtection) {
         this.readProtection = requireNonNull(readProtection, "readProtection");
@@ -118,7 +118,7 @@ public final class ConfigurateOpsBuilder {
      * operation
      *
      * @param writeProtection protection level
-     * @return this
+     * @return this builder
      */
     public ConfigurateOpsBuilder writeProtection(final ConfigurateOps.Protection writeProtection) {
         this.writeProtection = requireNonNull(writeProtection, "writeProtection");
@@ -129,7 +129,7 @@ public final class ConfigurateOpsBuilder {
      * Set how nodes will be protected from both read and write modifications.
      *
      * @param protection protection level
-     * @return this
+     * @return this builder
      * @see #readProtection(ConfigurateOps.Protection) for how this level
      *      affects value reads
      * @see #writeProtection(ConfigurateOps.Protection) for how this level
@@ -149,7 +149,7 @@ public final class ConfigurateOpsBuilder {
      * input, so by the time this method is reached the builder will be in a
      * valid state.
      *
-     * @return The new instance
+     * @return the new instance
      */
     public ConfigurateOps build() {
         return new ConfigurateOps(this.nodeSupplier, this.compressed, this.readProtection, this.writeProtection);

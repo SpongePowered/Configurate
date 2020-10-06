@@ -262,12 +262,12 @@ final class NumericSerializers {
      * Parse a number, resolving hex and binary values, as well as a type
      * suffix, and unsigned values.
      *
-     * @param input The input string
-     * @param parseFunc The function to parse as a signed number
-     * @param unsignedParseFunc The function to parse as an unsigned number
-     * @param suffix The numeric suffix, in lowercase
-     * @param <T> The number type
-     * @return The parsed number
+     * @param input the input string
+     * @param parseFunc the function to parse as a signed number
+     * @param unsignedParseFunc the function to parse as an unsigned number
+     * @param suffix the numeric suffix, in lowercase
+     * @param <T> the number type
+     * @return the parsed number
      * @throws ObjectMappingException if unable to interpret an appropriate
      *                                number from the input string.
      */

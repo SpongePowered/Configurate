@@ -51,7 +51,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Creates a new {@link GsonConfigurationLoader} builder.
      *
-     * @return A new builder
+     * @return a new builder
      */
     @NonNull
     public static Builder builder() {
@@ -70,8 +70,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Sets the level of indentation the resultant loader should use.
          *
-         * @param indent The indent level
-         * @return This builder (for chaining)
+         * @param indent the indent level
+         * @return this builder (for chaining)
          */
         @NonNull
         public Builder setIndent(final int indent) {
@@ -82,7 +82,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Gets the level of indentation to be used by the resultant loader.
          *
-         * @return The indent level
+         * @return the indent level
          */
         public int getIndent() {
             return this.indent;
@@ -92,8 +92,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * Sets if the resultant loader should parse leniently.
          *
          * @see JsonReader#setLenient(boolean)
-         * @param lenient Whether the parser should parse leniently
-         * @return This builder (for chaining)
+         * @param lenient whether the parser should parse leniently
+         * @return this builder (for chaining)
          */
         @NonNull
         public Builder setLenient(final boolean lenient) {
@@ -104,7 +104,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Gets if the resultant loader should parse leniently.
          *
-         * @return Whether the parser should parse leniently
+         * @return whether the parser should parse leniently
          */
         public boolean isLenient() {
             return this.lenient;

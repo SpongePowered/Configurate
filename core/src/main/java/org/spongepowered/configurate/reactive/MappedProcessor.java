@@ -82,8 +82,8 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     }
 
     @Override
-    public void onError(final Throwable e) {
-        this.processor.onError(e);
+    public void onError(final Throwable thrown) {
+        this.processor.onError(thrown);
     }
 
     @Override

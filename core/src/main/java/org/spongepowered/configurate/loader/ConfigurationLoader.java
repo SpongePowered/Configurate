@@ -32,7 +32,7 @@ import java.util.function.Function;
  *
  * <p>An abstract implementation is provided by {@link AbstractConfigurationLoader}.</p>
  *
- * @param <N> The {@link ConfigurationNode} type produced by the loader
+ * @param <N> the {@link ConfigurationNode} type produced by the loader
  */
 public interface ConfigurationLoader<N extends ConfigurationNode> extends ConfigurationNodeFactory<N> {
 
@@ -46,7 +46,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * <p>The {@link #defaultOptions() default options} will be used to
      * construct the resultant configuration nodes.</p>
      *
-     * @return The newly constructed node
+     * @return the newly constructed node
      * @throws IOException if any sort of error occurs with reading or parsing
      *                     the configuration
      */
@@ -60,8 +60,8 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * <p>The resultant node represents the root of the configuration being
      * loaded.</p>
      *
-     * @param options The options to load with
-     * @return The newly constructed node
+     * @param options the options to load with
+     * @return the newly constructed node
      * @throws IOException if any sort of error occurs with reading or parsing
      *                     the configuration
      */
@@ -71,7 +71,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * Attempts to load data from the defined source into a {@link ConfigurationReference}.
      * The returned reference will not reload automatically.
      *
-     * @return The created reference
+     * @return the created reference
      * @throws IOException when an error occurs within the loader
      * @see WatchServiceListener#listenToConfiguration(Function, Path)  to
      *      create an auto-reloading configuration.
@@ -81,7 +81,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
     /**
      * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.
      *
-     * @param node The node to save
+     * @param node the node to save
      * @throws IOException if any sort of error occurs with writing or
      *                     generating the configuration
      */
@@ -90,7 +90,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
     /**
      * Gets if this loader is capable of loading configurations.
      *
-     * @return If this loader can load
+     * @return if this loader can load
      */
     default boolean canLoad() {
         return true;
@@ -99,7 +99,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
     /**
      * Gets if this loader is capable of saving configurations.
      *
-     * @return If this loader can save
+     * @return if this loader can save
      */
     default boolean canSave() {
         return true;

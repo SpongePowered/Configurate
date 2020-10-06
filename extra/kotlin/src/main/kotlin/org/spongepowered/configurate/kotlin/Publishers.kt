@@ -47,8 +47,8 @@ fun <V : Any> Publisher<V>.asFlow(): Flow<V> = callbackFlow {
             sendBlocking(item)
         }
 
-        override fun onError(e: Throwable) {
-            close(e)
+        override fun onError(thrown: Throwable) {
+            close(thrown)
         }
 
         override fun onClose() {

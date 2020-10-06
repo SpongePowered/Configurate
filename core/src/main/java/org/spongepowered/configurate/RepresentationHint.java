@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * understood hints should be exposed as constant fields on the loader class.
  * Any unknown hints will be ignored.
  *
- * @param <V> The value type
+ * @param <V> the value type
  */
 @AutoValue
 public abstract class RepresentationHint<V> {
@@ -150,7 +150,7 @@ public abstract class RepresentationHint<V> {
          *
          * <p>This defaults to {@code null}.</p>
          *
-         * @param defaultValue Default value
+         * @param defaultValue value to return on gets
          * @return this builder
          */
         public abstract Builder<V> setDefaultValue(@Nullable V defaultValue);

@@ -49,7 +49,7 @@ public interface FieldDiscoverer<I> {
      * <p>This discoverer will process any non-static and non-transient field
      * in the object.</p>
      *
-     * @param instanceFactory A factory for instance providers
+     * @param instanceFactory a factory for instance providers
      * @return new discoverer
      */
     static FieldDiscoverer<?> ofObject(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
@@ -148,13 +148,14 @@ public interface FieldDiscoverer<I> {
          *
          * @param name name
          * @param type declared field type, as resolved as possible
-         * @param enclosing The element containing the field
+         * @param annotations combined element containing all annotations
+         *                    applicable to the field
          * @param deserializer a function to populate the intermediate state
          *                     with a single deserialized field value.
          * @param serializer a function to extract a value from a completed
          *                   object instance.
          */
-        void accept(String name, AnnotatedType type, AnnotatedElement enclosing, FieldData.Deserializer<I> deserializer,
+        void accept(String name, AnnotatedType type, AnnotatedElement annotations, FieldData.Deserializer<I> deserializer,
                 CheckedFunction<V, Object, Exception> serializer);
     }
 

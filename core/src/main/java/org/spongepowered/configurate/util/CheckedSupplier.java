@@ -22,8 +22,8 @@ import java.util.function.Supplier;
  * A functional interface similar to Supplier, except allowing contained methods
  * to throw exceptions.
  *
- * @param <V> The value returned
- * @param <E> The exception type thrown
+ * @param <V> the value returned
+ * @param <E> the exception type thrown
  */
 @FunctionalInterface
 public interface CheckedSupplier<V, E extends Throwable> {

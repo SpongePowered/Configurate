@@ -36,7 +36,7 @@ public interface Constraint<V> {
     /**
      * Check if the provided deserialized value matches an expected condition.
      *
-     * @param value Value to test
+     * @param value value to test
      * @throws ObjectMappingException if the value falls outside its constraint.
      */
     void validate(@Nullable V value) throws ObjectMappingException;

@@ -39,23 +39,23 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * Gets the value encapsulated by this instance.
      *
-     * @return The value
+     * @return the value
      */
     abstract @Nullable Object getValue();
 
     /**
      * Sets the value encapsulated by this instance.
      *
-     * @param value The value
+     * @param value the value
      */
     abstract void setValue(@Nullable Object value);
 
     /**
      * Put a child value, or null to remove value at that key.
      *
-     * @param key The key
-     * @param value The node to put at key
-     * @return Existing node at key, if present
+     * @param key the key
+     * @param value the node to put at key
+     * @return existing node at key, if present
      */
     @Nullable
     abstract T putChild(@NonNull Object key, @Nullable T value);
@@ -63,9 +63,9 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * Put a child value, if one isn't already present at that key.
      *
-     * @param key The key
-     * @param value The node to put at key
-     * @return Existing node at key, if present
+     * @param key the key
+     * @param value the node to put at key
+     * @return existing node at key, if present
      */
     @Nullable
     abstract T putChildIfAbsent(@NonNull Object key, @Nullable T value);
@@ -74,8 +74,8 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * Gets the currently present child for the given key. Returns null if no
      * child is present.
      *
-     * @param key The key to get child at
-     * @return The child if any
+     * @param key the key to get child at
+     * @return the child if any
      */
     @Nullable
     abstract T getChild(@Nullable Object key);
@@ -83,7 +83,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * Returns an iterable over all child nodes.
      *
-     * @return An iterator
+     * @return an iterator
      */
     @NonNull
     abstract Iterable<T> iterateChildren();
@@ -91,7 +91,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * Creates a copy of this node.
      *
-     * @return A copy
+     * @return a copy
      */
     @NonNull
     abstract ConfigValue<N, T> copy(@NonNull T holder);

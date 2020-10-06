@@ -55,7 +55,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * Get the shared instance of this class, which creates new nodes using
      * the default factory.
      *
-     * @return The shared instance
+     * @return the shared instance
      */
     public static DynamicOps<ConfigurationNode> getInstance() {
         return INSTANCE;
@@ -64,8 +64,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Create a new instance of the ops, with a custom node factory.
      *
-     * @param factory The factory function
-     * @return A new ops instance
+     * @param factory the factory function
+     * @return a new ops instance
      */
     public static DynamicOps<ConfigurationNode> getWithNodeFactory(final Supplier<? extends ConfigurationNode> factory) {
         return new ConfigurateOps(factory);
@@ -75,7 +75,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * Wrap a ConfigurationNode in a {@link Dynamic} instance. The returned Dynamic will use the same type
      * serializer collection as the original node for its operations.
      *
-     * @param node The node to wrap
+     * @param node the node to wrap
      * @return a wrapped node
      */
     public static Dynamic<ConfigurationNode> wrap(final ConfigurationNode node) {
@@ -188,10 +188,10 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     /**
      * Merge into a newly created node.
      *
-     * @param first The primary node
-     * @param second The second node, with values that will override those in
+     * @param first the primary node
+     * @param second the second node, with values that will override those in
      *               the first node
-     * @return A newly created node
+     * @return a newly created node
      */
     @Override
     public ConfigurationNode merge(final ConfigurationNode first, final ConfigurationNode second) {

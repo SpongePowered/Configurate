@@ -121,7 +121,7 @@ public final class Typing {
     /**
      * Given an element type, create a new list type.
      *
-     * @param elementType Type token representing the element type
+     * @param elementType type token representing the element type
      * @param <T> type of element
      * @return new list type token
      */

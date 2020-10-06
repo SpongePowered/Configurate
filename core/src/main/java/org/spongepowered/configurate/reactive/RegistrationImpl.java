@@ -19,7 +19,7 @@ package org.spongepowered.configurate.reactive;
 /**
  * A registration for non-transactional processors.
  *
- * @param <V> The value type
+ * @param <V> the value type
  */
 class RegistrationImpl<V> implements AbstractProcessor.Registration<V> {
 

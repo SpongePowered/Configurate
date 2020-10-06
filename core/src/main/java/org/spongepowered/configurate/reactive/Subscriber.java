@@ -23,7 +23,7 @@ package org.spongepowered.configurate.reactive;
  * only process one event at a time -- effectively, within a single publisher
  * this subscriber does not have to be aware of concurrent effects.
  *
- * @param <V> The value that will be received
+ * @param <V> the value that will be received
  */
 @FunctionalInterface
 public interface Subscriber<V> {
@@ -31,7 +31,7 @@ public interface Subscriber<V> {
     /**
      * Called to submit a new item.
      *
-     * @param item The item available
+     * @param item the item available
      */
     void submit(V item);
 
@@ -42,11 +42,11 @@ public interface Subscriber<V> {
      * associated {@link Publisher} will not send further update signals after
      * an error is thrown.
      *
-     * @param e The exception thrown
+     * @param thrown the exception thrown
      */
-    default void onError(Throwable e) {
+    default void onError(Throwable thrown) {
         final Thread t = Thread.currentThread();
-        t.getUncaughtExceptionHandler().uncaughtException(t, e);
+        t.getUncaughtExceptionHandler().uncaughtException(t, thrown);
     }
 
     /**

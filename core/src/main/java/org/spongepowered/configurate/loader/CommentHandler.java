@@ -32,9 +32,9 @@ public interface CommentHandler {
     /**
      * Defines the handlers behaviour for reading comments.
      *
-     * @param reader The reader
-     * @return The comment
-     * @throws IOException If any IO error occurs in the process
+     * @param reader reader to get input from
+     * @return an extracted comment, if any
+     * @throws IOException if any IO error occurs in the process
      */
     @Nullable String extractHeader(BufferedReader reader) throws IOException;
 

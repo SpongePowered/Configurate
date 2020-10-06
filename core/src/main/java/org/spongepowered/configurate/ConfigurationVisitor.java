@@ -61,9 +61,9 @@ import java.util.LinkedList;
  * type, and {@link Safe} which throws no checked exceptions and therefore can
  * be visited without having to handle any exceptions.</p>
  *
- * @param <N> The type of node to visit
- * @param <S> A state object that will be used for one visit
- * @param <T> The terminal value, that can be returned at the end of the visit
+ * @param <N> the type of node to visit
+ * @param <S> a state object that will be used for one visit
+ * @param <T> the terminal value, that can be returned at the end of the visit
  * @param <E> exception type that may be thrown
  * @see ScopedConfigurationNode#visit(ConfigurationVisitor) to execute this
  *      configuration visitation
@@ -73,8 +73,8 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
     /**
      * Begin the visitation using a newly created state object.
      *
-     * @param node The node to start visiting from
-     * @return The terminal value
+     * @param node the node to start visiting from
+     * @return the terminal value
      * @throws E when thrown by implementation
      */
     default T visit(N node) throws E {
@@ -87,9 +87,9 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * It is recommended to directly access a {@link ScopedConfigurationNode}
      * where possible.
      *
-     * @param node  The node to begin from
-     * @param state A state object to begin with
-     * @return The terminal value
+     * @param node the node to begin from
+     * @param state a state object to begin with
+     * @return the terminal value
      * @throws E when thrown by implementation
      * @see ScopedConfigurationNode#visit(ConfigurationVisitor) for the
      *      recommended visitation method
@@ -133,7 +133,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * Called to provide a state object if a visit is initiated without one
      * already existing.
      *
-     * @return A new state object to be passed through the rest of this visit
+     * @return a new state object to be passed through the rest of this visit
      * @throws E when thrown by implementation
      */
     S newState() throws E;
@@ -141,7 +141,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
     /**
      * Called at the beginning of the visit with a state object created.
      *
-     * @param node  the root node
+     * @param node the root node
      * @param state the state
      * @throws E when thrown by implementation
      */
@@ -150,7 +150,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
     /**
      * Called once per node, for every node.
      *
-     * @param node  The current node
+     * @param node the current node
      * @param state provided state
      * @throws E when thrown by implementation
      */
@@ -160,7 +160,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * Called after {@link #enterNode(ConfigurationNode, Object)} for mapping
      * nodes.
      *
-     * @param node  current node
+     * @param node current node
      * @param state provided state
      * @throws E when thrown by implementation
      */
@@ -169,7 +169,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
     /**
      * Called after {@link #enterNode(ConfigurationNode, Object)} for list nodes.
      *
-     * @param node  current node
+     * @param node current node
      * @param state provided state
      * @throws E when thrown by implementation
      */
@@ -178,7 +178,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
     /**
      * Called after {@link #enterNode(ConfigurationNode, Object)} for scalar nodes.
      *
-     * @param node  current node
+     * @param node current node
      * @param state provided state
      * @throws E when thrown by implementation
      */
@@ -188,7 +188,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * Called for a list node after the node and any of its children have
      * been visited.
      *
-     * @param node  The node that has been visited
+     * @param node the node that has been visited
      * @param state provided state
      * @throws E when thrown by implementation
      */
@@ -198,7 +198,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * Called for a list node after the node and any of its children have
      * been visited.
      *
-     * @param node  The node that has been visited
+     * @param node the node that has been visited
      * @param state provided state
      * @throws E when thrown by implementation
      */
@@ -218,7 +218,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * Stateless specialization of visitors, where both the state and terminal
      * type are Void.
      *
-     * @param <N> The node type
+     * @param <N> the node type
      */
     @FunctionalInterface
     interface Stateless<N extends ConfigurationNode, E extends Exception> extends ConfigurationVisitor<N, Void, Void, E> {
@@ -235,7 +235,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
         /**
          * Called at the beginning of the visit with a state object created.
          *
-         * @param node The root node
+         * @param node the root node
          * @throws E as required by implementation
          */
         default void beginVisit(N node) throws E {}
@@ -248,7 +248,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
         /**
          * Called once per node, for every node.
          *
-         * @param node The current node
+         * @param node the current node
          * @throws E as required by implementation
          */
         void enterNode(N node) throws E;
@@ -306,7 +306,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * Called for a mapping node after the node and any of its children have
          * been visited.
          *
-         * @param node The node that has been visited
+         * @param node the node that has been visited
          * @throws E when thrown by implementation
          */
         default void exitMappingNode(N node) throws E {}
@@ -320,7 +320,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * Called for a list node after the node and any of its children have
          * been visited.
          *
-         * @param node The node that has been visited
+         * @param node the node that has been visited
          * @throws E when thrown by implementation
          */
         default void exitListNode(N node) throws E {}

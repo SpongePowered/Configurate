@@ -148,19 +148,16 @@
         <module name="UnnecessarySemicolonInTryWithResources"/>
 
         <module name="UnusedImports"/>
-        <!-- TODO: this might need a custom check -->
-        <module name="WriteTag">
-            <property name="id" value="ForbiddenJavadocContents"/>
-            <property name="tag" value="@[^\s]+"/>
-            <property name="tagFormat" value="(?:[A-Z].*)|(?:^this)"/>
-            <property name="tagSeverity" value="error"/>
-            <property name="severity" value="ignore"/>
-            <message key="javadoc.writeTag" value="Javadoc tag {0} has invalid contents {1}"/>
-            <property name="tokens" value="INTERFACE_DEF, CLASS_DEF, ENUM_DEF, ANNOTATION_DEF,
-                                           RECORD_DEF, METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,
-                                           RECORD_DEF, COMPACT_CTOR_DEF"/>
+        <module name="RegexpSinglelineJava">
+            <property name="id" value="JavadocNoCaptializedStarts"/>
+            <property name="format" value="\s+\*\s@((?:(?:param|throws)\s\S+)|return)\s+[A-Z]"/>
+            <property name="message" value="Javadoc at-tag descriptions should not start with a captial letter"/>
         </module>
-
+        <module name="RegexpSinglelineJava">
+            <property name="id" value="JavadocNotJustThis"/>
+            <property name="format" value="\s+\*\s@((?:(?:param|throws)\s\S+)|return)\s+this$"/>
+            <property name="message" value="Javadoc at-tag descriptions should not just be 'this'."/>
+        </module>
 
         <!-- Standard Google style checks -->
 

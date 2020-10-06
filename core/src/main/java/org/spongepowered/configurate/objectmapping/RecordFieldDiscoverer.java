@@ -83,7 +83,7 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
      * <p>These classes are quite a bit more limited than ordinary classes,
      * so we don't have to worry about traversing hierarchy.</p>.
      *
-     * @param target Containing record
+     * @param target containing record
      * @return an instance factory if this class is a record
      */
     @Override

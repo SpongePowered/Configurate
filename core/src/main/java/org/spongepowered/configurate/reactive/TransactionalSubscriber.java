@@ -27,7 +27,7 @@ package org.spongepowered.configurate.reactive;
  * transaction-aware processor will roll back all subscribers if the transaction
  * fails on any one subscriber, where a standard publisher will not.
  *
- * @param <V> The value handled by this subscriber
+ * @param <V> the value handled by this subscriber
  */
 public interface TransactionalSubscriber<V> extends Subscriber<V> {
 
@@ -49,7 +49,7 @@ public interface TransactionalSubscriber<V> extends Subscriber<V> {
      * available outside of to other transaction-aware viewers until
      * {@link #commit()} has been called.
      *
-     * @param newValue The new value
+     * @param newValue the new value
      * @throws TransactionFailedException if the new value does not validate
      */
     void beginTransaction(V newValue) throws TransactionFailedException;
