@@ -13,7 +13,7 @@ ktlint {
 }
 
 dependencies {
-    val indraVersion = "1.0.1"
+    val indraVersion = "1.0.2"
 
     implementation(gradleApi())
     api("net.kyori:indra-common:$indraVersion")

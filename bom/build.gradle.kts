@@ -6,9 +6,6 @@ plugins {
     id("org.spongepowered.configurate.build.publishing")
 }
 
-group = rootProject.group
-version = rootProject.version
-
 indra {
     configurePublications {
         from(components["javaPlatform"])
