@@ -27,13 +27,13 @@ tasks.withType(Javadoc::class).configureEach {
     val options = this.options
     if (options is StandardJavadocDocletOptions) {
         options.links(
-                "https://lightbend.github.io/config/latest/api/",
-                "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
-                "https://checkerframework.org/api/"
+            "https://lightbend.github.io/config/latest/api/",
+            "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
+            "https://checkerframework.org/api/"
         )
         options.linkSource()
     }
-    //applyCommonAttributes()
+    // applyCommonAttributes()
 }
 
 dependencies {

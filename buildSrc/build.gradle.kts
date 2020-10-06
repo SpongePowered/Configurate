@@ -1,10 +1,9 @@
 plugins {
     `kotlin-dsl`
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
 }
 
 repositories {
-    mavenLocal()
     jcenter()
     gradlePluginPortal()
 }
@@ -26,4 +25,11 @@ dependencies {
 
 kotlinDslPluginOptions {
     experimentalWarning.set(false)
+}
+
+ktlint {
+    filter {
+        // Don't validate generated code
+        exclude("**/kotlin/dsl/**")
+    }
 }

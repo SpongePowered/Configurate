@@ -16,8 +16,8 @@ indra {
     apache2License()
 
     if (
-            project.hasProperty("spongeSnapshotRepo")
-            && project.hasProperty("spongeReleaseRepo")
+        project.hasProperty("spongeSnapshotRepo") &&
+        project.hasProperty("spongeReleaseRepo")
     ) {
         publishSnapshotsTo("sponge", project.property("spongeSnapshotRepo") as String)
         publishReleasesTo("sponge", project.property("spongeReleaseRepo") as String)
@@ -27,10 +27,12 @@ indra {
         pom {
             artifactId = archiveName
 
-            description.set("""
+            description.set(
+                """
                 A simple configuration library for Java applications that can handle a variety of formats and
                 provides a node-based data structure able to handle a wide variety of configuration schemas
-            """.trimIndent().replace('\n', ' '))
+                """.trimIndent().replace('\n', ' ')
+            )
 
             inceptionYear.set("2014")
 
