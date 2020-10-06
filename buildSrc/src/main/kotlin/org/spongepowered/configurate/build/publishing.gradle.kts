@@ -57,6 +57,8 @@ signing {
         } else {
             useInMemoryPgpKeys(spongeSigningKey, spongeSigningPassword)
         }
+    } else {
+        signatories = PgpSignatoryProvider() // don't use gpg agent
     }
 }
 
