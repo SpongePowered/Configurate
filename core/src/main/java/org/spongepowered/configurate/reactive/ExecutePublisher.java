@@ -76,7 +76,7 @@ class ExecutePublisher<V> implements Publisher<V> {
     }
 
     @Override
-    public Executor getExecutor() {
+    public Executor executor() {
         return this.executor;
     }
 

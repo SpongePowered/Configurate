@@ -40,14 +40,14 @@ public class YamlConfigurationLoaderTest {
     void testSimpleLoading() throws IOException, ObjectMappingException {
         final URL url = getClass().getResource("/example.yml");
         final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
-                .setUrl(url).build();
+                .url(url).build();
         final ConfigurationNode node = loader.load();
-        assertEquals("unicorn", node.getNode("test", "op-level").getValue());
-        assertEquals("dragon", node.getNode("other", "op-level").getValue());
-        assertEquals("dog park", node.getNode("other", "location").getValue());
+        assertEquals("unicorn", node.node("test", "op-level").get());
+        assertEquals("dragon", node.node("other", "op-level").get());
+        assertEquals("dog park", node.node("other", "location").get());
 
 
-        final List<Map<String, List<String>>> fooList = new ArrayList<>(node.getNode("foo")
+        final List<Map<String, List<String>>> fooList = new ArrayList<>(node.node("foo")
             .getList(new TypeToken<Map<String, List<String>>>() {}));
         assertEquals(0, fooList.get(0).get("bar").size());
     }
@@ -55,19 +55,19 @@ public class YamlConfigurationLoaderTest {
     @Test
     void testReadWithTabs() throws IOException {
         final ConfigurationNode expected = BasicConfigurationNode.root(n -> {
-            n.getNode("document").act(d -> {
-                d.getNode("we").setValue("support tabs");
-                d.getNode("and").setValue("literal tabs\tin strings");
-                d.getNode("with").act(w -> {
-                    w.appendListNode().setValue("more levels");
-                    w.appendListNode().setValue("of indentation");
+            n.node("document").act(d -> {
+                d.node("we").set("support tabs");
+                d.node("and").set("literal tabs\tin strings");
+                d.node("with").act(w -> {
+                    w.appendListNode().set("more levels");
+                    w.appendListNode().set("of indentation");
                 });
             });
         });
 
         final URL url = getClass().getResource("/tab-example.yml");
         final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
-                .setUrl(url).build();
+                .url(url).build();
         final ConfigurationNode node = loader.load();
         assertEquals(expected, node);
     }

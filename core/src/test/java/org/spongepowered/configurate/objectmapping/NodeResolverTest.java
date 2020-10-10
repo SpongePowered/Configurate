@@ -37,8 +37,8 @@ public class NodeResolverTest {
     @Test
     void testNodeKey() throws ObjectMappingException {
         final ObjectMapper<TestNodeKey> mapper = ObjectMapper.factory().get(TestNodeKey.class);
-        final BasicConfigurationNode source = BasicConfigurationNode.root().getNode("test");
-        source.getNode("own").setValue("yeet");
+        final BasicConfigurationNode source = BasicConfigurationNode.root().node("test");
+        source.node("own").set("yeet");
 
         final TestNodeKey object = mapper.load(source);
 
@@ -57,7 +57,7 @@ public class NodeResolverTest {
         final ObjectMapper<TestSettingKey> mapper = ObjectMapper.factory().get(TestSettingKey.class);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.getNode("something").setValue("blah");
+            n.node("something").set("blah");
         });
 
         final TestSettingKey object = mapper.load(source);
@@ -79,8 +79,8 @@ public class NodeResolverTest {
                 .build().get(TestOnlyWithAnnotation.class);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.getNode("marked").setValue("something");
-            n.getNode("not-processed").setValue("ignored");
+            n.node("marked").set("something");
+            n.node("not-processed").set("ignored");
         });
 
         final TestOnlyWithAnnotation object = mapper.load(source);

@@ -47,7 +47,7 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
         this.loader = loader;
         this.updateListener = Processor.createTransactional(taskExecutor);
         this.errorListener = Processor.create(taskExecutor);
-        this.errorListener.setFallbackHandler(it -> {
+        this.errorListener.fallbackHandler(it -> {
             System.err.println("Unhandled error while performing a " + it.getKey() + " for a "
                 + "configuration reference: " + it.getValue());
             it.getValue().printStackTrace();
@@ -77,32 +77,32 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     public Publisher<N> saveAsync() {
         return Publisher.execute(() -> {
             save();
-            return getNode();
-        }, this.updateListener.getExecutor());
+            return node();
+        }, this.updateListener.executor());
     }
 
     @Override
     public Publisher<N> updateAsync(final Function<N, ? extends N> updater) {
         return Publisher.execute(() -> {
-            final N newNode = updater.apply(getNode());
+            final N newNode = updater.apply(node());
             save(newNode);
             return newNode;
-        }, this.updateListener.getExecutor());
+        }, this.updateListener.executor());
     }
 
     @Override
-    public N getNode() {
+    public N node() {
         return this.node;
     }
 
     @Override
-    public ConfigurationLoader<? extends N> getLoader() {
+    public ConfigurationLoader<? extends N> loader() {
         return this.loader;
     }
 
     @Override
     public N get(final Object... path) {
-        return getNode().getNode(path);
+        return node().node(path);
     }
 
     @Override

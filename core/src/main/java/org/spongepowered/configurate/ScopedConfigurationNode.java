@@ -62,31 +62,31 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N getNode(@NonNull Object... path);
+    @NonNull N node(@NonNull Object... path);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N getNode(@NonNull Iterable<?> path);
+    @NonNull N node(@NonNull Iterable<?> path);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Nullable N getParent();
+    @Nullable N parent();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N mergeValuesFrom(@NonNull ConfigurationNode other);
+    @NonNull N mergeFrom(@NonNull ConfigurationNode other);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N setValue(@Nullable Object value);
+    @NonNull N set(@Nullable Object value);
 
     /**
      * {@inheritDoc}
@@ -94,16 +94,16 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     @Override
     @NonNull
     @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize
-    default N setValue(@NonNull Type type, @Nullable Object value) throws ObjectMappingException {
+    default N set(@NonNull Type type, @Nullable Object value) throws ObjectMappingException {
         if (value == null) {
-            return setValue(null);
+            return set(null);
         }
 
-        final @Nullable TypeSerializer<?> serial = getOptions().getSerializers().get(type);
+        final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
         if (serial != null) {
             ((TypeSerializer) serial).serialize(type, value, self());
-        } else if (getOptions().acceptsType(value.getClass())) {
-            setValue(value); // Just write if no applicable serializer exists?
+        } else if (options().acceptsType(value.getClass())) {
+            set(value); // Just write if no applicable serializer exists?
         } else {
             throw new ObjectMappingException("No serializer available for type " + type);
         }
@@ -111,26 +111,26 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     }
 
     @Override
-    default <V> N setValue(Class<V> type, @Nullable V value) throws ObjectMappingException {
-        return setValue((Type) type, value);
+    default <V> N set(Class<V> type, @Nullable V value) throws ObjectMappingException {
+        return set((Type) type, value);
     }
 
     @Override
-    default <V> N setValue(TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
-        return setValue(type.getType(), value);
+    default <V> N set(TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
+        return set(type.getType(), value);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull List<N> getChildrenList();
+    @NonNull List<N> childrenList();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull Map<Object, N> getChildrenMap();
+    @NonNull Map<Object, N> childrenMap();
 
     /**
      * {@inheritDoc}
@@ -238,6 +238,6 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     <S, T> T visit(ConfigurationVisitor.Safe<? super N, S, T> visitor, S state);
 
     @Override
-    <V> N setHint(RepresentationHint<V> hint, @Nullable V value);
+    <V> N hint(RepresentationHint<V> hint, @Nullable V value);
 
 }

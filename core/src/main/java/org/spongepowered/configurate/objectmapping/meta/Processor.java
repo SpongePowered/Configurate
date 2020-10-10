@@ -68,9 +68,9 @@ public interface Processor<V> {
             if (destination instanceof CommentedConfigurationNodeIntermediary<?>) {
                 final CommentedConfigurationNodeIntermediary<?> commented = (CommentedConfigurationNodeIntermediary<?>) destination;
                 if (data.override()) {
-                    commented.setComment(data.value());
+                    commented.comment(data.value());
                 } else {
-                    commented.setCommentIfAbsent(data.value());
+                    commented.commentIfAbsent(data.value());
                 }
             }
         };
@@ -93,9 +93,9 @@ public interface Processor<V> {
                 if (destination instanceof CommentedConfigurationNodeIntermediary<?>) {
                     final CommentedConfigurationNodeIntermediary<?> commented = (CommentedConfigurationNodeIntermediary<?>) destination;
                     if (data.override()) {
-                        commented.setComment(translated);
+                        commented.comment(translated);
                     } else {
-                        commented.setCommentIfAbsent(translated);
+                        commented.commentIfAbsent(translated);
                     }
                 }
             };

@@ -19,27 +19,14 @@ package org.spongepowered.configurate.kotlin
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ConfigurationNodeFactory
 import org.spongepowered.configurate.ConfigurationOptions
-import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.objectmapping.ObjectMappingException
 import org.spongepowered.configurate.transformation.NodePath
-
-operator fun <T : ScopedConfigurationNode<T>> T.get(path: Any): T {
-    return getNode(path)
-}
-
-operator fun <T : ScopedConfigurationNode<T>> T.get(vararg path: Any): T {
-    return getNode(*path)
-}
-
-operator fun ConfigurationNode.set(vararg path: Any, value: Any?) {
-    getNode(*path).value = value
-}
 
 /**
  * Multi level contains
  */
 operator fun ConfigurationNode.contains(path: Array<Any>): Boolean {
-    return !getNode(*path).isVirtual
+    return !node(*path).virtual()
 }
 
 /**
@@ -48,22 +35,22 @@ operator fun ConfigurationNode.contains(path: Array<Any>): Boolean {
  * @param path a single path element
  */
 operator fun ConfigurationNode.contains(path: Any): Boolean {
-    return !getNode(path).isVirtual
+    return !node(path).virtual()
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <reified V> ConfigurationNode.get(): V? {
-    return getValue(typeTokenOf<V>(), null as V?)
+inline fun <reified V> ConfigurationNode.typedGet(): V? {
+    return get(typeTokenOf<V>(), null as V?)
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <reified V> ConfigurationNode.get(default: V): V {
-    return getValue(typeTokenOf(), default)
+inline fun <reified V> ConfigurationNode.typedGet(default: V): V {
+    return get(typeTokenOf(), default)
 }
 
 @Throws(ObjectMappingException::class)
-inline fun <reified V> ConfigurationNode.set(value: V?) {
-    setValue(typeTokenOf(), value)
+inline fun <reified V> ConfigurationNode.typedSet(value: V?) {
+    set(typeTokenOf(), value)
 }
 
 operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options: ConfigurationOptions = defaultOptions()): N =
@@ -73,7 +60,7 @@ operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options:
  * Concatenate `this` with another [NodePath].
  */
 operator fun NodePath.plus(other: NodePath): NodePath {
-    return NodePath.create(
+    return NodePath.of(
         Array(this.size() + other.size()) {
             if (it < size()) {
                 this[it]

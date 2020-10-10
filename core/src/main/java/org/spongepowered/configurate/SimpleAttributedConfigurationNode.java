@@ -37,24 +37,24 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     protected SimpleAttributedConfigurationNode(final @NonNull String tagName, final @Nullable Object path,
             final @Nullable SimpleAttributedConfigurationNode parent, final @NonNull ConfigurationOptions options) {
         super(path, parent, options);
-        setTagName(tagName);
+        tagName(tagName);
     }
 
     protected SimpleAttributedConfigurationNode(final @NonNull String tagName, final @Nullable SimpleAttributedConfigurationNode parent,
             final @NonNull SimpleAttributedConfigurationNode copyOf) {
         super(parent, copyOf);
-        setTagName(tagName);
+        tagName(tagName);
     }
 
     @NonNull
     @Override
-    public String getTagName() {
+    public String tagName() {
         return this.tagName;
     }
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode setTagName(final @NonNull String tagName) {
+    public SimpleAttributedConfigurationNode tagName(final @NonNull String tagName) {
         if (requireNonNull(tagName, "tag name").isEmpty()) {
             throw new IllegalArgumentException("Tag name cannot be null/empty");
         }
@@ -83,7 +83,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode setAttributes(final @NonNull Map<String, String> attributes) {
+    public SimpleAttributedConfigurationNode attributes(final @NonNull Map<String, String> attributes) {
         for (String name : attributes.keySet()) {
             if (requireNonNull(name, "name").isEmpty()) {
                 throw new IllegalArgumentException("Attribute name cannot be null/empty");
@@ -97,6 +97,12 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return this;
     }
 
+    @NonNull
+    @Override
+    public Map<String, String> attributes() {
+        return Collections.unmodifiableMap(new LinkedHashMap<>(this.attributes));
+    }
+
     @Override
     public boolean hasAttributes() {
         return !this.attributes.isEmpty();
@@ -104,14 +110,8 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @Nullable
     @Override
-    public String getAttribute(final @NonNull String name) {
+    public String attribute(final @NonNull String name) {
         return this.attributes.get(name);
-    }
-
-    @NonNull
-    @Override
-    public Map<String, String> getAttributes() {
-        return Collections.unmodifiableMap(new LinkedHashMap<>(this.attributes));
     }
 
     @Override
@@ -123,31 +123,31 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @Override
     protected SimpleAttributedConfigurationNode createNode(final Object path) {
-        return new SimpleAttributedConfigurationNode("element", path, this, getOptions());
+        return new SimpleAttributedConfigurationNode("element", path, this, options());
     }
 
     @NonNull
     @Override
-    public AttributedConfigurationNode setValue(final @Nullable Object value) {
+    public AttributedConfigurationNode set(final @Nullable Object value) {
         if (value instanceof AttributedConfigurationNode) {
             final AttributedConfigurationNode node = (AttributedConfigurationNode) value;
-            setTagName(node.getTagName());
-            setAttributes(node.getAttributes());
+            tagName(node.tagName());
+            attributes(node.attributes());
         }
-        return super.setValue(value);
+        return super.set(value);
     }
 
     @NonNull
     @Override
-    public AttributedConfigurationNode mergeValuesFrom(final @NonNull ConfigurationNode other) {
+    public AttributedConfigurationNode mergeFrom(final @NonNull ConfigurationNode other) {
         if (other instanceof AttributedConfigurationNode) {
             final AttributedConfigurationNode node = (AttributedConfigurationNode) other;
-            setTagName(node.getTagName());
-            for (Map.Entry<String, String> attribute : node.getAttributes().entrySet()) {
+            tagName(node.tagName());
+            for (Map.Entry<String, String> attribute : node.attributes().entrySet()) {
                 addAttribute(attribute.getKey(), attribute.getValue());
             }
         }
-        return super.mergeValuesFrom(other);
+        return super.mergeFrom(other);
     }
 
     @NonNull

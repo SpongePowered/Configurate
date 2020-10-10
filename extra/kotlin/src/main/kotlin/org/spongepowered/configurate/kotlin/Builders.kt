@@ -44,7 +44,7 @@ fun attributed(
     init: AttributedConfigurationNode.() -> Unit
 ): AttributedConfigurationNode {
     val node = AttributedConfigurationNode.root(nodeName, options)
-    node.attributes = mapOf(*attributes)
+    node.attributes(mapOf(*attributes))
     node.init()
     return node
 }

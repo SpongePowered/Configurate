@@ -52,7 +52,7 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
         this.dirListeners = Processor.create(executor);
     }
 
-    public WatchKey getKey() {
+    public WatchKey key() {
         return this.key;
     }
 
@@ -142,14 +142,14 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
         }
 
         final DirectoryListenerRegistration that = (DirectoryListenerRegistration) o;
-        return getKey().equals(that.getKey())
+        return key().equals(that.key())
             && this.fileListeners.equals(that.fileListeners)
             && this.dirListeners.equals(that.dirListeners);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getKey(), this.fileListeners, this.dirListeners);
+        return Objects.hash(key(), this.fileListeners, this.dirListeners);
     }
 
     public boolean closeIfEmpty() {

@@ -76,7 +76,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     public final T deserialize(Type type, final ConfigurationNode node) throws ObjectMappingException {
         ConfigurationNode deserializeFrom = node;
         if (node.isList()) {
-            final List<? extends ConfigurationNode> children = node.getChildrenList();
+            final List<? extends ConfigurationNode> children = node.childrenList();
             if (children.size() == 1) {
                 deserializeFrom = children.get(0);
             }
@@ -86,7 +86,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("Value must be provided as a scalar!");
         }
 
-        final @Nullable Object value = deserializeFrom.getValue();
+        final @Nullable Object value = deserializeFrom.get();
         if (value == null) {
             throw new ObjectMappingException("No value present");
         }
@@ -134,16 +134,16 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     @Override
     public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
         if (obj == null) {
-            node.setValue(null);
+            node.set(null);
             return;
         }
 
-        if (node.getOptions().acceptsType(obj.getClass())) {
-            node.setValue(obj);
+        if (node.options().acceptsType(obj.getClass())) {
+            node.set(obj);
             return;
         }
 
-        node.setValue(serialize(obj, node.getOptions()::acceptsType));
+        node.set(serialize(obj, node.options()::acceptsType));
     }
 
     /**

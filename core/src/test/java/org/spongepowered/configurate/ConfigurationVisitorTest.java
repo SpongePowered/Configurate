@@ -30,21 +30,21 @@ public class ConfigurationVisitorTest {
     void testTree() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
 
-        base.getNode("cats").act(c -> {
-            c.getNode("large").setValue("great");
-            c.getNode("medium").setValue("wonderful");
-            c.getNode("small").setValue("stupendous");
+        base.node("cats").act(c -> {
+            c.node("large").set("great");
+            c.node("medium").set("wonderful");
+            c.node("small").set("stupendous");
         });
 
-        base.getNode("fish").act(c -> {
-            c.appendListNode().setValue("one");
+        base.node("fish").act(c -> {
+            c.appendListNode().set("one");
             c.appendListNode().act(f -> {
-                f.getNode("number").setValue("two");
-                f.getNode("type").setValue("blue");
+                f.node("number").set("two");
+                f.node("type").set("blue");
             });
         });
 
-        base.getNode("dog").setValue("woof");
+        base.node("dog").set("woof");
 
         final String result = base.visit(VISITOR);
         assertEquals("b(m(-cats-m(-large-s)(-medium-s)(-small-s))(-fish-l(-0-s)(-1-m(-number-s)(-type-s)))(-dog-s))t", result);
@@ -60,7 +60,7 @@ public class ConfigurationVisitorTest {
     @Test
     void testSingleScalar() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
-        base.setValue("test");
+        base.set("test");
         final String result = base.visit(VISITOR);
         assertEquals("b(s)t", result);
     }
@@ -71,10 +71,10 @@ public class ConfigurationVisitorTest {
             @Override
             public void enterListNode(final BasicConfigurationNode node, final StringBuilder state) {
                 super.enterListNode(node, state);
-                node.setValue(null);
+                node.set(null);
             }
         };
-        final BasicConfigurationNode base = BasicConfigurationNode.root().setValue(Collections.emptyList());
+        final BasicConfigurationNode base = BasicConfigurationNode.root().set(Collections.emptyList());
         final String result = base.visit(visitor);
 
         assertEquals("b(l)t", result);
@@ -112,8 +112,8 @@ public class ConfigurationVisitorTest {
         @Override
         public void enterNode(final N node, final StringBuilder state) {
             state.append(NODE_ENTER);
-            if (node.getKey() != null) {
-                state.append("-").append(node.getKey()).append("-");
+            if (node.key() != null) {
+                state.append("-").append(node.key()).append("-");
             }
         }
 

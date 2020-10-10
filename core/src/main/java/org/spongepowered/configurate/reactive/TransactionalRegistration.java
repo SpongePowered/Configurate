@@ -30,12 +30,12 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V> {
 
-    TransactionalProcessorImpl<V> getHolder();
+    TransactionalProcessorImpl<V> holder();
 
     @Override
     default void dispose() {
-        if (getHolder().registrations.remove(this)) {
-            getHolder().subscriberCount.getAndDecrement();
+        if (holder().registrations.remove(this)) {
+            holder().subscriberCount.getAndDecrement();
         }
     }
 
@@ -74,7 +74,7 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
         }
 
         @Override
-        public TransactionalProcessorImpl<V> getHolder() {
+        public TransactionalProcessorImpl<V> holder() {
             return this.holder;
         }
 
@@ -126,7 +126,7 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
         }
 
         @Override
-        public TransactionalProcessorImpl<V> getHolder() {
+        public TransactionalProcessorImpl<V> holder() {
             return this.holder;
         }
 

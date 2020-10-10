@@ -70,7 +70,7 @@ public final class Transformations {
                 })
                 // For every direct child of the `section` node, set the value of its child `new-value` to something
                 .addAction(path("section", ConfigurationTransformation.WILDCARD_OBJECT), (path, value) -> {
-                    value.getNode("new-value").setValue("i'm a default");
+                    value.node("new-value").set("i'm a default");
 
                     return null; // don't move the value
                 })
@@ -83,7 +83,7 @@ public final class Transformations {
                 .addAction(path("server", "version"), (path, value) -> {
                     final @Nullable String val = value.getString();
                     if (val != null) {
-                        value.setValue(val.replaceAll("-", "_"));
+                        value.set(val.replaceAll("-", "_"));
                     }
                     return null;
                 })
@@ -107,11 +107,11 @@ public final class Transformations {
      * @return provided node, after transformation
      */
     public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) {
-        if (!node.isVirtual()) { // we only want to migrate existing data
+        if (!node.virtual()) { // we only want to migrate existing data
             final ConfigurationTransformation.Versioned<N> trans = create();
-            final int startVersion = trans.getVersion(node);
+            final int startVersion = trans.version(node);
             trans.apply(node);
-            final int endVersion = trans.getVersion(node);
+            final int endVersion = trans.version(node);
             if (startVersion != endVersion) { // we might not have made any changes
                 System.out.println("Updated config schema from " + startVersion + " to " + endVersion);
             }
@@ -125,7 +125,7 @@ public final class Transformations {
             System.err.println("Apply the test transformations to a single file");
         }
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(Paths.get(args[0]))
+                .path(Paths.get(args[0]))
                 .build();
 
         loader.save(updateNode(loader.load())); // tada

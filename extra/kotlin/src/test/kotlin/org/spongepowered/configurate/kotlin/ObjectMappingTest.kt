@@ -34,8 +34,8 @@ class ObjectMappingTest {
     @Test
     fun `deserialize to data class`() {
         val source = node {
-            this["deny-message"] = "you're not allowed to do that!"
-            this["match"] = "[uo]w[uo]"
+            this.node("deny-message").set("you're not allowed to do that!")
+            this.node("match").set("[uo]w[uo]")
         }
         val deserialized = objectMapper<SimpleTest>().load(source)
 
@@ -51,8 +51,8 @@ class ObjectMappingTest {
 
         objectMapper<SimpleTest>().save(source, node)
 
-        assertEquals("goodbye", node["deny-message"].value)
-        assertEquals("i'm leaving", node["match"].value)
+        assertEquals("goodbye", node.node("deny-message").get())
+        assertEquals("i'm leaving", node.node("match").get())
     }
 
     data class AnnotatedTest(
@@ -68,15 +68,15 @@ class ObjectMappingTest {
         val mapper = objectMapper<AnnotatedTest>()
         mapper.save(data, node)
 
-        assertEquals("purr", node["name"].value)
-        assertEquals("sad", node["name"].comment)
-        assertEquals("SHOUTING", node["attributes"].value)
+        assertEquals("purr", node.node("name").get())
+        assertEquals("sad", node.node("name").comment())
+        assertEquals("SHOUTING", node.node("attributes").get())
 
         assertThrows<ObjectMappingException> {
             mapper.load(
                 node {
-                    this["name"] = "meow"
-                    this["attributes"] = "quiet" // does not match regex
+                    this.node("name").set("meow")
+                    this.node("attributes").set("quiet") // does not match regex
                 }
             )
         }
@@ -93,8 +93,8 @@ class ObjectMappingTest {
     fun `collections are initialized implicitly`() {
         val node = CommentedConfigurationNode.root(
             ConfigurationOptions.defaults()
-                .withImplicitInitialization(true)
-                .withSerializers { it.registerAnnotatedObjects(objectMapperFactory()) }
+                .implicitInitialization(true)
+                .serializers { it.registerAnnotatedObjects(objectMapperFactory()) }
         )
 
         val tester = objectMapper<ImplicitTest>().load(node)

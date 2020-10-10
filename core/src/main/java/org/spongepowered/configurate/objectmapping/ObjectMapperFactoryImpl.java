@@ -78,7 +78,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         if (scheme != null) {
             this.resolverFactories.add((name, element) -> {
                 final String key = scheme.coerce(name);
-                return node -> node.getNode(key);
+                return node -> node.node(key);
             });
         }
 
@@ -198,11 +198,11 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
 
     @Override
     public Object deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
-        final Type clazz = getInstantiableType(type, node.getNode(CLASS_KEY).getString());
+        final Type clazz = instantiableType(type, node.node(CLASS_KEY).getString());
         return get(clazz).load(node);
     }
 
-    private Type getInstantiableType(final Type type, final @Nullable String configuredName) throws ObjectMappingException {
+    private Type instantiableType(final Type type, final @Nullable String configuredName) throws ObjectMappingException {
         final Type retClass;
         final Class<?> rawType = erase(type);
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
@@ -229,10 +229,10 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     @SuppressWarnings("unchecked")
     public void serialize(final Type type, final @Nullable Object obj, final ConfigurationNode node) throws ObjectMappingException {
         if (obj == null) {
-            final ConfigurationNode clazz = node.getNode(CLASS_KEY);
-            node.setValue(null);
-            if (!clazz.isVirtual()) {
-                node.getNode(CLASS_KEY).setValue(clazz);
+            final ConfigurationNode clazz = node.node(CLASS_KEY);
+            node.set(null);
+            if (!clazz.virtual()) {
+                node.node(CLASS_KEY).set(clazz);
             }
             return;
         }
@@ -240,7 +240,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         final ObjectMapper<?> mapper;
         if (rawType.isInterface() || Modifier.isAbstract(rawType.getModifiers())) {
             // serialize obj's concrete type rather than the interface/abstract class
-            node.getNode(CLASS_KEY).setValue(obj.getClass().getName());
+            node.node(CLASS_KEY).set(obj.getClass().getName());
             mapper = get(obj.getClass());
         } else {
             mapper = get(type);
@@ -252,7 +252,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     public @Nullable Object emptyValue(final Type specificType, final ConfigurationOptions options) {
         try {
             // preserve options, but don't copy defaults into temporary node
-            return get(specificType).load(BasicConfigurationNode.root(options.withShouldCopyDefaults(false)));
+            return get(specificType).load(BasicConfigurationNode.root(options.shouldCopyDefaults(false)));
         } catch (final ObjectMappingException ex) {
             return null;
         }
@@ -300,7 +300,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
 
     static ObjectMapper.Factory.Builder defaultBuilder() {
         return new Builder()
-                .setDefaultNamingScheme(NamingSchemes.LOWER_CASE_DASHED)
+                .defaultNamingScheme(NamingSchemes.LOWER_CASE_DASHED)
                 // Resolvers //
                 .addNodeResolver(NodeResolver.nodeKey())
                 .addNodeResolver(NodeResolver.keyFromSetting())
@@ -309,8 +309,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
                 .addConstraint(Matches.class, String.class, Constraint.pattern())
                 .addConstraint(Required.class, Constraint.required())
                 // Field discovers //
-                .addDiscoverer(FieldDiscoverer.ofEmptyConstructorObject())
-                .addDiscoverer(FieldDiscoverer.ofRecord());
+                .addDiscoverer(FieldDiscoverer.emptyConstructorObject())
+                .addDiscoverer(FieldDiscoverer.record());
     }
 
     /**
@@ -327,7 +327,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         private final List<Definition<?, ?, ? extends Processor.Factory<?, ?>>> processors = new ArrayList<>();
 
         @Override
-        public ObjectMapper.Factory.Builder setDefaultNamingScheme(final NamingScheme scheme) {
+        public ObjectMapper.Factory.Builder defaultNamingScheme(final NamingScheme scheme) {
             this.namingScheme = scheme;
             return this;
         }

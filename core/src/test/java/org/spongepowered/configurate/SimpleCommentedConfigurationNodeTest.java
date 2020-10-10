@@ -26,38 +26,38 @@ public class SimpleCommentedConfigurationNodeTest {
     @Test
     void testCommentsTransferred() {
         final CommentedConfigurationNode subject = CommentedConfigurationNode.root();
-        final CommentedConfigurationNode firstChild = subject.getNode("first");
-        firstChild.setValue("test value");
-        firstChild.setComment("Such comment. Very wow.");
+        final CommentedConfigurationNode firstChild = subject.node("first");
+        firstChild.set("test value");
+        firstChild.comment("Such comment. Very wow.");
 
 
-        final CommentedConfigurationNode secondChild = subject.getNode("second");
-        secondChild.setValue("test value's evil twin");
+        final CommentedConfigurationNode secondChild = subject.node("second");
+        secondChild.set("test value's evil twin");
 
-        assertFalse(secondChild.isVirtual());
+        assertFalse(secondChild.virtual());
 
-        secondChild.setValue(firstChild);
-        assertEquals("test value", secondChild.getValue());
-        assertEquals("Such comment. Very wow.", secondChild.getComment());
+        secondChild.set(firstChild);
+        assertEquals("test value", secondChild.get());
+        assertEquals("Such comment. Very wow.", secondChild.comment());
     }
 
     @Test
     void testNestedCommentsTransferred() {
         final CommentedConfigurationNode subject = CommentedConfigurationNode.root();
-        final CommentedConfigurationNode firstChild = subject.getNode("first");
-        final CommentedConfigurationNode firstChildChild = firstChild.getNode("child");
-        firstChildChild.setValue("test value");
-        firstChildChild.setComment("Such comment. Very wow.");
+        final CommentedConfigurationNode firstChild = subject.node("first");
+        final CommentedConfigurationNode firstChildChild = firstChild.node("child");
+        firstChildChild.set("test value");
+        firstChildChild.comment("Such comment. Very wow.");
 
 
-        final CommentedConfigurationNode secondChild = subject.getNode("second");
-        secondChild.setValue("test value's evil twin");
+        final CommentedConfigurationNode secondChild = subject.node("second");
+        secondChild.set("test value's evil twin");
 
-        assertFalse(secondChild.isVirtual());
+        assertFalse(secondChild.virtual());
 
-        secondChild.setValue(firstChild);
-        assertEquals("test value", secondChild.getNode("child").getValue());
-        assertEquals("Such comment. Very wow.", secondChild.getNode("child").getComment());
+        secondChild.set(firstChild);
+        assertEquals("test value", secondChild.node("child").get());
+        assertEquals("Such comment. Very wow.", secondChild.node("child").comment());
     }
 
     @Test
@@ -65,19 +65,19 @@ public class SimpleCommentedConfigurationNodeTest {
         final CommentedConfigurationNode source = CommentedConfigurationNode.root();
         final CommentedConfigurationNode target = CommentedConfigurationNode.root();
 
-        source.getNode("no-value").setValue("a").setComment("yeah");
-        source.getNode("existing-value-no-comment").setValue("orig").setComment("maybe");
-        source.getNode("existing-value").setValue("a").setComment("yeah");
-        source.getNode("no-parent", "child").setValue("x").setComment("always");
-        target.getNode("existing-value-no-comment").setValue("new");
-        target.getNode("existing-value").setValue("b").setComment("nope");
+        source.node("no-value").set("a").comment("yeah");
+        source.node("existing-value-no-comment").set("orig").comment("maybe");
+        source.node("existing-value").set("a").comment("yeah");
+        source.node("no-parent", "child").set("x").comment("always");
+        target.node("existing-value-no-comment").set("new");
+        target.node("existing-value").set("b").comment("nope");
 
-        target.mergeValuesFrom(source);
-        assertEquals("yeah", target.getNode("no-value").getComment());
-        assertEquals("maybe", target.getNode("existing-value-no-comment").getComment());
-        assertEquals("new", target.getNode("existing-value-no-comment").getString());
-        assertEquals("nope", target.getNode("existing-value").getComment());
-        assertEquals("always", target.getNode("no-parent", "child").getComment());
+        target.mergeFrom(source);
+        assertEquals("yeah", target.node("no-value").comment());
+        assertEquals("maybe", target.node("existing-value-no-comment").comment());
+        assertEquals("new", target.node("existing-value-no-comment").getString());
+        assertEquals("nope", target.node("existing-value").comment());
+        assertEquals("always", target.node("no-parent", "child").comment());
     }
 
 }

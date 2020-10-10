@@ -35,7 +35,7 @@ import java.util.List;
 public class DefaultsTest {
 
     public static final ConfigurationOptions IMPLICIT_OPTS = ConfigurationOptions.defaults()
-            .withImplicitInitialization(true);
+            .implicitInitialization(true);
 
     @ConfigSerializable
     static class ImplicitDefaultsOnly {
@@ -60,16 +60,16 @@ public class DefaultsTest {
 
     @Test
     void testImplicitDefaultsSaved() throws ObjectMappingException {
-        final BasicConfigurationNode node = BasicConfigurationNode.root(IMPLICIT_OPTS.withShouldCopyDefaults(true));
-        node.getValue(ImplicitDefaultsOnly.class);
+        final BasicConfigurationNode node = BasicConfigurationNode.root(IMPLICIT_OPTS.shouldCopyDefaults(true));
+        node.get(ImplicitDefaultsOnly.class);
 
-        assertPresentAndEmpty(node.getNode("my-strings"));
-        assertPresentAndEmpty(node.getNode("fun-times"));
-        assertPresentAndEmpty(node.getNode("items"));
+        assertPresentAndEmpty(node.node("my-strings"));
+        assertPresentAndEmpty(node.node("fun-times"));
+        assertPresentAndEmpty(node.node("items"));
     }
 
     private void assertPresentAndEmpty(final ConfigurationNode node) {
-        assertFalse(node.isVirtual());
+        assertFalse(node.virtual());
         assertTrue(node.isEmpty());
     }
 

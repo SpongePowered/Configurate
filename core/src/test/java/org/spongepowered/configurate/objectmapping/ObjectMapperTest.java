@@ -49,7 +49,7 @@ public class ObjectMapperTest {
     void testCreateFromNode() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
-        source.getNode("test-key").setValue("some are born great, some achieve greatness, and some have greatness thrust upon them");
+        source.node("test-key").set("some are born great, some achieve greatness, and some have greatness thrust upon them");
 
         final TestObject obj = mapper.load(source);
         assertEquals("some are born great, some achieve greatness, and some have greatness thrust upon them", obj.stringVal);
@@ -68,7 +68,7 @@ public class ObjectMapperTest {
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         final TestObject instance = new TestObject();
 
-        source.getNode("test-key").setValue("boom");
+        source.node("test-key").set("boom");
         assertTrue(mapper instanceof ObjectMapper.Mutable<?>);
 
         ((ObjectMapper.Mutable<TestObject>) mapper).load(instance, source);
@@ -84,19 +84,19 @@ public class ObjectMapperTest {
 
         instance.stringVal = "hi";
         ((ObjectMapper.Mutable<TestObject>) mapper).load(instance, source);
-        assertTrue(source.getNode("test-key").isVirtual());
+        assertTrue(source.node("test-key").virtual());
     }
 
     @Test
     void testDefaultsApplied() throws ObjectMappingException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
-        final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
+        final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().shouldCopyDefaults(true));
         final TestObject instance = new TestObject();
         assertTrue(mapper instanceof ObjectMapper.Mutable<?>);
 
         instance.stringVal = "hi";
         ((ObjectMapper.Mutable<TestObject>) mapper).load(instance, source);
-        assertEquals("hi", source.getNode("test-key").getString());
+        assertEquals("hi", source.node("test-key").getString());
     }
 
     @ConfigSerializable
@@ -115,9 +115,9 @@ public class ObjectMapperTest {
         obj.color = "fuchsia";
         obj.politician = "All of them";
         mapper.save(obj, node);
-        assertEquals("You look nice today", node.getNode("commented-key").getComment());
-        assertEquals("fuchsia", node.getNode("commented-key").getString());
-        assertNull(node.getNode("no-comment").getComment());
+        assertEquals("You look nice today", node.node("commented-key").comment());
+        assertEquals("fuchsia", node.node("commented-key").getString());
+        assertNull(node.node("no-comment").comment());
     }
 
     @ConfigSerializable
@@ -148,8 +148,8 @@ public class ObjectMapperTest {
     void testSuperclassFieldsIncluded() throws ObjectMappingException {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.factory().get(TestObjectChild.class);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("child-setting").setValue(true);
-        node.getNode("test-key").setValue("Parents get populated too!");
+        node.node("child-setting").set(true);
+        node.node("test-key").set("Parents get populated too!");
 
         final TestObjectChild instance = mapper.load(node);
         assertTrue(instance.childSetting);
@@ -165,7 +165,7 @@ public class ObjectMapperTest {
     void testKeyFromFieldName() throws ObjectMappingException {
         final ObjectMapper<FieldNameObject> mapper = ObjectMapper.factory().get(FieldNameObject.class);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("loads").setValue(true);
+        node.node("loads").set(true);
 
         final FieldNameObject obj = mapper.load(node);
         assertTrue(obj.loads);
@@ -182,24 +182,24 @@ public class ObjectMapperTest {
 
     @Test
     void testNestedObjectWithComments() throws ObjectMappingException {
-        final CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().withShouldCopyDefaults(true));
+        final CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().shouldCopyDefaults(true));
         final ObjectMapper<ParentObject> mapper = ObjectMapper.factory().get(ParentObject.class);
         mapper.load(node);
-        assertEquals("Comment on parent", node.getNode("inner").getComment());
-        assertTrue(node.getNode("inner").isMap());
-        assertEquals("Default value", node.getNode("inner", "test").getString());
-        assertEquals("Something", node.getNode("inner", "test").getComment());
+        assertEquals("Comment on parent", node.node("inner").comment());
+        assertTrue(node.node("inner").isMap());
+        assertEquals("Default value", node.node("inner", "test").getString());
+        assertEquals("Something", node.node("inner", "test").comment());
     }
 
     @ConfigSerializable
     private interface ParentInterface {
-        String getTest();
+        String test();
     }
 
     private static class ChildObject implements ParentInterface {
         @Comment("Something") private String test = "Default value";
 
-        @Override public String getTest() {
+        @Override public String test() {
             return this.test;
         }
     }
@@ -227,18 +227,18 @@ public class ObjectMapperTest {
         final ContainingObject newContainingObject = mapper.load(node);
 
         // serialization
-        assertEquals(1, node.getNode("list").getChildrenList().size());
-        assertEquals("Changed value", node.getNode("inner").getNode("test").getString());
-        assertEquals("Changed value", node.getNode("list").getChildrenList().get(0).getNode("test").getString());
-        assertEquals("Something", node.getNode("inner").getNode("test").getComment());
-        assertEquals("Something", node.getNode("list").getChildrenList().get(0).getNode("test").getComment());
-        assertEquals(ChildObject.class.getName(), node.getNode("inner").getNode("__class__").getString());
-        assertEquals(ChildObject.class.getName(), node.getNode("list").getChildrenList().get(0).getNode("__class__").getString());
+        assertEquals(1, node.node("list").childrenList().size());
+        assertEquals("Changed value", node.node("inner").node("test").getString());
+        assertEquals("Changed value", node.node("list").childrenList().get(0).node("test").getString());
+        assertEquals("Something", node.node("inner").node("test").comment());
+        assertEquals("Something", node.node("list").childrenList().get(0).node("test").comment());
+        assertEquals(ChildObject.class.getName(), node.node("inner").node("__class__").getString());
+        assertEquals(ChildObject.class.getName(), node.node("list").childrenList().get(0).node("__class__").getString());
 
         // deserialization
         assertEquals(1, newContainingObject.list.size());
-        assertEquals("Changed value", newContainingObject.inner.getTest());
-        assertEquals("Changed value", newContainingObject.list.get(0).getTest());
+        assertEquals("Changed value", newContainingObject.inner.test());
+        assertEquals("Changed value", newContainingObject.list.get(0).test());
     }
 
     @ConfigSerializable
@@ -261,19 +261,19 @@ public class ObjectMapperTest {
         final ObjectMapper<GenericSerializable<Integer>> intMapper = ObjectMapper.factory().get(intSerializable);
 
         final BasicConfigurationNode stringNode = BasicConfigurationNode.root(p -> {
-            p.getNode("elements").act(n -> {
-                n.appendListNode().setValue("hello");
-                n.appendListNode().setValue("world");
+            p.node("elements").act(n -> {
+                n.appendListNode().set("hello");
+                n.appendListNode().set("world");
             });
         });
         final BasicConfigurationNode intNode = BasicConfigurationNode.root(p -> {
-            p.getNode("elements").act(n -> {
-                n.appendListNode().setValue(1);
-                n.appendListNode().setValue(1);
-                n.appendListNode().setValue(2);
-                n.appendListNode().setValue(3);
-                n.appendListNode().setValue(5);
-                n.appendListNode().setValue(8);
+            p.node("elements").act(n -> {
+                n.appendListNode().set(1);
+                n.appendListNode().set(1);
+                n.appendListNode().set(2);
+                n.appendListNode().set(3);
+                n.appendListNode().set(5);
+                n.appendListNode().set(8);
             });
         });
 
@@ -289,11 +289,11 @@ public class ObjectMapperTest {
         final ObjectMapper<ParentTypesResolved> mapper = ObjectMapper.factory().get(ParentTypesResolved.class);
 
         final BasicConfigurationNode urlNode = BasicConfigurationNode.root(p -> {
-            p.getNode("elements").act(n -> {
-                n.appendListNode().setValue("https://spongepowered.org");
-                n.appendListNode().setValue("https://yaml.org");
+            p.node("elements").act(n -> {
+                n.appendListNode().set("https://spongepowered.org");
+                n.appendListNode().set("https://yaml.org");
             });
-            p.getNode("test").setValue("bye");
+            p.node("test").set("bye");
         });
 
         final ParentTypesResolved resolved = mapper.load(urlNode);

@@ -38,13 +38,13 @@ final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Ab
 
     @Nullable
     @Override
-    public Object getValue() {
+    public Object get() {
         return this.value;
     }
 
     @Override
-    public void setValue(final @Nullable Object value) {
-        if (!holder.getOptions().acceptsType(requireNonNull(value).getClass())) {
+    public void set(final @Nullable Object value) {
+        if (!holder.options().acceptsType(requireNonNull(value).getClass())) {
             throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
         this.value = value;
@@ -64,7 +64,7 @@ final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Ab
 
     @Nullable
     @Override
-    public T getChild(final @Nullable Object key) {
+    public T child(final @Nullable Object key) {
         return null;
     }
 

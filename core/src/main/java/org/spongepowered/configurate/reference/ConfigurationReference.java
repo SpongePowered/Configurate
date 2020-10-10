@@ -47,7 +47,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return the newly created reference, with an initial load performed
      * @throws IOException if the configuration contained fails to load
      */
-    static <N extends ScopedConfigurationNode<N>> ConfigurationReference<N> createFixed(ConfigurationLoader<? extends N> loader) throws IOException {
+    static <N extends ScopedConfigurationNode<N>> ConfigurationReference<N> fixed(ConfigurationLoader<? extends N> loader) throws IOException {
         final ConfigurationReference<N> ret = new ManualConfigurationReference<>(loader, ForkJoinPool.commonPool());
         ret.load();
         return ret;
@@ -67,10 +67,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @see WatchServiceListener#listenToConfiguration(Function, Path)
      */
     static <T extends ScopedConfigurationNode<T>> ConfigurationReference<T>
-        createWatching(Function<Path, ConfigurationLoader<? extends T>> loaderCreator, Path file, WatchServiceListener listener) throws IOException {
+            watching(Function<Path, ConfigurationLoader<? extends T>> loaderCreator, Path file, WatchServiceListener listener) throws IOException {
         final WatchingConfigurationReference<T> ret = new WatchingConfigurationReference<>(loaderCreator.apply(file), listener.taskExecutor);
         ret.load();
-        ret.setDisposable(listener.listenToFile(file, ret));
+        ret.disposable(listener.listenToFile(file, ret));
 
         return ret;
     }
@@ -128,21 +128,21 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @return the node
      */
-    N getNode();
+    N node();
 
     /**
      * Get the loader this reference uses to load and save its node.
      *
      * @return the loader
      */
-    ConfigurationLoader<? extends N> getLoader();
+    ConfigurationLoader<? extends N> loader();
 
     /**
      * Get the node at the given path, using the root node.
      *
      * @param path the path, a series of path elements
      * @return a child node
-     * @see ConfigurationNode#getNode(Object...)
+     * @see ConfigurationNode#node(Object...)
      */
     N get(Object... path);
 
@@ -154,7 +154,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param value the value to set the child node to
      */
     default void set(Object[] path, @Nullable Object value) {
-        getNode().getNode(path).setValue(value);
+        node().node(path).set(value);
     }
 
     /**
@@ -173,7 +173,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(Object[] path, Class<T> type, @Nullable T value) throws ObjectMappingException {
-        getNode().getNode(path).setValue(type, value);
+        node().node(path).set(type, value);
     }
 
     /**
@@ -191,7 +191,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(Object[] path, TypeToken<T> type, @Nullable T value) throws ObjectMappingException {
-        getNode().getNode(path).setValue(type, value);
+        node().node(path).set(type, value);
     }
 
     /**
@@ -202,7 +202,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param value the value to set the child node to
      */
     default void set(NodePath path, @Nullable Object value) {
-        getNode().getNode(path).setValue(value);
+        node().node(path).set(value);
     }
 
     /**
@@ -220,7 +220,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(NodePath path, Class<T> type, @Nullable T value) throws ObjectMappingException {
-        getNode().getNode(path).setValue(type, value);
+        node().node(path).set(type, value);
     }
 
     /**
@@ -238,7 +238,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws ObjectMappingException if thrown by the serialization mechanism
      */
     default <T> void set(NodePath path, TypeToken<T> type, @Nullable T value) throws ObjectMappingException {
-        getNode().getNode(path).setValue(type, value);
+        node().node(path).set(type, value);
     }
 
     /**
@@ -257,7 +257,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *         for the provided type
      */
     default <T> ValueReference<T, N> referenceTo(TypeToken<T> type, Object... path) throws ObjectMappingException {
-        return referenceTo(type, NodePath.create(path));
+        return referenceTo(type, NodePath.of(path));
     }
 
     /**
@@ -276,7 +276,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *         for the provided type
      */
     default <T> ValueReference<T, N> referenceTo(Class<T> type, Object... path) throws ObjectMappingException {
-        return referenceTo(type, NodePath.create(path));
+        return referenceTo(type, NodePath.of(path));
     }
 
     /**

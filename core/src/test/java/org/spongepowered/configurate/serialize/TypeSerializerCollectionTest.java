@@ -34,12 +34,12 @@ public class TypeSerializerCollectionTest {
     @Test
     void testResolveWildcard() throws ObjectMappingException {
         final ConfigurationNode node = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-            .withSerializers(b -> b.register(Object.class, new PassthroughSerializer())), n -> {
-                n.appendListNode().setValue("a string");
-                n.appendListNode().setValue(14);
+            .serializers(b -> b.register(Object.class, new PassthroughSerializer())), n -> {
+                n.appendListNode().set("a string");
+                n.appendListNode().set(14);
             });
 
-        final @Nullable List<?> value = node.getValue(new TypeToken<List<?>>() {});
+        final @Nullable List<?> value = node.get(new TypeToken<List<?>>() {});
         assertEquals(Arrays.asList("a string", 14), value);
     }
 

@@ -179,7 +179,7 @@ public class ProcessorImplTest {
         final Processor.Iso<String> handler = create();
         final String[] values = new String[2];
 
-        handler.setFallbackHandler(val -> values[0] = val);
+        handler.fallbackHandler(val -> values[0] = val);
         handler.submit("Hello");
         assertEquals("Hello", values[0]);
 

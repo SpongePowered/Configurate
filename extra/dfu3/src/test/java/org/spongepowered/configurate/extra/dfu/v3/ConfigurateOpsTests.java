@@ -63,7 +63,7 @@ public final class ConfigurateOpsTests {
     private static void compareToJson(final ConfigurationNode node, final JsonElement element) throws IOException {
         final StringWriter configurate = new StringWriter();
         final GsonConfigurationLoader loader = GsonConfigurationLoader.builder()
-                .setSink(() -> new BufferedWriter(configurate)).build();
+                .sink(() -> new BufferedWriter(configurate)).build();
         loader.save(node);
 
         final StringWriter json = new StringWriter();
@@ -90,7 +90,7 @@ public final class ConfigurateOpsTests {
     @DisplayName("Configurate (Empty) -> Gson (Null)")
     void emptyToGson() {
         final ConfigurationNode node = BasicConfigurationNode.root();
-        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.getInstance(), node);
+        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.instance(), node);
         final JsonElement element = wrapped.convert(JsonOps.INSTANCE).getValue();
 
         assertTrue(element.isJsonNull(), "Resulting element was not a json null");
@@ -101,7 +101,7 @@ public final class ConfigurateOpsTests {
     void emptyFromGson() {
         final JsonNull jsonNull = JsonNull.INSTANCE;
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, jsonNull);
-        final ConfigurationNode result = wrapped.convert(ConfigurateOps.getInstance()).getValue();
+        final ConfigurationNode result = wrapped.convert(ConfigurateOps.instance()).getValue();
 
         assertTrue(result.isEmpty(), "Resulting configuration node was not empty");
     }
@@ -109,8 +109,8 @@ public final class ConfigurateOpsTests {
     @Test
     @DisplayName("Configurate (String) -> Gson")
     void toGsonFromString() {
-        final ConfigurationNode node = BasicConfigurationNode.root().setValue("Test String");
-        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.getInstance(), node);
+        final ConfigurationNode node = BasicConfigurationNode.root().set("Test String");
+        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.instance(), node);
         final JsonElement output = wrapped.convert(JsonOps.INSTANCE).getValue();
 
         assertTrue(output instanceof JsonPrimitive, "Resulting Element was not a Json Primitive");
@@ -123,9 +123,9 @@ public final class ConfigurateOpsTests {
     void fromGsonFromString() {
         final JsonPrimitive string = new JsonPrimitive("Test String");
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, string);
-        final ConfigurationNode output = wrapped.convert(ConfigurateOps.getInstance()).getValue();
+        final ConfigurationNode output = wrapped.convert(ConfigurateOps.instance()).getValue();
 
-        assertTrue(output.getValue() instanceof String, "Resulting configuration node was not a String");
+        assertTrue(output.get() instanceof String, "Resulting configuration node was not a String");
         assertEquals(output.getString(), "Test String");
     }
 
@@ -142,12 +142,12 @@ public final class ConfigurateOpsTests {
         jsonArray.add(3);
         jsonArray.add(4);
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, jsonArray);
-        final ConfigurationNode output = wrapped.convert(ConfigurateOps.getInstance()).getValue();
+        final ConfigurationNode output = wrapped.convert(ConfigurateOps.instance()).getValue();
 
         assertTrue(output.isList(), "Resulting configuration node was not a list.");
-        assertEquals(3, output.getChildrenList().size(),
+        assertEquals(3, output.childrenList().size(),
                 "Resulting configuration node had wrong amount of child elements in list");
-        assertTrue(output.getChildrenList().stream()
+        assertTrue(output.childrenList().stream()
                         .map(ConfigurationNode::getInt)
                         .collect(Collectors.toList()).containsAll(expectedElements),
                 "Resulting configuration node did not contain every element in original JsonArray");
@@ -162,9 +162,9 @@ public final class ConfigurateOpsTests {
         expectedElements.add(4);
 
         final ConfigurationNode node = BasicConfigurationNode.root();
-        node.setValue(expectedElements);
+        node.set(expectedElements);
         //node.appendListNode().setValue(1).setValue(3).setValue(4);
-        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.getInstance(), node);
+        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.instance(), node);
         final JsonElement output = wrapped.convert(JsonOps.INSTANCE).getValue();
 
         assertTrue(output.isJsonArray(), "Resulting Element was not an array");
@@ -187,11 +187,11 @@ public final class ConfigurateOpsTests {
         object.addProperty("foo", "bar");
         object.addProperty("bar", "baz");
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, object);
-        final ConfigurationNode output = wrapped.convert(ConfigurateOps.getInstance()).getValue();
+        final ConfigurationNode output = wrapped.convert(ConfigurateOps.instance()).getValue();
 
         assertTrue(output.isMap(), "Resulting configuration node was not a map");
-        assertEquals(2, output.getChildrenMap().size(), "Resulting configuration node had wrong amount of child elements");
-        assertEquals(expectedValues, output.getValue(new TypeToken<Map<String, String>>() {
+        assertEquals(2, output.childrenMap().size(), "Resulting configuration node had wrong amount of child elements");
+        assertEquals(expectedValues, output.get(new TypeToken<Map<String, String>>() {
         }));
     }
 
@@ -203,8 +203,8 @@ public final class ConfigurateOpsTests {
         expectedValues.put("bar", "baz");
 
         final ConfigurationNode node = BasicConfigurationNode.root();
-        node.setValue(expectedValues);
-        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.getInstance(), node);
+        node.set(expectedValues);
+        final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.instance(), node);
         final JsonElement element = wrapped.convert(JsonOps.INSTANCE).getValue();
 
         assertTrue(element.isJsonObject(), "Resulting element was not a json object");
@@ -225,9 +225,9 @@ public final class ConfigurateOpsTests {
         final JsonElement compressedBlocks = assertResult(listCodec.encode(positions, JsonOps.COMPRESSED, JsonOps.COMPRESSED.empty()));
         final JsonElement regularBlocks = assertResult(listCodec.encode(positions, JsonOps.INSTANCE, JsonOps.INSTANCE.empty()));
         final ConfigurationNode compressedNode = assertResult(listCodec.encode(positions,
-            ConfigurateOps.getInstance(true), BasicConfigurationNode.root()));
+            ConfigurateOps.instance(true), BasicConfigurationNode.root()));
         final ConfigurationNode uncompressedNode = assertResult(listCodec.encode(positions,
-            ConfigurateOps.getInstance(false), BasicConfigurationNode.root()));
+            ConfigurateOps.instance(false), BasicConfigurationNode.root()));
 
         compareToJson(compressedNode, compressedBlocks);
         compareToJson(uncompressedNode, regularBlocks);

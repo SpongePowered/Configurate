@@ -41,12 +41,12 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
 
     @Nullable
     @Override
-    public Object getValue() {
+    public Object get() {
         return null;
     }
 
     @Override
-    public void setValue(final @Nullable Object value) {
+    public void set(final @Nullable Object value) {
         throw new UnsupportedOperationException("Value should be changed from null type before setting value");
     }
 
@@ -64,7 +64,7 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
 
     @Nullable
     @Override
-    public T getChild(final @Nullable Object key) {
+    public T child(final @Nullable Object key) {
         return null;
     }
 

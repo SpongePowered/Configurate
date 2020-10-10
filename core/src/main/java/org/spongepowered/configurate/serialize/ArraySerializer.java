@@ -37,7 +37,7 @@ import java.util.function.Predicate;
 abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     @Override
-    Type getElementType(final Type containerType) {
+    Type elementType(final Type containerType) {
         return requireNonNull(GenericTypeReflector.getArrayComponentType(containerType), "Must be array type");
     }
 

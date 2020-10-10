@@ -69,7 +69,7 @@ final class NodePathImpl implements NodePath {
     }
 
     @Override
-    public Object[] getArray() {
+    public Object[] array() {
         return Arrays.copyOf(this.arr, this.arr.length);
     }
 

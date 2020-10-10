@@ -48,40 +48,40 @@ public class XmlConfigurationLoaderTest {
         final Path saveTest = tempDir.resolve("text1.txt");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
-                .setWriteExplicitType(false)
-                .setIndent(4)
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
-                .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
+                .writesExplicitType(false)
+                .indent(4)
+                .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
+                .sink(AtomicFiles.atomicWriterFactory(saveTest, UTF_8)).build();
 
         final AttributedConfigurationNode node = loader.load();
 
-        assertEquals("messages", node.getTagName());
-        assertEquals("false", node.getAttribute("secret"));
+        assertEquals("messages", node.tagName());
+        assertEquals("false", node.attribute("secret"));
         assertTrue(node.isList());
 
-        final List<AttributedConfigurationNode> notes = node.getChildrenList();
+        final List<AttributedConfigurationNode> notes = node.childrenList();
         assertEquals(2, notes.size());
 
         final AttributedConfigurationNode firstNote = notes.get(0);
-        assertEquals("501", firstNote.getAttribute("id"));
+        assertEquals("501", firstNote.attribute("id"));
         assertTrue(firstNote.isMap());
         assertFalse(firstNote.isList());
 
-        final Map<Object, AttributedConfigurationNode> properties = firstNote.getChildrenMap();
-        assertEquals("Tove", properties.get("to").getValue());
-        assertEquals("Jani", properties.get("from").getValue());
-        assertEquals("Don't forget me this weekend!", properties.get("body").getValue());
-        assertEquals("heading", properties.get("heading").getTagName());
+        final Map<Object, AttributedConfigurationNode> properties = firstNote.childrenMap();
+        assertEquals("Tove", properties.get("to").get());
+        assertEquals("Jani", properties.get("from").get());
+        assertEquals("Don't forget me this weekend!", properties.get("body").get());
+        assertEquals("heading", properties.get("heading").tagName());
 
         final AttributedConfigurationNode secondNode = notes.get(1);
-        assertEquals("502", secondNode.getAttribute("id"));
+        assertEquals("502", secondNode.attribute("id"));
         assertFalse(secondNode.isMap());
         assertTrue(secondNode.isList());
 
-        final List<AttributedConfigurationNode> subNodes = secondNode.getChildrenList();
+        final List<AttributedConfigurationNode> subNodes = secondNode.childrenList();
         for (AttributedConfigurationNode subNode : subNodes) {
-            if (subNode.getTagName().equals("heading")) {
-                assertEquals("true", subNode.getAttribute("bold"));
+            if (subNode.tagName().equals("heading")) {
+                assertEquals("true", subNode.attribute("bold"));
             }
         }
 
@@ -96,24 +96,24 @@ public class XmlConfigurationLoaderTest {
         final Path saveTest = tempDir.resolve("text2.txt");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
-                .setWriteExplicitType(true)
-                .setIncludeXmlDeclaration(false)
-                .setIndent(4)
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
-                .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
+                .writesExplicitType(true)
+                .includesXmlDeclaration(false)
+                .indent(4)
+                .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
+                .sink(AtomicFiles.atomicWriterFactory(saveTest, UTF_8)).build();
 
         final AttributedConfigurationNode node = loader.load();
 
-        final AttributedConfigurationNode list1 = node.getNode("list1");
+        final AttributedConfigurationNode list1 = node.node("list1");
         assertTrue(list1.isList());
 
-        final AttributedConfigurationNode list2 = node.getNode("list2");
+        final AttributedConfigurationNode list2 = node.node("list2");
         assertTrue(list2.isList());
 
-        final AttributedConfigurationNode map1 = node.getNode("map1");
+        final AttributedConfigurationNode map1 = node.node("map1");
         assertTrue(map1.isMap());
 
-        final AttributedConfigurationNode map2 = node.getNode("map2");
+        final AttributedConfigurationNode map2 = node.node("map2");
         assertTrue(map2.isMap());
 
         // roundtrip!
@@ -127,18 +127,18 @@ public class XmlConfigurationLoaderTest {
         final Path saveTest = tempDir.resolve("text3.txt");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
-                .setWriteExplicitType(true)
-                .setIncludeXmlDeclaration(true)
-                .setIndent(4)
-                .setSource(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
-                .setSink(AtomicFiles.createAtomicWriterFactory(saveTest, UTF_8)).build();
+                .writesExplicitType(true)
+                .includesXmlDeclaration(true)
+                .indent(4)
+                .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), UTF_8)))
+                .sink(AtomicFiles.atomicWriterFactory(saveTest, UTF_8)).build();
 
         final AttributedConfigurationNode node = loader.createNode(
-                loader.defaultOptions().withHeader("test header\ndo multiple lines work\nyes they do!!")
-        ).setTagName("test");
+                loader.defaultOptions().header("test header\ndo multiple lines work\nyes they do!!")
+        ).tagName("test");
 
-        node.getNode("test1").setValue("something");
-        node.getNode("test2").setValue("I have a comment!").setComment("Hi!");
+        node.node("test1").set("something");
+        node.node("test2").set("I have a comment!").comment("Hi!");
 
         loader.save(node);
         assertEquals(Resources.readLines(url, UTF_8), Files.readAllLines(saveTest));
@@ -150,9 +150,9 @@ public class XmlConfigurationLoaderTest {
         final Path destination = tempDir.resolve("test3-roundtrip.xml");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
-                .setIndent(4)
-                .setSource(() -> new BufferedReader(new InputStreamReader(original.openStream(), UTF_8)))
-                .setSink(AtomicFiles.createAtomicWriterFactory(destination, UTF_8))
+                .indent(4)
+                .source(() -> new BufferedReader(new InputStreamReader(original.openStream(), UTF_8)))
+                .sink(AtomicFiles.atomicWriterFactory(destination, UTF_8))
                 .build();
 
         final AttributedConfigurationNode node = loader.load();

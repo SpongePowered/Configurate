@@ -57,7 +57,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @return the shared instance
      */
-    public static DynamicOps<ConfigurationNode> getInstance() {
+    public static DynamicOps<ConfigurationNode> instance() {
         return INSTANCE;
     }
 
@@ -67,7 +67,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * @param factory the factory function
      * @return a new ops instance
      */
-    public static DynamicOps<ConfigurationNode> getWithNodeFactory(final Supplier<? extends ConfigurationNode> factory) {
+    public static DynamicOps<ConfigurationNode> withNodeFactory(final Supplier<? extends ConfigurationNode> factory) {
         return new ConfigurateOps(factory);
     }
 
@@ -79,11 +79,11 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * @return a wrapped node
      */
     public static Dynamic<ConfigurationNode> wrap(final ConfigurationNode node) {
-        if (node.getOptions().getSerializers().equals(TypeSerializerCollection.defaults())) {
-            return new Dynamic<>(getInstance(), node);
+        if (node.options().serializers().equals(TypeSerializerCollection.defaults())) {
+            return new Dynamic<>(instance(), node);
         } else {
-            final ConfigurationOptions opts = node.getOptions();
-            return new Dynamic<>(getWithNodeFactory(() -> CommentedConfigurationNode.root(opts)), node);
+            final ConfigurationOptions opts = node.options();
+            return new Dynamic<>(withNodeFactory(() -> CommentedConfigurationNode.root(opts)), node);
         }
     }
 
@@ -112,7 +112,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         } else if (input.isList()) {
             return DSL.list(DSL.remainderType());
         } else {
-            final @Nullable Object value = input.getValue();
+            final @Nullable Object value = input.get();
             if (value == null) {
                 return DSL.nilType();
             } else if (value instanceof String) {
@@ -140,9 +140,9 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     @Override
     public Optional<Number> getNumberValue(final ConfigurationNode input) {
         if (!(input.isMap() || input.isList())) {
-            if (input.getValue() instanceof Number) {
-                return Optional.of((Number) input.getValue());
-            } else if (input.getValue() instanceof Boolean) {
+            if (input.get() instanceof Number) {
+                return Optional.of((Number) input.get());
+            } else if (input.get() instanceof Boolean) {
                 return Optional.of(input.getBoolean() ? 1 : 0);
             }
         }
@@ -152,12 +152,12 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public ConfigurationNode createNumeric(final Number i) {
-        return empty().setValue(i);
+        return empty().set(i);
     }
 
     @Override
     public ConfigurationNode createBoolean(final boolean value) {
-        return empty().setValue(value);
+        return empty().set(value);
     }
 
     @Override
@@ -167,14 +167,14 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public ConfigurationNode createString(final String value) {
-        return empty().setValue(value);
+        return empty().set(value);
     }
 
     @Override
     public ConfigurationNode mergeInto(final ConfigurationNode input, final ConfigurationNode value) {
         if (input.isList()) {
             final ConfigurationNode ret = input.copy();
-            ret.appendListNode().setValue(value);
+            ret.appendListNode().set(value);
             return ret;
         }
         return input;
@@ -182,7 +182,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public ConfigurationNode mergeInto(final ConfigurationNode input, final ConfigurationNode key, final ConfigurationNode value) {
-        return input.copy().getNode(unwrapKey(key)).setValue(value);
+        return input.copy().node(unwrapKey(key)).set(value);
     }
 
     /**
@@ -195,7 +195,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      */
     @Override
     public ConfigurationNode merge(final ConfigurationNode first, final ConfigurationNode second) {
-        return first.copy().mergeValuesFrom(second);
+        return first.copy().mergeFrom(second);
 
     }
 
@@ -203,8 +203,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     public Optional<Map<ConfigurationNode, ConfigurationNode>> getMapValues(final ConfigurationNode input) {
         if (input.isMap()) {
             final ImmutableMap.Builder<ConfigurationNode, ConfigurationNode> builder = ImmutableMap.builder();
-            for (final Map.Entry<Object, ? extends ConfigurationNode> entry : input.getChildrenMap().entrySet()) {
-                builder.put(empty().setValue(entry.getKey()), entry.getValue().copy());
+            for (final Map.Entry<Object, ? extends ConfigurationNode> entry : input.childrenMap().entrySet()) {
+                builder.put(empty().set(entry.getKey()), entry.getValue().copy());
             }
             return Optional.of(builder.build());
         }
@@ -217,7 +217,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         final ConfigurationNode ret = empty();
 
         for (final Map.Entry<ConfigurationNode, ConfigurationNode> entry : map.entrySet()) {
-            ret.getNode(unwrapKey(entry.getKey())).setValue(entry.getValue());
+            ret.node(unwrapKey(entry.getKey())).set(entry.getValue());
         }
 
         return ret;
@@ -226,7 +226,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     @Override
     public Optional<Stream<ConfigurationNode>> getStream(final ConfigurationNode input) {
         if (input.isList()) {
-            final Stream<ConfigurationNode> stream = input.getChildrenList().stream().map(it -> it);
+            final Stream<ConfigurationNode> stream = input.childrenList().stream().map(it -> it);
             return Optional.of(stream);
         }
 
@@ -236,7 +236,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     @Override
     public ConfigurationNode createList(final Stream<ConfigurationNode> input) {
         final ConfigurationNode ret = empty();
-        input.forEach(it -> ret.appendListNode().setValue(it));
+        input.forEach(it -> ret.appendListNode().set(it));
         return ret;
     }
 
@@ -244,7 +244,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     public ConfigurationNode remove(final ConfigurationNode input, final String key) {
         if (input.isMap()) {
             final ConfigurationNode ret = input.copy();
-            ret.getNode(key).setValue(null);
+            ret.node(key).set(null);
             return ret;
         }
 
@@ -253,33 +253,33 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public Optional<ConfigurationNode> get(final ConfigurationNode input, final String key) {
-        final ConfigurationNode ret = input.getNode(key);
-        return ret.isVirtual() ? Optional.empty() : Optional.of(ret);
+        final ConfigurationNode ret = input.node(key);
+        return ret.virtual() ? Optional.empty() : Optional.of(ret);
     }
 
     @Override
     public Optional<ConfigurationNode> getGeneric(final ConfigurationNode input, final ConfigurationNode key) {
-        final ConfigurationNode ret = input.getNode(unwrapKey(key));
-        return ret.isVirtual() ? Optional.empty() : Optional.of(ret);
+        final ConfigurationNode ret = input.node(unwrapKey(key));
+        return ret.virtual() ? Optional.empty() : Optional.of(ret);
     }
 
     @Override
     public ConfigurationNode set(final ConfigurationNode input, final String key, final ConfigurationNode value) {
         final ConfigurationNode ret = input.copy();
-        ret.getNode(key).setValue(value);
+        ret.node(key).set(value);
         return ret;
     }
 
     @Override
     public ConfigurationNode update(final ConfigurationNode input, final String key, final Function<ConfigurationNode, ConfigurationNode> function) {
-        if (input.getNode(key).isVirtual()) {
+        if (input.node(key).virtual()) {
             return input;
         }
 
         final ConfigurationNode ret = input.copy();
 
-        final ConfigurationNode child = ret.getNode(key);
-        child.setValue(function.apply(child));
+        final ConfigurationNode child = ret.node(key);
+        child.set(function.apply(child));
         return ret;
     }
 
@@ -287,14 +287,14 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     public ConfigurationNode updateGeneric(final ConfigurationNode input, final ConfigurationNode wrappedKey,
                                            final Function<ConfigurationNode, ConfigurationNode> function) {
         final Object key = unwrapKey(wrappedKey);
-        if (input.getNode(key).isVirtual()) {
+        if (input.node(key).virtual()) {
             return input;
         }
 
         final ConfigurationNode ret = input.copy();
 
-        final ConfigurationNode child = ret.getNode(key);
-        child.setValue(function.apply(child));
+        final ConfigurationNode child = ret.node(key);
+        child.set(function.apply(child));
         return ret;
     }
 

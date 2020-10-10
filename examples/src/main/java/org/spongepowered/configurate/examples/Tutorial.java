@@ -31,7 +31,7 @@ public final class Tutorial {
 
     public static void main(final String[] args) throws ObjectMappingException {
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setPath(Paths.get("myproject.conf")) // Set where we will load and save to
+                .path(Paths.get("myproject.conf")) // Set where we will load and save to
                 .build();
 
         final CommentedConfigurationNode root;
@@ -46,12 +46,12 @@ public final class Tutorial {
             return;
         }
 
-        final ConfigurationNode countNode = root.getNode("messages", "count");
-        final ConfigurationNode moodNode = root.getNode("messages", "mood");
+        final ConfigurationNode countNode = root.node("messages", "count");
+        final ConfigurationNode moodNode = root.node("messages", "mood");
 
-        final @Nullable String name = root.getNode("name").getString();
+        final @Nullable String name = root.node("name").getString();
         final int count = countNode.getInt(Integer.MIN_VALUE);
-        final @Nullable Mood mood = moodNode.getValue(Mood.class);
+        final @Nullable Mood mood = moodNode.get(Mood.class);
 
         if (name == null || count == Integer.MIN_VALUE || mood == null) {
             System.err.println("Invalid configuration");
@@ -64,12 +64,12 @@ public final class Tutorial {
         System.out.println("Thanks for viewing your messages");
 
         // Update values
-        countNode.setValue(0); // native type
-        moodNode.setValue(Mood.class, Mood.NEUTRAL); // serialized type
+        countNode.set(0); // native type
+        moodNode.set(Mood.class, Mood.NEUTRAL); // serialized type
 
-        root.getNode("accesses").act(n -> {
-            n.setCommentIfAbsent("The times messages have been accessed, in milliseconds since the epoch");
-            n.appendListNode().setValue(System.currentTimeMillis());
+        root.node("accesses").act(n -> {
+            n.commentIfAbsent("The times messages have been accessed, in milliseconds since the epoch");
+            n.appendListNode().set(System.currentTimeMillis());
         });
 
         // And save the node back to the file

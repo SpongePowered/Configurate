@@ -75,7 +75,7 @@ inline fun <reified T> T.toNode(target: ConfigurationNode) {
  * Create an object mapper with the given [Factory] for objects of type [T],
  * accepting parameterized types.
  */
-inline fun <reified T> Factory.get(): ObjectMapper<T> {
+inline fun <reified T> Factory.typedGet(): ObjectMapper<T> {
     return get(typeTokenOf())
 }
 
@@ -83,7 +83,7 @@ inline fun <reified T> Factory.get(): ObjectMapper<T> {
  * Get the appropriate [TypeSerializer] for the provided type [T], or null if
  * none is applicable.
  */
-inline fun <reified T> TypeSerializerCollection.get(): TypeSerializer<T>? {
+inline fun <reified T> TypeSerializerCollection.typedGet(): TypeSerializer<T>? {
     return get(typeTokenOf())
 }
 

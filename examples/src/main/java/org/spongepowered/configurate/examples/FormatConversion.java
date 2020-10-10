@@ -33,12 +33,12 @@ public final class FormatConversion {
     public static void main(final String[] args) {
         // First off: we build two loaders, one with our old format pointing to the old location
         final YamlConfigurationLoader oldFormat = YamlConfigurationLoader.builder()
-                .setPath(Paths.get("widgets.yml"))
+                .path(Paths.get("widgets.yml"))
                 .build();
 
         // and a second one for our target format, pointing to the new location
         final HoconConfigurationLoader newFormat = HoconConfigurationLoader.builder()
-                .setPath(Paths.get("widgets.conf"))
+                .path(Paths.get("widgets.conf"))
                 .build();
 
         // We try to load the file into a node using the source format

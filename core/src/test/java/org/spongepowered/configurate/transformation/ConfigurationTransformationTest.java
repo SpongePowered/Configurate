@@ -71,9 +71,9 @@ public class ConfigurationTransformationTest {
             build.addAction(path, action);
         }
         for (NodePath path : unsortedKeys) {
-            final T child = node.getNode(path);
-            if (child.isVirtual()) {
-                child.setValue("meaningless test value");
+            final T child = node.node(path);
+            if (child.virtual()) {
+                child.set("meaningless test value");
             }
         }
         build.build().apply(node);
@@ -113,7 +113,7 @@ public class ConfigurationTransformationTest {
             build.addAction(path, action);
         }
         for (NodePath path : expectedResult) {
-            node.getNode(path).setValue("lame");
+            node.node(path).set("lame");
         }
         build.build().apply(node);
         assertEquals(expectedResult, populatedResults);
@@ -124,19 +124,19 @@ public class ConfigurationTransformationTest {
 
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final Object nodeValue = new Object();
-        node.getNode("old", "path").setValue(nodeValue);
+        node.node("old", "path").set(nodeValue);
         ConfigurationTransformation.<BasicConfigurationNode>builder()
                 .addAction(path("old", "path"),
                     (inputPath, valueAtPath) -> arr("new", "path"))
                 .build().apply(node);
-        assertTrue(node.getNode("old", "path").isVirtual());
-        assertEquals(nodeValue, node.getNode("new", "path").getValue());
+        assertTrue(node.node("old", "path").virtual());
+        assertEquals(nodeValue, node.node("new", "path").get());
     }
 
     @Test
     void testChainedTransformations() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("a").setValue("something?");
+        node.node("a").set("something?");
         final List<String> actualOutput = new ArrayList<>();
         final List<String> expectedOutput = Arrays.asList("one", "two");
         transformChained(actualOutput, node);
@@ -157,11 +157,11 @@ public class ConfigurationTransformationTest {
     @Test
     void testMoveToBase() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("sub", "key").setValue("value");
-        node.getNode("at-parent").setValue("until-change");
+        node.node("sub", "key").set("value");
+        node.node("at-parent").set("until-change");
         transformMoveToBase(node);
-        assertEquals("value", node.getNode("key").getValue());
-        assertNull(node.getNode("at-parent").getValue());
+        assertEquals("value", node.node("key").get());
+        assertNull(node.node("at-parent").get());
     }
 
     private <T extends ScopedConfigurationNode<T>> void transformMoveToBase(final T node) {
@@ -177,26 +177,26 @@ public class ConfigurationTransformationTest {
                 .addAction(path("one"), (inputPath, valueAtPath) -> arr("two"));
         final BasicConfigurationNode overwritten = createMoveNode();
         final BasicConfigurationNode merged = createMoveNode();
-        build.setMoveStrategy(MoveStrategy.OVERWRITE).build().apply(overwritten);
-        build.setMoveStrategy(MoveStrategy.MERGE).build().apply(merged);
+        build.moveStrategy(MoveStrategy.OVERWRITE).build().apply(overwritten);
+        build.moveStrategy(MoveStrategy.MERGE).build().apply(merged);
 
-        assertEquals("always", overwritten.getNode("two", "fun").getValue());
-        assertEquals("always", merged.getNode("two", "fun").getValue());
-        assertNull(overwritten.getNode("two", "evil").getValue());
-        assertEquals("always", merged.getNode("two", "evil").getValue());
+        assertEquals("always", overwritten.node("two", "fun").get());
+        assertEquals("always", merged.node("two", "fun").get());
+        assertNull(overwritten.node("two", "evil").get());
+        assertEquals("always", merged.node("two", "evil").get());
     }
 
     private BasicConfigurationNode createMoveNode() {
         final BasicConfigurationNode ret = BasicConfigurationNode.root();
-        ret.getNode("one", "fun").setValue("always");
-        ret.getNode("two", "evil").setValue("always");
+        ret.node("one", "fun").set("always");
+        ret.node("two", "evil").set("always");
         return ret;
     }
 
     @Test
     void testCorrectNodePassed() {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
-        final BasicConfigurationNode child = node.getNode("childNode").setValue("something");
+        final BasicConfigurationNode child = node.node("childNode").set("something");
         ConfigurationTransformation.<BasicConfigurationNode>builder()
                 .addAction(path("childNode"), (inputPath, valueAtPath) -> {
                     assertEquals(child, valueAtPath);
@@ -207,10 +207,10 @@ public class ConfigurationTransformationTest {
     @Test
     void testVersionedTransformation() {
         final BasicConfigurationNode target = BasicConfigurationNode.root();
-        target.getNode("dummy").setValue("whatever");
+        target.node("dummy").set("whatever");
         final List<Integer> updatedVersions = new ArrayList<>();
         this.<BasicConfigurationNode>buildVersionedTransformation(updatedVersions).apply(target);
-        assertEquals(2, target.getNode("version").getInt());
+        assertEquals(2, target.node("version").getInt());
         assertEquals(Arrays.asList(0, 1, 2), updatedVersions);
     }
 
@@ -238,23 +238,23 @@ public class ConfigurationTransformationTest {
     @Test
     void testVersionedTransformationMoveChildToRoot() {
         final BasicConfigurationNode original = BasicConfigurationNode.root(b -> {
-            b.getNode("test").act(t -> {
-                t.getNode("calico").setValue("purr");
-                t.getNode("sphynx").setValue("meow");
-                t.getNode("russian-blue").setValue("mrow");
+            b.node("test").act(t -> {
+                t.node("calico").set("purr");
+                t.node("sphynx").set("meow");
+                t.node("russian-blue").set("mrow");
             });
         });
         final BasicConfigurationNode transformed = BasicConfigurationNode.root(b -> {
-            b.getNode("calico").setValue("purr");
-            b.getNode("sphynx").setValue("meow");
-            b.getNode("russian-blue").setValue("mrow");
-            b.getNode("version").setValue(1);
+            b.node("calico").set("purr");
+            b.node("sphynx").set("meow");
+            b.node("russian-blue").set("mrow");
+            b.node("version").set(1);
         });
         final ConfigurationTransformation.Versioned<BasicConfigurationNode> xform =
                 ConfigurationTransformation.<BasicConfigurationNode>versionedBuilder()
                 .makeVersion(1, version -> {
                     version.addAction(path("test"), (path, value) -> new Object[0]);
-                    version.setMoveStrategy(MoveStrategy.MERGE);
+                    version.moveStrategy(MoveStrategy.MERGE);
                 })
                 .build();
         xform.apply(original);

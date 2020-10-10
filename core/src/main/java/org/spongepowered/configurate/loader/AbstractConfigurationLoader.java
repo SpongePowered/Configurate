@@ -103,11 +103,11 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     private final ConfigurationOptions defaultOptions;
 
     protected AbstractConfigurationLoader(final Builder<?, ?> builder, final CommentHandler[] commentHandlers) {
-        this.source = builder.getSource();
-        this.sink = builder.getSink();
-        this.headerMode = builder.getHeaderMode();
+        this.source = builder.source();
+        this.sink = builder.sink();
+        this.headerMode = builder.headerMode();
         this.commentHandlers = UnmodifiableCollections.toList(commentHandlers);
-        this.defaultOptions = builder.getDefaultOptions();
+        this.defaultOptions = builder.defaultOptions();
     }
 
     /**
@@ -115,13 +115,13 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      *
      * @return the default comment handler
      */
-    public CommentHandler getDefaultCommentHandler() {
+    public CommentHandler defaultCommentHandler() {
         return this.commentHandlers.get(0);
     }
 
     @Override
     public ConfigurationReference<N> loadToReference() throws IOException {
-        return ConfigurationReference.createFixed(this);
+        return ConfigurationReference.fixed(this);
     }
 
     @Override
@@ -133,7 +133,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
             if (this.headerMode == HeaderMode.PRESERVE || this.headerMode == HeaderMode.NONE) {
                 final @Nullable String comment = CommentHandlers.extractComment(reader, this.commentHandlers);
                 if (comment != null && comment.length() > 0) {
-                    options = options.withHeader(comment);
+                    options = options.header(comment);
                 }
             }
             final N node = createNode(options);
@@ -159,9 +159,9 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         try (Writer writer = this.sink.call()) {
             writeHeaderInternal(writer);
             if (this.headerMode != HeaderMode.NONE) {
-                final @Nullable String header = node.getOptions().getHeader();
+                final @Nullable String header = node.options().header();
                 if (header != null && !header.isEmpty()) {
-                    final Iterator<String> lines = getDefaultCommentHandler().toComment(CONFIGURATE_LINE_PATTERN.splitAsStream(header)).iterator();
+                    final Iterator<String> lines = defaultCommentHandler().toComment(CONFIGURATE_LINE_PATTERN.splitAsStream(header)).iterator();
                     while (lines.hasNext()) {
                         writer.write(lines.next());
                         writer.write(SYSTEM_LINE_SEPARATOR);
@@ -217,35 +217,35 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         /**
          * Sets the sink and source of the resultant loader to the given file.
          *
-         * <p>The {@link #getSource() source} is defined using
+         * <p>The {@link #source() source} is defined using
          * {@link Files#newBufferedReader(Path)} with UTF-8 encoding.</p>
          *
-         * <p>The {@link #getSink() sink} is defined using {@link AtomicFiles} with UTF-8
+         * <p>The {@link #sink() sink} is defined using {@link AtomicFiles} with UTF-8
          * encoding.</p>
          *
          * @param file the configuration file
          * @return this builder (for chaining)
          */
-        public T setFile(final File file) {
-            return setPath(requireNonNull(file, "file").toPath());
+        public T file(final File file) {
+            return path(requireNonNull(file, "file").toPath());
         }
 
         /**
          * Sets the sink and source of the resultant loader to the given path.
          *
-         * <p>The {@link #getSource() source} is defined using
+         * <p>The {@link #source() source} is defined using
          * {@link Files#newBufferedReader(Path)} with UTF-8 encoding.</p>
          *
-         * <p>The {@link #getSink() sink} is defined using {@link AtomicFiles} with UTF-8
+         * <p>The {@link #sink() sink} is defined using {@link AtomicFiles} with UTF-8
          * encoding.</p>
          *
          * @param path the path of the configuration file
          * @return this builder (for chaining)
          */
-        public T setPath(final Path path) {
+        public T path(final Path path) {
             final Path absPath = requireNonNull(path, "path").toAbsolutePath();
             this.source = () -> Files.newBufferedReader(absPath, StandardCharsets.UTF_8);
-            this.sink = AtomicFiles.createAtomicWriterFactory(absPath, StandardCharsets.UTF_8);
+            this.sink = AtomicFiles.atomicWriterFactory(absPath, StandardCharsets.UTF_8);
             return self();
         }
 
@@ -255,7 +255,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param url the URL of the source
          * @return this builder (for chaining)
          */
-        public T setUrl(final URL url) {
+        public T url(final URL url) {
             requireNonNull(url, "url");
             this.source = () -> new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
             return self();
@@ -269,9 +269,18 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param source the source
          * @return this builder (for chaining)
          */
-        public T setSource(final @Nullable Callable<BufferedReader> source) {
+        public T source(final @Nullable Callable<BufferedReader> source) {
             this.source = source;
             return self();
+        }
+
+        /**
+         * Gets the source to be used by the resultant loader.
+         *
+         * @return the source
+         */
+        public @Nullable Callable<BufferedReader> source() {
+            return this.source;
         }
 
         /**
@@ -282,18 +291,9 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param sink the sink
          * @return this builder (for chaining)
          */
-        public T setSink(final @Nullable Callable<BufferedWriter> sink) {
+        public T sink(final @Nullable Callable<BufferedWriter> sink) {
             this.sink = sink;
             return self();
-        }
-
-        /**
-         * Gets the source to be used by the resultant loader.
-         *
-         * @return the source
-         */
-        public @Nullable Callable<BufferedReader> getSource() {
-            return this.source;
         }
 
         /**
@@ -301,7 +301,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @return the sink
          */
-        public @Nullable Callable<BufferedWriter> getSink() {
+        public @Nullable Callable<BufferedWriter> sink() {
             return this.sink;
         }
 
@@ -311,7 +311,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param mode the header mode
          * @return this builder (for chaining)
          */
-        public T setHeaderMode(final HeaderMode mode) {
+        public T headerMode(final HeaderMode mode) {
             this.headerMode = requireNonNull(mode, "mode");
             return self();
         }
@@ -321,7 +321,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @return the header mode
          */
-        public HeaderMode getHeaderMode() {
+        public HeaderMode headerMode() {
             return this.headerMode;
         }
 
@@ -332,7 +332,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param defaultOptions the options
          * @return this builder (for chaining)
          */
-        public T setDefaultOptions(final ConfigurationOptions defaultOptions) {
+        public T defaultOptions(final ConfigurationOptions defaultOptions) {
             this.defaultOptions = requireNonNull(defaultOptions, "defaultOptions");
             return self();
         }
@@ -345,7 +345,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param defaultOptions to transform the existing default options
          * @return this builder (for chaining)
          */
-        public T setDefaultOptions(final UnaryOperator<ConfigurationOptions> defaultOptions) {
+        public T defaultOptions(final UnaryOperator<ConfigurationOptions> defaultOptions) {
             this.defaultOptions = requireNonNull(defaultOptions.apply(this.defaultOptions), "defaultOptions (updated)");
             return self();
         }
@@ -356,7 +356,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @return the options
          */
-        public ConfigurationOptions getDefaultOptions() {
+        public ConfigurationOptions defaultOptions() {
             return this.defaultOptions;
         }
 

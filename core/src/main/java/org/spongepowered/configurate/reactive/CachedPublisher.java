@@ -82,8 +82,8 @@ class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
     }
 
     @Override
-    public Executor getExecutor() {
-        return this.parent.getExecutor();
+    public Executor executor() {
+        return this.parent.executor();
     }
 
     @Override

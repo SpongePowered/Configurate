@@ -71,7 +71,7 @@ suspend fun <V : Any> Flow<V>.asPublisher(): Publisher<V> = coroutineScope {
 
 private class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : Publisher<V> {
     private val executor = Executor { task -> scope.launch { task.run() } }
-    override fun getExecutor(): Executor = this.executor
+    override fun executor(): Executor = this.executor
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun subscribe(subscriber: Subscriber<in V>): Disposable {

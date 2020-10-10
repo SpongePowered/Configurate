@@ -50,8 +50,8 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
             }
             final Type key = param.getActualTypeArguments()[0];
             final Type value = param.getActualTypeArguments()[1];
-            final @Nullable TypeSerializer<?> keySerial = node.getOptions().getSerializers().get(key);
-            final @Nullable TypeSerializer<?> valueSerial = node.getOptions().getSerializers().get(value);
+            final @Nullable TypeSerializer<?> keySerial = node.options().serializers().get(key);
+            final @Nullable TypeSerializer<?> valueSerial = node.options().serializers().get(value);
 
             if (keySerial == null) {
                 throw new ObjectMappingException("No type serializer available for type " + key);
@@ -61,10 +61,10 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
                 throw new ObjectMappingException("No type serializer available for type " + value);
             }
 
-            final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.getOptions());
+            final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
 
-            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.getChildrenMap().entrySet()) {
-                ret.put(requireNonNull(keySerial.deserialize(key, keyNode.setValue(ent.getKey())), "key"),
+            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
+                ret.put(requireNonNull(keySerial.deserialize(key, keyNode.set(ent.getKey())), "key"),
                     requireNonNull(valueSerial.deserialize(value, ent.getValue()), "value"));
             }
         }
@@ -83,8 +83,8 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
         }
         final Type key = param.getActualTypeArguments()[0];
         final Type value = param.getActualTypeArguments()[1];
-        final @Nullable TypeSerializer keySerial = node.getOptions().getSerializers().get(key);
-        final @Nullable TypeSerializer valueSerial = node.getOptions().getSerializers().get(value);
+        final @Nullable TypeSerializer keySerial = node.options().serializers().get(key);
+        final @Nullable TypeSerializer valueSerial = node.options().serializers().get(value);
 
         if (keySerial == null) {
             throw new ObjectMappingException("No type serializer available for type " + key);
@@ -95,14 +95,14 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
         }
 
         if (obj == null || obj.isEmpty()) {
-            node.setValue(Collections.emptyMap());
+            node.set(Collections.emptyMap());
         } else {
-            final Set<Object> unvisitedKeys = new HashSet<>(node.getChildrenMap().keySet());
-            final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.getOptions());
+            final Set<Object> unvisitedKeys = new HashSet<>(node.childrenMap().keySet());
+            final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
                 keySerial.serialize(key, ent.getKey(), keyNode);
-                final Object keyObj = requireNonNull(keyNode.getValue(), "Key must not be null!");
-                valueSerial.serialize(value, ent.getValue(), node.getNode(keyObj));
+                final Object keyObj = requireNonNull(keyNode.get(), "Key must not be null!");
+                valueSerial.serialize(value, ent.getValue(), node.node(keyObj));
                 unvisitedKeys.remove(keyObj);
             }
 

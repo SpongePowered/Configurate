@@ -83,7 +83,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @return the json factory
          */
         @NonNull
-        public JsonFactoryBuilder getFactoryBuilder() {
+        public JsonFactoryBuilder factoryBuilder() {
             return this.factory;
         }
 
@@ -94,7 +94,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @return this builder (for chaining)
          */
         @NonNull
-        public Builder setIndent(final int indent) {
+        public Builder indent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -104,7 +104,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          *
          * @return the indent level
          */
-        public int getIndent() {
+        public int indent() {
             return this.indent;
         }
 
@@ -115,7 +115,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @return this builder (for chaining)
          */
         @NonNull
-        public Builder setFieldValueSeparatorStyle(final @NonNull FieldValueSeparatorStyle style) {
+        public Builder fieldValueSeparatorStyle(final @NonNull FieldValueSeparatorStyle style) {
             this.fieldValueSeparatorStyle = style;
             return this;
         }
@@ -126,14 +126,14 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @return the style
          */
         @NonNull
-        public FieldValueSeparatorStyle getFieldValueSeparatorStyle() {
+        public FieldValueSeparatorStyle fieldValueSeparatorStyle() {
             return this.fieldValueSeparatorStyle;
         }
 
         @NonNull
         @Override
         public JacksonConfigurationLoader build() {
-            setDefaultOptions(o -> o.withNativeTypes(NATIVE_TYPES));
+            defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
             return new JacksonConfigurationLoader(this);
         }
     }
@@ -144,10 +144,10 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
 
     private JacksonConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
-        this.factory = builder.getFactoryBuilder().build();
+        this.factory = builder.factoryBuilder().build();
         this.factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-        this.indent = builder.getIndent();
-        this.fieldValueSeparatorStyle = builder.getFieldValueSeparatorStyle();
+        this.indent = builder.indent();
+        this.fieldValueSeparatorStyle = builder.fieldValueSeparatorStyle();
     }
 
     @Override
@@ -170,25 +170,25 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
             case VALUE_NUMBER_FLOAT:
                 final double doubleVal = parser.getDoubleValue();
                 if ((float) doubleVal != doubleVal) {
-                    node.setValue(parser.getDoubleValue());
+                    node.set(parser.getDoubleValue());
                 } else {
-                    node.setValue(parser.getFloatValue());
+                    node.set(parser.getFloatValue());
                 }
                 break;
             case VALUE_NUMBER_INT:
                 final long longVal = parser.getLongValue();
                 if ((int) longVal != longVal) {
-                    node.setValue(parser.getLongValue());
+                    node.set(parser.getLongValue());
                 } else {
-                    node.setValue(parser.getIntValue());
+                    node.set(parser.getIntValue());
                 }
                 break;
             case VALUE_STRING:
-                node.setValue(parser.getText());
+                node.set(parser.getText());
                 break;
             case VALUE_TRUE:
             case VALUE_FALSE:
-                node.setValue(parser.getBooleanValue());
+                node.set(parser.getBooleanValue());
                 break;
             case VALUE_NULL: // Ignored values
             case FIELD_NAME:
@@ -206,7 +206,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case END_ARRAY:
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(Collections.emptyList());
+                        node.set(Collections.emptyList());
                     }
                     return;
                 default:
@@ -225,11 +225,11 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case END_OBJECT:
                     // ensure the type is preserved
                     if (!written) {
-                        node.setValue(Collections.emptyMap());
+                        node.set(Collections.emptyMap());
                     }
                     return;
                 default:
-                    parseValue(parser, node.getNode(parser.getCurrentName()));
+                    parseValue(parser, node.node(parser.getCurrentName()));
                     written = true;
             }
         }
@@ -248,7 +248,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     @NonNull
     @Override
     public BasicConfigurationNode createNode(@NonNull ConfigurationOptions options) {
-        options = options.withNativeTypes(NATIVE_TYPES);
+        options = options.nativeTypes(NATIVE_TYPES);
         return BasicConfigurationNode.root(options);
     }
 

@@ -30,7 +30,7 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     private final @Nullable Publisher<I> parent;
 
     MappedProcessor(final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, final @Nullable Publisher<I> parent) {
-        this.processor = parent == null ? Processor.createTransactional() : Processor.createTransactional(parent.getExecutor());
+        this.processor = parent == null ? Processor.createTransactional() : Processor.createTransactional(parent.executor());
         this.mapper = mapper;
         this.parent = parent;
     }
@@ -62,8 +62,8 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     }
 
     @Override
-    public Executor getExecutor() {
-        return this.processor.getExecutor();
+    public Executor executor() {
+        return this.processor.executor();
     }
 
     @Override
@@ -101,8 +101,8 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     }
 
     @Override
-    public void setFallbackHandler(@Nullable final Subscriber<O> subscriber) {
-        this.processor.setFallbackHandler(subscriber);
+    public void fallbackHandler(@Nullable final Subscriber<O> subscriber) {
+        this.processor.fallbackHandler(subscriber);
     }
 
     @Override

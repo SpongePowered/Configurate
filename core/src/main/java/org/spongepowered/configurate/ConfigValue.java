@@ -29,8 +29,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * The node this value "belongs" to.
      */
-    @NonNull
-    protected final T holder;
+    protected final @NonNull T holder;
 
     protected ConfigValue(final @NonNull T holder) {
         this.holder = holder;
@@ -41,14 +40,14 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      *
      * @return the value
      */
-    abstract @Nullable Object getValue();
+    abstract @Nullable Object get();
 
     /**
      * Sets the value encapsulated by this instance.
      *
      * @param value the value
      */
-    abstract void setValue(@Nullable Object value);
+    abstract void set(@Nullable Object value);
 
     /**
      * Put a child value, or null to remove value at that key.
@@ -78,7 +77,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @return the child if any
      */
     @Nullable
-    abstract T getChild(@Nullable Object key);
+    abstract T child(@Nullable Object key);
 
     /**
      * Returns an iterable over all child nodes.
@@ -111,7 +110,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
             final T node = it.next();
             node.attached = false;
             it.remove();
-            if (node.getParentEnsureAttached().equals(this.holder)) {
+            if (node.parentEnsureAttached().equals(this.holder)) {
                 node.clear();
             }
         }

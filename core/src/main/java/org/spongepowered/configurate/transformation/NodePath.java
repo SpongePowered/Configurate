@@ -44,7 +44,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      *
      * @return the copied array
      */
-    Object[] getArray();
+    Object[] array();
 
     /**
      * Create a new path with the provided element appended to the end.
@@ -79,7 +79,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * @param path the path to reference. The provided array will be copied.
      * @return the path instance
      */
-    static NodePath create(Object[] path) {
+    static NodePath of(Object[] path) {
         return new NodePathImpl(path, true);
     }
 
@@ -89,7 +89,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * @param path a collection containing elements of the path to reference
      * @return the path instance
      */
-    static NodePath create(Collection<?> path) {
+    static NodePath of(Collection<?> path) {
         return new NodePathImpl(path.toArray(), false);
     }
 
@@ -103,7 +103,7 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      * @return the path instance
      */
     static NodePath path(Object... elements) {
-        return create(elements);
+        return of(elements);
     }
 
     /**

@@ -39,7 +39,7 @@ public interface FieldDiscoverer<I> {
      *
      * @return new discoverer
      */
-    static FieldDiscoverer<?> ofRecord() {
+    static FieldDiscoverer<?> record() {
         return RecordFieldDiscoverer.INSTANCE;
     }
 
@@ -52,7 +52,7 @@ public interface FieldDiscoverer<I> {
      * @param instanceFactory a factory for instance providers
      * @return new discoverer
      */
-    static FieldDiscoverer<?> ofObject(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
+    static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
         return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
     }
 
@@ -62,10 +62,10 @@ public interface FieldDiscoverer<I> {
      * <p>Only objects with empty constructors can be created.</p>
      *
      * @return new discoverer
-     * @see #ofObject(CheckedFunction) for more details on which fields will
+     * @see #object(CheckedFunction) for more details on which fields will
      *      be discovered.
      */
-    static FieldDiscoverer<?> ofEmptyConstructorObject() {
+    static FieldDiscoverer<?> emptyConstructorObject() {
         return ObjectFieldDiscoverer.EMPTY_CONSTRUCTOR_INSTANCE;
     }
 

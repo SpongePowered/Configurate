@@ -153,7 +153,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * @throws IOException if produced while registering the path with
      *          our WatchService
      */
-    private DirectoryListenerRegistration getRegistration(final Path directory) throws IOException {
+    private DirectoryListenerRegistration registration(final Path directory) throws IOException {
         final @Nullable DirectoryListenerRegistration reg = this.activeListeners.computeIfAbsent(directory, dir -> {
             try {
                 return new DirectoryListenerRegistration(dir.register(this.watchService, DEFAULT_WATCH_EVENTS), this.taskExecutor);
@@ -185,7 +185,7 @@ public final class WatchServiceListener implements AutoCloseable {
         }
 
         final Path fileName = file.getFileName();
-        return getRegistration(file.getParent()).subscribe(fileName, callback);
+        return registration(file.getParent()).subscribe(fileName, callback);
     }
 
     /**
@@ -205,7 +205,7 @@ public final class WatchServiceListener implements AutoCloseable {
             throw new IllegalArgumentException("Path " + directory + " must be a directory");
         }
 
-        return getRegistration(directory).subscribe(callback);
+        return registration(directory).subscribe(callback);
     }
 
     /**
@@ -220,7 +220,7 @@ public final class WatchServiceListener implements AutoCloseable {
      */
     public <N extends ScopedConfigurationNode<N>> ConfigurationReference<N>
         listenToConfiguration(final Function<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws IOException {
-        return ConfigurationReference.createWatching(loaderFunc, path, this);
+        return ConfigurationReference.watching(loaderFunc, path, this);
     }
 
     @Override
@@ -256,7 +256,7 @@ public final class WatchServiceListener implements AutoCloseable {
          * @param factory the thread factory to use to create the deamon thread
          * @return this builder
          */
-        public Builder setThreadFactory(final ThreadFactory factory) {
+        public Builder threadFactory(final ThreadFactory factory) {
             this.threadFactory = requireNonNull(factory, "factory");
             return this;
         }
@@ -269,7 +269,7 @@ public final class WatchServiceListener implements AutoCloseable {
          * @param executor the executor to use
          * @return this builder
          */
-        public Builder setTaskExecutor(final Executor executor) {
+        public Builder taskExecutor(final Executor executor) {
             this.taskExecutor = requireNonNull(executor, "executor");
             return this;
         }
@@ -282,7 +282,7 @@ public final class WatchServiceListener implements AutoCloseable {
          * @param system the file system to use.
          * @return this builder
          */
-        public Builder setFileSystem(final FileSystem system) {
+        public Builder fileSystem(final FileSystem system) {
             this.fileSystem = system;
             return this;
         }

@@ -50,15 +50,15 @@ public final class ObjectMapperExample {
     public static void main(final String[] args) throws IOException, ObjectMappingException {
         final Path file = Paths.get(args[0]);
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .setDefaultOptions(opts -> opts.withShouldCopyDefaults(true))
-                .setPath(file) // or setUrl(), or setFile(), or setSource/Sink
+                .defaultOptions(opts -> opts.shouldCopyDefaults(true))
+                .path(file) // or setUrl(), or setFile(), or setSource/Sink
                 .build();
 
         final CommentedConfigurationNode node = loader.load(); // Load from file
         final MyConfiguration config = MyConfiguration.loadFrom(node); // Populate object
 
         // Do whatever actions with the configuration, then...
-        config.setItemName("Steve");
+        config.itemName("Steve");
 
         config.saveTo(node); // Update the backing node
         loader.save(node); // Write to the original file
@@ -92,23 +92,23 @@ public final class ObjectMapperExample {
         // This won't be written to the file because it's marked as `transient`
         private transient @MonotonicNonNull String decoratedName;
 
-        public @Nullable String getItemName() {
+        public @Nullable String itemName() {
             return this.itemName;
         }
 
-        public void setItemName(final String itemName) {
+        public void itemName(final String itemName) {
             this.itemName = requireNonNull(itemName, "itemName");
         }
 
-        public Pattern getFilter() {
+        public Pattern filter() {
             return this.filter;
         }
 
-        public List<Section> getSections() {
+        public List<Section> sections() {
             return this.sections;
         }
 
-        public String getDecoratedItemName() {
+        public String decoratedItemName() {
             if (this.decoratedName == null) {
                 this.decoratedName = "[" + this.itemName + "]";
             }
@@ -128,11 +128,11 @@ public final class ObjectMapperExample {
         private UUID id;
 
         // the ObjectMapper resolves settings based on fields -- these methods are provided as a convenience
-        public String getName() {
+        public String name() {
             return this.name;
         }
 
-        public UUID getId() {
+        public UUID id() {
             return this.id;
         }
 

@@ -47,7 +47,7 @@ public enum FieldValueSeparatorStyle {
      *
      * @return literal separator value
      */
-    public String getValue() {
+    public String value() {
         return this.decorationType;
     }
 

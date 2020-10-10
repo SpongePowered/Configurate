@@ -31,61 +31,61 @@ public class CopyTest {
     @Test
     void testSimpleCopy() {
         final ConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("test").setValue(5);
-        node.getNode("section", "val1").setValue(true);
-        node.getNode("section", "val2").setValue("TEST");
-        final ConfigurationNode list = node.getNode("section2", "alist");
-        list.appendListNode().setValue("value1");
-        list.appendListNode().setValue("value2");
+        node.node("test").set(5);
+        node.node("section", "val1").set(true);
+        node.node("section", "val2").set("TEST");
+        final ConfigurationNode list = node.node("section2", "alist");
+        list.appendListNode().set("value1");
+        list.appendListNode().set("value2");
 
         final ConfigurationNode copy = node.copy();
 
         assertNotSame(node, copy);
         assertEquals(node, copy);
 
-        assertFalse(node.isVirtual());
-        assertFalse(copy.isVirtual());
+        assertFalse(node.virtual());
+        assertFalse(copy.virtual());
 
-        assertEquals(5, copy.getNode("test").getValue());
-        assertEquals(true, copy.getNode("section", "val1").getValue());
-        assertEquals("TEST", copy.getNode("section", "val2").getValue());
-        assertEquals(Arrays.asList("value1", "value2"), copy.getNode("section2", "alist").getValue());
+        assertEquals(5, copy.node("test").get());
+        assertEquals(true, copy.node("section", "val1").get());
+        assertEquals("TEST", copy.node("section", "val2").get());
+        assertEquals(Arrays.asList("value1", "value2"), copy.node("section2", "alist").get());
 
         // change value on original
-        node.getNode("section", "val2").setValue("NOT TEST");
+        node.node("section", "val2").set("NOT TEST");
 
         // test it's still the same on copy
-        assertEquals("TEST", copy.getNode("section", "val2").getValue());
+        assertEquals("TEST", copy.node("section", "val2").get());
 
         // change value on copy
-        copy.getNode("section", "val2").setValue("zzz");
+        copy.node("section", "val2").set("zzz");
 
         // test it's still the same on original
-        assertEquals("NOT TEST", node.getNode("section", "val2").getValue());
+        assertEquals("NOT TEST", node.node("section", "val2").get());
     }
 
     @Test
     void testCopyPaths() {
         final ConfigurationNode node = BasicConfigurationNode.root();
-        node.getNode("test").setValue(5);
-        node.getNode("section", "val1").setValue(true);
-        node.getNode("section", "val2").setValue("TEST");
+        node.node("test").set(5);
+        node.node("section", "val1").set(true);
+        node.node("section", "val2").set("TEST");
 
-        final ConfigurationNode original = node.getNode("section");
+        final ConfigurationNode original = node.node("section");
         final ConfigurationNode copy = original.copy();
 
-        assertNotNull(original.getParent());
-        assertNull(copy.getParent());
+        assertNotNull(original.parent());
+        assertNull(copy.parent());
 
-        final ConfigurationNode originalVal = original.getNode("val1");
-        final ConfigurationNode copyVal = copy.getNode("val1");
+        final ConfigurationNode originalVal = original.node("val1");
+        final ConfigurationNode copyVal = copy.node("val1");
 
-        assertEquals(2, originalVal.getPath().size());
-        assertEquals(1, copyVal.getPath().size());
+        assertEquals(2, originalVal.path().size());
+        assertEquals(1, copyVal.path().size());
 
-        assertNotNull(originalVal.getParent());
-        assertNotNull(copyVal.getParent());
-        assertNotSame(originalVal.getParent(), copyVal.getParent());
+        assertNotNull(originalVal.parent());
+        assertNotNull(copyVal.parent());
+        assertNotSame(originalVal.parent(), copyVal.parent());
     }
 
 }

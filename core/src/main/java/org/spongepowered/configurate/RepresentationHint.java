@@ -44,7 +44,7 @@ public abstract class RepresentationHint<V> {
      * @return a new hint
      */
     public static <V> RepresentationHint<V> of(final String identifier, final Class<V> valueType) {
-        return RepresentationHint.<V>builder().setIdentifier(identifier).setValueType(valueType).build();
+        return RepresentationHint.<V>builder().identifier(identifier).valueType(valueType).build();
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class RepresentationHint<V> {
      * @return a new hint
      */
     public static <V> RepresentationHint<V> of(final String identifier, final TypeToken<V> valueType) {
-        return RepresentationHint.<V>builder().setIdentifier(identifier).setValueType(valueType).build();
+        return RepresentationHint.<V>builder().identifier(identifier).valueType(valueType).build();
     }
 
     /**
@@ -79,14 +79,14 @@ public abstract class RepresentationHint<V> {
      *
      * @return the identifier
      */
-    public abstract String getIdentifier();
+    public abstract String identifier();
 
     /**
      * The type that values of this type have to have.
      *
      * @return value type
      */
-    public abstract TypeToken<V> getValueType();
+    public abstract TypeToken<V> valueType();
 
     /**
      * If a value for a representation hint cannot be found by quering a node
@@ -94,14 +94,14 @@ public abstract class RepresentationHint<V> {
      *
      * @return default type
      */
-    public abstract @Nullable V getDefaultValue();
+    public abstract @Nullable V defaultValue();
 
     /**
      * Get whether or not this hint can draw its value from parent nodes.
      *
      * @return if inheritable
      */
-    public abstract boolean isInheritable();
+    public abstract boolean inheritable();
 
     /**
      * A builder for {@link RepresentationHint}s.
@@ -112,7 +112,7 @@ public abstract class RepresentationHint<V> {
     public abstract static class Builder<V> {
 
         Builder() {
-            this.setInheritable(true);
+            this.inheritable(true);
         }
 
         /**
@@ -121,7 +121,7 @@ public abstract class RepresentationHint<V> {
          * @param identifier hint identifier
          * @return this builder
          */
-        public abstract Builder<V> setIdentifier(String identifier);
+        public abstract Builder<V> identifier(String identifier);
 
         /**
          * Set the type used for this node's value.
@@ -131,8 +131,8 @@ public abstract class RepresentationHint<V> {
          * @param valueType the value type
          * @return this builder
          */
-        public final Builder<V> setValueType(final Class<V> valueType) {
-            return setValueType(TypeToken.get(valueType));
+        public final Builder<V> valueType(final Class<V> valueType) {
+            return valueType(TypeToken.get(valueType));
         }
 
         /**
@@ -143,7 +143,7 @@ public abstract class RepresentationHint<V> {
          * @param valueType the value type
          * @return this builder
          */
-        public abstract Builder<V> setValueType(TypeToken<V> valueType);
+        public abstract Builder<V> valueType(TypeToken<V> valueType);
 
         /**
          * Set the default value when this hint is not present in the hierarchy.
@@ -153,7 +153,7 @@ public abstract class RepresentationHint<V> {
          * @param defaultValue value to return on gets
          * @return this builder
          */
-        public abstract Builder<V> setDefaultValue(@Nullable V defaultValue);
+        public abstract Builder<V> defaultValue(@Nullable V defaultValue);
 
         /**
          * Set whether or not the hint can be inherited.
@@ -162,9 +162,9 @@ public abstract class RepresentationHint<V> {
          *
          * @param inheritable if inheritable
          * @return this builder
-         * @see #isInheritable()
+         * @see #inheritable()
          */
-        public abstract Builder<V> setInheritable(boolean inheritable);
+        public abstract Builder<V> inheritable(boolean inheritable);
 
         /**
          * Create a new hint from the provided options.

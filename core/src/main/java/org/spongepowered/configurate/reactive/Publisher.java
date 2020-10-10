@@ -124,7 +124,7 @@ public interface Publisher<V> {
      *
      * @return the executor
      */
-    Executor getExecutor();
+    Executor executor();
 
     /**
      * A publisher that caches the last value received.

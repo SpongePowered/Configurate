@@ -47,7 +47,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         this.root = root;
         this.path = path;
         this.type = type;
-        this.serializer = root.getNode().getOptions().getSerializers().get(type);
+        this.serializer = root.node().options().serializers().get(type);
         if (this.serializer == null) {
             throw new ObjectMappingException("Unsupported type" + type);
         }
@@ -59,7 +59,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
                 root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.VALUE, e));
                 throw new TransactionFailedException(e);
             }
-        }).cache(deserializedValueFrom(root.getNode(), def));
+        }).cache(deserializedValueFrom(root.node(), def));
     }
 
     ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final Class<T> type,
@@ -68,11 +68,11 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws ObjectMappingException {
-        final N node = parent.getNode(this.path);
+        final N node = parent.node(this.path);
         final @Nullable T possible = this.serializer.deserialize(this.type.getType(), node);
         if (possible != null) {
             return possible;
-        } else if (defaultVal != null && node.getOptions().getShouldCopyDefaults()) {
+        } else if (defaultVal != null && node.options().shouldCopyDefaults()) {
             this.serializer.serialize(this.type.getType(), defaultVal, node);
         }
         return defaultVal;
@@ -86,7 +86,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     @Override
     public boolean set(final @Nullable T value) {
         try {
-            this.serializer.serialize(this.type.getType(), value, getNode());
+            this.serializer.serialize(this.type.getType(), value, node());
             this.deserialized.submit(value);
             return true;
         } catch (final ObjectMappingException e) {
@@ -111,11 +111,11 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     @Override
     public Publisher<Boolean> setAndSaveAsync(final @Nullable T value) {
         return Publisher.execute(() -> {
-            this.serializer.serialize(this.type.getType(), value, getNode());
+            this.serializer.serialize(this.type.getType(), value, node());
             this.deserialized.submit(value);
             this.root.save();
             return true;
-        }, this.root.updates().getExecutor());
+        }, this.root.updates().executor());
     }
 
     @Override
@@ -133,16 +133,16 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         return Publisher.execute(() -> {
             final @Nullable T orig = get();
             final T updated = action.apply(orig);
-            this.serializer.serialize(this.type.getType(), updated, getNode());
+            this.serializer.serialize(this.type.getType(), updated, node());
             this.deserialized.submit(updated);
             this.root.save();
             return true;
-        }, this.root.updates().getExecutor());
+        }, this.root.updates().executor());
     }
 
     @Override
-    public N getNode() {
-        return this.root.getNode().getNode(this.path);
+    public N node() {
+        return this.root.node().node(this.path);
     }
 
     @Override
@@ -156,8 +156,8 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     @Override
-    public Executor getExecutor() {
-        return this.deserialized.getExecutor();
+    public Executor executor() {
+        return this.deserialized.executor();
     }
 
 }

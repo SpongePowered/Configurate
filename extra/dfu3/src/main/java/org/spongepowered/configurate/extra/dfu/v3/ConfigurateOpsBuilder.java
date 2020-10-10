@@ -67,7 +67,7 @@ public final class ConfigurateOpsBuilder {
      */
     public ConfigurateOpsBuilder factoryFromSerializers(final TypeSerializerCollection collection) {
         requireNonNull(collection, "collection");
-        return factory(() -> CommentedConfigurationNode.root(ConfigurationOptions.defaults().withSerializers(collection)));
+        return factory(() -> CommentedConfigurationNode.root(ConfigurationOptions.defaults().serializers(collection)));
     }
 
     /**
@@ -77,7 +77,7 @@ public final class ConfigurateOpsBuilder {
      * @return this builder
      */
     public ConfigurateOpsBuilder factoryFromNode(final ConfigurationNode node) {
-        final ConfigurationOptions options = requireNonNull(node, "node").getOptions();
+        final ConfigurationOptions options = requireNonNull(node, "node").options();
         return factory(() -> CommentedConfigurationNode.root(options));
     }
 

@@ -44,25 +44,25 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         if (startValue != null) {
             final T child = holder.createNode(0);
             child.attached = true;
-            child.setValue(startValue);
+            child.set(startValue);
             this.values.get().add(child);
         }
     }
 
     @Nullable
     @Override
-    public Object getValue() {
+    public Object get() {
         final List<T> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
             for (T obj : values) {
-                ret.add(obj.getValue()); // unwrap
+                ret.add(obj.get()); // unwrap
             }
             return ret;
         }
     }
 
-    public List<N> getUnwrapped() {
+    public List<N> unwrapped() {
         final List<T> orig = this.values.get();
         synchronized (orig) {
             final List<N> ret = new ArrayList<>(orig.size());
@@ -74,7 +74,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public void setValue(@Nullable Object value) {
+    public void set(@Nullable Object value) {
         if (!(value instanceof Collection)) {
             value = Collections.singleton(value);
         }
@@ -90,7 +90,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
             final T child = this.holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
-            child.setValue(o);
+            child.set(o);
             ++count;
         }
         detachNodes(this.values.getAndSet(newValue));
@@ -143,7 +143,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public @Nullable T getChild(final @Nullable Object key) {
+    public @Nullable T child(final @Nullable Object key) {
         final @Nullable Integer value = Scalars.INTEGER.tryDeserialize(key);
         if (value == null || value < 0) {
             return null;
