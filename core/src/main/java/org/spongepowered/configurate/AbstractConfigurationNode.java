@@ -379,7 +379,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean isEmpty() {
+    public boolean empty() {
         return this.value.isEmpty();
     }
 

@@ -103,7 +103,7 @@ public final class ConfigurateOpsTests {
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, jsonNull);
         final ConfigurationNode result = wrapped.convert(ConfigurateOps.instance()).getValue();
 
-        assertTrue(result.isEmpty(), "Resulting configuration node was not empty");
+        assertTrue(result.empty(), "Resulting configuration node was not empty");
     }
 
     @Test

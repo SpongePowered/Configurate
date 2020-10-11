@@ -115,8 +115,8 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     }
 
     @Override
-    public boolean isEmpty() {
-        return super.isEmpty() && this.attributes.isEmpty();
+    public boolean empty() {
+        return super.empty() && this.attributes.isEmpty();
     }
 
     // Typing overrides

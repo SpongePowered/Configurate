@@ -38,7 +38,7 @@ class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, IOException>
 
     @Override
     public void beginVisit(final ConfigurationNode node, final JsonWriter state) throws IOException {
-        if (node.isEmpty()) {
+        if (node.empty()) {
             state.beginObject();
             state.endObject();
         } else {

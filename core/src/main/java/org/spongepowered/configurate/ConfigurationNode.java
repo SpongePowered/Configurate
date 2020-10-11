@@ -226,7 +226,7 @@ public interface ConfigurationNode {
      *
      * @return whether this node is empty
      */
-    boolean isEmpty();
+    boolean empty();
 
     /**
      * Gets the "list children" attached to this node, if it has any.

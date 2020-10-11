@@ -27,11 +27,11 @@ public class AttributedConfigurationNodeTest {
     void testIsEmptyIncludesAttributes() {
         final AttributedConfigurationNode node = AttributedConfigurationNode.root();
 
-        assertTrue(node.isEmpty());
+        assertTrue(node.empty());
 
         node.addAttribute("pancakes", "blueberry");
 
-        assertFalse(node.isEmpty());
+        assertFalse(node.empty());
     }
 
     @Test

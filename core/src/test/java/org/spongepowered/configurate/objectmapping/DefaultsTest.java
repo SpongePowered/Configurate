@@ -70,7 +70,7 @@ public class DefaultsTest {
 
     private void assertPresentAndEmpty(final ConfigurationNode node) {
         assertFalse(node.virtual());
-        assertTrue(node.isEmpty());
+        assertTrue(node.empty());
     }
 
 }
