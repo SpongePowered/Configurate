@@ -62,7 +62,7 @@ public class ConfigurationTransformationTest {
         );
 
         final TransformAction<T> action = (inputPath, valueAtPath) -> {
-            autoSortedKeys.add(inputPath.clone());
+            autoSortedKeys.add(inputPath.copy());
             return null;
         };
 
@@ -105,7 +105,7 @@ public class ConfigurationTransformationTest {
         );
 
         final TransformAction<BasicConfigurationNode> action = (path, valueAthPath) -> {
-            populatedResults.add(path.clone());
+            populatedResults.add(path.copy());
             return null;
         };
         final ConfigurationTransformation.Builder<BasicConfigurationNode> build = ConfigurationTransformation.builder();

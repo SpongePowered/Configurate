@@ -47,7 +47,7 @@ final class NodePathImpl implements NodePath {
     @Override
     public NodePath withAppendedChild(final Object childKey) {
         final Object[] arr = this.arr;
-        if (arr.length == 0 || (arr.length == 1 && arr[0] == null)) {
+        if (arr.length == 0) {
             return new NodePathImpl(new Object[] {childKey}, false);
         }
 
@@ -79,8 +79,7 @@ final class NodePathImpl implements NodePath {
     }
 
     @Override
-    @SuppressWarnings("MethodDoesntCallSuperMethod")
-    public NodePath clone() {
+    public NodePath copy() {
         return new NodePathImpl(this.arr, true);
     }
 

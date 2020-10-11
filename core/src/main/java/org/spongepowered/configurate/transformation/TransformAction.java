@@ -125,7 +125,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      *
      * <p><strong>Caution:</strong> The state of the <code>inputPath</code> is
      * only guaranteed to be accurate during a run of the transform function.
-     * Use {@link NodePath#clone()} if the path's state needs to
+     * Use {@link NodePath#copy()} if the path's state needs to
      * be stored.
      *
      * @param inputPath the path of the given node

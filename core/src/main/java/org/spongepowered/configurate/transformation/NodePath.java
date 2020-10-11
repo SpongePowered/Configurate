@@ -22,7 +22,7 @@ import java.util.Iterator;
 /**
  * Represents the path to a given node.
  */
-public interface NodePath extends Iterable<Object>, Cloneable {
+public interface NodePath extends Iterable<Object> {
 
     /**
      * Gets a specific element from the path array.
@@ -111,6 +111,6 @@ public interface NodePath extends Iterable<Object>, Cloneable {
      *
      * @return a new path
      */
-    NodePath clone();
+    NodePath copy();
 
 }
