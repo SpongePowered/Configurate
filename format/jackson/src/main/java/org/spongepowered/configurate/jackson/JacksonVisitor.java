@@ -25,9 +25,9 @@ import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
-class JacksonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonGenerator, Void, IOException> {
+class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, IOException> {
 
-    static ThreadLocal<JacksonVisitor> INSTANCE = ThreadLocal.withInitial(JacksonVisitor::new);
+    static final ThreadLocal<JacksonVisitor> INSTANCE = ThreadLocal.withInitial(JacksonVisitor::new);
 
     private @Nullable ConfigurationNode start;
 

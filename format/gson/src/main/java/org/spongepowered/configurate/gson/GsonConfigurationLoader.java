@@ -238,7 +238,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         try (JsonWriter generator = new JsonWriter(writer)) {
             generator.setIndent(this.indent);
             generator.setLenient(this.lenient);
-            GsonVisitor.INSTANCE.get().visit(node, generator);
+            node.visit(GsonVisitor.INSTANCE.get(), generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         }
     }

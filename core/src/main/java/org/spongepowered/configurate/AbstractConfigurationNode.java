@@ -570,12 +570,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public <S, T, E extends Exception> T visit(final ConfigurationVisitor<? super N, S, T, E> visitor, final S state) throws E {
+    public <S, T, E extends Exception> T visit(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
         return visitInternal(visitor, state);
     }
 
     @Override
-    public <S, T> T visit(final ConfigurationVisitor.Safe<? super N, S, T> visitor, final S state) {
+    public <S, T> T visit(final ConfigurationVisitor.Safe<S, T> visitor, final S state) {
         try {
             return visitInternal(visitor, state);
         } catch (final VisitorSafeNoopException e) {
@@ -584,7 +584,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @SuppressWarnings("JdkObsolete")
-    private <S, T, E extends Exception> T visitInternal(final ConfigurationVisitor<? super N, S, T, E> visitor, final S state) throws E {
+    private <S, T, E extends Exception> T visitInternal(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
         visitor.beginVisit(self(), state);
         if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value
             final LinkedList<Object> toVisit = new LinkedList<>();

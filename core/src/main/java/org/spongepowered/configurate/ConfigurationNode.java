@@ -919,6 +919,62 @@ public interface ConfigurationNode {
     ConfigurationNode copy();
 
     /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
+     *
+     * @param visitor the visitor
+     * @param <S> the state type
+     * @param <T> the terminal type
+     * @param <E> exception type that may be thrown
+     * @return returned terminal from the visitor
+     * @throws E when throw by visitor implementation
+     */
+    default <S, T, E extends Exception> T visit(ConfigurationVisitor<S, T, E> visitor) throws E {
+        return visit(visitor, visitor.newState());
+    }
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
+     *
+     * @param visitor the visitor
+     * @param state the state to start with
+     * @param <T> the terminal type
+     * @param <S> the state type
+     * @param <E> exception type that may be thrown
+     * @return returned terminal from the visitor
+     * @throws E when throw by visitor implementation
+     */
+    <S, T, E extends Exception> T visit(ConfigurationVisitor<S, T, E> visitor, S state) throws E;
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
+     *
+     * <p>This overload will remove the need for exception handling for visitors
+     * that do not have any checked exceptions.</p>
+     *
+     * @param visitor the visitor
+     * @param <S> the state type
+     * @param <T> the terminal type
+     * @return the returned terminal from the visitor
+     */
+    default <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor) {
+        return visit(visitor, visitor.newState());
+    }
+
+    /**
+     * Visit this node hierarchy as described in {@link ConfigurationVisitor}.
+     *
+     * <p>This overload will remove the need for exception handling for visitors
+     * that do not have any checked exceptions.</p>
+     *
+     * @param visitor the visitor
+     * @param state the state to start with
+     * @param <T> the terminal type
+     * @param <S> the state type
+     * @return the returned terminal from the visitor
+     */
+    <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor, S state);
+
+    /**
      * Set a representation hint on this node.
      *
      * <p>Removing a hint from this node means the hint's value will be

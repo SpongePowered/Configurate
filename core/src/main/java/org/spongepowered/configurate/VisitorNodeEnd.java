@@ -24,7 +24,7 @@ import java.util.Objects;
  * A way to know that we've reached the end of a node within a visitor,
  * plus associated utility methods.
  */
-class VisitorNodeEnd {
+final class VisitorNodeEnd {
 
     private final ConfigurationNode end;
     private final boolean isMap;
@@ -58,10 +58,10 @@ class VisitorNodeEnd {
     }
 
     @SuppressWarnings("unchecked")
-    static <N extends ConfigurationNode, A extends AbstractConfigurationNode<?, A>, S, E extends Exception> @Nullable A
-            popFromVisitor(final Object unknown, final ConfigurationVisitor<N, S, ?, E> visitor, final S state) throws E {
+    static <A extends AbstractConfigurationNode<?, A>, S, E extends Exception> @Nullable A
+            popFromVisitor(final Object unknown, final ConfigurationVisitor<S, ?, E> visitor, final S state) throws E {
         if (unknown instanceof VisitorNodeEnd) {
-            final N node = (N) ((VisitorNodeEnd) unknown).end();
+            final ConfigurationNode node = ((VisitorNodeEnd) unknown).end();
             if (((VisitorNodeEnd) unknown).isMap) {
                 visitor.exitMappingNode(node, state);
             } else {

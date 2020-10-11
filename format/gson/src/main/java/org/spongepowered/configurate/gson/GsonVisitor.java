@@ -25,9 +25,9 @@ import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
-class GsonVisitor implements ConfigurationVisitor<ConfigurationNode, JsonWriter, Void, IOException> {
+class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, IOException> {
 
-    static ThreadLocal<GsonVisitor> INSTANCE = ThreadLocal.withInitial(GsonVisitor::new);
+    static final ThreadLocal<GsonVisitor> INSTANCE = ThreadLocal.withInitial(GsonVisitor::new);
 
     private @Nullable ConfigurationNode start;
 

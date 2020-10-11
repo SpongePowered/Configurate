@@ -16,10 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
-
-import java.util.LinkedList;
-
 /**
  * A visitor to traverse node hierarchies in a depth-first order.
  *
@@ -61,73 +57,13 @@ import java.util.LinkedList;
  * type, and {@link Safe} which throws no checked exceptions and therefore can
  * be visited without having to handle any exceptions.</p>
  *
- * @param <N> the type of node to visit
  * @param <S> a state object that will be used for one visit
  * @param <T> the terminal value, that can be returned at the end of the visit
  * @param <E> exception type that may be thrown
  * @see ScopedConfigurationNode#visit(ConfigurationVisitor) to execute this
  *      configuration visitation
  */
-public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E extends Exception> {
-
-    /**
-     * Begin the visitation using a newly created state object.
-     *
-     * @param node the node to start visiting from
-     * @return the terminal value
-     * @throws E when thrown by implementation
-     */
-    default T visit(N node) throws E {
-        final S state = newState();
-        return visit(node, state);
-    }
-
-    /**
-     * Executes a depth-first visitation of the provided configuration node.
-     * It is recommended to directly access a {@link ScopedConfigurationNode}
-     * where possible.
-     *
-     * @param node the node to begin from
-     * @param state a state object to begin with
-     * @return the terminal value
-     * @throws E when thrown by implementation
-     * @see ScopedConfigurationNode#visit(ConfigurationVisitor) for the
-     *      recommended visitation method
-     */
-    @SuppressWarnings({"unchecked", "JdkObsolete"})
-    default T visit(final N node, final S state) throws E {
-        if (node instanceof ScopedConfigurationNode) { // bleh
-            return ((ScopedConfigurationNode<? extends N>) node).visit(this, state);
-        }
-
-        beginVisit(node, state);
-        if (!node.isMap() && !node.isList() && node.isEmpty()) {
-            final LinkedList<Object> toVisit = new LinkedList<>(); // a list of N | VisitorNodeEnd
-            toVisit.add(node);
-
-            @Nullable Object active;
-            while ((active = toVisit.pollFirst()) != null) {
-                final @Nullable N current = (N) VisitorNodeEnd.popFromVisitor(active, this, state);
-                if (current == null) {
-                    continue;
-                }
-
-                enterNode(current, state);
-                if (current.isMap()) {
-                    enterMappingNode(current, state);
-                    toVisit.addFirst(new VisitorNodeEnd(current, true));
-                    toVisit.addAll(0, current.childrenMap().values());
-                } else if (current.isList()) {
-                    enterListNode(current, state);
-                    toVisit.addFirst(new VisitorNodeEnd(current, false));
-                    toVisit.addAll(0, current.childrenList());
-                } else {
-                    enterScalarNode(current, state);
-                }
-            }
-        }
-        return endVisit(state);
-    }
+public interface ConfigurationVisitor<S, T, E extends Exception> {
 
     /**
      * Called to provide a state object if a visit is initiated without one
@@ -145,7 +81,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state the state
      * @throws E when thrown by implementation
      */
-    void beginVisit(N node, S state) throws E;
+    void beginVisit(ConfigurationNode node, S state) throws E;
 
     /**
      * Called once per node, for every node.
@@ -154,7 +90,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state provided state
      * @throws E when thrown by implementation
      */
-    void enterNode(N node, S state) throws E;
+    void enterNode(ConfigurationNode node, S state) throws E;
 
     /**
      * Called after {@link #enterNode(ConfigurationNode, Object)} for mapping
@@ -164,7 +100,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state provided state
      * @throws E when thrown by implementation
      */
-    void enterMappingNode(N node, S state) throws E;
+    void enterMappingNode(ConfigurationNode node, S state) throws E;
 
     /**
      * Called after {@link #enterNode(ConfigurationNode, Object)} for list nodes.
@@ -173,7 +109,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state provided state
      * @throws E when thrown by implementation
      */
-    void enterListNode(N node, S state) throws E;
+    void enterListNode(ConfigurationNode node, S state) throws E;
 
     /**
      * Called after {@link #enterNode(ConfigurationNode, Object)} for scalar nodes.
@@ -182,7 +118,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state provided state
      * @throws E when thrown by implementation
      */
-    void enterScalarNode(N node, S state) throws E;
+    void enterScalarNode(ConfigurationNode node, S state) throws E;
 
     /**
      * Called for a list node after the node and any of its children have
@@ -192,7 +128,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state provided state
      * @throws E when thrown by implementation
      */
-    void exitMappingNode(N node, S state) throws E;
+    void exitMappingNode(ConfigurationNode node, S state) throws E;
 
     /**
      * Called for a list node after the node and any of its children have
@@ -202,7 +138,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * @param state provided state
      * @throws E when thrown by implementation
      */
-    void exitListNode(N node, S state) throws E;
+    void exitListNode(ConfigurationNode node, S state) throws E;
 
     /**
      * Called after every node has been visited, to allow for cleanup
@@ -218,17 +154,16 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * Stateless specialization of visitors, where both the state and terminal
      * type are Void.
      *
-     * @param <N> the node type
      */
     @FunctionalInterface
-    interface Stateless<N extends ConfigurationNode, E extends Exception> extends ConfigurationVisitor<N, Void, Void, E> {
+    interface Stateless<E extends Exception> extends ConfigurationVisitor<Void, Void, E> {
         @Override
         default Void newState() {
             return null;
         }
 
         @Override
-        default void beginVisit(N node, Void state) throws E {
+        default void beginVisit(ConfigurationNode node, Void state) throws E {
             beginVisit(node);
         }
 
@@ -238,10 +173,10 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node the root node
          * @throws E as required by implementation
          */
-        default void beginVisit(N node) throws E {}
+        default void beginVisit(ConfigurationNode node) throws E {}
 
         @Override
-        default void enterNode(N node, Void state) throws E {
+        default void enterNode(ConfigurationNode node, Void state) throws E {
             enterNode(node);
         }
 
@@ -251,10 +186,10 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node the current node
          * @throws E as required by implementation
          */
-        void enterNode(N node) throws E;
+        void enterNode(ConfigurationNode node) throws E;
 
         @Override
-        default void enterMappingNode(N node, Void state) throws E {
+        default void enterMappingNode(ConfigurationNode node, Void state) throws E {
             enterMappingNode(node);
         }
 
@@ -265,10 +200,10 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node current node
          * @throws E when thrown by implementation
          */
-        default void enterMappingNode(N node) throws E {}
+        default void enterMappingNode(ConfigurationNode node) throws E {}
 
         @Override
-        default void enterListNode(N node, Void state) throws E {
+        default void enterListNode(ConfigurationNode node, Void state) throws E {
             enterListNode(node);
         }
 
@@ -279,11 +214,11 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node current node
          * @throws E when thrown by implementation
          */
-        default void enterListNode(N node) throws E {
+        default void enterListNode(ConfigurationNode node) throws E {
         }
 
         @Override
-        default void enterScalarNode(N node, Void state) throws E {
+        default void enterScalarNode(ConfigurationNode node, Void state) throws E {
             enterScalarNode(node);
         }
 
@@ -294,11 +229,11 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node current node
          * @throws E when thrown by implementation
          */
-        default void enterScalarNode(N node) throws E {
+        default void enterScalarNode(ConfigurationNode node) throws E {
         }
 
         @Override
-        default void exitMappingNode(N node, Void state) throws E {
+        default void exitMappingNode(ConfigurationNode node, Void state) throws E {
             exitMappingNode(node);
         }
 
@@ -309,10 +244,10 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node the node that has been visited
          * @throws E when thrown by implementation
          */
-        default void exitMappingNode(N node) throws E {}
+        default void exitMappingNode(ConfigurationNode node) throws E {}
 
         @Override
-        default void exitListNode(N node, Void state) throws E {
+        default void exitListNode(ConfigurationNode node, Void state) throws E {
             exitListNode(node);
         }
 
@@ -323,7 +258,7 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
          * @param node the node that has been visited
          * @throws E when thrown by implementation
          */
-        default void exitListNode(N node) throws E {}
+        default void exitListNode(ConfigurationNode node) throws E {}
 
         @Override
         default Void endVisit(Void state) throws E {
@@ -344,51 +279,38 @@ public interface ConfigurationVisitor<N extends ConfigurationNode, S, T, E exten
      * A subinterface for visitors that do not throw any checked exceptions
      * during their execution.
      *
-     * @param <N> node type
      * @param <S> state type
      * @param <T> terminal value type
      */
-    interface Safe<N extends ConfigurationNode, S, T> extends ConfigurationVisitor<N, S, T, VisitorSafeNoopException> {
-        @Override
-        default T visit(N node) {
-            return visit(node, newState());
-        }
-
-        @Override
-        default T visit(N node, S state) {
-            try {
-                return ConfigurationVisitor.super.visit(node, state);
-            } catch (VisitorSafeNoopException e) {
-                throw new Error("Exception designed not to be thrown was thrown :(");
-            }
-        }
+    interface Safe<S, T> extends ConfigurationVisitor<S, T, VisitorSafeNoopException> {
 
         @Override
         S newState();
 
         @Override
-        void beginVisit(N node, S state);
+        void beginVisit(ConfigurationNode node, S state);
 
         @Override
-        void enterNode(N node, S state);
+        void enterNode(ConfigurationNode node, S state);
 
         @Override
-        void enterMappingNode(N node, S state);
+        void enterMappingNode(ConfigurationNode node, S state);
 
         @Override
-        void enterListNode(N node, S state);
+        void enterListNode(ConfigurationNode node, S state);
 
         @Override
-        void enterScalarNode(N node, S state);
+        void enterScalarNode(ConfigurationNode node, S state);
 
         @Override
-        void exitMappingNode(N node, S state);
+        void exitMappingNode(ConfigurationNode node, S state);
 
         @Override
-        void exitListNode(N node, S state);
+        void exitListNode(ConfigurationNode node, S state);
 
         @Override
         T endVisit(S state);
+
     }
 
 }

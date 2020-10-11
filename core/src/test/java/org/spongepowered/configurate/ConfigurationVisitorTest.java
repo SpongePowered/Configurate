@@ -24,7 +24,7 @@ import java.util.Collections;
 
 public class ConfigurationVisitorTest {
 
-    private static final TestVisitor<BasicConfigurationNode> VISITOR = new TestVisitor<>();
+    private static final TestVisitor VISITOR = new TestVisitor();
 
     @Test
     void testTree() {
@@ -67,9 +67,9 @@ public class ConfigurationVisitorTest {
 
     @Test
     void testChangingValueTypeOnEnter() {
-        final ConfigurationVisitor.Safe<BasicConfigurationNode, StringBuilder, String> visitor = new TestVisitor<BasicConfigurationNode>() {
+        final ConfigurationVisitor.Safe<StringBuilder, String> visitor = new TestVisitor() {
             @Override
-            public void enterListNode(final BasicConfigurationNode node, final StringBuilder state) {
+            public void enterListNode(final ConfigurationNode node, final StringBuilder state) {
                 super.enterListNode(node, state);
                 node.set(null);
             }
@@ -84,9 +84,8 @@ public class ConfigurationVisitorTest {
      * A visitor that tracks events and outputs a string with the
      * following tokens.
      *
-     * @param <N> node type
      */
-    static class TestVisitor<N extends ScopedConfigurationNode<N>> implements ConfigurationVisitor.Safe<N, StringBuilder, String> {
+    static class TestVisitor implements ConfigurationVisitor.Safe<StringBuilder, String> {
         static final String VISIT_BEGIN = "b";
         /**
          * Appended on node enter. If the node has a non-null key, will be
@@ -105,12 +104,12 @@ public class ConfigurationVisitorTest {
         }
 
         @Override
-        public void beginVisit(final N node, final StringBuilder state) {
+        public void beginVisit(final ConfigurationNode node, final StringBuilder state) {
             state.append(VISIT_BEGIN);
         }
 
         @Override
-        public void enterNode(final N node, final StringBuilder state) {
+        public void enterNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_ENTER);
             if (node.key() != null) {
                 state.append("-").append(node.key()).append("-");
@@ -118,27 +117,27 @@ public class ConfigurationVisitorTest {
         }
 
         @Override
-        public void enterMappingNode(final N node, final StringBuilder state) {
+        public void enterMappingNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_MAP);
         }
 
         @Override
-        public void enterListNode(final N node, final StringBuilder state) {
+        public void enterListNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_LIST);
         }
 
         @Override
-        public void enterScalarNode(final N node, final StringBuilder state) {
+        public void enterScalarNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_SCALAR).append(NODE_EXIT);
         }
 
         @Override
-        public void exitMappingNode(final N node, final StringBuilder state) {
+        public void exitMappingNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_EXIT);
         }
 
         @Override
-        public void exitListNode(final N node, final StringBuilder state) {
+        public void exitListNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_EXIT);
         }
 
