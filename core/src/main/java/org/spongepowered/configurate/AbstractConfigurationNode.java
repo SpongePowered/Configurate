@@ -18,7 +18,7 @@ package org.spongepowered.configurate;
 
 import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static java.util.Objects.requireNonNull;
-import static org.spongepowered.configurate.util.Typing.requireCompleteParameters;
+import static org.spongepowered.configurate.util.Types.requireCompleteParameters;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;

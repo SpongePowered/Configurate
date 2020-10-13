@@ -22,7 +22,7 @@ import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedFunction;
-import org.spongepowered.configurate.util.Typing;
+import org.spongepowered.configurate.util.Types;
 
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
@@ -133,8 +133,8 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
             field.setAccessible(true);
             final AnnotatedType fieldType = getFieldType(field, clazz);
-            fieldMaker.accept(field.getName(), fieldType, Typing.combinedAnnotations(fieldType, field),
-                (intermediate, val, implicitProvider) -> {
+            fieldMaker.accept(field.getName(), fieldType, Types.combinedAnnotations(fieldType, field),
+                              (intermediate, val, implicitProvider) -> {
                     if (val != null) {
                         intermediate.put(field, val);
                     } else {

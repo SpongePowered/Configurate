@@ -24,7 +24,7 @@ import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.MapFactories;
 import org.spongepowered.configurate.util.MapFactory;
-import org.spongepowered.configurate.util.Typing;
+import org.spongepowered.configurate.util.Types;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Type;
@@ -198,11 +198,11 @@ public abstract class ConfigurationOptions {
             return true;
         }
 
-        if (type.isPrimitive() && nativeTypes.contains(Typing.box(type))) {
+        if (type.isPrimitive() && nativeTypes.contains(Types.box(type))) {
             return true;
         }
 
-        final Type unboxed = Typing.unbox(type);
+        final Type unboxed = Types.unbox(type);
         if (unboxed != type && nativeTypes.contains(unboxed)) {
             return true;
         }

@@ -53,7 +53,7 @@ import java.util.stream.StreamSupport;
  * <p>Most of these utilities are designed to go along with
  * <a href="https://github.com/leangen/geantyref">GeAnTyRef</a>.</p>
  */
-public final class Typing {
+public final class Types {
 
     private static final Map<Type, Type> BOXED_TO_PRIMITIVE = UnmodifiableCollections.buildMap(m -> {
         m.put(Boolean.class, boolean.class);
@@ -77,7 +77,7 @@ public final class Typing {
         m.put(void.class, Void.class);
     });
 
-    private Typing() {
+    private Types() {
     }
 
     /**

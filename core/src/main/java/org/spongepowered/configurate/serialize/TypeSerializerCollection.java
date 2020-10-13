@@ -19,7 +19,7 @@ package org.spongepowered.configurate.serialize;
 import static io.leangen.geantyref.GenericTypeReflector.annotate;
 import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
 import static java.util.Objects.requireNonNull;
-import static org.spongepowered.configurate.util.Typing.requireCompleteParameters;
+import static org.spongepowered.configurate.util.Types.requireCompleteParameters;
 
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;

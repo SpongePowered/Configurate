@@ -20,7 +20,7 @@ import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.resolveExactType;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.Typing;
+import org.spongepowered.configurate.util.Types;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -111,7 +111,7 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
 
                         // Then we put everything together: resolve the type, calculate annotations, and submit a field
                         final AnnotatedType resolvedType = resolveExactType(genericType, target);
-                        final AnnotatedElement annotationContainer = Typing.combinedAnnotations(component, backingField, accessor);
+                        final AnnotatedElement annotationContainer = Types.combinedAnnotations(component, backingField, accessor);
                         final int targetIdx = i;
                         collector.accept(name, resolvedType, annotationContainer,
                             (intermediate, el, implicitSupplier) -> {

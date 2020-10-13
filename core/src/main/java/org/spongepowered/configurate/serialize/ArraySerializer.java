@@ -22,7 +22,7 @@ import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
-import org.spongepowered.configurate.util.Typing;
+import org.spongepowered.configurate.util.Types;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
@@ -45,7 +45,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
         public static Predicate<Type> predicate() {
             return token -> {
-                if (!Typing.isArray(token)) {
+                if (!Types.isArray(token)) {
                     return false;
                 }
 

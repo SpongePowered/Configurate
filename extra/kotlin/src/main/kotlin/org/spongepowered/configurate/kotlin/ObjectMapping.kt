@@ -25,7 +25,7 @@ import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.objectmapping.ObjectMapper.Factory
 import org.spongepowered.configurate.serialize.TypeSerializer
 import org.spongepowered.configurate.serialize.TypeSerializerCollection
-import org.spongepowered.configurate.util.Typing.combinedAnnotations
+import org.spongepowered.configurate.util.Types.combinedAnnotations
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.AnnotatedType
 import kotlin.reflect.KAnnotatedElement

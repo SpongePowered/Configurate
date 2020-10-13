@@ -37,25 +37,25 @@ import java.lang.reflect.TypeVariable;
 import java.util.AbstractCollection;
 import java.util.Collection;
 
-public class TypingTest {
+public class TypesTest {
 
     @Test
     void testObjectNoSuperclasses() {
-        assertEquals(ImmutableSet.of(Object.class), Typing.allSuperTypes(Object.class).collect(toImmutableSet()));
-        assertEquals(ImmutableSet.of(Object.class), Typing.allSuperTypesAndInterfaces(Object.class).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.of(Object.class), Types.allSuperTypes(Object.class).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.of(Object.class), Types.allSuperTypesAndInterfaces(Object.class).collect(toImmutableSet()));
     }
 
     @Test
     void testPrimitiveNoSuperclasses() {
-        assertEquals(ImmutableSet.of(long.class), Typing.allSuperTypes(long.class).collect(toImmutableSet()));
-        assertEquals(ImmutableSet.of(long.class), Typing.allSuperTypesAndInterfaces(long.class).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.of(long.class), Types.allSuperTypes(long.class).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.of(long.class), Types.allSuperTypesAndInterfaces(long.class).collect(toImmutableSet()));
     }
 
     @Test
     void testArraySupertypes() {
         // int[] -> (int[])
-        assertEquals(ImmutableSet.of(int[].class), Typing.allSuperTypes(int[].class).collect(toImmutableSet()));
-        assertEquals(ImmutableSet.of(int[].class), Typing.allSuperTypesAndInterfaces(int[].class).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.of(int[].class), Types.allSuperTypes(int[].class).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.of(int[].class), Types.allSuperTypesAndInterfaces(int[].class).collect(toImmutableSet()));
 
         final ImmutableSet<Type> methodWithoutInterfaces = ImmutableSet.of(
                 Method[].class, Executable[].class, AccessibleObject[].class, Object[].class);
@@ -63,8 +63,8 @@ public class TypingTest {
                 .addAll(methodWithoutInterfaces)
                 .add(Member[].class).add(GenericDeclaration[].class).add(AnnotatedElement[].class)
                 .build();
-        assertEquals(methodWithoutInterfaces, Typing.allSuperTypes(Method[].class).collect(toImmutableSet()));
-        assertEquals(methodWithInterfaces, Typing.allSuperTypesAndInterfaces(Method[].class).collect(toImmutableSet()));
+        assertEquals(methodWithoutInterfaces, Types.allSuperTypes(Method[].class).collect(toImmutableSet()));
+        assertEquals(methodWithInterfaces, Types.allSuperTypesAndInterfaces(Method[].class).collect(toImmutableSet()));
     }
 
     @Test
@@ -77,8 +77,8 @@ public class TypingTest {
         final ImmutableSet<Type> collectionWithInterfaces = ImmutableSet.<Type>builder().addAll(collectionWithoutInterfaces)
                 .add(collectionString, iterableString)
                 .build();
-        assertEquals(collectionWithoutInterfaces, Typing.allSuperTypes(abstractCollectionString).collect(toImmutableSet()));
-        assertEquals(collectionWithInterfaces, Typing.allSuperTypesAndInterfaces(abstractCollectionString).collect(toImmutableSet()));
+        assertEquals(collectionWithoutInterfaces, Types.allSuperTypes(abstractCollectionString).collect(toImmutableSet()));
+        assertEquals(collectionWithInterfaces, Types.allSuperTypesAndInterfaces(abstractCollectionString).collect(toImmutableSet()));
     }
 
     @Test
@@ -87,9 +87,9 @@ public class TypingTest {
         final TypeToken<Parameterized<String, Integer>> parameterized = new TypeToken<Parameterized<String, Integer>>() {};
         final TypeToken<Parent<String>> parent = new TypeToken<Parent<String>>() {};
         assertEquals(ImmutableSet.of(parameterized.getType(), parent.getType(), Object.class),
-                     Typing.allSuperTypes(parameterized.getType()).collect(toImmutableSet()));
+                     Types.allSuperTypes(parameterized.getType()).collect(toImmutableSet()));
         assertEquals(ImmutableSet.of(parameterized.getType(), parent.getType(), IOne.class, ITwo.class, Object.class),
-                     Typing.allSuperTypesAndInterfaces(parameterized.getType()).collect(toImmutableSet()));
+                     Types.allSuperTypesAndInterfaces(parameterized.getType()).collect(toImmutableSet()));
     }
 
     static class ParamHolder<A, B, C, D, E, F> {
@@ -106,7 +106,7 @@ public class TypingTest {
         final Type base = hierarchy[0];
 
         // Annoying to declare
-        assertEquals(ImmutableSet.copyOf(hierarchy), Typing.allSuperTypesAndInterfaces(base).collect(toImmutableSet()));
+        assertEquals(ImmutableSet.copyOf(hierarchy), Types.allSuperTypesAndInterfaces(base).collect(toImmutableSet()));
     }
 
     @Test
@@ -114,9 +114,9 @@ public class TypingTest {
         final TypeVariable<? extends Class<?>> parameterizedB = Parameterized.class.getTypeParameters()[1];
 
         assertEquals(ImmutableSet.of(parameterizedB, Number.class, Object.class),
-                     Typing.allSuperTypes(parameterizedB).collect(toImmutableSet()));
+                     Types.allSuperTypes(parameterizedB).collect(toImmutableSet()));
         assertEquals(ImmutableSet.of(parameterizedB, Number.class, Serializable.class, Object.class),
-                     Typing.allSuperTypesAndInterfaces(parameterizedB).collect(toImmutableSet()));
+                     Types.allSuperTypesAndInterfaces(parameterizedB).collect(toImmutableSet()));
 
     }
 

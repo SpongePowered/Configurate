@@ -18,7 +18,7 @@ package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.AbstractConfigurationNode.storeDefault;
-import static org.spongepowered.configurate.util.Typing.makeListType;
+import static org.spongepowered.configurate.util.Types.makeListType;
 
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
