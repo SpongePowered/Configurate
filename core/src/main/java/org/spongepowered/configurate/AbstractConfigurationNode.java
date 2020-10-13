@@ -17,8 +17,8 @@
 package org.spongepowered.configurate;
 
 import static io.leangen.geantyref.GenericTypeReflector.erase;
-import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static java.util.Objects.requireNonNull;
+import static org.spongepowered.configurate.util.Typing.requireCompleteParameters;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -139,9 +139,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     @Override
     public @Nullable Object get(final Type type) throws ObjectMappingException {
         requireNonNull(type, "type");
-        if (isMissingTypeParameters(type)) {
-            throw new IllegalArgumentException("Raw types are not supported");
-        }
+        requireCompleteParameters(type);
 
         final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
         if (this.value instanceof NullConfigValue) {

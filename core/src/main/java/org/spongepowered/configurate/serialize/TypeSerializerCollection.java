@@ -17,9 +17,9 @@
 package org.spongepowered.configurate.serialize;
 
 import static io.leangen.geantyref.GenericTypeReflector.annotate;
-import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
 import static java.util.Objects.requireNonNull;
+import static org.spongepowered.configurate.util.Typing.requireCompleteParameters;
 
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
@@ -120,9 +120,7 @@ public final class TypeSerializerCollection {
     @SuppressWarnings("unchecked")
     public <T> @Nullable TypeSerializer<T> get(final Class<T> token) {
         requireNonNull(token, "type");
-        if (isMissingTypeParameters(token)) {
-            throw new IllegalArgumentException("Use a TypeToken to represent parameterized types");
-        }
+        requireCompleteParameters(token);
 
         return (TypeSerializer<T>) get((Type) token);
     }

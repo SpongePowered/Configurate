@@ -16,6 +16,11 @@
  */
 package org.spongepowered.configurate.util;
 
+import static io.leangen.geantyref.GenericTypeReflector.erase;
+import static io.leangen.geantyref.GenericTypeReflector.resolveType;
+import static java.util.Objects.requireNonNull;
+
+import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeFactory;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -25,10 +30,22 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Utility methods for working with generic types.
@@ -141,6 +158,139 @@ public final class Typing {
      */
     public static AnnotatedElement combinedAnnotations(final AnnotatedElement... elements) {
         return new CombinedAnnotations(Arrays.copyOf(elements, elements.length));
+    }
+
+    /**
+     * Throw an exception if the passed type is raw (missing parameters)..
+     *
+     * @param input input type
+     * @return type, passed through
+     */
+    public static Type requireCompleteParameters(final Type input) {
+        if (GenericTypeReflector.isMissingTypeParameters(input)) {
+            throw new IllegalArgumentException("Provided type " + input + " is a raw type, which is not accepted.");
+        }
+        return input;
+    }
+
+    /**
+     * Get all supertypes of this object with type parameters.
+     *
+     * <p>The iteration order is undefined. The returned stream will include the
+     * base type plus superclasses, but not superinterfaces.</p>
+     *
+     * @param type base type
+     * @return stream of supertypes
+     */
+    public static Stream<Type> allSuperTypes(final Type type) {
+        return calculateSuperTypes(type, false);
+    }
+
+    /**
+     * Get all supertypes and interfaces of the provided type.
+     *
+     * <p>The iteration order is undefined. The returned stream will include the
+     * base type plus superclasses and superinterfaces.</p>
+     *
+     * @param type base type
+     * @return stream of supertypes
+     */
+    public static Stream<Type> allSuperTypesAndInterfaces(final Type type) {
+        return calculateSuperTypes(type, true);
+    }
+
+    private static Stream<Type> calculateSuperTypes(final Type type, final boolean includeInterfaces) {
+        requireNonNull(type, "type");
+        return StreamSupport.stream(Spliterators.spliterator(new SuperTypesIterator(type, includeInterfaces), Long.MAX_VALUE,
+                                                             Spliterator.NONNULL | Spliterator.IMMUTABLE), false);
+    }
+
+    /**
+     * Recursively iterate through supertypes.
+     */
+    static class SuperTypesIterator implements Iterator<Type> {
+        private final boolean includeInterfaces;
+        private final Deque<Type> types = new ArrayDeque<>();
+        private final Set<Type> seen = new HashSet<>();
+
+        SuperTypesIterator(final Type base, final boolean includeInterfaces) {
+            this.types.add(base);
+            this.includeInterfaces = includeInterfaces;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !this.types.isEmpty();
+        }
+
+        @Override
+        public Type next() {
+            // Get current type, throws the correct exception if empty
+            final Type head = this.types.removeFirst();
+
+            // Calculate the next step depending on the type of Type seen
+            // Arrays, covariant based on component type
+            if ((head instanceof Class<?> && ((Class<?>) head).isArray()) || head instanceof GenericArrayType) {
+                // find a super component-type
+                final Type componentType;
+                if (head instanceof Class<?>) {
+                    componentType = ((Class<?>) head).getComponentType();
+                } else {
+                    componentType = ((GenericArrayType) head).getGenericComponentType();
+                }
+
+                addSuperClassAndInterface(componentType, erase(componentType), TypeFactory::arrayOf);
+            } else if (head instanceof Class<?> || head instanceof ParameterizedType) {
+                final Class<?> clazz;
+                if (head instanceof ParameterizedType) {
+                    final ParameterizedType parameterized = (ParameterizedType) head;
+                    clazz = (Class<?>) parameterized.getRawType();
+                } else {
+                    clazz = (Class<?>) head;
+                }
+                addSuperClassAndInterface(head, clazz, null);
+            } else if (head instanceof TypeVariable<?>) {
+                addAllIfUnseen(head, ((TypeVariable<?>) head).getBounds());
+            } else if (head instanceof WildcardType) {
+                final Type[] upperBounds = ((WildcardType) head).getUpperBounds();
+                if (upperBounds.length == 1) { // single type
+                    final Type upperBound = upperBounds[0];
+                    addSuperClassAndInterface(head, erase(upperBound), TypeFactory::wildcardExtends);
+                } else { // for each bound, add as a single supertype
+                    addAllIfUnseen(head, ((WildcardType) head).getUpperBounds());
+                }
+            }
+            return head;
+        }
+
+        private void addAllIfUnseen(final Type base, final Type[] types) {
+            for (final Type type : types) {
+                addIfUnseen(resolveType(type, base));
+            }
+        }
+
+        private void addIfUnseen(final Type type) {
+            if (this.seen.add(type)) {
+                this.types.addFirst(type);
+            }
+        }
+
+        private void addSuperClassAndInterface(final Type base, final Class<?> actualClass, final @Nullable UnaryOperator<Type> postProcess) {
+            if (this.includeInterfaces) {
+                for (Type itf : actualClass.getGenericInterfaces()) {
+                    if (postProcess != null) {
+                        addIfUnseen(postProcess.apply(resolveType(itf, base)));
+                    } else {
+                        addIfUnseen(resolveType(itf, base));
+                    }
+                }
+            }
+
+            if (actualClass.getSuperclass() != null) {
+                final Type resolved = resolveType(actualClass.getGenericSuperclass(), base);
+                addIfUnseen(postProcess == null ? resolved : postProcess.apply(resolved));
+            }
+        }
     }
 
     static class CombinedAnnotations implements AnnotatedElement {
