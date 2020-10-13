@@ -22,48 +22,48 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Basic implementation of {@link CommentedConfigurationNode}.
  */
-class SimpleCommentedConfigurationNode extends AbstractCommentedConfigurationNode<CommentedConfigurationNode, SimpleCommentedConfigurationNode>
+class CommentedConfigurationNodeImpl extends AbstractCommentedConfigurationNode<CommentedConfigurationNode, CommentedConfigurationNodeImpl>
         implements CommentedConfigurationNode {
 
-    protected SimpleCommentedConfigurationNode(final @Nullable Object path,
-            final @Nullable SimpleCommentedConfigurationNode parent, final @NonNull ConfigurationOptions options) {
+    protected CommentedConfigurationNodeImpl(final @Nullable Object path,
+            final @Nullable CommentedConfigurationNodeImpl parent, final @NonNull ConfigurationOptions options) {
         super(path, parent, options);
     }
 
-    protected SimpleCommentedConfigurationNode(final @Nullable SimpleCommentedConfigurationNode parent,
-            final @NonNull SimpleCommentedConfigurationNode copyOf) {
+    protected CommentedConfigurationNodeImpl(final @Nullable CommentedConfigurationNodeImpl parent,
+            final @NonNull CommentedConfigurationNodeImpl copyOf) {
         super(parent, copyOf);
     }
 
     // Methods from superclass overridden to have correct return types
 
     @Override
-    protected SimpleCommentedConfigurationNode createNode(final Object path) {
-        return new SimpleCommentedConfigurationNode(path, this, options());
+    protected CommentedConfigurationNodeImpl createNode(final Object path) {
+        return new CommentedConfigurationNodeImpl(path, this, options());
     }
 
     @NonNull
     @Override
-    protected SimpleCommentedConfigurationNode copy(final @Nullable SimpleCommentedConfigurationNode parent) {
-        final SimpleCommentedConfigurationNode copy = new SimpleCommentedConfigurationNode(parent, this);
+    protected CommentedConfigurationNodeImpl copy(final @Nullable CommentedConfigurationNodeImpl parent) {
+        final CommentedConfigurationNodeImpl copy = new CommentedConfigurationNodeImpl(parent, this);
         copy.comment.set(this.comment.get());
         return copy;
     }
 
     @Override
     @NonNull
-    public SimpleCommentedConfigurationNode self() {
+    public CommentedConfigurationNodeImpl self() {
         return this;
     }
 
     @Override
-    protected SimpleCommentedConfigurationNode implSelf() {
+    protected CommentedConfigurationNodeImpl implSelf() {
         return this;
     }
 
     @Override
     public String toString() {
-        return "SimpleCommentedConfigurationNode{"
+        return "CommentedConfigurationNodeImpl{"
                 + "super=" + super.toString()
                 + ", comment=" + this.comment
                 + '}';

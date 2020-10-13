@@ -28,20 +28,20 @@ import java.util.Map;
 /**
  * Basic implementation of {@link AttributedConfigurationNode}.
  */
-class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNode<AttributedConfigurationNode, SimpleAttributedConfigurationNode>
+class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode<AttributedConfigurationNode, AttributedConfigurationNodeImpl>
         implements AttributedConfigurationNode {
 
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
-    protected SimpleAttributedConfigurationNode(final @NonNull String tagName, final @Nullable Object path,
-            final @Nullable SimpleAttributedConfigurationNode parent, final @NonNull ConfigurationOptions options) {
+    protected AttributedConfigurationNodeImpl(final @NonNull String tagName, final @Nullable Object path,
+            final @Nullable AttributedConfigurationNodeImpl parent, final @NonNull ConfigurationOptions options) {
         super(path, parent, options);
         tagName(tagName);
     }
 
-    protected SimpleAttributedConfigurationNode(final @NonNull String tagName, final @Nullable SimpleAttributedConfigurationNode parent,
-            final @NonNull SimpleAttributedConfigurationNode copyOf) {
+    protected AttributedConfigurationNodeImpl(final @NonNull String tagName, final @Nullable AttributedConfigurationNodeImpl parent,
+            final @NonNull AttributedConfigurationNodeImpl copyOf) {
         super(parent, copyOf);
         tagName(tagName);
     }
@@ -54,7 +54,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode tagName(final @NonNull String tagName) {
+    public AttributedConfigurationNodeImpl tagName(final @NonNull String tagName) {
         if (requireNonNull(tagName, "tag name").isEmpty()) {
             throw new IllegalArgumentException("Tag name cannot be null/empty");
         }
@@ -65,7 +65,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode addAttribute(final @NonNull String name, final @NonNull String value) {
+    public AttributedConfigurationNodeImpl addAttribute(final @NonNull String name, final @NonNull String value) {
         if (requireNonNull(name, "name").isEmpty()) {
             throw new IllegalArgumentException("Attribute name cannot be null/empty");
         }
@@ -76,14 +76,14 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode removeAttribute(final @NonNull String name) {
+    public AttributedConfigurationNodeImpl removeAttribute(final @NonNull String name) {
         this.attributes.remove(name);
         return this;
     }
 
     @NonNull
     @Override
-    public SimpleAttributedConfigurationNode attributes(final @NonNull Map<String, String> attributes) {
+    public AttributedConfigurationNodeImpl attributes(final @NonNull Map<String, String> attributes) {
         for (String name : attributes.keySet()) {
             if (requireNonNull(name, "name").isEmpty()) {
                 throw new IllegalArgumentException("Attribute name cannot be null/empty");
@@ -122,8 +122,8 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
     // Typing overrides
 
     @Override
-    protected SimpleAttributedConfigurationNode createNode(final Object path) {
-        return new SimpleAttributedConfigurationNode("element", path, this, options());
+    protected AttributedConfigurationNodeImpl createNode(final Object path) {
+        return new AttributedConfigurationNodeImpl("element", path, this, options());
     }
 
     @Override
@@ -151,20 +151,20 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @NonNull
     @Override
-    protected SimpleAttributedConfigurationNode copy(final @Nullable SimpleAttributedConfigurationNode parent) {
-        final SimpleAttributedConfigurationNode copy = new SimpleAttributedConfigurationNode(this.tagName, parent, this);
+    protected AttributedConfigurationNodeImpl copy(final @Nullable AttributedConfigurationNodeImpl parent) {
+        final AttributedConfigurationNodeImpl copy = new AttributedConfigurationNodeImpl(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
         copy.comment.set(this.comment.get());
         return copy;
     }
 
     @Override
-    public SimpleAttributedConfigurationNode self() {
+    public AttributedConfigurationNodeImpl self() {
         return this;
     }
 
     @Override
-    protected SimpleAttributedConfigurationNode implSelf() {
+    protected AttributedConfigurationNodeImpl implSelf() {
         return this;
     }
 
@@ -174,7 +174,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
             return true;
         }
 
-        if (!(o instanceof SimpleAttributedConfigurationNode)) {
+        if (!(o instanceof AttributedConfigurationNodeImpl)) {
             return false;
         }
 
@@ -182,7 +182,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
             return false;
         }
 
-        final SimpleAttributedConfigurationNode that = (SimpleAttributedConfigurationNode) o;
+        final AttributedConfigurationNodeImpl that = (AttributedConfigurationNodeImpl) o;
         return this.tagName.equals(that.tagName) && this.attributes.equals(that.attributes);
     }
 
@@ -196,7 +196,7 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
 
     @Override
     public String toString() {
-        return "SimpleAttributedConfigurationNode{"
+        return "AttributedConfigurationNodeImpl{"
                 + "super=" + super.toString() + ", "
                 + "comment=" + this.comment + ", "
                 + "tagName=" + this.tagName + ", "

@@ -75,7 +75,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * @return a new empty node
      */
     static CommentedConfigurationNode root(final ConfigurationOptions options) {
-        return new SimpleCommentedConfigurationNode(null, null, options);
+        return new CommentedConfigurationNodeImpl(null, null, options);
     }
 
     /**

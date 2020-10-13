@@ -19,37 +19,38 @@ package org.spongepowered.configurate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-class SimpleConfigurationNode extends AbstractConfigurationNode<BasicConfigurationNode, SimpleConfigurationNode> implements BasicConfigurationNode {
+class BasicConfigurationNodeImpl
+        extends AbstractConfigurationNode<BasicConfigurationNode, BasicConfigurationNodeImpl> implements BasicConfigurationNode {
 
-    protected SimpleConfigurationNode(final @Nullable Object key, final @Nullable SimpleConfigurationNode parent,
+    protected BasicConfigurationNodeImpl(final @Nullable Object key, final @Nullable BasicConfigurationNodeImpl parent,
             final @NonNull ConfigurationOptions options) {
         super(key, parent, options);
     }
 
-    protected SimpleConfigurationNode(final @Nullable SimpleConfigurationNode parent, final SimpleConfigurationNode copyOf) {
+    protected BasicConfigurationNodeImpl(final @Nullable BasicConfigurationNodeImpl parent, final BasicConfigurationNodeImpl copyOf) {
         super(parent, copyOf);
     }
 
     @NonNull
     @Override
-    protected SimpleConfigurationNode copy(final @Nullable SimpleConfigurationNode parent) {
-        return new SimpleConfigurationNode(parent, this);
+    protected BasicConfigurationNodeImpl copy(final @Nullable BasicConfigurationNodeImpl parent) {
+        return new BasicConfigurationNodeImpl(parent, this);
     }
 
     @Override
     @NonNull
-    public SimpleConfigurationNode self() {
+    public BasicConfigurationNodeImpl self() {
         return this;
     }
 
     @Override
-    protected SimpleConfigurationNode implSelf() {
+    protected BasicConfigurationNodeImpl implSelf() {
         return this;
     }
 
     @Override
-    protected SimpleConfigurationNode createNode(final Object path) {
-        return new SimpleConfigurationNode(path, this, options());
+    protected BasicConfigurationNodeImpl createNode(final Object path) {
+        return new BasicConfigurationNodeImpl(path, this, options());
     }
 
 }

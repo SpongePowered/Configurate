@@ -105,7 +105,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @return a new empty node
      */
     static AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options) {
-        return new SimpleAttributedConfigurationNode(tagName, null, null, options);
+        return new AttributedConfigurationNodeImpl(tagName, null, null, options);
     }
 
     /**

@@ -73,7 +73,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * @return a new empty node
      */
     static BasicConfigurationNode root(final ConfigurationOptions options) {
-        return new SimpleConfigurationNode(null, null, options);
+        return new BasicConfigurationNodeImpl(null, null, options);
     }
 
     /**
