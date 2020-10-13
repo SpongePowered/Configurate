@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate;
 
-import java.util.function.Consumer;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 /**
  * A standard configuration node, without any additional options.
@@ -49,17 +49,19 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
     }
 
     /**
-     * Create a new root node with the provided initializer.
+     * Create a new root node with the provided initializer which may throw.
      *
      * <p>This node will use the {@link ConfigurationOptions#defaults() default options}</p>
      *
      * <p>A root node is always attached, and has no parent and an
      * empty path.</p>
      *
+     * @param <E> error type thrown
      * @param maker action to be applied to the newly created node
      * @return a new initialized node
+     * @throws E when thrown from inner action
      */
-    static BasicConfigurationNode root(final Consumer<BasicConfigurationNode> maker) {
+    static <E extends Exception> BasicConfigurationNode root(final CheckedConsumer<? super BasicConfigurationNode, E> maker) throws E {
         return root().act(maker);
     }
 
@@ -82,11 +84,14 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * <p>A root node is always attached, and has no parent and an
      * empty path.</p>
      *
+     * @param <E> thrown type
      * @param options options to apply.
      * @param maker action to be applied to the newly created node
      * @return a new initialized node
+     * @throws E when thrown from inner action
      */
-    static BasicConfigurationNode root(final ConfigurationOptions options, final Consumer<BasicConfigurationNode> maker) {
+    static <E extends Exception> BasicConfigurationNode root(final ConfigurationOptions options,
+            final CheckedConsumer<? super BasicConfigurationNode, E> maker) throws E {
         return root(options).act(maker);
     }
 

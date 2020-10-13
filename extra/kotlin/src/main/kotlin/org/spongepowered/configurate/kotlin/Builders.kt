@@ -29,13 +29,13 @@ import org.spongepowered.configurate.loader.ConfigurationLoader
  * Create a new basic configuration node, optionally providing options
  */
 fun node(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: BasicConfigurationNode.() -> Unit): BasicConfigurationNode =
-    BasicConfigurationNode.root(options, init)
+    BasicConfigurationNode.root<RuntimeException>(options, init)
 
 /**
  * Create a commented configuration node
  */
 fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() -> Unit): CommentedConfigurationNode =
-    CommentedConfigurationNode.root(options, init)
+    CommentedConfigurationNode.root<RuntimeException>(options, init)
 
 fun attributed(
     nodeName: String = "root",

@@ -17,9 +17,9 @@
 package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * A configuration node that can have both comments and attributes attached.
@@ -58,10 +58,12 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * <p>{@code action} will be applied to the new new node.</p>
      *
+     * @param <E> thrown type
      * @param action action to perform
      * @return a new empty node
+     * @throws E when thrown from inner action
      */
-    static AttributedConfigurationNode root(final Consumer<? super AttributedConfigurationNode> action) {
+    static <E extends Exception> AttributedConfigurationNode root(final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
         return root().act(action);
     }
 
@@ -86,11 +88,14 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * <p>A root node is always attached, and has no parent and an
      * empty path.</p>
      *
+     * @param <E> thrown type
      * @param tagName node's tag name
      * @param action initialization action
      * @return a new empty node
+     * @throws E when thrown from inner action
      */
-    static AttributedConfigurationNode root(final String tagName, final Consumer<? super AttributedConfigurationNode> action) {
+    static <E extends Exception> AttributedConfigurationNode root(final String tagName,
+            final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
         return root(tagName).act(action);
     }
 
@@ -115,13 +120,15 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * <p>A root node is always attached, and has no parent and an
      * empty path.</p>
      *
+     * @param <E> thrown type
      * @param tagName node's tag name
      * @param options options to apply
      * @param action action to initialize the node with
      * @return a new initialized node
+     * @throws E when thrown from inner action
      */
-    static AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,
-            Consumer<? super AttributedConfigurationNode> action) {
+    static <E extends Exception> AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,
+            CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
         return root(tagName, options).act(action);
     }
 

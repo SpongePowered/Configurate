@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate;
 
-import java.util.function.Consumer;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 /**
  * A configuration node that can have a comment attached to it.
@@ -58,10 +58,12 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * <p>A root node is always attached, and has no parent and an
      * empty path.</p>
      *
+     * @param <E> thrown type
      * @param action action to be applied to the newly created node
      * @return a new initialized node
+     * @throws E when thrown from inner action
      */
-    static CommentedConfigurationNode root(final Consumer<? super CommentedConfigurationNode> action) {
+    static <E extends Exception> CommentedConfigurationNode root(final CheckedConsumer<? super CommentedConfigurationNode, E> action) throws E {
         return root().act(action);
     }
 
@@ -84,11 +86,14 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * <p>A root node is always attached, and has no parent and an
      * empty path.</p>
      *
+     * @param <E> thrown type
      * @param options options to apply
      * @param action action to be applied to the newly created node
      * @return a new initialized node
+     * @throws E when thrown from inner action
      */
-    static CommentedConfigurationNode root(final ConfigurationOptions options, final Consumer<? super CommentedConfigurationNode> action) {
+    static <E extends Exception> CommentedConfigurationNode root(final ConfigurationOptions options,
+            final CheckedConsumer<? super CommentedConfigurationNode, E> action) throws E {
         return root(options).act(action);
     }
 

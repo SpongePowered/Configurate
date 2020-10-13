@@ -21,11 +21,11 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collector;
 
 /**
@@ -185,10 +185,11 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * operations on a single node without having to clutter up the surrounding
      * scope.
      *
+     * @param <E> thrown type
      * @param action the action to perform on this node
      * @return this node
      */
-    default N act(Consumer<? super N> action) {
+    default <E extends Exception> N act(CheckedConsumer<? super N, E> action) throws E {
         action.accept(self());
         return self();
     }

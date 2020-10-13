@@ -18,9 +18,9 @@ package org.spongepowered.configurate;
 
 import io.leangen.geantyref.TypeToken;
 import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collector;
 
 /**
@@ -65,10 +65,12 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * Create a new node with default options and initialize it with the
      * provided action.
      *
+     * @param <E> thrown type
      * @param action action to initialize node with
      * @return newly created empty node
+     * @throws E when thrown from inner action
      */
-    default N createNode(final Consumer<N> action) {
+    default <E extends Exception> N createNode(final CheckedConsumer<N, E> action) throws E {
         final N node = createNode();
         action.accept(node);
         return node;
@@ -81,11 +83,13 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * <p>Node options may be overridden if the factory enforces specific
      * requirements on options.
      *
+     * @param <E> thrown type
      * @param options node options
      * @param action action to initialize node with
      * @return newly created empty node
+     * @throws E when thrown from inner action
      */
-    default N createNode(final ConfigurationOptions options, final Consumer<N> action) {
+    default <E extends Exception> N createNode(final ConfigurationOptions options, final CheckedConsumer<N, E> action) throws E {
         final N node = createNode(options);
         action.accept(node);
         return node;
