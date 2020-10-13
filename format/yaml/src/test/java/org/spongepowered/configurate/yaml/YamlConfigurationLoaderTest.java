@@ -42,9 +42,9 @@ public class YamlConfigurationLoaderTest {
         final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
-        assertEquals("unicorn", node.node("test", "op-level").get());
-        assertEquals("dragon", node.node("other", "op-level").get());
-        assertEquals("dog park", node.node("other", "location").get());
+        assertEquals("unicorn", node.node("test", "op-level").raw());
+        assertEquals("dragon", node.node("other", "op-level").raw());
+        assertEquals("dog park", node.node("other", "location").raw());
 
 
         final List<Map<String, List<String>>> fooList = new ArrayList<>(node.node("foo")
@@ -56,11 +56,11 @@ public class YamlConfigurationLoaderTest {
     void testReadWithTabs() throws IOException {
         final ConfigurationNode expected = BasicConfigurationNode.root(n -> {
             n.node("document").act(d -> {
-                d.node("we").set("support tabs");
-                d.node("and").set("literal tabs\tin strings");
+                d.node("we").raw("support tabs");
+                d.node("and").raw("literal tabs\tin strings");
                 d.node("with").act(w -> {
-                    w.appendListNode().set("more levels");
-                    w.appendListNode().set("of indentation");
+                    w.appendListNode().raw("more levels");
+                    w.appendListNode().raw("of indentation");
                 });
             });
         });

@@ -126,15 +126,14 @@ class SimpleAttributedConfigurationNode extends AbstractCommentedConfigurationNo
         return new SimpleAttributedConfigurationNode("element", path, this, options());
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNode set(final @Nullable Object value) {
-        if (value instanceof AttributedConfigurationNode) {
-            final AttributedConfigurationNode node = (AttributedConfigurationNode) value;
+    public AttributedConfigurationNode from(final ConfigurationNode that) {
+        if (that instanceof AttributedConfigurationNode) {
+            final AttributedConfigurationNode node = (AttributedConfigurationNode) that;
             tagName(node.tagName());
             attributes(node.attributes());
         }
-        return super.set(value);
+        return super.from(that);
     }
 
     @NonNull

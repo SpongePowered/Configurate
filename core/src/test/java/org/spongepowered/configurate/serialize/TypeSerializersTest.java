@@ -197,9 +197,9 @@ public class TypeSerializersTest {
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
-        value.appendListNode().set(1);
-        value.appendListNode().set("dog");
-        value.appendListNode().set(2.4);
+        value.appendListNode().raw(1);
+        value.appendListNode().raw("dog");
+        value.appendListNode().raw(2.4);
 
         Assertions.assertTrue(Assertions.assertThrows(Exception.class, () -> {
             serial.deserialize(rawType.getType(), value);
@@ -243,7 +243,7 @@ public class TypeSerializersTest {
         final BasicConfigurationNode serialVal = BasicConfigurationNode.root(ConfigurationOptions.defaults()
                 .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         mapTestEnumIntSerializer.serialize(mapTestEnumIntType.getType(), des, serialVal);
-        assertEquals(value.get(), serialVal.get());
+        assertEquals(value.raw(), serialVal.raw());
         //assertEquals(value, serialVal);
     }
 
@@ -291,7 +291,7 @@ public class TypeSerializersTest {
 
         mapStringIntSerializer.serialize(mapStringIntType.getType(), ImmutableMap.of("hi", 5, "no", 2), commentNode);
 
-        assertEquals(5, commentNode.node("hi").get());
+        assertEquals(5, commentNode.node("hi").raw());
         assertEquals("test", commentNode.node("hi").comment());
 
     }
@@ -329,7 +329,7 @@ public class TypeSerializersTest {
         assertEquals(testUri, uriSerializer.deserialize(uriType.getType(), node));
 
         uriSerializer.serialize(uriType.getType(), testUri, node);
-        assertEquals(uriString, node.get());
+        assertEquals(uriString, node.raw());
     }
 
     @Test
@@ -346,7 +346,7 @@ public class TypeSerializersTest {
         assertEquals(testUrl, urlSerializer.deserialize(urlType.getType(), node));
 
         urlSerializer.serialize(urlType.getType(), testUrl, node);
-        assertEquals(urlString, node.get());
+        assertEquals(urlString, node.raw());
     }
 
     @Test
@@ -359,7 +359,7 @@ public class TypeSerializersTest {
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
                 .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         uuidSerializer.serialize(uuidType.getType(), testUuid, serializeTo);
-        assertEquals(testUuid.toString(), serializeTo.get());
+        assertEquals(testUuid.toString(), serializeTo.raw());
 
         assertEquals(testUuid, uuidSerializer.deserialize(uuidType.getType(), serializeTo));
 
@@ -374,7 +374,7 @@ public class TypeSerializersTest {
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
                 .nativeTypes(UnmodifiableCollections.toSet(String.class, Integer.class)));
         patternSerializer.serialize(patternType.getType(), testPattern, serializeTo);
-        assertEquals("(na )+batman", serializeTo.get());
+        assertEquals("(na )+batman", serializeTo.raw());
         assertEquals(testPattern.pattern(), patternSerializer.deserialize(patternType.getType(), serializeTo).pattern());
     }
 
@@ -395,7 +395,7 @@ public class TypeSerializersTest {
         assertEquals(Character.valueOf('*'), charSerializer.deserialize(charType.getType(), serializeTo));
 
         charSerializer.serialize(charType.getType(), 'z', serializeTo);
-        assertEquals('z', serializeTo.get());
+        assertEquals('z', serializeTo.raw());
     }
 
     @Test
@@ -406,7 +406,7 @@ public class TypeSerializersTest {
         final String[] testArray = new String[] {"hello", "world"};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         arraySerializer.serialize(arrayType.getType(), testArray, serializeTo);
-        assertEquals(Arrays.asList("hello", "world"), serializeTo.get());
+        assertEquals(Arrays.asList("hello", "world"), serializeTo.raw());
         assertArrayEquals(testArray, arraySerializer.deserialize(arrayType.getType(), serializeTo));
     }
 
@@ -418,7 +418,7 @@ public class TypeSerializersTest {
         final boolean[] testArray = new boolean[] {true, false, true, true, false};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         booleanArraySerializer.serialize(booleanArrayType.getType(), testArray, serializeTo);
-        assertEquals(Arrays.asList(true, false, true, true, false), serializeTo.get());
+        assertEquals(Arrays.asList(true, false, true, true, false), serializeTo.raw());
         assertArrayEquals(testArray, booleanArraySerializer.deserialize(booleanArrayType.getType(), serializeTo));
     }
 
@@ -430,7 +430,7 @@ public class TypeSerializersTest {
         final byte[] testArray = new byte[] {1, 5, 3, -7, 9, 0};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         byteArraySerializer.serialize(byteArrayType.getType(), testArray, serializeTo);
-        assertEquals(Arrays.asList((byte) 1, (byte) 5, (byte) 3, (byte) -7, (byte) 9, (byte) 0), serializeTo.get());
+        assertEquals(Arrays.asList((byte) 1, (byte) 5, (byte) 3, (byte) -7, (byte) 9, (byte) 0), serializeTo.raw());
         assertArrayEquals(testArray, byteArraySerializer.deserialize(byteArrayType.getType(), serializeTo));
     }
 
@@ -442,7 +442,7 @@ public class TypeSerializersTest {
         final char[] testArray = new char[] {'s', 'l', 'e', 'e', 'p'};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         charArraySerializer.serialize(charArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList('s', 'l', 'e', 'e', 'p'), serializeTo.get());
+        assertEquals(Arrays.asList('s', 'l', 'e', 'e', 'p'), serializeTo.raw());
         assertArrayEquals(testArray, charArraySerializer.deserialize(charArrayType, serializeTo));
     }
 
@@ -454,7 +454,7 @@ public class TypeSerializersTest {
         final short[] testArray = new short[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         shortArraySerializer.serialize(shortArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList((short) 1, (short) 5, (short) 3, (short) 7, (short) 9), serializeTo.get());
+        assertEquals(Arrays.asList((short) 1, (short) 5, (short) 3, (short) 7, (short) 9), serializeTo.raw());
         assertArrayEquals(testArray, shortArraySerializer.deserialize(shortArrayType, serializeTo));
     }
 
@@ -466,7 +466,7 @@ public class TypeSerializersTest {
         final int[] testArray = new int[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         intArraySerializer.serialize(intArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1, 5, 3, 7, 9), serializeTo.get());
+        assertEquals(Arrays.asList(1, 5, 3, 7, 9), serializeTo.raw());
         assertArrayEquals(testArray, intArraySerializer.deserialize(intArrayType, serializeTo));
     }
 
@@ -478,7 +478,7 @@ public class TypeSerializersTest {
         final long[] testArray = new long[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         longArraySerializer.serialize(longArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1L, 5L, 3L, 7L, 9L), serializeTo.get());
+        assertEquals(Arrays.asList(1L, 5L, 3L, 7L, 9L), serializeTo.raw());
         assertArrayEquals(testArray, longArraySerializer.deserialize(longArrayType, serializeTo));
     }
 
@@ -490,7 +490,7 @@ public class TypeSerializersTest {
         final float[] testArray = new float[] {1.02f, 5.66f, 3.2f, 7.9f, 9f};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         floatArraySerializer.serialize(floatArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1.02f, 5.66f, 3.2f, 7.9f, 9f), serializeTo.get());
+        assertEquals(Arrays.asList(1.02f, 5.66f, 3.2f, 7.9f, 9f), serializeTo.raw());
         assertArrayEquals(testArray, floatArraySerializer.deserialize(floatArrayType, serializeTo));
     }
 
@@ -502,7 +502,7 @@ public class TypeSerializersTest {
         final double[] testArray = new double[] {1.02d, 5.66d, 3.2d, 7.9d, 9d};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
         doubleArraySerializer.serialize(doubleArrayType, testArray, serializeTo);
-        assertEquals(Arrays.asList(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.get());
+        assertEquals(Arrays.asList(1.02d, 5.66d, 3.2d, 7.9d, 9d), serializeTo.raw());
         assertArrayEquals(testArray, doubleArraySerializer.deserialize(doubleArrayType, serializeTo));
     }
 
@@ -513,10 +513,10 @@ public class TypeSerializersTest {
         assertNotNull(nodeSerializer);
 
         final BasicConfigurationNode sourceNode = BasicConfigurationNode.root(n -> {
-            n.node("hello").set("world");
+            n.node("hello").raw("world");
             n.node("lorg").act(c -> {
-                c.appendListNode().set("doggo");
-                c.appendListNode().set("pupper");
+                c.appendListNode().raw("doggo");
+                c.appendListNode().raw("pupper");
             });
         });
 
@@ -550,8 +550,8 @@ public class TypeSerializersTest {
         assertNotNull(pathSerializer);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.appendListNode().set("test");
-            n.appendListNode().set("file.txt");
+            n.appendListNode().raw("test");
+            n.appendListNode().raw("file.txt");
         });
         final Path ret = pathSerializer.deserialize(Path.class, source);
         assertEquals(Paths.get("test", "file.txt"), ret);

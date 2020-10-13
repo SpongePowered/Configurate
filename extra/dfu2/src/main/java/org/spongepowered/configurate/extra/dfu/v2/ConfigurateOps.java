@@ -112,7 +112,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         } else if (input.isList()) {
             return DSL.list(DSL.remainderType());
         } else {
-            final @Nullable Object value = input.get();
+            final @Nullable Object value = input.rawScalar();
             if (value == null) {
                 return DSL.nilType();
             } else if (value instanceof String) {
@@ -140,9 +140,10 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     @Override
     public Optional<Number> getNumberValue(final ConfigurationNode input) {
         if (!(input.isMap() || input.isList())) {
-            if (input.get() instanceof Number) {
-                return Optional.of((Number) input.get());
-            } else if (input.get() instanceof Boolean) {
+            final @Nullable Object raw = input.rawScalar();
+            if (raw instanceof Number) {
+                return Optional.of((Number) raw);
+            } else if (raw instanceof Boolean) {
                 return Optional.of(input.getBoolean() ? 1 : 0);
             }
         }
@@ -152,12 +153,12 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public ConfigurationNode createNumeric(final Number i) {
-        return empty().set(i);
+        return empty().raw(i);
     }
 
     @Override
     public ConfigurationNode createBoolean(final boolean value) {
-        return empty().set(value);
+        return empty().raw(value);
     }
 
     @Override
@@ -167,14 +168,14 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public ConfigurationNode createString(final String value) {
-        return empty().set(value);
+        return empty().raw(value);
     }
 
     @Override
     public ConfigurationNode mergeInto(final ConfigurationNode input, final ConfigurationNode value) {
         if (input.isList()) {
             final ConfigurationNode ret = input.copy();
-            ret.appendListNode().set(value);
+            ret.appendListNode().from(value);
             return ret;
         }
         return input;
@@ -182,7 +183,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public ConfigurationNode mergeInto(final ConfigurationNode input, final ConfigurationNode key, final ConfigurationNode value) {
-        return input.copy().node(unwrapKey(key)).set(value);
+        return input.copy().node(unwrapKey(key)).from(value);
     }
 
     /**
@@ -204,7 +205,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         if (input.isMap()) {
             final ImmutableMap.Builder<ConfigurationNode, ConfigurationNode> builder = ImmutableMap.builder();
             for (final Map.Entry<Object, ? extends ConfigurationNode> entry : input.childrenMap().entrySet()) {
-                builder.put(empty().set(entry.getKey()), entry.getValue().copy());
+                builder.put(empty().raw(entry.getKey()), entry.getValue().copy());
             }
             return Optional.of(builder.build());
         }
@@ -217,7 +218,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         final ConfigurationNode ret = empty();
 
         for (final Map.Entry<ConfigurationNode, ConfigurationNode> entry : map.entrySet()) {
-            ret.node(unwrapKey(entry.getKey())).set(entry.getValue());
+            ret.node(unwrapKey(entry.getKey())).from(entry.getValue());
         }
 
         return ret;
@@ -236,7 +237,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     @Override
     public ConfigurationNode createList(final Stream<ConfigurationNode> input) {
         final ConfigurationNode ret = empty();
-        input.forEach(it -> ret.appendListNode().set(it));
+        input.forEach(it -> ret.appendListNode().from(it));
         return ret;
     }
 
@@ -244,7 +245,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     public ConfigurationNode remove(final ConfigurationNode input, final String key) {
         if (input.isMap()) {
             final ConfigurationNode ret = input.copy();
-            ret.node(key).set(null);
+            ret.node(key).raw(null);
             return ret;
         }
 
@@ -266,7 +267,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     @Override
     public ConfigurationNode set(final ConfigurationNode input, final String key, final ConfigurationNode value) {
         final ConfigurationNode ret = input.copy();
-        ret.node(key).set(value);
+        ret.node(key).from(value);
         return ret;
     }
 
@@ -279,7 +280,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         final ConfigurationNode ret = input.copy();
 
         final ConfigurationNode child = ret.node(key);
-        child.set(function.apply(child));
+        child.from(function.apply(child));
         return ret;
     }
 
@@ -294,7 +295,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         final ConfigurationNode ret = input.copy();
 
         final ConfigurationNode child = ret.node(key);
-        child.set(function.apply(child));
+        child.from(function.apply(child));
         return ret;
     }
 

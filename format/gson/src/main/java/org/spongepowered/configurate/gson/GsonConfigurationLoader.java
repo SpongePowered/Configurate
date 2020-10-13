@@ -35,8 +35,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -45,8 +43,8 @@ import java.util.Set;
  */
 public final class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
-    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(Map.class, List.class, Double.class, Float.class,
-            Long.class, Integer.class, Boolean.class, String.class);
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
+            Double.class, Float.class, Long.class, Integer.class, Boolean.class, String.class);
 
     /**
      * Creates a new {@link GsonConfigurationLoader} builder.
@@ -149,17 +147,17 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                 parseArray(parser, node);
                 break;
             case NUMBER:
-                node.set(readNumber(parser));
+                node.raw(readNumber(parser));
                 break;
             case STRING:
-                node.set(parser.nextString());
+                node.raw(parser.nextString());
                 break;
             case BOOLEAN:
-                node.set(parser.nextBoolean());
+                node.raw(parser.nextBoolean());
                 break;
             case NULL: // Ignored values
                 parser.nextNull();
-                node.set(null);
+                node.raw(null);
                 break;
             case NAME:
                 break;
@@ -192,7 +190,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     parser.endArray();
                     // ensure the type is preserved
                     if (!written) {
-                        node.set(Collections.emptyList());
+                        node.raw(Collections.emptyList());
                     }
                     return;
                 default:
@@ -216,7 +214,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     parser.endObject();
                     // ensure the type is preserved
                     if (!written) {
-                        node.set(Collections.emptyMap());
+                        node.raw(Collections.emptyMap());
                     }
                     return;
                 case NAME:

@@ -87,7 +87,7 @@ class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, IOExce
 
     @Override
     public void enterScalarNode(final ConfigurationNode node, final JsonGenerator generator) throws IOException {
-        final @Nullable Object value = node.get();
+        final @Nullable Object value = node.rawScalar();
         if (value instanceof Double) {
             generator.writeNumber((Double) value);
         } else if (value instanceof Float) {

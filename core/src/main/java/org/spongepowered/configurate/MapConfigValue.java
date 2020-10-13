@@ -51,7 +51,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     public Object get() {
         final Map<Object, Object> value = new LinkedHashMap<>();
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
-            value.put(ent.getKey(), ent.getValue().get()); // unwrap key from the backing node
+            value.put(ent.getKey(), ent.getValue().raw()); // unwrap key from the backing node
         }
         return value;
     }
@@ -73,7 +73,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
                 final A child = this.holder.createNode(ent.getKey());
                 newValue.put(ent.getKey(), child);
                 child.attached = true;
-                child.set(ent.getValue());
+                child.raw(ent.getValue());
             }
             synchronized (this) {
                 final Map<Object, A> oldMap = this.values;

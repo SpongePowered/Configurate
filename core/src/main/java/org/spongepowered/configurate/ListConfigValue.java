@@ -44,7 +44,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         if (startValue != null) {
             final T child = holder.createNode(0);
             child.attached = true;
-            child.set(startValue);
+            child.raw(startValue);
             this.values.get().add(child);
         }
     }
@@ -56,7 +56,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
             for (T obj : values) {
-                ret.add(obj.get()); // unwrap
+                ret.add(obj.raw()); // unwrap
             }
             return ret;
         }
@@ -90,7 +90,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
             final T child = this.holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
-            child.set(o);
+            child.raw(o);
             ++count;
         }
         detachNodes(this.values.getAndSet(newValue));

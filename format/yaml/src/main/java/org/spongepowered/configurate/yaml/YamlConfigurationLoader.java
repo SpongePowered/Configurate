@@ -32,8 +32,6 @@ import java.io.Writer;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -50,8 +48,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
      */
     private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
             Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
-            byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class, // complex types
-            Set.class, List.class, Map.class); // collections
+            byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class); // complex types
 
     /**
      * Creates a new {@link YamlConfigurationLoader} builder.
@@ -151,12 +148,12 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
 
     @Override
     protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) {
-        node.set(this.yaml.get().load(reader));
+        node.raw(this.yaml.get().load(reader));
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        this.yaml.get().dump(node.get(), writer);
+        this.yaml.get().dump(node.rawScalar(), writer);
     }
 
     @Override

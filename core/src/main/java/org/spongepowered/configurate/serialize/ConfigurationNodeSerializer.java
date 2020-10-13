@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Type;
 
@@ -36,12 +36,12 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
     static final Class<ConfigurationNode> TYPE = ConfigurationNode.class;
 
     @Override
-    public ConfigurationNode deserialize(final @NonNull Type type, final @NonNull ConfigurationNode node) {
+    public ConfigurationNode deserialize(final Type type, final ConfigurationNode node) {
         return node.copy();
     }
 
     @Override
-    public void serialize(final @NonNull Type type, final @Nullable ConfigurationNode obj, final @NonNull ConfigurationNode node) {
+    public void serialize(final Type type, final @Nullable ConfigurationNode obj, final ConfigurationNode node) throws ObjectMappingException {
         node.set(obj);
     }
 

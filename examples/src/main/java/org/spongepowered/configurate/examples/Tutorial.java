@@ -69,7 +69,7 @@ public final class Tutorial {
 
         root.node("accesses").act(n -> {
             n.commentIfAbsent("The times messages have been accessed, in milliseconds since the epoch");
-            n.appendListNode().set(System.currentTimeMillis());
+            n.appendListNode().raw(System.currentTimeMillis()); // TODO: error handling
         });
 
         // And save the node back to the file

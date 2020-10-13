@@ -153,7 +153,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param path the path to get the child at
      * @param value the value to set the child node to
      */
-    default void set(Object[] path, @Nullable Object value) {
+    default void set(Object[] path, @Nullable Object value) throws ObjectMappingException {
         node().node(path).set(value);
     }
 
@@ -201,7 +201,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param path the path to get the child at
      * @param value the value to set the child node to
      */
-    default void set(NodePath path, @Nullable Object value) {
+    default void set(NodePath path, @Nullable Object value) throws ObjectMappingException {
         node().node(path).set(value);
     }
 

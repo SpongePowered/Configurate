@@ -27,17 +27,17 @@ public class SimpleCommentedConfigurationNodeTest {
     void testCommentsTransferred() {
         final CommentedConfigurationNode subject = CommentedConfigurationNode.root();
         final CommentedConfigurationNode firstChild = subject.node("first");
-        firstChild.set("test value");
-        firstChild.comment("Such comment. Very wow.");
+        firstChild.raw("test value")
+                .comment("Such comment. Very wow.");
 
 
         final CommentedConfigurationNode secondChild = subject.node("second");
-        secondChild.set("test value's evil twin");
+        secondChild.raw("test value's evil twin");
 
         assertFalse(secondChild.virtual());
 
-        secondChild.set(firstChild);
-        assertEquals("test value", secondChild.get());
+        secondChild.from(firstChild);
+        assertEquals("test value", secondChild.raw());
         assertEquals("Such comment. Very wow.", secondChild.comment());
     }
 
@@ -46,17 +46,17 @@ public class SimpleCommentedConfigurationNodeTest {
         final CommentedConfigurationNode subject = CommentedConfigurationNode.root();
         final CommentedConfigurationNode firstChild = subject.node("first");
         final CommentedConfigurationNode firstChildChild = firstChild.node("child");
-        firstChildChild.set("test value");
-        firstChildChild.comment("Such comment. Very wow.");
+        firstChildChild.raw("test value")
+                .comment("Such comment. Very wow.");
 
 
         final CommentedConfigurationNode secondChild = subject.node("second");
-        secondChild.set("test value's evil twin");
+        secondChild.raw("test value's evil twin");
 
         assertFalse(secondChild.virtual());
 
-        secondChild.set(firstChild);
-        assertEquals("test value", secondChild.node("child").get());
+        secondChild.from(firstChild);
+        assertEquals("test value", secondChild.node("child").raw());
         assertEquals("Such comment. Very wow.", secondChild.node("child").comment());
     }
 
@@ -65,12 +65,12 @@ public class SimpleCommentedConfigurationNodeTest {
         final CommentedConfigurationNode source = CommentedConfigurationNode.root();
         final CommentedConfigurationNode target = CommentedConfigurationNode.root();
 
-        source.node("no-value").set("a").comment("yeah");
-        source.node("existing-value-no-comment").set("orig").comment("maybe");
-        source.node("existing-value").set("a").comment("yeah");
-        source.node("no-parent", "child").set("x").comment("always");
-        target.node("existing-value-no-comment").set("new");
-        target.node("existing-value").set("b").comment("nope");
+        source.node("no-value").raw("a").comment("yeah");
+        source.node("existing-value-no-comment").raw("orig").comment("maybe");
+        source.node("existing-value").raw("a").comment("yeah");
+        source.node("no-parent", "child").raw("x").comment("always");
+        target.node("existing-value-no-comment").raw("new");
+        target.node("existing-value").raw("b").comment("nope");
 
         target.mergeFrom(source);
         assertEquals("yeah", target.node("no-value").comment());

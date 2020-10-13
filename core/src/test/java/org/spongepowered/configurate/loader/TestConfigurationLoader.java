@@ -53,12 +53,12 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
     @Override
     protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
-        node.set(this.result);
+        node.from(this.result);
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
-        this.result.set(node);
+        this.result.from(node);
     }
 
     public ConfigurationNode node() {

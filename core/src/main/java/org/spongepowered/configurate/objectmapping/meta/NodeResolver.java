@@ -66,7 +66,7 @@ public interface NodeResolver {
     static NodeResolver.Factory nodeKey() {
         return (name, element) -> {
             if (element.isAnnotationPresent(NodeKey.class)) {
-                return node -> BasicConfigurationNode.root(node.options()).set(node.key());
+                return node -> BasicConfigurationNode.root(node.options()).raw(node.key());
             }
             return null;
         };

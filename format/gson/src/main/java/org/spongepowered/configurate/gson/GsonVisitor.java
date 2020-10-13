@@ -66,7 +66,7 @@ class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, IOException>
 
     @Override
     public void enterScalarNode(final ConfigurationNode node, final JsonWriter writer) throws IOException {
-        final @Nullable Object value = node.get();
+        final @Nullable Object value = node.rawScalar();
         if (value == null) {
             writer.nullValue();
         } else if (value instanceof Double) {

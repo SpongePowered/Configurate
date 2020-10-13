@@ -30,7 +30,6 @@ import org.spongepowered.configurate.transformation.NodePath;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -45,7 +44,7 @@ import java.util.stream.Collector;
  * <p>{@link ConfigurationNode}s can hold different types of value. They can:</p>
  *
  * <ul>
- *     <li>Hold a single "scalar" value (accessed by {@link #get()}</li>
+ *     <li>Hold a single "scalar" value (accessed by {@link #raw()}</li>
  *     <li>Represent a "list" of child {@link ConfigurationNode}s (accessed by {@link #isList()} and {@link #childrenList()})</li>
  *     <li>Represent a "map" of child {@link ConfigurationNode}s (accessed by {@link #isMap()} and {@link #childrenMap()})</li>
  *     <li>Hold no value at all (when {@link #virtual()} is true)</li>
@@ -327,52 +326,9 @@ public interface ConfigurationNode {
     /**
      * Get the current value associated with this node.
      *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
-     *
-     * @return this configuration's current value, or null if there is none
-     * @see #get(Object)
-     */
-    @Nullable Object get();
-
-    /**
-     * Get the current value associated with this node.
-     *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
-     *
-     * @param def the default value to return if this node has no set value
-     * @return this configuration's current value, or {@code def} if none.
-     */
-    default Object get(Object def) {
-        final @Nullable Object value = get();
-        return value == null ? storeDefault(this, def) : value;
-    }
-
-    /**
-     * Get the current value associated with this node.
-     *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
-     *
-     * @param defSupplier the function that will be called to calculate a
-     *                    default value only if there is no existing value
-     * @return this configuration's current value, or {@code def} if none
-     */
-    default Object get(Supplier<Object> defSupplier) {
-        final @Nullable Object value = get();
-        return value == null ? storeDefault(this, defSupplier.get()) : value;
-    }
-
-    /**
-     * Get the current value associated with this node.
-     *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
-     *
-     * <p>This method will also perform deserialization using the appropriate
-     * {@link TypeSerializer} for the given type, or casting if no type
-     * serializer is found.</p>
+     * <p>This method will perform deserialization using the appropriate
+     * {@link TypeSerializer} for the given type, or attempting to cast if no
+     * type serializer is found.</p>
      *
      * @param type the type to deserialize to
      * @param <V> the type to get
@@ -566,8 +522,8 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if any value fails to be converted to the
      *                                requested type
      */
-    default <V> List<V> getList(TypeToken<V> type) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
-        return getList(type, Collections.emptyList());
+    default <V> @Nullable List<V> getList(TypeToken<V> type) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+        return get(makeListType(type));
     }
 
     /**
@@ -577,7 +533,7 @@ public interface ConfigurationNode {
      * <p>If this node has a scalar value, this function treats it as a list
      * with one value.</p>
      *
-     * @param type expected type
+     * @param elementType expected type
      * @param def default value if no appropriate value is set
      * @param <V> expected type
      * @return an immutable copy of the values contained that could be
@@ -586,9 +542,10 @@ public interface ConfigurationNode {
      * @throws ObjectMappingException if any value fails to be converted to the
      *                                requested type
      */
-    default <V> List<V> getList(TypeToken<V> type, List<V> def) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
-        final List<V> ret = get(makeListType(type), def);
-        return ret.isEmpty() ? storeDefault(this, def) : ret;
+    default <V> List<V> getList(TypeToken<V> elementType, List<V> def) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+        final TypeToken<List<V>> type = makeListType(elementType);
+        final @Nullable List<V> ret = get(type, def);
+        return ret == null || ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;
     }
 
     /**
@@ -598,7 +555,7 @@ public interface ConfigurationNode {
      * <p>If this node has a scalar value, this function treats it as a list
      * with one value.</p>
      *
-     * @param type expected type
+     * @param elementType expected type
      * @param defSupplier function that will be called to calculate a default
      *                    value only if there is no existing value of the
      *                    correct type
@@ -610,19 +567,20 @@ public interface ConfigurationNode {
      *                                requested type
      */
     // @cs-: NoGetSetPrefix (not a bean method)
-    default <V> List<V> getList(TypeToken<V> type, Supplier<List<V>> defSupplier) throws ObjectMappingException {
-        final List<V> ret = get(makeListType(type), defSupplier);
-        return ret.isEmpty() ? storeDefault(this, defSupplier.get()) : ret;
+    default <V> List<V> getList(TypeToken<V> elementType, Supplier<List<V>> defSupplier) throws ObjectMappingException {
+        final TypeToken<List<V>> type = makeListType(elementType);
+        final List<V> ret = get(type, defSupplier);
+        return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
     }
 
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return the value coerced to a {@link String}, or null if no value
-     * @see #get()
+     * @see #raw()
      */
     default @Nullable String getString() { // @cs-: NoGetSetPrefix (not a bean method)
-        return Scalars.STRING.tryDeserialize(get());
+        return Scalars.STRING.tryDeserialize(rawScalar());
     }
 
     /**
@@ -630,7 +588,7 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return the value coerced to a {@link String}, or {@code def} if no value
-     * @see #get()
+     * @see #raw()
      */
     default String getString(final String def) { // @cs-: NoGetSetPrefix (not a bean method)
         requireNonNull(def, "def");
@@ -639,7 +597,7 @@ public interface ConfigurationNode {
             return value;
         }
         if (options().shouldCopyDefaults()) {
-            set(def);
+            Scalars.STRING.serialize(float.class, def, this);
         }
         return def;
     }
@@ -648,7 +606,7 @@ public interface ConfigurationNode {
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return the value coerced to a float, or {@link #NUMBER_DEF} if not a float
-     * @see #get()
+     * @see #raw()
      */
     default float getFloat() { // @cs-: NoGetSetPrefix (not a bean method)
         return getFloat(NUMBER_DEF);
@@ -659,15 +617,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return the value coerced to a float, or {@code def} if not a float
-     * @see #get()
+     * @see #raw()
      */
     default float getFloat(float def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(get());
+        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
         if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
-            set(def);
+            Scalars.FLOAT.serialize(float.class, def, this);
         }
         return def;
     }
@@ -677,7 +635,7 @@ public interface ConfigurationNode {
      *
      * @return the value coerced to a double, or {@link #NUMBER_DEF} if
      *         coercion failed
-     * @see #get()
+     * @see #raw()
      */
     default double getDouble() { // @cs-: NoGetSetPrefix (not a bean method)
         return getDouble(NUMBER_DEF);
@@ -688,15 +646,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return the value coerced to a double, or {@code def} if coercion failed
-     * @see #get()
+     * @see #raw()
      */
     default double getDouble(double def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(get());
+        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
         if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
-            set(def);
+            Scalars.DOUBLE.serialize(double.class, def, this);
         }
         return def;
     }
@@ -704,8 +662,8 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
-     * @return value coerced to an integer, or 0 if coercion failed.
-     * @see #get()
+     * @return value coerced to an integer, or {@link #NUMBER_DEF} if coercion failed.
+     * @see #raw()
      */
     default int getInt() { // @cs-: NoGetSetPrefix (not a bean method)
         return getInt(NUMBER_DEF);
@@ -716,15 +674,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return value coerced to an integer, or {@code def} if coercion failed.
-     * @see #get()
+     * @see #raw()
      */
     default int getInt(int def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(get());
+        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
         if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
-            set(def);
+            Scalars.INTEGER.serialize(int.class, def, this);
         }
         return def;
     }
@@ -732,8 +690,8 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
-     * @return value coerced to a long, or 0 if coercion failed
-     * @see #get()
+     * @return value coerced to a long, or {@link #NUMBER_DEF} if coercion failed
+     * @see #raw()
      */
     default long getLong() { // @cs-: NoGetSetPrefix (not a bean method)
         return getLong(NUMBER_DEF);
@@ -744,15 +702,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return value coerced to a long, or {@code def} if coercion failed
-     * @see #get()
+     * @see #raw()
      */
     default long getLong(long def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Long val = Scalars.LONG.tryDeserialize(get());
+        final @Nullable Long val = Scalars.LONG.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
         if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
-            set(def);
+            Scalars.LONG.serialize(long.class, def, this);
         }
         return def;
     }
@@ -760,8 +718,8 @@ public interface ConfigurationNode {
     /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
-     * @return value coerced to a boolean, or 0 if coercion failed
-     * @see #get()
+     * @return value coerced to a boolean, or false if coercion failed
+     * @see #raw()
      */
     default boolean getBoolean() { // @cs-: NoGetSetPrefix (not a bean method)
         return getBoolean(false);
@@ -772,15 +730,15 @@ public interface ConfigurationNode {
      *
      * @param def the default value if no appropriate value is set
      * @return value coerced to a boolean, or {@code def} if coercion failed
-     * @see #get()
+     * @see #raw()
      */
     default boolean getBoolean(boolean def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(get());
+        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
         if (options().shouldCopyDefaults()) {
-            set(def);
+            Scalars.BOOLEAN.serialize(boolean.class, def, this);
         }
         return def;
     }
@@ -788,13 +746,14 @@ public interface ConfigurationNode {
     /**
      * Set this node's value to the given value.
      *
-     * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
-     * the appropriate configuration node structure.</p>
+     * <p>The value type will be taken from the provided value's class and used
+     * to determine a serializer. To set a value of a parameterized type, the
+     * parameters must be explicitly specified.</p>
      *
      * @param value the value to set
      * @return this node
      */
-    ConfigurationNode set(@Nullable Object value);
+    ConfigurationNode set(@Nullable Object value) throws ObjectMappingException;
 
     /**
      * Set this node's value to the given value.
@@ -869,6 +828,52 @@ public interface ConfigurationNode {
      *                                the node.
      */
     ConfigurationNode set(Type type, @Nullable Object value) throws ObjectMappingException;
+
+    /**
+     * Get the raw value of this node.
+     *
+     * <p>The raw value is the plain value that will be passed to the loaders,
+     * without serialization except for unwrapping of maps and collections.</p>
+     *
+     * @return this configuration's current value
+     * @see #raw(Object)
+     */
+    @Nullable Object raw();
+
+    /**
+     * Set the raw value of this node.
+     *
+     * <p>The provided value must be of a type accepted by
+     * {@link ConfigurationOptions#acceptsType(Class)}. No other serialization
+     * will be performed.</p>
+     *
+     * @param value the value to set on this node
+     * @return this node
+     */
+    ConfigurationNode raw(@Nullable Object value);
+
+    /**
+     * Get the raw value of this node if the node is a scalar.
+     *
+     * <p>The raw value is the plain value that will be passed to the loaders,
+     * without serialization.</p>
+     *
+     * <p>Map and list values will not be unboxed.</p>
+     *
+     * @return this configuration's current value if it is a scalar,
+     *          or else null.
+     * @see #raw()
+     */
+    @Nullable Object rawScalar();
+
+    /**
+     * Apply all data from {@code other} to this node, overwriting any
+     * existing data.
+     *
+     * @param other source node
+     * @return this node
+     */
+    ConfigurationNode from(ConfigurationNode other);
 
     /**
      * Set all the values from the given node that are not present in this node

@@ -50,7 +50,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
             }
             return ret;
         } else {
-            final @Nullable Object unwrappedVal = node.get();
+            final @Nullable Object unwrappedVal = node.raw();
             if (unwrappedVal != null) {
                 final T ret = createNew(1, entryType);
                 deserializeSingle(0, ret, entrySerial.deserialize(entryType, node));
@@ -69,7 +69,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("No applicable type serializer for type " + entryType);
         }
 
-        node.set(Collections.emptyList());
+        node.raw(Collections.emptyList());
         if (obj != null) {
             forEachElement(obj, el -> entrySerial.serialize(entryType, el, node.appendListNode()));
         }

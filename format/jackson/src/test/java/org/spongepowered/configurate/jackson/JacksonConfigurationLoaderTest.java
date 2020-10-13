@@ -52,9 +52,9 @@ public class JacksonConfigurationLoaderTest {
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                         .sink(AtomicFiles.atomicWriterFactory(tempFile, StandardCharsets.UTF_8)).build();
         final ConfigurationNode node = loader.load(ConfigurationOptions.defaults().mapFactory(MapFactories.sortedNatural()));
-        assertEquals("unicorn", node.node("test", "op-level").get());
-        assertEquals("dragon", node.node("other", "op-level").get());
-        assertEquals("dog park", node.node("other", "location").get());
+        assertEquals("unicorn", node.node("test", "op-level").raw());
+        assertEquals("dragon", node.node("other", "op-level").raw());
+        assertEquals("dog park", node.node("other", "location").raw());
 
         loader.save(node);
         assertEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files
@@ -69,11 +69,11 @@ public class JacksonConfigurationLoaderTest {
         final Path tempFile = tempDir.resolve("text2.txt");
         final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder().path(tempFile).build();
         final ConfigurationNode start = loader.createNode();
-        start.node("value").set(value);
+        start.node("value").raw(value);
         loader.save(start);
 
         final ConfigurationNode ret = loader.load();
-        assertEquals(value, ret.node("value").get());
+        assertEquals(value, ret.node("value").raw());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class JacksonConfigurationLoaderTest {
         // https://github.com/SpongePowered/Configurate/issues/163
         final ConfigurationNode source = BasicConfigurationNode.root(n -> {
             n.node("GriefPrevention", "claim-name", "text")
-                    .set("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
+                    .raw("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
         });
 
         // Code from GriefDefender's ComponentConfigSerializer

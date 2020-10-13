@@ -86,9 +86,9 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             throw new ObjectMappingException("Value must be provided as a scalar!");
         }
 
-        final @Nullable Object value = deserializeFrom.get();
+        final @Nullable Object value = deserializeFrom.rawScalar();
         if (value == null) {
-            throw new ObjectMappingException("No value present");
+            throw new ObjectMappingException("No scalar value present");
         }
 
         type = GenericTypeReflector.box(type); // every primitive type should be boxed (cuz generics!)
@@ -134,16 +134,16 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     @Override
     public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
         if (obj == null) {
-            node.set(null);
+            node.raw(null);
             return;
         }
 
         if (node.options().acceptsType(obj.getClass())) {
-            node.set(obj);
+            node.raw(obj);
             return;
         }
 
-        node.set(serialize(obj, node.options()::acceptsType));
+        node.raw(serialize(obj, node.options()::acceptsType));
     }
 
     /**

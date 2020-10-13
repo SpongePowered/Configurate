@@ -67,9 +67,9 @@ public class DfuSerializersTest {
             .build();
 
         final ConfigurationNode testElement = BasicConfigurationNode.root(ConfigurationOptions.defaults().serializers(serializers), n -> {
-            n.appendListNode().set(4);
-            n.appendListNode().set(5);
-            n.appendListNode().set(8);
+            n.appendListNode().raw(4);
+            n.appendListNode().raw(5);
+            n.appendListNode().raw(8);
         });
 
         final Vector3i pos = testElement.get(VEC3I_TYPE);

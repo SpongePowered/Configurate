@@ -48,9 +48,9 @@ final class PathSerializer implements TypeSerializer<Path> {
         } else if (node.isMap()) {
             throw new ObjectMappingException("Paths must be a list of strings, or a single string");
         }
-        final @Nullable Object value = node.get();
+        final @Nullable Object value = node.rawScalar();
         if (value == null) {
-            throw new ObjectMappingException("must have value");
+            throw new ObjectMappingException("must have scalar value");
         }
 
         if (value instanceof URI) {
@@ -75,7 +75,7 @@ final class PathSerializer implements TypeSerializer<Path> {
         } else if (!obj.getFileSystem().equals(FileSystems.getDefault())) { // try to do something for non-default filesystems
             node.set(URI.class, obj.toUri());
         } else {
-            node.set(obj.toString());
+            node.raw(obj.toString());
         }
     }
 

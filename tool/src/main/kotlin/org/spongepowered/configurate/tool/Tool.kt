@@ -190,7 +190,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                 }
             }
             else -> {
-                val value = node.get()
+                val value = node.rawScalar()
                 if (value != null) {
                     write(
                         heading("Value"), SPLIT,

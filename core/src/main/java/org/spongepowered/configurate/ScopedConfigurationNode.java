@@ -80,13 +80,19 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
+    N from(ConfigurationNode other);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @NonNull N mergeFrom(@NonNull ConfigurationNode other);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N set(@Nullable Object value);
+    @NonNull N set(@Nullable Object value) throws ObjectMappingException;
 
     /**
      * {@inheritDoc}
@@ -103,7 +109,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         if (serial != null) {
             ((TypeSerializer) serial).serialize(type, value, self());
         } else if (options().acceptsType(value.getClass())) {
-            set(value); // Just write if no applicable serializer exists?
+            raw(value); // Just write if no applicable serializer exists?
         } else {
             throw new ObjectMappingException("No serializer available for type " + type);
         }
@@ -119,6 +125,12 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     default <V> N set(TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
         return set(type.getType(), value);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NonNull N raw(@Nullable Object value);
 
     /**
      * {@inheritDoc}

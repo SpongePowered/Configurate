@@ -54,11 +54,11 @@ public class GsonConfigurationLoaderTest {
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .sink(AtomicFiles.atomicWriterFactory(tempFile, StandardCharsets.UTF_8)).lenient(true).build();
         final ConfigurationNode node = loader.load(loader.defaultOptions().mapFactory(MapFactories.sortedNatural()));
-        assertEquals("unicorn", node.node("test", "op-level").get());
-        assertEquals("dragon", node.node("other", "op-level").get());
-        assertEquals("dog park", node.node("other", "location").get());
-        assertTrue(node.node("int-val").get() instanceof Integer);
-        assertTrue(node.node("double-val").get() instanceof Double);
+        assertEquals("unicorn", node.node("test", "op-level").raw());
+        assertEquals("dragon", node.node("other", "op-level").raw());
+        assertEquals("dog park", node.node("other", "location").raw());
+        assertTrue(node.node("int-val").raw() instanceof Integer);
+        assertTrue(node.node("double-val").raw() instanceof Double);
         loader.save(node);
         assertEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files.readAllLines(tempFile, StandardCharsets.UTF_8));
     }
@@ -97,7 +97,7 @@ public class GsonConfigurationLoaderTest {
                 .sink(AtomicFiles.atomicWriterFactory(tempFile, StandardCharsets.UTF_8)).lenient(true).build();
 
         final ConfigurationNode node = loader.load(loader.defaultOptions().mapFactory(MapFactories.sortedNatural()));
-        assertEquals(ImmutableMap.of(), node.get());
+        assertEquals(ImmutableMap.of(), node.raw());
         assertTrue(node.isMap());
     }
 
@@ -108,11 +108,11 @@ public class GsonConfigurationLoaderTest {
         final Path tempFile = tempDir.resolve("text5.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder().path(tempFile).build();
         final BasicConfigurationNode start = loader.createNode();
-        start.node("long-num").set(TEST_LONG_VAL);
+        start.node("long-num").raw(TEST_LONG_VAL);
         loader.save(start);
 
         final BasicConfigurationNode ret = loader.load();
-        assertEquals(TEST_LONG_VAL, ret.node("long-num").get());
+        assertEquals(TEST_LONG_VAL, ret.node("long-num").raw());
     }
 
     @Test
@@ -128,22 +128,22 @@ public class GsonConfigurationLoaderTest {
         final boolean blval = true;
         final String stval = "Sphinx of black quartz, judge my vow";
 
-        start.node("int").set(ival);
-        start.node("long").set(lval);
-        start.node("float").set(fval);
-        start.node("double").set(dval);
-        start.node("boolean").set(blval);
-        start.node("string").set(stval);
+        start.node("int").raw(ival);
+        start.node("long").raw(lval);
+        start.node("float").raw(fval);
+        start.node("double").raw(dval);
+        start.node("boolean").raw(blval);
+        start.node("string").raw(stval);
 
         loader.save(start);
 
         final ConfigurationNode ret = loader.load();
-        assertEquals(ival, ret.node("int").get());
-        assertEquals(lval, ret.node("long").get());
-        assertEquals(fval, (double) ret.node("float").get(), 0.05);
-        assertEquals(dval, ret.node("double").get());
-        assertEquals(blval, ret.node("boolean").get());
-        assertEquals(stval, ret.node("string").get());
+        assertEquals(ival, ret.node("int").raw());
+        assertEquals(lval, ret.node("long").raw());
+        assertEquals(fval, (double) ret.node("float").raw(), 0.05);
+        assertEquals(dval, ret.node("double").raw());
+        assertEquals(blval, ret.node("boolean").raw());
+        assertEquals(stval, ret.node("string").raw());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class GsonConfigurationLoaderTest {
         // https://github.com/SpongePowered/Configurate/issues/163
         final ConfigurationNode source = BasicConfigurationNode.root(n -> {
             n.node("GriefPrevention", "claim-name", "text")
-                    .set("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
+                    .raw("§4§9The §4T§6h§ea§2r§9o§5w §4Estate");
         });
 
         // Code from GriefDefender's ComponentConfigSerializer

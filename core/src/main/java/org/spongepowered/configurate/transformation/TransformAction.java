@@ -38,7 +38,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      */
     static <N extends ScopedConfigurationNode<N>> TransformAction<N> remove() {
         return (path, value) -> {
-            value.set(null);
+            value.raw(null);
             return null;
         };
     }

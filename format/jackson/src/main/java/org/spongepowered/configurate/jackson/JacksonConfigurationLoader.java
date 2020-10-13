@@ -170,25 +170,25 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
             case VALUE_NUMBER_FLOAT:
                 final double doubleVal = parser.getDoubleValue();
                 if ((float) doubleVal != doubleVal) {
-                    node.set(parser.getDoubleValue());
+                    node.raw(parser.getDoubleValue());
                 } else {
-                    node.set(parser.getFloatValue());
+                    node.raw(parser.getFloatValue());
                 }
                 break;
             case VALUE_NUMBER_INT:
                 final long longVal = parser.getLongValue();
                 if ((int) longVal != longVal) {
-                    node.set(parser.getLongValue());
+                    node.raw(parser.getLongValue());
                 } else {
-                    node.set(parser.getIntValue());
+                    node.raw(parser.getIntValue());
                 }
                 break;
             case VALUE_STRING:
-                node.set(parser.getText());
+                node.raw(parser.getText());
                 break;
             case VALUE_TRUE:
             case VALUE_FALSE:
-                node.set(parser.getBooleanValue());
+                node.raw(parser.getBooleanValue());
                 break;
             case VALUE_NULL: // Ignored values
             case FIELD_NAME:
@@ -206,7 +206,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case END_ARRAY:
                     // ensure the type is preserved
                     if (!written) {
-                        node.set(Collections.emptyList());
+                        node.raw(Collections.emptyList());
                     }
                     return;
                 default:
@@ -225,7 +225,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case END_OBJECT:
                     // ensure the type is preserved
                     if (!written) {
-                        node.set(Collections.emptyMap());
+                        node.raw(Collections.emptyMap());
                     }
                     return;
                 default:

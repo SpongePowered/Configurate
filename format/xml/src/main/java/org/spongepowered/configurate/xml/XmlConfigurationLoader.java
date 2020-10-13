@@ -465,7 +465,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         // if there are no child nodes present, assume it's a scalar value
         if (children.isEmpty()) {
-            to.set(parseValue(from.getTextContent()));
+            to.raw(parseValue(from.getTextContent()));
             return;
         }
 
@@ -483,9 +483,9 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         if (type == NodeType.MAP) {
-            to.set(Collections.emptyMap());
+            to.raw(Collections.emptyMap());
         } else {
-            to.set(Collections.emptyList());
+            to.raw(Collections.emptyList());
         }
 
         // read out the elements
@@ -578,7 +578,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
                 element.appendChild(writeNode(document, child, null));
             }
         } else {
-            element.appendChild(document.createTextNode(Objects.toString(node.get())));
+            element.appendChild(document.createTextNode(Objects.toString(node.rawScalar())));
         }
 
         return element;

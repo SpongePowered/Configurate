@@ -57,14 +57,14 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N set(final @Nullable Object value) {
-        if (value instanceof CommentedConfigurationNodeIntermediary<?>) {
-            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) value).comment();
+    public N from(final ConfigurationNode that) {
+        if (that instanceof CommentedConfigurationNodeIntermediary<?>) {
+            final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) that).comment();
             if (otherComment != null) {
                 comment(otherComment);
             }
         }
-        return super.set(value);
+        return super.from(that);
     }
 
     @Override

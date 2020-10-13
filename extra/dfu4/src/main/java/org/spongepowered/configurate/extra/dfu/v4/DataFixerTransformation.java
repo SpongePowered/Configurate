@@ -72,7 +72,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
         if (currentVersion < this.targetVersion) {
             this.versionHolder.set(currentVersion);
             this.wrapped.apply(node);
-            versionNode.set(this.targetVersion);
+            versionNode.raw(this.targetVersion); // TODO: error handling
         } else if (currentVersion > this.targetVersion) {
             // TODO: Logging or throw error
         }
@@ -194,7 +194,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
             final ThreadLocal<Integer> versionHolder = new ThreadLocal<>();
             for (Pair<DSL.TypeReference, NodePath> fix : this.dataFixes) {
                 wrappedBuilder.addAction(fix.getSecond(), (path, valueAtPath) -> {
-                    valueAtPath.set(this.fixer.update(fix.getFirst(), ConfigurateOps.wrap(valueAtPath),
+                    valueAtPath.from(this.fixer.update(fix.getFirst(), ConfigurateOps.wrap(valueAtPath),
                             versionHolder.get(), this.targetVersion).getValue());
                     return null;
                 });

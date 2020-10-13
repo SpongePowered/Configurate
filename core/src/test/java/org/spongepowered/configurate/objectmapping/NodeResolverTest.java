@@ -57,7 +57,7 @@ public class NodeResolverTest {
         final ObjectMapper<TestSettingKey> mapper = ObjectMapper.factory().get(TestSettingKey.class);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.node("something").set("blah");
+            n.node("something").raw("blah");
         });
 
         final TestSettingKey object = mapper.load(source);
@@ -79,8 +79,8 @@ public class NodeResolverTest {
                 .build().get(TestOnlyWithAnnotation.class);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
-            n.node("marked").set("something");
-            n.node("not-processed").set("ignored");
+            n.node("marked").raw("something");
+            n.node("not-processed").raw("ignored");
         });
 
         final TestOnlyWithAnnotation object = mapper.load(source);

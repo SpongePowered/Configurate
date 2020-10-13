@@ -51,8 +51,8 @@ class ObjectMappingTest {
 
         objectMapper<SimpleTest>().save(source, node)
 
-        assertEquals("goodbye", node.node("deny-message").get())
-        assertEquals("i'm leaving", node.node("match").get())
+        assertEquals("goodbye", node.node("deny-message").raw())
+        assertEquals("i'm leaving", node.node("match").raw())
     }
 
     data class AnnotatedTest(
@@ -68,9 +68,9 @@ class ObjectMappingTest {
         val mapper = objectMapper<AnnotatedTest>()
         mapper.save(data, node)
 
-        assertEquals("purr", node.node("name").get())
+        assertEquals("purr", node.node("name").raw())
         assertEquals("sad", node.node("name").comment())
-        assertEquals("SHOUTING", node.node("attributes").get())
+        assertEquals("SHOUTING", node.node("attributes").raw())
 
         assertThrows<ObjectMappingException> {
             mapper.load(

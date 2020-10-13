@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.transformation;
 
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Map;
 import java.util.NavigableMap;
@@ -46,7 +47,12 @@ class VersionedTransformation<T extends ConfigurationNode> implements Configurat
             entry.getValue().apply(node);
             currentVersion = entry.getKey();
         }
-        versionNode.set(currentVersion);
+
+        try {
+            versionNode.set(currentVersion);
+        } catch (final ObjectMappingException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override

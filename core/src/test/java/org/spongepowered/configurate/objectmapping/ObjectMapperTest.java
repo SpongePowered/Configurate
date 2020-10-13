@@ -262,18 +262,18 @@ public class ObjectMapperTest {
 
         final BasicConfigurationNode stringNode = BasicConfigurationNode.root(p -> {
             p.node("elements").act(n -> {
-                n.appendListNode().set("hello");
-                n.appendListNode().set("world");
+                n.appendListNode().raw("hello");
+                n.appendListNode().raw("world");
             });
         });
         final BasicConfigurationNode intNode = BasicConfigurationNode.root(p -> {
             p.node("elements").act(n -> {
-                n.appendListNode().set(1);
-                n.appendListNode().set(1);
-                n.appendListNode().set(2);
-                n.appendListNode().set(3);
-                n.appendListNode().set(5);
-                n.appendListNode().set(8);
+                n.appendListNode().raw(1);
+                n.appendListNode().raw(1);
+                n.appendListNode().raw(2);
+                n.appendListNode().raw(3);
+                n.appendListNode().raw(5);
+                n.appendListNode().raw(8);
             });
         });
 
@@ -290,10 +290,10 @@ public class ObjectMapperTest {
 
         final BasicConfigurationNode urlNode = BasicConfigurationNode.root(p -> {
             p.node("elements").act(n -> {
-                n.appendListNode().set("https://spongepowered.org");
-                n.appendListNode().set("https://yaml.org");
+                n.appendListNode().raw("https://spongepowered.org");
+                n.appendListNode().raw("https://yaml.org");
             });
-            p.node("test").set("bye");
+            p.node("test").raw("bye");
         });
 
         final ParentTypesResolved resolved = mapper.load(urlNode);

@@ -111,18 +111,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * Handles the copying of applied defaults, if enabled.
      *
+     * @param node destination node
+     * @param type value type
      * @param defValue the default value
      * @param <V> the value type
      * @return the same value
      */
-    static <V> V storeDefault(final ConfigurationNode node, final V defValue) {
-        requireNonNull(defValue, "defValue");
-        if (node.options().shouldCopyDefaults()) {
-            node.set(defValue);
-        }
-        return defValue;
-    }
-
     static <V> V storeDefault(final ConfigurationNode node, final Type type, final V defValue) throws ObjectMappingException {
         requireNonNull(defValue, "defValue");
         if (node.options().shouldCopyDefaults()) {
@@ -132,12 +126,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public @Nullable Object get() {
-        return this.value.get();
-    }
-
-    @Override
-    public @Nullable Object get(final Type type) throws ObjectMappingException {
+    public final @Nullable Object get(final Type type) throws ObjectMappingException {
         requireNonNull(type, "type");
         requireCompleteParameters(type);
 
@@ -153,7 +142,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
 
         if (serial == null) {
-            final @Nullable Object value = get();
+            final @Nullable Object value = raw();
             final Class<?> erasure = erase(type);
             if (erasure.isInstance(value)) {
                 return value;
@@ -165,40 +154,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public N set(@Nullable Object newValue) {
+    public final N set(final @Nullable Object newValue) throws ObjectMappingException {
         // if the value to be set is a configuration node already, unwrap and store the raw data
         if (newValue instanceof ConfigurationNode) {
-            final ConfigurationNode newValueAsNode = (ConfigurationNode) newValue;
-            if (newValueAsNode == this) { // this would be a no-op whoop
-                return self();
-            }
-
-            this.hints.clear();
-            this.hints.putAll(newValueAsNode.ownHints());
-            if (newValueAsNode.isList()) {
-                // handle list
-                attachIfNecessary();
-                final ListConfigValue<N, A> newList = new ListConfigValue<>(implSelf());
-                synchronized (newValueAsNode) {
-                    newList.set(newValueAsNode.childrenList());
-                }
-                this.value = newList;
-                return self();
-
-            } else if (newValueAsNode.isMap()) {
-                // handle map
-                attachIfNecessary();
-                final MapConfigValue<N, A> newMap = new MapConfigValue<>(implSelf());
-                synchronized (newValueAsNode) {
-                    newMap.set(newValueAsNode.childrenMap());
-                }
-                this.value = newMap;
-                return self();
-
-            } else {
-                // handle scalar/null
-                newValue = newValueAsNode.get();
-            }
+            from((ConfigurationNode) newValue);
+            return self();
         }
 
         // if the new value is null, handle detaching from this nodes parent
@@ -209,9 +169,54 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 this.parent.removeChild(this.key);
             }
             return self();
+        } else if (newValue instanceof Collection || newValue instanceof Map) {
+            insertNewValue(newValue, false);
+            return self();
+        } else {
+            return set(newValue.getClass(), newValue);
+        }
+    }
+
+    @Override
+    public N from(final ConfigurationNode that) {
+        if (that == this) { // this would be a no-op whoop
+            return self();
         }
 
-        insertNewValue(newValue, false);
+        this.hints.clear();
+        this.hints.putAll(that.ownHints());
+        if (that.isList()) {
+            // handle list
+            attachIfNecessary();
+            final ListConfigValue<N, A> newList = new ListConfigValue<>(implSelf());
+            synchronized (that) {
+                final List<? extends ConfigurationNode> children = that.childrenList();
+                for (int i = 0; i < children.size(); i++) {
+                    final A node = createNode(i);
+                    node.attached = true;
+                    node.from(children.get(i));
+                    newList.putChild(i, node);
+                }
+            }
+            this.value = newList;
+        } else if (that.isMap()) {
+            // handle map
+            attachIfNecessary();
+            final MapConfigValue<N, A> newMap = new MapConfigValue<>(implSelf());
+            synchronized (that) {
+                for (Map.Entry<Object, ? extends ConfigurationNode> entry : that.childrenMap().entrySet()) {
+                    final A node = createNode(entry.getKey());
+                    node.attached = true;
+                    node.from(entry.getValue());
+                    newMap.putChild(entry.getKey(), node);
+                }
+            }
+            this.value = newMap;
+        } else {
+            // handle scalar/null
+            this.raw(that.raw());
+        }
+
         return self();
     }
 
@@ -223,6 +228,10 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      *                    value is null
      */
     private void insertNewValue(final Object newValue, final boolean onlyIfNull) {
+        if (newValue instanceof ConfigurationNode) {
+            throw new IllegalArgumentException("Cannot set a node as the raw value of another node");
+        }
+
         attachIfNecessary();
 
         synchronized (this) {
@@ -249,10 +258,6 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
             // insert the data into the config value
             value.set(newValue);
-
-            /*if (oldValue != null && oldValue != value) {
-                oldValue.clear();
-            }*/
             this.value = value;
         }
     }
@@ -279,14 +284,14 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : other.childrenMap().entrySet()) {
                     final @Nullable A currentChild = newValue.child(ent.getKey());
                     // Never allow null values to overwrite non-null values
-                    if ((currentChild != null && currentChild.get() != null) && ent.getValue().get() == null) {
+                    if ((currentChild != null && currentChild.raw() != null) && ent.getValue().raw() == null) {
                         continue;
                     }
 
                     // create a new child node for the value
                     final A newChild = this.createNode(ent.getKey());
                     newChild.attached = true;
-                    newChild.set(ent.getValue());
+                    newChild.from(ent.getValue());
                     // replace the existing value, if absent
                     final @Nullable A existing = newValue.putChildIfAbsent(ent.getKey(), newChild);
                     // if an existing value was present, attempt to merge the new value into it
@@ -296,15 +301,51 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 }
                 this.value = newValue;
             }
-        } else if (other.get() != null) {
+        } else if (other.isList()) {
+            if (virtual()) {
+                from(other);
+            }
+        } else if (other.rawScalar() != null) {
             // otherwise, replace the value of this node, only if currently null
-            insertNewValue(other.get(), true);
+            insertNewValue(other.rawScalar(), true);
         }
         return self();
     }
 
     @Override
-    public N node(final Object... path) {
+    public final @Nullable Object raw() {
+        // TODO: Stop unwrapping non-scalar values here
+        return this.value.get();
+    }
+
+    @Override
+    public final N raw(final @Nullable Object newValue) {
+        // if the new value is null, handle detaching from this nodes parent
+        if (newValue == null) {
+            if (this.parent == null) {
+                clear();
+            } else {
+                this.parent.removeChild(this.key);
+            }
+        } else {
+            insertNewValue(newValue, false);
+        }
+
+        return self();
+    }
+
+    @Override
+    public final @Nullable Object rawScalar() {
+        final ConfigValue<N, A> value = this.value;
+        if (value instanceof ScalarConfigValue<?, ?>) {
+            return value.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public final N node(final Object... path) {
         A pointer = implSelf();
         for (Object el : path) {
             pointer = pointer.child(requireNonNull(el, () -> "element in path " + Arrays.toString(path)), false);
@@ -313,7 +354,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public N node(final Iterable<?> path) {
+    public final N node(final Iterable<?> path) {
         A pointer = implSelf();
         for (final Object el : path) {
             pointer = pointer.child(requireNonNull(el, () -> "element in path " + path), false);
@@ -322,7 +363,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean hasChild(final Object... path) {
+    public final boolean hasChild(final Object... path) {
         A pointer = implSelf();
         for (final Object el : path) {
             final @Nullable A child = pointer.value.child(requireNonNull(el, () -> "element in path " + Arrays.toString(path)));
@@ -335,7 +376,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean hasChild(final Iterable<?> path) {
+    public final boolean hasChild(final Iterable<?> path) {
         A pointer = implSelf();
         for (final Object el : path) {
             final @Nullable A child = pointer.value.child(requireNonNull(el, () -> "element in path " + path));
@@ -348,30 +389,30 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean virtual() {
+    public final boolean virtual() {
         return !this.attached;
     }
 
     @Override
-    public boolean isList() {
+    public final boolean isList() {
         return this.value instanceof ListConfigValue;
     }
 
     @Override
-    public boolean isMap() {
+    public final boolean isMap() {
         return this.value instanceof MapConfigValue;
     }
 
     @NonNull
     @Override
-    public List<N> childrenList() {
+    public final List<N> childrenList() {
         final ConfigValue<N, A> value = this.value;
         return value instanceof ListConfigValue ? ((ListConfigValue<N, A>) value).unwrapped() : Collections.emptyList();
     }
 
     @NonNull
     @Override
-    public Map<Object, N> childrenMap() {
+    public final Map<Object, N> childrenMap() {
         final ConfigValue<N, A> value = this.value;
         return value instanceof MapConfigValue ? ((MapConfigValue<N, A>) value).unwrapped() : Collections.emptyMap();
     }
@@ -388,7 +429,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * @param attach if the resultant node should be automatically attached
      * @return the child node
      */
-    protected A child(final Object key, final boolean attach) {
+    protected final A child(final Object key, final boolean attach) {
         @Nullable A child = this.value.child(key);
 
         // child doesn't currently exist
@@ -413,12 +454,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public boolean removeChild(final Object key) {
+    public final boolean removeChild(final Object key) {
         return detachIfNonNull(this.value.putChild(key, null)) != null;
     }
 
-    private static <N extends ScopedConfigurationNode<N>,
-        T extends AbstractConfigurationNode<N, T>> @Nullable T detachIfNonNull(final @Nullable T node) {
+    private static <N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>>
+            @Nullable T detachIfNonNull(final @Nullable T node) {
         if (node != null) {
             node.attached = false;
             node.clear();
@@ -427,19 +468,19 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public N appendListNode() {
+    public final N appendListNode() {
         // the appended node can have a key of -1
         // the "real" key will be determined when the node is inserted into a list config value
         return child(-1, false).self();
     }
 
     @Override
-    public @Nullable Object key() {
+    public final @Nullable Object key() {
         return this.key;
     }
 
     @Override
-    public NodePath path() {
+    public final NodePath path() {
         N pointer = self();
         if (pointer.parent() == null) {
             return NodePath.path();
@@ -453,18 +494,18 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public @Nullable N parent() {
+    public final @Nullable N parent() {
         final @Nullable A parent = this.parent;
         return parent == null ? null : parent.self();
     }
 
     @Override
-    public ConfigurationOptions options() {
+    public final ConfigurationOptions options() {
         return this.options;
     }
 
     @Override
-    public N copy() {
+    public final N copy() {
         return copy(null).self();
     }
 
@@ -476,7 +517,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      *
      * @return the parent
      */
-    A parentEnsureAttached() {
+    final A parentEnsureAttached() {
         @Nullable A parent = this.parent;
         if (parent != null && parent.virtual()) {
             parent = parent.parentEnsureAttached().attachChildIfAbsent(parent);
@@ -485,7 +526,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return this.parent = parent;
     }
 
-    protected void attachIfNecessary() {
+    protected final void attachIfNecessary() {
         if (!this.attached) {
             parentEnsureAttached().attachChild(implSelf());
         }
@@ -495,7 +536,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return attachChild(child, true);
     }
 
-    void attachChild(final A child) {
+    final void attachChild(final A child) {
         attachChild(child, false);
     }
 
@@ -559,7 +600,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return child;
     }
 
-    protected void clear() {
+    protected final void clear() {
         synchronized (this) {
             final ConfigValue<N, A> oldValue = this.value;
             this.value = NullConfigValue.instance();
@@ -568,12 +609,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public <S, T, E extends Exception> T visit(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
+    public final <S, T, E extends Exception> T visit(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
         return visitInternal(visitor, state);
     }
 
     @Override
-    public <S, T> T visit(final ConfigurationVisitor.Safe<S, T> visitor, final S state) {
+    public final <S, T> T visit(final ConfigurationVisitor.Safe<S, T> visitor, final S state) {
         try {
             return visitInternal(visitor, state);
         } catch (final VisitorSafeNoopException e) {
@@ -617,7 +658,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
-    public <V> N hint(final RepresentationHint<V> hint, final @Nullable V value) {
+    public final <V> N hint(final RepresentationHint<V> hint, final @Nullable V value) {
         if (value == null) {
             this.hints.remove(hint);
         } else {
@@ -629,7 +670,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @SuppressWarnings("unchecked")
     @Override
-    public <V> @Nullable V hint(final RepresentationHint<V> hint) {
+    public final <V> @Nullable V hint(final RepresentationHint<V> hint) {
         final Object value = this.hints.get(hint);
         if (value != null) {
             return (V) value;
@@ -644,12 +685,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     @SuppressWarnings("unchecked")
-    public <V> @Nullable V ownHint(final RepresentationHint<V> hint) {
+    public final <V> @Nullable V ownHint(final RepresentationHint<V> hint) {
         return (V) this.hints.get(hint);
     }
 
     @Override
-    public Map<RepresentationHint<?>, ?> ownHints() {
+    public final Map<RepresentationHint<?>, ?> ownHints() {
         return UnmodifiableCollections.buildMap(m -> m.putAll(this.hints));
     }
 

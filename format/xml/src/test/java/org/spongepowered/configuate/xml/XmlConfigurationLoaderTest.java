@@ -68,9 +68,9 @@ public class XmlConfigurationLoaderTest {
         assertFalse(firstNote.isList());
 
         final Map<Object, AttributedConfigurationNode> properties = firstNote.childrenMap();
-        assertEquals("Tove", properties.get("to").get());
-        assertEquals("Jani", properties.get("from").get());
-        assertEquals("Don't forget me this weekend!", properties.get("body").get());
+        assertEquals("Tove", properties.get("to").raw());
+        assertEquals("Jani", properties.get("from").raw());
+        assertEquals("Don't forget me this weekend!", properties.get("body").raw());
         assertEquals("heading", properties.get("heading").tagName());
 
         final AttributedConfigurationNode secondNode = notes.get(1);
@@ -137,8 +137,8 @@ public class XmlConfigurationLoaderTest {
                 loader.defaultOptions().header("test header\ndo multiple lines work\nyes they do!!")
         ).tagName("test");
 
-        node.node("test1").set("something");
-        node.node("test2").set("I have a comment!").comment("Hi!");
+        node.node("test1").raw("something");
+        node.node("test2").raw("I have a comment!").comment("Hi!");
 
         loader.save(node);
         assertEquals(Resources.readLines(url, UTF_8), Files.readAllLines(saveTest));

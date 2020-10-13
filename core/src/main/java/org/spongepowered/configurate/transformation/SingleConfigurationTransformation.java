@@ -91,7 +91,7 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
         final Object @Nullable [] transformedPath = action.visitPath(nodePath, node);
         if (transformedPath != null && !Arrays.equals(path, transformedPath)) {
             this.strategy.move(node, start.node(transformedPath));
-            node.set(null);
+            node.raw(null);
         }
     }
 

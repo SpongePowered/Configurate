@@ -39,7 +39,7 @@ public enum MoveStrategy {
     OVERWRITE {
         @Override
         public <T extends ConfigurationNode> void move(final T source, final T target) {
-            target.set(source);
+            target.from(source);
         }
     };
 

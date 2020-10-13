@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -36,6 +35,7 @@ import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.Keyable;
+import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -109,7 +109,7 @@ public final class ConfigurateOpsTests {
     @Test
     @DisplayName("Configurate (String) -> Gson")
     void toGsonFromString() {
-        final ConfigurationNode node = BasicConfigurationNode.root().set("Test String");
+        final ConfigurationNode node = BasicConfigurationNode.root().raw("Test String");
         final Dynamic<ConfigurationNode> wrapped = new Dynamic<>(ConfigurateOps.instance(), node);
         final JsonElement output = wrapped.convert(JsonOps.INSTANCE).getValue();
 
@@ -125,8 +125,8 @@ public final class ConfigurateOpsTests {
         final Dynamic<JsonElement> wrapped = new Dynamic<>(JsonOps.INSTANCE, string);
         final ConfigurationNode output = wrapped.convert(ConfigurateOps.instance()).getValue();
 
-        assertTrue(output.get() instanceof String, "Resulting configuration node was not a String");
-        assertEquals(output.getString(), "Test String");
+        assertTrue(output.raw() instanceof String, "Resulting configuration node was not a String");
+        assertEquals("Test String", output.getString());
     }
 
     @Test
@@ -155,7 +155,7 @@ public final class ConfigurateOpsTests {
 
     @Test
     @DisplayName("Configurate (Integer List) -> Gson")
-    void toGsonFromList() {
+    void toGsonFromList() throws ObjectMappingException {
         final List<Integer> expectedElements = new ArrayList<>();
         expectedElements.add(1);
         expectedElements.add(3);
@@ -191,13 +191,12 @@ public final class ConfigurateOpsTests {
 
         assertTrue(output.isMap(), "Resulting configuration node was not a map");
         assertEquals(2, output.childrenMap().size(), "Resulting configuration node had wrong amount of child elements");
-        assertEquals(expectedValues, output.get(new TypeToken<Map<String, String>>() {
-        }));
+        assertEquals(expectedValues, output.get(new TypeToken<Map<String, String>>() {}));
     }
 
     @Test
     @DisplayName("Configurate (Map) -> Gson")
-    void toGsonFromMap() {
+    void toGsonFromMap() throws ObjectMappingException {
         final Map<String, String> expectedValues = new HashMap<>();
         expectedValues.put("foo", "bar");
         expectedValues.put("bar", "baz");

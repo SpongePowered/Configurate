@@ -33,14 +33,15 @@ import java.util.Set;
 public class RecordDiscovererTest {
 
     @ConfigSerializable
+    @SuppressWarnings("UnusedVariable")
     record TestRecord(String name, int testable) {
     }
 
     @Test
     void testDeserializeToRecord() throws ObjectMappingException {
         final var node = BasicConfigurationNode.root(n -> {
-            n.node("name").set("Hello");
-            n.node("testable").set(13);
+            n.node("name").raw("Hello");
+            n.node("testable").raw(13);
         });
 
         final var element = ObjectMapper.factory().get(TestRecord.class).load(node);
@@ -55,11 +56,12 @@ public class RecordDiscovererTest {
 
         ObjectMapper.factory().get(TestRecord.class).save(record, target);
 
-        assertEquals("meow", target.node("name").get());
-        assertEquals(32, target.node("testable").get());
+        assertEquals("meow", target.node("name").raw());
+        assertEquals(32, target.node("testable").raw());
     }
 
     @ConfigSerializable
+    @SuppressWarnings("UnusedVariable")
     record AnnotatedRecord(
         @Required TestRecord element,
         @Comment("The most url") URL fetchLoc
@@ -76,13 +78,14 @@ public class RecordDiscovererTest {
 
         ObjectMapper.factory().get(AnnotatedRecord.class).save(record, target);
 
-        assertEquals("nested", target.node("element", "name").get());
-        assertEquals(0xFACE, target.node("element", "testable").get());
-        assertEquals("https://spongepowered.org/", target.node("fetch-loc").get());
+        assertEquals("nested", target.node("element", "name").raw());
+        assertEquals(0xFACE, target.node("element", "testable").raw());
+        assertEquals("https://spongepowered.org/", target.node("fetch-loc").raw());
         assertEquals("The most url", target.node("fetch-loc").comment());
     }
 
     @ConfigSerializable
+    @SuppressWarnings("UnusedVariable")
     record Empty(@Nullable String value) {
 
         @SuppressWarnings("checkstyle:RequireThis") // TODO remove when https://github.com/checkstyle/checkstyle/issues/8873 is resolved
@@ -95,6 +98,7 @@ public class RecordDiscovererTest {
     }
 
     @ConfigSerializable
+    @SuppressWarnings("UnusedVariable")
     record ImplicitlyFillable(Empty something, Set<String> somethingElse) {
 
         @SuppressWarnings("checkstyle:RequireThis") // TODO remove when https://github.com/checkstyle/checkstyle/issues/8873 is resolved

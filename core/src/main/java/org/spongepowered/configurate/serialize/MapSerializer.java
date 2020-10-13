@@ -101,7 +101,7 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
                 keySerial.serialize(key, ent.getKey(), keyNode);
-                final Object keyObj = requireNonNull(keyNode.get(), "Key must not be null!");
+                final Object keyObj = requireNonNull(keyNode.raw(), "Key must not be null!");
                 valueSerial.serialize(value, ent.getValue(), node.node(keyObj));
                 unvisitedKeys.remove(keyObj);
             }

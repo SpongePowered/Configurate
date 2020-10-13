@@ -23,13 +23,14 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Arrays;
 
 public class CopyTest {
 
     @Test
-    void testSimpleCopy() {
+    void testSimpleCopy() throws ObjectMappingException {
         final ConfigurationNode node = BasicConfigurationNode.root();
         node.node("test").set(5);
         node.node("section", "val1").set(true);
@@ -46,26 +47,26 @@ public class CopyTest {
         assertFalse(node.virtual());
         assertFalse(copy.virtual());
 
-        assertEquals(5, copy.node("test").get());
-        assertEquals(true, copy.node("section", "val1").get());
-        assertEquals("TEST", copy.node("section", "val2").get());
-        assertEquals(Arrays.asList("value1", "value2"), copy.node("section2", "alist").get());
+        assertEquals(5, copy.node("test").raw());
+        assertEquals(true, copy.node("section", "val1").raw());
+        assertEquals("TEST", copy.node("section", "val2").raw());
+        assertEquals(Arrays.asList("value1", "value2"), copy.node("section2", "alist").raw());
 
         // change value on original
         node.node("section", "val2").set("NOT TEST");
 
         // test it's still the same on copy
-        assertEquals("TEST", copy.node("section", "val2").get());
+        assertEquals("TEST", copy.node("section", "val2").raw());
 
         // change value on copy
         copy.node("section", "val2").set("zzz");
 
         // test it's still the same on original
-        assertEquals("NOT TEST", node.node("section", "val2").get());
+        assertEquals("NOT TEST", node.node("section", "val2").raw());
     }
 
     @Test
-    void testCopyPaths() {
+    void testCopyPaths() throws ObjectMappingException {
         final ConfigurationNode node = BasicConfigurationNode.root();
         node.node("test").set(5);
         node.node("section", "val1").set(true);

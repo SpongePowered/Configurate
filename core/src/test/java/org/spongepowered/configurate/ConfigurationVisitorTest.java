@@ -31,20 +31,20 @@ public class ConfigurationVisitorTest {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
 
         base.node("cats").act(c -> {
-            c.node("large").set("great");
-            c.node("medium").set("wonderful");
-            c.node("small").set("stupendous");
+            c.node("large").raw("great");
+            c.node("medium").raw("wonderful");
+            c.node("small").raw("stupendous");
         });
 
         base.node("fish").act(c -> {
-            c.appendListNode().set("one");
+            c.appendListNode().raw("one");
             c.appendListNode().act(f -> {
-                f.node("number").set("two");
-                f.node("type").set("blue");
+                f.node("number").raw("two");
+                f.node("type").raw("blue");
             });
         });
 
-        base.node("dog").set("woof");
+        base.node("dog").raw("woof");
 
         final String result = base.visit(VISITOR);
         assertEquals("b(m(-cats-m(-large-s)(-medium-s)(-small-s))(-fish-l(-0-s)(-1-m(-number-s)(-type-s)))(-dog-s))t", result);
@@ -60,7 +60,7 @@ public class ConfigurationVisitorTest {
     @Test
     void testSingleScalar() {
         final BasicConfigurationNode base = BasicConfigurationNode.root();
-        base.set("test");
+        base.raw("test");
         final String result = base.visit(VISITOR);
         assertEquals("b(s)t", result);
     }
@@ -71,10 +71,10 @@ public class ConfigurationVisitorTest {
             @Override
             public void enterListNode(final ConfigurationNode node, final StringBuilder state) {
                 super.enterListNode(node, state);
-                node.set(null);
+                node.raw(null);
             }
         };
-        final BasicConfigurationNode base = BasicConfigurationNode.root().set(Collections.emptyList());
+        final BasicConfigurationNode base = BasicConfigurationNode.root().raw(Collections.emptyList());
         final String result = base.visit(visitor);
 
         assertEquals("b(l)t", result);

@@ -70,7 +70,7 @@ public final class Transformations {
                 })
                 // For every direct child of the `section` node, set the value of its child `new-value` to something
                 .addAction(path("section", ConfigurationTransformation.WILDCARD_OBJECT), (path, value) -> {
-                    value.node("new-value").set("i'm a default");
+                    value.node("new-value").raw("i'm a default"); // TODO: error handling
 
                     return null; // don't move the value
                 })
@@ -83,7 +83,7 @@ public final class Transformations {
                 .addAction(path("server", "version"), (path, value) -> {
                     final @Nullable String val = value.getString();
                     if (val != null) {
-                        value.set(val.replaceAll("-", "_"));
+                        value.raw(val.replaceAll("-", "_")); // TODO: error handling
                     }
                     return null;
                 })

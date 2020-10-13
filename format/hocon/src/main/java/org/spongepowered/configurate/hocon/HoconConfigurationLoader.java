@@ -55,8 +55,8 @@ import java.util.stream.Collectors;
  */
 public final class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
-    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(Map.class, List.class, Double.class,
-            Long.class, Integer.class, Boolean.class, String.class, Number.class);
+    private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
+            Double.class, Long.class, Integer.class, Boolean.class, String.class, Number.class);
 
     /**
      * The default render options used by configurate.
@@ -169,7 +169,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             case OBJECT:
                 final ConfigObject object = (ConfigObject) value;
                 if (object.isEmpty()) {
-                    node.set(Collections.emptyMap());
+                    node.raw(Collections.emptyMap());
                 } else {
                     for (Map.Entry<String, ConfigValue> ent : object.entrySet()) {
                         readConfigValue(ent.getValue(), node.node(ent.getKey()));
@@ -179,7 +179,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             case LIST:
                 final ConfigList list = (ConfigList) value;
                 if (list.isEmpty()) {
-                    node.set(Collections.emptyList());
+                    node.raw(Collections.emptyList());
                 } else {
                     for (int i = 0; i < list.size(); ++i) {
                         readConfigValue(list.get(i), node.node(i));
@@ -189,14 +189,14 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             case NULL:
                 return;
             default:
-                node.set(value.unwrapped());
+                node.raw(value.unwrapped());
         }
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
         if (!node.isMap()) {
-            if (node.get() == null) {
+            if (node.virtual() || node.raw() == null) {
                 writer.write(SYSTEM_LINE_SEPARATOR);
                 return;
             } else {
@@ -224,7 +224,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             ret = newConfigList(children);
 
         } else {
-            ret = ConfigValueFactory.fromAnyRef(node.get(), CONFIGURATE_ORIGIN.description());
+            ret = ConfigValueFactory.fromAnyRef(node.rawScalar(), CONFIGURATE_ORIGIN.description());
         }
         if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
             final CommentedConfigurationNodeIntermediary<?> commentedNode = (CommentedConfigurationNodeIntermediary<?>) node;

@@ -60,11 +60,11 @@ public class HoconConfigurationLoaderTest {
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .sink(AtomicFiles.atomicWriterFactory(saveTest, StandardCharsets.UTF_8)).build();
         final CommentedConfigurationNode node = loader.load();
-        assertEquals("unicorn", node.node("test", "op-level").get());
-        assertEquals("dragon", node.node("other", "op-level").get());
+        assertEquals("unicorn", node.node("test", "op-level").raw());
+        assertEquals("dragon", node.node("other", "op-level").raw());
         final CommentedConfigurationNode testNode = node.node("test");
         assertEquals(" Test node", testNode.comment());
-        assertEquals("dog park", node.node("other", "location").get());
+        assertEquals("dog park", node.node("other", "location").raw());
         loader.save(node);
         assertEquals(Resources.readLines(getClass().getResource("/roundtrip-test.conf"), StandardCharsets.UTF_8), Files
                 .readAllLines(saveTest, StandardCharsets.UTF_8));
@@ -85,7 +85,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testHeaderSaved(final @TempDir Path tempDir) throws IOException {
+    void testHeaderSaved(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
         final Path saveTo = tempDir.resolve("text3.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo)
@@ -101,7 +101,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException {
+    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException, ObjectMappingException {
         final URL url = getClass().getResource("/comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
