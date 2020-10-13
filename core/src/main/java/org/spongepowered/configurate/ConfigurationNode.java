@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.AbstractConfigurationNode.storeDefault;
 import static org.spongepowered.configurate.util.Types.makeListType;
 
+import io.leangen.geantyref.TypeFactory;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -571,6 +572,72 @@ public interface ConfigurationNode {
         final TypeToken<List<V>> type = makeListType(elementType);
         final List<V> ret = get(type, defSupplier);
         return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
+    }
+
+    /**
+     * If this node has list values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list
+     * with one value.</p>
+     *
+     * @param type the expected type
+     * @param <V> the expected type
+     * @return an immutable copy of the values contained
+     * @throws ObjectMappingException if any value fails to be converted to the
+     *                                requested type
+     */
+    @SuppressWarnings("unchecked")
+    default <V> @Nullable List<V> getList(Class<V> type) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+        return (List<V>) get(TypeFactory.parameterizedClass(List.class, type));
+    }
+
+    /**
+     * If this node has list values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param def default value if no appropriate value is set
+     * @param <V> expected type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws ObjectMappingException if any value fails to be converted to the
+     *                                requested type
+     */
+    @SuppressWarnings("unchecked")
+    default <V> List<V> getList(Class<V> elementType, List<V> def) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+        final Type type = TypeFactory.parameterizedClass(List.class, elementType);
+        final @Nullable List<V> ret = (List<V>) get(type, def);
+        return ret == null || ret.isEmpty() ? storeDefault(this, type, def) : ret;
+    }
+
+    /**
+     * If this node has list values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param defSupplier function that will be called to calculate a default
+     *                    value only if there is no existing value of the
+     *                    correct type
+     * @param <V> expected type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws ObjectMappingException if any value fails to be converted to the
+     *                                requested type
+     */
+    @SuppressWarnings({"unchecked", "checkstyle:NoGetSetPrefix"})
+    default <V> List<V> getList(Class<V> elementType, Supplier<List<V>> defSupplier) throws ObjectMappingException {
+        final Type type = TypeFactory.parameterizedClass(List.class, elementType);
+        final List<V> ret = (List<V>) get(type, defSupplier);
+        return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;
     }
 
     /**
