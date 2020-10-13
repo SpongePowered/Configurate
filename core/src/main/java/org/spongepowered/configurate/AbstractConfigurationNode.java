@@ -314,7 +314,6 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public final @Nullable Object raw() {
-        // TODO: Stop unwrapping non-scalar values here
         return this.value.get();
     }
 

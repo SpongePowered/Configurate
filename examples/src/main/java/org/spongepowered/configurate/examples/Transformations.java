@@ -21,6 +21,7 @@ import static org.spongepowered.configurate.transformation.NodePath.path;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import org.spongepowered.configurate.transformation.TransformAction;
 
@@ -70,7 +71,7 @@ public final class Transformations {
                 })
                 // For every direct child of the `section` node, set the value of its child `new-value` to something
                 .addAction(path("section", ConfigurationTransformation.WILDCARD_OBJECT), (path, value) -> {
-                    value.node("new-value").raw("i'm a default"); // TODO: error handling
+                    value.node("new-value").set("i'm a default");
 
                     return null; // don't move the value
                 })
@@ -83,7 +84,7 @@ public final class Transformations {
                 .addAction(path("server", "version"), (path, value) -> {
                     final @Nullable String val = value.getString();
                     if (val != null) {
-                        value.raw(val.replaceAll("-", "_")); // TODO: error handling
+                        value.set(val.replaceAll("-", "_"));
                     }
                     return null;
                 })
@@ -106,7 +107,7 @@ public final class Transformations {
      * @param <N> node type
      * @return provided node, after transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) {
+    public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) throws ObjectMappingException {
         if (!node.virtual()) { // we only want to migrate existing data
             final ConfigurationTransformation.Versioned<N> trans = create();
             final int startVersion = trans.version(node);
@@ -128,7 +129,14 @@ public final class Transformations {
                 .path(Paths.get(args[0]))
                 .build();
 
-        loader.save(updateNode(loader.load())); // tada
+        try {
+            loader.save(updateNode(loader.load())); // tada
+        } catch (final ObjectMappingException ex) {
+            // We try to update as much as possible, so could theoretically save a partially updated file here
+            System.err.println("Failed to fully update node: " + ex.getMessage());
+            ex.printStackTrace();
+            System.exit(1);
+        }
     }
 
 }

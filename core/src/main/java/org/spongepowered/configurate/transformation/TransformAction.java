@@ -56,7 +56,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
         return (path, value) -> {
             final Object[] arr = path.array();
             if (arr.length == 0) {
-                throw new IllegalArgumentException("The root node cannot be renamed!");
+                throw new ObjectMappingException("The root node cannot be renamed!"); // TODO: plain ConfigurateException
             }
             arr[arr.length - 1] = newKey;
             return arr;
@@ -89,11 +89,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      */
     static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(TypeToken<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
-            try {
-                value.set(type, valueSupplier.get());
-            } catch (ObjectMappingException e) {
-                // TODO: Error handling
-            }
+            value.set(type, valueSupplier.get());
             return null;
         };
     }
@@ -110,11 +106,7 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      */
     static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(Class<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
-            try {
-                value.set(type, valueSupplier.get());
-            } catch (ObjectMappingException e) {
-                // TODO: Error handling
-            }
+            value.set(type, valueSupplier.get());
             return null;
         };
     }
@@ -132,6 +124,6 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param valueAtPath the node at the input path. May be modified
      * @return a modified path, or null if the path is to stay the same
      */
-    @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath);
+    @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath) throws ObjectMappingException;
 
 }

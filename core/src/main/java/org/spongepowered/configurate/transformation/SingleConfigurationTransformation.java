@@ -18,6 +18,7 @@ package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,26 +50,57 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
     }
 
     @Override
-    public void apply(final N node) {
+    public void apply(final N node) throws ObjectMappingException {
+        @Nullable ObjectMappingException thrown = null;
         for (Map.Entry<NodePath, TransformAction<? super N>> ent : this.actions.entrySet()) {
-            applySingleAction(node, ent.getKey().array(), 0, node, ent.getValue());
+            try {
+                applySingleAction(node, ent.getKey().array(), 0, node, ent.getValue());
+            } catch (final ObjectMappingException ex) {
+                if (thrown == null) {
+                    thrown = ex;
+                } else {
+                    thrown.addSuppressed(ex);
+                }
+            }
+        }
+
+        if (thrown != null) {
+            throw thrown;
         }
     }
 
-    private void applySingleAction(final N start, final Object[] path, final int startIdx, N node, final TransformAction<? super N> action) {
+    private void applySingleAction(final N start, final Object[] path, final int startIdx, N node, final TransformAction<? super N> action)
+            throws ObjectMappingException {
+        @Nullable ObjectMappingException thrown = null;
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.isList()) {
                     final List<N> children = node.childrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
-                        applySingleAction(start, path, i + 1, children.get(di), action);
+                        try {
+                            applySingleAction(start, path, i + 1, children.get(di), action);
+                        } catch (final ObjectMappingException ex) {
+                            if (thrown == null) {
+                                thrown = ex;
+                            } else {
+                                thrown.addSuppressed(ex);
+                            }
+                        }
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else if (node.isMap()) {
                     for (Map.Entry<Object, N> ent : node.childrenMap().entrySet()) {
                         path[i] = ent.getKey();
-                        applySingleAction(start, path, i + 1, ent.getValue(), action);
+                        try {
+                            applySingleAction(start, path, i + 1, ent.getValue(), action);
+                        } catch (final ObjectMappingException ex) {
+                            if (thrown == null) {
+                                thrown = ex;
+                            } else {
+                                thrown.addSuppressed(ex);
+                            }
+                        }
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else {
