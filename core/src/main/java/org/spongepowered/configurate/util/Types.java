@@ -52,6 +52,9 @@ import java.util.stream.StreamSupport;
  *
  * <p>Most of these utilities are designed to go along with
  * <a href="https://github.com/leangen/geantyref">GeAnTyRef</a>.</p>
+ *
+ * @see GenericTypeReflector for other tools to work with types
+ * @see TypeFactory for methods to construct types
  */
 public final class Types {
 
@@ -226,7 +229,7 @@ public final class Types {
         @Override
         public Type next() {
             // Get current type, throws the correct exception if empty
-            final Type head = this.types.removeFirst();
+            final Type head = this.types.removeLast();
 
             // Calculate the next step depending on the type of Type seen
             // Arrays, covariant based on component type
@@ -271,7 +274,7 @@ public final class Types {
 
         private void addIfUnseen(final Type type) {
             if (this.seen.add(type)) {
-                this.types.addFirst(type);
+                this.types.addLast(type);
             }
         }
 
