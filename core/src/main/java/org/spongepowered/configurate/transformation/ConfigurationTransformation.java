@@ -80,7 +80,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      * @return a new transformation chain
      */
     @SafeVarargs
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "varargs"})
     static <T extends ConfigurationNode> ConfigurationTransformation<T>
         chain(final ConfigurationTransformation<? super T>... transformations) {
         if (requireNonNull(transformations, "transformations").length == 0) {
@@ -209,6 +209,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
          * @return this builder
          */
         @SafeVarargs
+        @SuppressWarnings("varargs")
         public final @NonNull VersionedBuilder<T> addVersion(final int version,
                 final @NonNull ConfigurationTransformation<? super T>... transformations) {
             return this.addVersion(version, chain(transformations));
