@@ -17,7 +17,7 @@
 package org.spongepowered.configurate.yaml;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
@@ -39,7 +39,7 @@ import java.util.Set;
  * parsing and generation.
  *
  */
-public final class YamlConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
+public final class YamlConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
     /**
      * YAML native types from <a href="https://yaml.org/type/">YAML 1.1 Global tags</a>.
@@ -147,7 +147,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
-    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) {
+    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
         node.raw(this.yaml.get().load(reader));
     }
 
@@ -157,8 +157,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
-    public BasicConfigurationNode createNode(final ConfigurationOptions options) {
-        return BasicConfigurationNode.root(options);
+    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {
+        return CommentedConfigurationNode.root(options);
     }
 
 }

@@ -35,6 +35,7 @@ import org.spongepowered.configurate.AttributedConfigurationNode
 import org.spongepowered.configurate.BasicConfigurationNode
 import org.spongepowered.configurate.CommentedConfigurationNode
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary
+import org.spongepowered.configurate.ConfigurateException
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader
@@ -44,7 +45,6 @@ import org.spongepowered.configurate.xml.XmlConfigurationLoader
 import org.spongepowered.configurate.yaml.NodeStyle
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import java.io.Console
-import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystems
@@ -132,7 +132,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                 echo("")
             }
             dumpTree(node, "")
-        } catch (e: IOException) {
+        } catch (e: ConfigurateException) {
             e.cause?.apply {
                 echo("Error while loading: $message")
             }
@@ -223,10 +223,10 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
     }
 }
 
-class Yaml : FormatSubcommand<BasicConfigurationNode>("YAML") {
+class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
     private val flowStyle by option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
-    override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
+    override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return YamlConfigurationLoader.builder()
             .path(path)
             .headerMode(header)
