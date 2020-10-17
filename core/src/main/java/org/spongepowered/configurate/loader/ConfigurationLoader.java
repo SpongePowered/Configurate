@@ -16,13 +16,13 @@
  */
 package org.spongepowered.configurate.loader;
 
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNodeFactory;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.WatchServiceListener;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Function;
 
@@ -47,10 +47,10 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * construct the resultant configuration nodes.</p>
      *
      * @return the newly constructed node
-     * @throws IOException if any sort of error occurs with reading or parsing
-     *                     the configuration
+     * @throws ConfigurateException if any sort of error occurs with reading or
+     *                              parsing the configuration
      */
-    default N load() throws IOException {
+    default N load() throws ConfigurateException {
         return load(defaultOptions());
     }
 
@@ -62,30 +62,30 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      *
      * @param options the options to load with
      * @return the newly constructed node
-     * @throws IOException if any sort of error occurs with reading or parsing
-     *                     the configuration
+     * @throws ConfigurateException if any sort of error occurs with reading or
+     *                              parsing the configuration
      */
-    N load(ConfigurationOptions options) throws IOException;
+    N load(ConfigurationOptions options) throws ConfigurateException;
 
     /**
      * Attempts to load data from the defined source into a {@link ConfigurationReference}.
      * The returned reference will not reload automatically.
      *
      * @return the created reference
-     * @throws IOException when an error occurs within the loader
-     * @see WatchServiceListener#listenToConfiguration(Function, Path)  to
+     * @throws ConfigurateException when an error occurs within the loader
+     * @see WatchServiceListener#listenToConfiguration(Function, Path) to
      *      create an auto-reloading configuration.
      */
-    ConfigurationReference<N> loadToReference() throws IOException;
+    ConfigurationReference<N> loadToReference() throws ConfigurateException;
 
     /**
      * Attempts to save a {@link ConfigurationNode} using this loader, to the defined sink.
      *
      * @param node the node to save
-     * @throws IOException if any sort of error occurs with writing or
+     * @throws ConfigurateException if any sort of error occurs with writing or
      *                     generating the configuration
      */
-    void save(ConfigurationNode node) throws IOException;
+    void save(ConfigurationNode node) throws ConfigurateException;
 
     /**
      * Gets if this loader is capable of loading configurations.

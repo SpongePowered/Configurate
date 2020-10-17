@@ -19,6 +19,7 @@ package org.spongepowered.configurate.loader;
 import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -120,14 +121,14 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     }
 
     @Override
-    public ConfigurationReference<N> loadToReference() throws IOException {
+    public ConfigurationReference<N> loadToReference() throws ConfigurateException {
         return ConfigurationReference.fixed(this);
     }
 
     @Override
-    public N load(ConfigurationOptions options) throws IOException {
+    public N load(ConfigurationOptions options) throws ParsingException {
         if (this.source == null) {
-            throw new IOException("No source present to read from!");
+            throw new ParsingException(-1, -1, "", "No source present to read from!", null);
         }
         try (BufferedReader reader = this.source.call()) {
             if (this.headerMode == HeaderMode.PRESERVE || this.headerMode == HeaderMode.NONE) {
@@ -139,22 +140,24 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
             final N node = createNode(options);
             loadInternal(node, reader);
             return node;
+        } catch (final ParsingException ex) {
+            throw ex;
         } catch (final FileNotFoundException | NoSuchFileException e) {
             // Squash -- there's nothing to read
             return createNode(options);
         } catch (final IOException e) {
-            throw e;
+            throw new ParsingException(-1, -1, options.header(), null, e);
         } catch (final Exception e) {
-            throw new IOException(e);
+            throw new ParsingException(-1, -1, options.header(), "Unknown error occurred while loading", e);
         }
     }
 
-    protected abstract void loadInternal(N node, BufferedReader reader) throws IOException;
+    protected abstract void loadInternal(N node, BufferedReader reader) throws ParsingException;
 
     @Override
-    public void save(final ConfigurationNode node) throws IOException {
+    public void save(final ConfigurationNode node) throws ConfigurateException {
         if (this.sink == null) {
-            throw new IOException("No sink present to write to!");
+            throw new ConfigurateException(node, "No sink present to write to!");
         }
         try (Writer writer = this.sink.call()) {
             writeHeaderInternal(writer);
@@ -170,16 +173,16 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
                 }
             }
             saveInternal(node, writer);
-        } catch (final IOException e) {
-            throw e;
-        } catch (final Exception e) {
-            throw new IOException(e);
+        } catch (final ConfigurateException ex) {
+            throw ex;
+        } catch (final Exception ex) {
+            throw new ConfigurateException(node, ex);
         }
     }
 
     protected void writeHeaderInternal(final Writer writer) throws IOException {}
 
-    protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws IOException;
+    protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws ConfigurateException;
 
     @Override
     public ConfigurationOptions defaultOptions() {

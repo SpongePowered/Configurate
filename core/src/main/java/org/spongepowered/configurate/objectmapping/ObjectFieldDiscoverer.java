@@ -21,6 +21,7 @@ import static io.leangen.geantyref.GenericTypeReflector.getExactSuperType;
 import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.Types;
 
@@ -52,18 +53,18 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
         }
     });
 
-    private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory;
+    private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory;
 
-    ObjectFieldDiscoverer(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, ObjectMappingException> instanceFactory) {
+    ObjectFieldDiscoverer(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
         this.instanceFactory = instanceFactory;
     }
 
     @Override
     public <V> @Nullable InstanceFactory<Map<Field, Object>> discover(final AnnotatedType target,
-            final FieldCollector<Map<Field, Object>, V> collector) throws ObjectMappingException {
+            final FieldCollector<Map<Field, Object>, V> collector) throws SerializationException {
         final Class<?> clazz = erase(target.getType());
         if (clazz.isInterface()) {
-            throw new ObjectMappingException("ObjectMapper can only work with concrete types");
+            throw new SerializationException(target.getType(), "ObjectMapper can only work with concrete types");
         }
 
         final @Nullable Supplier<Object> maker = this.instanceFactory.apply(target);
@@ -87,7 +88,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
             }
 
             @Override
-            public void complete(final Object instance, final Map<Field, Object> intermediate) throws ObjectMappingException {
+            public void complete(final Object instance, final Map<Field, Object> intermediate) throws SerializationException {
                 for (Map.Entry<Field, Object> entry : intermediate.entrySet()) {
                     try {
                         // Handle implicit field initialization by detecting any existing information in the object
@@ -102,16 +103,16 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
                             entry.getKey().set(instance, entry.getValue());
                         }
                     } catch (final IllegalAccessException e) {
-                        throw new ObjectMappingException(e);
+                        throw new SerializationException(target.getType(), e);
                     }
                 }
             }
 
             @Override
-            public Object complete(final Map<Field, Object> intermediate) throws ObjectMappingException {
+            public Object complete(final Map<Field, Object> intermediate) throws SerializationException {
                 final Object instance = maker == null ? null : maker.get();
                 if (instance == null) {
-                    throw new ObjectMappingException("Unable to create instance with this populator");
+                    throw new SerializationException(target.getType(), "Unable to create instance with this populator");
                 }
                 complete(instance, intermediate);
                 return instance;

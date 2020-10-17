@@ -22,7 +22,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import org.spongepowered.configurate.objectmapping.FieldDiscoverer;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -67,7 +67,7 @@ public final class GuiceObjectMapperProvider {
                 final Provider<?> prov = injector.getProvider(Key.get(type.getType()));
                 return prov::get;
             } catch (final ConfigurationException ex) {
-                throw new ObjectMappingException("Cannot create instances", ex);
+                throw new SerializationException(type.getType(), "Cannot create instances", ex);
             }
         });
     }

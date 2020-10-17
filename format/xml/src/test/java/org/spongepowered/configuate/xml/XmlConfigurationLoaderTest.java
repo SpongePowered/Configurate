@@ -25,6 +25,7 @@ import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.AttributedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.xml.XmlConfigurationLoader;
 
@@ -43,7 +44,7 @@ import java.util.Map;
 public class XmlConfigurationLoaderTest {
 
     @Test
-    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+    void testSimpleLoading(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         final URL url = getClass().getResource("/example.xml");
         final Path saveTest = tempDir.resolve("text1.txt");
 
@@ -91,7 +92,7 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    void testExplicitTypes(final @TempDir Path tempDir) throws IOException {
+    void testExplicitTypes(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         final URL url = getClass().getResource("/example2.xml");
         final Path saveTest = tempDir.resolve("text2.txt");
 
@@ -122,7 +123,7 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    void testComments(final @TempDir Path tempDir) throws IOException {
+    void testComments(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         final URL url = getClass().getResource("/example3.xml");
         final Path saveTest = tempDir.resolve("text3.txt");
 
@@ -145,7 +146,7 @@ public class XmlConfigurationLoaderTest {
     }
 
     @Test
-    void testCommentsRoundtrip(final @TempDir Path tempDir) throws IOException {
+    void testCommentsRoundtrip(final @TempDir Path tempDir) throws IOException, ConfigurateException {
         final URL original = getClass().getResource("/example3.xml");
         final Path destination = tempDir.resolve("test3-roundtrip.xml");
 

@@ -16,8 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-
 import java.util.function.BiFunction;
 
 /**
@@ -89,7 +87,7 @@ final class NumericSerializers {
             if (v instanceof Number) {
                 final double d = ((Number) v).doubleValue();
                 if (d > Float.MAX_VALUE || d < Float.MIN_VALUE) {
-                    throw new ObjectMappingException("Value " + d + " is out of bounds of a float");
+                    throw new SerializationException("Value " + d + " is out of bounds of a float");
                 }
                 return (float) d;
             } else if (v instanceof CharSequence) {
@@ -100,7 +98,7 @@ final class NumericSerializers {
                 try {
                     return Float.parseFloat(value);
                 } catch (final NumberFormatException ex) {
-                    throw new ObjectMappingException(ex);
+                    throw new SerializationException(ex);
                 }
             } else {
                 throw new CoercionFailedException(v, "float");
@@ -120,7 +118,7 @@ final class NumericSerializers {
                 try {
                     return Double.parseDouble(value);
                 } catch (final NumberFormatException ex) {
-                    throw new ObjectMappingException(ex);
+                    throw new SerializationException(ex);
                 }
             } else {
                 throw new CoercionFailedException(v, "double");
@@ -153,7 +151,7 @@ final class NumericSerializers {
             if (value instanceof Number) {
                 final long full = ((Number) value).longValue();
                 if (full > Byte.MAX_VALUE || full < Byte.MIN_VALUE) {
-                    throw new ObjectMappingException("Value " + full
+                    throw new SerializationException("Value " + full
                             + " is out of range for a byte ([" + Byte.MIN_VALUE + "," + Byte.MAX_VALUE + "])");
                 }
                 return (byte) full;
@@ -189,7 +187,7 @@ final class NumericSerializers {
             if (value instanceof Number) {
                 final long full = ((Number) value).longValue();
                 if (full > Short.MAX_VALUE || full < Short.MIN_VALUE) {
-                    throw new ObjectMappingException("Value " + full
+                    throw new SerializationException("Value " + full
                             + " is out of range for a short ([" + Short.MIN_VALUE + "," + Short.MAX_VALUE + "])");
                 }
                 return (short) full;
@@ -223,7 +221,7 @@ final class NumericSerializers {
             if (value instanceof Number) {
                 final long full = ((Number) value).longValue();
                 if (full > Integer.MAX_VALUE || full < Integer.MIN_VALUE) {
-                    throw new ObjectMappingException("Value " + full
+                    throw new SerializationException("Value " + full
                             + " is out of range for an integer ([" + Integer.MIN_VALUE + "," + Integer.MAX_VALUE + "])");
                 }
                 return (int) full;
@@ -268,12 +266,12 @@ final class NumericSerializers {
      * @param suffix the numeric suffix, in lowercase
      * @param <T> the number type
      * @return the parsed number
-     * @throws ObjectMappingException if unable to interpret an appropriate
+     * @throws SerializationException if unable to interpret an appropriate
      *                                number from the input string.
      */
     static <T extends Number> T parseNumber(String input,
             final BiFunction<String, Integer, T> parseFunc, final BiFunction<String, Integer, T> unsignedParseFunc,
-            final String suffix) throws ObjectMappingException {
+            final String suffix) throws SerializationException {
         boolean unsigned = false;
         boolean negative = false;
 
@@ -293,7 +291,7 @@ final class NumericSerializers {
 
         if (input.startsWith("-", startIdx)) {
             if (unsigned) {
-                throw new ObjectMappingException("Negative numbers cannot be unsigned! (both - prefix and u suffix were used)");
+                throw new SerializationException("Negative numbers cannot be unsigned! (both - prefix and u suffix were used)");
             }
             negative = true;
             ++startIdx;
@@ -322,7 +320,7 @@ final class NumericSerializers {
         try {
             return (unsigned ? unsignedParseFunc : parseFunc).apply(input, radix);
         } catch (final IllegalArgumentException ex) {
-            throw new ObjectMappingException(ex);
+            throw new SerializationException(ex);
         }
     }
 

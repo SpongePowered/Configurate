@@ -19,9 +19,9 @@ package org.spongepowered.configurate.transformation;
 import static java.util.Objects.requireNonNull;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -99,7 +99,7 @@ public interface ConfigurationTransformation<T extends ConfigurationNode> {
      *
      * @param node the target node
      */
-    void apply(T node) throws ObjectMappingException;
+    void apply(T node) throws ConfigurateException;
 
     /**
      * Builds a basic {@link ConfigurationTransformation}.

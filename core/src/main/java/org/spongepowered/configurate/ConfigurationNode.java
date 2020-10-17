@@ -24,8 +24,8 @@ import io.leangen.geantyref.TypeFactory;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.serialize.Scalars;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 
@@ -261,7 +261,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -280,7 +280,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -299,7 +299,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -318,7 +318,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -334,11 +334,11 @@ public interface ConfigurationNode {
      * @param type the type to deserialize to
      * @param <V> the type to get
      * @return the value if present and of the proper type, else null
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type token
-    default <V> @Nullable V get(TypeToken<V> type) throws ObjectMappingException {
+    default <V> @Nullable V get(TypeToken<V> type) throws SerializationException {
         return (V) get(type.getType());
     }
 
@@ -357,11 +357,11 @@ public interface ConfigurationNode {
      *            appropriate type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V get(TypeToken<V> type, V def) throws ObjectMappingException {
+    default <V> V get(TypeToken<V> type, V def) throws SerializationException {
         return (V) get(type.getType(), def);
     }
 
@@ -381,11 +381,11 @@ public interface ConfigurationNode {
      *                    the correct type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V get(TypeToken<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
+    default <V> V get(TypeToken<V> type, Supplier<V> defSupplier) throws SerializationException {
         return (V) get(type.getType(), defSupplier);
     }
 
@@ -402,11 +402,11 @@ public interface ConfigurationNode {
      * @param type the type to deserialize to
      * @param <V> the type to get
      * @return the value if present and of the proper type, else null
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> @Nullable V get(Class<V> type) throws ObjectMappingException {
+    default <V> @Nullable V get(Class<V> type) throws SerializationException {
         return (V) get((Type) type);
     }
 
@@ -425,11 +425,11 @@ public interface ConfigurationNode {
      *            appropriate type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V get(Class<V> type, V def) throws ObjectMappingException {
+    default <V> V get(Class<V> type, V def) throws SerializationException {
         return (V) get((Type) type, def);
     }
 
@@ -449,11 +449,11 @@ public interface ConfigurationNode {
      *                    the correct type
      * @param <V> the type to get
      * @return the value if of the proper type, else {@code def}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V get(Class<V> type, Supplier<V> defSupplier) throws ObjectMappingException {
+    default <V> V get(Class<V> type, Supplier<V> defSupplier) throws SerializationException {
         return (V) get((Type) type, defSupplier);
     }
 
@@ -466,10 +466,10 @@ public interface ConfigurationNode {
      *
      * @param type the type to deserialize to
      * @return the value if present and of the proper type, else null
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
-    @Nullable Object get(Type type) throws ObjectMappingException;
+    @Nullable Object get(Type type) throws SerializationException;
 
     /**
      * Get the current value associated with this node.
@@ -482,10 +482,10 @@ public interface ConfigurationNode {
      * @param def value to return if {@link #virtual()} or value is not of
      *            appropriate type
      * @return the value if of the proper type, else {@code def}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
-    default Object get(Type type, Object def) throws ObjectMappingException {
+    default Object get(Type type, Object def) throws SerializationException {
         final @Nullable Object value = get(type);
         return value == null ? storeDefault(this, type, def) : value;
     }
@@ -502,10 +502,10 @@ public interface ConfigurationNode {
      *                    default value only if there is no existing value of
      *                    the correct type
      * @return the value if of the proper type, else {@code def}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
-    default Object get(Type type, Supplier<?> defSupplier) throws ObjectMappingException {
+    default Object get(Type type, Supplier<?> defSupplier) throws SerializationException {
         final @Nullable Object value = get(type);
         return value == null ? storeDefault(this, type, defSupplier.get()) : value;
     }
@@ -520,10 +520,10 @@ public interface ConfigurationNode {
      * @param type the expected type
      * @param <V> the expected type
      * @return an immutable copy of the values contained
-     * @throws ObjectMappingException if any value fails to be converted to the
+     * @throws SerializationException if any value fails to be converted to the
      *                                requested type
      */
-    default <V> @Nullable List<V> getList(TypeToken<V> type) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> @Nullable List<V> getList(TypeToken<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
         return get(makeListType(type));
     }
 
@@ -540,10 +540,10 @@ public interface ConfigurationNode {
      * @return an immutable copy of the values contained that could be
      *         successfully converted, or {@code def} if no values could be
      *         converted.
-     * @throws ObjectMappingException if any value fails to be converted to the
+     * @throws SerializationException if any value fails to be converted to the
      *                                requested type
      */
-    default <V> List<V> getList(TypeToken<V> elementType, List<V> def) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> List<V> getList(TypeToken<V> elementType, List<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
         final TypeToken<List<V>> type = makeListType(elementType);
         final @Nullable List<V> ret = get(type, def);
         return ret == null || ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;
@@ -564,11 +564,11 @@ public interface ConfigurationNode {
      * @return an immutable copy of the values contained that could be
      *         successfully converted, or {@code def} if no values could be
      *         converted.
-     * @throws ObjectMappingException if any value fails to be converted to the
+     * @throws SerializationException if any value fails to be converted to the
      *                                requested type
      */
     // @cs-: NoGetSetPrefix (not a bean method)
-    default <V> List<V> getList(TypeToken<V> elementType, Supplier<List<V>> defSupplier) throws ObjectMappingException {
+    default <V> List<V> getList(TypeToken<V> elementType, Supplier<List<V>> defSupplier) throws SerializationException {
         final TypeToken<List<V>> type = makeListType(elementType);
         final List<V> ret = get(type, defSupplier);
         return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
@@ -584,11 +584,11 @@ public interface ConfigurationNode {
      * @param type the expected type
      * @param <V> the expected type
      * @return an immutable copy of the values contained
-     * @throws ObjectMappingException if any value fails to be converted to the
+     * @throws SerializationException if any value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked")
-    default <V> @Nullable List<V> getList(Class<V> type) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> @Nullable List<V> getList(Class<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
         return (List<V>) get(TypeFactory.parameterizedClass(List.class, type));
     }
 
@@ -605,11 +605,11 @@ public interface ConfigurationNode {
      * @return an immutable copy of the values contained that could be
      *         successfully converted, or {@code def} if no values could be
      *         converted.
-     * @throws ObjectMappingException if any value fails to be converted to the
+     * @throws SerializationException if any value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings("unchecked")
-    default <V> List<V> getList(Class<V> elementType, List<V> def) throws ObjectMappingException { // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> List<V> getList(Class<V> elementType, List<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
         final Type type = TypeFactory.parameterizedClass(List.class, elementType);
         final @Nullable List<V> ret = (List<V>) get(type, def);
         return ret == null || ret.isEmpty() ? storeDefault(this, type, def) : ret;
@@ -630,11 +630,11 @@ public interface ConfigurationNode {
      * @return an immutable copy of the values contained that could be
      *         successfully converted, or {@code def} if no values could be
      *         converted.
-     * @throws ObjectMappingException if any value fails to be converted to the
+     * @throws SerializationException if any value fails to be converted to the
      *                                requested type
      */
     @SuppressWarnings({"unchecked", "checkstyle:NoGetSetPrefix"})
-    default <V> List<V> getList(Class<V> elementType, Supplier<List<V>> defSupplier) throws ObjectMappingException {
+    default <V> List<V> getList(Class<V> elementType, Supplier<List<V>> defSupplier) throws SerializationException {
         final Type type = TypeFactory.parameterizedClass(List.class, elementType);
         final List<V> ret = (List<V>) get(type, defSupplier);
         return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;
@@ -820,7 +820,7 @@ public interface ConfigurationNode {
      * @param value the value to set
      * @return this node
      */
-    ConfigurationNode set(@Nullable Object value) throws ObjectMappingException;
+    ConfigurationNode set(@Nullable Object value) throws SerializationException;
 
     /**
      * Set this node's value to the given value.
@@ -836,11 +836,11 @@ public interface ConfigurationNode {
      * @param value the value to set
      * @param <V> the type to serialize to
      * @return this node
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type. No change will be made to
      *                                the node.
      */
-    <V> ConfigurationNode set(TypeToken<V> type, @Nullable V value) throws ObjectMappingException;
+    <V> ConfigurationNode set(TypeToken<V> type, @Nullable V value) throws SerializationException;
 
     /**
      * Set this node's value to the given value.
@@ -860,11 +860,11 @@ public interface ConfigurationNode {
      * @param <V> the type to serialize to
      * @return this node
      * @throws IllegalArgumentException if a raw type is passed
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type. No change will be made to
      *                                the node.
      */
-    <V> ConfigurationNode set(Class<V> type, @Nullable V value) throws ObjectMappingException;
+    <V> ConfigurationNode set(Class<V> type, @Nullable V value) throws SerializationException;
 
     /**
      * Set this node's value to the given value.
@@ -890,11 +890,11 @@ public interface ConfigurationNode {
      * @throws IllegalArgumentException if a raw type is passed
      * @throws IllegalArgumentException if {@code value} is not either
      *                                  {@code null} or of type {@code type}
-     * @throws ObjectMappingException if the value fails to be converted to the
+     * @throws SerializationException if the value fails to be converted to the
      *                                requested type. No change will be made to
      *                                the node.
      */
-    ConfigurationNode set(Type type, @Nullable Object value) throws ObjectMappingException;
+    ConfigurationNode set(Type type, @Nullable Object value) throws SerializationException;
 
     /**
      * Get the raw value of this node.

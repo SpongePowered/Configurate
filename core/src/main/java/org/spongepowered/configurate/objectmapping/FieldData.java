@@ -25,6 +25,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -103,7 +104,7 @@ public abstract class FieldData<I, O> {
         try {
             validate(instance);
             return true;
-        } catch (final ObjectMappingException ex) {
+        } catch (final SerializationException ex) {
             return false;
         }
     }
@@ -112,12 +113,12 @@ public abstract class FieldData<I, O> {
      * Try to ensure the provided value is acceptable.
      *
      * @param instance field value instance to validate
-     * @throws ObjectMappingException if validation fails
+     * @throws SerializationException if validation fails
      */
     @SuppressWarnings("unchecked")
-    public void validate(final @Nullable Object instance) throws ObjectMappingException {
+    public void validate(final @Nullable Object instance) throws SerializationException {
         if (instance != null && !erase(box(resolvedType().getType())).isInstance(instance)) {
-            throw new ObjectMappingException("Object " + instance + " is not of expected type " + resolvedType().getType());
+            throw new SerializationException("Object " + instance + " is not of expected type " + resolvedType().getType());
         }
 
         for (Constraint<?> constraint : constraints()) {
@@ -125,10 +126,10 @@ public abstract class FieldData<I, O> {
         }
     }
 
-    TypeSerializer<?> serializerFrom(final ConfigurationNode node) throws ObjectMappingException {
+    TypeSerializer<?> serializerFrom(final ConfigurationNode node) throws SerializationException {
         final @Nullable TypeSerializer<?> serial = node.options().serializers().get(resolvedType().getType());
         if (serial == null) {
-            throw new ObjectMappingException("No TypeSerializer found for field " + name() + " of type " + resolvedType().getType());
+            throw new SerializationException("No TypeSerializer found for field " + name() + " of type " + resolvedType().getType());
         }
         return serial;
     }

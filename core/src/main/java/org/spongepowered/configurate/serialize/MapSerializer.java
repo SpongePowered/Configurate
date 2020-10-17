@@ -23,7 +23,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -38,15 +37,15 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 
     @Override
-    public Map<?, ?> deserialize(final Type type, final ConfigurationNode node) throws ObjectMappingException {
+    public Map<?, ?> deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         final Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
             if (!(type instanceof ParameterizedType)) {
-                throw new ObjectMappingException("Raw types are not supported for collections");
+                throw new SerializationException(type, "Raw types are not supported for collections");
             }
             final ParameterizedType param = (ParameterizedType) type;
             if (param.getActualTypeArguments().length != 2) {
-                throw new ObjectMappingException("Map expected two type arguments!");
+                throw new SerializationException(type, "Map expected two type arguments!");
             }
             final Type key = param.getActualTypeArguments()[0];
             final Type value = param.getActualTypeArguments()[1];
@@ -54,11 +53,11 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
             final @Nullable TypeSerializer<?> valueSerial = node.options().serializers().get(value);
 
             if (keySerial == null) {
-                throw new ObjectMappingException("No type serializer available for type " + key);
+                throw new SerializationException(type, "No type serializer available for key type " + key);
             }
 
             if (valueSerial == null) {
-                throw new ObjectMappingException("No type serializer available for type " + value);
+                throw new SerializationException(type, "No type serializer available for value type " + value);
             }
 
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
@@ -73,13 +72,13 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void serialize(final Type type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws ObjectMappingException {
+    public void serialize(final Type type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws SerializationException {
         if (!(type instanceof ParameterizedType)) {
-            throw new ObjectMappingException("Raw types are not supported for collections");
+            throw new SerializationException(type, "Raw types are not supported for collections");
         }
         final ParameterizedType param = (ParameterizedType) type;
         if (param.getActualTypeArguments().length != 2) {
-            throw new ObjectMappingException("Map expected two type arguments!");
+            throw new SerializationException(type, "Map expected two type arguments!");
         }
         final Type key = param.getActualTypeArguments()[0];
         final Type value = param.getActualTypeArguments()[1];
@@ -87,11 +86,11 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
         final @Nullable TypeSerializer valueSerial = node.options().serializers().get(value);
 
         if (keySerial == null) {
-            throw new ObjectMappingException("No type serializer available for type " + key);
+            throw new SerializationException(type, "No type serializer available for key type " + key);
         }
 
         if (valueSerial == null) {
-            throw new ObjectMappingException("No type serializer available for type " + value);
+            throw new SerializationException(type, "No type serializer available for value type " + value);
         }
 
         if (obj == null || obj.isEmpty()) {
@@ -102,8 +101,14 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
                 keySerial.serialize(key, ent.getKey(), keyNode);
                 final Object keyObj = requireNonNull(keyNode.raw(), "Key must not be null!");
-                valueSerial.serialize(value, ent.getValue(), node.node(keyObj));
-                unvisitedKeys.remove(keyObj);
+                final ConfigurationNode child = node.node(keyObj);
+                try {
+                    valueSerial.serialize(value, ent.getValue(), child);
+                } catch (final SerializationException ex) {
+                    ex.initPath(child::path);
+                } finally {
+                    unvisitedKeys.remove(keyObj);
+                }
             }
 
             for (Object unusedChild : unvisitedKeys) {

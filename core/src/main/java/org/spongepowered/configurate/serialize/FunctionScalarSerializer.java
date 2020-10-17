@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.Type;
@@ -25,19 +24,24 @@ import java.util.function.Predicate;
 
 final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
 
-    private final CheckedFunction<Object, T, ObjectMappingException> deserializer;
+    private final CheckedFunction<Object, T, SerializationException> deserializer;
     private final BiFunction<T, Predicate<Class<?>>, Object> serializer;
 
     FunctionScalarSerializer(final Type type,
-            final CheckedFunction<Object, T, ObjectMappingException> deserializer, final BiFunction<T, Predicate<Class<?>>, Object> serializer) {
+            final CheckedFunction<Object, T, SerializationException> deserializer, final BiFunction<T, Predicate<Class<?>>, Object> serializer) {
         super(type);
         this.deserializer = deserializer;
         this.serializer = serializer;
     }
 
     @Override
-    public T deserialize(final Type type, final Object obj) throws ObjectMappingException {
-        return this.deserializer.apply(obj);
+    public T deserialize(final Type type, final Object obj) throws SerializationException {
+        try {
+            return this.deserializer.apply(obj);
+        } catch (final SerializationException ex) {
+            ex.initType(type);
+            throw ex;
+        }
     }
 
     @Override

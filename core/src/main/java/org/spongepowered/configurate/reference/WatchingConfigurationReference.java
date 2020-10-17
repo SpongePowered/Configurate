@@ -17,13 +17,13 @@
 package org.spongepowered.configurate.reference;
 
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reactive.Disposable;
 import org.spongepowered.configurate.reactive.Subscriber;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
-import java.io.IOException;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.util.concurrent.Executor;
@@ -42,7 +42,7 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
     }
 
     @Override
-    public void save(final N newNode) throws IOException {
+    public void save(final N newNode) throws ConfigurateException {
         synchronized (loader()) {
             try {
                 this.saveSuppressed = true;

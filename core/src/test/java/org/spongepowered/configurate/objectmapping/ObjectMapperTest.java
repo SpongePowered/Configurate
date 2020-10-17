@@ -30,6 +30,7 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testCreateFromNode() throws ObjectMappingException {
+    void testCreateFromNode() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         source.node("test-key").set("some are born great, some achieve greatness, and some have greatness thrust upon them");
@@ -56,14 +57,14 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testNullsPreserved() throws ObjectMappingException {
+    void testNullsPreserved() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final TestObject obj = mapper.load(BasicConfigurationNode.root());
         assertNull(obj.stringVal);
     }
 
     @Test
-    void testLoadExistingObject() throws ObjectMappingException {
+    void testLoadExistingObject() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         final TestObject instance = new TestObject();
@@ -76,7 +77,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testDefaultsNotAppiledUnlessCopyDefaults() throws ObjectMappingException {
+    void testDefaultsNotAppiledUnlessCopyDefaults() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root();
         final TestObject instance = new TestObject();
@@ -88,7 +89,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testDefaultsApplied() throws ObjectMappingException {
+    void testDefaultsApplied() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
         final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().shouldCopyDefaults(true));
         final TestObject instance = new TestObject();
@@ -108,7 +109,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testCommentsApplied() throws ObjectMappingException {
+    void testCommentsApplied() throws SerializationException {
         final CommentedConfigurationNode node = CommentedConfigurationNode.root();
         final ObjectMapper<CommentedObject> mapper = ObjectMapper.factory().get(CommentedObject.class);
         final CommentedObject obj = mapper.load(node);
@@ -131,12 +132,12 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testNoArglessConstructor() throws ObjectMappingException {
-        Assertions.assertTrue(assertThrows(ObjectMappingException.class, () -> {
+    void testNoArglessConstructor() throws SerializationException {
+        Assertions.assertTrue(assertThrows(SerializationException.class, () -> {
             final ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.factory().get(NonZeroArgConstructorObject.class);
             assertFalse(mapper.canCreateInstances());
             mapper.load(BasicConfigurationNode.root());
-        }).getMessage().startsWith("Unable to create instance"));
+        }).rawMessage().startsWith("Unable to create instance"));
     }
 
     @ConfigSerializable
@@ -145,7 +146,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testSuperclassFieldsIncluded() throws ObjectMappingException {
+    void testSuperclassFieldsIncluded() throws SerializationException {
         final ObjectMapper<TestObjectChild> mapper = ObjectMapper.factory().get(TestObjectChild.class);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("child-setting").set(true);
@@ -162,7 +163,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testKeyFromFieldName() throws ObjectMappingException {
+    void testKeyFromFieldName() throws SerializationException {
         final ObjectMapper<FieldNameObject> mapper = ObjectMapper.factory().get(FieldNameObject.class);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("loads").set(true);
@@ -181,7 +182,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testNestedObjectWithComments() throws ObjectMappingException {
+    void testNestedObjectWithComments() throws SerializationException {
         final CommentedConfigurationNode node = CommentedConfigurationNode.root(ConfigurationOptions.defaults().shouldCopyDefaults(true));
         final ObjectMapper<ParentObject> mapper = ObjectMapper.factory().get(ParentObject.class);
         mapper.load(node);
@@ -211,7 +212,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testInterfaceSerialization() throws ObjectMappingException {
+    void testInterfaceSerialization() throws SerializationException {
 
         final ChildObject childObject = new ChildObject();
         childObject.test = "Changed value";
@@ -253,7 +254,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testGenericTypesResolved() throws ObjectMappingException {
+    void testGenericTypesResolved() throws SerializationException {
         final TypeToken<GenericSerializable<String>> stringSerializable = new TypeToken<GenericSerializable<String>>() {};
         final TypeToken<GenericSerializable<Integer>> intSerializable = new TypeToken<GenericSerializable<Integer>>() {};
 
@@ -285,7 +286,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testGenericsResolvedThroughSuperclass() throws ObjectMappingException, MalformedURLException {
+    void testGenericsResolvedThroughSuperclass() throws SerializationException, MalformedURLException {
         final ObjectMapper<ParentTypesResolved> mapper = ObjectMapper.factory().get(ParentTypesResolved.class);
 
         final BasicConfigurationNode urlNode = BasicConfigurationNode.root(p -> {
@@ -304,7 +305,7 @@ public class ObjectMapperTest {
 
     @Test
     void testDirectInterfacesProhibited() {
-        assertThrows(ObjectMappingException.class, () -> ObjectMapper.factory().get(ParentInterface.class));
+        assertThrows(SerializationException.class, () -> ObjectMapper.factory().get(ParentInterface.class));
     }
 
 }

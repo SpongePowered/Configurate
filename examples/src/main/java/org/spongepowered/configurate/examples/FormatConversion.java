@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate.examples;
 
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
@@ -45,7 +45,7 @@ public final class FormatConversion {
         final ConfigurationNode oldNode;
         try {
             oldNode = oldFormat.load();
-        } catch (final IOException e) {
+        } catch (final ConfigurateException e) {
             System.err.println("Unable to read YAML configuration: " + e.getMessage());
             if (e.getCause() != null) {
                 e.getCause().printStackTrace();
@@ -57,7 +57,7 @@ public final class FormatConversion {
         // And if we're successful, we save the loaded node using the new loader
         try {
             newFormat.save(oldNode);
-        } catch (final IOException e) {
+        } catch (final ConfigurateException e) {
             System.out.println("Unable to save HOCON format configuration: " + e.getMessage());
             System.exit(2);
             return;

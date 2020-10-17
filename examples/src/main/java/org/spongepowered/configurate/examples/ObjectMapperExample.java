@@ -21,15 +21,15 @@ import static java.util.Objects.requireNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
+import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public final class ObjectMapperExample {
 
     private ObjectMapperExample() {}
 
-    public static void main(final String[] args) throws IOException, ObjectMappingException {
+    public static void main(final String[] args) throws ConfigurateException {
         final Path file = Paths.get(args[0]);
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .defaultOptions(opts -> opts.shouldCopyDefaults(true))
@@ -72,12 +72,12 @@ public final class ObjectMapperExample {
         static {
             try {
                 MAPPER = ObjectMapper.factory().get(MyConfiguration.class); // We hold on to the instance of our ObjectMapper
-            } catch (final ObjectMappingException e) {
+            } catch (final SerializationException e) {
                 throw new ExceptionInInitializerError(e);
             }
         }
 
-        public static MyConfiguration loadFrom(final ConfigurationNode node) throws ObjectMappingException {
+        public static MyConfiguration loadFrom(final ConfigurationNode node) throws SerializationException {
             return MAPPER.load(node);
         }
 
@@ -115,7 +115,7 @@ public final class ObjectMapperExample {
             return this.decoratedName;
         }
 
-        public <N extends ScopedConfigurationNode<N>> void saveTo(final N node) throws ObjectMappingException {
+        public <N extends ScopedConfigurationNode<N>> void saveTo(final N node) throws SerializationException {
             MAPPER.save(this, node);
         }
 

@@ -28,6 +28,7 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.Matches;
 import org.spongepowered.configurate.objectmapping.meta.Required;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -44,13 +45,13 @@ public class ConstraintTest {
     }
 
     @Test
-    void testRequired() throws ObjectMappingException {
+    void testRequired() throws SerializationException {
         final ObjectMapper<TestRequired> mapper = ObjectMapper.factory().get(TestRequired.class);
 
         assertAll(
             // optional present, required missing
             () -> {
-                assertThrows(ObjectMappingException.class, () -> {
+                assertThrows(SerializationException.class, () -> {
                     mapper.load(BasicConfigurationNode.root(n -> {
                         n.node("optional").raw(UUID.randomUUID().toString());
                     }));
@@ -86,7 +87,7 @@ public class ConstraintTest {
     }
 
     @Test
-    void testPattern() throws ObjectMappingException {
+    void testPattern() throws SerializationException {
         final ObjectMapper<TestPattern> mapper = ObjectMapper.factory().get(TestPattern.class);
 
         assertAll(
@@ -100,7 +101,7 @@ public class ConstraintTest {
                     assertEquals("lowercase", result.test);
                 },
                 // Invalid value throws ObjectMappingException
-                () -> assertThrows(ObjectMappingException.class, () -> {
+                () -> assertThrows(SerializationException.class, () -> {
                     mapper.load(BasicConfigurationNode.root(n -> {
                         n.node("test").raw("LOUD");
                     }));
@@ -117,7 +118,7 @@ public class ConstraintTest {
     }
 
     @Test
-    void testLocalizedPattern() throws ObjectMappingException {
+    void testLocalizedPattern() throws SerializationException {
         // load a bundle with fixed locale, to avoid regional dependence
         final ResourceBundle bundle = ResourceBundle.getBundle("org.spongepowered.configurate.objectmapping.messages", new Locale("en", "US"));
 
@@ -146,9 +147,9 @@ public class ConstraintTest {
                         n.node("number-like").raw("0.0.42+4");
                     });
 
-                    assertEquals("failed for input string \"bad\" against pattern \"Test\"!", assertThrows(ObjectMappingException.class, () -> {
+                    assertEquals("failed for input string \"bad\" against pattern \"Test\"!", assertThrows(SerializationException.class, () -> {
                         mapper.load(node);
-                    }).getMessage());
+                    }).rawMessage());
                 },
                 // Fails second with non-localized passthrough
                 () -> {
@@ -157,9 +158,9 @@ public class ConstraintTest {
                         n.node("number-like").raw("invalid");
                     });
 
-                    assertEquals("Value invalid is non-numeric", assertThrows(ObjectMappingException.class, () -> {
+                    assertEquals("Value invalid is non-numeric", assertThrows(SerializationException.class, () -> {
                         mapper.load(node);
-                    }).getMessage());
+                    }).rawMessage());
                 }
         );
     }

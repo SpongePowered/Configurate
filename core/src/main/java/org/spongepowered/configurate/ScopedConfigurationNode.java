@@ -19,7 +19,7 @@ package org.spongepowered.configurate;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
@@ -92,7 +92,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N set(@Nullable Object value) throws ObjectMappingException;
+    @NonNull N set(@Nullable Object value) throws SerializationException;
 
     /**
      * {@inheritDoc}
@@ -100,7 +100,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
     @Override
     @NonNull
     @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize
-    default N set(@NonNull Type type, @Nullable Object value) throws ObjectMappingException {
+    default N set(@NonNull Type type, @Nullable Object value) throws SerializationException {
         if (value == null) {
             return set(null);
         }
@@ -111,18 +111,18 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         } else if (options().acceptsType(value.getClass())) {
             raw(value); // Just write if no applicable serializer exists?
         } else {
-            throw new ObjectMappingException("No serializer available for type " + type);
+            throw new SerializationException("No serializer available for type " + type);
         }
         return self();
     }
 
     @Override
-    default <V> N set(Class<V> type, @Nullable V value) throws ObjectMappingException {
+    default <V> N set(Class<V> type, @Nullable V value) throws SerializationException {
         return set((Type) type, value);
     }
 
     @Override
-    default <V> N set(TypeToken<V> type, @Nullable V value) throws ObjectMappingException {
+    default <V> N set(TypeToken<V> type, @Nullable V value) throws SerializationException {
         return set(type.getType(), value);
     }
 

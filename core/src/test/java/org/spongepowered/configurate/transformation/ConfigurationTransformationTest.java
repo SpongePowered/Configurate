@@ -23,8 +23,8 @@ import static org.spongepowered.configurate.transformation.NodePath.path;
 
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,11 +37,11 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testComparator() throws ObjectMappingException {
+    void testComparator() throws ConfigurateException {
         doTestComparator(BasicConfigurationNode.root());
     }
 
-    private <T extends ScopedConfigurationNode<T>> void doTestComparator(final T node) throws ObjectMappingException {
+    private <T extends ScopedConfigurationNode<T>> void doTestComparator(final T node) throws ConfigurateException {
         final List<NodePath> unsortedKeys = Arrays.asList(
                 path("a", "c", "c"),
                 path("a", "b"),
@@ -82,7 +82,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testWildcardMatching() throws ObjectMappingException {
+    void testWildcardMatching() throws ConfigurateException {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final List<NodePath> wildcardMatch = Arrays.asList(
                 path("a", ConfigurationTransformation.WILDCARD_OBJECT, "c"),
@@ -121,7 +121,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testMoveNode() throws ObjectMappingException {
+    void testMoveNode() throws ConfigurateException {
 
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final Object nodeValue = new Object();
@@ -135,7 +135,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testChainedTransformations() throws ObjectMappingException {
+    void testChainedTransformations() throws ConfigurateException {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("a").raw("something?");
         final List<String> actualOutput = new ArrayList<>();
@@ -146,7 +146,7 @@ public class ConfigurationTransformationTest {
 
     @SuppressWarnings("unchecked")
     private <T extends ScopedConfigurationNode<T>> void transformChained(final List<String> actualOutput, final T node)
-            throws ObjectMappingException {
+            throws ConfigurateException {
         ConfigurationTransformation.chain(ConfigurationTransformation.<T>builder().addAction(path("a"), (inputPath, valueAtPath) -> {
             actualOutput.add("one");
             return null;
@@ -157,7 +157,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testMoveToBase() throws ObjectMappingException {
+    void testMoveToBase() throws ConfigurateException {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("sub", "key").raw("value");
         node.node("at-parent").raw("until-change");
@@ -166,7 +166,7 @@ public class ConfigurationTransformationTest {
         assertNull(node.node("at-parent").raw());
     }
 
-    private <T extends ScopedConfigurationNode<T>> void transformMoveToBase(final T node) throws ObjectMappingException {
+    private <T extends ScopedConfigurationNode<T>> void transformMoveToBase(final T node) throws ConfigurateException {
         ConfigurationTransformation.<T>builder()
                 .addAction(path("sub"), (inputPath, valueAtPath) -> {
                     return new Object[0];
@@ -174,7 +174,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testMoveStrategy() throws ObjectMappingException {
+    void testMoveStrategy() throws ConfigurateException {
         final ConfigurationTransformation.Builder<BasicConfigurationNode> build = ConfigurationTransformation.<BasicConfigurationNode>builder()
                 .addAction(path("one"), (inputPath, valueAtPath) -> arr("two"));
         final BasicConfigurationNode overwritten = createMoveNode();
@@ -196,7 +196,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testCorrectNodePassed() throws ObjectMappingException {
+    void testCorrectNodePassed() throws ConfigurateException {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         final BasicConfigurationNode child = node.node("childNode").raw("something");
         ConfigurationTransformation.<BasicConfigurationNode>builder()
@@ -207,7 +207,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testVersionedTransformation() throws ObjectMappingException {
+    void testVersionedTransformation() throws ConfigurateException {
         final BasicConfigurationNode target = BasicConfigurationNode.root();
         target.node("dummy").raw("whatever");
         final List<Integer> updatedVersions = new ArrayList<>();
@@ -238,7 +238,7 @@ public class ConfigurationTransformationTest {
     }
 
     @Test
-    void testVersionedTransformationMoveChildToRoot() throws ObjectMappingException {
+    void testVersionedTransformationMoveChildToRoot() throws ConfigurateException {
         final BasicConfigurationNode original = BasicConfigurationNode.root(b -> {
             b.node("test").act(t -> {
                 t.node("calico").raw("purr");

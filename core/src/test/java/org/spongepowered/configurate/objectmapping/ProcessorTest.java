@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -36,7 +37,7 @@ public class ProcessorTest {
     }
 
     @Test
-    void testComment() throws ObjectMappingException {
+    void testComment() throws SerializationException {
         final ObjectMapper<TestComment> mapper = ObjectMapper.factory().get(TestComment.class);
         final TestComment object = new TestComment();
         object.first = "hello";
@@ -57,7 +58,7 @@ public class ProcessorTest {
     // Localized comments
 
     @Test
-    void testCommentLocalized() throws ObjectMappingException {
+    void testCommentLocalized() throws SerializationException {
         final ResourceBundle bundle = ResourceBundle.getBundle("org.spongepowered.configurate.objectmapping.messages", new Locale("en", "US"));
         final ObjectMapper<TestCommentLocalized> mapper = ObjectMapper.factoryBuilder()
                 .addProcessor(Comment.class, Processor.localizedComments(bundle))

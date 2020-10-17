@@ -22,6 +22,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.NamingScheme;
 
@@ -114,21 +115,21 @@ public interface ObjectMapper<V> {
      *
      * @param source object source
      * @return new instance
-     * @throws ObjectMappingException if any invalid data is present. Loading is
+     * @throws SerializationException if any invalid data is present. Loading is
      *      done in stages, so any deserialization errors will occur before
      *      anything is written to objects.
      *
      */
-    V load(ConfigurationNode source) throws ObjectMappingException;
+    V load(ConfigurationNode source) throws SerializationException;
 
     /**
      * Write data from the provided object to the target.
      *
      * @param value value type
      * @param target destination
-     * @throws ObjectMappingException if unable to fully save
+     * @throws SerializationException if unable to fully save
      */
-    void save(V value, ConfigurationNode target) throws ObjectMappingException;
+    void save(V value, ConfigurationNode target) throws SerializationException;
 
     /**
      * Get the parameters that will be handled by this mapper.
@@ -167,9 +168,10 @@ public interface ObjectMapper<V> {
          *
          * @param value existing instance
          * @param node node to load from
-         * @throws ObjectMappingException if unable to deserialize data
+         * @throws SerializationException if unable to deserialize data
          */
-        void load(V value, ConfigurationNode node) throws ObjectMappingException;
+        void load(V value, ConfigurationNode node) throws SerializationException;
+
     }
 
     /**
@@ -185,11 +187,11 @@ public interface ObjectMapper<V> {
          * @param type token holding the mapped type
          * @param <V> mapped type
          * @return a mapper for the provided type
-         * @throws ObjectMappingException if the type does not correspond to a
+         * @throws SerializationException if the type does not correspond to a
          *     mappable object
          */
         @SuppressWarnings("unchecked")
-        default <V> ObjectMapper<V> get(TypeToken<V> type) throws ObjectMappingException {
+        default <V> ObjectMapper<V> get(TypeToken<V> type) throws SerializationException {
             return (ObjectMapper<V>) get(type.getType());
         }
 
@@ -201,11 +203,11 @@ public interface ObjectMapper<V> {
          * @param clazz class of the mapped type
          * @param <V> mapped type
          * @return a mapper for the provided type
-         * @throws ObjectMappingException if the type does not correspond to a
+         * @throws SerializationException if the type does not correspond to a
          *     mappable object
          */
         @SuppressWarnings("unchecked")
-        default <V> ObjectMapper<V> get(Class<V> clazz) throws ObjectMappingException {
+        default <V> ObjectMapper<V> get(Class<V> clazz) throws SerializationException {
             return (ObjectMapper<V>) get((Type) clazz);
         }
 
@@ -216,10 +218,10 @@ public interface ObjectMapper<V> {
          *
          * @param type object type.
          * @return a mapper for the provided type
-         * @throws ObjectMappingException if the type does not correspond to a
+         * @throws SerializationException if the type does not correspond to a
          *     mappable object
          */
-        ObjectMapper<?> get(Type type) throws ObjectMappingException;
+        ObjectMapper<?> get(Type type) throws SerializationException;
 
         /**
          * Creates a {@link TypeSerializer} that uses this factory.

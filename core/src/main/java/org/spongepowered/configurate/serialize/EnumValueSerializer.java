@@ -20,7 +20,6 @@ import static io.leangen.geantyref.GenericTypeReflector.erase;
 
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.EnumLookup;
 
 import java.lang.reflect.Type;
@@ -33,12 +32,12 @@ final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
     }
 
     @Override
-    public Enum<?> deserialize(final Type type, final Object obj) throws ObjectMappingException {
+    public Enum<?> deserialize(final Type type, final Object obj) throws SerializationException {
         final String enumConstant = obj.toString();
         @SuppressWarnings("unchecked")
         final @Nullable Enum<?> ret = EnumLookup.lookupEnum(erase(type).asSubclass(Enum.class), enumConstant);
         if (ret == null) {
-            throw new ObjectMappingException("Invalid enum constant provided, expected a value of enum " + type + ", but got " + enumConstant);
+            throw new SerializationException(type, "Invalid enum constant provided, expected a value of enum, got " + enumConstant);
         }
         return ret;
     }

@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.serialize;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Type;
 import java.util.function.Predicate;
@@ -29,17 +28,17 @@ final class CharSerializer extends ScalarSerializer<Character> {
     }
 
     @Override
-    public Character deserialize(final Type type, final Object val) throws ObjectMappingException {
+    public Character deserialize(final Type type, final Object val) throws SerializationException {
         if (val instanceof String) {
             final String strVal = (String) val;
             if (strVal.length() == 1) {
                 return strVal.charAt(0);
             }
-            throw new ObjectMappingException("Only single character expected, but received " + strVal);
+            throw new SerializationException(type, "Only single character expected, but received " + strVal);
         } else if (val instanceof Number) {
             return (char) ((Number) val).shortValue();
         }
-        throw new CoercionFailedException(val, "char");
+        throw new CoercionFailedException(type, val, "char");
     }
 
     @Override

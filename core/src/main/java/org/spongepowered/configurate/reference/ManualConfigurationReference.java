@@ -21,14 +21,14 @@ import static java.util.Objects.requireNonNull;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.reactive.Processor;
 import org.spongepowered.configurate.reactive.Publisher;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.transformation.NodePath;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
@@ -55,19 +55,19 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public void load() throws IOException {
+    public void load() throws ConfigurateException {
         synchronized (this.loader) {
             this.updateListener.submit(this.node = this.loader.load());
         }
     }
 
     @Override
-    public void save() throws IOException {
+    public void save() throws ConfigurateException {
         save(this.node);
     }
 
     @Override
-    public void save(final N newNode) throws IOException {
+    public void save(final N newNode) throws ConfigurateException {
         synchronized (this.loader) {
             this.loader.save(this.node = requireNonNull(newNode));
         }
@@ -106,12 +106,12 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public <T> ValueReference<T, N> referenceTo(final TypeToken<T> type, final NodePath path, final @Nullable T def) throws ObjectMappingException {
+    public <T> ValueReference<T, N> referenceTo(final TypeToken<T> type, final NodePath path, final @Nullable T def) throws SerializationException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 
     @Override
-    public <T> ValueReference<T, N> referenceTo(final Class<T> type, final NodePath path, final @Nullable T def) throws ObjectMappingException {
+    public <T> ValueReference<T, N> referenceTo(final Class<T> type, final NodePath path, final @Nullable T def) throws SerializationException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 

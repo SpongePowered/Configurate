@@ -19,7 +19,6 @@ package org.spongepowered.configurate.serialize;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.Type;
@@ -46,7 +45,7 @@ public interface TypeSerializer<T> {
      * @return a new and unregistered type serializer
      */
     static <T> ScalarSerializer<T> of(Type type, BiFunction<T, Predicate<Class<?>>, Object> serializer,
-                                      CheckedFunction<Object, T, ObjectMappingException> deserializer) {
+                                      CheckedFunction<Object, T, SerializationException> deserializer) {
         return new FunctionScalarSerializer<>(type, deserializer, serializer);
     }
 
@@ -65,7 +64,7 @@ public interface TypeSerializer<T> {
      *      function that takes a parameterized type
      */
     static <T> ScalarSerializer<T> of(Class<T> type,
-            BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, ObjectMappingException> deserializer) {
+            BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, SerializationException> deserializer) {
         if (type.getTypeParameters().length > 0) {
             throw new IllegalArgumentException("Parameterized types must be specified using TypeTokens, not raw classes");
         }
@@ -80,9 +79,9 @@ public interface TypeSerializer<T> {
      * @param type the type of return value required
      * @param node the node containing serialized data
      * @return an object
-     * @throws ObjectMappingException if the presented data is invalid
+     * @throws SerializationException if the presented data is invalid
      */
-    T deserialize(Type type, ConfigurationNode node) throws ObjectMappingException;
+    T deserialize(Type type, ConfigurationNode node) throws SerializationException;
 
     /**
      * Serialize an object to the given configuration node.
@@ -90,9 +89,9 @@ public interface TypeSerializer<T> {
      * @param type the type of the input object
      * @param obj the object to be serialized
      * @param node the node to write to
-     * @throws ObjectMappingException if the object cannot be serialized
+     * @throws SerializationException if the object cannot be serialized
      */
-    void serialize(Type type, @Nullable T obj, ConfigurationNode node) throws ObjectMappingException;
+    void serialize(Type type, @Nullable T obj, ConfigurationNode node) throws SerializationException;
 
     /**
      * Create an empty value of the appropriate type.

@@ -19,7 +19,7 @@ package org.spongepowered.configurate.kotlin
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ConfigurationNodeFactory
 import org.spongepowered.configurate.ConfigurationOptions
-import org.spongepowered.configurate.objectmapping.ObjectMappingException
+import org.spongepowered.configurate.serialize.SerializationException
 import org.spongepowered.configurate.transformation.NodePath
 
 /**
@@ -38,17 +38,17 @@ operator fun ConfigurationNode.contains(path: Any): Boolean {
     return !node(path).virtual()
 }
 
-@Throws(ObjectMappingException::class)
+@Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.typedGet(): V? {
     return get(typeTokenOf<V>(), null as V?)
 }
 
-@Throws(ObjectMappingException::class)
+@Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.typedGet(default: V): V {
     return get(typeTokenOf(), default)
 }
 
-@Throws(ObjectMappingException::class)
+@Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.typedSet(value: V?) {
     set(typeTokenOf(), value)
 }

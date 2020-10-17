@@ -20,6 +20,7 @@ import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.resolveExactType;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.Types;
 
 import java.lang.invoke.MethodHandle;
@@ -88,7 +89,7 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
      */
     @Override
     public <V> @Nullable InstanceFactory<Object[]> discover(final AnnotatedType target, final FieldCollector<Object[], V> collector)
-            throws ObjectMappingException {
+            throws SerializationException {
         if (RECORD_COMPONENT_GET_ACCESSOR != null) {
             final Class<?> clazz = erase(target.getType());
             try {
@@ -134,11 +135,11 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
                         }
 
                         @Override
-                        public Object complete(final Object[] intermediate) throws ObjectMappingException {
+                        public Object complete(final Object[] intermediate) throws SerializationException {
                             try {
                                 return clazzConstructor.newInstance(intermediate);
                             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                                throw new ObjectMappingException(e);
+                                throw new SerializationException(target.getType(), e);
                             }
                         }
 
@@ -148,7 +149,7 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
                         }
                     };
                 }
-            } catch (final ObjectMappingException ex) {
+            } catch (final SerializationException ex) {
                 throw ex;
             } catch (final Throwable ex) {
                 // suppress, we just won't handle as a record

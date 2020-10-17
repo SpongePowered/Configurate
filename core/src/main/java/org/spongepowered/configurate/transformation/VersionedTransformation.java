@@ -17,8 +17,8 @@
 package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.util.Map;
 import java.util.NavigableMap;
@@ -38,8 +38,8 @@ class VersionedTransformation<T extends ConfigurationNode> implements Configurat
     }
 
     @Override
-    public void apply(final T node) throws ObjectMappingException {
-        @Nullable ObjectMappingException thrown = null;
+    public void apply(final T node) throws ConfigurateException {
+        @Nullable ConfigurateException thrown = null;
         final ConfigurationNode versionNode = node.node(this.versionPath);
         int currentVersion = versionNode.getInt(-1);
         for (Map.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {
@@ -48,7 +48,7 @@ class VersionedTransformation<T extends ConfigurationNode> implements Configurat
             }
             try {
                 entry.getValue().apply(node);
-            } catch (final ObjectMappingException ex) {
+            } catch (final ConfigurateException ex) {
                 if (thrown == null) {
                     thrown = ex;
                 } else {

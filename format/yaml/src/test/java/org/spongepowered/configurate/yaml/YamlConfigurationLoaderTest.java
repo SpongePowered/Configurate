@@ -21,11 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.Map;
 public class YamlConfigurationLoaderTest {
 
     @Test
-    void testSimpleLoading() throws IOException, ObjectMappingException {
+    void testSimpleLoading() throws ConfigurateException {
         final URL url = getClass().getResource("/example.yml");
         final ConfigurationLoader<BasicConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
@@ -53,7 +52,7 @@ public class YamlConfigurationLoaderTest {
     }
 
     @Test
-    void testReadWithTabs() throws IOException {
+    void testReadWithTabs() throws ConfigurateException {
         final ConfigurationNode expected = BasicConfigurationNode.root(n -> {
             n.node("document").act(d -> {
                 d.node("we").raw("support tabs");

@@ -20,7 +20,6 @@ import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -73,7 +72,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public final T deserialize(Type type, final ConfigurationNode node) throws ObjectMappingException {
+    public final T deserialize(Type type, final ConfigurationNode node) throws SerializationException {
         ConfigurationNode deserializeFrom = node;
         if (node.isList()) {
             final List<? extends ConfigurationNode> children = node.childrenList();
@@ -83,12 +82,12 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
         }
 
         if (deserializeFrom.isList() || deserializeFrom.isMap()) {
-            throw new ObjectMappingException("Value must be provided as a scalar!");
+            throw new SerializationException(type, "Value must be provided as a scalar!");
         }
 
         final @Nullable Object value = deserializeFrom.rawScalar();
         if (value == null) {
-            throw new ObjectMappingException("No scalar value present");
+            throw new SerializationException(type, "No scalar value present");
         }
 
         type = GenericTypeReflector.box(type); // every primitive type should be boxed (cuz generics!)
@@ -107,10 +106,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      *
      * @param value the object to deserialize.
      * @return the deserialized object, if possible
-     * @throws ObjectMappingException if unable to coerce the value to the
+     * @throws SerializationException if unable to coerce the value to the
      *                                requested type.
      */
-    public final T deserialize(final Object value) throws ObjectMappingException {
+    public final T deserialize(final Object value) throws SerializationException {
         final @Nullable T possible = cast(value);
         if (possible != null) {
             return possible;
@@ -126,10 +125,10 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @param type the specific type of the type's usage
      * @param obj the object to convert
      * @return a converted object
-     * @throws ObjectMappingException if the object could not be converted for
+     * @throws SerializationException if the object could not be converted for
      *                                any reason
      */
-    public abstract T deserialize(Type type, Object obj) throws ObjectMappingException;
+    public abstract T deserialize(Type type, Object obj) throws SerializationException;
 
     @Override
     public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
@@ -181,7 +180,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
 
         try {
             return deserialize(obj);
-        } catch (final ObjectMappingException ex) {
+        } catch (final SerializationException ex) {
             return null;
         }
     }

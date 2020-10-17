@@ -25,6 +25,7 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Required;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,7 +39,7 @@ public class RecordDiscovererTest {
     }
 
     @Test
-    void testDeserializeToRecord() throws ObjectMappingException {
+    void testDeserializeToRecord() throws SerializationException {
         final var node = BasicConfigurationNode.root(n -> {
             n.node("name").raw("Hello");
             n.node("testable").raw(13);
@@ -50,7 +51,7 @@ public class RecordDiscovererTest {
     }
 
     @Test
-    void testSerializeFromRecord() throws ObjectMappingException {
+    void testSerializeFromRecord() throws SerializationException {
         final var record = new TestRecord("meow", 32);
         final var target = BasicConfigurationNode.root();
 
@@ -68,7 +69,7 @@ public class RecordDiscovererTest {
     ) {}
 
     @Test
-    void testAnnotationsApplied() throws ObjectMappingException, MalformedURLException {
+    void testAnnotationsApplied() throws SerializationException, MalformedURLException {
 
         final var record = new AnnotatedRecord(new TestRecord("nested", 0xFACE),
                 new URL("https://spongepowered.org/"));
@@ -109,7 +110,7 @@ public class RecordDiscovererTest {
     }
 
     @Test
-    void testImplicitDefaultsLoaded() throws ObjectMappingException {
+    void testImplicitDefaultsLoaded() throws SerializationException {
         final var filled =
                 ObjectMapper.factory().get(ImplicitlyFillable.class)
                         .load(BasicConfigurationNode.root(ConfigurationOptions.defaults()

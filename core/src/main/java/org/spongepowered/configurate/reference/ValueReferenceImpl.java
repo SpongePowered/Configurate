@@ -18,18 +18,18 @@ package org.spongepowered.configurate.reference;
 
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.reactive.Disposable;
 import org.spongepowered.configurate.reactive.Publisher;
 import org.spongepowered.configurate.reactive.Subscriber;
 import org.spongepowered.configurate.reactive.TransactionFailedException;
 import org.spongepowered.configurate.reference.ConfigurationReference.ErrorPhase;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
-import java.io.IOException;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
 
@@ -43,19 +43,19 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     private final Publisher.Cached<T> deserialized;
 
     ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final TypeToken<T> type,
-                       final @Nullable T def) throws ObjectMappingException {
+                       final @Nullable T def) throws SerializationException {
         this.root = root;
         this.path = path;
         this.type = type;
         this.serializer = root.node().options().serializers().get(type);
         if (this.serializer == null) {
-            throw new ObjectMappingException("Unsupported type" + type);
+            throw new SerializationException(this.path, type.getType(), "Unsupported type" + type);
         }
 
         this.deserialized = root.updateListener.map(n -> {
             try {
                 return deserializedValueFrom(n, def);
-            } catch (final ObjectMappingException e) {
+            } catch (final SerializationException e) {
                 root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.VALUE, e));
                 throw new TransactionFailedException(e);
             }
@@ -63,11 +63,11 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final Class<T> type,
-                       final @Nullable T def) throws ObjectMappingException {
+                       final @Nullable T def) throws SerializationException {
         this(root, path, TypeToken.get(type), def);
     }
 
-    private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws ObjectMappingException {
+    private T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws SerializationException {
         final N node = parent.node(this.path);
         final @Nullable T possible = this.serializer.deserialize(this.type.getType(), node);
         if (possible != null) {
@@ -89,7 +89,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
             this.serializer.serialize(this.type.getType(), value, node());
             this.deserialized.submit(value);
             return true;
-        } catch (final ObjectMappingException e) {
+        } catch (final SerializationException e) {
             this.root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.SAVING, e));
             return false;
         }
@@ -102,7 +102,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
                 this.root.save();
                 return true;
             }
-        } catch (final IOException e) {
+        } catch (final ConfigurateException e) {
             this.root.errorListener.submit(UnmodifiableCollections.immutableMapEntry(ErrorPhase.SAVING, e));
         }
         return false;

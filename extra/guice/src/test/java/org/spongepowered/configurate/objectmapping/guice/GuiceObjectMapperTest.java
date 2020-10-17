@@ -27,7 +27,7 @@ import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 /**
  * Created by zml on 7/5/15.
@@ -49,7 +49,7 @@ public class GuiceObjectMapperTest {
     }
 
     @Test
-    void testCreateGuiceObjectMapper() throws ObjectMappingException {
+    void testCreateGuiceObjectMapper() throws SerializationException {
         final Injector injector = Guice.createInjector(new TestModule());
         final GuiceObjectMapperProvider factory = injector.getInstance(GuiceObjectMapperProvider.class);
         final ObjectMapper<ConfigClass> mapper = factory.get().get(ConfigClass.class);

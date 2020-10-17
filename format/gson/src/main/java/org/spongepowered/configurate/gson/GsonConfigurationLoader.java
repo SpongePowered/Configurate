@@ -20,14 +20,17 @@ import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.stream.MalformedJsonException;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.Strings;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -125,45 +128,69 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
-    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
-        reader.mark(1);
-        if (reader.read() == -1) {
-            return;
-        }
-        reader.reset();
-        try (JsonReader parser = new JsonReader(reader)) {
-            parser.setLenient(this.lenient);
-            parseValue(parser, node);
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws ParsingException {
+        try {
+            reader.mark(1);
+            if (reader.read() == -1) {
+                return;
+            }
+            reader.reset();
+            try (JsonReader parser = new JsonReader(reader)) {
+                parser.setLenient(this.lenient);
+                parseValue(parser, node);
+            }
+        } catch (final IOException ex) {
+            throw new ParsingException(node, 0, 0, null, "peeking file size", ex);
         }
     }
 
-    private void parseValue(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
-        final JsonToken token = parser.peek();
-        switch (token) {
-            case BEGIN_OBJECT:
-                parseObject(parser, node);
-                break;
-            case BEGIN_ARRAY:
-                parseArray(parser, node);
-                break;
-            case NUMBER:
-                node.raw(readNumber(parser));
-                break;
-            case STRING:
-                node.raw(parser.nextString());
-                break;
-            case BOOLEAN:
-                node.raw(parser.nextBoolean());
-                break;
-            case NULL: // Ignored values
-                parser.nextNull();
-                node.raw(null);
-                break;
-            case NAME:
-                break;
-            default:
-                throw new IOException("Unsupported token type: " + token);
+    private void parseValue(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException {
+        final JsonToken token;
+        try {
+            token = parser.peek();
+        } catch (final IOException ex) {
+            throw newException(parser, node, ex.getMessage(), ex);
         }
+
+        try {
+            switch (token) {
+                case BEGIN_OBJECT:
+                    parseObject(parser, node);
+                    break;
+                case BEGIN_ARRAY:
+                    parseArray(parser, node);
+                    break;
+                case NUMBER:
+                    node.raw(readNumber(parser));
+                    break;
+                case STRING:
+                    node.raw(parser.nextString());
+                    break;
+                case BOOLEAN:
+                    node.raw(parser.nextBoolean());
+                    break;
+                case NULL: // Ignored values
+                    parser.nextNull();
+                    node.raw(null);
+                    break;
+                case NAME:
+                    break;
+                default:
+                    throw newException(parser, node, "Unsupported token type: " + token, null);
+            }
+        } catch (final JsonParseException | MalformedJsonException ex) {
+            throw newException(parser, node, ex.getMessage(), ex.getCause());
+        } catch (final IOException ex) {
+            throw newException(parser, node, "An underlying exception occurred", ex);
+        } catch (final ParsingException ex) {
+            ex.initPath(node::path);
+            throw ex;
+        }
+    }
+
+    private ParsingException newException(final JsonReader reader, final ConfigurationNode node, final @Nullable String message,
+            final @Nullable Throwable cause) {
+        return new ParsingException(node, JsonReaderAccess.lineNumber(reader), JsonReaderAccess.column(reader), null, message, cause);
     }
 
     private Number readNumber(final JsonReader reader) throws IOException {
@@ -179,7 +206,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         return nextLong;
     }
 
-    private void parseArray(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
+    private void parseArray(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {
         parser.beginArray();
 
         boolean written = false;
@@ -198,11 +225,10 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     written = true;
             }
         }
-        throw new JsonParseException("Reached end of stream with unclosed array at!");
-
+        throw newException(parser, node, "Reached end of stream with unclosed array!", null);
     }
 
-    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
+    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {
         parser.beginObject();
 
         boolean written = false;
@@ -229,15 +255,19 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
-    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
         if (!this.lenient && !node.isMap()) {
-            throw new IOException("Non-lenient json generators must have children of map type");
+            throw new ConfigurateException(node, "Non-lenient json generators must have children of map type");
         }
-        try (JsonWriter generator = new JsonWriter(writer)) {
-            generator.setIndent(this.indent);
-            generator.setLenient(this.lenient);
-            node.visit(GsonVisitor.INSTANCE.get(), generator);
-            writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
+        try {
+            try (JsonWriter generator = new JsonWriter(writer)) {
+                generator.setIndent(this.indent);
+                generator.setLenient(this.lenient);
+                node.visit(GsonVisitor.INSTANCE.get(), generator);
+                writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
+            }
+        } catch (final IOException ex) {
+            throw new ConfigurateException(node, ex);
         }
     }
 

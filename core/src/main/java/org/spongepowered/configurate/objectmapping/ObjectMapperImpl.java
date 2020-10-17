@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedFunction;
 
@@ -43,22 +44,22 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public V load(final ConfigurationNode source) throws ObjectMappingException {
+    public V load(final ConfigurationNode source) throws SerializationException {
         return this.load0(source, intermediate -> (V) this.instanceFactory.complete(intermediate));
     }
 
-    final V load0(final ConfigurationNode source, final CheckedFunction<I, V, ObjectMappingException> completer) throws ObjectMappingException {
+    final V load0(final ConfigurationNode source, final CheckedFunction<I, V, SerializationException> completer) throws SerializationException {
         final I intermediate = this.instanceFactory.begin();
         @MonotonicNonNull List<FieldData<I, V>> unseenFields = null;
 
-        @Nullable ObjectMappingException failure = null;
+        @Nullable SerializationException failure = null;
         for (FieldData<I, V> field : this.fields) {
-            try {
-                final @Nullable ConfigurationNode node = field.resolveNode(source);
-                if (node == null) {
-                    continue;
-                }
+            final @Nullable ConfigurationNode node = field.resolveNode(source);
+            if (node == null) {
+                continue;
+            }
 
+            try {
                 final TypeSerializer<?> serial = field.serializerFrom(node);
                 final @Nullable Object newVal = node.virtual() ? null : serial.deserialize(field.resolvedType().getType(), node);
                 field.validate(newVal);
@@ -82,7 +83,10 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                     }
                     unseenFields.add(field);
                 }
-            } catch (final ObjectMappingException ex) {
+            } catch (final SerializationException ex) {
+                ex.initPath(node::path);
+                ex.initType(field.resolvedType().getType());
+
                 if (failure == null) {
                     failure = ex;
                 } else {
@@ -105,7 +109,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
     }
 
     @Override
-    public void save(final V value, final ConfigurationNode target) throws ObjectMappingException {
+    public void save(final V value, final ConfigurationNode target) throws SerializationException {
         for (FieldData<I, V> field : this.fields) {
             saveSingle(field, value, target);
         }
@@ -116,29 +120,35 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
     }
 
     @SuppressWarnings("unchecked")
-    private void saveSingle(final FieldData<I, V> field, final V value, final ConfigurationNode target) throws ObjectMappingException {
+    private void saveSingle(final FieldData<I, V> field, final V value, final ConfigurationNode target) throws SerializationException {
         final @Nullable ConfigurationNode node = field.resolveNode(target);
         if (node == null) {
             return;
         }
 
-        final @Nullable Object fieldVal;
         try {
-            fieldVal = field.serializer().apply(value);
-        } catch (final ObjectMappingException ex) {
-            throw ex;
-        } catch (final Exception ex) {
-            throw new ObjectMappingException(ex);
-        }
-
-        if (fieldVal == null) {
-            node.set(null);
-        } else {
-            final TypeSerializer<Object> serial = (TypeSerializer<Object>) field.serializerFrom(node);
-            serial.serialize(field.resolvedType().getType(), fieldVal, node);
-            for (Processor<?> processor : field.processors()) {
-                ((Processor<Object>) processor).process(fieldVal, node);
+            final @Nullable Object fieldVal;
+            try {
+                fieldVal = field.serializer().apply(value);
+            } catch (final SerializationException ex) {
+                throw ex;
+            } catch (final Exception ex) {
+                throw new SerializationException(node, field.resolvedType().getType(), ex);
             }
+
+            if (fieldVal == null) {
+                node.set(null);
+            } else {
+                final TypeSerializer<Object> serial = (TypeSerializer<Object>) field.serializerFrom(node);
+                serial.serialize(field.resolvedType().getType(), fieldVal, node);
+                for (Processor<?> processor : field.processors()) {
+                    ((Processor<Object>) processor).process(fieldVal, node);
+                }
+            }
+        } catch (final SerializationException ex) {
+            ex.initPath(node::path);
+            ex.initType(field.resolvedType().getType());
+            throw ex;
         }
     }
 
@@ -164,7 +174,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
         }
 
         @Override
-        public void load(final V value, final ConfigurationNode node) throws ObjectMappingException {
+        public void load(final V value, final ConfigurationNode node) throws SerializationException {
             this.load0(node, intermediate -> {
                 ((FieldDiscoverer.MutableInstanceFactory<I>) this.instanceFactory).complete(value, intermediate);
                 return value;

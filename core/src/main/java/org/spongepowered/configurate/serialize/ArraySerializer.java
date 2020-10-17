@@ -16,11 +16,8 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import static java.util.Objects.requireNonNull;
-
 import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 import org.spongepowered.configurate.util.Types;
 
@@ -37,8 +34,12 @@ import java.util.function.Predicate;
 abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     @Override
-    Type elementType(final Type containerType) {
-        return requireNonNull(GenericTypeReflector.getArrayComponentType(containerType), "Must be array type");
+    Type elementType(final Type containerType) throws SerializationException {
+        final Type componentType = GenericTypeReflector.getArrayComponentType(containerType);
+        if (componentType == null) {
+            throw new SerializationException(containerType, "Must be array type");
+        }
+        return componentType;
     }
 
     static class Objects extends ArraySerializer<Object[]> {
@@ -60,7 +61,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final Object[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final Object[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (Object o : collection) {
                 action.accept(o);
             }
@@ -83,14 +84,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final boolean[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final boolean[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (boolean b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final boolean[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final boolean[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? false : Scalars.BOOLEAN.deserialize(deserialized);
         }
 
@@ -106,14 +107,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final byte[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final byte[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (byte b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final byte[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final byte[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).byteValue();
         }
 
@@ -129,14 +130,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final char[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final char[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (char b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final char[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final char[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.CHAR.deserialize(deserialized);
         }
 
@@ -152,14 +153,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final short[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final short[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (short b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final short[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final short[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).shortValue();
         }
 
@@ -175,14 +176,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final int[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final int[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (int b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final int[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final int[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized);
         }
 
@@ -198,14 +199,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final long[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final long[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (long b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final long[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final long[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.LONG.deserialize(deserialized);
         }
 
@@ -221,14 +222,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final float[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final float[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (float b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final float[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final float[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.FLOAT.deserialize(deserialized);
         }
 
@@ -244,14 +245,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final double[] collection, final CheckedConsumer<Object, ObjectMappingException> action) throws ObjectMappingException {
+        void forEachElement(final double[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (double b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final double[] collection, final @Nullable Object deserialized) throws ObjectMappingException {
+        void deserializeSingle(final int index, final double[] collection, final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.DOUBLE.deserialize(deserialized);
         }
 

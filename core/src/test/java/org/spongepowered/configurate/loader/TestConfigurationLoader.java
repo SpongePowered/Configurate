@@ -22,7 +22,6 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Writer;
 
 /**
@@ -52,12 +51,12 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
     }
 
     @Override
-    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws IOException {
+    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) {
         node.from(this.result);
     }
 
     @Override
-    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws IOException {
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) {
         this.result.from(node);
     }
 

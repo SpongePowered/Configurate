@@ -16,8 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.spongepowered.configurate.objectmapping.ObjectMappingException;
-
 import java.lang.reflect.Type;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -30,11 +28,11 @@ final class PatternSerializer extends ScalarSerializer<Pattern> {
     }
 
     @Override
-    public Pattern deserialize(final Type type, final Object obj) throws ObjectMappingException {
+    public Pattern deserialize(final Type type, final Object obj) throws SerializationException {
         try {
             return Pattern.compile(obj.toString());
         } catch (final PatternSyntaxException ex) {
-            throw new ObjectMappingException(ex);
+            throw new SerializationException(ex);
         }
     }
 
