@@ -1,6 +1,5 @@
 package org.spongepowered.configurate.build
 
-import net.kyori.indra.version
 import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
@@ -17,9 +16,7 @@ repositories {
 }
 
 tasks.withType(JavaCompile::class).configureEach {
-    if (!version(toolChain).isJava9Compatible) {
-        options.errorprone.isEnabled.set(false)
-    }
+    options.errorprone.isEnabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 })
     options.compilerArgs.add("-Xlint:-processing")
 }
 

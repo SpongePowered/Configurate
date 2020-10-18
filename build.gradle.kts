@@ -8,6 +8,7 @@ plugins {
     id("org.ajoberstar.git-publish") version "3.0.0"
     id("com.github.ben-manes.versions") version "0.33.0"
     id("io.codearte.nexus-staging")
+    `java-base`
 }
 
 group = "org.spongepowered"
