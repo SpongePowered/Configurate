@@ -21,26 +21,21 @@ import static java.util.Objects.requireNonNull;
 import com.mojang.serialization.Dynamic;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNodeFactory;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
-
-import java.util.function.Supplier;
 
 /**
  * A builder for {@link ConfigurateOps} instances.
  */
 public final class ConfigurateOpsBuilder {
 
-    private Supplier<ConfigurationNode> nodeSupplier = ConfigurateOpsBuilder::createDefaultNode;
+    private ConfigurationNodeFactory<? extends ConfigurationNode> nodeSupplier = CommentedConfigurationNode.factory();
     private boolean compressed;
     private ConfigurateOps.Protection readProtection = ConfigurateOps.Protection.COPY_DEEP;
     private ConfigurateOps.Protection writeProtection = ConfigurateOps.Protection.COPY_DEEP;
 
     ConfigurateOpsBuilder() {}
-
-    static ConfigurationNode createDefaultNode() {
-        return CommentedConfigurationNode.root();
-    }
 
     /**
      * Set the node factory for the returned ops.
@@ -52,7 +47,7 @@ public final class ConfigurateOpsBuilder {
      *     the {@code create*} methods
      * @return this builder
      */
-    public ConfigurateOpsBuilder factory(final Supplier<ConfigurationNode> supplier) {
+    public ConfigurateOpsBuilder factory(final ConfigurationNodeFactory<? extends ConfigurationNode> supplier) {
         this.nodeSupplier = requireNonNull(supplier, "nodeSupplier");
         return this;
     }
@@ -60,25 +55,36 @@ public final class ConfigurateOpsBuilder {
     /**
      * Set a node factory that will use the provided collection.
      *
-     * <p>This will replace any set {@link #factory(Supplier)}.
+     * <p>This will replace any set {@link #factory(ConfigurationNodeFactory)}.
      *
      * @param collection type serializers to use for nodes.
      * @return this builder
      */
     public ConfigurateOpsBuilder factoryFromSerializers(final TypeSerializerCollection collection) {
         requireNonNull(collection, "collection");
-        return factory(() -> CommentedConfigurationNode.root(ConfigurationOptions.defaults().serializers(collection)));
+        return factory(options -> CommentedConfigurationNode.root(options.serializers(collection)));
     }
 
     /**
      * Set the node factory based on the options of the provided node.
+     *
+     * <p>This will replace any set {@link #factory(ConfigurationNodeFactory)}.
      *
      * @param node node to use
      * @return this builder
      */
     public ConfigurateOpsBuilder factoryFromNode(final ConfigurationNode node) {
         final ConfigurationOptions options = requireNonNull(node, "node").options();
-        return factory(() -> CommentedConfigurationNode.root(options));
+        return factory(new ConfigurationNodeFactory<ConfigurationNode>() {
+            @Override
+            public ConfigurationNode createNode(final ConfigurationOptions options) {
+                return CommentedConfigurationNode.root(options);
+            }
+
+            @Override public ConfigurationOptions defaultOptions() {
+                return options;
+            }
+        });
     }
 
     /**

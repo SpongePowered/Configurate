@@ -29,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNodeFactory;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 import java.nio.ByteBuffer;
@@ -36,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -97,7 +97,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     private static final ConfigurateOps UNCOMPRESSED = ConfigurateOps.builder().build();
     private static final ConfigurateOps COMPRESSED = ConfigurateOps.builder().compressed(true).build();
 
-    private final Supplier<? extends ConfigurationNode> factory;
+    private final ConfigurationNodeFactory<? extends ConfigurationNode> factory;
     private final boolean compressed;
     private final Protection readProtection;
     private final Protection writeProtection;
@@ -176,7 +176,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
         return new ConfigurateOpsBuilder();
     }
 
-    ConfigurateOps(final Supplier<? extends ConfigurationNode> factory, final boolean compressed,
+    ConfigurateOps(final ConfigurationNodeFactory<? extends ConfigurationNode> factory, final boolean compressed,
             final Protection readProtection, final Protection writeProtection) {
         this.factory = factory;
         this.compressed = compressed;
@@ -256,7 +256,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      */
     @Override
     public ConfigurationNode empty() {
-        return this.factory.get();
+        return this.factory.createNode();
     }
 
     @Override
