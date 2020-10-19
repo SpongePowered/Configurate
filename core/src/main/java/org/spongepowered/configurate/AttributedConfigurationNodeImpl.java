@@ -18,7 +18,6 @@ package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
@@ -34,27 +33,25 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
     private String tagName;
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
-    protected AttributedConfigurationNodeImpl(final @NonNull String tagName, final @Nullable Object path,
-            final @Nullable AttributedConfigurationNodeImpl parent, final @NonNull ConfigurationOptions options) {
+    protected AttributedConfigurationNodeImpl(final String tagName, final @Nullable Object path,
+            final @Nullable AttributedConfigurationNodeImpl parent, final ConfigurationOptions options) {
         super(path, parent, options);
         tagName(tagName);
     }
 
-    protected AttributedConfigurationNodeImpl(final @NonNull String tagName, final @Nullable AttributedConfigurationNodeImpl parent,
-            final @NonNull AttributedConfigurationNodeImpl copyOf) {
+    protected AttributedConfigurationNodeImpl(final String tagName, final @Nullable AttributedConfigurationNodeImpl parent,
+            final AttributedConfigurationNodeImpl copyOf) {
         super(parent, copyOf);
         tagName(tagName);
     }
 
-    @NonNull
     @Override
     public String tagName() {
         return this.tagName;
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNodeImpl tagName(final @NonNull String tagName) {
+    public AttributedConfigurationNodeImpl tagName(final String tagName) {
         if (requireNonNull(tagName, "tag name").isEmpty()) {
             throw new IllegalArgumentException("Tag name cannot be null/empty");
         }
@@ -63,9 +60,8 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
         return this;
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNodeImpl addAttribute(final @NonNull String name, final @NonNull String value) {
+    public AttributedConfigurationNodeImpl addAttribute(final String name, final String value) {
         if (requireNonNull(name, "name").isEmpty()) {
             throw new IllegalArgumentException("Attribute name cannot be null/empty");
         }
@@ -74,16 +70,14 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
         return this;
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNodeImpl removeAttribute(final @NonNull String name) {
+    public AttributedConfigurationNodeImpl removeAttribute(final String name) {
         this.attributes.remove(name);
         return this;
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNodeImpl attributes(final @NonNull Map<String, String> attributes) {
+    public AttributedConfigurationNodeImpl attributes(final Map<String, String> attributes) {
         for (String name : attributes.keySet()) {
             if (requireNonNull(name, "name").isEmpty()) {
                 throw new IllegalArgumentException("Attribute name cannot be null/empty");
@@ -97,7 +91,6 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
         return this;
     }
 
-    @NonNull
     @Override
     public Map<String, String> attributes() {
         return Collections.unmodifiableMap(new LinkedHashMap<>(this.attributes));
@@ -108,9 +101,8 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
         return !this.attributes.isEmpty();
     }
 
-    @Nullable
     @Override
-    public String attribute(final @NonNull String name) {
+    public @Nullable String attribute(final String name) {
         return this.attributes.get(name);
     }
 
@@ -136,9 +128,8 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
         return super.from(that);
     }
 
-    @NonNull
     @Override
-    public AttributedConfigurationNode mergeFrom(final @NonNull ConfigurationNode other) {
+    public AttributedConfigurationNode mergeFrom(final ConfigurationNode other) {
         if (other instanceof AttributedConfigurationNode) {
             final AttributedConfigurationNode node = (AttributedConfigurationNode) other;
             tagName(node.tagName());
@@ -149,7 +140,6 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
         return super.mergeFrom(other);
     }
 
-    @NonNull
     @Override
     protected AttributedConfigurationNodeImpl copy(final @Nullable AttributedConfigurationNodeImpl parent) {
         final AttributedConfigurationNodeImpl copy = new AttributedConfigurationNodeImpl(this.tagName, parent, this);

@@ -16,9 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import static java.util.Objects.requireNonNull;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collection;
@@ -36,47 +33,41 @@ final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Ab
         super(holder);
     }
 
-    @Nullable
     @Override
-    public Object get() {
+    public @Nullable Object get() {
         return this.value;
     }
 
     @Override
     public void set(final @Nullable Object value) {
-        if (!holder.options().acceptsType(requireNonNull(value).getClass())) {
+        if (value != null && !holder.options().acceptsType(value.getClass())) {
             throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
         this.value = value;
     }
 
-    @Nullable
     @Override
-    T putChild(final @NonNull Object key, final @Nullable T value) {
+    @Nullable T putChild(final Object key, final @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    T putChildIfAbsent(final @NonNull Object key, final @Nullable T value) {
+    @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    public T child(final @Nullable Object key) {
+    public @Nullable T child(final @Nullable Object key) {
         return null;
     }
 
-    @NonNull
     @Override
     public Iterable<T> iterateChildren() {
         return Collections.emptySet();
     }
 
-    @NonNull
     @Override
-    ScalarConfigValue<N, T> copy(final @NonNull T holder) {
+    ScalarConfigValue<N, T> copy(final T holder) {
         final ScalarConfigValue<N, T> copy = new ScalarConfigValue<>(holder);
         copy.value = this.value;
         return copy;

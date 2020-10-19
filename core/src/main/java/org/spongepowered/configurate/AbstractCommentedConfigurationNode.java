@@ -41,7 +41,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N comment(final @Nullable String comment) {
+    public N comment(final @Nullable String comment) {
         if (!Objects.equals(this.comment.getAndSet(comment), comment)) {
             attachIfNecessary();
         }
@@ -49,7 +49,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N commentIfAbsent(final String comment) {
+    public N commentIfAbsent(final String comment) {
         if (this.comment.compareAndSet(null, comment)) {
             attachIfNecessary();
         }
@@ -68,7 +68,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
     }
 
     @Override
-    public @NonNull N mergeFrom(final @NonNull ConfigurationNode other) {
+    public N mergeFrom(final ConfigurationNode other) {
         if (other instanceof CommentedConfigurationNodeIntermediary<?>) {
             final @Nullable String otherComment = ((CommentedConfigurationNodeIntermediary<?>) other).comment();
             if (otherComment != null) {

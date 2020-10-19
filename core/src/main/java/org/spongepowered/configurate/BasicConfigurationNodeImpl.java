@@ -16,14 +16,13 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 class BasicConfigurationNodeImpl
         extends AbstractConfigurationNode<BasicConfigurationNode, BasicConfigurationNodeImpl> implements BasicConfigurationNode {
 
     protected BasicConfigurationNodeImpl(final @Nullable Object key, final @Nullable BasicConfigurationNodeImpl parent,
-            final @NonNull ConfigurationOptions options) {
+            final ConfigurationOptions options) {
         super(key, parent, options);
     }
 
@@ -31,14 +30,12 @@ class BasicConfigurationNodeImpl
         super(parent, copyOf);
     }
 
-    @NonNull
     @Override
     protected BasicConfigurationNodeImpl copy(final @Nullable BasicConfigurationNodeImpl parent) {
         return new BasicConfigurationNodeImpl(parent, this);
     }
 
     @Override
-    @NonNull
     public BasicConfigurationNodeImpl self() {
         return this;
     }

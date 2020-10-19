@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -49,9 +48,8 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         }
     }
 
-    @Nullable
     @Override
-    public Object get() {
+    public @Nullable Object get() {
         final List<T> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
@@ -97,12 +95,12 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public @Nullable T putChild(final @NonNull Object key, final @Nullable T value) {
+    public @Nullable T putChild(final Object key, final @Nullable T value) {
         return putChildInternal((int) key, value, false);
     }
 
     @Override
-    @Nullable T putChildIfAbsent(final @NonNull Object key, final @Nullable T value) {
+    @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
         return putChildInternal((int) key, value, true);
     }
 
@@ -158,7 +156,6 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         }
     }
 
-    @NonNull
     @Override
     public Iterable<T> iterateChildren() {
         final List<T> values = this.values.get();
@@ -167,9 +164,8 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         }
     }
 
-    @NonNull
     @Override
-    ListConfigValue<N, T> copy(final @NonNull T holder) {
+    ListConfigValue<N, T> copy(final T holder) {
         final ListConfigValue<N, T> copy = new ListConfigValue<>(holder);
         final List<T> copyValues;
 

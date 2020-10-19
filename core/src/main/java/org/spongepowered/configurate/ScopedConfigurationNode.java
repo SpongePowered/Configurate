@@ -17,7 +17,6 @@
 package org.spongepowered.configurate;
 
 import io.leangen.geantyref.TypeToken;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
@@ -50,25 +49,25 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N appendListNode();
+    N appendListNode();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N copy();
+    N copy();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N node(@NonNull Object... path);
+    N node(Object... path);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N node(@NonNull Iterable<?> path);
+    N node(Iterable<?> path);
 
     /**
      * {@inheritDoc}
@@ -86,21 +85,20 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N mergeFrom(@NonNull ConfigurationNode other);
+    N mergeFrom(ConfigurationNode other);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull N set(@Nullable Object value) throws SerializationException;
+    N set(@Nullable Object value) throws SerializationException;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull
     @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize
-    default N set(@NonNull Type type, @Nullable Object value) throws SerializationException {
+    default N set(Type type, @Nullable Object value) throws SerializationException {
         if (value == null) {
             return set(null);
         }
@@ -130,19 +128,19 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * {@inheritDoc}
      */
     @Override
-    @NonNull N raw(@Nullable Object value);
+    N raw(@Nullable Object value);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull List<N> childrenList();
+    List<N> childrenList();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @NonNull Map<Object, N> childrenMap();
+    Map<Object, N> childrenMap();
 
     /**
      * {@inheritDoc}

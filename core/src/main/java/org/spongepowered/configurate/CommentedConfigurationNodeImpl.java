@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -26,12 +25,12 @@ class CommentedConfigurationNodeImpl extends AbstractCommentedConfigurationNode<
         implements CommentedConfigurationNode {
 
     protected CommentedConfigurationNodeImpl(final @Nullable Object path,
-            final @Nullable CommentedConfigurationNodeImpl parent, final @NonNull ConfigurationOptions options) {
+            final @Nullable CommentedConfigurationNodeImpl parent, final ConfigurationOptions options) {
         super(path, parent, options);
     }
 
     protected CommentedConfigurationNodeImpl(final @Nullable CommentedConfigurationNodeImpl parent,
-            final @NonNull CommentedConfigurationNodeImpl copyOf) {
+            final CommentedConfigurationNodeImpl copyOf) {
         super(parent, copyOf);
     }
 
@@ -42,7 +41,6 @@ class CommentedConfigurationNodeImpl extends AbstractCommentedConfigurationNode<
         return new CommentedConfigurationNodeImpl(path, this, options());
     }
 
-    @NonNull
     @Override
     protected CommentedConfigurationNodeImpl copy(final @Nullable CommentedConfigurationNodeImpl parent) {
         final CommentedConfigurationNodeImpl copy = new CommentedConfigurationNodeImpl(parent, this);
@@ -51,7 +49,6 @@ class CommentedConfigurationNodeImpl extends AbstractCommentedConfigurationNode<
     }
 
     @Override
-    @NonNull
     public CommentedConfigurationNodeImpl self() {
         return this;
     }

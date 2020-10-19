@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
@@ -46,9 +45,8 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    public Object get() {
+    public @Nullable Object get() {
         final Map<Object, Object> value = new LinkedHashMap<>();
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
             value.put(ent.getKey(), ent.getValue().raw()); // unwrap key from the backing node
@@ -85,9 +83,8 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    A putChild(final @NonNull Object key, final @Nullable A value) {
+    @Nullable A putChild(final Object key, final @Nullable A value) {
         if (value == null) {
             return this.values.remove(key);
         } else {
@@ -95,9 +92,8 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    A putChildIfAbsent(final @NonNull Object key, final @Nullable A value) {
+    @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
         if (value == null) {
             return this.values.remove(key);
         } else {
@@ -105,21 +101,18 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
         }
     }
 
-    @Nullable
     @Override
-    public A child(final @Nullable Object key) {
+    public @Nullable A child(final @Nullable Object key) {
         return this.values.get(key);
     }
 
-    @NonNull
     @Override
     public Iterable<A> iterateChildren() {
         return this.values.values();
     }
 
-    @NonNull
     @Override
-    MapConfigValue<N, A> copy(final @NonNull A holder) {
+    MapConfigValue<N, A> copy(final A holder) {
         final MapConfigValue<N, A> copy = new MapConfigValue<>(holder);
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
             copy.values.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy

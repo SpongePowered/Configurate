@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
@@ -39,9 +38,8 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         super(null);
     }
 
-    @Nullable
     @Override
-    public Object get() {
+    public @Nullable Object get() {
         return null;
     }
 
@@ -50,33 +48,28 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         throw new UnsupportedOperationException("Value should be changed from null type before setting value");
     }
 
-    @Nullable
     @Override
-    T putChild(final @NonNull Object key, final @Nullable T value) {
+    @Nullable T putChild(final Object key, final @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    T putChildIfAbsent(final @NonNull Object key, final @Nullable T value) {
+    @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
         return null;
     }
 
-    @Nullable
     @Override
-    public T child(final @Nullable Object key) {
+    public @Nullable T child(final @Nullable Object key) {
         return null;
     }
 
-    @NonNull
     @Override
     public Iterable<T> iterateChildren() {
         return Collections.emptySet();
     }
 
-    @NonNull
     @Override
-    NullConfigValue<N, T> copy(final @NonNull T holder) {
+    NullConfigValue<N, T> copy(final T holder) {
         return instance();
     }
 

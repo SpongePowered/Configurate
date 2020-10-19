@@ -20,7 +20,6 @@ import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static java.util.Objects.requireNonNull;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
@@ -48,7 +47,6 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     /**
      * The options determining the behaviour of this node.
      */
-    @NonNull
     private final ConfigurationOptions options;
 
     /**
@@ -62,14 +60,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      * <p>Internally, may only be modified when an operation that adds or
      * removes a node at the same or higher level in the node tree</p>
      */
-    @Nullable
-    volatile Object key;
+    volatile @Nullable Object key;
 
     /**
      * The parent of this node.
      */
-    @Nullable
-    private A parent;
+    private @Nullable A parent;
 
     /**
      * The current value of this node.
@@ -410,14 +406,12 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return this.value instanceof MapConfigValue;
     }
 
-    @NonNull
     @Override
     public final List<N> childrenList() {
         final ConfigValue<N, A> value = this.value;
         return value instanceof ListConfigValue ? ((ListConfigValue<N, A>) value).unwrapped() : Collections.emptyList();
     }
 
-    @NonNull
     @Override
     public final Map<Object, N> childrenMap() {
         final ConfigValue<N, A> value = this.value;
