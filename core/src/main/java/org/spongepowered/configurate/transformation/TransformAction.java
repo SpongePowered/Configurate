@@ -19,7 +19,7 @@ package org.spongepowered.configurate.transformation;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.function.Supplier;
 
@@ -28,15 +28,14 @@ import java.util.function.Supplier;
  * configuration tree.
  */
 @FunctionalInterface
-public interface TransformAction<T extends ScopedConfigurationNode<T>> {
+public interface TransformAction {
 
     /**
      * Create a transform action that will remove the node at a specified path.
      *
-     * @param <N> node type
      * @return new action
      */
-    static <N extends ScopedConfigurationNode<N>> TransformAction<N> remove() {
+    static TransformAction remove() {
         return (path, value) -> {
             value.raw(null);
             return null;
@@ -49,10 +48,9 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * <p>This transformation cannot be applied to the root node.
      *
      * @param newKey the new key
-     * @param <N> node type
      * @return new action
      */
-    static <N extends ScopedConfigurationNode<N>> TransformAction<N> rename(Object newKey) {
+    static TransformAction rename(Object newKey) {
         return (path, value) -> {
             final Object[] arr = path.array();
             if (arr.length == 0) {
@@ -70,11 +68,13 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param type value type
      * @param value value
      * @param <V> value type
-     * @param <N> node type
      * @return new transformation action
      */
-    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(TypeToken<V> type, @Nullable V value) {
-        return set(type, (Supplier<V>) () -> value);
+    static <V> TransformAction set(TypeToken<V> type, @Nullable V value) {
+        return (path, node) -> {
+            node.set(type, value);
+            return null;
+        };
     }
 
     /**
@@ -84,10 +84,9 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param type value type
      * @param valueSupplier supplier returning a value on each call
      * @param <V> value type
-     * @param <N> node type
      * @return new transformation action
      */
-    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(TypeToken<V> type, Supplier<V> valueSupplier) {
+    static <V> TransformAction set(TypeToken<V> type, Supplier<@Nullable V> valueSupplier) {
         return (path, value) -> {
             value.set(type, valueSupplier.get());
             return null;
@@ -101,10 +100,9 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
      * @param type value type
      * @param valueSupplier supplier returning a value on each call
      * @param <V> value type
-     * @param <N> node type
      * @return new transformation action
      */
-    static <V, N extends ScopedConfigurationNode<N>> TransformAction<N> set(Class<V> type, Supplier<V> valueSupplier) {
+    static <V> TransformAction set(Class<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
             value.set(type, valueSupplier.get());
             return null;
@@ -115,15 +113,15 @@ public interface TransformAction<T extends ScopedConfigurationNode<T>> {
     /**
      * Called at a certain path, with the node at that path.
      *
-     * <p><strong>Caution:</strong> The state of the <code>inputPath</code> is
+     * <p><strong>Caution:</strong> The state of the <code>path</code> is
      * only guaranteed to be accurate during a run of the transform function.
      * Use {@link NodePath#copy()} if the path's state needs to
      * be stored.
      *
-     * @param inputPath the path of the given node
-     * @param valueAtPath the node at the input path. May be modified
+     * @param path the path of the given node
+     * @param value the node at the input path. May be modified
      * @return a modified path, or null if the path is to stay the same
      */
-    @Nullable Object @Nullable[] visitPath(NodePath inputPath, T valueAtPath) throws ConfigurateException;
+    @Nullable Object @Nullable[] visitPath(NodePath path, ConfigurationNode value) throws ConfigurateException;
 
 }

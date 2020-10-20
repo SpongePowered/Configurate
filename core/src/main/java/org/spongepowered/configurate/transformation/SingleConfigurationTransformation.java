@@ -18,7 +18,7 @@ package org.spongepowered.configurate.transformation;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,10 +30,10 @@ import java.util.Map;
  * <p>Transformations are executed from deepest in the configuration hierarchy
  * outwards.
  */
-final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<N>> implements ConfigurationTransformation<N> {
+final class SingleConfigurationTransformation implements ConfigurationTransformation {
 
     private final MoveStrategy strategy;
-    private final Map<NodePath, TransformAction<? super N>> actions;
+    private final Map<NodePath, TransformAction> actions;
 
     /**
      * Thread local {@link NodePath} instance - used so we don't have to create
@@ -44,15 +44,15 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
      */
     private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
 
-    SingleConfigurationTransformation(final Map<NodePath, TransformAction<? super N>> actions, final MoveStrategy strategy) {
+    SingleConfigurationTransformation(final Map<NodePath, TransformAction> actions, final MoveStrategy strategy) {
         this.actions = actions;
         this.strategy = strategy;
     }
 
     @Override
-    public void apply(final N node) throws ConfigurateException {
+    public void apply(final ConfigurationNode node) throws ConfigurateException {
         @Nullable ConfigurateException thrown = null;
-        for (Map.Entry<NodePath, TransformAction<? super N>> ent : this.actions.entrySet()) {
+        for (Map.Entry<NodePath, TransformAction> ent : this.actions.entrySet()) {
             try {
                 applySingleAction(node, ent.getKey().array(), 0, node, ent.getValue());
             } catch (final ConfigurateException ex) {
@@ -69,13 +69,13 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
         }
     }
 
-    private void applySingleAction(final N start, final Object[] path, final int startIdx, N node, final TransformAction<? super N> action)
-            throws ConfigurateException {
+    private void applySingleAction(final ConfigurationNode start, final Object[] path, final int startIdx, ConfigurationNode node,
+            final TransformAction action) throws ConfigurateException {
         @Nullable ConfigurateException thrown = null;
         for (int i = startIdx; i < path.length; ++i) {
             if (path[i] == WILDCARD_OBJECT) {
                 if (node.isList()) {
-                    final List<N> children = node.childrenList();
+                    final List<? extends ConfigurationNode> children = node.childrenList();
                     for (int di = 0; di < children.size(); ++di) {
                         path[i] = di;
                         try {
@@ -90,7 +90,7 @@ final class SingleConfigurationTransformation<N extends ScopedConfigurationNode<
                     }
                     path[i] = WILDCARD_OBJECT;
                 } else if (node.isMap()) {
-                    for (Map.Entry<Object, N> ent : node.childrenMap().entrySet()) {
+                    for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
                         path[i] = ent.getKey();
                         try {
                             applySingleAction(start, path, i + 1, ent.getValue(), action);

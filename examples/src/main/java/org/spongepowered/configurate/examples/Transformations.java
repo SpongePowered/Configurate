@@ -20,7 +20,7 @@ import static org.spongepowered.configurate.transformation.NodePath.path;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ScopedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import org.spongepowered.configurate.transformation.TransformAction;
@@ -44,11 +44,10 @@ public final class Transformations {
      * field in the node (by default {@code schema-version}) to determine the
      * current schema version (using -1 for no version present).
      *
-     * @param <N> node type
      * @return versioned transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation.Versioned<N> create() {
-        return ConfigurationTransformation.<N>versionedBuilder()
+    public static ConfigurationTransformation.Versioned create() {
+        return ConfigurationTransformation.versionedBuilder()
                 .addVersion(VERSION_LATEST, oneToTwo()) // syntax: target version, latest version
                 .addVersion(1, zeroToOne())
                 .addVersion(0, initialTransform())
@@ -59,11 +58,10 @@ public final class Transformations {
      * A transformation. This one has multiple actions, and demonstrates how
      * wildcards work.
      *
-     * @param <N> node type
      * @return created transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation<N> initialTransform() {
-        return ConfigurationTransformation.<N>builder()
+    public static ConfigurationTransformation initialTransform() {
+        return ConfigurationTransformation.builder()
                 // Move the node at `serverVersion` to the location <code>{"server", "version"}</code>
                 .addAction(path("serverVersion"), (path, value) -> {
                     return new Object[]{"server", "version"};
@@ -77,8 +75,8 @@ public final class Transformations {
                 .build();
     }
 
-    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation<N> zeroToOne() {
-        return ConfigurationTransformation.<N>builder()
+    public static ConfigurationTransformation zeroToOne() {
+        return ConfigurationTransformation.builder()
                 // oh, turns out we want to use a different format for this, so we'll change it again
                 .addAction(path("server", "version"), (path, value) -> {
                     final @Nullable String val = value.getString();
@@ -90,8 +88,8 @@ public final class Transformations {
                 .build();
     }
 
-    public static <N extends ScopedConfigurationNode<N>> ConfigurationTransformation<N> oneToTwo() {
-        return ConfigurationTransformation.<N>builder()
+    public static ConfigurationTransformation oneToTwo() {
+        return ConfigurationTransformation.builder()
                 .addAction(path("server", "version"), TransformAction.rename("release"))
                 .build();
     }
@@ -106,9 +104,9 @@ public final class Transformations {
      * @param <N> node type
      * @return provided node, after transformation
      */
-    public static <N extends ScopedConfigurationNode<N>> N updateNode(final N node) throws ConfigurateException {
+    public static <N extends ConfigurationNode> N updateNode(final N node) throws ConfigurateException {
         if (!node.virtual()) { // we only want to migrate existing data
-            final ConfigurationTransformation.Versioned<N> trans = create();
+            final ConfigurationTransformation.Versioned trans = create();
             final int startVersion = trans.version(node);
             trans.apply(node);
             final int endVersion = trans.version(node);

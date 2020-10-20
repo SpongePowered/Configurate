@@ -27,22 +27,22 @@ import java.util.NavigableMap;
  * Implements a number of child {@link ConfigurationTransformation}s which are only applied if required,
  * according to the configurations current version.
  */
-class VersionedTransformation<T extends ConfigurationNode> implements ConfigurationTransformation.Versioned<T> {
+class VersionedTransformation implements ConfigurationTransformation.Versioned {
 
     private final NodePath versionPath;
-    private final NavigableMap<Integer, ConfigurationTransformation<? super T>> versionTransformations;
+    private final NavigableMap<Integer, ConfigurationTransformation> versionTransformations;
 
-    VersionedTransformation(final NodePath versionPath, final NavigableMap<Integer, ConfigurationTransformation<? super T>> versionTransformations) {
+    VersionedTransformation(final NodePath versionPath, final NavigableMap<Integer, ConfigurationTransformation> versionTransformations) {
         this.versionPath = versionPath;
         this.versionTransformations = versionTransformations;
     }
 
     @Override
-    public void apply(final T node) throws ConfigurateException {
+    public void apply(final ConfigurationNode node) throws ConfigurateException {
         @Nullable ConfigurateException thrown = null;
         final ConfigurationNode versionNode = node.node(this.versionPath);
         int currentVersion = versionNode.getInt(-1);
-        for (Map.Entry<Integer, ConfigurationTransformation<? super T>> entry : this.versionTransformations.entrySet()) {
+        for (Map.Entry<Integer, ConfigurationTransformation> entry : this.versionTransformations.entrySet()) {
             if (entry.getKey() <= currentVersion) {
                 continue;
             }

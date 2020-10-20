@@ -26,7 +26,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import org.spongepowered.configurate.transformation.NodePath;
 
@@ -41,24 +40,23 @@ import java.util.Set;
  * transformation works by explicitly providing a mapping between configurate
  * node paths and DFU TypeReferences.</p>
  */
-public final class DataFixerTransformation<N extends ConfigurationNode> implements ConfigurationTransformation.Versioned<N> {
+public final class DataFixerTransformation implements ConfigurationTransformation.Versioned {
 
     private final NodePath versionPath;
     private final int targetVersion;
-    private final ConfigurationTransformation<N> wrapped;
+    private final ConfigurationTransformation wrapped;
     private final ThreadLocal<Integer> versionHolder;
 
     /**
      * Create a builder that can work with any DFU DataFixer.
      *
-     * @param <N> node type
      * @return the builder
      */
-    public static <N extends ScopedConfigurationNode<N>> Builder<N> dfuBuilder() {
-        return new Builder<>();
+    public static Builder dfuBuilder() {
+        return new Builder();
     }
 
-    DataFixerTransformation(final NodePath versionPath, final int targetVersion, final ConfigurationTransformation<N> wrapped,
+    DataFixerTransformation(final NodePath versionPath, final int targetVersion, final ConfigurationTransformation wrapped,
             final ThreadLocal<Integer> versionHolder) {
         this.versionPath = versionPath;
         this.targetVersion = targetVersion;
@@ -67,7 +65,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
     }
 
     @Override
-    public void apply(@NonNull final N node) throws ConfigurateException {
+    public void apply(@NonNull final ConfigurationNode node) throws ConfigurateException {
         final ConfigurationNode versionNode = node.node(this.versionPath);
         final int currentVersion = versionNode.getInt(-1);
         if (currentVersion < this.targetVersion) {
@@ -105,7 +103,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
     /**
      * Builder for {@link DataFixerTransformation}.
      */
-    public static class Builder<N extends ScopedConfigurationNode<N>> {
+    public static class Builder {
         private NodePath versionPath = NodePath.path("dfu-version");
         private int targetVersion = -1;
         private @Nullable DataFixer fixer;
@@ -117,7 +115,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * @param fixer the fixer
          * @return this builder
          */
-        public Builder<N> dataFixer(final DataFixer fixer) {
+        public Builder dataFixer(final DataFixer fixer) {
             this.fixer = requireNonNull(fixer);
             return this;
         }
@@ -130,7 +128,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * @return this builder
          *
          */
-        public Builder<N> versionPath(final Object... path) {
+        public Builder versionPath(final Object... path) {
             this.versionPath = NodePath.of(requireNonNull(path, "path"));
             return this;
         }
@@ -142,7 +140,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * @param path the path
          * @return this builder
          */
-        public Builder<N> versionPath(final NodePath path) {
+        public Builder versionPath(final NodePath path) {
             this.versionPath = requireNonNull(path, "path");
             return this;
         }
@@ -154,7 +152,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * @param targetVersion target version
          * @return this builder
          */
-        public Builder<N> targetVersion(final int targetVersion) {
+        public Builder targetVersion(final int targetVersion) {
             this.targetVersion = targetVersion;
             return this;
         }
@@ -166,7 +164,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * @param path target path
          * @return this builder
          */
-        public Builder<N> addType(final DSL.TypeReference type, final Object... path) {
+        public Builder addType(final DSL.TypeReference type, final Object... path) {
             return addType(type, NodePath.of(path));
         }
 
@@ -177,7 +175,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          * @param path target path
          * @return this builder
          */
-        public Builder<N> addType(final DSL.TypeReference type, final NodePath path) {
+        public Builder addType(final DSL.TypeReference type, final NodePath path) {
             this.dataFixes.add(Pair.of(type, path));
             return this;
         }
@@ -187,13 +185,13 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
          *
          * @return new transformation
          */
-        public DataFixerTransformation<N> build() {
+        public DataFixerTransformation build() {
             requireNonNull(this.fixer, "A fixer must be provided!");
             if (this.targetVersion == -1) {
                 // DataFixer gets a schema by subsetting the sorted list of schemas with (0, version + 1), so we do max int - 1 to avoid overflow
                 this.targetVersion = DataFixUtils.getVersion(this.fixer.getSchema(Integer.MAX_VALUE - 1).getVersionKey());
             }
-            final ConfigurationTransformation.Builder<N> wrappedBuilder = ConfigurationTransformation.builder();
+            final ConfigurationTransformation.Builder wrappedBuilder = ConfigurationTransformation.builder();
             final ThreadLocal<Integer> versionHolder = new ThreadLocal<>();
             for (Pair<DSL.TypeReference, NodePath> fix : this.dataFixes) {
                 wrappedBuilder.addAction(fix.getSecond(), (path, valueAtPath) -> {
@@ -202,7 +200,7 @@ public final class DataFixerTransformation<N extends ConfigurationNode> implemen
                     return null;
                 });
             }
-            return new DataFixerTransformation<>(this.versionPath, this.targetVersion, wrappedBuilder.build(), versionHolder);
+            return new DataFixerTransformation(this.versionPath, this.targetVersion, wrappedBuilder.build(), versionHolder);
         }
 
     }
