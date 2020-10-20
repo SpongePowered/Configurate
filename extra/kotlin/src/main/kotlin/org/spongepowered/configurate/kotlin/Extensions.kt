@@ -19,8 +19,10 @@ package org.spongepowered.configurate.kotlin
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ConfigurationNodeFactory
 import org.spongepowered.configurate.ConfigurationOptions
+import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.serialize.SerializationException
 import org.spongepowered.configurate.transformation.NodePath
+import kotlin.reflect.KClass
 
 /**
  * Multi level contains
@@ -51,6 +53,30 @@ inline fun <reified V> ConfigurationNode.typedGet(default: V): V {
 @Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.typedSet(value: V?) {
     set(typeTokenOf(), value)
+}
+
+fun <T : Any> ConfigurationNode.get(type: KClass<T>): T? {
+    return get(type.java)
+}
+
+fun <T : Any> ConfigurationNode.get(type: KClass<T>, default: T): T {
+    return get(type.java, default)
+}
+
+fun <T : Any> ConfigurationNode.getList(type: KClass<T>): List<T>? {
+    return getList(type.java)
+}
+
+fun <T : Any> ConfigurationNode.getList(type: KClass<T>, default: List<T>): List<T> {
+    return getList(type.java, default)
+}
+
+fun <T : Any> ConfigurationNode.set(type: KClass<T>, value: T?): ConfigurationNode {
+    return set(type.java, value)
+}
+
+fun <T : Any, N : ScopedConfigurationNode<N>> N.set(type: KClass<T>, value: T?): N {
+    return set(type.java, value)
 }
 
 operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options: ConfigurationOptions = defaultOptions()): N =

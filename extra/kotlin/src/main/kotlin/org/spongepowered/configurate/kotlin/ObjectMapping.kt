@@ -29,6 +29,7 @@ import org.spongepowered.configurate.util.Types.combinedAnnotations
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.AnnotatedType
 import kotlin.reflect.KAnnotatedElement
+import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty
@@ -87,10 +88,16 @@ inline fun <reified T> TypeSerializerCollection.typedGet(): TypeSerializer<T>? {
     return get(typeTokenOf())
 }
 
+fun <T : Any> Factory.get(type: KClass<T>): ObjectMapper<T> {
+    return get(type.java)
+}
+
+fun <T : Any> TypeSerializerCollection.get(type: KClass<T>): TypeSerializer<T>? {
+    return get(type.java)
+}
+
 @PublishedApi
 internal inline fun <reified T> typeTokenOf() = object : TypeToken<T>() {}
-
-annotation class Fancy(val value: String, val message: String = "")
 
 /**
  * A field discoverer that gathers definitions from kotlin `data` classes.
