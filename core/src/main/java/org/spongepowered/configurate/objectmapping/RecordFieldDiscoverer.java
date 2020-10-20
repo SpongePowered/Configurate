@@ -37,16 +37,16 @@ import java.lang.reflect.Method;
 /**
  * Discovers fields in J14+ {@code Record}s.
  */
-final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
+final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]> {
 
     static final RecordFieldDiscoverer INSTANCE = new RecordFieldDiscoverer();
 
     // We access record metadata reflectively to avoid a compile-time dependency on Java 14+ (and preview features)
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
-    private static final MethodHandle CLASS_IS_RECORD;
-    private static final MethodHandle CLASS_GET_RECORD_COMPONENTS;
-    private static final MethodHandle RECORD_COMPONENT_GET_ANNOTATED_TYPE;
-    private static final MethodHandle RECORD_COMPONENT_GET_NAME;
+    private static final @Nullable MethodHandle CLASS_IS_RECORD;
+    private static final @Nullable MethodHandle CLASS_GET_RECORD_COMPONENTS;
+    private static final @Nullable MethodHandle RECORD_COMPONENT_GET_ANNOTATED_TYPE;
+    private static final @Nullable MethodHandle RECORD_COMPONENT_GET_NAME;
     private static final @Nullable MethodHandle RECORD_COMPONENT_GET_ACCESSOR;
 
     static {
@@ -88,9 +88,10 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
      * @return an instance factory if this class is a record
      */
     @Override
-    public <V> @Nullable InstanceFactory<Object[]> discover(final AnnotatedType target, final FieldCollector<Object[], V> collector)
-            throws SerializationException {
-        if (RECORD_COMPONENT_GET_ACCESSOR != null) {
+    public <V> @Nullable InstanceFactory<@Nullable Object[]> discover(final AnnotatedType target,
+            final FieldCollector<@Nullable Object[], V> collector) throws SerializationException {
+        if (CLASS_IS_RECORD != null && CLASS_GET_RECORD_COMPONENTS != null && RECORD_COMPONENT_GET_ANNOTATED_TYPE != null
+                && RECORD_COMPONENT_GET_NAME != null && RECORD_COMPONENT_GET_ACCESSOR != null) {
             final Class<?> clazz = erase(target.getType());
             try {
                 if ((boolean) CLASS_IS_RECORD.invoke(clazz)) { // clazz.isRecord()
@@ -128,7 +129,7 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<Object[]> {
                     final Constructor<?> clazzConstructor = clazz.getDeclaredConstructor(constructorParams);
                     clazzConstructor.setAccessible(true);
 
-                    return new InstanceFactory<Object[]>() {
+                    return new InstanceFactory<@Nullable Object[]>() {
                         @Override
                         public Object[] begin() {
                             return new Object[recordComponents.length];

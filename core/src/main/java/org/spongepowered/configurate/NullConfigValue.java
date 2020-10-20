@@ -23,7 +23,8 @@ import java.util.Collections;
 /**
  * A {@link ConfigValue} which holds no value.
  */
-final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+final class NullConfigValue<N extends @Nullable ScopedConfigurationNode<N>,
+        T extends @Nullable AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
 
     @SuppressWarnings("rawtypes")
     private static final NullConfigValue INSTANCE = new NullConfigValue();
@@ -33,7 +34,6 @@ final class NullConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         return INSTANCE;
     }
 
-    @SuppressWarnings({"ConstantConditions"})
     private NullConfigValue() {
         super(null);
     }

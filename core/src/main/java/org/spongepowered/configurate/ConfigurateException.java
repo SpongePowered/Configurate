@@ -155,7 +155,7 @@ public class ConfigurateException extends Exception {
      * @return message
      */
     @Override
-    public String getMessage() {
+    public @Nullable String getMessage() {
         return this.path().toString() + ": " + super.getMessage();
     }
 

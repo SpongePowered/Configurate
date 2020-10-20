@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -32,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
 
-    final AtomicReference<List<T>> values = new AtomicReference<>(new ArrayList<>());
+    final AtomicReference<@NonNull List<T>> values = new AtomicReference<>(new ArrayList<>());
 
     ListConfigValue(final T holder) {
         super(holder);
@@ -104,8 +105,8 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         return putChildInternal((int) key, value, true);
     }
 
-    private T putChildInternal(final int index, final @Nullable T value, final boolean onlyIfAbsent) {
-        T ret = null;
+    private @Nullable T putChildInternal(final int index, final @Nullable T value, final boolean onlyIfAbsent) {
+        @Nullable T ret = null;
         List<T> values;
         do {
             values = this.values.get();

@@ -149,7 +149,7 @@ public class SerializationException extends ConfigurateException {
     }
 
     @Override
-    public String getMessage() {
+    public @Nullable String getMessage() {
         if (this.expectedType == null) {
             return super.getMessage();
         } else {

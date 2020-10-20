@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.serialize;
 
 import io.leangen.geantyref.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
@@ -50,7 +51,7 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    void deserializeSingle(final int index, final List<?> collection, final Object deserialized) {
+    void deserializeSingle(final int index, final List<?> collection, final @Nullable Object deserialized) {
         ((List) collection).add(deserialized);
     }
 

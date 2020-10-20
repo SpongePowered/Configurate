@@ -41,7 +41,9 @@ class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
 
     CachedPublisher(final Publisher<V> parent, final @Nullable V initialValue) {
         this.parent = parent;
-        this.value = initialValue;
+        if (initialValue != null) {
+            this.value = initialValue;
+        }
         this.closer = this.parent.subscribe(next -> this.value = next);
     }
 
@@ -75,7 +77,7 @@ class CachedPublisher<V> implements Publisher.Cached<V>, AutoCloseable {
 
     @Override
     public Cached<V> cache(final @Nullable V initialValue) {
-        if (this.value == null) {
+        if (this.value == null && initialValue != null) {
             this.value = initialValue;
         }
         return this;

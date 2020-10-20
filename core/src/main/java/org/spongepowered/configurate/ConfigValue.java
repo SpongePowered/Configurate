@@ -16,10 +16,10 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * The value in a {@link ConfigurationNode}.
@@ -29,9 +29,9 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
     /**
      * The node this value "belongs" to.
      */
-    protected final @NonNull T holder;
+    protected final T holder;
 
-    protected ConfigValue(final @NonNull T holder) {
+    protected ConfigValue(final T holder) {
         this.holder = holder;
     }
 
@@ -56,8 +56,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param value the node to put at key
      * @return existing node at key, if present
      */
-    @Nullable
-    abstract T putChild(@NonNull Object key, @Nullable T value);
+    abstract @Nullable T putChild(Object key, @Nullable T value);
 
     /**
      * Put a child value, if one isn't already present at that key.
@@ -66,8 +65,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param value the node to put at key
      * @return existing node at key, if present
      */
-    @Nullable
-    abstract T putChildIfAbsent(@NonNull Object key, @Nullable T value);
+    abstract @Nullable T putChildIfAbsent(Object key, @Nullable T value);
 
     /**
      * Gets the currently present child for the given key. Returns null if no
@@ -76,15 +74,13 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param key the key to get child at
      * @return the child if any
      */
-    @Nullable
-    abstract T child(@Nullable Object key);
+    abstract @Nullable T child(@Nullable Object key);
 
     /**
      * Returns an iterable over all child nodes.
      *
      * @return an iterator
      */
-    @NonNull
     abstract Iterable<T> iterateChildren();
 
     /**
@@ -92,8 +88,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      *
      * @return a copy
      */
-    @NonNull
-    abstract ConfigValue<N, T> copy(@NonNull T holder);
+    abstract ConfigValue<N, T> copy(T holder);
 
     /**
      * Whether this value has any content.
@@ -110,7 +105,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
             final T node = it.next();
             node.attached = false;
             it.remove();
-            if (node.parentEnsureAttached().equals(this.holder)) {
+            if (Objects.equals(node.parentEnsureAttached(), this.holder)) {
                 node.clear();
             }
         }

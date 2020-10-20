@@ -167,10 +167,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
         // if the new value is null, handle detaching from this nodes parent
         if (newValue == null) {
-            if (this.parent == null) {
+            final @Nullable Object key = this.key;
+            if (this.parent == null || key == null) {
                 clear();
             } else {
-                this.parent.removeChild(this.key);
+                this.parent.removeChild(key);
             }
             return self();
         } else if (newValue instanceof Collection || newValue instanceof Map) {
@@ -325,10 +326,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     public final N raw(final @Nullable Object newValue) {
         // if the new value is null, handle detaching from this nodes parent
         if (newValue == null) {
-            if (this.parent == null) {
+            final @Nullable Object key = this.key;
+            if (this.parent == null || key == null) {
                 clear();
             } else {
-                this.parent.removeChild(this.key);
+                this.parent.removeChild(key);
             }
         } else {
             insertNewValue(newValue, false);
@@ -487,10 +489,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             return NodePath.path();
         }
 
-        final Deque<Object> pathElements = new ArrayDeque<>();
+        final Deque<@Nullable Object> pathElements = new ArrayDeque<>();
         do {
             pathElements.addFirst(pointer.key());
-        } while ((pointer = pointer.parent()).parent() != null);
+            pointer = requireNonNull(pointer.parent());
+        } while (pointer.parent() != null);
         return NodePath.of(pathElements);
     }
 
@@ -518,18 +521,20 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
      *
      * @return the parent
      */
-    final A parentEnsureAttached() {
+    final @Nullable A parentEnsureAttached() {
         @Nullable A parent = this.parent;
         if (parent != null && parent.virtual()) {
             parent = parent.parentEnsureAttached().attachChildIfAbsent(parent);
-
         }
         return this.parent = parent;
     }
 
     protected final void attachIfNecessary() {
         if (!this.attached) {
-            parentEnsureAttached().attachChild(implSelf());
+            final @Nullable A parent = parentEnsureAttached();
+            if (parent != null) {
+                parent.attachChild(implSelf());
+            }
         }
     }
 
@@ -554,8 +559,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
 
         // ensure the child actually is a child
-        if (!child.parentEnsureAttached().equals(this)) {
-            throw new IllegalStateException("Child " + child + " path is not a direct parent of me (" + this + "), cannot attach");
+        if (!Objects.equals(child.parentEnsureAttached(), this)) {
+            throw new IllegalStateException("Child " + child + " path is not a direct parent of me (" + this.path() + "), cannot attach");
         }
 
         // update the value
@@ -583,13 +588,18 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             }
 
             /// now the value has been updated to an appropriate type, we can insert the value
+            final @Nullable Object childKey = child.key;
+            if (childKey == null) {
+                throw new IllegalArgumentException("Cannot attach a child with null key");
+            }
+
             if (onlyIfAbsent) {
-                final @Nullable A oldChild = newValue.putChildIfAbsent(child.key, child);
+                final @Nullable A oldChild = newValue.putChildIfAbsent(childKey, child);
                 if (oldChild != null) {
                     return oldChild;
                 }
             } else {
-                detachIfNonNull(newValue.putChild(child.key, child));
+                detachIfNonNull(newValue.putChild(childKey, child));
             }
             this.value = newValue;
         }
@@ -619,7 +629,8 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         try {
             return visitInternal(visitor, state);
         } catch (final VisitorSafeNoopException e) {
-            throw new Error("Exception was thrown on a Safe visitor");
+            // this exception should never be thrown, has a private constructor
+            throw new AssertionError("Exception was thrown on a Safe visitor");
         }
     }
 

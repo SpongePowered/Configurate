@@ -40,7 +40,7 @@ final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Ab
 
     @Override
     public void set(final @Nullable Object value) {
-        if (value != null && !holder.options().acceptsType(value.getClass())) {
+        if (value != null && !this.holder.options().acceptsType(value.getClass())) {
             throw new IllegalArgumentException("Configuration does not accept objects of type " + value.getClass());
         }
         this.value = value;

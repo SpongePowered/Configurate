@@ -40,17 +40,18 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     private final NodePath path;
     private final TypeToken<T> type;
     private final TypeSerializer<T> serializer;
-    private final Publisher.Cached<T> deserialized;
+    private final Publisher.Cached<@Nullable T> deserialized;
 
     ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final TypeToken<T> type,
                        final @Nullable T def) throws SerializationException {
         this.root = root;
         this.path = path;
         this.type = type;
-        this.serializer = root.node().options().serializers().get(type);
-        if (this.serializer == null) {
+        final @Nullable TypeSerializer<T> serializer = root.node().options().serializers().get(type);
+        if (serializer == null) {
             throw new SerializationException(this.path, type.getType(), "Unsupported type" + type);
         }
+        this.serializer = serializer;
 
         this.deserialized = root.updateListener.map(n -> {
             try {
@@ -67,11 +68,10 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         this(root, path, TypeToken.get(type), def);
     }
 
-    private T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws SerializationException {
+    private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws SerializationException {
         final N node = parent.node(this.path);
-        final @Nullable T possible = this.serializer.deserialize(this.type.getType(), node);
-        if (possible != null) {
-            return possible;
+        if (node.virtual()) {
+            return this.serializer.deserialize(this.type.getType(), node);
         } else if (defaultVal != null && node.options().shouldCopyDefaults()) {
             this.serializer.serialize(this.type.getType(), defaultVal, node);
         }
@@ -129,7 +129,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     @Override
-    public Publisher<Boolean> updateAsync(final Function<T, ? extends T> action) {
+    public Publisher<Boolean> updateAsync(final Function<@Nullable T, ? extends T> action) {
         return Publisher.execute(() -> {
             final @Nullable T orig = get();
             final T updated = action.apply(orig);

@@ -135,7 +135,7 @@ public class ParsingException extends ConfigurateException {
     }
 
     @Override
-    public String getMessage() {
+    public @Nullable String getMessage() {
         if (this.line == UNKNOWN_POS || this.column == UNKNOWN_POS) {
             return super.getMessage();
         }

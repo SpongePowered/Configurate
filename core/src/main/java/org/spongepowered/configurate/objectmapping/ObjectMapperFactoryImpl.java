@@ -151,7 +151,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private <I, O> void makeData(final List<FieldData<I, O>> fields, final String name, final AnnotatedType type,
-            final AnnotatedElement container, final FieldData.Deserializer<I> deserializer, final CheckedFunction<O, Object, Exception> serializer) {
+            final AnnotatedElement container, final FieldData.Deserializer<I> deserializer,
+            final CheckedFunction<O, @Nullable Object, Exception> serializer) {
         @Nullable NodeResolver resolver = null;
         for (NodeResolver.Factory factory : this.resolverFactories) {
             final @Nullable NodeResolver next = factory.make(name, container);

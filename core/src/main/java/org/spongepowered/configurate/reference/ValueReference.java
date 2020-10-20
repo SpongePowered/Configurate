@@ -99,7 +99,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * @param action to transform this node's value
      * @return whether this update was successful
      */
-    Publisher<Boolean> updateAsync(Function<T, ? extends T> action);
+    Publisher<Boolean> updateAsync(Function<@Nullable T, ? extends T> action);
 
     /**
      * Get the node this value reference points to.

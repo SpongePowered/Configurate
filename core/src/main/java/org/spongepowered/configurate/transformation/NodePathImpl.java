@@ -18,6 +18,8 @@ package org.spongepowered.configurate.transformation;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.errorprone.annotations.concurrent.LazyInit;
+
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -25,7 +27,7 @@ final class NodePathImpl implements NodePath {
 
     static final NodePath EMPTY = new NodePathImpl(new Object[0], false);
 
-    Object[] arr;
+    @LazyInit Object[] arr;
 
     NodePathImpl() {
 

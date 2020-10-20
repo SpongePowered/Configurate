@@ -157,7 +157,7 @@ public interface FieldDiscoverer<I> {
          *                   object instance.
          */
         void accept(String name, AnnotatedType type, AnnotatedElement annotations, FieldData.Deserializer<I> deserializer,
-                CheckedFunction<V, Object, Exception> serializer);
+                CheckedFunction<V, @Nullable Object, Exception> serializer);
     }
 
 }

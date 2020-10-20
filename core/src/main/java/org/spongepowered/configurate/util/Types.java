@@ -353,7 +353,7 @@ public final class Types {
         }
 
         @Override
-        public <T extends Annotation> T getDeclaredAnnotation(final Class<T> annotationClass) {
+        public <T extends Annotation> @Nullable T getDeclaredAnnotation(final Class<T> annotationClass) {
             @Nullable T ret = null;
             for (AnnotatedElement element : this.elements) {
                 ret = element.getDeclaredAnnotation(annotationClass);

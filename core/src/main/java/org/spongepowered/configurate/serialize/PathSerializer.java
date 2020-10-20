@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -31,19 +30,20 @@ final class PathSerializer implements TypeSerializer<Path> {
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    static PathSerializer INSTANCE = new PathSerializer();
-    static Class<Path> TYPE = Path.class;
-    static TypeToken<String> STRING = TypeToken.get(String.class);
+    static final PathSerializer INSTANCE = new PathSerializer();
+    static final Class<Path> TYPE = Path.class;
 
     @Override
     public Path deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         if (node.isList()) {
-            final List<String> elements = node.getList(STRING);
-            switch (elements.size()) {
-                case 0: return Paths.get(".");
-                case 1: return Paths.get(elements.get(0));
-                default: return Paths.get(elements.get(0), elements.subList(1, elements.size()).toArray(EMPTY_STRING_ARRAY));
+            final @Nullable List<String> elements = node.getList(String.class);
+            if (elements == null || elements.isEmpty()) {
+                return Paths.get(".");
+            } else if (elements.size() == 1) {
+                return Paths.get(elements.get(0));
             }
+
+            return Paths.get(elements.get(0), elements.subList(1, elements.size()).toArray(EMPTY_STRING_ARRAY));
         } else if (node.isMap()) {
             throw new SerializationException("Paths must be a list of strings, or a single string");
         }

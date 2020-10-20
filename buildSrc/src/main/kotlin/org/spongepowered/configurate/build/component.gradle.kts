@@ -8,6 +8,7 @@ plugins {
     id("net.kyori.indra.checkstyle")
     id("net.kyori.indra.license-header")
     id("net.ltgt.errorprone")
+    // id("net.ltgt.nullaway")
 }
 
 repositories {
@@ -16,7 +17,17 @@ repositories {
 }
 
 tasks.withType(JavaCompile::class).configureEach {
-    options.errorprone.isEnabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 })
+    options.errorprone {
+        isEnabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 }.orElse(JavaVersion.current().isJava9Compatible))
+        /* if (!name.toLowerCase().contains("test")) {
+            nullaway {
+                severity.set(CheckSeverity.ERROR)
+                annotatedPackages.add("org.spongepowered.configurate")
+                excludedFieldAnnotations.add("org.checkerframework.checker.nullness.qual.MonotonicNonNull")
+                treatGeneratedAsUnannotated.set(true)
+            }
+        }*/
+    }
     options.compilerArgs.add("-Xlint:-processing")
 }
 
@@ -38,6 +49,7 @@ dependencies {
     val errorProneVersion: String by project
     compileOnly("com.google.errorprone:error_prone_annotations:$errorProneVersion")
     errorprone("com.google.errorprone:error_prone_core:$errorProneVersion")
+    // errorprone("com.uber.nullaway:nullaway:0.8.0")
 
     // Testing
     val junitVersion: String by project

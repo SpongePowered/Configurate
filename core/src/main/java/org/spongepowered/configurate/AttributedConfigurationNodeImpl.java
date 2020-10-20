@@ -36,13 +36,13 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
     protected AttributedConfigurationNodeImpl(final String tagName, final @Nullable Object path,
             final @Nullable AttributedConfigurationNodeImpl parent, final ConfigurationOptions options) {
         super(path, parent, options);
-        tagName(tagName);
+        this.tagName = requireNonNull(tagName);
     }
 
     protected AttributedConfigurationNodeImpl(final String tagName, final @Nullable AttributedConfigurationNodeImpl parent,
             final AttributedConfigurationNodeImpl copyOf) {
         super(parent, copyOf);
-        tagName(tagName);
+        this.tagName = requireNonNull(tagName);
     }
 
     @Override
