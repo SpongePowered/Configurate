@@ -16,8 +16,9 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
+
 import java.lang.reflect.Type;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -37,7 +38,7 @@ final class PatternSerializer extends ScalarSerializer<Pattern> {
     }
 
     @Override
-    public Object serialize(final Pattern item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final Pattern item, final Predicate1<Class<?>> typeSupported) {
         return item.pattern();
     }
 

@@ -18,6 +18,7 @@ package org.spongepowered.configurate.loader;
 
 import static java.util.Objects.requireNonNull;
 
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -41,7 +42,6 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 /**
@@ -348,7 +348,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @param defaultOptions to transform the existing default options
          * @return this builder (for chaining)
          */
-        public T defaultOptions(final UnaryOperator<ConfigurationOptions> defaultOptions) {
+        public T defaultOptions(final Function1<ConfigurationOptions, ConfigurationOptions> defaultOptions) {
             this.defaultOptions = requireNonNull(defaultOptions.apply(this.defaultOptions), "defaultOptions (updated)");
             return self();
         }

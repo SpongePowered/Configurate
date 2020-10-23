@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    api("net.kyori:coffee:1.0.0-SNAPSHOT")
     api("io.leangen.geantyref:geantyref:1.3.11")
     compileOnlyApi("org.checkerframework:checker-qual:3.7.0")
     compileOnly("com.google.auto.value:auto-value-annotations:1.7.4")

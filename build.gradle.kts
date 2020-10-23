@@ -1,3 +1,4 @@
+import net.kyori.indra.sonatypeSnapshots
 import org.spongepowered.configurate.build.applyCommonAttributes
 
 plugins {
@@ -20,6 +21,7 @@ subprojects {
 
 allprojects {
     repositories {
+        sonatypeSnapshots() // for coffee
         jcenter()
     }
 

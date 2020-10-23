@@ -16,8 +16,9 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
+
 import java.lang.reflect.Type;
-import java.util.function.Predicate;
 
 final class StringSerializer extends ScalarSerializer<String> {
 
@@ -31,7 +32,7 @@ final class StringSerializer extends ScalarSerializer<String> {
     }
 
     @Override
-    public Object serialize(final String item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final String item, final Predicate1<Class<?>> typeSupported) {
         return item;
     }
 

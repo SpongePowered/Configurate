@@ -18,6 +18,7 @@ package org.spongepowered.configurate.reference;
 
 import static java.util.Objects.requireNonNull;
 
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -41,7 +42,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadFactory;
-import java.util.function.Function;
 
 /**
  * A wrapper around NIO's {@link WatchService} that uses the provided watch key
@@ -222,7 +222,7 @@ public final class WatchServiceListener implements AutoCloseable {
      *      the configuration.
      */
     public <N extends ScopedConfigurationNode<N>> ConfigurationReference<N>
-        listenToConfiguration(final Function<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws ConfigurateException {
+        listenToConfiguration(final Function1<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws ConfigurateException {
         return ConfigurationReference.watching(loaderFunc, path, this);
     }
 

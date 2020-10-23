@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.reactive;
 
+import net.kyori.coffee.function.Consumer1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Iterator;
@@ -23,7 +24,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 
 /**
  * Base implementation for processors.
@@ -95,7 +95,7 @@ abstract class AbstractProcessor<V, R extends AbstractProcessor.Registration<V>>
      *
      * @param processor the processor
      */
-    protected void forEachOrRemove(final Consumer<R> processor) {
+    protected void forEachOrRemove(final Consumer1<R> processor) {
         for (final Iterator<R> it = this.registrations.iterator(); it.hasNext(); ) {
             final R reg = it.next();
             try {

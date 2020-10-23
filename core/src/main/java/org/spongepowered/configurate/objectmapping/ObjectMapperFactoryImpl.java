@@ -24,6 +24,7 @@ import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
 import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.GenericTypeReflector;
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -36,7 +37,6 @@ import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.objectmapping.meta.Required;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.NamingScheme;
 import org.spongepowered.configurate.util.NamingSchemes;
 
@@ -152,7 +152,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     @SuppressWarnings({"unchecked", "rawtypes"})
     private <I, O> void makeData(final List<FieldData<I, O>> fields, final String name, final AnnotatedType type,
             final AnnotatedElement container, final FieldData.Deserializer<I> deserializer,
-            final CheckedFunction<O, @Nullable Object, Exception> serializer) {
+            final Function1E<O, @Nullable Object, Exception> serializer) {
         @Nullable NodeResolver resolver = null;
         for (NodeResolver.Factory factory : this.resolverFactories) {
             final @Nullable NodeResolver next = factory.make(name, container);
@@ -283,7 +283,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     }
 
     @SuppressWarnings("unchecked") // for E cast
-    private static <K, V, E extends Exception> V computeFromMap(final Map<K, V> map, final K key, final CheckedFunction<K, V, E> creator) throws E {
+    private static <K, V, E extends Exception> V computeFromMap(final Map<K, V> map, final K key, final Function1E<K, V, E> creator) throws E {
         try {
             return map.computeIfAbsent(key, k -> {
                 try {

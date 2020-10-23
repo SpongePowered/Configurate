@@ -22,6 +22,7 @@ import static org.spongepowered.configurate.util.Types.makeListType;
 
 import io.leangen.geantyref.TypeFactory;
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Function0;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.serialize.Scalars;
@@ -33,7 +34,6 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 /**
@@ -385,7 +385,7 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V get(TypeToken<V> type, Supplier<V> defSupplier) throws SerializationException {
+    default <V> V get(TypeToken<V> type, Function0<V> defSupplier) throws SerializationException {
         return (V) get(type.getType(), defSupplier);
     }
 
@@ -453,7 +453,7 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V get(Class<V> type, Supplier<V> defSupplier) throws SerializationException {
+    default <V> V get(Class<V> type, Function0<V> defSupplier) throws SerializationException {
         return (V) get((Type) type, defSupplier);
     }
 
@@ -505,9 +505,9 @@ public interface ConfigurationNode {
      * @throws SerializationException if the value fails to be converted to the
      *                                requested type
      */
-    default Object get(Type type, Supplier<?> defSupplier) throws SerializationException {
+    default Object get(Type type, Function0<?> defSupplier) throws SerializationException {
         final @Nullable Object value = get(type);
-        return value == null ? storeDefault(this, type, defSupplier.get()) : value;
+        return value == null ? storeDefault(this, type, defSupplier.apply()) : value;
     }
 
     /**
@@ -568,10 +568,10 @@ public interface ConfigurationNode {
      *                                requested type
      */
     // @cs-: NoGetSetPrefix (not a bean method)
-    default <V> List<V> getList(TypeToken<V> elementType, Supplier<List<V>> defSupplier) throws SerializationException {
+    default <V> List<V> getList(TypeToken<V> elementType, Function0<List<V>> defSupplier) throws SerializationException {
         final TypeToken<List<V>> type = makeListType(elementType);
         final List<V> ret = get(type, defSupplier);
-        return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
+        return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.apply()) : ret;
     }
 
     /**
@@ -634,10 +634,10 @@ public interface ConfigurationNode {
      *                                requested type
      */
     @SuppressWarnings({"unchecked", "checkstyle:NoGetSetPrefix"})
-    default <V> List<V> getList(Class<V> elementType, Supplier<List<V>> defSupplier) throws SerializationException {
+    default <V> List<V> getList(Class<V> elementType, Function0<List<V>> defSupplier) throws SerializationException {
         final Type type = TypeFactory.parameterizedClass(List.class, elementType);
         final List<V> ret = (List<V>) get(type, defSupplier);
-        return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;
+        return ret.isEmpty() ? storeDefault(this, type, defSupplier.apply()) : ret;
     }
 
     /**

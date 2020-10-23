@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate;
 
-import org.spongepowered.configurate.util.CheckedConsumer;
+import net.kyori.coffee.function.Consumer1E;
 
 /**
  * A standard configuration node, without any additional options.
@@ -61,7 +61,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * @return a new initialized node
      * @throws E when thrown from inner action
      */
-    static <E extends Exception> BasicConfigurationNode root(final CheckedConsumer<? super BasicConfigurationNode, E> maker) throws E {
+    static <E extends Exception> BasicConfigurationNode root(final Consumer1E<? super BasicConfigurationNode, E> maker) throws E {
         return root().act(maker);
     }
 
@@ -91,7 +91,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * @throws E when thrown from inner action
      */
     static <E extends Exception> BasicConfigurationNode root(final ConfigurationOptions options,
-            final CheckedConsumer<? super BasicConfigurationNode, E> maker) throws E {
+            final Consumer1E<? super BasicConfigurationNode, E> maker) throws E {
         return root(options).act(maker);
     }
 

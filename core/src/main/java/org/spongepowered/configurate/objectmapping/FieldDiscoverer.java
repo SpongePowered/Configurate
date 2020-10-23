@@ -18,13 +18,13 @@ package org.spongepowered.configurate.objectmapping;
 
 import static java.util.Objects.requireNonNull;
 
+import net.kyori.coffee.function.Function0;
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
-import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
-import java.util.function.Supplier;
 
 /**
  * Interface that gathers metadata from classes.
@@ -53,7 +53,7 @@ public interface FieldDiscoverer<I> {
      * @param instanceFactory a factory for instance providers
      * @return new discoverer
      */
-    static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
+    static FieldDiscoverer<?> object(final Function1E<AnnotatedType, @Nullable Function0<Object>, SerializationException> instanceFactory) {
         return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
     }
 
@@ -63,7 +63,7 @@ public interface FieldDiscoverer<I> {
      * <p>Only objects with empty constructors can be created.</p>
      *
      * @return new discoverer
-     * @see #object(CheckedFunction) for more details on which fields will
+     * @see #object(Function1E) for more details on which fields will
      *      be discovered.
      */
     static FieldDiscoverer<?> emptyConstructorObject() {
@@ -157,7 +157,7 @@ public interface FieldDiscoverer<I> {
          *                   object instance.
          */
         void accept(String name, AnnotatedType type, AnnotatedElement annotations, FieldData.Deserializer<I> deserializer,
-                CheckedFunction<V, @Nullable Object, Exception> serializer);
+                Function1E<V, @Nullable Object, Exception> serializer);
     }
 
 }

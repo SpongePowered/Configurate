@@ -16,10 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.Type;
-import java.util.function.Predicate;
 
 final class CharSerializer extends ScalarSerializer<Character> {
 
@@ -42,7 +42,7 @@ final class CharSerializer extends ScalarSerializer<Character> {
     }
 
     @Override
-    public Object serialize(final @NonNull Character item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final @NonNull Character item, final Predicate1<Class<?>> typeSupported) {
         if (typeSupported.test(char.class)) {
             return item;
         } else {

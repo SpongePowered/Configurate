@@ -20,9 +20,10 @@ import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.getExactSuperType;
 import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
 
+import net.kyori.coffee.function.Function0;
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
-import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.Types;
 
 import java.lang.reflect.AnnotatedType;
@@ -32,7 +33,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
@@ -53,9 +53,9 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
         }
     });
 
-    private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory;
+    private final Function1E<AnnotatedType, @Nullable Function0<Object>, SerializationException> instanceFactory;
 
-    ObjectFieldDiscoverer(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
+    ObjectFieldDiscoverer(final Function1E<AnnotatedType, @Nullable Function0<Object>, SerializationException> instanceFactory) {
         this.instanceFactory = instanceFactory;
     }
 
@@ -67,7 +67,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
             throw new SerializationException(target.getType(), "ObjectMapper can only work with concrete types");
         }
 
-        final @Nullable Supplier<Object> maker = this.instanceFactory.apply(target);
+        final @Nullable Function0<Object> maker = this.instanceFactory.apply(target);
 
         AnnotatedType collectType = target;
         Class<?> collectClass = clazz;
@@ -93,7 +93,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
                     try {
                         // Handle implicit field initialization by detecting any existing information in the object
                         if (entry.getValue() instanceof ImplicitProvider) {
-                            final @Nullable Object implicit = ((ImplicitProvider) entry.getValue()).provider.get();
+                            final @Nullable Object implicit = ((ImplicitProvider) entry.getValue()).provider.apply();
                             if (implicit != null) {
                                 if (entry.getKey().get(instance) == null) {
                                     entry.getKey().set(instance, implicit);
@@ -110,7 +110,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
             @Override
             public Object complete(final Map<Field, Object> intermediate) throws SerializationException {
-                final Object instance = maker == null ? null : maker.get();
+                final Object instance = maker == null ? null : maker.apply();
                 if (instance == null) {
                     throw new SerializationException(target.getType(), "Unable to create instance with this populator");
                 }
@@ -147,9 +147,9 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
     static class ImplicitProvider {
 
-        final Supplier<Object> provider;
+        final Function0<Object> provider;
 
-        ImplicitProvider(final Supplier<Object> provider) {
+        ImplicitProvider(final Function0<Object> provider) {
             this.provider = provider;
         }
 

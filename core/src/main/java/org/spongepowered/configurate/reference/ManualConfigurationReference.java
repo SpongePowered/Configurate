@@ -19,6 +19,7 @@ package org.spongepowered.configurate.reference;
 import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
@@ -32,7 +33,6 @@ import org.spongepowered.configurate.transformation.NodePath;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.function.Function;
 
 /**
  * A reference to a configuration node, that may or may not be updating.
@@ -96,7 +96,7 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public Publisher<N> updateAsync(final Function<N, ? extends N> updater) {
+    public Publisher<N> updateAsync(final Function1<N, ? extends N> updater) {
         return Publisher.execute(() -> {
             final N newNode = updater.apply(node());
             save(newNode);

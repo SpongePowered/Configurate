@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.reference;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -30,7 +31,6 @@ import org.spongepowered.configurate.transformation.NodePath;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
-import java.util.function.Function;
 
 /**
  * An updating reference to a base configuration node.
@@ -58,17 +58,17 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Create a new configuration reference that will automatically update when
      * triggered by the provided {@link WatchServiceListener}.
      *
+     * @param <T> the node type
      * @param loaderCreator a function that can create a {@link ConfigurationLoader}
      * @param file the file to load this configuration from
      * @param listener the watch service listener that will receive events
-     * @param <T> the node type
      * @return the created reference
      * @throws ConfigurateException if the underlying loader fails to load
      *         a configuration
-     * @see WatchServiceListener#listenToConfiguration(Function, Path)
+     * @see WatchServiceListener#listenToConfiguration(Function1, Path)
      */
     static <T extends ScopedConfigurationNode<T>> ConfigurationReference<T>
-            watching(Function<Path, ConfigurationLoader<? extends T>> loaderCreator, Path file, WatchServiceListener listener)
+            watching(Function1<Path, ConfigurationLoader<? extends T>> loaderCreator, Path file, WatchServiceListener listener)
             throws ConfigurateException {
         final WatchingConfigurationReference<T> ret = new WatchingConfigurationReference<>(loaderCreator.apply(file), listener.taskExecutor);
         ret.load();
@@ -123,7 +123,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param updater update function
      * @return publisher providing an event when the update is complete
      */
-    Publisher<N> updateAsync(Function<N, ? extends N> updater);
+    Publisher<N> updateAsync(Function1<N, ? extends N> updater);
 
     /**
      * Get the base node this reference refers to.

@@ -16,19 +16,19 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import org.spongepowered.configurate.util.CheckedFunction;
+import net.kyori.coffee.function.Function1E;
+import net.kyori.coffee.function.Function2;
+import net.kyori.coffee.function.Predicate1;
 
 import java.lang.reflect.Type;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
 
-    private final CheckedFunction<Object, T, SerializationException> deserializer;
-    private final BiFunction<T, Predicate<Class<?>>, Object> serializer;
+    private final Function1E<Object, T, SerializationException> deserializer;
+    private final Function2<T, Predicate1<Class<?>>, Object> serializer;
 
     FunctionScalarSerializer(final Type type,
-            final CheckedFunction<Object, T, SerializationException> deserializer, final BiFunction<T, Predicate<Class<?>>, Object> serializer) {
+            final Function1E<Object, T, SerializationException> deserializer, final Function2<T, Predicate1<Class<?>>, Object> serializer) {
         super(type);
         this.deserializer = deserializer;
         this.serializer = serializer;
@@ -45,7 +45,7 @@ final class FunctionScalarSerializer<T> extends ScalarSerializer<T> {
     }
 
     @Override
-    public Object serialize(final T item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final T item, final Predicate1<Class<?>> typeSupported) {
         return this.serializer.apply(item, typeSupported);
     }
 

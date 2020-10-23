@@ -18,12 +18,12 @@ package org.spongepowered.configurate.serialize;
 
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Predicate1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Serialize a value that can be represented as a scalar value within a node.
@@ -154,7 +154,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      *                      supported
      * @return a serialized form of this object
      */
-    protected abstract Object serialize(T item, Predicate<Class<?>> typeSupported);
+    protected abstract Object serialize(T item, Predicate1<Class<?>> typeSupported);
 
     @SuppressWarnings("unchecked")
     private @Nullable T cast(final Object value) {

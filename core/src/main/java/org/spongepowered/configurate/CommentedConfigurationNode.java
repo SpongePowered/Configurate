@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate;
 
-import org.spongepowered.configurate.util.CheckedConsumer;
+import net.kyori.coffee.function.Consumer1E;
 
 /**
  * A configuration node that can have a comment attached to it.
@@ -63,7 +63,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * @return a new initialized node
      * @throws E when thrown from inner action
      */
-    static <E extends Exception> CommentedConfigurationNode root(final CheckedConsumer<? super CommentedConfigurationNode, E> action) throws E {
+    static <E extends Exception> CommentedConfigurationNode root(final Consumer1E<? super CommentedConfigurationNode, E> action) throws E {
         return root().act(action);
     }
 
@@ -93,7 +93,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * @throws E when thrown from inner action
      */
     static <E extends Exception> CommentedConfigurationNode root(final ConfigurationOptions options,
-            final CheckedConsumer<? super CommentedConfigurationNode, E> action) throws E {
+            final Consumer1E<? super CommentedConfigurationNode, E> action) throws E {
         return root(options).act(action);
     }
 

@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeFactory;
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -43,7 +44,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -278,7 +278,7 @@ public final class Types {
             }
         }
 
-        private void addSuperClassAndInterface(final Type base, final Class<?> actualClass, final @Nullable UnaryOperator<Type> postProcess) {
+        private void addSuperClassAndInterface(final Type base, final Class<?> actualClass, final @Nullable Function1<Type, Type> postProcess) {
             if (this.includeInterfaces) {
                 for (Type itf : actualClass.getGenericInterfaces()) {
                     if (postProcess != null) {

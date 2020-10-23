@@ -16,8 +16,8 @@
  */
 package org.spongepowered.configurate.reactive;
 
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
@@ -89,7 +89,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * {@inheritDoc}
      */
     @Override
-    default <R> Processor<O, R> map(CheckedFunction<? super O, ? extends R, TransactionFailedException> mapper) {
+    default <R> Processor<O, R> map(Function1E<? super O, ? extends R, TransactionFailedException> mapper) {
         return new MappedProcessor<>(mapper, this);
     }
 

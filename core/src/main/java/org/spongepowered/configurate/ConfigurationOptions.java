@@ -19,6 +19,7 @@ package org.spongepowered.configurate;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
+import net.kyori.coffee.function.Consumer1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
@@ -30,7 +31,6 @@ import org.spongepowered.configurate.util.UnmodifiableCollections;
 import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * This object is a holder for general configuration options.
@@ -147,7 +147,7 @@ public abstract class ConfigurationOptions {
      *                          be used in the returned options object.
      * @return the new options object
      */
-    public final ConfigurationOptions serializers(final Consumer<TypeSerializerCollection.Builder> serializerBuilder) {
+    public final ConfigurationOptions serializers(final Consumer1<TypeSerializerCollection.Builder> serializerBuilder) {
         requireNonNull(serializerBuilder, "serializerBuilder");
         final TypeSerializerCollection.Builder builder = this.serializers().childBuilder();
         serializerBuilder.accept(builder);

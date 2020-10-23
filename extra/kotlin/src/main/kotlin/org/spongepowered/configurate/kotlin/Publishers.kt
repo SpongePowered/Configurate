@@ -30,11 +30,11 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import net.kyori.coffee.function.Function1E
 import org.spongepowered.configurate.reactive.Disposable
 import org.spongepowered.configurate.reactive.Publisher
 import org.spongepowered.configurate.reactive.Subscriber
 import org.spongepowered.configurate.reactive.TransactionFailedException
-import org.spongepowered.configurate.util.CheckedFunction
 import java.util.concurrent.Executor
 
 /**
@@ -87,7 +87,7 @@ private class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : P
         return scope.coroutineContext.isActive
     }
 
-    override fun <R> map(mapper: CheckedFunction<in V, out R, TransactionFailedException>): Publisher<R> {
+    override fun <R> map(mapper: Function1E<in V, out R, TransactionFailedException>): Publisher<R> {
         return FlowPublisher(flow.map { mapper.apply(it) }, scope)
     }
 }

@@ -16,14 +16,14 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Function1E;
+import net.kyori.coffee.function.Function2;
+import net.kyori.coffee.function.Predicate1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.Type;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 /**
  * Represents an object which can serialize and deserialize objects of a
@@ -39,13 +39,13 @@ public interface TypeSerializer<T> {
      * <p>The returned serializer must fulfill all the requirements of a {@link ScalarSerializer}
      *
      * @param type the type of value returned by the serializer
-     * @param serializer the serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
+     * @param serializer the serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate1)}
      * @param deserializer the deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
      * @param <T> the type of value to deserialize
      * @return a new and unregistered type serializer
      */
-    static <T> ScalarSerializer<T> of(Type type, BiFunction<T, Predicate<Class<?>>, Object> serializer,
-                                      CheckedFunction<Object, T, SerializationException> deserializer) {
+    static <T> ScalarSerializer<T> of(Type type, Function2<T, Predicate1<Class<?>>, Object> serializer,
+                                      Function1E<Object, T, SerializationException> deserializer) {
         return new FunctionScalarSerializer<>(type, deserializer, serializer);
     }
 
@@ -56,15 +56,15 @@ public interface TypeSerializer<T> {
      * a {@link ScalarSerializer}
      *
      * @param type the type of value. Must not be a parameterized type
-     * @param serializer the serialization function, implementing {@link ScalarSerializer#serialize(Object, Predicate)}
+     * @param serializer the serialization function, implementing {@link ScalarSerializer#serialize(Object, net.kyori.coffee.function.Predicate1)}
      * @param deserializer the deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
      * @param <T> the type of value to deserialize
      * @return a new and unregistered type serializer
-     * @see #of(Type, BiFunction, CheckedFunction) for the version of this
+     * @see #of(Type, Function2, Function1E) for the version of this
      *      function that takes a parameterized type
      */
     static <T> ScalarSerializer<T> of(Class<T> type,
-            BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, SerializationException> deserializer) {
+            Function2<T, Predicate1<Class<?>>, Object> serializer, Function1E<Object, T, SerializationException> deserializer) {
         if (type.getTypeParameters().length > 0) {
             throw new IllegalArgumentException("Parameterized types must be specified using TypeTokens, not raw classes");
         }
