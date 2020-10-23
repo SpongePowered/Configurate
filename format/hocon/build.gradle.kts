@@ -6,6 +6,6 @@ plugins {
 
 dependencies {
     api(core())
-    implementation("com.typesafe:config:1.4.0")
-    testImplementation("com.google.guava:guava:29.0-jre")
+    implementation("com.typesafe:config:1.4.1")
+    testImplementation("com.google.guava:guava:30.0-jre")
 }

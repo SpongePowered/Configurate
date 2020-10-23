@@ -13,7 +13,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "org.spongepowered.configurate.examples.ValueReferences"
+    mainClass.set("org.spongepowered.configurate.examples.ValueReferences")
 }
 
 tasks.withType<AbstractPublishToMaven>().configureEach {
