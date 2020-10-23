@@ -18,6 +18,7 @@ package org.spongepowered.configurate.reference;
 
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reactive.Disposable;
@@ -42,7 +43,7 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
     }
 
     @Override
-    public void save(final N newNode) throws ConfigurateException {
+    public void save(final ConfigurationNode newNode) throws ConfigurateException {
         synchronized (loader()) {
             try {
                 this.saveSuppressed = true;

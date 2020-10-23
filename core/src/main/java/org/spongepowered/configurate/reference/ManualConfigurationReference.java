@@ -22,6 +22,7 @@ import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reactive.Processor;
@@ -67,9 +68,22 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public void save(final N newNode) throws ConfigurateException {
+    @SuppressWarnings("unchecked")
+    public void save(final ConfigurationNode newNode) throws ConfigurateException {
+        requireNonNull(newNode, "newNode");
         synchronized (this.loader) {
-            this.loader.save(this.node = requireNonNull(newNode));
+            final ConfigurationNode existing = this.node;
+            if (existing.getClass().equals(newNode.getClass())) {
+                // Set
+                this.node = (N) newNode;
+                this.loader.save(this.node);
+                if (newNode != existing) {
+                    this.updateListener.submit(this.node);
+                }
+            } else {
+                this.loader.save(this.node.from(newNode));
+                this.updateListener.submit(this.node);
+            }
         }
     }
 

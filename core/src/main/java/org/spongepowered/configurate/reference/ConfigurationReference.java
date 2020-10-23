@@ -104,7 +104,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param newNode the new node to save
      * @throws ConfigurateException when an error occurs within the loader
      */
-    void save(N newNode) throws ConfigurateException;
+    void save(ConfigurationNode newNode) throws ConfigurateException;
 
     /**
      * Save this configuration using the provided loader. Any errors will be
