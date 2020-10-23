@@ -16,8 +16,8 @@
  */
 package org.spongepowered.configurate;
 
+import net.kyori.coffee.function.Consumer1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.util.Map;
 
@@ -63,7 +63,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @return a new empty node
      * @throws E when thrown from inner action
      */
-    static <E extends Exception> AttributedConfigurationNode root(final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
+    static <E extends Exception> AttributedConfigurationNode root(final Consumer1E<? super AttributedConfigurationNode, E> action) throws E {
         return root().act(action);
     }
 
@@ -95,7 +95,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @throws E when thrown from inner action
      */
     static <E extends Exception> AttributedConfigurationNode root(final String tagName,
-            final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
+            final Consumer1E<? super AttributedConfigurationNode, E> action) throws E {
         return root(tagName).act(action);
     }
 
@@ -128,7 +128,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @throws E when thrown from inner action
      */
     static <E extends Exception> AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,
-            CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
+            Consumer1E<? super AttributedConfigurationNode, E> action) throws E {
         return root(tagName, options).act(action);
     }
 

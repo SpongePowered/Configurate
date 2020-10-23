@@ -17,10 +17,10 @@
 package org.spongepowered.configurate;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Consumer1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -187,7 +187,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * @param action the action to perform on this node
      * @return this node
      */
-    default <E extends Exception> N act(CheckedConsumer<? super N, E> action) throws E {
+    default <E extends Exception> N act(Consumer1E<? super N, E> action) throws E {
         action.accept(self());
         return self();
     }

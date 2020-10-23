@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.reference;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -31,7 +32,6 @@ import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.util.concurrent.Executor;
-import java.util.function.Function;
 
 class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Publisher<T> {
 
@@ -119,7 +119,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     @Override
-    public boolean update(final Function<@Nullable T, ? extends T> action) {
+    public boolean update(final Function1<@Nullable T, ? extends T> action) {
         try {
             return set(action.apply(get()));
         } catch (final Exception t) {
@@ -129,7 +129,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     }
 
     @Override
-    public Publisher<Boolean> updateAsync(final Function<@Nullable T, ? extends T> action) {
+    public Publisher<Boolean> updateAsync(final Function1<@Nullable T, ? extends T> action) {
         return Publisher.execute(() -> {
             final @Nullable T orig = get();
             final T updated = action.apply(orig);

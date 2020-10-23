@@ -16,8 +16,8 @@
  */
 package org.spongepowered.configurate.reactive;
 
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -26,10 +26,10 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
 
     private final Processor.TransactionalIso<O> processor;
     private final AtomicReference<Disposable> disposable = new AtomicReference<>();
-    private final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper;
+    private final Function1E<? super I, ? extends O, TransactionFailedException> mapper;
     private final @Nullable Publisher<I> parent;
 
-    MappedProcessor(final CheckedFunction<? super I, ? extends O, TransactionFailedException> mapper, final @Nullable Publisher<I> parent) {
+    MappedProcessor(final Function1E<? super I, ? extends O, TransactionFailedException> mapper, final @Nullable Publisher<I> parent) {
         this.processor = parent == null ? Processor.createTransactional() : Processor.createTransactional(parent.executor());
         this.mapper = mapper;
         this.parent = parent;

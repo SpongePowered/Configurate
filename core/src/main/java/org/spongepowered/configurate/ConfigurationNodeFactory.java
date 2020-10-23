@@ -17,8 +17,8 @@
 package org.spongepowered.configurate;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Consumer1E;
 import org.spongepowered.configurate.serialize.SerializationException;
-import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.util.Map;
 import java.util.stream.Collector;
@@ -70,7 +70,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @return newly created empty node
      * @throws E when thrown from inner action
      */
-    default <E extends Exception> N createNode(final CheckedConsumer<N, E> action) throws E {
+    default <E extends Exception> N createNode(final Consumer1E<N, E> action) throws E {
         final N node = createNode();
         action.accept(node);
         return node;
@@ -89,7 +89,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @return newly created empty node
      * @throws E when thrown from inner action
      */
-    default <E extends Exception> N createNode(final ConfigurationOptions options, final CheckedConsumer<N, E> action) throws E {
+    default <E extends Exception> N createNode(final ConfigurationOptions options, final Consumer1E<N, E> action) throws E {
         final N node = createNode(options);
         action.accept(node);
         return node;

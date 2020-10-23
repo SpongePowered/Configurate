@@ -20,6 +20,8 @@ import static io.leangen.geantyref.GenericTypeReflector.box;
 import static io.leangen.geantyref.GenericTypeReflector.erase;
 
 import com.google.auto.value.AutoValue;
+import net.kyori.coffee.function.Function0;
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
@@ -27,12 +29,10 @@ import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Holder for field-specific information.
@@ -57,7 +57,7 @@ public abstract class FieldData<I, O> {
      */
     static <I, O> FieldData<I, O> of(final String name, final AnnotatedType resolvedFieldType,
             final List<Constraint<?>> constraints, final List<Processor<?>> processors,
-            final Deserializer<I> deserializer, final CheckedFunction<O, @Nullable Object, Exception> serializer, final NodeResolver resolver) {
+            final Deserializer<I> deserializer, final Function1E<O, @Nullable Object, Exception> serializer, final NodeResolver resolver) {
         return new AutoValue_FieldData<>(name, resolvedFieldType,
                 UnmodifiableCollections.copyOf(constraints),
                 UnmodifiableCollections.copyOf(processors),
@@ -90,7 +90,7 @@ public abstract class FieldData<I, O> {
 
     abstract Deserializer<I> deserializer();
 
-    abstract CheckedFunction<O, @Nullable Object, Exception> serializer();
+    abstract Function1E<O, @Nullable Object, Exception> serializer();
 
     abstract NodeResolver nodeResolver();
 
@@ -160,7 +160,7 @@ public abstract class FieldData<I, O> {
          * @param newValue new value to store
          * @param implicitInitializer the implicit initializer
          */
-        void accept(I intermediate, @Nullable Object newValue, Supplier<@Nullable Object> implicitInitializer);
+        void accept(I intermediate, @Nullable Object newValue, Function0<@Nullable Object> implicitInitializer);
     }
 
 }

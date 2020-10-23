@@ -18,13 +18,13 @@ package org.spongepowered.configurate.transformation;
 
 import static java.util.Objects.requireNonNull;
 
+import net.kyori.coffee.function.Consumer1;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;
-import java.util.function.Consumer;
 
 /**
  * Represents a set of transformations on a configuration.
@@ -215,7 +215,7 @@ public interface ConfigurationTransformation {
          * @param maker the transformation
          * @return this builder
          */
-        public @NonNull VersionedBuilder makeVersion(final int version, final @NonNull Consumer<? super Builder> maker) {
+        public @NonNull VersionedBuilder makeVersion(final int version, final @NonNull Consumer1<? super Builder> maker) {
             final Builder builder = builder();
             maker.accept(builder);
             return this.addVersion(version, builder.build());

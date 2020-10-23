@@ -23,6 +23,7 @@ import static org.spongepowered.configurate.util.Types.requireCompleteParameters
 
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Predicate1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -34,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
 
 /**
  * A calculated collection of {@link TypeSerializer}s.
@@ -260,7 +260,7 @@ public final class TypeSerializerCollection {
          * @param <T> the type parameter
          * @return this builder
          */
-        public <T> Builder register(final Predicate<Type> test, final TypeSerializer<? super T> serializer) {
+        public <T> Builder register(final Predicate1<Type> test, final TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
             requireNonNull(serializer, "serializer");
             this.serializers.add(new RegisteredSerializer(test, serializer));
@@ -396,10 +396,10 @@ public final class TypeSerializerCollection {
 
     private static final class RegisteredSerializer {
 
-        private final Predicate<Type> predicate;
+        private final Predicate1<Type> predicate;
         private final TypeSerializer<?> serializer;
 
-        private RegisteredSerializer(final Predicate<Type> predicate, final TypeSerializer<?> serializer) {
+        private RegisteredSerializer(final Predicate1<Type> predicate, final TypeSerializer<?> serializer) {
             this.predicate = predicate;
             this.serializer = serializer;
         }

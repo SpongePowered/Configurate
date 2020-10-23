@@ -120,7 +120,7 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
                                 if (el != null) {
                                     intermediate[targetIdx] = el;
                                 } else {
-                                    intermediate[targetIdx] = implicitSupplier.get();
+                                    intermediate[targetIdx] = implicitSupplier.apply();
                                 }
                             }, accessor::invoke);
                     }

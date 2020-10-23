@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.loader;
 
+import net.kyori.coffee.function.Function1;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNodeFactory;
@@ -24,7 +25,6 @@ import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.WatchServiceListener;
 
 import java.nio.file.Path;
-import java.util.function.Function;
 
 /**
  * Represents an object which can load and save {@link ConfigurationNode} objects in a specific
@@ -73,7 +73,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      *
      * @return the created reference
      * @throws ConfigurateException when an error occurs within the loader
-     * @see WatchServiceListener#listenToConfiguration(Function, Path) to
+     * @see WatchServiceListener#listenToConfiguration(Function1, Path) to
      *      create an auto-reloading configuration.
      */
     ConfigurationReference<N> loadToReference() throws ConfigurateException;

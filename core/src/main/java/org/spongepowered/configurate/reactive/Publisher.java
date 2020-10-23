@@ -18,9 +18,9 @@ package org.spongepowered.configurate.reactive;
 
 import static java.util.Objects.requireNonNull;
 
+import net.kyori.coffee.function.Function0E;
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedFunction;
-import org.spongepowered.configurate.util.CheckedSupplier;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
@@ -47,7 +47,7 @@ public interface Publisher<V> {
      * @param <E> exception thrown
      * @return a publisher
      */
-    static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action) {
+    static <V, E extends Exception> Publisher<V> execute(Function0E<V, E> action) {
         return execute(action, ForkJoinPool.commonPool());
     }
 
@@ -64,7 +64,7 @@ public interface Publisher<V> {
      * @param <E> exception thrown
      * @return a publisher
      */
-    static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action, Executor executor) {
+    static <V, E extends Exception> Publisher<V> execute(Function0E<V, E> action, Executor executor) {
         return new ExecutePublisher<>(requireNonNull(action, "action"), requireNonNull(executor, "executor"));
     }
 
@@ -95,7 +95,7 @@ public interface Publisher<V> {
      * @param <R> output value type
      * @return a new publisher
      */
-    default <R> Publisher<R> map(CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
+    default <R> Publisher<R> map(Function1E<? super V, ? extends R, TransactionFailedException> mapper) {
         return new MappedProcessor<>(mapper, this);
     }
 

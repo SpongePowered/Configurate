@@ -17,11 +17,10 @@
 package org.spongepowered.configurate.transformation;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Function0;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-
-import java.util.function.Supplier;
 
 /**
  * Represents an action to be performed that transforms a node in the
@@ -86,9 +85,9 @@ public interface TransformAction {
      * @param <V> value type
      * @return new transformation action
      */
-    static <V> TransformAction set(TypeToken<V> type, Supplier<@Nullable V> valueSupplier) {
+    static <V> TransformAction set(TypeToken<V> type, Function0<@Nullable V> valueSupplier) {
         return (path, value) -> {
-            value.set(type, valueSupplier.get());
+            value.set(type, valueSupplier.apply());
             return null;
         };
     }
@@ -102,9 +101,9 @@ public interface TransformAction {
      * @param <V> value type
      * @return new transformation action
      */
-    static <V> TransformAction set(Class<V> type, Supplier<V> valueSupplier) {
+    static <V> TransformAction set(Class<V> type, Function0<V> valueSupplier) {
         return (path, value) -> {
-            value.set(type, valueSupplier.get());
+            value.set(type, valueSupplier.apply());
             return null;
         };
     }

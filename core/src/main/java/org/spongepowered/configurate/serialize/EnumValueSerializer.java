@@ -19,11 +19,11 @@ package org.spongepowered.configurate.serialize;
 import static io.leangen.geantyref.GenericTypeReflector.erase;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Predicate1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.EnumLookup;
 
 import java.lang.reflect.Type;
-import java.util.function.Predicate;
 
 final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
 
@@ -43,7 +43,7 @@ final class EnumValueSerializer extends ScalarSerializer<Enum<?>> {
     }
 
     @Override
-    public Object serialize(final Enum<?> item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final Enum<?> item, final Predicate1<Class<?>> typeSupported) {
         return item.name();
     }
 

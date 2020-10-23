@@ -16,9 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
+
 import java.lang.reflect.Type;
 import java.util.Locale;
-import java.util.function.Predicate;
 
 /**
  * Attempts to convert a given value to a {@link Boolean}.
@@ -64,7 +65,7 @@ final class BooleanSerializer extends ScalarSerializer<Boolean> {
     }
 
     @Override
-    public Object serialize(final Boolean item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final Boolean item, final Predicate1<Class<?>> typeSupported) {
         if (typeSupported.test(Integer.class)) {
             return item ? 1 : 0;
         } else {

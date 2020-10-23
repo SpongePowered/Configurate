@@ -137,7 +137,7 @@ private object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter,
                     if (arg != null) {
                         intermediate[param] = arg
                     } else if (!param.isOptional) {
-                        intermediate[param] = implicitProvider.get()
+                        intermediate[param] = implicitProvider.apply()
                     }
                 },
                 // serializer

@@ -17,13 +17,13 @@
 package org.spongepowered.configurate.serialize;
 
 import io.leangen.geantyref.GenericTypeReflector;
+import net.kyori.coffee.function.Consumer1E;
+import net.kyori.coffee.function.Predicate1;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedConsumer;
 import org.spongepowered.configurate.util.Types;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.util.function.Predicate;
 
 /**
  * A serializer for array classes. Primitive arrays need special handling
@@ -44,7 +44,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Objects extends ArraySerializer<Object[]> {
 
-        public static Predicate<Type> predicate() {
+        public static Predicate1<Type> predicate() {
             return token -> {
                 if (!Types.isArray(token)) {
                     return false;
@@ -61,7 +61,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final Object[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final Object[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (Object o : collection) {
                 action.accept(o);
             }
@@ -84,7 +84,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final boolean[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final boolean[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (boolean b : collection) {
                 action.accept(b);
             }
@@ -107,7 +107,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final byte[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final byte[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (byte b : collection) {
                 action.accept(b);
             }
@@ -130,7 +130,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final char[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final char[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (char b : collection) {
                 action.accept(b);
             }
@@ -153,7 +153,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final short[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final short[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (short b : collection) {
                 action.accept(b);
             }
@@ -176,7 +176,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final int[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final int[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (int b : collection) {
                 action.accept(b);
             }
@@ -199,7 +199,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final long[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final long[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (long b : collection) {
                 action.accept(b);
             }
@@ -222,7 +222,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final float[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final float[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (float b : collection) {
                 action.accept(b);
             }
@@ -245,7 +245,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        void forEachElement(final double[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        void forEachElement(final double[] collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
             for (double b : collection) {
                 action.accept(b);
             }

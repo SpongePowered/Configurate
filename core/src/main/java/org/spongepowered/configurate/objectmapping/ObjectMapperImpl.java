@@ -16,19 +16,19 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import net.kyori.coffee.function.Function0;
+import net.kyori.coffee.function.Function1E;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.util.CheckedFunction;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 
 class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
@@ -48,7 +48,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
         return this.load0(source, intermediate -> (V) this.instanceFactory.complete(intermediate));
     }
 
-    final V load0(final ConfigurationNode source, final CheckedFunction<I, V, SerializationException> completer) throws SerializationException {
+    final V load0(final ConfigurationNode source, final Function1E<I, V, SerializationException> completer) throws SerializationException {
         final I intermediate = this.instanceFactory.begin();
         @MonotonicNonNull List<FieldData<I, V>> unseenFields = null;
 
@@ -67,7 +67,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 // set up an implicit initializer
                 // only the instance factory has knowledge of the underlying data type,
                 // so we have to pass both implicit and explicit options along to it.
-                final Supplier<@Nullable Object> implicitInitializer;
+                final Function0<@Nullable Object> implicitInitializer;
                 if (newVal == null && node.options().implicitInitialization()) {
                     implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.options());
                 } else {

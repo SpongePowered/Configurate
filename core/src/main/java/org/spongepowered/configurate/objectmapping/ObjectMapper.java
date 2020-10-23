@@ -18,6 +18,7 @@ package org.spongepowered.configurate.objectmapping;
 
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Predicate1;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
@@ -29,7 +30,6 @@ import org.spongepowered.configurate.util.NamingScheme;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * A mapper that converts between configuration nodes and Java objects.
@@ -55,7 +55,7 @@ public interface ObjectMapper<V> {
      *
      * @return a predicate checking for the {@link ConfigSerializable} annotation.
      */
-    static Predicate<Type> annotatedSerializerPredicate() {
+    static Predicate1<Type> annotatedSerializerPredicate() {
         return it -> GenericTypeReflector.annotate(it).isAnnotationPresent(ConfigSerializable.class);
     }
 

@@ -16,11 +16,10 @@
  */
 package org.spongepowered.configurate.reference;
 
+import net.kyori.coffee.function.Function1;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.reactive.Publisher;
-
-import java.util.function.Function;
 
 /**
  * A pointer to a node within a configuration tree.
@@ -87,7 +86,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * @param action to transform this node's value
      * @return whether this update was successful
      */
-    boolean update(Function<@Nullable T, ? extends T> action);
+    boolean update(Function1<@Nullable T, ? extends T> action);
 
     /**
      * Update, performing the action and save on the executor of the owning
@@ -99,7 +98,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * @param action to transform this node's value
      * @return whether this update was successful
      */
-    Publisher<Boolean> updateAsync(Function<@Nullable T, ? extends T> action);
+    Publisher<Boolean> updateAsync(Function1<@Nullable T, ? extends T> action);
 
     /**
      * Get the node this value reference points to.

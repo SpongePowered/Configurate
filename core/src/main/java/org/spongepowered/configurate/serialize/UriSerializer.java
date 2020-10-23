@@ -16,10 +16,11 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
+
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Predicate;
 
 final class UriSerializer extends ScalarSerializer<URI> {
 
@@ -38,7 +39,7 @@ final class UriSerializer extends ScalarSerializer<URI> {
     }
 
     @Override
-    public Object serialize(final URI item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final URI item, final Predicate1<Class<?>> typeSupported) {
         return item.toString();
     }
 

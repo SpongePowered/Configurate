@@ -16,10 +16,9 @@
  */
 package org.spongepowered.configurate;
 
+import net.kyori.coffee.function.Function0;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.transformation.NodePath;
-
-import java.util.function.Supplier;
 
 /**
  * Any sort of error thrown within Configurate.
@@ -32,7 +31,7 @@ public class ConfigurateException extends Exception {
 
     private static final long serialVersionUID = 1635526451813128733L;
 
-    private @Nullable Supplier<NodePath> path;
+    private @Nullable Function0<NodePath> path;
 
     /**
      * Create a new unknown exception.
@@ -125,8 +124,8 @@ public class ConfigurateException extends Exception {
      * @return the path
      */
     public NodePath path() {
-        final @Nullable Supplier<NodePath> path = this.path;
-        return path == null ? NodePath.path() : path.get();
+        final @Nullable Function0<NodePath> path = this.path;
+        return path == null ? NodePath.path() : path.apply();
     }
 
     /**
@@ -134,7 +133,7 @@ public class ConfigurateException extends Exception {
      *
      * @param path new path
      */
-    public void initPath(final Supplier<NodePath> path) {
+    public void initPath(final Function0<NodePath> path) {
         if (this.path == null) {
             this.path = path;
         }

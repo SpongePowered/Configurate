@@ -16,10 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Consumer1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -129,7 +129,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * @param action the action to perform
      * @throws SerializationException when thrown by the underlying action
      */
-    abstract void forEachElement(T collection, CheckedConsumer<Object, SerializationException> action) throws SerializationException;
+    abstract void forEachElement(T collection, Consumer1E<Object, SerializationException> action) throws SerializationException;
 
     /**
      * Place a single deserialized value into the collection being deserialized.

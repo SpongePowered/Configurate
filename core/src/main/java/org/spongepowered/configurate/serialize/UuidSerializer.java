@@ -16,9 +16,10 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
+
 import java.lang.reflect.Type;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 final class UuidSerializer extends ScalarSerializer<UUID> {
 
@@ -54,7 +55,7 @@ final class UuidSerializer extends ScalarSerializer<UUID> {
     }
 
     @Override
-    public Object serialize(final UUID item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final UUID item, final Predicate1<Class<?>> typeSupported) {
         return item.toString();
     }
 

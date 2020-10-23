@@ -17,8 +17,8 @@
 package org.spongepowered.configurate.serialize;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.coffee.function.Consumer1E;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -43,7 +43,7 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     }
 
     @Override
-    void forEachElement(final List<?> collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+    void forEachElement(final List<?> collection, final Consumer1E<Object, SerializationException> action) throws SerializationException {
         for (Object el: collection) {
             action.accept(el);
         }

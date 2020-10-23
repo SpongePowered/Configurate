@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.reactive;
 
-import org.spongepowered.configurate.util.CheckedSupplier;
+import net.kyori.coffee.function.Function0E;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -36,11 +36,11 @@ class ExecutePublisher<V> implements Publisher<V> {
     private final CompletableFuture<V> actor;
     private final Executor executor;
 
-    ExecutePublisher(final CheckedSupplier<V, ? extends Exception> action, final Executor exec) {
+    ExecutePublisher(final Function0E<V, ? extends Exception> action, final Executor exec) {
         this.actor = new CompletableFuture<>();
         exec.execute(() -> {
             try {
-                this.actor.complete(action.get());
+                this.actor.complete(action.apply());
             } catch (final Exception ex) {
                 this.actor.completeExceptionally(ex);
             }

@@ -16,10 +16,11 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import net.kyori.coffee.function.Predicate1;
+
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.function.Predicate;
 
 final class UrlSerializer extends ScalarSerializer<URL> {
 
@@ -38,7 +39,7 @@ final class UrlSerializer extends ScalarSerializer<URL> {
     }
 
     @Override
-    public Object serialize(final URL item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final URL item, final Predicate1<Class<?>> typeSupported) {
         return item.toString();
     }
 

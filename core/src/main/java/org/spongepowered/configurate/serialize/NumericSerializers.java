@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import java.util.function.BiFunction;
+import net.kyori.coffee.function.Function2;
 
 /**
  * Scalar serializers for numeric types
@@ -270,7 +270,7 @@ final class NumericSerializers {
      *                                number from the input string.
      */
     static <T extends Number> T parseNumber(String input,
-            final BiFunction<String, Integer, T> parseFunc, final BiFunction<String, Integer, T> unsignedParseFunc,
+            final Function2<String, Integer, T> parseFunc, final Function2<String, Integer, T> unsignedParseFunc,
             final String suffix) throws SerializationException {
         boolean unsigned = false;
         boolean negative = false;
