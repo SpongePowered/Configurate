@@ -474,7 +474,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     public final N appendListNode() {
         // the appended node can have a key of -1
         // the "real" key will be determined when the node is inserted into a list config value
-        return child(-1, false).self();
+        return child(ListConfigValue.UNALLOCATED_IDX, false).self();
     }
 
     @Override
@@ -569,9 +569,13 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         synchronized (this) {
             newValue = oldValue = this.value;
 
-            // if the existing value isn't a map, we need to update it's type
-            if (!(oldValue instanceof MapConfigValue)) {
-                if (child.key instanceof Integer) {
+            if (oldValue instanceof MapConfigValue) {
+                if (child.key == ListConfigValue.UNALLOCATED_IDX) {
+                    newValue = new ListConfigValue<>(implSelf());
+                }
+            } else {
+                // if the existing value isn't a map, we need to update it's type
+                if (ListConfigValue.likelyListKey(child.key)) {
                     // if child.key is an integer, we can infer that the type of this node should be a list
                     if (oldValue instanceof NullConfigValue) {
                         // if the oldValue was null, we can just replace it with an empty list
@@ -634,7 +638,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
-    @SuppressWarnings("JdkObsolete")
+    @SuppressWarnings({"JdkObsolete", "unchecked"})
     private <S, T, E extends Exception> T visitInternal(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
         visitor.beginVisit(self(), state);
         if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value
@@ -649,20 +653,28 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                     continue;
                 }
 
-                visitor.enterNode(current.self(), state);
-                final ConfigValue<N, A> value = current.value;
-                if (value instanceof MapConfigValue) {
-                    visitor.enterMappingNode(current.self(), state);
-                    toVisit.addFirst(new VisitorNodeEnd(current, true));
-                    toVisit.addAll(0, ((MapConfigValue<N, A>) value).values.values());
-                } else if (value instanceof ListConfigValue) {
-                    visitor.enterListNode(current.self(), state);
-                    toVisit.addFirst(new VisitorNodeEnd(current, false));
-                    toVisit.addAll(0, ((ListConfigValue<N, A>) value).values.get());
-                } else if (value instanceof ScalarConfigValue) {
-                    visitor.enterScalarNode(current.self(), state);
-                } else {
-                    throw new IllegalStateException("Unknown value type " + value.getClass());
+                try {
+                    visitor.enterNode(current.self(), state);
+                    final ConfigValue<N, A> value = current.value;
+                    if (value instanceof MapConfigValue) {
+                        visitor.enterMappingNode(current.self(), state);
+                        toVisit.addFirst(new VisitorNodeEnd(current, true));
+                        toVisit.addAll(0, ((MapConfigValue<N, A>) value).values.values());
+                    } else if (value instanceof ListConfigValue) {
+                        visitor.enterListNode(current.self(), state);
+                        toVisit.addFirst(new VisitorNodeEnd(current, false));
+                        toVisit.addAll(0, ((ListConfigValue<N, A>) value).values.get());
+                    } else if (value instanceof ScalarConfigValue) {
+                        visitor.enterScalarNode(current.self(), state);
+                    } else {
+                        throw new IllegalStateException("Unknown value type " + value.getClass() + " at " + current.path());
+                    }
+                } catch (final Exception ex) {
+                    // Assign an appropriate path to ConfigurateExceptions
+                    if (ex instanceof ConfigurateException) {
+                        ((ConfigurateException) ex).initPath(current::path);
+                    }
+                    throw (E) ex;
                 }
             }
         }

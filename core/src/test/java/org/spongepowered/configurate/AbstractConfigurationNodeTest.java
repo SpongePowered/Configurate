@@ -451,4 +451,20 @@ public class AbstractConfigurationNodeTest {
         assertEquals(new Empty(), node.get(Empty.class));
     }
 
+    @Test
+    void testAppendListToMap() throws SerializationException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root(n -> {
+            n.node("one").set("yee");
+            n.node("two").set("haw");
+        });
+
+        assertTrue(node.isMap());
+
+        node.appendListNode().set("I'm a list now!");
+
+        assertFalse(node.isMap());
+        assertTrue(node.isList());
+        assertEquals(Collections.singletonList("I'm a list now!"), node.getList(String.class));
+    }
+
 }

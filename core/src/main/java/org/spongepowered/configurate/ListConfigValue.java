@@ -33,6 +33,29 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
 
+    /**
+     * A specific key for nodes who are destined to be part of a list.
+     *
+     * <p>This key will only exist on {@link ConfigurationNode#virtual()} nodes, since once a
+     * node is attached an actual list index will be allocated.</p>
+     */
+    static final Object UNALLOCATED_IDX = new Object() {
+        @Override
+        public String toString() {
+            return "<list unallocated>";
+        }
+    };
+
+    /**
+     * Return whether a key is likely to be an index into a list.
+     *
+     * @param key key to check
+     * @return if the key is likely to be a list index
+     */
+    static boolean likelyListKey(final @Nullable Object key) {
+        return key instanceof Integer || key == UNALLOCATED_IDX;
+    }
+
     final AtomicReference<@NonNull List<T>> values = new AtomicReference<>(new ArrayList<>());
 
     ListConfigValue(final T holder) {
@@ -50,7 +73,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public @Nullable Object get() {
+    public Object get() {
         final List<T> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
@@ -96,13 +119,30 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public @Nullable T putChild(final Object key, final @Nullable T value) {
-        return putChildInternal((int) key, value, false);
+    @Nullable T putChild(final Object key, final @Nullable T value) {
+        return putChildInternal(key, value, false);
     }
 
     @Override
     @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
-        return putChildInternal((int) key, value, true);
+        return putChildInternal(key, value, true);
+    }
+
+    private @Nullable T putChildInternal(final Object index, final @Nullable T value, final boolean onlyIfAbsent) {
+        if (index == UNALLOCATED_IDX) {
+            if (value != null) { // can't remove an unallocated node
+                List<T> values;
+                do {
+                    // Allocate an index for the newly added node
+                    values = this.values.get();
+                    values.add(value);
+                    value.key = values.lastIndexOf(value);
+                } while (!this.values.compareAndSet(values, values));
+            }
+            return null;
+        } else {
+            return putChildInternal((int) index, value, onlyIfAbsent);
+        }
     }
 
     private @Nullable T putChildInternal(final int index, final @Nullable T value, final boolean onlyIfAbsent) {
@@ -129,9 +169,6 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
                         } else {
                             ret = values.set(index, value);
                         }
-                    } else if (index == -1) { // Gotta correct the child path for the correct path name
-                        values.add(value);
-                        value.key = values.lastIndexOf(value);
                     } else {
                         values.add(index, value);
                     }
