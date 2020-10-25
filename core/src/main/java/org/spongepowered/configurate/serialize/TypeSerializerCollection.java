@@ -24,6 +24,7 @@ import static org.spongepowered.configurate.util.Types.requireCompleteParameters
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -62,7 +63,7 @@ public final class TypeSerializerCollection {
                 .registerExact(Scalars.URL)
                 .registerExact(Scalars.UUID)
                 .registerExact(Scalars.PATTERN)
-                .register(ArraySerializer.Objects.predicate(), new ArraySerializer.Objects())
+                .register(ArraySerializer.Objects::accepts, new ArraySerializer.Objects())
                 .registerExact(ArraySerializer.Booleans.TYPE, new ArraySerializer.Booleans())
                 .registerExact(ArraySerializer.Bytes.TYPE, new ArraySerializer.Bytes())
                 .registerExact(ArraySerializer.Chars.TYPE, new ArraySerializer.Chars())
@@ -375,13 +376,23 @@ public final class TypeSerializerCollection {
 
         /**
          * Register a customized object mapper to handle
-         * {@link org.spongepowered.configurate.objectmapping.ConfigSerializable}-annotated objects.
+         * {@link ConfigSerializable}-annotated objects.
          *
          * @param factory factory to retrieve object mappers from
          * @return this builder
          */
         public Builder registerAnnotatedObjects(final ObjectMapper.Factory factory) {
-            return register(ObjectMapper.annotatedSerializerPredicate(), factory.asTypeSerializer());
+            return register(Builder::isAnnotatedTarget, factory.asTypeSerializer());
+        }
+
+        /**
+         * A predicate to restrict the type serializer created by
+         * {@link ObjectMapper.Factory#asTypeSerializer()} to annotated types.
+         *
+         * @return whether a type is annotated with {@link ConfigSerializable}
+         */
+        static boolean isAnnotatedTarget(final Type type) {
+            return GenericTypeReflector.annotate(type).isAnnotationPresent(ConfigSerializable.class);
         }
 
         /**

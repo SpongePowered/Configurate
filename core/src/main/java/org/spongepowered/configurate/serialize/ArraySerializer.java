@@ -23,7 +23,6 @@ import org.spongepowered.configurate.util.Types;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.util.function.Predicate;
 
 /**
  * A serializer for array classes. Primitive arrays need special handling
@@ -44,15 +43,15 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
     static class Objects extends ArraySerializer<Object[]> {
 
-        public static Predicate<Type> predicate() {
-            return token -> {
-                if (!Types.isArray(token)) {
-                    return false;
-                }
+        public static boolean accepts(final Type token) {
+            if (!Types.isArray(token)) {
+                return false;
+            }
 
-                final Type componentType = GenericTypeReflector.getArrayComponentType(token);
-                return componentType.equals(GenericTypeReflector.box(componentType));
-            };
+            final Type componentType = GenericTypeReflector.getArrayComponentType(token);
+            // require that the component type is non-primitive, by comparing with its `box`-ed value
+            // this works because `box` is a only a no-op on non-primitive types
+            return componentType.equals(GenericTypeReflector.box(componentType));
         }
 
         @Override
