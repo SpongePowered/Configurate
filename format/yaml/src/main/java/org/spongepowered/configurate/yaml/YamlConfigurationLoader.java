@@ -153,7 +153,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        this.yaml.get().dump(node.rawScalar(), writer);
+        this.yaml.get().dump(node.raw(), writer);
     }
 
     @Override

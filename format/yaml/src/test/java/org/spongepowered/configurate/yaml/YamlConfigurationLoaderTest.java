@@ -20,15 +20,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Basic sanity checks for the loader.
@@ -69,6 +78,37 @@ public class YamlConfigurationLoaderTest {
                 .url(url).build();
         final ConfigurationNode node = loader.load();
         assertEquals(expected, node);
+    }
+
+    @Test
+    void testWriteBasicFile(final @TempDir Path tempDir) throws ConfigurateException, IOException {
+        final Path target = tempDir.resolve("write-basic.yml");
+        final ConfigurationNode node = BasicConfigurationNode.root(n -> {
+            n.node("mapping", "first").set("hello");
+            n.node("mapping", "second").set("world");
+
+            n.node("list").act(c -> {
+                c.appendListNode().set(1);
+                c.appendListNode().set(2);
+                c.appendListNode().set(3);
+                c.appendListNode().set(4);
+            });
+        });
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+                .path(target)
+                .nodeStyle(NodeStyle.BLOCK)
+                .build();
+
+        loader.save(node);
+
+        assertEquals(readLines(getClass().getResource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
+    }
+
+    private static List<String> readLines(final URL source) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(source.openStream(), StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.toList());
+        }
     }
 
 }
