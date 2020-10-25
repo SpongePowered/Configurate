@@ -41,7 +41,7 @@ class VersionedTransformation implements ConfigurationTransformation.Versioned {
     public void apply(final ConfigurationNode node) throws ConfigurateException {
         @Nullable ConfigurateException thrown = null;
         final ConfigurationNode versionNode = node.node(this.versionPath);
-        int currentVersion = versionNode.getInt(-1);
+        int currentVersion = versionNode.getInt(VERSION_UNKNOWN);
         for (Map.Entry<Integer, ConfigurationTransformation> entry : this.versionTransformations.entrySet()) {
             if (entry.getKey() <= currentVersion) {
                 continue;

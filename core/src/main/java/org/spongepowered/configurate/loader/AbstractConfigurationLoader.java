@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.loader;
 
 import static java.util.Objects.requireNonNull;
+import static org.spongepowered.configurate.loader.ParsingException.UNKNOWN_POS;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
@@ -128,7 +129,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     @Override
     public N load(ConfigurationOptions options) throws ParsingException {
         if (this.source == null) {
-            throw new ParsingException(-1, -1, "", "No source present to read from!", null);
+            throw new ParsingException(UNKNOWN_POS, UNKNOWN_POS, "", "No source present to read from!", null);
         }
         try (BufferedReader reader = this.source.call()) {
             if (this.headerMode == HeaderMode.PRESERVE || this.headerMode == HeaderMode.NONE) {
@@ -146,9 +147,9 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
             // Squash -- there's nothing to read
             return createNode(options);
         } catch (final IOException e) {
-            throw new ParsingException(-1, -1, options.header(), null, e);
+            throw new ParsingException(UNKNOWN_POS, UNKNOWN_POS, options.header(), null, e);
         } catch (final Exception e) {
-            throw new ParsingException(-1, -1, options.header(), "Unknown error occurred while loading", e);
+            throw new ParsingException(UNKNOWN_POS, UNKNOWN_POS, options.header(), "Unknown error occurred while loading", e);
         }
     }
 
