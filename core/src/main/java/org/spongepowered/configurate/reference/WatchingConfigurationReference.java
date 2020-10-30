@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.reference;
 
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ScopedConfigurationNode;
@@ -36,7 +36,7 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
         extends ManualConfigurationReference<N> implements Subscriber<WatchEvent<?>> {
 
     private volatile boolean saveSuppressed;
-    private @MonotonicNonNull Disposable disposable;
+    private @Nullable Disposable disposable;
 
     WatchingConfigurationReference(final ConfigurationLoader<? extends N> loader, final Executor taskExecutor) {
         super(loader, taskExecutor);
@@ -59,6 +59,7 @@ class WatchingConfigurationReference<N extends ScopedConfigurationNode<N>>
         super.close();
         if (this.disposable != null) {
             this.disposable.dispose();
+            this.disposable = null;
         }
     }
 

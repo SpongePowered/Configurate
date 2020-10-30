@@ -56,14 +56,14 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public void load() throws ConfigurateException {
+    public final void load() throws ConfigurateException {
         synchronized (this.loader) {
             this.updateListener.submit(this.node = this.loader.load());
         }
     }
 
     @Override
-    public void save() throws ConfigurateException {
+    public final void save() throws ConfigurateException {
         save(this.node);
     }
 
@@ -88,7 +88,7 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public Publisher<N> saveAsync() {
+    public final Publisher<N> saveAsync() {
         return Publisher.execute(() -> {
             save();
             return node();
@@ -96,7 +96,7 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public Publisher<N> updateAsync(final Function<N, ? extends N> updater) {
+    public final Publisher<N> updateAsync(final Function<N, ? extends N> updater) {
         return Publisher.execute(() -> {
             final N newNode = updater.apply(node());
             save(newNode);
@@ -105,37 +105,43 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public N node() {
+    public final N node() {
         return this.node;
     }
 
     @Override
-    public ConfigurationLoader<? extends N> loader() {
+    public final ConfigurationLoader<? extends N> loader() {
         return this.loader;
     }
 
     @Override
-    public N get(final Object... path) {
+    public final N get(final Object... path) {
         return node().node(path);
     }
 
     @Override
-    public <T> ValueReference<T, N> referenceTo(final TypeToken<T> type, final NodePath path, final @Nullable T def) throws SerializationException {
+    public final N get(final Iterable<?> path) {
+        return node().node(path);
+    }
+
+    @Override
+    public final <T> ValueReference<T, N> referenceTo(final TypeToken<T> type,
+            final NodePath path, final @Nullable T def) throws SerializationException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 
     @Override
-    public <T> ValueReference<T, N> referenceTo(final Class<T> type, final NodePath path, final @Nullable T def) throws SerializationException {
+    public final <T> ValueReference<T, N> referenceTo(final Class<T> type, final NodePath path, final @Nullable T def) throws SerializationException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 
     @Override
-    public Publisher<N> updates() {
+    public final Publisher<N> updates() {
         return this.updateListener;
     }
 
     @Override
-    public Publisher<Map.Entry<ErrorPhase, Throwable>> errors() {
+    public final Publisher<Map.Entry<ErrorPhase, Throwable>> errors() {
         return this.errorListener;
     }
 

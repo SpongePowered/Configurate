@@ -140,13 +140,22 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
     ConfigurationLoader<? extends N> loader();
 
     /**
-     * Get the node at the given path, using the root node.
+     * Get the node at the given path, relative to the root node.
      *
      * @param path the path, a series of path elements
      * @return a child node
      * @see ConfigurationNode#node(Object...)
      */
     N get(Object... path);
+
+    /**
+     * Get the node at the given path, relative to the root node.
+     *
+     * @param path the path, a series of path elements
+     * @return a child node
+     * @see ConfigurationNode#node(Iterable)
+     */
+    N get(Iterable<?> path);
 
     /**
      * Update the value of the node at the given path, using the root node as
