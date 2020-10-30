@@ -54,7 +54,7 @@
 
         <p>Javadocs:</p>
         <ul>
-            <% for (version in versions()) { %>
+            <% for (version in versions.invoke()) { %>
             <li><a href="${version}/apidocs">${version}</a></li>
             <%} %>
         </ul>

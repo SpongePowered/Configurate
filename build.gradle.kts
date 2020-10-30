@@ -71,8 +71,6 @@ gitPublish {
         include("**/") // include everything in directories
         exclude("/*.html")
     }
-
-    commitMessage.set("Publish javadocs (via gradle-git-publish)")
 }
 
 tasks.dependencyUpdates {
