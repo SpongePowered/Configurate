@@ -14,26 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.kotlin
+package org.spongepowered.configurate.kotlin.extensions
 
 import kotlinx.coroutines.flow.Flow
 import org.spongepowered.configurate.ScopedConfigurationNode
+import org.spongepowered.configurate.kotlin.typeTokenOf
 import org.spongepowered.configurate.reference.ConfigurationReference
 import org.spongepowered.configurate.reference.ValueReference
 
+/**
+ * Create a flow with events for every refresh of a value backing this reference
+ */
 inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.flowOf(vararg path: Any): Flow<T> {
     return this.referenceTo<T>(typeTokenOf(), *path).asFlow()
 }
 
+/**
+ * Get a reference to the value of type [T] at [path].
+ */
 inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.referenceTo(vararg path: Any): ValueReference<T, N> {
     return this.referenceTo(typeTokenOf(), *path)
-}
-
-fun ConfigurationReference<*>.set(vararg path: Any, value: Any?) {
-    node().node(*path).set(value)
-}
-
-@JvmName("set\$serialized")
-inline fun <reified V> ConfigurationReference<*>.set(vararg path: Any, value: V?) {
-    node().node(*path).set(typeTokenOf(), value)
 }

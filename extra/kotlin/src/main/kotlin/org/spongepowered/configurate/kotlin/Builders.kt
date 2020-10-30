@@ -19,24 +19,26 @@ package org.spongepowered.configurate.kotlin
 import org.spongepowered.configurate.AttributedConfigurationNode
 import org.spongepowered.configurate.BasicConfigurationNode
 import org.spongepowered.configurate.CommentedConfigurationNode
-import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ConfigurationOptions
-import org.spongepowered.configurate.loader.ConfigurationLoader
 
 // Factory methods //
 
 /**
- * Create a new basic configuration node, optionally providing options
+ * Create a new basic configuration node, optionally providing options.
  */
 fun node(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: BasicConfigurationNode.() -> Unit): BasicConfigurationNode =
     BasicConfigurationNode.root<RuntimeException>(options, init)
 
 /**
- * Create a commented configuration node
+ * Create a commented configuration node.
  */
 fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() -> Unit): CommentedConfigurationNode =
     CommentedConfigurationNode.root<RuntimeException>(options, init)
 
+/**
+ * Create a new attributed configuration node, with all [attributes] applied,
+ * the provided options, and running [init] to initialize the node.
+ */
 fun attributed(
     nodeName: String = "root",
     vararg attributes: Pair<String, String>,
@@ -47,14 +49,4 @@ fun attributed(
     node.attributes(mapOf(*attributes))
     node.init()
     return node
-}
-
-/**
- * Given a loader, create and configure an empty node. Options may be provided, but otherwise the loader's defaults
- * will be used.
- */
-fun <T : ConfigurationNode> ConfigurationLoader<T>.node(options: ConfigurationOptions = this.defaultOptions(), init: T.() -> Unit): T {
-    val ret = createNode(options)
-    ret.init()
-    return ret
 }

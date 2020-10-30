@@ -20,16 +20,14 @@ import io.leangen.geantyref.GenericTypeReflector
 import io.leangen.geantyref.GenericTypeReflector.erase
 import io.leangen.geantyref.TypeToken
 import org.spongepowered.configurate.ConfigurationNode
+import org.spongepowered.configurate.kotlin.extensions.get
 import org.spongepowered.configurate.objectmapping.FieldDiscoverer
 import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.objectmapping.ObjectMapper.Factory
-import org.spongepowered.configurate.serialize.TypeSerializer
-import org.spongepowered.configurate.serialize.TypeSerializerCollection
 import org.spongepowered.configurate.util.Types.combinedAnnotations
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.AnnotatedType
 import kotlin.reflect.KAnnotatedElement
-import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty
@@ -69,31 +67,7 @@ inline fun <reified T> objectMapper(): ObjectMapper<T> {
  * Get an object mapper bound to the instance of [T], resolving type parameters
  */
 inline fun <reified T> T.toNode(target: ConfigurationNode) {
-    return objectMapperFactory()[typeTokenOf<T>()].save(this, target)
-}
-
-/**
- * Create an object mapper with the given [Factory] for objects of type [T],
- * accepting parameterized types.
- */
-inline fun <reified T> Factory.typedGet(): ObjectMapper<T> {
-    return get(typeTokenOf())
-}
-
-/**
- * Get the appropriate [TypeSerializer] for the provided type [T], or null if
- * none is applicable.
- */
-inline fun <reified T> TypeSerializerCollection.typedGet(): TypeSerializer<T>? {
-    return get(typeTokenOf())
-}
-
-fun <T : Any> Factory.get(type: KClass<T>): ObjectMapper<T> {
-    return get(type.java)
-}
-
-fun <T : Any> TypeSerializerCollection.get(type: KClass<T>): TypeSerializer<T>? {
-    return get(type.java)
+    return objectMapperFactory().get<T>().save(this, target)
 }
 
 @PublishedApi

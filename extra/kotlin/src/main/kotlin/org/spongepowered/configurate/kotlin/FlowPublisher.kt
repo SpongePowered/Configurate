@@ -18,11 +18,7 @@ package org.spongepowered.configurate.kotlin
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -37,39 +33,7 @@ import org.spongepowered.configurate.reactive.TransactionFailedException
 import org.spongepowered.configurate.util.CheckedFunction
 import java.util.concurrent.Executor
 
-/**
- * Given an [Publisher] instance, return a new [Flow] emitting values from the Flow
- */
-@OptIn(ExperimentalCoroutinesApi::class)
-fun <V : Any> Publisher<V>.asFlow(): Flow<V> = callbackFlow {
-    val observer = object : Subscriber<V> {
-        override fun submit(item: V) {
-            sendBlocking(item)
-        }
-
-        override fun onError(thrown: Throwable) {
-            close(thrown)
-        }
-
-        override fun onClose() {
-            close()
-        }
-    }
-    val dispose = subscribe(observer)
-    awaitClose {
-        dispose.dispose()
-    }
-}
-
-/**
- * Given a pre-existing flow, expose it as a [Publisher]. This will not change the semantics of the Flow --
- * i.e. if it is "hot" it will stay hot, and vice versa.
- */
-suspend fun <V : Any> Flow<V>.asPublisher(): Publisher<V> = coroutineScope {
-    FlowPublisher(this@asPublisher, this)
-}
-
-private class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : Publisher<V> {
+internal class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : Publisher<V> {
     private val executor = Executor { task -> scope.launch { task.run() } }
     override fun executor(): Executor = this.executor
 
