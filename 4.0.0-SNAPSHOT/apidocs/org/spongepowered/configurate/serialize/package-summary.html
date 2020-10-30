@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -101,9 +100,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section role="region"><a id="package.description">
 <!--   -->
 </a>
-<div class="block">Type serializer mechanisms and the standard type serializers shipped with Configurate
+<div class="block">Type serializer mechanisms and the standard type serializers
+ shipped with Configurate.
 
- Type serializers are registered and queried using <a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a>. For scalar serializers (those that take a scalar configuration value only), the <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize"><code>ScalarSerializer</code></a> class provides many common behaviours. Core scalar serializers are included in the <a href="Scalars.html" title="interface in org.spongepowered.configurate.serialize"><code>Scalars</code></a> interface.</div>
+ <p>Type serializers are registered and queried using
+ <a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a>. For
+ scalar serializers (those that take a scalar configuration value only), the
+ <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize"><code>ScalarSerializer</code></a> class
+ provides many common behaviours. Core scalar serializers are included in
+ the <a href="Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a> interface.</div>
 </section>
 <ul class="blockList">
 <li class="blockList">
@@ -115,17 +120,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="Scalars.html" title="interface in org.spongepowered.configurate.serialize">Scalars</a></th>
-<td class="colLast">
-<div class="block">Scalar value serializers available
-
- Each of these serializers can be used through a configuration node, or directly with a value.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;</th>
 <td class="colLast">
-<div class="block">Represents an object which can serialize and deserialize objects of a given type.</div>
+<div class="block">Represents an object which can serialize and deserialize objects of a
+ given type.</div>
 </td>
 </tr>
 </tbody>
@@ -140,8 +138,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="FunctionScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">FunctionScalarSerializer</a>&lt;T&gt;</th>
-<td class="colLast">&nbsp;</td>
+<th class="colFirst" scope="row"><a href="Scalars.html" title="class in org.spongepowered.configurate.serialize">Scalars</a></th>
+<td class="colLast">
+<div class="block">Scalar value serializers available</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;</th>
@@ -152,12 +152,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></th>
 <td class="colLast">
-<div class="block">A calculated collection of <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a>s</div>
+<div class="block">A calculated collection of <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a>s.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A builder to construct new serializer collections.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -172,24 +174,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="CoercionFailedException.html" title="class in org.spongepowered.configurate.serialize">CoercionFailedException</a></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="typeSummary">
-<caption><span>Annotation Types Summary</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Annotation Type</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="ConfigSerializable.html" title="annotation in org.spongepowered.configurate.serialize">ConfigSerializable</a></th>
 <td class="colLast">
-<div class="block">This annotation is used to indicate that the given type is capable of being serialized and
- deserialized by the configuration object mapper.</div>
+<div class="block">Error thrown when a value fails to be converted to an expected type.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></th>
+<td class="colLast">
+<div class="block">Exception thrown on errors encountered while using type serializers.</div>
 </td>
 </tr>
 </tbody>

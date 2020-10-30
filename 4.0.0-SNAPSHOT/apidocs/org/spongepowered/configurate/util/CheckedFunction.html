@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -124,9 +123,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>I</code> - The input parameter type</dd>
-<dd><code>O</code> - The output parameter type</dd>
-<dd><code>E</code> - The type thrown</dd>
+<dd><code>I</code> - the input parameter type</dd>
+<dd><code>O</code> - the output parameter type</dd>
+<dd><code>E</code> - the type thrown</dd>
 </dl>
 <dl>
 <dt>Functional Interface:</dt>
@@ -135,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
 public interface <a href="../../../../src-html/org/spongepowered/configurate/util/CheckedFunction.html#line.32">CheckedFunction</a>&lt;I,&#8203;O,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</pre>
-<div class="block">A function with one input and one output which may throw a checked exception</div>
+<div class="block">A function with one input and one output which may throw a checked exception.</div>
 </li>
 </ul>
 </div>
@@ -165,9 +164,9 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/uti
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static &lt;I,&#8203;O&gt;<br><a href="CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;I,&#8203;O,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fromFunction(java.util.function.Function)">fromFunction</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;I,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> O&gt;&nbsp;func)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.util.function.Function)">from</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;I,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> O&gt;&nbsp;func)</code></th>
 <td class="colLast">
-<div class="block">Convert a JDK <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>Function</code></a> into its checked variant</div>
+<div class="block">Convert a JDK <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>Function</code></a> into its checked variant.</div>
 </td>
 </tr>
 </table>
@@ -195,7 +194,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature"><a href="CheckedFunction.html" title="type parameter in CheckedFunction">O</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedFunction.html#line.41">apply</a>&#8203;(<a href="CheckedFunction.html" title="type parameter in CheckedFunction">I</a>&nbsp;one)
+<pre class="methodSignature"><a href="CheckedFunction.html" title="type parameter in CheckedFunction">O</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedFunction.html#line.42">apply</a>&#8203;(<a href="CheckedFunction.html" title="type parameter in CheckedFunction">I</a>&nbsp;one)
  throws <a href="CheckedFunction.html" title="type parameter in CheckedFunction">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Perform the action.</div>
 <dl>
@@ -204,27 +203,27 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/uti
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>return value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="CheckedFunction.html" title="type parameter in CheckedFunction">E</a></code> - Thrown when defined by types accepting this function</dd>
+<dd><code><a href="CheckedFunction.html" title="type parameter in CheckedFunction">E</a></code> - thrown when defined by types accepting this function</dd>
 <dd><code><a href="CheckedFunction.html" title="type parameter in CheckedFunction">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 </dl>
 </li>
 </ul>
-<a id="fromFunction(java.util.function.Function)">
+<a id="from(java.util.function.Function)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>fromFunction</h4>
-<pre class="methodSignature">static&nbsp;&lt;I,&#8203;O&gt;&nbsp;<a href="CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;I,&#8203;O,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedFunction.html#line.51">fromFunction</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;I,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> O&gt;&nbsp;func)</pre>
-<div class="block">Convert a JDK <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>Function</code></a> into its checked variant</div>
+<h4>from</h4>
+<pre class="methodSignature">static&nbsp;&lt;I,&#8203;O&gt;&nbsp;<a href="CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;I,&#8203;O,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedFunction.html#line.52">from</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;I,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> O&gt;&nbsp;func)</pre>
+<div class="block">Convert a JDK <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>Function</code></a> into its checked variant.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>I</code> - Parameter type</dd>
+<dd><code>I</code> - parameter type</dd>
 <dd><code>O</code> - return type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>func</code> - The function</dd>
+<dd><code>func</code> - the function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The function as a checked function</dd>
+<dd>the function as a checked function</dd>
 </dl>
 </li>
 </ul>

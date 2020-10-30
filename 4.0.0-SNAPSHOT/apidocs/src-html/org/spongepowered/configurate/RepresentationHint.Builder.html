@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Configurate</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * Copyright (C) zml and Configurate contributors</a>
+<span class="sourceLineNo">004</span><a id="line.4"> *</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *    http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">010</span><a id="line.10"> *</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * limitations under the License.</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.auto.value.AutoValue;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import io.leangen.geantyref.TypeToken;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">/**</a>
+<span class="sourceLineNo">024</span><a id="line.24"> * A flag for configuration loaders describing how a node should be serialized.</a>
+<span class="sourceLineNo">025</span><a id="line.25"> *</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * &lt;p&gt;A loader may not accept every representation hint available, but any</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * understood hints should be exposed as constant fields on the loader class.</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * Any unknown hints will be ignored.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> *</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * @param &lt;V&gt; the value type</a>
+<span class="sourceLineNo">031</span><a id="line.31"> */</a>
+<span class="sourceLineNo">032</span><a id="line.32">@AutoValue</a>
+<span class="sourceLineNo">033</span><a id="line.33">public abstract class RepresentationHint&lt;V&gt; {</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">    /**</a>
+<span class="sourceLineNo">036</span><a id="line.36">     * Create a new basic representation hint.</a>
+<span class="sourceLineNo">037</span><a id="line.37">     *</a>
+<span class="sourceLineNo">038</span><a id="line.38">     * &lt;p&gt;The created hint will be inheritable and have no default</a>
+<span class="sourceLineNo">039</span><a id="line.39">     * value set.&lt;/p&gt;</a>
+<span class="sourceLineNo">040</span><a id="line.40">     *</a>
+<span class="sourceLineNo">041</span><a id="line.41">     * @param identifier hint identifier</a>
+<span class="sourceLineNo">042</span><a id="line.42">     * @param valueType type of value the hint will hold</a>
+<span class="sourceLineNo">043</span><a id="line.43">     * @param &lt;V&gt; value type</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * @return a new hint</a>
+<span class="sourceLineNo">045</span><a id="line.45">     */</a>
+<span class="sourceLineNo">046</span><a id="line.46">    public static &lt;V&gt; RepresentationHint&lt;V&gt; of(final String identifier, final Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">047</span><a id="line.47">        return RepresentationHint.&lt;V&gt;builder().identifier(identifier).valueType(valueType).build();</a>
+<span class="sourceLineNo">048</span><a id="line.48">    }</a>
+<span class="sourceLineNo">049</span><a id="line.49"></a>
+<span class="sourceLineNo">050</span><a id="line.50">    /**</a>
+<span class="sourceLineNo">051</span><a id="line.51">     * Create a new basic representation hint.</a>
+<span class="sourceLineNo">052</span><a id="line.52">     *</a>
+<span class="sourceLineNo">053</span><a id="line.53">     * &lt;p&gt;The created hint will be inheritable and have no default</a>
+<span class="sourceLineNo">054</span><a id="line.54">     * value set.&lt;/p&gt;</a>
+<span class="sourceLineNo">055</span><a id="line.55">     *</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * @param identifier hint identifier</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * @param valueType type of value the hint will hold</a>
+<span class="sourceLineNo">058</span><a id="line.58">     * @param &lt;V&gt; value type</a>
+<span class="sourceLineNo">059</span><a id="line.59">     * @return a new hint</a>
+<span class="sourceLineNo">060</span><a id="line.60">     */</a>
+<span class="sourceLineNo">061</span><a id="line.61">    public static &lt;V&gt; RepresentationHint&lt;V&gt; of(final String identifier, final TypeToken&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">        return RepresentationHint.&lt;V&gt;builder().identifier(identifier).valueType(valueType).build();</a>
+<span class="sourceLineNo">063</span><a id="line.63">    }</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">    /**</a>
+<span class="sourceLineNo">066</span><a id="line.66">     * Create a builder for a new hint.</a>
+<span class="sourceLineNo">067</span><a id="line.67">     *</a>
+<span class="sourceLineNo">068</span><a id="line.68">     * @param &lt;V&gt; value type</a>
+<span class="sourceLineNo">069</span><a id="line.69">     * @return a new builder</a>
+<span class="sourceLineNo">070</span><a id="line.70">     */</a>
+<span class="sourceLineNo">071</span><a id="line.71">    public static &lt;V&gt; Builder&lt;V&gt; builder() {</a>
+<span class="sourceLineNo">072</span><a id="line.72">        return new AutoValue_RepresentationHint.Builder&lt;&gt;();</a>
+<span class="sourceLineNo">073</span><a id="line.73">    }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">    RepresentationHint() { }</a>
+<span class="sourceLineNo">076</span><a id="line.76"></a>
+<span class="sourceLineNo">077</span><a id="line.77">    /**</a>
+<span class="sourceLineNo">078</span><a id="line.78">     * An identifier used to represent this hint in error messages.</a>
+<span class="sourceLineNo">079</span><a id="line.79">     *</a>
+<span class="sourceLineNo">080</span><a id="line.80">     * @return the identifier</a>
+<span class="sourceLineNo">081</span><a id="line.81">     */</a>
+<span class="sourceLineNo">082</span><a id="line.82">    public abstract String identifier();</a>
+<span class="sourceLineNo">083</span><a id="line.83"></a>
+<span class="sourceLineNo">084</span><a id="line.84">    /**</a>
+<span class="sourceLineNo">085</span><a id="line.85">     * The type that values of this type have to have.</a>
+<span class="sourceLineNo">086</span><a id="line.86">     *</a>
+<span class="sourceLineNo">087</span><a id="line.87">     * @return value type</a>
+<span class="sourceLineNo">088</span><a id="line.88">     */</a>
+<span class="sourceLineNo">089</span><a id="line.89">    public abstract TypeToken&lt;V&gt; valueType();</a>
+<span class="sourceLineNo">090</span><a id="line.90"></a>
+<span class="sourceLineNo">091</span><a id="line.91">    /**</a>
+<span class="sourceLineNo">092</span><a id="line.92">     * If a value for a representation hint cannot be found by quering a node</a>
+<span class="sourceLineNo">093</span><a id="line.93">     * or any of this parents, the default value will be returned.</a>
+<span class="sourceLineNo">094</span><a id="line.94">     *</a>
+<span class="sourceLineNo">095</span><a id="line.95">     * @return default type</a>
+<span class="sourceLineNo">096</span><a id="line.96">     */</a>
+<span class="sourceLineNo">097</span><a id="line.97">    public abstract @Nullable V defaultValue();</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">    /**</a>
+<span class="sourceLineNo">100</span><a id="line.100">     * Get whether or not this hint can draw its value from parent nodes.</a>
+<span class="sourceLineNo">101</span><a id="line.101">     *</a>
+<span class="sourceLineNo">102</span><a id="line.102">     * @return if inheritable</a>
+<span class="sourceLineNo">103</span><a id="line.103">     */</a>
+<span class="sourceLineNo">104</span><a id="line.104">    public abstract boolean inheritable();</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">    /**</a>
+<span class="sourceLineNo">107</span><a id="line.107">     * A builder for {@link RepresentationHint}s.</a>
+<span class="sourceLineNo">108</span><a id="line.108">     *</a>
+<span class="sourceLineNo">109</span><a id="line.109">     * @param &lt;V&gt; value type</a>
+<span class="sourceLineNo">110</span><a id="line.110">     */</a>
+<span class="sourceLineNo">111</span><a id="line.111">    @AutoValue.Builder</a>
+<span class="sourceLineNo">112</span><a id="line.112">    public abstract static class Builder&lt;V&gt; {</a>
+<span class="sourceLineNo">113</span><a id="line.113"></a>
+<span class="sourceLineNo">114</span><a id="line.114">        Builder() {</a>
+<span class="sourceLineNo">115</span><a id="line.115">            this.inheritable(true);</a>
+<span class="sourceLineNo">116</span><a id="line.116">        }</a>
+<span class="sourceLineNo">117</span><a id="line.117"></a>
+<span class="sourceLineNo">118</span><a id="line.118">        /**</a>
+<span class="sourceLineNo">119</span><a id="line.119">         * Set the identifier to refer to this hint.</a>
+<span class="sourceLineNo">120</span><a id="line.120">         *</a>
+<span class="sourceLineNo">121</span><a id="line.121">         * @param identifier hint identifier</a>
+<span class="sourceLineNo">122</span><a id="line.122">         * @return this builder</a>
+<span class="sourceLineNo">123</span><a id="line.123">         */</a>
+<span class="sourceLineNo">124</span><a id="line.124">        public abstract Builder&lt;V&gt; identifier(String identifier);</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">        /**</a>
+<span class="sourceLineNo">127</span><a id="line.127">         * Set the type used for this node's value.</a>
+<span class="sourceLineNo">128</span><a id="line.128">         *</a>
+<span class="sourceLineNo">129</span><a id="line.129">         * &lt;p&gt;Raw types are forbidden.&lt;/p&gt;</a>
+<span class="sourceLineNo">130</span><a id="line.130">         *</a>
+<span class="sourceLineNo">131</span><a id="line.131">         * @param valueType the value type</a>
+<span class="sourceLineNo">132</span><a id="line.132">         * @return this builder</a>
+<span class="sourceLineNo">133</span><a id="line.133">         */</a>
+<span class="sourceLineNo">134</span><a id="line.134">        public final Builder&lt;V&gt; valueType(final Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">135</span><a id="line.135">            return valueType(TypeToken.get(valueType));</a>
+<span class="sourceLineNo">136</span><a id="line.136">        }</a>
+<span class="sourceLineNo">137</span><a id="line.137"></a>
+<span class="sourceLineNo">138</span><a id="line.138">        /**</a>
+<span class="sourceLineNo">139</span><a id="line.139">         * Set the type used for this node's value.</a>
+<span class="sourceLineNo">140</span><a id="line.140">         *</a>
+<span class="sourceLineNo">141</span><a id="line.141">         * &lt;p&gt;Raw types are forbidden.&lt;/p&gt;</a>
+<span class="sourceLineNo">142</span><a id="line.142">         *</a>
+<span class="sourceLineNo">143</span><a id="line.143">         * @param valueType the value type</a>
+<span class="sourceLineNo">144</span><a id="line.144">         * @return this builder</a>
+<span class="sourceLineNo">145</span><a id="line.145">         */</a>
+<span class="sourceLineNo">146</span><a id="line.146">        public abstract Builder&lt;V&gt; valueType(TypeToken&lt;V&gt; valueType);</a>
+<span class="sourceLineNo">147</span><a id="line.147"></a>
+<span class="sourceLineNo">148</span><a id="line.148">        /**</a>
+<span class="sourceLineNo">149</span><a id="line.149">         * Set the default value when this hint is not present in the hierarchy.</a>
+<span class="sourceLineNo">150</span><a id="line.150">         *</a>
+<span class="sourceLineNo">151</span><a id="line.151">         * &lt;p&gt;This defaults to {@code null}.&lt;/p&gt;</a>
+<span class="sourceLineNo">152</span><a id="line.152">         *</a>
+<span class="sourceLineNo">153</span><a id="line.153">         * @param defaultValue value to return on gets</a>
+<span class="sourceLineNo">154</span><a id="line.154">         * @return this builder</a>
+<span class="sourceLineNo">155</span><a id="line.155">         */</a>
+<span class="sourceLineNo">156</span><a id="line.156">        public abstract Builder&lt;V&gt; defaultValue(@Nullable V defaultValue);</a>
+<span class="sourceLineNo">157</span><a id="line.157"></a>
+<span class="sourceLineNo">158</span><a id="line.158">        /**</a>
+<span class="sourceLineNo">159</span><a id="line.159">         * Set whether or not the hint can be inherited.</a>
+<span class="sourceLineNo">160</span><a id="line.160">         *</a>
+<span class="sourceLineNo">161</span><a id="line.161">         * &lt;p&gt;Defaults to {@code true}.&lt;/p&gt;</a>
+<span class="sourceLineNo">162</span><a id="line.162">         *</a>
+<span class="sourceLineNo">163</span><a id="line.163">         * @param inheritable if inheritable</a>
+<span class="sourceLineNo">164</span><a id="line.164">         * @return this builder</a>
+<span class="sourceLineNo">165</span><a id="line.165">         * @see #inheritable()</a>
+<span class="sourceLineNo">166</span><a id="line.166">         */</a>
+<span class="sourceLineNo">167</span><a id="line.167">        public abstract Builder&lt;V&gt; inheritable(boolean inheritable);</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">        /**</a>
+<span class="sourceLineNo">170</span><a id="line.170">         * Create a new hint from the provided options.</a>
+<span class="sourceLineNo">171</span><a id="line.171">         *</a>
+<span class="sourceLineNo">172</span><a id="line.172">         * &lt;p&gt;The {@code identifier} and {@code valueType} must have been set to</a>
+<span class="sourceLineNo">173</span><a id="line.173">         * build a complete hint.&lt;/p&gt;</a>
+<span class="sourceLineNo">174</span><a id="line.174">         *</a>
+<span class="sourceLineNo">175</span><a id="line.175">         * @return a new representation hint</a>
+<span class="sourceLineNo">176</span><a id="line.176">         */</a>
+<span class="sourceLineNo">177</span><a id="line.177">        public abstract RepresentationHint&lt;V&gt; build();</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">    }</a>
+<span class="sourceLineNo">180</span><a id="line.180"></a>
+<span class="sourceLineNo">181</span><a id="line.181">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

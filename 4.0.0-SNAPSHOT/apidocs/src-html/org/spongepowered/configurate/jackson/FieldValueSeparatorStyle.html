@@ -47,14 +47,20 @@
 <span class="sourceLineNo">038</span><a id="line.38"></a>
 <span class="sourceLineNo">039</span><a id="line.39">    private final String decorationType;</a>
 <span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">    FieldValueSeparatorStyle(String decorationType) {</a>
+<span class="sourceLineNo">041</span><a id="line.41">    FieldValueSeparatorStyle(final String decorationType) {</a>
 <span class="sourceLineNo">042</span><a id="line.42">        this.decorationType = decorationType;</a>
 <span class="sourceLineNo">043</span><a id="line.43">    }</a>
 <span class="sourceLineNo">044</span><a id="line.44"></a>
-<span class="sourceLineNo">045</span><a id="line.45">    public String getValue() {</a>
-<span class="sourceLineNo">046</span><a id="line.46">        return decorationType;</a>
-<span class="sourceLineNo">047</span><a id="line.47">    }</a>
-<span class="sourceLineNo">048</span><a id="line.48">}</a>
+<span class="sourceLineNo">045</span><a id="line.45">    /**</a>
+<span class="sourceLineNo">046</span><a id="line.46">     * Get the literal separator for this type.</a>
+<span class="sourceLineNo">047</span><a id="line.47">     *</a>
+<span class="sourceLineNo">048</span><a id="line.48">     * @return literal separator value</a>
+<span class="sourceLineNo">049</span><a id="line.49">     */</a>
+<span class="sourceLineNo">050</span><a id="line.50">    public String value() {</a>
+<span class="sourceLineNo">051</span><a id="line.51">        return this.decorationType;</a>
+<span class="sourceLineNo">052</span><a id="line.52">    }</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">}</a>
 
 
 

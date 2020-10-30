@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -135,8 +134,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></dd>
 </dl>
 <hr>
-<pre>public static class <a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.138">TypeSerializerCollection.Builder</a>
+<pre>public static class <a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.218">TypeSerializerCollection.Builder</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+<div class="block">A builder to construct new serializer collections.</div>
 </li>
 </ul>
 </div>
@@ -161,12 +161,12 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <td class="colFirst"><code><a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Create a new type serializer collection</div>
+<div class="block">Create a new type serializer collection.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(com.google.common.reflect.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">register</a></span>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">register</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
         <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</code></th>
 <td class="colLast">
 <div class="block">Register a type serializer for a given type.</div>
@@ -174,16 +174,64 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(java.util.function.Predicate,org.spongepowered.configurate.serialize.TypeSerializer)">register</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&gt;&nbsp;test,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(java.lang.Class,org.spongepowered.configurate.serialize.TypeSerializer)">register</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+        <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</code></th>
+<td class="colLast">
+<div class="block">Register a type serializer for a given type.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(java.util.function.Predicate,org.spongepowered.configurate.serialize.TypeSerializer)">register</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&gt;&nbsp;test,
         <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</code></th>
 <td class="colLast">
 <div class="block">Register a type serializer matching against a given predicate.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(org.spongepowered.configurate.serialize.ScalarSerializer)">register</a></span>&#8203;(<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;serializer)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Register a scalar serializer with its own attached type token.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code><a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#registerAll(org.spongepowered.configurate.serialize.TypeSerializerCollection)">registerAll</a></span>&#8203;(<a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;other)</code></th>
+<td class="colLast">
+<div class="block">Register all serializers from <code>other</code> into this collection.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#registerAnnotatedObjects(org.spongepowered.configurate.objectmapping.ObjectMapper.Factory)">registerAnnotatedObjects</a></span>&#8203;(<a href="../objectmapping/ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;factory)</code></th>
+<td class="colLast">
+<div class="block">Register a customized object mapper to handle
+ <a href="../objectmapping/ConfigSerializable.html" title="annotation in org.spongepowered.configurate.objectmapping"><code>ConfigSerializable</code></a>-annotated objects.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#registerExact(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">registerExact</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
+             <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</code></th>
+<td class="colLast">
+<div class="block">Register an <em>exact</em> type serializer for a given type.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#registerExact(java.lang.Class,org.spongepowered.configurate.serialize.TypeSerializer)">registerExact</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+             <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</code></th>
+<td class="colLast">
+<div class="block">Register an <em>exact</em> type serializer for a given type.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#registerExact(org.spongepowered.configurate.serialize.ScalarSerializer)">registerExact</a></span>&#8203;(<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;serializer)</code></th>
+<td class="colLast">
+<div class="block">Register a scalar serializer with its own attached type token.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -209,24 +257,49 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="register(com.google.common.reflect.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">
+<a id="register(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>register</h4>
-<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.155">register</a>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.237">register</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
                                                      <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</pre>
-<div class="block">Register a type serializer for a given type. Serializers registered will match all subclasses of the provided
+<div class="block">Register a type serializer for a given type.
+
+ <p>Serializers registered will match all subclasses of the provided
  type, as well as unwrapped primitive equivalents of the type.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type to generify around</dd>
+<dd><code>T</code> - the type to generify around</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The type to accept</dd>
-<dd><code>serializer</code> - The serializer that will be serialized with</dd>
+<dd><code>type</code> - the type to accept</dd>
+<dd><code>serializer</code> - the serializer that will be serialized with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this</dd>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="register(java.lang.Class,org.spongepowered.configurate.serialize.TypeSerializer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>register</h4>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.252">register</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+                                                     <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</pre>
+<div class="block">Register a type serializer for a given type.
+
+ <p>Serializers registered will match all subclasses of the provided
+ type, as well as unboxed primitive equivalents of the type.</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type to generify around</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - the type to accept</dd>
+<dd><code>serializer</code> - the serializer that will be serialized with</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
 </dl>
 </li>
 </ul>
@@ -236,17 +309,17 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>register</h4>
-<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.170">register</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&gt;&nbsp;test,
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.264">register</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&gt;&nbsp;test,
                                                      <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</pre>
 <div class="block">Register a type serializer matching against a given predicate.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type parameter</dd>
+<dd><code>T</code> - the type parameter</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>test</code> - The predicate to match types against</dd>
-<dd><code>serializer</code> - The serializer to serialize matching types with</dd>
+<dd><code>test</code> - the predicate to match types against</dd>
+<dd><code>serializer</code> - the serializer to serialize matching types with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this</dd>
+<dd>this builder</dd>
 </dl>
 </li>
 </ul>
@@ -256,7 +329,126 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>register</h4>
-<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.178">register</a>&#8203;(<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;serializer)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.281">register</a>&#8203;(<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;serializer)</pre>
+<div class="block">Register a scalar serializer with its own attached type token.
+
+ <p>Serializers registered will match all subclasses of the provided
+ type, as well as unboxed primitive equivalents of the type.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - value type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>serializer</code> - serializer to register</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="registerExact(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.serialize.TypeSerializer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>registerExact</h4>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.319">registerExact</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
+                                                          <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</pre>
+<div class="block">Register an <em>exact</em> type serializer for a given type.
+
+ <p>Serializers will only match exact object types. For example, a
+ serializer registered for <code>List&lt;String&gt;</code> would not match when
+ <code>ArrayList&lt;String&gt;</code> is queried.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type to generify around</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - the type to accept</dd>
+<dd><code>serializer</code> - the serializer that will be serialized with</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="registerExact(java.lang.Class,org.spongepowered.configurate.serialize.TypeSerializer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>registerExact</h4>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.335">registerExact</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+                                                          <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;? super T&gt;&nbsp;serializer)</pre>
+<div class="block">Register an <em>exact</em> type serializer for a given type.
+
+ <p>Serializers will only match exact object types. For example, a
+ serializer registered for <code>List&lt;String&gt;</code> would not match when
+ <code>ArrayList&lt;String&gt;</code> is queried.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type to generify around</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - the type to accept</dd>
+<dd><code>serializer</code> - the serializer that will be serialized with</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="registerExact(org.spongepowered.configurate.serialize.ScalarSerializer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>registerExact</h4>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.350">registerExact</a>&#8203;(<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;serializer)</pre>
+<div class="block">Register a scalar serializer with its own attached type token.
+
+ <p>Serializers will only match exact object types. For example, a
+ serializer registered for <code>List&lt;String&gt;</code> would not match when
+ <code>ArrayList&lt;String&gt;</code> is queried.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - value type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>serializer</code> - serializer to register</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="registerAll(org.spongepowered.configurate.serialize.TypeSerializerCollection)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>registerAll</h4>
+<pre class="methodSignature">public&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.372">registerAll</a>&#8203;(<a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;other)</pre>
+<div class="block">Register all serializers from <code>other</code> into this collection.
+
+ <p>Creating a child collection should be preferred, but when merging
+ multiple sets of serializers together, directly adding other
+ collections may be the best choice.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>other</code> - source collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="registerAnnotatedObjects(org.spongepowered.configurate.objectmapping.ObjectMapper.Factory)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>registerAnnotatedObjects</h4>
+<pre class="methodSignature">public&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.384">registerAnnotatedObjects</a>&#8203;(<a href="../objectmapping/ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;factory)</pre>
+<div class="block">Register a customized object mapper to handle
+ <a href="../objectmapping/ConfigSerializable.html" title="annotation in org.spongepowered.configurate.objectmapping"><code>ConfigSerializable</code></a>-annotated objects.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>factory</code> - factory to retrieve object mappers from</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
 </li>
 </ul>
 <a id="build()">
@@ -265,11 +457,11 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.188">build</a>()</pre>
-<div class="block">Create a new type serializer collection</div>
+<pre class="methodSignature">public&nbsp;<a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.Builder.html#line.403">build</a>()</pre>
+<div class="block">Create a new type serializer collection.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The resulting collection</dd>
+<dd>a newly created collection</dd>
 </dl>
 </li>
 </ul>

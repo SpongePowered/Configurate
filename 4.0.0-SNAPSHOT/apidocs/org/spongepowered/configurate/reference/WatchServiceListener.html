@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -135,18 +134,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.56">WatchServiceListener</a>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.59">WatchServiceListener</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></pre>
-<div class="block">A wrapper around NIO's <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchService</code></a> that uses the provided event loop to poll for changes, and calls
- listeners once an event occurs.
- <p>
- Some deduplication is performed because Windows can be fairly spammy with its events, so one callback may receive
- multiple events at one time.
- <p>
- Callback functions are <a href="../reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscribers</code></a> that take the <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchEvent.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchEvent</code></a> as their parameter.
- <p>
- Listening to a directory provides updates on the directory's immediate children, but does not</div>
+<div class="block">A wrapper around NIO's <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchService</code></a> that uses the provided watch key
+ to poll for changes, and calls listeners once an event occurs.
+
+ <p>Some deduplication is performed because Windows can be fairly spammy with
+ its events, so one callback may receive multiple events at one time.
+
+ <p>Callback functions are <a href="../reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscribers</code></a> that take the
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchEvent.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchEvent</code></a> as their parameter.
+
+ <p>Listening to a directory provides updates on the directory's immediate
+ children, but does not listen recursively.</div>
 </li>
 </ul>
 </div>
@@ -196,7 +197,8 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <td class="colFirst"><code>static <a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#builder()">builder</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Create a new builder for a WatchServiceListener to create a customized listener</div>
+<div class="block">Returns a new builder for a WatchServiceListener to create a
+ customized listener.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -208,14 +210,17 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <td class="colFirst"><code>static <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create()">create</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Create a new <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> using a new cached thread pool executor and the default filesystem.</div>
+<div class="block">Create a new <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> using a new cached thread pool
+ executor and the default filesystem.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;<br><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N&gt;&gt;&nbsp;loaderFunc,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listenToConfiguration(java.util.function.Function,java.nio.file.Path)">listenToConfiguration</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends N&gt;&gt;&nbsp;loaderFunc,
                      <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a new <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a> subscribed to FS updates.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a></code></td>
@@ -263,11 +268,12 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.75">builder</a>()</pre>
-<div class="block">Create a new builder for a WatchServiceListener to create a customized listener</div>
+<pre class="methodSignature">public static&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.80">builder</a>()</pre>
+<div class="block">Returns a new builder for a WatchServiceListener to create a
+ customized listener.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A builder</dd>
+<dd>a new builder</dd>
 </dl>
 </li>
 </ul>
@@ -277,14 +283,15 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;<a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.86">create</a>()
+<pre class="methodSignature">public static&nbsp;<a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.92">create</a>()
                                    throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Create a new <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> using a new cached thread pool executor and the default filesystem.</div>
+<div class="block">Create a new <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> using a new cached thread pool
+ executor and the default filesystem.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A new instance with default values</dd>
+<dd>a new instance with default values</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - If a watch service cannot be created</dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if a watch service cannot be created</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#builder()"><code>for customization</code></a></dd>
 </dl>
@@ -296,20 +303,19 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <ul class="blockList">
 <li class="blockList">
 <h4>listenToFile</h4>
-<pre class="methodSignature">public&nbsp;<a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.167">listenToFile</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
+<pre class="methodSignature">public&nbsp;<a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.183">listenToFile</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
                                <a href="../reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchEvent.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">WatchEvent</a>&lt;?&gt;&gt;&nbsp;callback)
-                        throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
+                        throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a>,
                                <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></pre>
 <div class="block">Listen for changes to a specific file or directory.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>file</code> - The path of the file or directory to listen for changes on.</dd>
-<dd><code>callback</code> - A callback function that will be called when changes are made. If return value is false, we will
-                 stop monitoring for changes.</dd>
+<dd><code>file</code> - the path of the file or directory to listen for changes on.</dd>
+<dd><code>callback</code> - a subscriber that will be notified when changes occur.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A <a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive"><code>Disposable</code></a> that can be used to cancel this subscription</dd>
+<dd>a <a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive"><code>Disposable</code></a> that can be used to cancel this subscription</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if a filesystem error occurs.</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if a filesystem error occurs.</dd>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is a directory.</dd>
 </dl>
 </li>
@@ -320,21 +326,22 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <ul class="blockList">
 <li class="blockList">
 <h4>listenToDirectory</h4>
-<pre class="methodSignature">public&nbsp;<a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.187">listenToDirectory</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;directory,
+<pre class="methodSignature">public&nbsp;<a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.204">listenToDirectory</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;directory,
                                     <a href="../reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchEvent.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">WatchEvent</a>&lt;?&gt;&gt;&nbsp;callback)
-                             throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
+                             throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a>,
                                     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></pre>
-<div class="block">Listen to a directory. Callbacks will receive events both for the directory and for its contents.</div>
+<div class="block">Listen to a directory. Callbacks will receive events both for the
+ directory and for its contents.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>directory</code> - The directory to listen to</dd>
-<dd><code>callback</code> - A callback function that will be called when changes are made. If return value is false, we will
-                  stop monitoring for changes.</dd>
+<dd><code>directory</code> - the directory to listen to</dd>
+<dd><code>callback</code> - a subscriber that will be notified when changes occur.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A <a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive"><code>Disposable</code></a> that can be used to cancel this subscription</dd>
+<dd>a <a href="../reactive/Disposable.html" title="interface in org.spongepowered.configurate.reactive"><code>Disposable</code></a> that can be used to cancel this subscription</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - When an error occurs registering with the underlying watch service.</dd>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - If the provided path is not a directory</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs registering with the
+                              underlying watch service.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is not a directory</dd>
 </dl>
 </li>
 </ul>
@@ -344,12 +351,21 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <ul class="blockList">
 <li class="blockList">
 <h4>listenToConfiguration</h4>
-<pre class="methodSignature">public&nbsp;&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;&nbsp;<a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.196">listenToConfiguration</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N&gt;&gt;&nbsp;loaderFunc,
+<pre class="methodSignature">public&nbsp;&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;&nbsp;<a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.224">listenToConfiguration</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends N&gt;&gt;&nbsp;loaderFunc,
                                                                                               <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)
-                                                                                       throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+                                                                                       throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block">Create a new <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a> subscribed to FS updates.</div>
 <dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>N</code> - node type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>loaderFunc</code> - function that will create a new loader</dd>
+<dd><code>path</code> - path to to for changes</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>new reference</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code></dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if unable to complete an initial load of
+      the configuration.</dd>
 </dl>
 </li>
 </ul>
@@ -359,7 +375,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoClos
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.200">close</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.229">close</a>()
            throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

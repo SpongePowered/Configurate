@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -93,21 +92,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </header>
 <main role="main">
 <div class="header">
+<p><a href="https://checkerframework.org/api/org/checkerframework/framework/qual/DefaultQualifier.html?is-external=true" title="class or interface in org.checkerframework.framework.qual" class="externalLink">@DefaultQualifier</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">org.checkerframework.checker.nullness.qual.NonNull.class</a>)
+</p>
 <h1 title="Package" class="title">Package&nbsp;org.spongepowered.configurate.objectmapping</h1>
 </div>
 <div class="contentContainer">
 <section role="region"><a id="package.description">
 <!--   -->
 </a>
-<div class="block">Object mapper to handle converting between raw nodes and POJOs
- <p>
- The object mapper provides type serializers that can coerce data from configuration-native types to the desired
- types, and back again. This removes a lot of the uncertainty in trying to determine which value types are supported
- by a specific configuration format.
- <p>
- Object mappers work on fields in classes, and can optionally construct new instances of classes -- either if the
- class has an empty constructor for the <a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><code>DefaultObjectMapperFactory</code></a>,
- or if the class is injectable through <a href="GuiceObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><code>GuiceObjectMapperFactory</code></a>.</div>
+<div class="block">Object mapper to handle converting between raw nodes and POJOs.
+
+ <p>The <a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping"><code>ObjectMapper</code></a>
+ provides type serializers that can coerce data from configuration-native
+ types to the desired types, and back again. This removes a lot of the
+ uncertainty in trying to determine which value types are supported by a
+ specific configuration format.</p>
+
+ <p>Object mappers work on fields in classes, components in records, and
+ similar data structures with custom <a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping"><code>FieldDiscoverer</code></a>
+ implementations.</p></div>
 </section>
 <ul class="blockList">
 <li class="blockList">
@@ -119,9 +122,57 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="ObjectMapperFactory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapperFactory</a></th>
+<th class="colFirst" scope="row"><a href="FieldData.Deserializer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldData.Deserializer</a>&lt;I&gt;</th>
 <td class="colLast">
-<div class="block">A factory to produce <a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping"><code>ObjectMapper</code></a> instances</div>
+<div class="block">A deserialization handler to appropriately place object data into fields.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;I&gt;</th>
+<td class="colLast">
+<div class="block">Interface that gathers metadata from classes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="FieldDiscoverer.FieldCollector.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer.FieldCollector</a>&lt;I,&#8203;V&gt;</th>
+<td class="colLast">
+<div class="block">A collector for the necessary metadata for fields.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="FieldDiscoverer.InstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer.InstanceFactory</a>&lt;I&gt;</th>
+<td class="colLast">
+<div class="block">A handler for controlling the deserialization process for an object.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="FieldDiscoverer.MutableInstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer.MutableInstanceFactory</a>&lt;I&gt;</th>
+<td class="colLast">
+<div class="block">A handler for working with mutable objects in the object mapper.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;V&gt;</th>
+<td class="colLast">
+<div class="block">A mapper that converts between configuration nodes and Java objects.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a></th>
+<td class="colLast">
+<div class="block">Provider for object mappers.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></th>
+<td class="colLast">
+<div class="block">A builder for settings to be applied to an object mapper.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="ObjectMapper.Mutable.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Mutable</a>&lt;V&gt;</th>
+<td class="colLast">
+<div class="block">An object mapper capable of loading data into an existing object.</div>
 </td>
 </tr>
 </tbody>
@@ -136,44 +187,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping">DefaultObjectMapperFactory</a></th>
+<th class="colFirst" scope="row"><a href="FieldData.html" title="class in org.spongepowered.configurate.objectmapping">FieldData</a>&lt;I,&#8203;O&gt;</th>
 <td class="colLast">
-<div class="block">Factory for a basic <a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping"><code>ObjectMapper</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<th class="colFirst" scope="row"><a href="GuiceObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping">GuiceObjectMapperFactory</a></th>
-<td class="colLast">
-<div class="block">A factory for <a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping"><code>ObjectMapper</code></a>s that will inherit the injector from wherever it is provided.</div>
-</td>
-</tr>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;T&gt;</th>
-<td class="colLast">
-<div class="block">This is the object mapper.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<th class="colFirst" scope="row"><a href="ObjectMapper.FieldData.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.FieldData</a></th>
-<td class="colLast">
-<div class="block">Holder for field-specific information</div>
-</td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="typeSummary">
-<caption><span>Exception Summary</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Exception</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></th>
-<td class="colLast">
-<div class="block">Exception thrown on errors encountered while mapping objects</div>
+<div class="block">Holder for field-specific information.</div>
 </td>
 </tr>
 </tbody>
@@ -188,9 +204,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping">Setting</a></th>
+<th class="colFirst" scope="row"><a href="ConfigSerializable.html" title="annotation in org.spongepowered.configurate.objectmapping">ConfigSerializable</a></th>
 <td class="colLast">
-<div class="block">Marks a field to be mapped by an <a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping"><code>ObjectMapper</code></a>.</div>
+<div class="block">Indicates that the given type is capable of being serialized and deserialized
+ by an object mapper.</div>
 </td>
 </tr>
 </tbody>

@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -124,11 +123,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>V</code> - The value that will be received</dd>
+<dd><code>V</code> - the value that will be received</dd>
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
-<dd><code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code>, <code><a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;</code></dd>
+<dd><code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code>, <code><a href="TransactionalSubscriber.html" title="interface in org.spongepowered.configurate.reactive">TransactionalSubscriber</a>&lt;V&gt;</code></dd>
 </dl>
 <dl>
 <dt>Functional Interface:</dt>
@@ -136,11 +135,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.27">Subscriber</a>&lt;V&gt;</pre>
+public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.28">Subscriber</a>&lt;V&gt;</pre>
 <div class="block">A listener to events that may be called by an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>.
- <p>
- For every publisher this subscriber is subscribed to, the subscriber will only process one event at a time --
- effectively, within a single publisher this subscriber does not have to be aware of concurrent effects</div>
+
+ <p>For every publisher this subscriber is subscribed to, the subscriber will
+ only process one event at a time -- effectively, within a single publisher
+ this subscriber does not have to be aware of concurrent effects.</div>
 </li>
 </ul>
 </div>
@@ -165,21 +165,24 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <td class="colFirst"><code>default void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onClose()">onClose</a></span>()</code></th>
 <td class="colLast">
-<div class="block">When the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error, this method will be called.</div>
+<div class="block">When the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error,
+ this method will be called.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>default void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onError(java.lang.Throwable)">onError</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onError(java.lang.Throwable)">onError</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;thrown)</code></th>
 <td class="colLast">
-<div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not otherwise handled, this method will be called with the error.</div>
+<div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is
+ thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not
+ otherwise handled, this method will be called with the error.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(V)">submit</a></span>&#8203;(<a href="Subscriber.html" title="type parameter in Subscriber">V</a>&nbsp;item)</code></th>
 <td class="colLast">
-<div class="block">Called to submit a new item</div>
+<div class="block">Called to submit a new item.</div>
 </td>
 </tr>
 </table>
@@ -207,11 +210,11 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.34">submit</a>&#8203;(<a href="Subscriber.html" title="type parameter in Subscriber">V</a>&nbsp;item)</pre>
-<div class="block">Called to submit a new item</div>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.36">submit</a>&#8203;(<a href="Subscriber.html" title="type parameter in Subscriber">V</a>&nbsp;item)</pre>
+<div class="block">Called to submit a new item.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>item</code> - The item available</dd>
+<dd><code>item</code> - the item available</dd>
 </dl>
 </li>
 </ul>
@@ -221,11 +224,15 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockList">
 <li class="blockList">
 <h4>onError</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.43">onError</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e)</pre>
-<div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not otherwise handled, this method will be called with the error. The associated <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> will not send further update signals after an error is thrown.</div>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.47">onError</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;thrown)</pre>
+<div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is
+ thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not
+ otherwise handled, this method will be called with the error. The
+ associated <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> will not send further update signals after
+ an error is thrown.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>e</code> - The exception thrown</dd>
+<dd><code>thrown</code> - the exception thrown</dd>
 </dl>
 </li>
 </ul>
@@ -235,8 +242,9 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onClose</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.51">onClose</a>()</pre>
-<div class="block">When the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error, this method will be called.</div>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.56">onClose</a>()</pre>
+<div class="block">When the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error,
+ this method will be called.</div>
 </li>
 </ul>
 </li>

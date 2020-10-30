@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -117,16 +116,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - input/output type</dd>
+</dl>
+<dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;V,&#8203;V&gt;</code>, <code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;V,&#8203;V&gt;</code>, <code><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;</code>, <code><a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;V&gt;</code>, <code><a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;</code></dd>
+<dd><code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;V,&#8203;V&gt;</code>, <code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;V,&#8203;V&gt;</code>, <code><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;</code>, <code><a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;V&gt;</code>, <code><a href="TransactionalSubscriber.html" title="interface in org.spongepowered.configurate.reactive">TransactionalSubscriber</a>&lt;V&gt;</code></dd>
 </dl>
 <dl>
 <dt>Enclosing interface:</dt>
 <dd><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.html" title="type parameter in Processor">I</a>,&#8203;<a href="Processor.html" title="type parameter in Processor">O</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.125">Processor.TransactionalIso</a>&lt;V&gt;
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.151">Processor.TransactionalIso</a>&lt;V&gt;
 extends <a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;V,&#8203;V&gt;, <a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</pre>
+<div class="block">A processor that supports transactions using the same input and outputs.</div>
 </li>
 </ul>
 </div>
@@ -169,7 +173,7 @@ extends <a href="Processor.Transactional.html" title="interface in org.spongepow
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></h3>
-<code><a href="Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed</a>, <a href="Processor.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a>, <a href="Processor.html#setFallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">setFallbackHandler</a></code></li>
+<code><a href="Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed</a>, <a href="Processor.html#fallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">fallbackHandler</a>, <a href="Processor.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Processor.Iso">
@@ -183,7 +187,7 @@ extends <a href="Processor.Transactional.html" title="interface in org.spongepow
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h3>
-<code><a href="Publisher.html#cache()">cache</a>, <a href="Publisher.html#cache(V)">cache</a>, <a href="Publisher.html#getExecutor()">getExecutor</a>, <a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></li>
+<code><a href="Publisher.html#cache()">cache</a>, <a href="Publisher.html#cache(V)">cache</a>, <a href="Publisher.html#executor()">executor</a>, <a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Subscriber">
@@ -193,11 +197,11 @@ extends <a href="Processor.Transactional.html" title="interface in org.spongepow
 <code><a href="Subscriber.html#onClose()">onClose</a>, <a href="Subscriber.html#onError(java.lang.Throwable)">onError</a></code></li>
 </ul>
 <ul class="blockList">
-<li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.SubscriberTransactional">
+<li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.TransactionalSubscriber">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a></h3>
-<code><a href="SubscriberTransactional.html#beginTransaction(V)">beginTransaction</a>, <a href="SubscriberTransactional.html#commit()">commit</a>, <a href="SubscriberTransactional.html#rollback()">rollback</a>, <a href="SubscriberTransactional.html#submit(V)">submit</a></code></li>
+<h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="TransactionalSubscriber.html" title="interface in org.spongepowered.configurate.reactive">TransactionalSubscriber</a></h3>
+<code><a href="TransactionalSubscriber.html#beginTransaction(V)">beginTransaction</a>, <a href="TransactionalSubscriber.html#commit()">commit</a>, <a href="TransactionalSubscriber.html#rollback()">rollback</a>, <a href="TransactionalSubscriber.html#submit(V)">submit</a></code></li>
 </ul>
 </li>
 </ul>

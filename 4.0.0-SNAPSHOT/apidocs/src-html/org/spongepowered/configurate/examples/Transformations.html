@@ -25,109 +25,127 @@
 <span class="sourceLineNo">016</span><a id="line.16"> */</a>
 <span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate.examples;</a>
 <span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import org.spongepowered.configurate.ScopedConfigurationNode;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import org.spongepowered.configurate.hocon.HoconConfigurationLoader;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import org.spongepowered.configurate.transformation.ConfigurationTransformation;</a>
-<span class="sourceLineNo">023</span><a id="line.23"></a>
-<span class="sourceLineNo">024</span><a id="line.24">import java.io.IOException;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import java.nio.file.Paths;</a>
-<span class="sourceLineNo">026</span><a id="line.26"></a>
-<span class="sourceLineNo">027</span><a id="line.27">import static org.spongepowered.configurate.transformation.NodePath.path;</a>
-<span class="sourceLineNo">028</span><a id="line.28"></a>
-<span class="sourceLineNo">029</span><a id="line.29">/**</a>
-<span class="sourceLineNo">030</span><a id="line.30"> * An example of how to use transformations to migrate a configuration to a newer schema version.</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * It's like DFU but not hot garbage! (and probably less PhD-worthy)</a>
-<span class="sourceLineNo">033</span><a id="line.33"> */</a>
-<span class="sourceLineNo">034</span><a id="line.34">public class Transformations {</a>
-<span class="sourceLineNo">035</span><a id="line.35">    private static final int VERSION_LATEST = 1; // easy way to track the latest version, update as more revisions are added</a>
-<span class="sourceLineNo">036</span><a id="line.36">    private static final String VERSION_KEY = "version";</a>
+<span class="sourceLineNo">019</span><a id="line.19">import static org.spongepowered.configurate.transformation.NodePath.path;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.spongepowered.configurate.ConfigurateException;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.spongepowered.configurate.ConfigurationNode;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.spongepowered.configurate.hocon.HoconConfigurationLoader;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.spongepowered.configurate.transformation.ConfigurationTransformation;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.spongepowered.configurate.transformation.TransformAction;</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.nio.file.Paths;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * An example of how to use transformations to migrate a configuration to a</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * newer schema version.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> *</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;It's like DFU but not hot garbage! (and probably less PhD-worthy)&lt;/p&gt;</a>
+<span class="sourceLineNo">035</span><a id="line.35"> */</a>
+<span class="sourceLineNo">036</span><a id="line.36">public final class Transformations {</a>
 <span class="sourceLineNo">037</span><a id="line.37"></a>
-<span class="sourceLineNo">038</span><a id="line.38">    /**</a>
-<span class="sourceLineNo">039</span><a id="line.39">     * Create a new builder for versioned configurations. This builder uses a field in the node (by default {@code</a>
-<span class="sourceLineNo">040</span><a id="line.40">     * schema-version}) to determine the current schema version (using -1 for no version present).</a>
-<span class="sourceLineNo">041</span><a id="line.41">     *</a>
-<span class="sourceLineNo">042</span><a id="line.42">     * @param &lt;N&gt; node type</a>
-<span class="sourceLineNo">043</span><a id="line.43">     * @return versioned transformation</a>
-<span class="sourceLineNo">044</span><a id="line.44">     */</a>
-<span class="sourceLineNo">045</span><a id="line.45">    public static &lt;N extends ScopedConfigurationNode&lt;N&gt;&gt; ConfigurationTransformation&lt;N&gt; create() {</a>
-<span class="sourceLineNo">046</span><a id="line.46">        return ConfigurationTransformation.&lt;N&gt;versionedBuilder()</a>
-<span class="sourceLineNo">047</span><a id="line.47">                .setVersionKey(VERSION_KEY) // this is the default, but to show it can be customized</a>
-<span class="sourceLineNo">048</span><a id="line.48">                .addVersion(VERSION_LATEST, zeroToOne()) // syntax: target version, latest version</a>
-<span class="sourceLineNo">049</span><a id="line.49">                .addVersion(0, initialTransform())</a>
-<span class="sourceLineNo">050</span><a id="line.50">                .build();</a>
-<span class="sourceLineNo">051</span><a id="line.51">    }</a>
-<span class="sourceLineNo">052</span><a id="line.52"></a>
-<span class="sourceLineNo">053</span><a id="line.53">    /**</a>
-<span class="sourceLineNo">054</span><a id="line.54">     * A transformation. This one has multiple actions, and demonstrates how wildcards work</a>
-<span class="sourceLineNo">055</span><a id="line.55">     *</a>
-<span class="sourceLineNo">056</span><a id="line.56">     * @param &lt;N&gt; node type</a>
-<span class="sourceLineNo">057</span><a id="line.57">     * @return created transformation</a>
-<span class="sourceLineNo">058</span><a id="line.58">     */</a>
-<span class="sourceLineNo">059</span><a id="line.59">    public static &lt;N extends ScopedConfigurationNode&lt;N&gt;&gt; ConfigurationTransformation&lt;N&gt; initialTransform() {</a>
-<span class="sourceLineNo">060</span><a id="line.60">        return ConfigurationTransformation.&lt;N&gt;builder()</a>
-<span class="sourceLineNo">061</span><a id="line.61">                // Move the node at `serverVersion` to the location &lt;code&gt;{"server", "version"}&lt;/code&gt;</a>
-<span class="sourceLineNo">062</span><a id="line.62">                .addAction(path("serverVersion"), (path, value) -&gt; {</a>
-<span class="sourceLineNo">063</span><a id="line.63">                    return new Object[]{"server", "version"};</a>
-<span class="sourceLineNo">064</span><a id="line.64">                })</a>
-<span class="sourceLineNo">065</span><a id="line.65">                // For every direct child of the `section` node, set the value of its child `new-value` to something</a>
-<span class="sourceLineNo">066</span><a id="line.66">                .addAction(path("section", ConfigurationTransformation.WILDCARD_OBJECT), (path, value) -&gt; {</a>
-<span class="sourceLineNo">067</span><a id="line.67">                    value.getNode("new-value").setValue("i'm a default");</a>
-<span class="sourceLineNo">068</span><a id="line.68"></a>
-<span class="sourceLineNo">069</span><a id="line.69">                    return null; // don't move the value</a>
-<span class="sourceLineNo">070</span><a id="line.70">                })</a>
-<span class="sourceLineNo">071</span><a id="line.71">                .build();</a>
-<span class="sourceLineNo">072</span><a id="line.72">    }</a>
-<span class="sourceLineNo">073</span><a id="line.73"></a>
-<span class="sourceLineNo">074</span><a id="line.74">    public static &lt;N extends ScopedConfigurationNode&lt;N&gt;&gt; ConfigurationTransformation&lt;N&gt; zeroToOne() {</a>
-<span class="sourceLineNo">075</span><a id="line.75">        return ConfigurationTransformation.&lt;N&gt;builder()</a>
-<span class="sourceLineNo">076</span><a id="line.76">                // oh, turns out we want to use a different format for this, so we'll change it again</a>
-<span class="sourceLineNo">077</span><a id="line.77">                .addAction(path("server", "version"), (path, value) -&gt; {</a>
-<span class="sourceLineNo">078</span><a id="line.78">                    @Nullable String val = value.getString();</a>
-<span class="sourceLineNo">079</span><a id="line.79">                    if (val != null) {</a>
-<span class="sourceLineNo">080</span><a id="line.80">                        value.setValue(val.replaceAll("-", "_"));</a>
-<span class="sourceLineNo">081</span><a id="line.81">                    }</a>
-<span class="sourceLineNo">082</span><a id="line.82">                    return null;</a>
-<span class="sourceLineNo">083</span><a id="line.83">                })</a>
-<span class="sourceLineNo">084</span><a id="line.84">                .build();</a>
-<span class="sourceLineNo">085</span><a id="line.85">    }</a>
-<span class="sourceLineNo">086</span><a id="line.86"></a>
-<span class="sourceLineNo">087</span><a id="line.87">    /**</a>
-<span class="sourceLineNo">088</span><a id="line.88">     * Apply the transformations to a node</a>
-<span class="sourceLineNo">089</span><a id="line.89">     * &lt;p&gt;</a>
-<span class="sourceLineNo">090</span><a id="line.90">     * This method also prints information about the version update that occurred</a>
-<span class="sourceLineNo">091</span><a id="line.91">     *</a>
-<span class="sourceLineNo">092</span><a id="line.92">     * @param node The node to transform</a>
-<span class="sourceLineNo">093</span><a id="line.93">     * @param &lt;N&gt;  node type</a>
-<span class="sourceLineNo">094</span><a id="line.94">     * @return provided node, after transformation</a>
-<span class="sourceLineNo">095</span><a id="line.95">     */</a>
-<span class="sourceLineNo">096</span><a id="line.96">    public static &lt;N extends ScopedConfigurationNode&lt;N&gt;&gt; N updateNode(N node) {</a>
-<span class="sourceLineNo">097</span><a id="line.97">        if (!node.isVirtual()) { // we only want to migrate existing data</a>
-<span class="sourceLineNo">098</span><a id="line.98">            ConfigurationTransformation&lt;N&gt; trans = create();</a>
-<span class="sourceLineNo">099</span><a id="line.99">            int startVersion = node.getNode(VERSION_KEY).getInt(-1);</a>
-<span class="sourceLineNo">100</span><a id="line.100">            trans.apply(node);</a>
-<span class="sourceLineNo">101</span><a id="line.101">            int endVersion = node.getNode(VERSION_KEY).getInt();</a>
-<span class="sourceLineNo">102</span><a id="line.102">            if (startVersion != endVersion) { // we might not have made any changes</a>
-<span class="sourceLineNo">103</span><a id="line.103">                System.out.println("Updated config schema from " + startVersion + " to " + endVersion);</a>
-<span class="sourceLineNo">104</span><a id="line.104">            }</a>
-<span class="sourceLineNo">105</span><a id="line.105">        }</a>
-<span class="sourceLineNo">106</span><a id="line.106">        return node;</a>
-<span class="sourceLineNo">107</span><a id="line.107">    }</a>
-<span class="sourceLineNo">108</span><a id="line.108"></a>
-<span class="sourceLineNo">109</span><a id="line.109">    public static void main(String[] args) throws IOException {</a>
-<span class="sourceLineNo">110</span><a id="line.110">        if (args.length != 1) {</a>
-<span class="sourceLineNo">111</span><a id="line.111">            System.err.println("Not enough arguments, usage: transformations &lt;file&gt;");</a>
-<span class="sourceLineNo">112</span><a id="line.112">            System.err.println("Apply the test transformations to a single file");</a>
-<span class="sourceLineNo">113</span><a id="line.113">        }</a>
-<span class="sourceLineNo">114</span><a id="line.114">        HoconConfigurationLoader loader = HoconConfigurationLoader.builder()</a>
-<span class="sourceLineNo">115</span><a id="line.115">                .setPath(Paths.get(args[0]))</a>
-<span class="sourceLineNo">116</span><a id="line.116">                .build();</a>
-<span class="sourceLineNo">117</span><a id="line.117"></a>
-<span class="sourceLineNo">118</span><a id="line.118">        loader.save(updateNode(loader.load())); // tada</a>
-<span class="sourceLineNo">119</span><a id="line.119">    }</a>
-<span class="sourceLineNo">120</span><a id="line.120"></a>
-<span class="sourceLineNo">121</span><a id="line.121">}</a>
+<span class="sourceLineNo">038</span><a id="line.38">    private static final int VERSION_LATEST = 2; // easy way to track the latest version, update as more revisions are added</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">    private Transformations() {}</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">    /**</a>
+<span class="sourceLineNo">043</span><a id="line.43">     * Create a new builder for versioned configurations. This builder uses a</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * field in the node (by default {@code schema-version}) to determine the</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * current schema version (using -1 for no version present).</a>
+<span class="sourceLineNo">046</span><a id="line.46">     *</a>
+<span class="sourceLineNo">047</span><a id="line.47">     * @return versioned transformation</a>
+<span class="sourceLineNo">048</span><a id="line.48">     */</a>
+<span class="sourceLineNo">049</span><a id="line.49">    public static ConfigurationTransformation.Versioned create() {</a>
+<span class="sourceLineNo">050</span><a id="line.50">        return ConfigurationTransformation.versionedBuilder()</a>
+<span class="sourceLineNo">051</span><a id="line.51">                .addVersion(VERSION_LATEST, oneToTwo()) // syntax: target version, latest version</a>
+<span class="sourceLineNo">052</span><a id="line.52">                .addVersion(1, zeroToOne())</a>
+<span class="sourceLineNo">053</span><a id="line.53">                .addVersion(0, initialTransform())</a>
+<span class="sourceLineNo">054</span><a id="line.54">                .build();</a>
+<span class="sourceLineNo">055</span><a id="line.55">    }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">    /**</a>
+<span class="sourceLineNo">058</span><a id="line.58">     * A transformation. This one has multiple actions, and demonstrates how</a>
+<span class="sourceLineNo">059</span><a id="line.59">     * wildcards work.</a>
+<span class="sourceLineNo">060</span><a id="line.60">     *</a>
+<span class="sourceLineNo">061</span><a id="line.61">     * @return created transformation</a>
+<span class="sourceLineNo">062</span><a id="line.62">     */</a>
+<span class="sourceLineNo">063</span><a id="line.63">    public static ConfigurationTransformation initialTransform() {</a>
+<span class="sourceLineNo">064</span><a id="line.64">        return ConfigurationTransformation.builder()</a>
+<span class="sourceLineNo">065</span><a id="line.65">                // Move the node at `serverVersion` to the location &lt;code&gt;{"server", "version"}&lt;/code&gt;</a>
+<span class="sourceLineNo">066</span><a id="line.66">                .addAction(path("serverVersion"), (path, value) -&gt; {</a>
+<span class="sourceLineNo">067</span><a id="line.67">                    return new Object[]{"server", "version"};</a>
+<span class="sourceLineNo">068</span><a id="line.68">                })</a>
+<span class="sourceLineNo">069</span><a id="line.69">                // For every direct child of the `section` node, set the value of its child `new-value` to something</a>
+<span class="sourceLineNo">070</span><a id="line.70">                .addAction(path("section", ConfigurationTransformation.WILDCARD_OBJECT), (path, value) -&gt; {</a>
+<span class="sourceLineNo">071</span><a id="line.71">                    value.node("new-value").set("i'm a default");</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">                    return null; // don't move the value</a>
+<span class="sourceLineNo">074</span><a id="line.74">                })</a>
+<span class="sourceLineNo">075</span><a id="line.75">                .build();</a>
+<span class="sourceLineNo">076</span><a id="line.76">    }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">    public static ConfigurationTransformation zeroToOne() {</a>
+<span class="sourceLineNo">079</span><a id="line.79">        return ConfigurationTransformation.builder()</a>
+<span class="sourceLineNo">080</span><a id="line.80">                // oh, turns out we want to use a different format for this, so we'll change it again</a>
+<span class="sourceLineNo">081</span><a id="line.81">                .addAction(path("server", "version"), (path, value) -&gt; {</a>
+<span class="sourceLineNo">082</span><a id="line.82">                    final @Nullable String val = value.getString();</a>
+<span class="sourceLineNo">083</span><a id="line.83">                    if (val != null) {</a>
+<span class="sourceLineNo">084</span><a id="line.84">                        value.set(val.replaceAll("-", "_"));</a>
+<span class="sourceLineNo">085</span><a id="line.85">                    }</a>
+<span class="sourceLineNo">086</span><a id="line.86">                    return null;</a>
+<span class="sourceLineNo">087</span><a id="line.87">                })</a>
+<span class="sourceLineNo">088</span><a id="line.88">                .build();</a>
+<span class="sourceLineNo">089</span><a id="line.89">    }</a>
+<span class="sourceLineNo">090</span><a id="line.90"></a>
+<span class="sourceLineNo">091</span><a id="line.91">    public static ConfigurationTransformation oneToTwo() {</a>
+<span class="sourceLineNo">092</span><a id="line.92">        return ConfigurationTransformation.builder()</a>
+<span class="sourceLineNo">093</span><a id="line.93">                .addAction(path("server", "version"), TransformAction.rename("release"))</a>
+<span class="sourceLineNo">094</span><a id="line.94">                .build();</a>
+<span class="sourceLineNo">095</span><a id="line.95">    }</a>
+<span class="sourceLineNo">096</span><a id="line.96"></a>
+<span class="sourceLineNo">097</span><a id="line.97">    /**</a>
+<span class="sourceLineNo">098</span><a id="line.98">     * Apply the transformations to a node.</a>
+<span class="sourceLineNo">099</span><a id="line.99">     *</a>
+<span class="sourceLineNo">100</span><a id="line.100">     * &lt;p&gt;This method also prints information about the version update that</a>
+<span class="sourceLineNo">101</span><a id="line.101">     * occurred&lt;/p&gt;</a>
+<span class="sourceLineNo">102</span><a id="line.102">     *</a>
+<span class="sourceLineNo">103</span><a id="line.103">     * @param node the node to transform</a>
+<span class="sourceLineNo">104</span><a id="line.104">     * @param &lt;N&gt; node type</a>
+<span class="sourceLineNo">105</span><a id="line.105">     * @return provided node, after transformation</a>
+<span class="sourceLineNo">106</span><a id="line.106">     */</a>
+<span class="sourceLineNo">107</span><a id="line.107">    public static &lt;N extends ConfigurationNode&gt; N updateNode(final N node) throws ConfigurateException {</a>
+<span class="sourceLineNo">108</span><a id="line.108">        if (!node.virtual()) { // we only want to migrate existing data</a>
+<span class="sourceLineNo">109</span><a id="line.109">            final ConfigurationTransformation.Versioned trans = create();</a>
+<span class="sourceLineNo">110</span><a id="line.110">            final int startVersion = trans.version(node);</a>
+<span class="sourceLineNo">111</span><a id="line.111">            trans.apply(node);</a>
+<span class="sourceLineNo">112</span><a id="line.112">            final int endVersion = trans.version(node);</a>
+<span class="sourceLineNo">113</span><a id="line.113">            if (startVersion != endVersion) { // we might not have made any changes</a>
+<span class="sourceLineNo">114</span><a id="line.114">                System.out.println("Updated config schema from " + startVersion + " to " + endVersion);</a>
+<span class="sourceLineNo">115</span><a id="line.115">            }</a>
+<span class="sourceLineNo">116</span><a id="line.116">        }</a>
+<span class="sourceLineNo">117</span><a id="line.117">        return node;</a>
+<span class="sourceLineNo">118</span><a id="line.118">    }</a>
+<span class="sourceLineNo">119</span><a id="line.119"></a>
+<span class="sourceLineNo">120</span><a id="line.120">    public static void main(final String[] args) throws ConfigurateException {</a>
+<span class="sourceLineNo">121</span><a id="line.121">        if (args.length != 1) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">            System.err.println("Not enough arguments, usage: transformations &lt;file&gt;");</a>
+<span class="sourceLineNo">123</span><a id="line.123">            System.err.println("Apply the test transformations to a single file");</a>
+<span class="sourceLineNo">124</span><a id="line.124">        }</a>
+<span class="sourceLineNo">125</span><a id="line.125">        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()</a>
+<span class="sourceLineNo">126</span><a id="line.126">                .path(Paths.get(args[0]))</a>
+<span class="sourceLineNo">127</span><a id="line.127">                .build();</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">        try {</a>
+<span class="sourceLineNo">130</span><a id="line.130">            loader.save(updateNode(loader.load())); // tada</a>
+<span class="sourceLineNo">131</span><a id="line.131">        } catch (final ConfigurateException ex) {</a>
+<span class="sourceLineNo">132</span><a id="line.132">            // We try to update as much as possible, so could theoretically save a partially updated file here</a>
+<span class="sourceLineNo">133</span><a id="line.133">            System.err.println("Failed to fully update node: " + ex.getMessage());</a>
+<span class="sourceLineNo">134</span><a id="line.134">            ex.printStackTrace();</a>
+<span class="sourceLineNo">135</span><a id="line.135">            System.exit(1);</a>
+<span class="sourceLineNo">136</span><a id="line.136">        }</a>
+<span class="sourceLineNo">137</span><a id="line.137">    }</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">}</a>
 
 
 

@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":1,"i2":1,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":18,"i9":18,"i10":6,"i11":18,"i12":18,"i13":6,"i14":6,"i15":6,"i16":18,"i17":18,"i18":18,"i19":18,"i20":6};
+var data = {"i0":6,"i1":6,"i2":1,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":18,"i9":18,"i10":6,"i11":18,"i12":18,"i13":6,"i14":6,"i15":6,"i16":6,"i17":18,"i18":18,"i19":18,"i20":18,"i21":18,"i22":18,"i23":6,"i24":6,"i25":1};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -124,7 +123,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>N</code> - The type of node to work with</dd>
+<dd><code>N</code> - the type of node to work with</dd>
 </dl>
 <dl>
 <dt>All Superinterfaces:</dt>
@@ -133,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.40">ConfigurationReference</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></pre>
-<div class="block">An updating reference to a base configuration node</div>
+<div class="block">An updating reference to a base configuration node.</div>
 </li>
 </ul>
 </div>
@@ -158,7 +157,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></span></code></th>
 <td class="colLast">
-<div class="block">Representing the phase where an error occurred</div>
+<div class="block">Representing the phase where an error occurred.</div>
 </td>
 </tr>
 </table>
@@ -184,59 +183,58 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#close()">close</a></span>()</code></th>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;<br><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createFixed(org.spongepowered.configurate.loader.ConfigurationLoader)">createFixed</a></span>&#8203;(<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;T&gt;&nbsp;loader)</code></th>
-<td class="colLast">
-<div class="block">Create a new configuration reference that will only update when loaded</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;<br><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createWatching(java.util.function.Function,java.nio.file.Path,org.spongepowered.configurate.reference.WatchServiceListener)">createWatching</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;T&gt;&gt;&nbsp;loaderCreator,
-              <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
-              <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;listener)</code></th>
-<td class="colLast">
-<div class="block">Create a new configuration reference that will automatically update when triggered by the provided <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a></div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#errors()">errors</a></span>()</code></th>
 <td class="colLast">
-<div class="block">A stream that will receive errors that occur while loading or saving to this reference</div>
+<div class="block">A stream that will receive errors that occur while loading or saving to
+ this reference.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static &lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;<br><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;N&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fixed(org.spongepowered.configurate.loader.ConfigurationLoader)">fixed</a></span>&#8203;(<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends N&gt;&nbsp;loader)</code></th>
+<td class="colLast">
+<div class="block">Create a new configuration reference that will only update when loaded.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Iterable)">get</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Get the node at the given path, relative to the root node.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object...)">get</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</code></th>
 <td class="colLast">
-<div class="block">Get the node at the given path, using the root node</div>
+<div class="block">Get the node at the given path, relative to the root node.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLoader()">getLoader</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Get the loader this reference uses to load and save its' node</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNode()">getNode</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Get the base node this reference refers to.</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load()">load</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Reload a configuration using the provided loader.</div>
 </td>
 </tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends <a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loader()">loader</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the loader this reference uses to load and save its node.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#node()">node</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the base node this reference refers to.</div>
+</td>
+</tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>default &lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#referenceTo(com.google.common.reflect.TypeToken,java.lang.Object...)">referenceTo</a></span>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#referenceTo(io.leangen.geantyref.TypeToken,java.lang.Object...)">referenceTo</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Create a reference to the node at the provided path.</div>
@@ -244,7 +242,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>default &lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath)">referenceTo</a></span>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#referenceTo(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.transformation.NodePath)">referenceTo</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
            <a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Create a reference to the node at the provided path.</div>
@@ -252,7 +250,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath,T)">referenceTo</a></span>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#referenceTo(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.transformation.NodePath,T)">referenceTo</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
            <a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;defaultValue)</code></th>
 <td class="colLast">
@@ -293,56 +291,96 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(N)">save</a></span>&#8203;(<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;newNode)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;newNode)</code></th>
 <td class="colLast">
-<div class="block">Update the configuration node pointed to by this reference, and save it using the reference's loader
-
- Even if the loader fails to save this new node, the node pointed to by this reference will be updated.</div>
+<div class="block">Update the configuration node pointed to by this reference, and save it
+ using the reference's loader.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
+<td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#saveAsync()">saveAsync</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Save this configuration using the provided loader.</div>
+</td>
+</tr>
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>default void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(java.lang.Object%5B%5D,java.lang.Object)">set</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Update the value of the node at the given path, using the root node as a base.</div>
-</td>
-</tr>
-<tr id="i17" class="rowColor">
-<td class="colFirst"><code>default &lt;T&gt;&nbsp;void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(java.lang.Object%5B%5D,com.google.common.reflect.TypeToken,T)">set</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
-   <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
-   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)</code></th>
-<td class="colLast">
-<div class="block">Set the value of the node at <code>path</code> to the given value,
- using the appropriate <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to serialize the data if it's
- not directly supported by the provided configuration.</div>
+<div class="block">Update the value of the node at the given path, using the root node as
+ a base.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code>default void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(org.spongepowered.configurate.transformation.NodePath,java.lang.Object)">set</a></span>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
-   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<td class="colFirst"><code>default &lt;T&gt;&nbsp;void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(java.lang.Object%5B%5D,io.leangen.geantyref.TypeToken,T)">set</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
+   io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Update the value of the node at the given path, using the root node as a base.</div>
+<div class="block">Set the value of the node at <code>path</code> to the given value.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>default &lt;T&gt;&nbsp;void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(org.spongepowered.configurate.transformation.NodePath,com.google.common.reflect.TypeToken,T)">set</a></span>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
-   <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(java.lang.Object%5B%5D,java.lang.Class,T)">set</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
+   <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Set the value of the node at <code>path</code> to the given value,
- using the appropriate <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
- serialize the data if it's not directly supported by the provided configuration.</div>
+<div class="block">Set the value of the node at <code>path</code> to the given value.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
+<td class="colFirst"><code>default void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(org.spongepowered.configurate.transformation.NodePath,java.lang.Object)">set</a></span>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<td class="colLast">
+<div class="block">Update the value of the node at the given path, using the root node as
+ a base.</div>
+</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code>default &lt;T&gt;&nbsp;void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(org.spongepowered.configurate.transformation.NodePath,io.leangen.geantyref.TypeToken,T)">set</a></span>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+   io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)</code></th>
+<td class="colLast">
+<div class="block">Set the value of the node at <code>path</code> to the given value.</div>
+</td>
+</tr>
+<tr id="i22" class="altColor">
+<td class="colFirst"><code>default &lt;T&gt;&nbsp;void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(org.spongepowered.configurate.transformation.NodePath,java.lang.Class,T)">set</a></span>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+   <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)</code></th>
+<td class="colLast">
+<div class="block">Set the value of the node at <code>path</code> to the given value.</div>
+</td>
+</tr>
+<tr id="i23" class="rowColor">
+<td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateAsync(java.util.function.Function)">updateAsync</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>,&#8203;? extends <a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;updater)</code></th>
+<td class="colLast">
+<div class="block">Update this configuration using the provided function, returning a
+ <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> which will complete with the result of the operation.</div>
+</td>
+</tr>
+<tr id="i24" class="altColor">
 <td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updates()">updates</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> that will broadcast update events, providing the newly created node.</div>
+</td>
+</tr>
+<tr id="i25" class="rowColor">
+<td class="colFirst"><code>static &lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;<br><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#watching(java.util.function.Function,java.nio.file.Path,org.spongepowered.configurate.reference.WatchServiceListener)">watching</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends T&gt;&gt;&nbsp;loaderCreator,
+        <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
+        <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;listener)</code></th>
+<td class="colLast">
+<div class="block">Create a new configuration reference that will automatically update when
+ triggered by the provided <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -362,49 +400,51 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="createFixed(org.spongepowered.configurate.loader.ConfigurationLoader)">
+<a id="fixed(org.spongepowered.configurate.loader.ConfigurationLoader)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>createFixed</h4>
-<pre class="methodSignature">static&nbsp;&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;&nbsp;<a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.49">createFixed</a>&#8203;(<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;T&gt;&nbsp;loader)
-                                                                             throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Create a new configuration reference that will only update when loaded</div>
+<h4>fixed</h4>
+<pre class="methodSignature">static&nbsp;&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;&nbsp;<a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.50">fixed</a>&#8203;(<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends N&gt;&nbsp;loader)
+                                                                       throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block">Create a new configuration reference that will only update when loaded.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type of node</dd>
+<dd><code>N</code> - the type of node</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>loader</code> - The loader to load and save from</dd>
+<dd><code>loader</code> - the loader to load and save from</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The newly created reference, with an initial load performed</dd>
+<dd>the newly created reference, with an initial load performed</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - If the configuration contained fails to load</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if the configuration contained fails to load</dd>
 </dl>
 </li>
 </ul>
-<a id="createWatching(java.util.function.Function,java.nio.file.Path,org.spongepowered.configurate.reference.WatchServiceListener)">
+<a id="watching(java.util.function.Function,java.nio.file.Path,org.spongepowered.configurate.reference.WatchServiceListener)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>createWatching</h4>
-<pre class="methodSignature">static&nbsp;&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;&nbsp;<a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.66">createWatching</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;T&gt;&gt;&nbsp;loaderCreator,
-                                                                                       <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
-                                                                                       <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;listener)
-                                                                                throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Create a new configuration reference that will automatically update when triggered by the provided <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a></div>
+<h4>watching</h4>
+<pre class="methodSignature">static&nbsp;&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;&nbsp;<a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.70">watching</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>,&#8203;<a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends T&gt;&gt;&nbsp;loaderCreator,
+                                                                                 <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
+                                                                                 <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;listener)
+                                                                          throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block">Create a new configuration reference that will automatically update when
+ triggered by the provided <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The node type</dd>
+<dd><code>T</code> - the node type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>loaderCreator</code> - A function that can create a <a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationLoader</code></a></dd>
-<dd><code>file</code> - The file to load this configuration from</dd>
-<dd><code>listener</code> - The watch service listener that will receive events</dd>
+<dd><code>loaderCreator</code> - a function that can create a <a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationLoader</code></a></dd>
+<dd><code>file</code> - the file to load this configuration from</dd>
+<dd><code>listener</code> - the watch service listener that will receive events</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The created reference</dd>
+<dd>the created reference</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - If the underlying loader fails to load a configuration</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if the underlying loader fails to load
+         a configuration</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>WatchServiceListener.listenToConfiguration(Function, Path)</code></a></dd>
 </dl>
@@ -416,14 +456,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.81">load</a>()
-   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.88">load</a>()
+   throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Reload a configuration using the provided loader.
 
- If the load fails, this reference will continue pointing to old configuration values</div>
+ <p>If the load fails, this reference will continue pointing to old
+ configuration values.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - When an error occurs</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -433,61 +474,95 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>save</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.88">save</a>()
-   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.95">save</a>()
+   throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Save this configuration using the provided loader.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - When an error occurs in the underlying ID</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs in the underlying IO</dd>
 </dl>
 </li>
 </ul>
 <a id="save(org.spongepowered.configurate.ConfigurationNode)">
 <!--   -->
-</a><a id="save(N)">
-<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>save</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.98">save</a>&#8203;(<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;newNode)
-   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Update the configuration node pointed to by this reference, and save it using the reference's loader
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.107">save</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;newNode)
+   throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block">Update the configuration node pointed to by this reference, and save it
+ using the reference's loader.
 
- Even if the loader fails to save this new node, the node pointed to by this reference will be updated.</div>
+ <p>Even if the loader fails to save this new node, the node pointed to by
+ this reference will be updated.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>newNode</code> - The new node to save</dd>
+<dd><code>newNode</code> - the new node to save</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - When an error occurs within the loader</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs within the loader</dd>
 </dl>
 </li>
 </ul>
-<a id="getNode()">
+<a id="saveAsync()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getNode</h4>
-<pre class="methodSignature"><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.105">getNode</a>()</pre>
+<h4>saveAsync</h4>
+<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.115">saveAsync</a>()</pre>
+<div class="block">Save this configuration using the provided loader. Any errors will be
+ submitted to subscribers of the returned publisher.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>publisher providing an event when the save is complete</dd>
+</dl>
+</li>
+</ul>
+<a id="updateAsync(java.util.function.Function)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>updateAsync</h4>
+<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.126">updateAsync</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>,&#8203;? extends <a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;updater)</pre>
+<div class="block">Update this configuration using the provided function, returning a
+ <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> which will complete with the result of the operation.
+ The update function will be called asynchronously, and will be saved
+ to this reference's loader when complete.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>updater</code> - update function</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>publisher providing an event when the update is complete</dd>
+</dl>
+</li>
+</ul>
+<a id="node()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>node</h4>
+<pre class="methodSignature"><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.133">node</a>()</pre>
 <div class="block">Get the base node this reference refers to.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The node</dd>
+<dd>the node</dd>
 </dl>
 </li>
 </ul>
-<a id="getLoader()">
+<a id="loader()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getLoader</h4>
-<pre class="methodSignature"><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.112">getLoader</a>()</pre>
-<div class="block">Get the loader this reference uses to load and save its' node</div>
+<h4>loader</h4>
+<pre class="methodSignature"><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends <a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.140">loader</a>()</pre>
+<div class="block">Get the loader this reference uses to load and save its node.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The loader</dd>
+<dd>the loader</dd>
 </dl>
 </li>
 </ul>
@@ -497,15 +572,33 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.121">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</pre>
-<div class="block">Get the node at the given path, using the root node</div>
+<pre class="methodSignature"><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.149">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</pre>
+<div class="block">Get the node at the given path, relative to the root node.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - The path, a series of path elements</dd>
+<dd><code>path</code> - the path, a series of path elements</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A child node</dd>
+<dd>a child node</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../ConfigurationNode.html#getNode(java.lang.Object...)"><code>ConfigurationNode.getNode(Object...)</code></a></dd>
+<dd><a href="../ConfigurationNode.html#node(java.lang.Object...)"><code>ConfigurationNode.node(Object...)</code></a></dd>
+</dl>
+</li>
+</ul>
+<a id="get(java.lang.Iterable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>get</h4>
+<pre class="methodSignature"><a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.158">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</pre>
+<div class="block">Get the node at the given path, relative to the root node.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path, a series of path elements</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a child node</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../ConfigurationNode.html#node(java.lang.Iterable)"><code>ConfigurationNode.node(Iterable)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -515,40 +608,78 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.129">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
-                 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
-<div class="block">Update the value of the node at the given path, using the root node as a base.</div>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.167">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
+                 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
+          throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Update the value of the node at the given path, using the root node as
+ a base.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - The path to get the child at</dd>
-<dd><code>value</code> - The value to set the child node to</dd>
+<dd><code>path</code> - the path to get the child at</dd>
+<dd><code>value</code> - the value to set the child node to</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a id="set(java.lang.Object[],com.google.common.reflect.TypeToken,java.lang.Object)">
+<a id="set(java.lang.Object[],java.lang.Class,java.lang.Object)">
 <!--   -->
-</a><a id="set(java.lang.Object[],com.google.common.reflect.TypeToken,T)">
+</a><a id="set(java.lang.Object[],java.lang.Class,T)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.144">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
-                     <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.186">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
+                     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)
-              throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Set the value of the node at <code>path</code> to the given value,
- using the appropriate <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to serialize the data if it's
- not directly supported by the provided configuration.</div>
+              throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Set the value of the node at <code>path</code> to the given value.
+
+ <p>This uses the appropriate
+ <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
+ serialize the data if it's not directly supported by the
+ provided configuration.</p></div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type parameter for the value</dd>
+<dd><code>T</code> - the type parameter for the value</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - The path to set the value at</dd>
-<dd><code>type</code> - The type of data to serialize</dd>
-<dd><code>value</code> - The value to set</dd>
+<dd><code>path</code> - the path to set the value at</dd>
+<dd><code>type</code> - the type of data to serialize</dd>
+<dd><code>value</code> - the value to set</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - If thrown by the serialization mechanism</dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if a raw type is provided</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if thrown by the serialization mechanism</dd>
+</dl>
+</li>
+</ul>
+<a id="set(java.lang.Object[],io.leangen.geantyref.TypeToken,java.lang.Object)">
+<!--   -->
+</a><a id="set(java.lang.Object[],io.leangen.geantyref.TypeToken,T)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>set</h4>
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.204">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path,
+                     io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
+                     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)
+              throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Set the value of the node at <code>path</code> to the given value.
+
+ <p>This uses the appropriate
+ <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
+ serialize the data if it's not directly supported by the
+ provided configuration.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type parameter for the value</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to set the value at</dd>
+<dd><code>type</code> - the type of data to serialize</dd>
+<dd><code>value</code> - the value to set</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if thrown by the serialization mechanism</dd>
 </dl>
 </li>
 </ul>
@@ -558,67 +689,106 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.154">set</a>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
-                 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
-<div class="block">Update the value of the node at the given path, using the root node as a base.</div>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.215">set</a>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+                 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
+          throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Update the value of the node at the given path, using the root node as
+ a base.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - The path to get the child at</dd>
-<dd><code>value</code> - The value to set the child node to</dd>
+<dd><code>path</code> - the path to get the child at</dd>
+<dd><code>value</code> - the value to set the child node to</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a id="set(org.spongepowered.configurate.transformation.NodePath,com.google.common.reflect.TypeToken,java.lang.Object)">
+<a id="set(org.spongepowered.configurate.transformation.NodePath,java.lang.Class,java.lang.Object)">
 <!--   -->
-</a><a id="set(org.spongepowered.configurate.transformation.NodePath,com.google.common.reflect.TypeToken,T)">
+</a><a id="set(org.spongepowered.configurate.transformation.NodePath,java.lang.Class,T)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.169">set</a>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
-                     <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.233">set</a>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+                     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)
-              throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Set the value of the node at <code>path</code> to the given value,
- using the appropriate <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
- serialize the data if it's not directly supported by the provided configuration.</div>
+              throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Set the value of the node at <code>path</code> to the given value.
+
+ <p>This uses the appropriate
+ <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
+ serialize the data if it's not directly supported by the
+ provided configuration.</p></div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type parameter for the value</dd>
+<dd><code>T</code> - the type parameter for the value</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - The path to set the value at</dd>
-<dd><code>type</code> - The type of data to serialize</dd>
-<dd><code>value</code> - The value to set</dd>
+<dd><code>path</code> - the path to set the value at</dd>
+<dd><code>type</code> - the type of data to serialize</dd>
+<dd><code>value</code> - the value to set</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - If thrown by the serialization mechanism</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if thrown by the serialization mechanism</dd>
 </dl>
 </li>
 </ul>
-<a id="referenceTo(com.google.common.reflect.TypeToken,java.lang.Object...)">
+<a id="set(org.spongepowered.configurate.transformation.NodePath,io.leangen.geantyref.TypeToken,java.lang.Object)">
+<!--   -->
+</a><a id="set(org.spongepowered.configurate.transformation.NodePath,io.leangen.geantyref.TypeToken,T)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>set</h4>
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.251">set</a>&#8203;(<a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+                     io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
+                     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;value)
+              throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Set the value of the node at <code>path</code> to the given value.
+
+ <p>This uses the appropriate
+ <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> to
+ serialize the data if it's not directly supported by the
+ provided configuration.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type parameter for the value</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to set the value at</dd>
+<dd><code>type</code> - the type of data to serialize</dd>
+<dd><code>value</code> - the value to set</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if thrown by the serialization mechanism</dd>
+</dl>
+</li>
+</ul>
+<a id="referenceTo(io.leangen.geantyref.TypeToken,java.lang.Object...)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>referenceTo</h4>
-<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.186">referenceTo</a>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.270">referenceTo</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
                                                   <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)
-                                           throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a reference to the node at the provided path. The value will be deserialized according to the provided
- TypeToken.
+                                           throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a reference to the node at the provided path. The value will be
+ deserialized according to the provided TypeToken.
 
- The returned reference will update with reloads of and changes to the value of the provided configuration.
- Any serialization errors encountered will be submitted to the <a href="#errors()"><code>errors()</code></a> stream</div>
+ <p>The returned reference will update with reloads of and changes to the
+ value of the provided configuration. Any serialization errors encountered
+ will be submitted to the <a href="#errors()"><code>errors()</code></a> stream.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The value type</dd>
+<dd><code>T</code> - the value type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The value's type</dd>
-<dd><code>path</code> - The path from the root node to the node a value will be gotten from</dd>
+<dd><code>type</code> - the value's type</dd>
+<dd><code>path</code> - the path from the root node to the node containing the value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A deserializing reference to the node at the given path</dd>
+<dd>a deserializing reference to the node at the given path</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - if a type serializer could not be found for the provided type</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if a type serializer could not be found
+         for the provided type</dd>
 </dl>
 </li>
 </ul>
@@ -628,51 +798,55 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>referenceTo</h4>
-<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.203">referenceTo</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.289">referenceTo</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                                                   <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)
-                                           throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a reference to the node at the provided path. The value will be deserialized according to type of the
- provided Class.
+                                           throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a reference to the node at the provided path. The value will be
+ deserialized according to type of the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Class</code></a>.
 
- The returned reference will update with reloads of and changes to the value of the provided configuration.
- Any serialization errors encountered will be submitted to the <a href="#errors()"><code>errors()</code></a> stream</div>
+ <p>The returned reference will update with reloads of and changes to the
+ value of the provided configuration. Any serialization errors encountered
+ will be submitted to the <a href="#errors()"><code>errors()</code></a> stream.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The value type</dd>
+<dd><code>T</code> - the value type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The value's type</dd>
-<dd><code>path</code> - The path from the root node to the node a value will be gotten from</dd>
+<dd><code>type</code> - the value's type</dd>
+<dd><code>path</code> - the path from the root node to the node containing the value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A deserializing reference to the node at the given path</dd>
+<dd>a deserializing reference to the node at the given path</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - if a type serializer could not be found for the provided type</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if a type serializer could not be found
+         for the provided type</dd>
 </dl>
 </li>
 </ul>
-<a id="referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath)">
+<a id="referenceTo(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.transformation.NodePath)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>referenceTo</h4>
-<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.220">referenceTo</a>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.308">referenceTo</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
                                                   <a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path)
-                                           throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a reference to the node at the provided path. The value will be deserialized according to the provided
- TypeToken.
+                                           throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a reference to the node at the provided path. The value will be
+ deserialized according to the provided <code>TypeToken</code>.
 
- The returned reference will update with reloads of and changes to the value of the provided configuration.
- Any serialization errors encountered will be submitted to the <a href="#errors()"><code>errors()</code></a> stream</div>
+ <p>The returned reference will update with reloads of and changes to the
+ value of the provided configuration. Any serialization errors encountered
+ will be submitted to the <a href="#errors()"><code>errors()</code></a> stream.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The value type</dd>
+<dd><code>T</code> - the value type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The value's type</dd>
-<dd><code>path</code> - The path from the root node to the node a value will be gotten from</dd>
+<dd><code>type</code> - the value's type</dd>
+<dd><code>path</code> - the path from the root node to the node containing the value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A deserializing reference to the node at the given path</dd>
+<dd>a deserializing reference to the node at the given path</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - if a type serializer could not be found for the provided type</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if a type serializer could not be found
+          for the provided type</dd>
 </dl>
 </li>
 </ul>
@@ -682,55 +856,60 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>referenceTo</h4>
-<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.237">referenceTo</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.327">referenceTo</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                                                   <a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path)
-                                           throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a reference to the node at the provided path. The value will be deserialized according to type of the
- provided Class.
+                                           throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a reference to the node at the provided path. The value will be
+ deserialized according to type of the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Class</code></a>.
 
- The returned reference will update with reloads of and changes to the value of the provided configuration.
- Any serialization errors encountered will be submitted to the <a href="#errors()"><code>errors()</code></a> stream</div>
+ <p>The returned reference will update with reloads of and changes to the
+ value of the provided configuration. Any serialization errors encountered
+ will be submitted to the <a href="#errors()"><code>errors()</code></a> stream.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The value type</dd>
+<dd><code>T</code> - the value type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The value's type</dd>
-<dd><code>path</code> - The path from the root node to the node a value will be gotten from</dd>
+<dd><code>type</code> - the value's type</dd>
+<dd><code>path</code> - the path from the root node to the node containing the value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A deserializing reference to the node at the given path</dd>
+<dd>a deserializing reference to the node at the given path</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - if a type serializer could not be found for the provided type</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if a type serializer could not be found
+          for the provided type</dd>
 </dl>
 </li>
 </ul>
-<a id="referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath,java.lang.Object)">
+<a id="referenceTo(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.transformation.NodePath,java.lang.Object)">
 <!--   -->
-</a><a id="referenceTo(com.google.common.reflect.TypeToken,org.spongepowered.configurate.transformation.NodePath,T)">
+</a><a id="referenceTo(io.leangen.geantyref.TypeToken,org.spongepowered.configurate.transformation.NodePath,T)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>referenceTo</h4>
-<pre class="methodSignature">&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.255">referenceTo</a>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.348">referenceTo</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;type,
                                           <a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
                                           <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;defaultValue)
-                                   throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a reference to the node at the provided path. The value will be deserialized according to the provided
- TypeToken.
+                                   throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a reference to the node at the provided path. The value will be
+ deserialized according to the provided <code>TypeToken</code>.
 
- The returned reference will update with reloads of and changes to the value of the provided configuration.
- Any serialization errors encountered will be submitted to the <a href="#errors()"><code>errors()</code></a> stream</div>
+ <p>The returned reference will update with reloads of and changes to the
+ value of the provided configuration. Any serialization errors encountered
+ will be submitted to the <a href="#errors()"><code>errors()</code></a> stream.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The value type</dd>
+<dd><code>T</code> - the value type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The value's type.</dd>
-<dd><code>path</code> - The path from the root node to the node a value will be gotten from.</dd>
-<dd><code>defaultValue</code> - The value to use when there is no data present in the targeted node.</dd>
+<dd><code>type</code> - the value's type.</dd>
+<dd><code>path</code> - the path from the root node to the node containing the value</dd>
+<dd><code>defaultValue</code> - the value to use when there is no data present
+                     in the targeted node.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A deserializing reference to the node at the given path</dd>
+<dd>a deserializing reference to the node at the given path</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - if a type serializer could not be found for the provided type</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if a type serializer could not be found
+         for the provided type</dd>
 </dl>
 </li>
 </ul>
@@ -742,26 +921,29 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>referenceTo</h4>
-<pre class="methodSignature">&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.271">referenceTo</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">&lt;T&gt;&nbsp;<a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.367">referenceTo</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                                           <a href="../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
                                           <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;defaultValue)
-                                   throws <a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a reference to the node at the provided path. The value will be deserialized according to type of the
- provided Class.
+                                   throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a reference to the node at the provided path. The value will be
+ deserialized according to type of the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Class</code></a>.
 
- The returned reference will update with reloads of and changes to the value of the provided configuration.
- Any serialization errors encountered will be submitted to the <a href="#errors()"><code>errors()</code></a> stream</div>
+ <p>The returned reference will update with reloads of and changes to the
+ value of the provided configuration. Any serialization errors encountered
+ will be submitted to the <a href="#errors()"><code>errors()</code></a> stream.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The value type</dd>
+<dd><code>T</code> - value type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The value's type</dd>
-<dd><code>path</code> - The path from the root node to the node a value will be gotten from</dd>
-<dd><code>defaultValue</code> - The value to use when there is no data present in the targeted node.</dd>
+<dd><code>type</code> - value's type</dd>
+<dd><code>path</code> - path from the root node to the node containing the value</dd>
+<dd><code>defaultValue</code> - value to use when there is no data present
+                     in the targeted node.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A deserializing reference to the node at the given path</dd>
+<dd>a deserializing reference to the node at the given path</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - if a type serializer could not be found for the provided type</dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if a type serializer could not be found
+          for the provided type</dd>
 </dl>
 </li>
 </ul>
@@ -771,12 +953,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>updates</h4>
-<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.279">updates</a>()</pre>
-<div class="block">Access the <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> that will broadcast update events, providing the newly created node.
- The returned publisher will be transaction-aware, i.e. any <a href="../reactive/SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive"><code>SubscriberTransactional</code></a> attached will progress through their phases appropriately</div>
+<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="ConfigurationReference.html" title="type parameter in ConfigurationReference">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.376">updates</a>()</pre>
+<div class="block">Access the <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> that will broadcast update events, providing the newly created node. The returned
+ publisher will be transaction-aware, i.e. any <a href="../reactive/TransactionalSubscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>TransactionalSubscriber</code></a> attached will progress through
+ their phases appropriately</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The publisher</dd>
+<dd>the publisher</dd>
 </dl>
 </li>
 </ul>
@@ -786,11 +969,12 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockList">
 <li class="blockList">
 <h4>errors</h4>
-<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.286">errors</a>()</pre>
-<div class="block">A stream that will receive errors that occur while loading or saving to this reference</div>
+<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.384">errors</a>()</pre>
+<div class="block">A stream that will receive errors that occur while loading or saving to
+ this reference.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The publisher</dd>
+<dd>the publisher</dd>
 </dl>
 </li>
 </ul>
@@ -800,7 +984,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseab
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.291">close</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ConfigurationReference.html#line.389">close</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang" class="externalLink">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>

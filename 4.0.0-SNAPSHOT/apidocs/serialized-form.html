@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -99,16 +98,62 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <section role="region">
-<h2 title="Package">Package&nbsp;org.spongepowered.configurate.objectmapping</h2>
+<h2 title="Package">Package&nbsp;org.spongepowered.configurate</h2>
 <ul class="blockList">
-<li class="blockList"><a id="org.spongepowered.configurate.objectmapping.ObjectMappingException">
+<li class="blockList"><a id="org.spongepowered.configurate.ConfigurateException">
 <!--   -->
 </a>
-<h3>Class <a href="org/spongepowered/configurate/objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">org.spongepowered.configurate.objectmapping.ObjectMappingException</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a> implements Serializable</h3>
+<h3>Class <a href="org/spongepowered/configurate/ConfigurateException.html" title="class in org.spongepowered.configurate">org.spongepowered.configurate.ConfigurateException</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a> implements Serializable</h3>
 <dl class="nameValue">
 <dt>serialVersionUID:</dt>
-<dd>2310268704411616686L</dd>
+<dd>1635526451813128733L</dd>
 </dl>
+<ul class="blockList">
+<li class="blockList">
+<h3>Serialized Fields</h3>
+<ul class="blockList">
+<li class="blockListLast">
+<h4>path</h4>
+<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="org/spongepowered/configurate/transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&gt; path</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</li>
+<li class="blockList">
+<section role="region">
+<h2 title="Package">Package&nbsp;org.spongepowered.configurate.loader</h2>
+<ul class="blockList">
+<li class="blockList"><a id="org.spongepowered.configurate.loader.ParsingException">
+<!--   -->
+</a>
+<h3>Class <a href="org/spongepowered/configurate/loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">org.spongepowered.configurate.loader.ParsingException</a> extends <a href="org/spongepowered/configurate/ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a> implements Serializable</h3>
+<dl class="nameValue">
+<dt>serialVersionUID:</dt>
+<dd>8379206111053602577L</dd>
+</dl>
+<ul class="blockList">
+<li class="blockList">
+<h3>Serialized Fields</h3>
+<ul class="blockList">
+<li class="blockList">
+<h4>column</h4>
+<pre>int column</pre>
+</li>
+<li class="blockList">
+<h4>context</h4>
+<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a> context</pre>
+</li>
+<li class="blockListLast">
+<h4>line</h4>
+<pre>int line</pre>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </section>
@@ -136,7 +181,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList"><a id="org.spongepowered.configurate.serialize.CoercionFailedException">
 <!--   -->
 </a>
-<h3>Class <a href="org/spongepowered/configurate/serialize/CoercionFailedException.html" title="class in org.spongepowered.configurate.serialize">org.spongepowered.configurate.serialize.CoercionFailedException</a> extends <a href="org/spongepowered/configurate/objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a> implements Serializable</h3>
+<h3>Class <a href="org/spongepowered/configurate/serialize/CoercionFailedException.html" title="class in org.spongepowered.configurate.serialize">org.spongepowered.configurate.serialize.CoercionFailedException</a> extends <a href="org/spongepowered/configurate/serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a> implements Serializable</h3>
+<dl class="nameValue">
+<dt>serialVersionUID:</dt>
+<dd>5800074754243723221L</dd>
+</dl>
+</li>
+<li class="blockList"><a id="org.spongepowered.configurate.serialize.SerializationException">
+<!--   -->
+</a>
+<h3>Class <a href="org/spongepowered/configurate/serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">org.spongepowered.configurate.serialize.SerializationException</a> extends <a href="org/spongepowered/configurate/ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a> implements Serializable</h3>
+<dl class="nameValue">
+<dt>serialVersionUID:</dt>
+<dd>-910568375387191784L</dd>
+</dl>
 </li>
 </ul>
 </section>

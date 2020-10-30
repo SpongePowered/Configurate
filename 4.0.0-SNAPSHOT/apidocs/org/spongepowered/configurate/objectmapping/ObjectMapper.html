@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,8 +26,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":9,"i9":10};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var data = {"i0":6,"i1":1,"i2":1,"i3":1,"i4":6,"i5":6,"i6":6,"i7":6};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -90,13 +89,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
@@ -116,31 +115,34 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.spongepowered.configurate.objectmapping</a></div>
-<h2 title="Class ObjectMapper" class="title">Class ObjectMapper&lt;T&gt;</h2>
+<h2 title="Interface ObjectMapper" class="title">Interface ObjectMapper&lt;V&gt;</h2>
 </div>
 <div class="contentContainer">
-<ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
-<li>
-<ul class="inheritance">
-<li>org.spongepowered.configurate.objectmapping.ObjectMapper&lt;T&gt;</li>
-</ul>
-</li>
-</ul>
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type to work with</dd>
+<dd><code>V</code> - mapped type</dd>
+</dl>
+<dl>
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="ObjectMapper.Mutable.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Mutable</a>&lt;V&gt;</code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.43">ObjectMapper</a>&lt;T&gt;
-extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">This is the object mapper. It handles conversion between configuration nodes and
- fields annotated with <a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping"><code>Setting</code></a> in objects.
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.49">ObjectMapper</a>&lt;V&gt;</pre>
+<div class="block">A mapper that converts between configuration nodes and Java objects.
 
- Values in the node not used by the mapped object will be preserved.</div>
+ <p>Object mappers are created through a <a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping"><code>ObjectMapper.Factory</code></a>, either the default
+ one or one created with additional options. See that class's
+ documentation for details.</p>
+
+ <p>The object mapper can be accessed directly, through its <a href="#factory()"><code>factory()</code></a>,
+ or through a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a>'s
+ <a href="../ConfigurationNode.html#get(io.leangen.geantyref.TypeToken)"><code>ConfigurationNode.get(TypeToken)</code></a> method. To use a custom factory
+ instance through a node, a custom TypeSerializer has to be registered to the
+ <a href="../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a> used
+ by the node.</p></div>
 </li>
 </ul>
 </div>
@@ -158,46 +160,21 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Class</th>
+<th class="colSecond" scope="col">Interface</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a></span></code></th>
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a></span></code></th>
 <td class="colLast">
-<div class="block">Represents an object mapper bound to a certain instance of the object</div>
+<div class="block">Provider for object mappers.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected static class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ObjectMapper.FieldData.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.FieldData</a></span></code></th>
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ObjectMapper.Mutable.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Mutable</a>&lt;<a href="ObjectMapper.Mutable.html" title="type parameter in ObjectMapper.Mutable">V</a>&gt;</span></code></th>
 <td class="colLast">
-<div class="block">Holder for field-specific information</div>
-</td>
-</tr>
-</table>
-</li>
-</ul>
-</section>
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="constructor.summary">
-<!--   -->
-</a>
-<h3>Constructor Summary</h3>
-<table class="memberSummary">
-<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier</th>
-<th class="colSecond" scope="col">Constructor</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.google.common.reflect.TypeToken)">ObjectMapper</a></span>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;type)</code></th>
-<td class="colLast">
-<div class="block">Create a new object mapper of a given type.</div>
+<div class="block">An object mapper capable of loading data into an existing object.</div>
 </td>
 </tr>
 </table>
@@ -212,90 +189,71 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#bind(T)">bind</a></span>&#8203;(<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&nbsp;instance)</code></th>
-<td class="colLast">
-<div class="block">Return a view on this mapper that is bound to a single object instance</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#bindToNew()">bindToNew</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a view on this mapper that is bound to a newly created object instance</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#canCreateInstances()">canCreateInstances</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns whether this object mapper can create new object instances.</div>
+<div class="block">Get whether or not this mapper is capable of creating new instances of
+ its mapped type.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>static <a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emptyFactoryBuilder()">emptyFactoryBuilder</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Create an empty builder.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#factory()">factory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the default object mapper factory instance.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>protected void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#collectFields(java.util.Map,com.google.common.reflect.TypeToken)">collectFields</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="ObjectMapper.FieldData.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.FieldData</a>&gt;&nbsp;cachedFields,
-             <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;? super <a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;clazz)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colFirst"><code>static <a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#factoryBuilder()">factoryBuilder</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Create a builder populated with default settings.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>protected <a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#constructObject()">constructObject</a></span>()</code></th>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="FieldData.html" title="class in org.spongepowered.configurate.objectmapping">FieldData</a>&lt;?,&#8203;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fields()">fields</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Create a new instance of an object of the appropriate type.</div>
+<div class="block">Get the parameters that will be handled by this mapper.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forClass(java.lang.Class)">forClass</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;clazz)</code></th>
+<td class="colFirst"><code><a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load(org.spongepowered.configurate.ConfigurationNode)">load</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source)</code></th>
 <td class="colLast">
-<div class="block">Create a new object mapper that can work with objects of the given class using the
- <a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><code>DefaultObjectMapperFactory</code></a>.</div>
+<div class="block">Create a new object instance.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forObject(T)">forObject</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&nbsp;obj)</code></th>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mappedType()">mappedType</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Creates a new object mapper bound to the given object.</div>
+<div class="block">The generic type of object that this mapper instance handles.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forObject(com.google.common.reflect.TypeToken,T)">forObject</a></span>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
-         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&nbsp;obj)</code></th>
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(V,org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;value,
+    <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;target)</code></th>
 <td class="colLast">
-<div class="block">Creates a new object mapper bound to the given object.</div>
+<div class="block">Write data from the provided object to the target.</div>
 </td>
-</tr>
-<tr id="i8" class="altColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forType(com.google.common.reflect.TypeToken)">forType</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type)</code></th>
-<td class="colLast">
-<div class="block">Create a new object mapper that can work with objects of the given type using the
- <a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><code>DefaultObjectMapperFactory</code></a>.</div>
-</td>
-</tr>
-<tr id="i9" class="rowColor">
-<td class="colFirst"><code><a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getMappedType()">getMappedType</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
 </tr>
 </table>
-<ul class="blockList">
-<li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
-<!--   -->
-</a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
-</ul>
 </li>
 </ul>
 </section>
@@ -305,33 +263,6 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="constructor.detail">
-<!--   -->
-</a>
-<h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(com.google.common.reflect.TypeToken)">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>ObjectMapper</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.234">ObjectMapper</a>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;type)
-                throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a new object mapper of a given type. The given type must not be an interface.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The type this object mapper will work with</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - When errors occur discovering fields in the class</dd>
-</dl>
-</li>
-</ul>
-</li>
-</ul>
-</section>
 <!-- ============ METHOD DETAIL ========== -->
 <section role="region">
 <ul class="blockList">
@@ -339,203 +270,159 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="forClass(java.lang.Class)">
+<a id="factory()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>forClass</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.60">forClass</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;clazz)
-                                    throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a new object mapper that can work with objects of the given class using the
- <a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><code>DefaultObjectMapperFactory</code></a>.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>clazz</code> - The type of object</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>An appropriate object mapper instance. May be shared with other users.</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - If invalid annotated fields are presented</dd>
-</dl>
-</li>
-</ul>
-<a id="forType(com.google.common.reflect.TypeToken)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>forType</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.73">forType</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type)
-                                   throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a new object mapper that can work with objects of the given type using the
- <a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><code>DefaultObjectMapperFactory</code></a>.</div>
-<dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The type of object</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>An appropriate object mapper instance. May be shared with other users.</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - If invalid annotated fields are presented</dd>
-</dl>
-</li>
-</ul>
-<a id="forObject(java.lang.Object)">
-<!--   -->
-</a><a id="forObject(T)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>forObject</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.92">forObject</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&nbsp;obj)
-                                                throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Creates a new object mapper bound to the given object.
+<h4>factory</h4>
+<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.72">factory</a>()</pre>
+<div class="block">Get the default object mapper factory instance.
 
- <strong>CAUTION</strong> Generic type information will be lost when creating a mapper. Provide a TypeToken to avoid this</div>
+ <p>This factory has the following characteristics:</p>
+ <ul>
+     <li>can resolve fields in empty-constructor objects and Records</li>
+     <li>will try to resolve any field in objects</li>
+     <li>supports <a href="meta/NodeKey.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>NodeKey</code></a> and
+     <a href="meta/Setting.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Setting</code></a> annotations
+     for customizing node resolution</li>
+     <li>uses the <a href="../util/NamingSchemes.html#LOWER_CASE_DASHED"><code>NamingSchemes.LOWER_CASE_DASHED</code></a>
+     naming scheme for other nodes</li>
+     <li>supports unlocalized <a href="meta/Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Matches</code></a>,
+     and <a href="meta/Required.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Required</code></a>
+     constraints</li>
+     <li>processes <a href="meta/Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Comment</code></a>
+     annotations</li>
+ </ul></div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The object type</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>default factory</dd>
+</dl>
+</li>
+</ul>
+<a id="emptyFactoryBuilder()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>emptyFactoryBuilder</h4>
+<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.85">emptyFactoryBuilder</a>()</pre>
+<div class="block">Create an empty builder.
+
+ <p>This applies none of the standard formats, processors, constraints or
+ resolvers. Unless you want to do something particularly specialized,
+ you should probably be using <a href="#factoryBuilder()"><code>factoryBuilder()</code></a>.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>new empty builder</dd>
+</dl>
+</li>
+</ul>
+<a id="factoryBuilder()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>factoryBuilder</h4>
+<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.98">factoryBuilder</a>()</pre>
+<div class="block">Create a builder populated with default settings.
+
+ <p>This builder is prepared to allow overriding any of the default
+ object mapper features.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>new builder</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="#factory()"><code>for a description of the default settings</code></a></dd>
+</dl>
+</li>
+</ul>
+<a id="load(org.spongepowered.configurate.ConfigurationNode)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>load</h4>
+<pre class="methodSignature"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.112">load</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source)
+throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Create a new object instance.</div>
+<dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>obj</code> - The object</dd>
+<dd><code>source</code> - object source</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>An appropriate object mapper instance.</dd>
+<dd>new instance</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - when an object is provided that is not suitable for object mapping.
-                              Reasons may include but are not limited to:
-                              <ul>
-                                  <li>Not annotated with <a href="../serialize/ConfigSerializable.html" title="annotation in org.spongepowered.configurate.serialize"><code>ConfigSerializable</code></a> annotation</li>
-                                  <li>Invalid field types</li>
-                              </ul></dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if any invalid data is present. Loading is
+      done in stages, so any deserialization errors will occur before
+      anything is written to objects.</dd>
 </dl>
 </li>
 </ul>
-<a id="forObject(com.google.common.reflect.TypeToken,java.lang.Object)">
+<a id="save(java.lang.Object,org.spongepowered.configurate.ConfigurationNode)">
 <!--   -->
-</a><a id="forObject(com.google.common.reflect.TypeToken,T)">
+</a><a id="save(V,org.spongepowered.configurate.ConfigurationNode)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>forObject</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.112">forObject</a>&#8203;(<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;T&gt;&nbsp;type,
-                                                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> T&nbsp;obj)
-                                                throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Creates a new object mapper bound to the given object.</div>
+<h4>save</h4>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.121">save</a>&#8203;(<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;value,
+          <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;target)
+   throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Write data from the provided object to the target.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The object type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>type</code> - The generic type of the object</dd>
-<dd><code>obj</code> - The object</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>An appropriate object mapper instance.</dd>
+<dd><code>value</code> - value type</dd>
+<dd><code>target</code> - destination</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - when an object is provided that is not suitable for object mapping.
-                              Reasons may include but are not limited to:
-                              <ul>
-                                  <li>Not annotated with <a href="../serialize/ConfigSerializable.html" title="annotation in org.spongepowered.configurate.serialize"><code>ConfigSerializable</code></a> annotation</li>
-                                  <li>Invalid field types</li>
-                                  <li>Specified type is an interface</li>
-                              </ul></dd>
+<dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if unable to fully save</dd>
 </dl>
 </li>
 </ul>
-<a id="collectFields(java.util.Map,com.google.common.reflect.TypeToken)">
+<a id="fields()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>collectFields</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.261">collectFields</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="ObjectMapper.FieldData.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.FieldData</a>&gt;&nbsp;cachedFields,
-                             <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;? super <a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;clazz)
-                      throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
+<h4>fields</h4>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="FieldData.html" title="class in org.spongepowered.configurate.objectmapping">FieldData</a>&lt;?,&#8203;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.128">fields</a>()</pre>
+<div class="block">Get the parameters that will be handled by this mapper.</div>
 <dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>immutable list of fields</dd>
 </dl>
 </li>
 </ul>
-<a id="constructObject()">
+<a id="mappedType()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>constructObject</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.288">constructObject</a>()
-                     throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Create a new instance of an object of the appropriate type. This method is not
- responsible for any population.</div>
+<h4>mappedType</h4>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.135">mappedType</a>()</pre>
+<div class="block">The generic type of object that this mapper instance handles.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The new object instance</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - If constructing a new instance was not possible</dd>
+<dd>object type</dd>
 </dl>
 </li>
 </ul>
 <a id="canCreateInstances()">
 <!--   -->
 </a>
-<ul class="blockList">
-<li class="blockList">
-<h4>canCreateInstances</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.305">canCreateInstances</a>()</pre>
-<div class="block">Returns whether this object mapper can create new object instances. This may be
- false if the provided class has no zero-argument constructors.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>Whether new object instances can be created</dd>
-</dl>
-</li>
-</ul>
-<a id="bind(java.lang.Object)">
-<!--   -->
-</a><a id="bind(T)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>bind</h4>
-<pre class="methodSignature">public&nbsp;<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.315">bind</a>&#8203;(<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&nbsp;instance)</pre>
-<div class="block">Return a view on this mapper that is bound to a single object instance</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>instance</code> - The instance to bind to</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>A view referencing this mapper and the bound instance</dd>
-</dl>
-</li>
-</ul>
-<a id="bindToNew()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>bindToNew</h4>
-<pre class="methodSignature">public&nbsp;<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMapper.BoundInstance</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.326">bindToNew</a>()
-                                     throws <a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></pre>
-<div class="block">Returns a view on this mapper that is bound to a newly created object instance</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>Bound mapper attached to a new object instance</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping">ObjectMappingException</a></code> - If the object could not be constructed correctly</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="#bind(T)"><code>bind(Object)</code></a></dd>
-</dl>
-</li>
-</ul>
-<a id="getMappedType()">
-<!--   -->
-</a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>getMappedType</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/reflect/TypeToken.html?is-external=true" title="class or interface in com.google.common.reflect" class="externalLink">TypeToken</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">T</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.330">getMappedType</a>()</pre>
+<h4>canCreateInstances</h4>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.146">canCreateInstances</a>()</pre>
+<div class="block">Get whether or not this mapper is capable of creating new instances of
+ its mapped type.
+
+ <p>If this returns <code>false</code>, <a href="#load(org.spongepowered.configurate.ConfigurationNode)"><code>load(ConfigurationNode)</code></a> will
+ always fail.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>if the mapped type can be instantiated.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -591,13 +478,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>

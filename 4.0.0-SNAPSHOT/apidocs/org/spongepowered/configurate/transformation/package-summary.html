@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -93,6 +92,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </header>
 <main role="main">
 <div class="header">
+<p><a href="https://checkerframework.org/api/org/checkerframework/framework/qual/DefaultQualifier.html?is-external=true" title="class or interface in org.checkerframework.framework.qual" class="externalLink">@DefaultQualifier</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">org.checkerframework.checker.nullness.qual.NonNull.class</a>)
+</p>
 <h1 title="Package" class="title">Package&nbsp;org.spongepowered.configurate.transformation</h1>
 </div>
 <div class="contentContainer">
@@ -100,9 +101,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a>
 <div class="block">Configuration tree transformations
- <p>
- Transformations in this package can be used to evolve a configuration structure over time. Builders are in the <a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a> class, and provide simple, chained, and
- versioned transformations for any node.</div>
+
+ <p>Transformations in this package can be used to evolve a configuration
+ structure over time. Builders are in the
+ <a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>
+ class, and provide simple, chained, and versioned transformations for
+ any node.</div>
 </section>
 <ul class="blockList">
 <li class="blockList">
@@ -114,15 +118,28 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a></th>
+<td class="colLast">
+<div class="block">Represents a set of transformations on a configuration.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="ConfigurationTransformation.Versioned.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation.Versioned</a></th>
+<td class="colLast">
+<div class="block">A transformation that is aware of node versions.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></th>
 <td class="colLast">
 <div class="block">Represents the path to a given node.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;</th>
+<th class="colFirst" scope="row"><a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a></th>
 <td class="colLast">
-<div class="block">Represents an action to be performed that transforms a node in the configuration tree</div>
+<div class="block">Represents an action to be performed that transforms a node in the
+ configuration tree.</div>
 </td>
 </tr>
 </tbody>
@@ -137,21 +154,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&lt;T extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</th>
+<th class="colFirst" scope="row"><a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a></th>
 <td class="colLast">
-<div class="block">Represents a set of transformations on a configuration.</div>
+<div class="block">Builds a basic <a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;</th>
+<th class="colFirst" scope="row"><a href="ConfigurationTransformation.VersionedBuilder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.VersionedBuilder</a></th>
 <td class="colLast">
-<div class="block">Builds a basic <a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="ConfigurationTransformation.VersionedBuilder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.VersionedBuilder</a>&lt;T extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</th>
-<td class="colLast">
-<div class="block">Builds a versioned <a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
+<div class="block">Builds a versioned <a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
 </td>
 </tr>
 </tbody>
@@ -168,7 +179,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a></th>
 <td class="colLast">
-<div class="block">Strategy to use when moving a node from one path to another</div>
+<div class="block">Strategy to use when moving a node from one path to another.</div>
 </td>
 </tr>
 </tbody>

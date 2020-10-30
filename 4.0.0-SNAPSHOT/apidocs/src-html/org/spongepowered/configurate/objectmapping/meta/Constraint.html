@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Configurate</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * Copyright (C) zml and Configurate contributors</a>
+<span class="sourceLineNo">004</span><a id="line.4"> *</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *    http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">010</span><a id="line.10"> *</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * limitations under the License.</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate.objectmapping.meta;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import org.spongepowered.configurate.serialize.SerializationException;</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.lang.annotation.Annotation;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.lang.reflect.Type;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.text.MessageFormat;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.util.ResourceBundle;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.util.regex.Matcher;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.regex.Pattern;</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">/**</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * Perform a validation on data upon load.</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * @param &lt;V&gt; value type</a>
+<span class="sourceLineNo">033</span><a id="line.33"> */</a>
+<span class="sourceLineNo">034</span><a id="line.34">public interface Constraint&lt;V&gt; {</a>
+<span class="sourceLineNo">035</span><a id="line.35"></a>
+<span class="sourceLineNo">036</span><a id="line.36">    /**</a>
+<span class="sourceLineNo">037</span><a id="line.37">     * Check if the provided deserialized value matches an expected condition.</a>
+<span class="sourceLineNo">038</span><a id="line.38">     *</a>
+<span class="sourceLineNo">039</span><a id="line.39">     * @param value value to test</a>
+<span class="sourceLineNo">040</span><a id="line.40">     * @throws SerializationException if the value falls outside its constraint.</a>
+<span class="sourceLineNo">041</span><a id="line.41">     */</a>
+<span class="sourceLineNo">042</span><a id="line.42">    void validate(@Nullable V value) throws SerializationException;</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">    /**</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * Provider for a specific constraint given a field type.</a>
+<span class="sourceLineNo">046</span><a id="line.46">     *</a>
+<span class="sourceLineNo">047</span><a id="line.47">     * @param &lt;A&gt; annotation type</a>
+<span class="sourceLineNo">048</span><a id="line.48">     * @param &lt;V&gt; data type</a>
+<span class="sourceLineNo">049</span><a id="line.49">     */</a>
+<span class="sourceLineNo">050</span><a id="line.50">    interface Factory&lt;A extends Annotation, V&gt; {</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">        /**</a>
+<span class="sourceLineNo">053</span><a id="line.53">         * Create a new specialized constraint.</a>
+<span class="sourceLineNo">054</span><a id="line.54">         *</a>
+<span class="sourceLineNo">055</span><a id="line.55">         * @param data annotation with metadata</a>
+<span class="sourceLineNo">056</span><a id="line.56">         * @param type annotated type. is a subtype of {@code V}</a>
+<span class="sourceLineNo">057</span><a id="line.57">         * @return new constraint</a>
+<span class="sourceLineNo">058</span><a id="line.58">         */</a>
+<span class="sourceLineNo">059</span><a id="line.59">        Constraint&lt;V&gt; make(A data, Type type);</a>
+<span class="sourceLineNo">060</span><a id="line.60">    }</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">    /**</a>
+<span class="sourceLineNo">063</span><a id="line.63">     * Require a value to be present for fields marked with the</a>
+<span class="sourceLineNo">064</span><a id="line.64">     * annotation {@code T}.</a>
+<span class="sourceLineNo">065</span><a id="line.65">     *</a>
+<span class="sourceLineNo">066</span><a id="line.66">     * @param &lt;T&gt; marker annotation type</a>
+<span class="sourceLineNo">067</span><a id="line.67">     * @return new constraint factory</a>
+<span class="sourceLineNo">068</span><a id="line.68">     */</a>
+<span class="sourceLineNo">069</span><a id="line.69">    static &lt;T extends Annotation&gt; Constraint.Factory&lt;T, Object&gt; required() {</a>
+<span class="sourceLineNo">070</span><a id="line.70">        return (data, type) -&gt; value -&gt; {</a>
+<span class="sourceLineNo">071</span><a id="line.71">            if (value == null) {</a>
+<span class="sourceLineNo">072</span><a id="line.72">                throw new SerializationException("A value is required for this field");</a>
+<span class="sourceLineNo">073</span><a id="line.73">            }</a>
+<span class="sourceLineNo">074</span><a id="line.74">        };</a>
+<span class="sourceLineNo">075</span><a id="line.75">    }</a>
+<span class="sourceLineNo">076</span><a id="line.76"></a>
+<span class="sourceLineNo">077</span><a id="line.77">    /**</a>
+<span class="sourceLineNo">078</span><a id="line.78">     * Require values to match the {@link Matches#value() pattern} provided.</a>
+<span class="sourceLineNo">079</span><a id="line.79">     *</a>
+<span class="sourceLineNo">080</span><a id="line.80">     * &lt;p&gt;Upon failure, an error message will be taken from the annotation.&lt;/p&gt;</a>
+<span class="sourceLineNo">081</span><a id="line.81">     *</a>
+<span class="sourceLineNo">082</span><a id="line.82">     * @return factory providing matching pattern test</a>
+<span class="sourceLineNo">083</span><a id="line.83">     */</a>
+<span class="sourceLineNo">084</span><a id="line.84">    static Constraint.Factory&lt;Matches, String&gt; pattern() {</a>
+<span class="sourceLineNo">085</span><a id="line.85">        return (data, type) -&gt; {</a>
+<span class="sourceLineNo">086</span><a id="line.86">            final Pattern test = Pattern.compile(data.value());</a>
+<span class="sourceLineNo">087</span><a id="line.87">            final MessageFormat format = new MessageFormat(data.failureMessage());</a>
+<span class="sourceLineNo">088</span><a id="line.88">            return value -&gt; {</a>
+<span class="sourceLineNo">089</span><a id="line.89">                if (value != null) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">                    final Matcher match = test.matcher(value);</a>
+<span class="sourceLineNo">091</span><a id="line.91">                    if (!match.matches()) {</a>
+<span class="sourceLineNo">092</span><a id="line.92">                        throw new SerializationException(format.format(new Object[]{value, data.value()}));</a>
+<span class="sourceLineNo">093</span><a id="line.93">                    }</a>
+<span class="sourceLineNo">094</span><a id="line.94">                }</a>
+<span class="sourceLineNo">095</span><a id="line.95">            };</a>
+<span class="sourceLineNo">096</span><a id="line.96">        };</a>
+<span class="sourceLineNo">097</span><a id="line.97">    }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">    /**</a>
+<span class="sourceLineNo">100</span><a id="line.100">     * Require values to match the {@link Matches#value() pattern} provided.</a>
+<span class="sourceLineNo">101</span><a id="line.101">     *</a>
+<span class="sourceLineNo">102</span><a id="line.102">     * &lt;p&gt;Upon failure, an error message will be taken from {@code bundle} with</a>
+<span class="sourceLineNo">103</span><a id="line.103">     * a key defined in the annotation.&lt;/p&gt;</a>
+<span class="sourceLineNo">104</span><a id="line.104">     *</a>
+<span class="sourceLineNo">105</span><a id="line.105">     * @param bundle source for localized messages</a>
+<span class="sourceLineNo">106</span><a id="line.106">     * @return factory providing matching pattern test</a>
+<span class="sourceLineNo">107</span><a id="line.107">     */</a>
+<span class="sourceLineNo">108</span><a id="line.108">    static Constraint.Factory&lt;Matches, String&gt; localizedPattern(final ResourceBundle bundle) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">        return (data, type) -&gt; {</a>
+<span class="sourceLineNo">110</span><a id="line.110">            final Pattern test = Pattern.compile(data.value());</a>
+<span class="sourceLineNo">111</span><a id="line.111">            final MessageFormat format = new MessageFormat(Localization.key(bundle, data.failureMessage()), bundle.getLocale());</a>
+<span class="sourceLineNo">112</span><a id="line.112">            return value -&gt; {</a>
+<span class="sourceLineNo">113</span><a id="line.113">                if (value != null) {</a>
+<span class="sourceLineNo">114</span><a id="line.114">                    final Matcher match = test.matcher(value);</a>
+<span class="sourceLineNo">115</span><a id="line.115">                    if (!match.matches()) {</a>
+<span class="sourceLineNo">116</span><a id="line.116">                        throw new SerializationException(format.format(new Object[]{value, data.value()}));</a>
+<span class="sourceLineNo">117</span><a id="line.117">                    }</a>
+<span class="sourceLineNo">118</span><a id="line.118">                }</a>
+<span class="sourceLineNo">119</span><a id="line.119">            };</a>
+<span class="sourceLineNo">120</span><a id="line.120">        };</a>
+<span class="sourceLineNo">121</span><a id="line.121">    }</a>
+<span class="sourceLineNo">122</span><a id="line.122"></a>
+<span class="sourceLineNo">123</span><a id="line.123">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

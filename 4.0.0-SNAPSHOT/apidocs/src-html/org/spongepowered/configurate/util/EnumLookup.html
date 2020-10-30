@@ -25,71 +25,72 @@
 <span class="sourceLineNo">016</span><a id="line.16"> */</a>
 <span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate.util;</a>
 <span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.cache.CacheBuilder;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.cache.CacheLoader;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.cache.LoadingCache;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.collect.ImmutableMap;</a>
-<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import static java.util.Objects.requireNonNull;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.Collections;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import java.util.HashMap;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import java.util.Map;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import java.util.Optional;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import java.util.concurrent.ExecutionException;</a>
-<span class="sourceLineNo">028</span><a id="line.28"></a>
-<span class="sourceLineNo">029</span><a id="line.29">import static java.util.Objects.requireNonNull;</a>
-<span class="sourceLineNo">030</span><a id="line.30"></a>
-<span class="sourceLineNo">031</span><a id="line.31">/**</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * Utility class to cache more flexible enum lookup.</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.util.WeakHashMap;</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">/**</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * Utility class to cache more flexible enum lookup.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;While normally case and punctuation have to match exactly, this method</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * performs lookup that:&lt;/p&gt;</a>
 <span class="sourceLineNo">033</span><a id="line.33"> *</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;While normally case and punctuation have to match exactly, this method performs lookup that:&lt;/p&gt;</a>
-<span class="sourceLineNo">035</span><a id="line.35"> *</a>
-<span class="sourceLineNo">036</span><a id="line.36"> * &lt;ul&gt;</a>
-<span class="sourceLineNo">037</span><a id="line.37"> *     &lt;li&gt;is case-insensitive&lt;/li&gt;</a>
-<span class="sourceLineNo">038</span><a id="line.38"> *     &lt;li&gt;ignores underscores&lt;/li&gt;</a>
-<span class="sourceLineNo">039</span><a id="line.39"> *     &lt;li&gt;caches mappings&lt;/li&gt;</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * &lt;/ul&gt;</a>
-<span class="sourceLineNo">041</span><a id="line.41"> *</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * &lt;p&gt;If the enum has two fields that are equal except for case and underscores, an exact match</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * will return the appropriate value, and any fuzzy matches will map to the first value in the enum</a>
-<span class="sourceLineNo">044</span><a id="line.44"> * that is applicable.&lt;/p&gt;</a>
-<span class="sourceLineNo">045</span><a id="line.45"> */</a>
-<span class="sourceLineNo">046</span><a id="line.46">public final class EnumLookup {</a>
-<span class="sourceLineNo">047</span><a id="line.47">    private EnumLookup() {}</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">    private static final LoadingCache&lt;Class&lt;? extends Enum&lt;?&gt;&gt;, Map&lt;String, Enum&lt;?&gt;&gt;&gt; ENUM_FIELD_CACHE = CacheBuilder</a>
-<span class="sourceLineNo">050</span><a id="line.50">            .newBuilder()</a>
-<span class="sourceLineNo">051</span><a id="line.51">            .weakKeys()</a>
-<span class="sourceLineNo">052</span><a id="line.52">            .maximumSize(512)</a>
-<span class="sourceLineNo">053</span><a id="line.53">            .build(new CacheLoader&lt;Class&lt;? extends Enum&lt;?&gt;&gt;, Map&lt;String, Enum&lt;?&gt;&gt;&gt;() {</a>
-<span class="sourceLineNo">054</span><a id="line.54">                @Override</a>
-<span class="sourceLineNo">055</span><a id="line.55">                public Map&lt;String, Enum&lt;?&gt;&gt; load(Class&lt;? extends Enum&lt;?&gt;&gt; key) {</a>
-<span class="sourceLineNo">056</span><a id="line.56">                    Map&lt;String, Enum&lt;?&gt;&gt; ret = new HashMap&lt;&gt;();</a>
-<span class="sourceLineNo">057</span><a id="line.57">                    for (Enum&lt;?&gt; field : key.getEnumConstants()) {</a>
-<span class="sourceLineNo">058</span><a id="line.58">                        ret.put(field.name(), field);</a>
-<span class="sourceLineNo">059</span><a id="line.59">                        ret.putIfAbsent(processKey(field.name()), field);</a>
-<span class="sourceLineNo">060</span><a id="line.60">                    }</a>
-<span class="sourceLineNo">061</span><a id="line.61">                    return ImmutableMap.copyOf(ret);</a>
-<span class="sourceLineNo">062</span><a id="line.62">                }</a>
-<span class="sourceLineNo">063</span><a id="line.63">            });</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">    private static String processKey(String key) {</a>
-<span class="sourceLineNo">066</span><a id="line.66">        // stick a flower at the front so processed keys are different from literal keys</a>
-<span class="sourceLineNo">067</span><a id="line.67">        return "🌸" + key.toLowerCase().replace("_", "");</a>
-<span class="sourceLineNo">068</span><a id="line.68">    }</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">071</span><a id="line.71">    public static &lt;T extends Enum&lt;T&gt;&gt; Optional&lt;T&gt; lookupEnum(Class&lt;T&gt; clazz, String key) {</a>
-<span class="sourceLineNo">072</span><a id="line.72">        try {</a>
-<span class="sourceLineNo">073</span><a id="line.73">            Map&lt;String, Enum&lt;?&gt;&gt; vals = ENUM_FIELD_CACHE.get(requireNonNull(clazz, "clazz"));</a>
-<span class="sourceLineNo">074</span><a id="line.74">            Enum&lt;?&gt; possibleRet = vals.get(requireNonNull(key, "key"));</a>
-<span class="sourceLineNo">075</span><a id="line.75">            if (possibleRet != null) {</a>
-<span class="sourceLineNo">076</span><a id="line.76">                return Optional.of((T) possibleRet);</a>
-<span class="sourceLineNo">077</span><a id="line.77">            }</a>
-<span class="sourceLineNo">078</span><a id="line.78">            return Optional.ofNullable((T) vals.get(processKey(key)));</a>
-<span class="sourceLineNo">079</span><a id="line.79">        } catch (ExecutionException e) {</a>
-<span class="sourceLineNo">080</span><a id="line.80">            return Optional.empty();</a>
-<span class="sourceLineNo">081</span><a id="line.81">        }</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">035</span><a id="line.35"> *     &lt;li&gt;is case-insensitive&lt;/li&gt;</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *     &lt;li&gt;ignores underscores&lt;/li&gt;</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *     &lt;li&gt;caches mappings&lt;/li&gt;</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">039</span><a id="line.39"> *</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * &lt;p&gt;If the enum has two fields that are equal except for case and underscores,</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * an exact match will return the appropriate value, and any fuzzy matches will</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * map to the first value in the enum that is applicable.&lt;/p&gt;</a>
+<span class="sourceLineNo">043</span><a id="line.43"> */</a>
+<span class="sourceLineNo">044</span><a id="line.44">public final class EnumLookup {</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">    private EnumLookup() {</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">    }</a>
+<span class="sourceLineNo">049</span><a id="line.49"></a>
+<span class="sourceLineNo">050</span><a id="line.50">    private static final Map&lt;Class&lt;? extends Enum&lt;?&gt;&gt;, Map&lt;String, Enum&lt;?&gt;&gt;&gt; ENUM_FIELD_CACHE = new WeakHashMap&lt;&gt;();</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">    private static String processKey(final String key) {</a>
+<span class="sourceLineNo">053</span><a id="line.53">        // stick a flower at the front so processed keys are different from literal keys</a>
+<span class="sourceLineNo">054</span><a id="line.54">        return "🌸" + key.toLowerCase().replace("_", "");</a>
+<span class="sourceLineNo">055</span><a id="line.55">    }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">    /**</a>
+<span class="sourceLineNo">058</span><a id="line.58">     * Perform a fuzzy lookup of {@code key} in enum {@code clazz}.</a>
+<span class="sourceLineNo">059</span><a id="line.59">     *</a>
+<span class="sourceLineNo">060</span><a id="line.60">     * @param clazz class to find key in</a>
+<span class="sourceLineNo">061</span><a id="line.61">     * @param key key to find</a>
+<span class="sourceLineNo">062</span><a id="line.62">     * @param &lt;T&gt; type of value</a>
+<span class="sourceLineNo">063</span><a id="line.63">     * @return optionally the enum</a>
+<span class="sourceLineNo">064</span><a id="line.64">     */</a>
+<span class="sourceLineNo">065</span><a id="line.65">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">066</span><a id="line.66">    public static &lt;T extends Enum&lt;T&gt;&gt; @Nullable T lookupEnum(final Class&lt;T&gt; clazz, final String key) {</a>
+<span class="sourceLineNo">067</span><a id="line.67">        final Map&lt;String, Enum&lt;?&gt;&gt; vals = ENUM_FIELD_CACHE.computeIfAbsent(requireNonNull(clazz), c2 -&gt; {</a>
+<span class="sourceLineNo">068</span><a id="line.68">            final Map&lt;String, Enum&lt;?&gt;&gt; ret = new HashMap&lt;&gt;();</a>
+<span class="sourceLineNo">069</span><a id="line.69">            for (Enum&lt;?&gt; field : c2.getEnumConstants()) {</a>
+<span class="sourceLineNo">070</span><a id="line.70">                ret.put(field.name(), field);</a>
+<span class="sourceLineNo">071</span><a id="line.71">                ret.putIfAbsent(processKey(field.name()), field);</a>
+<span class="sourceLineNo">072</span><a id="line.72">            }</a>
+<span class="sourceLineNo">073</span><a id="line.73">            return Collections.unmodifiableMap(ret);</a>
+<span class="sourceLineNo">074</span><a id="line.74">        });</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76"></a>
+<span class="sourceLineNo">077</span><a id="line.77">        final Enum&lt;?&gt; possibleRet = vals.get(requireNonNull(key, "key"));</a>
+<span class="sourceLineNo">078</span><a id="line.78">        if (possibleRet != null) {</a>
+<span class="sourceLineNo">079</span><a id="line.79">            return (T) possibleRet;</a>
+<span class="sourceLineNo">080</span><a id="line.80">        }</a>
+<span class="sourceLineNo">081</span><a id="line.81">        return (T) vals.get(processKey(key));</a>
 <span class="sourceLineNo">082</span><a id="line.82">    }</a>
-<span class="sourceLineNo">083</span><a id="line.83">}</a>
+<span class="sourceLineNo">083</span><a id="line.83"></a>
+<span class="sourceLineNo">084</span><a id="line.84">}</a>
 
 
 

@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -139,8 +138,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionFailedException.html#line.19">TransactionFailedException</a>
+<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionFailedException.html#line.23">TransactionFailedException</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
+<div class="block">Indicate that the newly submitted value was invalid, and the transaction that
+ submitted the new value should be marked as a failure.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../serialized-form.html#org.spongepowered.configurate.reactive.TransactionFailedException">Serialized Form</a></dd>
@@ -166,11 +167,16 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.h
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">TransactionFailedException</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create an exception indicating a transaction has failed for an
+ unknown reason.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.Throwable)">TransactionFailedException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create an exception wrapping the cause of a transaction failure.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -219,7 +225,9 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.h
 <ul class="blockList">
 <li class="blockList">
 <h4>TransactionFailedException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionFailedException.html#line.21">TransactionFailedException</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionFailedException.html#line.31">TransactionFailedException</a>()</pre>
+<div class="block">Create an exception indicating a transaction has failed for an
+ unknown reason.</div>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.Throwable)">
@@ -228,7 +236,12 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TransactionFailedException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionFailedException.html#line.25">TransactionFailedException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionFailedException.html#line.39">TransactionFailedException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<div class="block">Create an exception wrapping the cause of a transaction failure.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>cause</code> - the original exception cause</dd>
+</dl>
 </li>
 </ul>
 </li>

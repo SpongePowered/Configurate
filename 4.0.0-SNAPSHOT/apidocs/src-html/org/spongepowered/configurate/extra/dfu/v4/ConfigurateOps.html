@@ -1,0 +1,856 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Configurate</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * Copyright (C) zml and Configurate contributors</a>
+<span class="sourceLineNo">004</span><a id="line.4"> *</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *    http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">010</span><a id="line.10"> *</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * limitations under the License.</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate.extra.dfu.v4;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import static java.util.Objects.requireNonNull;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.collect.ImmutableList;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.collect.ImmutableMap;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.mojang.datafixers.util.Pair;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.mojang.serialization.DataResult;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.mojang.serialization.Dynamic;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.mojang.serialization.DynamicOps;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import com.mojang.serialization.MapLike;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import org.spongepowered.configurate.BasicConfigurationNode;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import org.spongepowered.configurate.CommentedConfigurationNode;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import org.spongepowered.configurate.ConfigurationNode;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.spongepowered.configurate.ConfigurationNodeFactory;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import org.spongepowered.configurate.serialize.TypeSerializerCollection;</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.nio.ByteBuffer;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import java.util.List;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import java.util.Map;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import java.util.function.Consumer;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import java.util.function.Function;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import java.util.stream.IntStream;</a>
+<span class="sourceLineNo">041</span><a id="line.41">import java.util.stream.LongStream;</a>
+<span class="sourceLineNo">042</span><a id="line.42">import java.util.stream.Stream;</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">/**</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * Implementation of DataFixerUpper's DynamicOps.</a>
+<span class="sourceLineNo">046</span><a id="line.46"> *</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * &lt;p&gt;The {@link DynamicOps} interface should be thought of essentially as a way</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * to perform operations on a type without having to directly implement that</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * interface on the type. Rather than taking an object that implements an</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * interface, DFU methods take the implementation of the DynamicOps interface</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * plus the type implemented onto.</a>
+<span class="sourceLineNo">052</span><a id="line.52"> *</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * &lt;p&gt;When possible, the first node's {@link ConfigurationNode#copy()} method</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * will be used to create a new node to contain results. Otherwise, the provided</a>
+<span class="sourceLineNo">055</span><a id="line.55"> * factory will be used. The default factory creates a</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * {@link CommentedConfigurationNode} with the default serializer collection</a>
+<span class="sourceLineNo">057</span><a id="line.57"> * but a custom factory may be provided.</a>
+<span class="sourceLineNo">058</span><a id="line.58"> *</a>
+<span class="sourceLineNo">059</span><a id="line.59"> * &lt;p&gt;DynamicOps has the following primitive types (as determined by those</a>
+<span class="sourceLineNo">060</span><a id="line.60"> * codecs that implement {@link com.mojang.serialization.codecs.PrimitiveCodec}):</a>
+<span class="sourceLineNo">061</span><a id="line.61"> * &lt;dl&gt;</a>
+<span class="sourceLineNo">062</span><a id="line.62"> *     &lt;dt&gt;boolean&lt;/dt&gt;</a>
+<span class="sourceLineNo">063</span><a id="line.63"> *     &lt;dd&gt;literal boolean, or numeric 1 for true, 0 for false&lt;/dd&gt;</a>
+<span class="sourceLineNo">064</span><a id="line.64"> *     &lt;dt&gt;byte&lt;/dt&gt;</a>
+<span class="sourceLineNo">065</span><a id="line.65"> *     &lt;dd&gt;numeric value, {@link Number#byteValue() coerced} to a byte.</a>
+<span class="sourceLineNo">066</span><a id="line.66"> *     If {@link #compressMaps()}, a string may be parsed as a byte as well.&lt;/dd&gt;</a>
+<span class="sourceLineNo">067</span><a id="line.67"> *     &lt;dt&gt;short&lt;/dt&gt;</a>
+<span class="sourceLineNo">068</span><a id="line.68"> *     &lt;dd&gt;numeric value, {@link Number#shortValue() coerced} to a short.</a>
+<span class="sourceLineNo">069</span><a id="line.69"> *     If {@link #compressMaps()}, a string may be parsed as a short as well.&lt;/dd&gt;</a>
+<span class="sourceLineNo">070</span><a id="line.70"> *     &lt;dt&gt;int&lt;/dt&gt;</a>
+<span class="sourceLineNo">071</span><a id="line.71"> *     &lt;dd&gt;numeric value, {@link Number#intValue() coerced} to an integer.</a>
+<span class="sourceLineNo">072</span><a id="line.72"> *     If {@link #compressMaps()}, a string may be parsed as an integer as well.&lt;/dd&gt;</a>
+<span class="sourceLineNo">073</span><a id="line.73"> *     &lt;dt&gt;long&lt;/dt&gt;</a>
+<span class="sourceLineNo">074</span><a id="line.74"> *     &lt;dd&gt;numeric value, {@link Number#longValue() coerced} to a long.</a>
+<span class="sourceLineNo">075</span><a id="line.75"> *     If {@link #compressMaps()}, a string may be parsed as a long as well.&lt;/dd&gt;</a>
+<span class="sourceLineNo">076</span><a id="line.76"> *     &lt;dt&gt;float&lt;/dt&gt;</a>
+<span class="sourceLineNo">077</span><a id="line.77"> *     &lt;dd&gt;numeric value, {@link Number#floatValue() coerced} to a float.</a>
+<span class="sourceLineNo">078</span><a id="line.78"> *     If {@link #compressMaps()}, a string may be parsed as a float as well.&lt;/dd&gt;</a>
+<span class="sourceLineNo">079</span><a id="line.79"> *     &lt;dt&gt;double&lt;/dt&gt;</a>
+<span class="sourceLineNo">080</span><a id="line.80"> *     &lt;dd&gt;numeric value, {@link Number#doubleValue() coerced} to a double.</a>
+<span class="sourceLineNo">081</span><a id="line.81"> *     If {@link #compressMaps()}, a string may be parsed as a double as well.&lt;/dd&gt;</a>
+<span class="sourceLineNo">082</span><a id="line.82"> *     &lt;dt&gt;{@link String}&lt;/dt&gt;</a>
+<span class="sourceLineNo">083</span><a id="line.83"> *     &lt;dd&gt;Any scalar value, as {@link Object#toString() a string}&lt;/dd&gt;</a>
+<span class="sourceLineNo">084</span><a id="line.84"> *     &lt;dt&gt;{@link java.nio.ByteBuffer}&lt;/dt&gt;</a>
+<span class="sourceLineNo">085</span><a id="line.85"> *     &lt;dd&gt;An array of bytes. Either a native byte array in the node,</a>
+<span class="sourceLineNo">086</span><a id="line.86"> *         or (by default impl) a list of bytes&lt;/dd&gt;</a>
+<span class="sourceLineNo">087</span><a id="line.87"> *     &lt;dt&gt;{@link java.util.stream.IntStream}&lt;/dt&gt;</a>
+<span class="sourceLineNo">088</span><a id="line.88"> *     &lt;dd&gt;A sequence of integers. Either a native int array in the node,</a>
+<span class="sourceLineNo">089</span><a id="line.89"> *         or (by default impl) a list of integers&lt;/dd&gt;</a>
+<span class="sourceLineNo">090</span><a id="line.90"> *     &lt;dt&gt;{@link java.util.stream.LongStream}&lt;/dt&gt;</a>
+<span class="sourceLineNo">091</span><a id="line.91"> *     &lt;dd&gt;A sequence of longs. Either a native long array in the node,</a>
+<span class="sourceLineNo">092</span><a id="line.92"> *         or (by default impl) a list of longs&lt;/dd&gt;</a>
+<span class="sourceLineNo">093</span><a id="line.93"> * &lt;/dl&gt;</a>
+<span class="sourceLineNo">094</span><a id="line.94"> */</a>
+<span class="sourceLineNo">095</span><a id="line.95">public final class ConfigurateOps implements DynamicOps&lt;ConfigurationNode&gt; {</a>
+<span class="sourceLineNo">096</span><a id="line.96"></a>
+<span class="sourceLineNo">097</span><a id="line.97">    private static final ConfigurateOps UNCOMPRESSED = ConfigurateOps.builder().build();</a>
+<span class="sourceLineNo">098</span><a id="line.98">    private static final ConfigurateOps COMPRESSED = ConfigurateOps.builder().compressed(true).build();</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">    private final ConfigurationNodeFactory&lt;? extends ConfigurationNode&gt; factory;</a>
+<span class="sourceLineNo">101</span><a id="line.101">    private final boolean compressed;</a>
+<span class="sourceLineNo">102</span><a id="line.102">    private final Protection readProtection;</a>
+<span class="sourceLineNo">103</span><a id="line.103">    private final Protection writeProtection;</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">    /**</a>
+<span class="sourceLineNo">106</span><a id="line.106">     * Get the shared instance of this class, which creates new nodes using</a>
+<span class="sourceLineNo">107</span><a id="line.107">     * the default factory. The returned instance will not be compressed</a>
+<span class="sourceLineNo">108</span><a id="line.108">     *</a>
+<span class="sourceLineNo">109</span><a id="line.109">     * @return the shared instance</a>
+<span class="sourceLineNo">110</span><a id="line.110">     */</a>
+<span class="sourceLineNo">111</span><a id="line.111">    public static DynamicOps&lt;ConfigurationNode&gt; instance() {</a>
+<span class="sourceLineNo">112</span><a id="line.112">        return instance(false);</a>
+<span class="sourceLineNo">113</span><a id="line.113">    }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">    /**</a>
+<span class="sourceLineNo">116</span><a id="line.116">     * Get the shared instance of this class, which creates new nodes using</a>
+<span class="sourceLineNo">117</span><a id="line.117">     * the default factory.</a>
+<span class="sourceLineNo">118</span><a id="line.118">     *</a>
+<span class="sourceLineNo">119</span><a id="line.119">     * &lt;p&gt;See {@link #compressMaps()} for a description of what the</a>
+<span class="sourceLineNo">120</span><a id="line.120">     * &lt;pre&gt;compressed&lt;/pre&gt; parameter does.</a>
+<span class="sourceLineNo">121</span><a id="line.121">     *</a>
+<span class="sourceLineNo">122</span><a id="line.122">     * @param compressed whether keys should be compressed in the output of</a>
+<span class="sourceLineNo">123</span><a id="line.123">     *     this serializer</a>
+<span class="sourceLineNo">124</span><a id="line.124">     * @return the shared instance</a>
+<span class="sourceLineNo">125</span><a id="line.125">     */</a>
+<span class="sourceLineNo">126</span><a id="line.126">    public static DynamicOps&lt;ConfigurationNode&gt; instance(final boolean compressed) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">        return compressed ? COMPRESSED : UNCOMPRESSED;</a>
+<span class="sourceLineNo">128</span><a id="line.128">    }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">    /**</a>
+<span class="sourceLineNo">131</span><a id="line.131">     * Get an ops instance that will create nodes using the provided collection.</a>
+<span class="sourceLineNo">132</span><a id="line.132">     *</a>
+<span class="sourceLineNo">133</span><a id="line.133">     * @param collection collection to provide through created nodes' options</a>
+<span class="sourceLineNo">134</span><a id="line.134">     * @return ops instance</a>
+<span class="sourceLineNo">135</span><a id="line.135">     */</a>
+<span class="sourceLineNo">136</span><a id="line.136">    public static DynamicOps&lt;ConfigurationNode&gt; forSerializers(final TypeSerializerCollection collection) {</a>
+<span class="sourceLineNo">137</span><a id="line.137">        if (requireNonNull(collection, "collection").equals(TypeSerializerCollection.defaults())) {</a>
+<span class="sourceLineNo">138</span><a id="line.138">            return UNCOMPRESSED;</a>
+<span class="sourceLineNo">139</span><a id="line.139">        } else {</a>
+<span class="sourceLineNo">140</span><a id="line.140">            return builder().factoryFromSerializers(collection).build();</a>
+<span class="sourceLineNo">141</span><a id="line.141">        }</a>
+<span class="sourceLineNo">142</span><a id="line.142">    }</a>
+<span class="sourceLineNo">143</span><a id="line.143"></a>
+<span class="sourceLineNo">144</span><a id="line.144">    /**</a>
+<span class="sourceLineNo">145</span><a id="line.145">     * Wrap a ConfigurationNode in a {@link Dynamic} instance. The returned</a>
+<span class="sourceLineNo">146</span><a id="line.146">     * Dynamic will use the same type serializer collection as the original node</a>
+<span class="sourceLineNo">147</span><a id="line.147">     * for its operations.</a>
+<span class="sourceLineNo">148</span><a id="line.148">     *</a>
+<span class="sourceLineNo">149</span><a id="line.149">     * @param node the node to wrap</a>
+<span class="sourceLineNo">150</span><a id="line.150">     * @return a wrapped node</a>
+<span class="sourceLineNo">151</span><a id="line.151">     */</a>
+<span class="sourceLineNo">152</span><a id="line.152">    public static Dynamic&lt;ConfigurationNode&gt; wrap(final ConfigurationNode node) {</a>
+<span class="sourceLineNo">153</span><a id="line.153">        if (node.options().serializers().equals(TypeSerializerCollection.defaults())) {</a>
+<span class="sourceLineNo">154</span><a id="line.154">            return new Dynamic&lt;&gt;(instance(), node);</a>
+<span class="sourceLineNo">155</span><a id="line.155">        } else {</a>
+<span class="sourceLineNo">156</span><a id="line.156">            return builder().factoryFromNode(node).buildWrapping(node);</a>
+<span class="sourceLineNo">157</span><a id="line.157">        }</a>
+<span class="sourceLineNo">158</span><a id="line.158">    }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">    /**</a>
+<span class="sourceLineNo">161</span><a id="line.161">     * Configure an ops instance using the options of an existing node.</a>
+<span class="sourceLineNo">162</span><a id="line.162">     *</a>
+<span class="sourceLineNo">163</span><a id="line.163">     * @param value the value type</a>
+<span class="sourceLineNo">164</span><a id="line.164">     * @return values</a>
+<span class="sourceLineNo">165</span><a id="line.165">     */</a>
+<span class="sourceLineNo">166</span><a id="line.166">    public static DynamicOps&lt;ConfigurationNode&gt; fromNode(final ConfigurationNode value) {</a>
+<span class="sourceLineNo">167</span><a id="line.167">        return builder().factoryFromNode(value).build();</a>
+<span class="sourceLineNo">168</span><a id="line.168">    }</a>
+<span class="sourceLineNo">169</span><a id="line.169"></a>
+<span class="sourceLineNo">170</span><a id="line.170">    /**</a>
+<span class="sourceLineNo">171</span><a id="line.171">     * Create a new builder for an ops instance.</a>
+<span class="sourceLineNo">172</span><a id="line.172">     *</a>
+<span class="sourceLineNo">173</span><a id="line.173">     * @return builder</a>
+<span class="sourceLineNo">174</span><a id="line.174">     */</a>
+<span class="sourceLineNo">175</span><a id="line.175">    public static ConfigurateOpsBuilder builder() {</a>
+<span class="sourceLineNo">176</span><a id="line.176">        return new ConfigurateOpsBuilder();</a>
+<span class="sourceLineNo">177</span><a id="line.177">    }</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">    ConfigurateOps(final ConfigurationNodeFactory&lt;? extends ConfigurationNode&gt; factory, final boolean compressed,</a>
+<span class="sourceLineNo">180</span><a id="line.180">            final Protection readProtection, final Protection writeProtection) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">        this.factory = factory;</a>
+<span class="sourceLineNo">182</span><a id="line.182">        this.compressed = compressed;</a>
+<span class="sourceLineNo">183</span><a id="line.183">        this.readProtection = readProtection;</a>
+<span class="sourceLineNo">184</span><a id="line.184">        this.writeProtection = writeProtection;</a>
+<span class="sourceLineNo">185</span><a id="line.185">    }</a>
+<span class="sourceLineNo">186</span><a id="line.186"></a>
+<span class="sourceLineNo">187</span><a id="line.187">    /**</a>
+<span class="sourceLineNo">188</span><a id="line.188">     * Whether data passed through this ops will be compressed or not.</a>
+<span class="sourceLineNo">189</span><a id="line.189">     *</a>
+<span class="sourceLineNo">190</span><a id="line.190">     * &lt;p&gt;In the context of DFU, &lt;pre&gt;compressed&lt;/pre&gt; means that in situations</a>
+<span class="sourceLineNo">191</span><a id="line.191">     * where values are of a {@link com.mojang.serialization.Keyable} type</a>
+<span class="sourceLineNo">192</span><a id="line.192">     * (as is with types like Minecraft Registries)</a>
+<span class="sourceLineNo">193</span><a id="line.193">     * rather than fully encoding each value, its index into the container</a>
+<span class="sourceLineNo">194</span><a id="line.194">     * is encoded.</a>
+<span class="sourceLineNo">195</span><a id="line.195">     *</a>
+<span class="sourceLineNo">196</span><a id="line.196">     * &lt;p&gt;While data encoded this way may take less space to store, the</a>
+<span class="sourceLineNo">197</span><a id="line.197">     * compressed data will also require an explicit mapping of indices to</a>
+<span class="sourceLineNo">198</span><a id="line.198">     * values. If this is not stored with the node, the indices of values must</a>
+<span class="sourceLineNo">199</span><a id="line.199">     * be preserved to correctly deserialize compressed values.</a>
+<span class="sourceLineNo">200</span><a id="line.200">     *</a>
+<span class="sourceLineNo">201</span><a id="line.201">     * &lt;p&gt;For example, for an enum new values could only be appended, not added</a>
+<span class="sourceLineNo">202</span><a id="line.202">     * in the middle of the constants.</a>
+<span class="sourceLineNo">203</span><a id="line.203">     *</a>
+<span class="sourceLineNo">204</span><a id="line.204">     * @return whether maps are compressed</a>
+<span class="sourceLineNo">205</span><a id="line.205">     */</a>
+<span class="sourceLineNo">206</span><a id="line.206">    @Override</a>
+<span class="sourceLineNo">207</span><a id="line.207">    public boolean compressMaps() {</a>
+<span class="sourceLineNo">208</span><a id="line.208">        return this.compressed;</a>
+<span class="sourceLineNo">209</span><a id="line.209">    }</a>
+<span class="sourceLineNo">210</span><a id="line.210"></a>
+<span class="sourceLineNo">211</span><a id="line.211">    /**</a>
+<span class="sourceLineNo">212</span><a id="line.212">     * Extract a value from a node used as a {@code key} in DFU methods.</a>
+<span class="sourceLineNo">213</span><a id="line.213">     *</a>
+<span class="sourceLineNo">214</span><a id="line.214">     * &lt;p&gt;This currently only attempts to interpret the key as a single level</a>
+<span class="sourceLineNo">215</span><a id="line.215">     * down. However, we may want to try to extract an array or iterable of path</a>
+<span class="sourceLineNo">216</span><a id="line.216">     * elements to be able to traverse multiple levels.</a>
+<span class="sourceLineNo">217</span><a id="line.217">     *</a>
+<span class="sourceLineNo">218</span><a id="line.218">     * @param node data source</a>
+<span class="sourceLineNo">219</span><a id="line.219">     * @return a key, asserted non-null</a>
+<span class="sourceLineNo">220</span><a id="line.220">     */</a>
+<span class="sourceLineNo">221</span><a id="line.221">    static Object keyFrom(final ConfigurationNode node) {</a>
+<span class="sourceLineNo">222</span><a id="line.222">        if (node.isList() || node.isMap()) {</a>
+<span class="sourceLineNo">223</span><a id="line.223">            throw new IllegalArgumentException("Key nodes must have scalar values");</a>
+<span class="sourceLineNo">224</span><a id="line.224">        }</a>
+<span class="sourceLineNo">225</span><a id="line.225">        return requireNonNull(node.raw(), "The provided key node must have a value");</a>
+<span class="sourceLineNo">226</span><a id="line.226">    }</a>
+<span class="sourceLineNo">227</span><a id="line.227"></a>
+<span class="sourceLineNo">228</span><a id="line.228">    /**</a>
+<span class="sourceLineNo">229</span><a id="line.229">     * Guard source node according to ops instance's copying policy.</a>
+<span class="sourceLineNo">230</span><a id="line.230">     *</a>
+<span class="sourceLineNo">231</span><a id="line.231">     * @implNote currently, this will make a deep copy of the node.</a>
+<span class="sourceLineNo">232</span><a id="line.232">     *</a>
+<span class="sourceLineNo">233</span><a id="line.233">     * @param untrusted original node</a>
+<span class="sourceLineNo">234</span><a id="line.234">     * @return a node with equivalent data</a>
+<span class="sourceLineNo">235</span><a id="line.235">     */</a>
+<span class="sourceLineNo">236</span><a id="line.236">    ConfigurationNode guardOutputRead(final ConfigurationNode untrusted) {</a>
+<span class="sourceLineNo">237</span><a id="line.237">        switch (this.readProtection) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">            case COPY_DEEP: return untrusted.copy();</a>
+<span class="sourceLineNo">239</span><a id="line.239">            case NONE: return untrusted;</a>
+<span class="sourceLineNo">240</span><a id="line.240">            default: throw new IllegalArgumentException("Unexpected state");</a>
+<span class="sourceLineNo">241</span><a id="line.241">        }</a>
+<span class="sourceLineNo">242</span><a id="line.242">    }</a>
+<span class="sourceLineNo">243</span><a id="line.243"></a>
+<span class="sourceLineNo">244</span><a id="line.244">    ConfigurationNode guardInputWrite(final ConfigurationNode untrusted) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">        switch (this.writeProtection) {</a>
+<span class="sourceLineNo">246</span><a id="line.246">            case COPY_DEEP: return untrusted.copy();</a>
+<span class="sourceLineNo">247</span><a id="line.247">            case NONE: return untrusted;</a>
+<span class="sourceLineNo">248</span><a id="line.248">            default: throw new IllegalArgumentException("Unexpected state");</a>
+<span class="sourceLineNo">249</span><a id="line.249">        }</a>
+<span class="sourceLineNo">250</span><a id="line.250">    }</a>
+<span class="sourceLineNo">251</span><a id="line.251"></a>
+<span class="sourceLineNo">252</span><a id="line.252">    /**</a>
+<span class="sourceLineNo">253</span><a id="line.253">     * Create a new empty node using this ops instance's factory.</a>
+<span class="sourceLineNo">254</span><a id="line.254">     *</a>
+<span class="sourceLineNo">255</span><a id="line.255">     * @return the new node</a>
+<span class="sourceLineNo">256</span><a id="line.256">     */</a>
+<span class="sourceLineNo">257</span><a id="line.257">    @Override</a>
+<span class="sourceLineNo">258</span><a id="line.258">    public ConfigurationNode empty() {</a>
+<span class="sourceLineNo">259</span><a id="line.259">        return this.factory.createNode();</a>
+<span class="sourceLineNo">260</span><a id="line.260">    }</a>
+<span class="sourceLineNo">261</span><a id="line.261"></a>
+<span class="sourceLineNo">262</span><a id="line.262">    @Override</a>
+<span class="sourceLineNo">263</span><a id="line.263">    public ConfigurationNode emptyMap() {</a>
+<span class="sourceLineNo">264</span><a id="line.264">        return empty().raw(ImmutableMap.of());</a>
+<span class="sourceLineNo">265</span><a id="line.265">    }</a>
+<span class="sourceLineNo">266</span><a id="line.266"></a>
+<span class="sourceLineNo">267</span><a id="line.267">    @Override</a>
+<span class="sourceLineNo">268</span><a id="line.268">    public ConfigurationNode emptyList() {</a>
+<span class="sourceLineNo">269</span><a id="line.269">        return empty().raw(ImmutableList.of());</a>
+<span class="sourceLineNo">270</span><a id="line.270">    }</a>
+<span class="sourceLineNo">271</span><a id="line.271"></a>
+<span class="sourceLineNo">272</span><a id="line.272">    // If the destination ops is another Configurate ops instance, just directly pass the node through</a>
+<span class="sourceLineNo">273</span><a id="line.273">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">274</span><a id="line.274">    private &lt;U&gt; @Nullable U convertSelf(final DynamicOps&lt;U&gt; outOps, final ConfigurationNode input) {</a>
+<span class="sourceLineNo">275</span><a id="line.275">        if (outOps instanceof ConfigurateOps) {</a>
+<span class="sourceLineNo">276</span><a id="line.276">            return (U) input;</a>
+<span class="sourceLineNo">277</span><a id="line.277">        } else {</a>
+<span class="sourceLineNo">278</span><a id="line.278">            return null;</a>
+<span class="sourceLineNo">279</span><a id="line.279">        }</a>
+<span class="sourceLineNo">280</span><a id="line.280">    }</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">    /**</a>
+<span class="sourceLineNo">283</span><a id="line.283">     * Create a copy of the source node converted to a different data structure.</a>
+<span class="sourceLineNo">284</span><a id="line.284">     *</a>
+<span class="sourceLineNo">285</span><a id="line.285">     * &lt;p&gt;Value types will be preserved as much as possible, but a reverse</a>
+<span class="sourceLineNo">286</span><a id="line.286">     * conversion will most likely be lossy</a>
+<span class="sourceLineNo">287</span><a id="line.287">     *</a>
+<span class="sourceLineNo">288</span><a id="line.288">     * @param targetOps output type</a>
+<span class="sourceLineNo">289</span><a id="line.289">     * @param source source value</a>
+<span class="sourceLineNo">290</span><a id="line.290">     * @param &lt;U&gt; output type</a>
+<span class="sourceLineNo">291</span><a id="line.291">     * @return output value</a>
+<span class="sourceLineNo">292</span><a id="line.292">     */</a>
+<span class="sourceLineNo">293</span><a id="line.293">    @Override</a>
+<span class="sourceLineNo">294</span><a id="line.294">    public &lt;U&gt; U convertTo(final DynamicOps&lt;U&gt; targetOps, final ConfigurationNode source) {</a>
+<span class="sourceLineNo">295</span><a id="line.295">        final @Nullable U self = convertSelf(requireNonNull(targetOps, "targetOps"), requireNonNull(source, "source"));</a>
+<span class="sourceLineNo">296</span><a id="line.296">        if (self != null) {</a>
+<span class="sourceLineNo">297</span><a id="line.297">            return self;</a>
+<span class="sourceLineNo">298</span><a id="line.298">        }</a>
+<span class="sourceLineNo">299</span><a id="line.299"></a>
+<span class="sourceLineNo">300</span><a id="line.300">        if (source.isMap()) {</a>
+<span class="sourceLineNo">301</span><a id="line.301">            return convertMap(targetOps, source);</a>
+<span class="sourceLineNo">302</span><a id="line.302">        } else if (source.isList()) {</a>
+<span class="sourceLineNo">303</span><a id="line.303">            return convertList(targetOps, source);</a>
+<span class="sourceLineNo">304</span><a id="line.304">        } else {</a>
+<span class="sourceLineNo">305</span><a id="line.305">            final @Nullable Object value = source.rawScalar();</a>
+<span class="sourceLineNo">306</span><a id="line.306">            if (value == null) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">                return targetOps.empty();</a>
+<span class="sourceLineNo">308</span><a id="line.308">            } else if (value instanceof String) {</a>
+<span class="sourceLineNo">309</span><a id="line.309">                return targetOps.createString((String) value);</a>
+<span class="sourceLineNo">310</span><a id="line.310">            } else if (value instanceof Boolean) {</a>
+<span class="sourceLineNo">311</span><a id="line.311">                return targetOps.createBoolean((Boolean) value);</a>
+<span class="sourceLineNo">312</span><a id="line.312">            } else if (value instanceof Short) {</a>
+<span class="sourceLineNo">313</span><a id="line.313">                return targetOps.createShort((Short) value);</a>
+<span class="sourceLineNo">314</span><a id="line.314">            } else if (value instanceof Integer) {</a>
+<span class="sourceLineNo">315</span><a id="line.315">                return targetOps.createInt((Integer) value);</a>
+<span class="sourceLineNo">316</span><a id="line.316">            } else if (value instanceof Long) {</a>
+<span class="sourceLineNo">317</span><a id="line.317">                return targetOps.createLong((Long) value);</a>
+<span class="sourceLineNo">318</span><a id="line.318">            } else if (value instanceof Float) {</a>
+<span class="sourceLineNo">319</span><a id="line.319">                return targetOps.createFloat((Float) value);</a>
+<span class="sourceLineNo">320</span><a id="line.320">            } else if (value instanceof Double) {</a>
+<span class="sourceLineNo">321</span><a id="line.321">                return targetOps.createDouble((Double) value);</a>
+<span class="sourceLineNo">322</span><a id="line.322">            } else if (value instanceof Byte) {</a>
+<span class="sourceLineNo">323</span><a id="line.323">                return targetOps.createByte((Byte) value);</a>
+<span class="sourceLineNo">324</span><a id="line.324">            } else if (value instanceof byte[]) {</a>
+<span class="sourceLineNo">325</span><a id="line.325">                return targetOps.createByteList(ByteBuffer.wrap((byte[]) value));</a>
+<span class="sourceLineNo">326</span><a id="line.326">            } else if (value instanceof int[]) {</a>
+<span class="sourceLineNo">327</span><a id="line.327">                return targetOps.createIntList(IntStream.of((int[]) value));</a>
+<span class="sourceLineNo">328</span><a id="line.328">            } else if (value instanceof long[]) {</a>
+<span class="sourceLineNo">329</span><a id="line.329">                return targetOps.createLongList(LongStream.of((long[]) value));</a>
+<span class="sourceLineNo">330</span><a id="line.330">            } else {</a>
+<span class="sourceLineNo">331</span><a id="line.331">                throw new IllegalArgumentException("Scalar value '" + source + "' has an unknown type: " + value.getClass().getName());</a>
+<span class="sourceLineNo">332</span><a id="line.332">            }</a>
+<span class="sourceLineNo">333</span><a id="line.333">        }</a>
+<span class="sourceLineNo">334</span><a id="line.334">    }</a>
+<span class="sourceLineNo">335</span><a id="line.335"></a>
+<span class="sourceLineNo">336</span><a id="line.336">    /**</a>
+<span class="sourceLineNo">337</span><a id="line.337">     * Get the value of the provided node if it is a number or boolean.</a>
+<span class="sourceLineNo">338</span><a id="line.338">     *</a>
+<span class="sourceLineNo">339</span><a id="line.339">     * &lt;p&gt;If {@link #compressMaps()} is true, values may be coerced from</a>
+<span class="sourceLineNo">340</span><a id="line.340">     * another type.</a>
+<span class="sourceLineNo">341</span><a id="line.341">     *</a>
+<span class="sourceLineNo">342</span><a id="line.342">     * @param input data source</a>
+<span class="sourceLineNo">343</span><a id="line.343">     * @return extracted number</a>
+<span class="sourceLineNo">344</span><a id="line.344">     */</a>
+<span class="sourceLineNo">345</span><a id="line.345">    @Override</a>
+<span class="sourceLineNo">346</span><a id="line.346">    public DataResult&lt;Number&gt; getNumberValue(final ConfigurationNode input) {</a>
+<span class="sourceLineNo">347</span><a id="line.347">        if (!(input.isMap() || input.isList())) {</a>
+<span class="sourceLineNo">348</span><a id="line.348">            final @Nullable Object value = input.rawScalar();</a>
+<span class="sourceLineNo">349</span><a id="line.349">            if (value instanceof Number) {</a>
+<span class="sourceLineNo">350</span><a id="line.350">                return DataResult.success((Number) value);</a>
+<span class="sourceLineNo">351</span><a id="line.351">            } else if (value instanceof Boolean) {</a>
+<span class="sourceLineNo">352</span><a id="line.352">                return DataResult.success((boolean) value ? 1 : 0);</a>
+<span class="sourceLineNo">353</span><a id="line.353">            }</a>
+<span class="sourceLineNo">354</span><a id="line.354"></a>
+<span class="sourceLineNo">355</span><a id="line.355">            if (compressMaps()) {</a>
+<span class="sourceLineNo">356</span><a id="line.356">                final int result = input.getInt(Integer.MIN_VALUE);</a>
+<span class="sourceLineNo">357</span><a id="line.357">                if (result == Integer.MIN_VALUE) {</a>
+<span class="sourceLineNo">358</span><a id="line.358">                    return DataResult.error("Value is not a number");</a>
+<span class="sourceLineNo">359</span><a id="line.359">                }</a>
+<span class="sourceLineNo">360</span><a id="line.360">                return DataResult.success(result);</a>
+<span class="sourceLineNo">361</span><a id="line.361">            }</a>
+<span class="sourceLineNo">362</span><a id="line.362">        }</a>
+<span class="sourceLineNo">363</span><a id="line.363"></a>
+<span class="sourceLineNo">364</span><a id="line.364">        return DataResult.error("Not a number: " + input);</a>
+<span class="sourceLineNo">365</span><a id="line.365">    }</a>
+<span class="sourceLineNo">366</span><a id="line.366"></a>
+<span class="sourceLineNo">367</span><a id="line.367">    /**</a>
+<span class="sourceLineNo">368</span><a id="line.368">     * Get the value of the provided node if it is a scalar, converted to</a>
+<span class="sourceLineNo">369</span><a id="line.369">     * a {@link String}.</a>
+<span class="sourceLineNo">370</span><a id="line.370">     *</a>
+<span class="sourceLineNo">371</span><a id="line.371">     * @param input data source</a>
+<span class="sourceLineNo">372</span><a id="line.372">     * @return string | error</a>
+<span class="sourceLineNo">373</span><a id="line.373">     */</a>
+<span class="sourceLineNo">374</span><a id="line.374">    @Override</a>
+<span class="sourceLineNo">375</span><a id="line.375">    public DataResult&lt;String&gt; getStringValue(final ConfigurationNode input) {</a>
+<span class="sourceLineNo">376</span><a id="line.376">        final @Nullable String value = input.getString();</a>
+<span class="sourceLineNo">377</span><a id="line.377">        if (value != null) {</a>
+<span class="sourceLineNo">378</span><a id="line.378">            return DataResult.success(value);</a>
+<span class="sourceLineNo">379</span><a id="line.379">        }</a>
+<span class="sourceLineNo">380</span><a id="line.380"></a>
+<span class="sourceLineNo">381</span><a id="line.381">        return DataResult.error("Not a string: " + input);</a>
+<span class="sourceLineNo">382</span><a id="line.382">    }</a>
+<span class="sourceLineNo">383</span><a id="line.383"></a>
+<span class="sourceLineNo">384</span><a id="line.384">    /**</a>
+<span class="sourceLineNo">385</span><a id="line.385">     * Create a new node using this ops instance's node factory,</a>
+<span class="sourceLineNo">386</span><a id="line.386">     * and set its value to the provided number.</a>
+<span class="sourceLineNo">387</span><a id="line.387">     *</a>
+<span class="sourceLineNo">388</span><a id="line.388">     * @param value value</a>
+<span class="sourceLineNo">389</span><a id="line.389">     * @return new node with value</a>
+<span class="sourceLineNo">390</span><a id="line.390">     */</a>
+<span class="sourceLineNo">391</span><a id="line.391">    @Override</a>
+<span class="sourceLineNo">392</span><a id="line.392">    public ConfigurationNode createNumeric(final Number value) {</a>
+<span class="sourceLineNo">393</span><a id="line.393">        return empty().raw(requireNonNull(value, "value"));</a>
+<span class="sourceLineNo">394</span><a id="line.394">    }</a>
+<span class="sourceLineNo">395</span><a id="line.395"></a>
+<span class="sourceLineNo">396</span><a id="line.396">    /**</a>
+<span class="sourceLineNo">397</span><a id="line.397">     * Create a new node using this ops instance's node factory,</a>
+<span class="sourceLineNo">398</span><a id="line.398">     * and set its value to the provided boolean.</a>
+<span class="sourceLineNo">399</span><a id="line.399">     *</a>
+<span class="sourceLineNo">400</span><a id="line.400">     * @param value value</a>
+<span class="sourceLineNo">401</span><a id="line.401">     * @return new node with value</a>
+<span class="sourceLineNo">402</span><a id="line.402">     */</a>
+<span class="sourceLineNo">403</span><a id="line.403">    @Override</a>
+<span class="sourceLineNo">404</span><a id="line.404">    public ConfigurationNode createBoolean(final boolean value) {</a>
+<span class="sourceLineNo">405</span><a id="line.405">        return empty().raw(value);</a>
+<span class="sourceLineNo">406</span><a id="line.406">    }</a>
+<span class="sourceLineNo">407</span><a id="line.407"></a>
+<span class="sourceLineNo">408</span><a id="line.408">    /**</a>
+<span class="sourceLineNo">409</span><a id="line.409">     * Create a new node using this ops instance's node factory,</a>
+<span class="sourceLineNo">410</span><a id="line.410">     * and set its value to the provided string.</a>
+<span class="sourceLineNo">411</span><a id="line.411">     *</a>
+<span class="sourceLineNo">412</span><a id="line.412">     * @param value value</a>
+<span class="sourceLineNo">413</span><a id="line.413">     * @return new node with value</a>
+<span class="sourceLineNo">414</span><a id="line.414">     */</a>
+<span class="sourceLineNo">415</span><a id="line.415">    @Override</a>
+<span class="sourceLineNo">416</span><a id="line.416">    public ConfigurationNode createString(final String value) {</a>
+<span class="sourceLineNo">417</span><a id="line.417">        return empty().raw(requireNonNull(value, "value"));</a>
+<span class="sourceLineNo">418</span><a id="line.418">    }</a>
+<span class="sourceLineNo">419</span><a id="line.419"></a>
+<span class="sourceLineNo">420</span><a id="line.420">    /**</a>
+<span class="sourceLineNo">421</span><a id="line.421">     * Return a result where if {@code prefix} is empty, the node is</a>
+<span class="sourceLineNo">422</span><a id="line.422">     * {@code value}, but otherwise returns an error.</a>
+<span class="sourceLineNo">423</span><a id="line.423">     *</a>
+<span class="sourceLineNo">424</span><a id="line.424">     * @param prefix starting value</a>
+<span class="sourceLineNo">425</span><a id="line.425">     * @param value to update base with</a>
+<span class="sourceLineNo">426</span><a id="line.426">     * @return result of updated node or error</a>
+<span class="sourceLineNo">427</span><a id="line.427">     */</a>
+<span class="sourceLineNo">428</span><a id="line.428">    @Override</a>
+<span class="sourceLineNo">429</span><a id="line.429">    public DataResult&lt;ConfigurationNode&gt; mergeToPrimitive(final ConfigurationNode prefix, final ConfigurationNode value) {</a>
+<span class="sourceLineNo">430</span><a id="line.430">        if (!prefix.empty()) {</a>
+<span class="sourceLineNo">431</span><a id="line.431">            return DataResult.error("Cannot merge " + value + " into non-empty node " + prefix);</a>
+<span class="sourceLineNo">432</span><a id="line.432">        }</a>
+<span class="sourceLineNo">433</span><a id="line.433">        return DataResult.success(guardOutputRead(value));</a>
+<span class="sourceLineNo">434</span><a id="line.434">    }</a>
+<span class="sourceLineNo">435</span><a id="line.435"></a>
+<span class="sourceLineNo">436</span><a id="line.436">    /**</a>
+<span class="sourceLineNo">437</span><a id="line.437">     * Appends element {@code value} to list node {@code input}.</a>
+<span class="sourceLineNo">438</span><a id="line.438">     *</a>
+<span class="sourceLineNo">439</span><a id="line.439">     * @param input base node. Must be empty or of list type</a>
+<span class="sourceLineNo">440</span><a id="line.440">     * @param value value to add as element to the list</a>
+<span class="sourceLineNo">441</span><a id="line.441">     * @return success with modified node, or error if {@code input} contains a</a>
+<span class="sourceLineNo">442</span><a id="line.442">     *          non-{@link ConfigurationNode#isList() list} value</a>
+<span class="sourceLineNo">443</span><a id="line.443">     */</a>
+<span class="sourceLineNo">444</span><a id="line.444">    @Override</a>
+<span class="sourceLineNo">445</span><a id="line.445">    public DataResult&lt;ConfigurationNode&gt; mergeToList(final ConfigurationNode input, final ConfigurationNode value) {</a>
+<span class="sourceLineNo">446</span><a id="line.446">        if (input.isList() || input.empty()) {</a>
+<span class="sourceLineNo">447</span><a id="line.447">            final ConfigurationNode ret = guardOutputRead(input);</a>
+<span class="sourceLineNo">448</span><a id="line.448">            ret.appendListNode().from(value);</a>
+<span class="sourceLineNo">449</span><a id="line.449">            return DataResult.success(ret);</a>
+<span class="sourceLineNo">450</span><a id="line.450">        }</a>
+<span class="sourceLineNo">451</span><a id="line.451"></a>
+<span class="sourceLineNo">452</span><a id="line.452">        return DataResult.error("mergeToList called on a node which is not a list: " + input, input);</a>
+<span class="sourceLineNo">453</span><a id="line.453">    }</a>
+<span class="sourceLineNo">454</span><a id="line.454"></a>
+<span class="sourceLineNo">455</span><a id="line.455">    /**</a>
+<span class="sourceLineNo">456</span><a id="line.456">     * Appends nodes in {@code values} to copy of list node {@code input}.</a>
+<span class="sourceLineNo">457</span><a id="line.457">     *</a>
+<span class="sourceLineNo">458</span><a id="line.458">     * @param input base node. Must be empty or of list type</a>
+<span class="sourceLineNo">459</span><a id="line.459">     * @param values list of values to append to base node</a>
+<span class="sourceLineNo">460</span><a id="line.460">     * @return success with modified node, or error if {@code input} contains a</a>
+<span class="sourceLineNo">461</span><a id="line.461">     *          non-{@link ConfigurationNode#isList() list} value</a>
+<span class="sourceLineNo">462</span><a id="line.462">     */</a>
+<span class="sourceLineNo">463</span><a id="line.463">    @Override</a>
+<span class="sourceLineNo">464</span><a id="line.464">    public DataResult&lt;ConfigurationNode&gt; mergeToList(final ConfigurationNode input, final List&lt;ConfigurationNode&gt; values) {</a>
+<span class="sourceLineNo">465</span><a id="line.465">        if (input.isList() || input.empty()) {</a>
+<span class="sourceLineNo">466</span><a id="line.466">            final ConfigurationNode ret = guardInputWrite(input);</a>
+<span class="sourceLineNo">467</span><a id="line.467">            for (ConfigurationNode node : values) {</a>
+<span class="sourceLineNo">468</span><a id="line.468">                ret.appendListNode().from(node);</a>
+<span class="sourceLineNo">469</span><a id="line.469">            }</a>
+<span class="sourceLineNo">470</span><a id="line.470">            return DataResult.success(ret);</a>
+<span class="sourceLineNo">471</span><a id="line.471">        }</a>
+<span class="sourceLineNo">472</span><a id="line.472"></a>
+<span class="sourceLineNo">473</span><a id="line.473">        return DataResult.error("mergeToList called on a node which is not a list: " + input, input);</a>
+<span class="sourceLineNo">474</span><a id="line.474">    }</a>
+<span class="sourceLineNo">475</span><a id="line.475"></a>
+<span class="sourceLineNo">476</span><a id="line.476">    /**</a>
+<span class="sourceLineNo">477</span><a id="line.477">     * Update the child of {@code input} at {@code key} with {@code value}.</a>
+<span class="sourceLineNo">478</span><a id="line.478">     *</a>
+<span class="sourceLineNo">479</span><a id="line.479">     * &lt;p&gt;This operation will only affect the returned copy of the input node</a>
+<span class="sourceLineNo">480</span><a id="line.480">     *</a>
+<span class="sourceLineNo">481</span><a id="line.481">     * @param input base node. Must be empty or of map type</a>
+<span class="sourceLineNo">482</span><a id="line.482">     * @param key key relative to base node</a>
+<span class="sourceLineNo">483</span><a id="line.483">     * @param value value to set at empty node</a>
+<span class="sourceLineNo">484</span><a id="line.484">     * @return success with modified node, or error if {@code input} contains a</a>
+<span class="sourceLineNo">485</span><a id="line.485">     *          non-{@link ConfigurationNode#isList() list} value</a>
+<span class="sourceLineNo">486</span><a id="line.486">     */</a>
+<span class="sourceLineNo">487</span><a id="line.487">    @Override</a>
+<span class="sourceLineNo">488</span><a id="line.488">    public DataResult&lt;ConfigurationNode&gt; mergeToMap(final ConfigurationNode input, final ConfigurationNode key, final ConfigurationNode value) {</a>
+<span class="sourceLineNo">489</span><a id="line.489">        if (input.isMap() || input.empty()) {</a>
+<span class="sourceLineNo">490</span><a id="line.490">            final ConfigurationNode copied = guardInputWrite(input);</a>
+<span class="sourceLineNo">491</span><a id="line.491">            copied.node(keyFrom(key)).from(value);</a>
+<span class="sourceLineNo">492</span><a id="line.492">            return DataResult.success(copied);</a>
+<span class="sourceLineNo">493</span><a id="line.493">        }</a>
+<span class="sourceLineNo">494</span><a id="line.494"></a>
+<span class="sourceLineNo">495</span><a id="line.495">        return DataResult.error("mergeToMap called on a node which is not a map: " + input, input);</a>
+<span class="sourceLineNo">496</span><a id="line.496">    }</a>
+<span class="sourceLineNo">497</span><a id="line.497"></a>
+<span class="sourceLineNo">498</span><a id="line.498">    /**</a>
+<span class="sourceLineNo">499</span><a id="line.499">     * Return a stream of pairs of (key, value) for map data in the input node.</a>
+<span class="sourceLineNo">500</span><a id="line.500">     *</a>
+<span class="sourceLineNo">501</span><a id="line.501">     * &lt;p&gt;If the input node is non-empty and not a map, the result will</a>
+<span class="sourceLineNo">502</span><a id="line.502">     * be a failure.</a>
+<span class="sourceLineNo">503</span><a id="line.503">     *</a>
+<span class="sourceLineNo">504</span><a id="line.504">     * @param input input node</a>
+<span class="sourceLineNo">505</span><a id="line.505">     * @return result, if successful, of a stream of pairs (key, value) of</a>
+<span class="sourceLineNo">506</span><a id="line.506">     *          entries in the input node.</a>
+<span class="sourceLineNo">507</span><a id="line.507">     */</a>
+<span class="sourceLineNo">508</span><a id="line.508">    @Override</a>
+<span class="sourceLineNo">509</span><a id="line.509">    public DataResult&lt;Stream&lt;Pair&lt;ConfigurationNode, ConfigurationNode&gt;&gt;&gt; getMapValues(final ConfigurationNode input) {</a>
+<span class="sourceLineNo">510</span><a id="line.510">        if (input.empty() || input.isMap()) {</a>
+<span class="sourceLineNo">511</span><a id="line.511">            return DataResult.success(input.childrenMap().entrySet().stream()</a>
+<span class="sourceLineNo">512</span><a id="line.512">                                              .map(entry -&gt; Pair.of(BasicConfigurationNode.root(input.options()).raw(entry.getKey()),</a>
+<span class="sourceLineNo">513</span><a id="line.513">                                                                    guardOutputRead(entry.getValue()))));</a>
+<span class="sourceLineNo">514</span><a id="line.514">        }</a>
+<span class="sourceLineNo">515</span><a id="line.515"></a>
+<span class="sourceLineNo">516</span><a id="line.516">        return DataResult.error("Not a map: " + input);</a>
+<span class="sourceLineNo">517</span><a id="line.517">    }</a>
+<span class="sourceLineNo">518</span><a id="line.518"></a>
+<span class="sourceLineNo">519</span><a id="line.519">    /**</a>
+<span class="sourceLineNo">520</span><a id="line.520">     * Get a map-like view of a copy of the contents of {@code input}.</a>
+<span class="sourceLineNo">521</span><a id="line.521">     *</a>
+<span class="sourceLineNo">522</span><a id="line.522">     * &lt;p&gt;If the input node is non-empty and not a map, the result will</a>
+<span class="sourceLineNo">523</span><a id="line.523">     * be a failure.</a>
+<span class="sourceLineNo">524</span><a id="line.524">     *</a>
+<span class="sourceLineNo">525</span><a id="line.525">     * @param input input node</a>
+<span class="sourceLineNo">526</span><a id="line.526">     * @return result, if successful, of map-like view of a copy of the input</a>
+<span class="sourceLineNo">527</span><a id="line.527">     */</a>
+<span class="sourceLineNo">528</span><a id="line.528">    @Override</a>
+<span class="sourceLineNo">529</span><a id="line.529">    public DataResult&lt;MapLike&lt;ConfigurationNode&gt;&gt; getMap(final ConfigurationNode input) {</a>
+<span class="sourceLineNo">530</span><a id="line.530">        if (input.empty() || input.isMap()) {</a>
+<span class="sourceLineNo">531</span><a id="line.531">            return DataResult.success(new NodeMaplike(this, input.options(), input.childrenMap()));</a>
+<span class="sourceLineNo">532</span><a id="line.532">        } else {</a>
+<span class="sourceLineNo">533</span><a id="line.533">            return DataResult.error("Input node is not a map");</a>
+<span class="sourceLineNo">534</span><a id="line.534">        }</a>
+<span class="sourceLineNo">535</span><a id="line.535">    }</a>
+<span class="sourceLineNo">536</span><a id="line.536"></a>
+<span class="sourceLineNo">537</span><a id="line.537">    /**</a>
+<span class="sourceLineNo">538</span><a id="line.538">     * Get a consumer that takes an action to perform on every element of</a>
+<span class="sourceLineNo">539</span><a id="line.539">     * list node {@code input}.</a>
+<span class="sourceLineNo">540</span><a id="line.540">     *</a>
+<span class="sourceLineNo">541</span><a id="line.541">     * &lt;p&gt;As an example, to print out every node in a list</a>
+<span class="sourceLineNo">542</span><a id="line.542">     *      (minus error checking):</a>
+<span class="sourceLineNo">543</span><a id="line.543">     *     &lt;pre&gt;</a>
+<span class="sourceLineNo">544</span><a id="line.544">     *         getList(listNode).result().get()</a>
+<span class="sourceLineNo">545</span><a id="line.545">     *             .accept(element -&amp;gt; System.out.println(element);</a>
+<span class="sourceLineNo">546</span><a id="line.546">     *     &lt;/pre&gt;</a>
+<span class="sourceLineNo">547</span><a id="line.547">     *</a>
+<span class="sourceLineNo">548</span><a id="line.548">     * @param input data source</a>
+<span class="sourceLineNo">549</span><a id="line.549">     * @return result, that if successful will take an action to perform on</a>
+<span class="sourceLineNo">550</span><a id="line.550">     *          every element</a>
+<span class="sourceLineNo">551</span><a id="line.551">     */</a>
+<span class="sourceLineNo">552</span><a id="line.552">    @Override</a>
+<span class="sourceLineNo">553</span><a id="line.553">    public DataResult&lt;Consumer&lt;Consumer&lt;ConfigurationNode&gt;&gt;&gt; getList(final ConfigurationNode input) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">        if (input.isList()) {</a>
+<span class="sourceLineNo">555</span><a id="line.555">            return DataResult.success(action -&gt; {</a>
+<span class="sourceLineNo">556</span><a id="line.556">                for (ConfigurationNode child : input.childrenList()) {</a>
+<span class="sourceLineNo">557</span><a id="line.557">                    action.accept(guardOutputRead(child));</a>
+<span class="sourceLineNo">558</span><a id="line.558">                }</a>
+<span class="sourceLineNo">559</span><a id="line.559">            });</a>
+<span class="sourceLineNo">560</span><a id="line.560">        } else {</a>
+<span class="sourceLineNo">561</span><a id="line.561">            return DataResult.error("Input node is not a list");</a>
+<span class="sourceLineNo">562</span><a id="line.562">        }</a>
+<span class="sourceLineNo">563</span><a id="line.563">    }</a>
+<span class="sourceLineNo">564</span><a id="line.564"></a>
+<span class="sourceLineNo">565</span><a id="line.565">    /**</a>
+<span class="sourceLineNo">566</span><a id="line.566">     * Get the contents of list node {@code input} as a {@link Stream} of nodes.</a>
+<span class="sourceLineNo">567</span><a id="line.567">     *</a>
+<span class="sourceLineNo">568</span><a id="line.568">     * @param input data source</a>
+<span class="sourceLineNo">569</span><a id="line.569">     * @return if node is empty or a list, stream of nodes</a>
+<span class="sourceLineNo">570</span><a id="line.570">     */</a>
+<span class="sourceLineNo">571</span><a id="line.571">    @Override</a>
+<span class="sourceLineNo">572</span><a id="line.572">    public DataResult&lt;Stream&lt;ConfigurationNode&gt;&gt; getStream(final ConfigurationNode input) {</a>
+<span class="sourceLineNo">573</span><a id="line.573">        if (input.empty() || input.isList()) {</a>
+<span class="sourceLineNo">574</span><a id="line.574">            final Stream&lt;ConfigurationNode&gt; stream = input.childrenList().stream().map(this::guardOutputRead);</a>
+<span class="sourceLineNo">575</span><a id="line.575">            return DataResult.success(stream);</a>
+<span class="sourceLineNo">576</span><a id="line.576">        }</a>
+<span class="sourceLineNo">577</span><a id="line.577"></a>
+<span class="sourceLineNo">578</span><a id="line.578">        return DataResult.error("Not a list: " + input);</a>
+<span class="sourceLineNo">579</span><a id="line.579">    }</a>
+<span class="sourceLineNo">580</span><a id="line.580"></a>
+<span class="sourceLineNo">581</span><a id="line.581">    /**</a>
+<span class="sourceLineNo">582</span><a id="line.582">     * Create a new node containing the map entries from the</a>
+<span class="sourceLineNo">583</span><a id="line.583">     * stream {@code values}.</a>
+<span class="sourceLineNo">584</span><a id="line.584">     *</a>
+<span class="sourceLineNo">585</span><a id="line.585">     * &lt;p&gt;Keys will be interpreted as a single Object, and can only</a>
+<span class="sourceLineNo">586</span><a id="line.586">     * currently access direct children.</a>
+<span class="sourceLineNo">587</span><a id="line.587">     *</a>
+<span class="sourceLineNo">588</span><a id="line.588">     * @param values entries in the map</a>
+<span class="sourceLineNo">589</span><a id="line.589">     * @return newly created node</a>
+<span class="sourceLineNo">590</span><a id="line.590">     */</a>
+<span class="sourceLineNo">591</span><a id="line.591">    @Override</a>
+<span class="sourceLineNo">592</span><a id="line.592">    public ConfigurationNode createMap(final Stream&lt;Pair&lt;ConfigurationNode, ConfigurationNode&gt;&gt; values) {</a>
+<span class="sourceLineNo">593</span><a id="line.593">        final ConfigurationNode ret = empty();</a>
+<span class="sourceLineNo">594</span><a id="line.594"></a>
+<span class="sourceLineNo">595</span><a id="line.595">        values.forEach(p -&gt; ret.node(keyFrom(p.getFirst())).from(p.getSecond()));</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">        return ret;</a>
+<span class="sourceLineNo">598</span><a id="line.598">    }</a>
+<span class="sourceLineNo">599</span><a id="line.599"></a>
+<span class="sourceLineNo">600</span><a id="line.600">    /**</a>
+<span class="sourceLineNo">601</span><a id="line.601">     * Create a new node containing the map entries from the</a>
+<span class="sourceLineNo">602</span><a id="line.602">     * map {@code values}.</a>
+<span class="sourceLineNo">603</span><a id="line.603">     *</a>
+<span class="sourceLineNo">604</span><a id="line.604">     * &lt;p&gt;Keys will be interpreted as a single Object, and can only</a>
+<span class="sourceLineNo">605</span><a id="line.605">     * currently access direct children.</a>
+<span class="sourceLineNo">606</span><a id="line.606">     *</a>
+<span class="sourceLineNo">607</span><a id="line.607">     * @param values unwrapped node map</a>
+<span class="sourceLineNo">608</span><a id="line.608">     * @return newly created node</a>
+<span class="sourceLineNo">609</span><a id="line.609">     */</a>
+<span class="sourceLineNo">610</span><a id="line.610">    @Override</a>
+<span class="sourceLineNo">611</span><a id="line.611">    public ConfigurationNode createMap(final Map&lt;ConfigurationNode, ConfigurationNode&gt; values) {</a>
+<span class="sourceLineNo">612</span><a id="line.612">        final ConfigurationNode ret = empty();</a>
+<span class="sourceLineNo">613</span><a id="line.613"></a>
+<span class="sourceLineNo">614</span><a id="line.614">        for (Map.Entry&lt;ConfigurationNode, ConfigurationNode&gt; entry : values.entrySet()) {</a>
+<span class="sourceLineNo">615</span><a id="line.615">            ret.node(keyFrom(entry.getKey())).from(entry.getValue());</a>
+<span class="sourceLineNo">616</span><a id="line.616">        }</a>
+<span class="sourceLineNo">617</span><a id="line.617"></a>
+<span class="sourceLineNo">618</span><a id="line.618">        return ret;</a>
+<span class="sourceLineNo">619</span><a id="line.619">    }</a>
+<span class="sourceLineNo">620</span><a id="line.620"></a>
+<span class="sourceLineNo">621</span><a id="line.621">    /**</a>
+<span class="sourceLineNo">622</span><a id="line.622">     * Create a new node containing values emitted by {@code input} as</a>
+<span class="sourceLineNo">623</span><a id="line.623">     * list elements.</a>
+<span class="sourceLineNo">624</span><a id="line.624">     *</a>
+<span class="sourceLineNo">625</span><a id="line.625">     * @param input data source</a>
+<span class="sourceLineNo">626</span><a id="line.626">     * @return newly created node</a>
+<span class="sourceLineNo">627</span><a id="line.627">     */</a>
+<span class="sourceLineNo">628</span><a id="line.628">    @Override</a>
+<span class="sourceLineNo">629</span><a id="line.629">    public ConfigurationNode createList(final Stream&lt;ConfigurationNode&gt; input) {</a>
+<span class="sourceLineNo">630</span><a id="line.630">        final ConfigurationNode ret = empty();</a>
+<span class="sourceLineNo">631</span><a id="line.631">        input.forEach(it -&gt; ret.appendListNode().from(it));</a>
+<span class="sourceLineNo">632</span><a id="line.632">        return ret;</a>
+<span class="sourceLineNo">633</span><a id="line.633">    }</a>
+<span class="sourceLineNo">634</span><a id="line.634"></a>
+<span class="sourceLineNo">635</span><a id="line.635">    /**</a>
+<span class="sourceLineNo">636</span><a id="line.636">     * Get a copy of {@code input} without the value at node {@code key}.</a>
+<span class="sourceLineNo">637</span><a id="line.637">     *</a>
+<span class="sourceLineNo">638</span><a id="line.638">     * &lt;p&gt;If the input node is not a map, the input node will be returned.</a>
+<span class="sourceLineNo">639</span><a id="line.639">     *</a>
+<span class="sourceLineNo">640</span><a id="line.640">     * @param input data source</a>
+<span class="sourceLineNo">641</span><a id="line.641">     * @param key key to the node to be removed</a>
+<span class="sourceLineNo">642</span><a id="line.642">     * @return if node removed, a copy of the input without node,</a>
+<span class="sourceLineNo">643</span><a id="line.643">     *          otherwise input</a>
+<span class="sourceLineNo">644</span><a id="line.644">     */</a>
+<span class="sourceLineNo">645</span><a id="line.645">    @Override</a>
+<span class="sourceLineNo">646</span><a id="line.646">    public ConfigurationNode remove(final ConfigurationNode input, final String key) {</a>
+<span class="sourceLineNo">647</span><a id="line.647">        if (input.isMap()) {</a>
+<span class="sourceLineNo">648</span><a id="line.648">            final ConfigurationNode ret = guardInputWrite(input);</a>
+<span class="sourceLineNo">649</span><a id="line.649">            ret.node(key).raw(null);</a>
+<span class="sourceLineNo">650</span><a id="line.650">            return ret;</a>
+<span class="sourceLineNo">651</span><a id="line.651">        }</a>
+<span class="sourceLineNo">652</span><a id="line.652"></a>
+<span class="sourceLineNo">653</span><a id="line.653">        return input;</a>
+<span class="sourceLineNo">654</span><a id="line.654">    }</a>
+<span class="sourceLineNo">655</span><a id="line.655"></a>
+<span class="sourceLineNo">656</span><a id="line.656">    /**</a>
+<span class="sourceLineNo">657</span><a id="line.657">     * Attempt to get the child of {@code input} at {@code key}.</a>
+<span class="sourceLineNo">658</span><a id="line.658">     *</a>
+<span class="sourceLineNo">659</span><a id="line.659">     * @param input data source</a>
+<span class="sourceLineNo">660</span><a id="line.660">     * @param key child key</a>
+<span class="sourceLineNo">661</span><a id="line.661">     * @return success containing child if child is non-virtual,</a>
+<span class="sourceLineNo">662</span><a id="line.662">     *          otherwise failure</a>
+<span class="sourceLineNo">663</span><a id="line.663">     */</a>
+<span class="sourceLineNo">664</span><a id="line.664">    @Override</a>
+<span class="sourceLineNo">665</span><a id="line.665">    public DataResult&lt;ConfigurationNode&gt; get(final ConfigurationNode input, final String key) {</a>
+<span class="sourceLineNo">666</span><a id="line.666">        final ConfigurationNode ret = input.node(key);</a>
+<span class="sourceLineNo">667</span><a id="line.667">        return ret.virtual() ? DataResult.error("No element " + key + " in the map " + input) : DataResult.success(guardOutputRead(ret));</a>
+<span class="sourceLineNo">668</span><a id="line.668">    }</a>
+<span class="sourceLineNo">669</span><a id="line.669"></a>
+<span class="sourceLineNo">670</span><a id="line.670">    /**</a>
+<span class="sourceLineNo">671</span><a id="line.671">     * Get a child of the provided node at {@code key}.</a>
+<span class="sourceLineNo">672</span><a id="line.672">     *</a>
+<span class="sourceLineNo">673</span><a id="line.673">     * &lt;p&gt;Keys will be interpreted as a single Object, and can only</a>
+<span class="sourceLineNo">674</span><a id="line.674">     * currently access direct children.</a>
+<span class="sourceLineNo">675</span><a id="line.675">     *</a>
+<span class="sourceLineNo">676</span><a id="line.676">     * @param input parent node</a>
+<span class="sourceLineNo">677</span><a id="line.677">     * @param key wrapped key of child</a>
+<span class="sourceLineNo">678</span><a id="line.678">     * @return success containing child if child is non-virtual,</a>
+<span class="sourceLineNo">679</span><a id="line.679">     *          otherwise failure</a>
+<span class="sourceLineNo">680</span><a id="line.680">     */</a>
+<span class="sourceLineNo">681</span><a id="line.681">    @Override</a>
+<span class="sourceLineNo">682</span><a id="line.682">    public DataResult&lt;ConfigurationNode&gt; getGeneric(final ConfigurationNode input, final ConfigurationNode key) {</a>
+<span class="sourceLineNo">683</span><a id="line.683">        final ConfigurationNode ret = input.node(keyFrom(key));</a>
+<span class="sourceLineNo">684</span><a id="line.684">        return ret.virtual() ? DataResult.error("No element " + key + " in the map " + input) : DataResult.success(guardOutputRead(ret));</a>
+<span class="sourceLineNo">685</span><a id="line.685">    }</a>
+<span class="sourceLineNo">686</span><a id="line.686"></a>
+<span class="sourceLineNo">687</span><a id="line.687">    /**</a>
+<span class="sourceLineNo">688</span><a id="line.688">     * Update a copy of {@code input} with {@code value} at path {@code key}.</a>
+<span class="sourceLineNo">689</span><a id="line.689">     *</a>
+<span class="sourceLineNo">690</span><a id="line.690">     * @param input data source</a>
+<span class="sourceLineNo">691</span><a id="line.691">     * @param key key of child node</a>
+<span class="sourceLineNo">692</span><a id="line.692">     * @param value value for child node</a>
+<span class="sourceLineNo">693</span><a id="line.693">     * @return updated parent node</a>
+<span class="sourceLineNo">694</span><a id="line.694">     */</a>
+<span class="sourceLineNo">695</span><a id="line.695">    @Override</a>
+<span class="sourceLineNo">696</span><a id="line.696">    public ConfigurationNode set(final ConfigurationNode input, final String key, final ConfigurationNode value) {</a>
+<span class="sourceLineNo">697</span><a id="line.697">        final ConfigurationNode ret = guardInputWrite(input);</a>
+<span class="sourceLineNo">698</span><a id="line.698">        ret.node(key).from(value);</a>
+<span class="sourceLineNo">699</span><a id="line.699">        return ret;</a>
+<span class="sourceLineNo">700</span><a id="line.700">    }</a>
+<span class="sourceLineNo">701</span><a id="line.701"></a>
+<span class="sourceLineNo">702</span><a id="line.702">    /**</a>
+<span class="sourceLineNo">703</span><a id="line.703">     * Copies the input node and transform its child at {@code key}.</a>
+<span class="sourceLineNo">704</span><a id="line.704">     *</a>
+<span class="sourceLineNo">705</span><a id="line.705">     * &lt;p&gt;Return a copy of the input node with the child at {@code key}</a>
+<span class="sourceLineNo">706</span><a id="line.706">     * transformed by the provided function</a>
+<span class="sourceLineNo">707</span><a id="line.707">     *</a>
+<span class="sourceLineNo">708</span><a id="line.708">     * &lt;p&gt;If there is no value at {@code key}, the input node will be</a>
+<span class="sourceLineNo">709</span><a id="line.709">     * returned unmodified.</a>
+<span class="sourceLineNo">710</span><a id="line.710">     *</a>
+<span class="sourceLineNo">711</span><a id="line.711">     * @param input base value</a>
+<span class="sourceLineNo">712</span><a id="line.712">     * @param key key to change</a>
+<span class="sourceLineNo">713</span><a id="line.713">     * @param function function to process the node at {@code wrappedKey}</a>
+<span class="sourceLineNo">714</span><a id="line.714">     * @return an updated copy of input node</a>
+<span class="sourceLineNo">715</span><a id="line.715">     */</a>
+<span class="sourceLineNo">716</span><a id="line.716">    @Override</a>
+<span class="sourceLineNo">717</span><a id="line.717">    public ConfigurationNode update(final ConfigurationNode input, final String key, final Function&lt;ConfigurationNode, ConfigurationNode&gt; function) {</a>
+<span class="sourceLineNo">718</span><a id="line.718">        if (input.node(key).virtual()) {</a>
+<span class="sourceLineNo">719</span><a id="line.719">            return input;</a>
+<span class="sourceLineNo">720</span><a id="line.720">        }</a>
+<span class="sourceLineNo">721</span><a id="line.721"></a>
+<span class="sourceLineNo">722</span><a id="line.722">        final ConfigurationNode ret = guardInputWrite(input);</a>
+<span class="sourceLineNo">723</span><a id="line.723">        final ConfigurationNode child = ret.node(key);</a>
+<span class="sourceLineNo">724</span><a id="line.724">        child.from(function.apply(child));</a>
+<span class="sourceLineNo">725</span><a id="line.725">        return ret;</a>
+<span class="sourceLineNo">726</span><a id="line.726">    }</a>
+<span class="sourceLineNo">727</span><a id="line.727"></a>
+<span class="sourceLineNo">728</span><a id="line.728">    /**</a>
+<span class="sourceLineNo">729</span><a id="line.729">     * Copies the input node and transform the node at {@code wrappedKey}.</a>
+<span class="sourceLineNo">730</span><a id="line.730">     *</a>
+<span class="sourceLineNo">731</span><a id="line.731">     * &lt;p&gt;Return a copy of the input node with the child at {@code wrappedKey}</a>
+<span class="sourceLineNo">732</span><a id="line.732">     * transformed by the provided function</a>
+<span class="sourceLineNo">733</span><a id="line.733">     *</a>
+<span class="sourceLineNo">734</span><a id="line.734">     * &lt;p&gt;If there is no value at {@code wrappedKey}, the input node will be</a>
+<span class="sourceLineNo">735</span><a id="line.735">     * returned unmodified.</a>
+<span class="sourceLineNo">736</span><a id="line.736">     *</a>
+<span class="sourceLineNo">737</span><a id="line.737">     * &lt;p&gt;Keys will be interpreted as a single Object, and can only</a>
+<span class="sourceLineNo">738</span><a id="line.738">     * currently access direct children.</a>
+<span class="sourceLineNo">739</span><a id="line.739">     *</a>
+<span class="sourceLineNo">740</span><a id="line.740">     * @param input base value</a>
+<span class="sourceLineNo">741</span><a id="line.741">     * @param wrappedKey key to change</a>
+<span class="sourceLineNo">742</span><a id="line.742">     * @param function function to process the node at {@code wrappedKey}</a>
+<span class="sourceLineNo">743</span><a id="line.743">     * @return an updated copy of input node</a>
+<span class="sourceLineNo">744</span><a id="line.744">     */</a>
+<span class="sourceLineNo">745</span><a id="line.745">    @Override</a>
+<span class="sourceLineNo">746</span><a id="line.746">    public ConfigurationNode updateGeneric(final ConfigurationNode input, final ConfigurationNode wrappedKey,</a>
+<span class="sourceLineNo">747</span><a id="line.747">            final Function&lt;ConfigurationNode, ConfigurationNode&gt; function) {</a>
+<span class="sourceLineNo">748</span><a id="line.748">        final Object key = keyFrom(wrappedKey);</a>
+<span class="sourceLineNo">749</span><a id="line.749">        if (input.node(key).virtual()) {</a>
+<span class="sourceLineNo">750</span><a id="line.750">            return input;</a>
+<span class="sourceLineNo">751</span><a id="line.751">        }</a>
+<span class="sourceLineNo">752</span><a id="line.752"></a>
+<span class="sourceLineNo">753</span><a id="line.753">        final ConfigurationNode ret = guardInputWrite(input);</a>
+<span class="sourceLineNo">754</span><a id="line.754"></a>
+<span class="sourceLineNo">755</span><a id="line.755">        final ConfigurationNode child = ret.node(key);</a>
+<span class="sourceLineNo">756</span><a id="line.756">        child.from(function.apply(child));</a>
+<span class="sourceLineNo">757</span><a id="line.757">        return ret;</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759"></a>
+<span class="sourceLineNo">760</span><a id="line.760">    @Override</a>
+<span class="sourceLineNo">761</span><a id="line.761">    public String toString() {</a>
+<span class="sourceLineNo">762</span><a id="line.762">        return "Configurate";</a>
+<span class="sourceLineNo">763</span><a id="line.763">    }</a>
+<span class="sourceLineNo">764</span><a id="line.764"></a>
+<span class="sourceLineNo">765</span><a id="line.765">    /**</a>
+<span class="sourceLineNo">766</span><a id="line.766">     * Protection level for configuration node accesses through ops instance.</a>
+<span class="sourceLineNo">767</span><a id="line.767">     */</a>
+<span class="sourceLineNo">768</span><a id="line.768">    public enum Protection {</a>
+<span class="sourceLineNo">769</span><a id="line.769">        /**</a>
+<span class="sourceLineNo">770</span><a id="line.770">         * When an operation is executed on the node, make a deep copy of the</a>
+<span class="sourceLineNo">771</span><a id="line.771">         * result.</a>
+<span class="sourceLineNo">772</span><a id="line.772">         */</a>
+<span class="sourceLineNo">773</span><a id="line.773">        COPY_DEEP,</a>
+<span class="sourceLineNo">774</span><a id="line.774"></a>
+<span class="sourceLineNo">775</span><a id="line.775">        /**</a>
+<span class="sourceLineNo">776</span><a id="line.776">         * Directly pass on nodes, still attached to their original structure.</a>
+<span class="sourceLineNo">777</span><a id="line.777">         */</a>
+<span class="sourceLineNo">778</span><a id="line.778">        NONE</a>
+<span class="sourceLineNo">779</span><a id="line.779"></a>
+<span class="sourceLineNo">780</span><a id="line.780">    }</a>
+<span class="sourceLineNo">781</span><a id="line.781"></a>
+<span class="sourceLineNo">782</span><a id="line.782">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

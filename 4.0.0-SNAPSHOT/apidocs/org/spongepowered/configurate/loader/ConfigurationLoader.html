@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":18,"i1":18,"i2":18,"i3":6,"i4":6,"i5":18,"i6":6,"i7":6,"i8":6};
+var data = {"i0":18,"i1":18,"i2":18,"i3":6,"i4":6,"i5":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -124,14 +123,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>N</code> - The <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> type produced by the loader</dd>
+<dd><code>N</code> - the <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> type produced by the loader</dd>
+</dl>
+<dl>
+<dt>All Superinterfaces:</dt>
+<dd><code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;N&gt;</code></dd>
 </dl>
 <dl>
 <dt>All Known Implementing Classes:</dt>
 <dd><code><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></code>, <code><a href="../gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></code>, <code><a href="../hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code>, <code><a href="../jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></code>, <code><a href="../xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></code>, <code><a href="../yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.36">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.37">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;
+extends <a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;N&gt;</pre>
 <div class="block">Represents an object which can load and save <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> objects in a specific
  configuration format.
 
@@ -171,55 +175,42 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>default <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createEmptyNode()">createEmptyNode</a></span>()</code></th>
+<td class="colFirst"><code>default <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load()">load</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Return an empty node of the most appropriate type for this loader, using the default options.</div>
+<div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the
+ defined source.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createEmptyNode(org.spongepowered.configurate.ConfigurationOptions)">createEmptyNode</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load(org.spongepowered.configurate.ConfigurationOptions)">load</a></span>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
 <td class="colLast">
-<div class="block">Return an empty node of the most appropriate type for this loader</div>
+<div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDefaultOptions()">getDefaultOptions</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Gets the default <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> used by the loader.</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>default <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load()">load</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load(org.spongepowered.configurate.ConfigurationOptions)">load</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
-<td class="colLast">
-<div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadToReference()">loadToReference</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.ConfigurationNodeFactory">
+<!--   -->
+</a>
+<h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.<a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a></h3>
+<code><a href="../ConfigurationNodeFactory.html#createNode()">createNode</a>, <a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode</a>, <a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions,org.spongepowered.configurate.util.CheckedConsumer)">createNode</a>, <a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.util.CheckedConsumer)">createNode</a>, <a href="../ConfigurationNodeFactory.html#defaultOptions()">defaultOptions</a>, <a href="../ConfigurationNodeFactory.html#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a>, <a href="../ConfigurationNodeFactory.html#toListCollector(java.lang.Class)">toListCollector</a>, <a href="../ConfigurationNodeFactory.html#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a>, <a href="../ConfigurationNodeFactory.html#toMapCollector(java.lang.Class)">toMapCollector</a></code></li>
+</ul>
 </li>
 </ul>
 </section>
@@ -236,61 +227,28 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="getDefaultOptions()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getDefaultOptions</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.45">getDefaultOptions</a>()</pre>
-<div class="block">Gets the default <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> used by the loader.
-
- <p>New nodes will be created using the default options if a specific set is not defined.</p></div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The default options</dd>
-</dl>
-</li>
-</ul>
 <a id="load()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.59">load</a>()
-                 throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
+<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.53">load</a>()
+        throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the
+ defined source.
 
- <p>The resultant node represents the root of the configuration being loaded.</p>
+ <p>The resultant node represents the root of the configuration being
+ loaded.</p>
 
- <p>The <a href="#getDefaultOptions()"><code>default options</code></a> will be used to construct the resultant
- configuration nodes.</p></div>
+ <p>The <a href="../ConfigurationNodeFactory.html#defaultOptions()"><code>default options</code></a> will be used to
+ construct the resultant configuration nodes.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The newly constructed node</dd>
+<dd>the newly constructed node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if any sort of error occurs with reading or parsing the configuration</dd>
-</dl>
-</li>
-</ul>
-<a id="loadToReference()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>loadToReference</h4>
-<pre class="methodSignature"><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.72">loadToReference</a>()
-                                   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.
- The returned reference will not reload automatically.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The created reference</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - when an error occurs within the loader</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to create an auto-reloading configuration.</code></a></dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with reading or
+                              parsing the configuration</dd>
 </dl>
 </li>
 </ul>
@@ -300,18 +258,41 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.83">load</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
-         throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature"><a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.68">load</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
+throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
 
- <p>The resultant node represents the root of the configuration being loaded.</p></div>
+ <p>The resultant node represents the root of the configuration being
+ loaded.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>options</code> - The options to load with</dd>
+<dd><code>options</code> - the options to load with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The newly constructed node</dd>
+<dd>the newly constructed node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if any sort of error occurs with reading or parsing the configuration</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with reading or
+                              parsing the configuration</dd>
+</dl>
+</li>
+</ul>
+<a id="loadToReference()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>loadToReference</h4>
+<pre class="methodSignature"><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.79">loadToReference</a>()
+                                   throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.
+ The returned reference will not reload automatically.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the created reference</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs within the loader</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to
+      create an auto-reloading configuration.</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -321,44 +302,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>save</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.92">save</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
-   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.88">save</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+   throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The node to save</dd>
+<dd><code>node</code> - the node to save</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if any sort of error occurs with writing or generating the configuration</dd>
-</dl>
-</li>
-</ul>
-<a id="createEmptyNode()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>createEmptyNode</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.99">createEmptyNode</a>()</pre>
-<div class="block">Return an empty node of the most appropriate type for this loader, using the default options.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The appropriate node type</dd>
-</dl>
-</li>
-</ul>
-<a id="createEmptyNode(org.spongepowered.configurate.ConfigurationOptions)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>createEmptyNode</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.110">createEmptyNode</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
-<div class="block">Return an empty node of the most appropriate type for this loader</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>options</code> - The options to use with this node. Must not be null (see <a href="../ConfigurationOptions.html#defaults()"><code>ConfigurationOptions.defaults()</code></a>)</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The appropriate node type</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with writing or
+                     generating the configuration</dd>
 </dl>
 </li>
 </ul>
@@ -368,11 +320,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>canLoad</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.118">canLoad</a>()</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.95">canLoad</a>()</pre>
 <div class="block">Gets if this loader is capable of loading configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>If this loader can load</dd>
+<dd>if this loader can load</dd>
 </dl>
 </li>
 </ul>
@@ -382,11 +334,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>canSave</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.127">canSave</a>()</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.104">canSave</a>()</pre>
 <div class="block">Gets if this loader is capable of saving configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>If this loader can save</dd>
+<dd>if this loader can save</dd>
 </dl>
 </li>
 </ul>

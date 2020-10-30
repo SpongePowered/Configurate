@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -132,25 +131,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>N</code> - The <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> type produced by the loader</dd>
+<dd><code>N</code> - the <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> type produced by the loader</dd>
 </dl>
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N&gt;</code></dd>
+<dd><code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;N&gt;</code>, <code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N&gt;</code></dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
 <dd><code><a href="../gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></code>, <code><a href="../hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code>, <code><a href="../jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></code>, <code><a href="../xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></code>, <code><a href="../yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></code></dd>
 </dl>
 <hr>
-<pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.53">AbstractConfigurationLoader</a>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;
+<pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.59">AbstractConfigurationLoader</a>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N&gt;</pre>
-<div class="block">Base class for many stream-based configuration loaders. This class provides conversion from a variety of input
- sources to CharSource/Sink objects, providing a consistent API for loaders to read from and write to.
+<div class="block">Base class for many stream-based configuration loaders. This class provides
+ conversion from a variety of input sources to <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>BufferedReader</code></a>
+ suppliers, providing a consistent API for loaders to read from and write to.
 
- Either the source or sink may be null. If this is true, this loader may not support either loading or saving. In
- this case, implementing classes are expected to throw an IOException.</div>
+ <p>Either the source or sink may be null. If this is true, this loader may
+ not support either loading or saving. In this case, implementing classes are
+ expected to throw an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a> for the unsupported operation.</p></div>
 </li>
 </ul>
 </div>
@@ -172,8 +173,8 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected static class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a> extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&gt;&gt;</span></code></th>
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a> extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>,&#8203;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a>&gt;,&#8203;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a> extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;&gt;</span></code></th>
 <td class="colLast">
 <div class="block">An abstract builder implementation for <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 </td>
@@ -197,17 +198,17 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CONFIGURATE_LINE_SEPARATOR">CONFIGURATE_LINE_SEPARATOR</a></span></code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CONFIGURATE_LINE_PATTERN">CONFIGURATE_LINE_PATTERN</a></span></code></th>
 <td class="colLast">
-<div class="block">The escape sequence used by Configurate to separate comment lines</div>
+<div class="block">A pattern that will match line breaks in comments.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected static <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink">Splitter</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#LINE_SPLITTER">LINE_SPLITTER</a></span></code></th>
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CONFIGURATE_LINE_SEPARATOR">CONFIGURATE_LINE_SEPARATOR</a></span></code></th>
 <td class="colLast">
-<div class="block">A <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink"><code>Splitter</code></a> for splitting comment lines</div>
+<div class="block">The escape sequence used by Configurate to separate comment lines.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -228,7 +229,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <td class="colFirst"><code>protected static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#SYSTEM_LINE_SEPARATOR">SYSTEM_LINE_SEPARATOR</a></span></code></th>
 <td class="colLast">
-<div class="block">The line separator used by the system</div>
+<div class="block">The line separator used by the system.</div>
 </td>
 </tr>
 </table>
@@ -251,8 +252,8 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.loader.AbstractConfigurationLoader.Builder,org.spongepowered.configurate.loader.CommentHandler%5B%5D)">AbstractConfigurationLoader</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;?&gt;&nbsp;builder,
-                           <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>[]&nbsp;commentHandlers)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.loader.AbstractConfigurationLoader.Builder,org.spongepowered.configurate.loader.CommentHandler%5B%5D)">AbstractConfigurationLoader</a></span>&#8203;(<a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;?,&#8203;?&gt;&nbsp;builder,
+                           <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>[]&nbsp;commentHandlers)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -288,22 +289,22 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDefaultCommentHandler()">getDefaultCommentHandler</a></span>()</code></th>
+<td class="colFirst"><code><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#defaultCommentHandler()">defaultCommentHandler</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the primary <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a> used by this loader.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDefaultOptions()">getDefaultOptions</a></span>()</code></th>
+<td class="colFirst"><code><a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#defaultOptions()">defaultOptions</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets the default <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> used by the loader.</div>
+<div class="block">Default options for the types of nodes created by this factory.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load(org.spongepowered.configurate.ConfigurationOptions)">load</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
+<td class="colFirst"><code><a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#load(org.spongepowered.configurate.ConfigurationOptions)">load</a></span>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.</div>
 </td>
@@ -323,7 +324,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.spongepowered.configurate.ConfigurationNode)">save</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 </td>
@@ -352,7 +353,14 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.loader.<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a></h3>
-<code><a href="ConfigurationLoader.html#createEmptyNode()">createEmptyNode</a>, <a href="ConfigurationLoader.html#createEmptyNode(org.spongepowered.configurate.ConfigurationOptions)">createEmptyNode</a>, <a href="ConfigurationLoader.html#load()">load</a></code></li>
+<code><a href="ConfigurationLoader.html#load()">load</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.ConfigurationNodeFactory">
+<!--   -->
+</a>
+<h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.<a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a></h3>
+<code><a href="../ConfigurationNodeFactory.html#createNode()">createNode</a>, <a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode</a>, <a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions,org.spongepowered.configurate.util.CheckedConsumer)">createNode</a>, <a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.util.CheckedConsumer)">createNode</a>, <a href="../ConfigurationNodeFactory.html#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a>, <a href="../ConfigurationNodeFactory.html#toListCollector(java.lang.Class)">toListCollector</a>, <a href="../ConfigurationNodeFactory.html#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a>, <a href="../ConfigurationNodeFactory.html#toMapCollector(java.lang.Class)">toMapCollector</a></code></li>
 </ul>
 </li>
 </ul>
@@ -376,22 +384,22 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>CONFIGURATE_LINE_SEPARATOR</h4>
-<pre>public static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.58">CONFIGURATE_LINE_SEPARATOR</a></pre>
-<div class="block">The escape sequence used by Configurate to separate comment lines</div>
+<pre>public static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.64">CONFIGURATE_LINE_SEPARATOR</a></pre>
+<div class="block">The escape sequence used by Configurate to separate comment lines.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#org.spongepowered.configurate.loader.AbstractConfigurationLoader.CONFIGURATE_LINE_SEPARATOR">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>
-<a id="LINE_SPLITTER">
+<a id="CONFIGURATE_LINE_PATTERN">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>LINE_SPLITTER</h4>
-<pre>protected static final&nbsp;<a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink">Splitter</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.63">LINE_SPLITTER</a></pre>
-<div class="block">A <a href="https://guava.dev/releases/25.1-jre/api/docs/com/google/common/base/Splitter.html?is-external=true" title="class or interface in com.google.common.base" class="externalLink"><code>Splitter</code></a> for splitting comment lines</div>
+<h4>CONFIGURATE_LINE_PATTERN</h4>
+<pre>public static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.69">CONFIGURATE_LINE_PATTERN</a></pre>
+<div class="block">A pattern that will match line breaks in comments.</div>
 </li>
 </ul>
 <a id="SYSTEM_LINE_SEPARATOR">
@@ -400,8 +408,8 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>SYSTEM_LINE_SEPARATOR</h4>
-<pre>protected static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.69">SYSTEM_LINE_SEPARATOR</a></pre>
-<div class="block">The line separator used by the system</div>
+<pre>protected static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.76">SYSTEM_LINE_SEPARATOR</a></pre>
+<div class="block">The line separator used by the system.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html?is-external=true#lineSeparator()" title="class or interface in java.lang" class="externalLink"><code>System.lineSeparator()</code></a></dd>
@@ -414,7 +422,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre>protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.77">source</a></pre>
+<pre>protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.83">source</a></pre>
 <div class="block">The reader source for this loader.
 
  <p>Can be null (for loaders which don't support loading!)</p></div>
@@ -426,7 +434,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>sink</h4>
-<pre>protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.85">sink</a></pre>
+<pre>protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.90">sink</a></pre>
 <div class="block">The writer sink for this loader.
 
  <p>Can be null (for loaders which don't support saving!)</p></div>
@@ -448,8 +456,8 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractConfigurationLoader</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.106">AbstractConfigurationLoader</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;?&gt;&nbsp;builder,
-                                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>[]&nbsp;commentHandlers)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.107">AbstractConfigurationLoader</a>&#8203;(<a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;?,&#8203;?&gt;&nbsp;builder,
+                                      <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>[]&nbsp;commentHandlers)</pre>
 </li>
 </ul>
 </li>
@@ -462,17 +470,17 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="getDefaultCommentHandler()">
+<a id="defaultCommentHandler()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getDefaultCommentHandler</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.119">getDefaultCommentHandler</a>()</pre>
+<h4>defaultCommentHandler</h4>
+<pre class="methodSignature">public&nbsp;<a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.120">defaultCommentHandler</a>()</pre>
 <div class="block">Gets the primary <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a> used by this loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The default comment handler</dd>
+<dd>the default comment handler</dd>
 </dl>
 </li>
 </ul>
@@ -483,7 +491,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <li class="blockList">
 <h4>loadToReference</h4>
 <pre class="methodSignature">public&nbsp;<a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.124">loadToReference</a>()
-                                          throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+                                          throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#loadToReference()">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.
  The returned reference will not reload automatically.</div>
@@ -491,11 +499,12 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationLoader.html#loadToReference()">loadToReference</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The created reference</dd>
+<dd>the created reference</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - when an error occurs within the loader</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs within the loader</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to create an auto-reloading configuration.</code></a></dd>
+<dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to
+      create an auto-reloading configuration.</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -505,21 +514,22 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.129">load</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
-                throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.129">load</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
+       throws <a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#load(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
 
- <p>The resultant node represents the root of the configuration being loaded.</p></div>
+ <p>The resultant node represents the root of the configuration being
+ loaded.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationLoader.html#load(org.spongepowered.configurate.ConfigurationOptions)">load</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>options</code> - The options to load with</dd>
+<dd><code>options</code> - the options to load with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The newly constructed node</dd>
+<dd>the newly constructed node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if any sort of error occurs with reading or parsing the configuration</dd>
+<dd><code><a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -531,12 +541,12 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>loadInternal</h4>
-<pre class="methodSignature">protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.157">loadInternal</a>&#8203;(<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;node,
+<pre class="methodSignature">protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.156">loadInternal</a>&#8203;(<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;node,
                                      <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)
-                              throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+                              throws <a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code></dd>
+<dd><code><a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -546,17 +556,18 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>save</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.159">save</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
-          throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.158">save</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+          throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#save(org.spongepowered.configurate.ConfigurationNode)">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationLoader.html#save(org.spongepowered.configurate.ConfigurationNode)">save</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The node to save</dd>
+<dd><code>node</code> - the node to save</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if any sort of error occurs with writing or generating the configuration</dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with writing or
+                     generating the configuration</dd>
 </dl>
 </li>
 </ul>
@@ -566,7 +577,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>writeHeaderInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.186">writeHeaderInternal</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.184">writeHeaderInternal</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
                             throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -580,31 +591,33 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>saveInternal</h4>
-<pre class="methodSignature">protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.190">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.186">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                                      <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
-                              throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+                              throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code></dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a id="getDefaultOptions()">
+<a id="defaultOptions()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getDefaultOptions</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.192">getDefaultOptions</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#getDefaultOptions()">ConfigurationLoader</a></code></span></div>
-<div class="block">Gets the default <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> used by the loader.
+<h4>defaultOptions</h4>
+<pre class="methodSignature">public&nbsp;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.188">defaultOptions</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../ConfigurationNodeFactory.html#defaultOptions()">ConfigurationNodeFactory</a></code></span></div>
+<div class="block">Default options for the types of nodes created by this factory.
 
- <p>New nodes will be created using the default options if a specific set is not defined.</p></div>
+ <p>All values must match what a created node will see, but some values
+ may be determined by this factory to be non user-modifiable. These should
+ be documented for any factory implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ConfigurationLoader.html#getDefaultOptions()">getDefaultOptions</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
+<dd><code><a href="../ConfigurationNodeFactory.html#defaultOptions()">defaultOptions</a></code>&nbsp;in interface&nbsp;<code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The default options</dd>
+<dd>default options</dd>
 </dl>
 </li>
 </ul>
@@ -614,14 +627,14 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>canLoad</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.198">canLoad</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.193">canLoad</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#canLoad()">ConfigurationLoader</a></code></span></div>
 <div class="block">Gets if this loader is capable of loading configurations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationLoader.html#canLoad()">canLoad</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>If this loader can load</dd>
+<dd>if this loader can load</dd>
 </dl>
 </li>
 </ul>
@@ -631,14 +644,14 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>canSave</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.203">canSave</a>()</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.198">canSave</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationLoader.html#canSave()">ConfigurationLoader</a></code></span></div>
 <div class="block">Gets if this loader is capable of saving configurations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ConfigurationLoader.html#canSave()">canSave</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>If this loader can save</dd>
+<dd>if this loader can save</dd>
 </dl>
 </li>
 </ul>

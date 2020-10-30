@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -121,8 +120,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></code>, <code><a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.23">BasicConfigurationNode</a>
+<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.24">BasicConfigurationNode</a>
 extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</pre>
+<div class="block">A standard configuration node, without any additional options.</div>
 </li>
 </ul>
 </div>
@@ -161,25 +161,40 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root()">root</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colFirst"><code>static <a href="ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#factory()">factory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Create a new factory providing <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>BasicConfigurationNode</code></a> instances.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(org.spongepowered.configurate.ConfigurationOptions)">root</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colFirst"><code>static <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root()">root</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Create a new empty root node.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(java.util.function.Consumer)">root</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;maker)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colFirst"><code>static <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(org.spongepowered.configurate.ConfigurationOptions)">root</a></span>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
+<td class="colLast">
+<div class="block">Create a new empty root node with the provided options.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(org.spongepowered.configurate.ConfigurationOptions,java.util.function.Consumer)">root</a></span>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
-    <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;maker)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br><a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(org.spongepowered.configurate.ConfigurationOptions,org.spongepowered.configurate.util.CheckedConsumer)">root</a></span>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
+    <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)</code></th>
+<td class="colLast">
+<div class="block">Create a new root node with the provided options and initializer.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br><a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#root(org.spongepowered.configurate.util.CheckedConsumer)">root</a></span>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)</code></th>
+<td class="colLast">
+<div class="block">Create a new root node with the provided initializer which may throw.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -187,14 +202,14 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></h3>
-<code><a href="ConfigurationNode.html#getBoolean()">getBoolean</a>, <a href="ConfigurationNode.html#getBoolean(boolean)">getBoolean</a>, <a href="ConfigurationNode.html#getDouble()">getDouble</a>, <a href="ConfigurationNode.html#getDouble(double)">getDouble</a>, <a href="ConfigurationNode.html#getFloat()">getFloat</a>, <a href="ConfigurationNode.html#getFloat(float)">getFloat</a>, <a href="ConfigurationNode.html#getInt()">getInt</a>, <a href="ConfigurationNode.html#getInt(int)">getInt</a>, <a href="ConfigurationNode.html#getKey()">getKey</a>, <a href="ConfigurationNode.html#getList(com.google.common.reflect.TypeToken)">getList</a>, <a href="ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getList(java.util.function.Function)">getList</a>, <a href="ConfigurationNode.html#getList(java.util.function.Function,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(java.util.function.Function,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getLong()">getLong</a>, <a href="ConfigurationNode.html#getLong(long)">getLong</a>, <a href="ConfigurationNode.html#getOptions()">getOptions</a>, <a href="ConfigurationNode.html#getPath()">getPath</a>, <a href="ConfigurationNode.html#getString()">getString</a>, <a href="ConfigurationNode.html#getString(java.lang.String)">getString</a>, <a href="ConfigurationNode.html#getValue()">getValue</a>, <a href="ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken)">getValue</a>, <a href="ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Function)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Function,V)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Supplier)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.lang.Object)">getValue</a>, <a href="ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,V)">getValue</a>, <a href="ConfigurationNode.html#isEmpty()">isEmpty</a>, <a href="ConfigurationNode.html#isList()">isList</a>, <a href="ConfigurationNode.html#isMap()">isMap</a>, <a href="ConfigurationNode.html#isVirtual()">isVirtual</a>, <a href="ConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a></code></li>
+<code><a href="ConfigurationNode.html#empty()">empty</a>, <a href="ConfigurationNode.html#get(io.leangen.geantyref.TypeToken)">get</a>, <a href="ConfigurationNode.html#get(io.leangen.geantyref.TypeToken,java.util.function.Supplier)">get</a>, <a href="ConfigurationNode.html#get(io.leangen.geantyref.TypeToken,V)">get</a>, <a href="ConfigurationNode.html#get(java.lang.Class)">get</a>, <a href="ConfigurationNode.html#get(java.lang.Class,java.util.function.Supplier)">get</a>, <a href="ConfigurationNode.html#get(java.lang.Class,V)">get</a>, <a href="ConfigurationNode.html#get(java.lang.reflect.Type)">get</a>, <a href="ConfigurationNode.html#get(java.lang.reflect.Type,java.lang.Object)">get</a>, <a href="ConfigurationNode.html#get(java.lang.reflect.Type,java.util.function.Supplier)">get</a>, <a href="ConfigurationNode.html#getBoolean()">getBoolean</a>, <a href="ConfigurationNode.html#getBoolean(boolean)">getBoolean</a>, <a href="ConfigurationNode.html#getDouble()">getDouble</a>, <a href="ConfigurationNode.html#getDouble(double)">getDouble</a>, <a href="ConfigurationNode.html#getFloat()">getFloat</a>, <a href="ConfigurationNode.html#getFloat(float)">getFloat</a>, <a href="ConfigurationNode.html#getInt()">getInt</a>, <a href="ConfigurationNode.html#getInt(int)">getInt</a>, <a href="ConfigurationNode.html#getList(io.leangen.geantyref.TypeToken)">getList</a>, <a href="ConfigurationNode.html#getList(io.leangen.geantyref.TypeToken,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(io.leangen.geantyref.TypeToken,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getList(java.lang.Class)">getList</a>, <a href="ConfigurationNode.html#getList(java.lang.Class,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(java.lang.Class,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getLong()">getLong</a>, <a href="ConfigurationNode.html#getLong(long)">getLong</a>, <a href="ConfigurationNode.html#getString()">getString</a>, <a href="ConfigurationNode.html#getString(java.lang.String)">getString</a>, <a href="ConfigurationNode.html#hasChild(java.lang.Iterable)">hasChild</a>, <a href="ConfigurationNode.html#hasChild(java.lang.Object...)">hasChild</a>, <a href="ConfigurationNode.html#hint(org.spongepowered.configurate.RepresentationHint)">hint</a>, <a href="ConfigurationNode.html#isList()">isList</a>, <a href="ConfigurationNode.html#isMap()">isMap</a>, <a href="ConfigurationNode.html#key()">key</a>, <a href="ConfigurationNode.html#options()">options</a>, <a href="ConfigurationNode.html#ownHint(org.spongepowered.configurate.RepresentationHint)">ownHint</a>, <a href="ConfigurationNode.html#ownHints()">ownHints</a>, <a href="ConfigurationNode.html#path()">path</a>, <a href="ConfigurationNode.html#raw()">raw</a>, <a href="ConfigurationNode.html#rawScalar()">rawScalar</a>, <a href="ConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a>, <a href="ConfigurationNode.html#virtual()">virtual</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe)">visit</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)">visit</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor,S)">visit</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.ScopedConfigurationNode">
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.<a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a></h3>
-<code><a href="ScopedConfigurationNode.html#act(java.util.function.Consumer)">act</a>, <a href="ScopedConfigurationNode.html#appendListNode()">appendListNode</a>, <a href="ScopedConfigurationNode.html#copy()">copy</a>, <a href="ScopedConfigurationNode.html#getChildrenList()">getChildrenList</a>, <a href="ScopedConfigurationNode.html#getChildrenMap()">getChildrenMap</a>, <a href="ScopedConfigurationNode.html#getNode(java.lang.Iterable)">getNode</a>, <a href="ScopedConfigurationNode.html#getNode(java.lang.Object...)">getNode</a>, <a href="ScopedConfigurationNode.html#getParent()">getParent</a>, <a href="ScopedConfigurationNode.html#mergeValuesFrom(org.spongepowered.configurate.ConfigurationNode)">mergeValuesFrom</a>, <a href="ScopedConfigurationNode.html#self()">self</a>, <a href="ScopedConfigurationNode.html#setValue(com.google.common.reflect.TypeToken,V)">setValue</a>, <a href="ScopedConfigurationNode.html#setValue(java.lang.Object)">setValue</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe)">visit</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor,S)">visit</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)">visit</a></code></li>
+<code><a href="ScopedConfigurationNode.html#act(org.spongepowered.configurate.util.CheckedConsumer)">act</a>, <a href="ScopedConfigurationNode.html#appendListNode()">appendListNode</a>, <a href="ScopedConfigurationNode.html#childrenList()">childrenList</a>, <a href="ScopedConfigurationNode.html#childrenMap()">childrenMap</a>, <a href="ScopedConfigurationNode.html#copy()">copy</a>, <a href="ScopedConfigurationNode.html#from(org.spongepowered.configurate.ConfigurationNode)">from</a>, <a href="ScopedConfigurationNode.html#hint(org.spongepowered.configurate.RepresentationHint,V)">hint</a>, <a href="ScopedConfigurationNode.html#mergeFrom(org.spongepowered.configurate.ConfigurationNode)">mergeFrom</a>, <a href="ScopedConfigurationNode.html#node(java.lang.Iterable)">node</a>, <a href="ScopedConfigurationNode.html#node(java.lang.Object...)">node</a>, <a href="ScopedConfigurationNode.html#parent()">parent</a>, <a href="ScopedConfigurationNode.html#raw(java.lang.Object)">raw</a>, <a href="ScopedConfigurationNode.html#self()">self</a>, <a href="ScopedConfigurationNode.html#set(java.lang.Object)">set</a>, <a href="ScopedConfigurationNode.html#set(io.leangen.geantyref.TypeToken,V)">set</a>, <a href="ScopedConfigurationNode.html#set(java.lang.Class,V)">set</a>, <a href="ScopedConfigurationNode.html#set(java.lang.reflect.Type,java.lang.Object)">set</a>, <a href="ScopedConfigurationNode.html#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a>, <a href="ScopedConfigurationNode.html#toListCollector(java.lang.Class)">toListCollector</a>, <a href="ScopedConfigurationNode.html#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a>, <a href="ScopedConfigurationNode.html#toMapCollector(java.lang.Class)">toMapCollector</a></code></li>
 </ul>
 </li>
 </ul>
@@ -212,22 +227,66 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="factory()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>factory</h4>
+<pre class="methodSignature">static&nbsp;<a href="ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.33">factory</a>()</pre>
+<div class="block">Create a new factory providing <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>BasicConfigurationNode</code></a> instances.
+
+ <p>The returned factory will create nodes with default options.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new factory</dd>
+</dl>
+</li>
+</ul>
 <a id="root()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.24">root</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.47">root</a>()</pre>
+<div class="block">Create a new empty root node.
+
+ <p>This node will use the <a href="ConfigurationOptions.html#defaults()"><code>default options</code></a></p>
+
+ <p>A root node is always attached, and has no parent and an
+ empty path.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new empty node</dd>
+</dl>
 </li>
 </ul>
-<a id="root(java.util.function.Consumer)">
+<a id="root(org.spongepowered.configurate.util.CheckedConsumer)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.29">root</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;maker)</pre>
+<pre class="methodSignature">static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.64">root</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)
+                                                  throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
+<div class="block">Create a new root node with the provided initializer which may throw.
+
+ <p>This node will use the <a href="ConfigurationOptions.html#defaults()"><code>default options</code></a></p>
+
+ <p>A root node is always attached, and has no parent and an
+ empty path.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>E</code> - error type thrown</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>maker</code> - action to be applied to the newly created node</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new initialized node</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>E</code> - when thrown from inner action</dd>
+<dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+</dl>
 </li>
 </ul>
 <a id="root(org.spongepowered.configurate.ConfigurationOptions)">
@@ -236,17 +295,44 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.34">root</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<pre class="methodSignature">static&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.77">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<div class="block">Create a new empty root node with the provided options.
+
+ <p>A root node is always attached, and has no parent and an
+ empty path.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>options</code> - options to apply.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new empty node</dd>
+</dl>
 </li>
 </ul>
-<a id="root(org.spongepowered.configurate.ConfigurationOptions,java.util.function.Consumer)">
+<a id="root(org.spongepowered.configurate.ConfigurationOptions,org.spongepowered.configurate.util.CheckedConsumer)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.39">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
-                                            <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;maker)</pre>
+<pre class="methodSignature">static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.93">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
+                                                         <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)
+                                                  throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
+<div class="block">Create a new root node with the provided options and initializer.
+
+ <p>A root node is always attached, and has no parent and an
+ empty path.</p></div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>E</code> - thrown type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>options</code> - options to apply.</dd>
+<dd><code>maker</code> - action to be applied to the newly created node</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new initialized node</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>E</code> - when thrown from inner action</dd>
+<dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+</dl>
 </li>
 </ul>
 </li>

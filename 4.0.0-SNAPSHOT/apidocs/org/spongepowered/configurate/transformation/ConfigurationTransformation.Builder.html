@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -90,13 +89,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
@@ -116,14 +115,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.spongepowered.configurate.transformation</a></div>
-<h2 title="Class ConfigurationTransformation.Builder" class="title">Class ConfigurationTransformation.Builder&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;</h2>
+<h2 title="Class ConfigurationTransformation.Builder" class="title">Class ConfigurationTransformation.Builder</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
 <li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li>org.spongepowered.configurate.transformation.ConfigurationTransformation.Builder&lt;T&gt;</li>
+<li>org.spongepowered.configurate.transformation.ConfigurationTransformation.Builder</li>
 </ul>
 </li>
 </ul>
@@ -131,42 +130,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <dl>
-<dt>Enclosing class:</dt>
-<dd><a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&lt;<a href="ConfigurationTransformation.html" title="type parameter in ConfigurationTransformation">T</a> extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</dd>
+<dt>Enclosing interface:</dt>
+<dd><a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.81">ConfigurationTransformation.Builder</a>&lt;T extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;T&gt;&gt;
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.98">ConfigurationTransformation.Builder</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">Builds a basic <a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
+<div class="block">Builds a basic <a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
 </li>
 </ul>
 </div>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="constructor.summary">
-<!--   -->
-</a>
-<h3>Constructor Summary</h3>
-<table class="memberSummary">
-<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier</th>
-<th class="colSecond" scope="col">Constructor</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">Builder</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
-</section>
 <!-- ========== METHOD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -182,30 +158,30 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&lt;<a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAction(org.spongepowered.configurate.transformation.NodePath,org.spongepowered.configurate.transformation.TransformAction)">addAction</a></span>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
-         <a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&lt;? super <a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;&nbsp;action)</code></th>
+         <a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Adds an action to the transformation.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&lt;<a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Builds the transformation.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getMoveStrategy()">getMoveStrategy</a></span>()</code></th>
+<td class="colFirst"><code><a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#moveStrategy()">moveStrategy</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the move strategy to be used by the resultant transformation.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&lt;<a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMoveStrategy(org.spongepowered.configurate.transformation.MoveStrategy)">setMoveStrategy</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;strategy)</code></th>
+<td class="colFirst"><code><a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#moveStrategy(org.spongepowered.configurate.transformation.MoveStrategy)">moveStrategy</a></span>&#8203;(<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;strategy)</code></th>
 <td class="colLast">
 <div class="block">Sets the mode strategy to be used by the resultant transformation.</div>
 </td>
@@ -227,25 +203,6 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="constructor.detail">
-<!--   -->
-</a>
-<h3>Constructor Detail</h3>
-<a id="&lt;init&gt;()">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>Builder</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.85">Builder</a>()</pre>
-</li>
-</ul>
-</li>
-</ul>
-</section>
 <!-- ============ METHOD DETAIL ========== -->
 <section role="region">
 <ul class="blockList">
@@ -259,45 +216,45 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>addAction</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&lt;<a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.96">addAction</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
-                                                                 <a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&lt;? super <a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;&nbsp;action)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.113">addAction</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+                                                     <a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;action)</pre>
 <div class="block">Adds an action to the transformation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - The path to apply the action at</dd>
-<dd><code>action</code> - The action</dd>
+<dd><code>path</code> - the path to apply the action at</dd>
+<dd><code>action</code> - the action</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
-<a id="getMoveStrategy()">
+<a id="moveStrategy()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getMoveStrategy</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.107">getMoveStrategy</a>()</pre>
+<h4>moveStrategy</h4>
+<pre class="methodSignature">public&nbsp;<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.123">moveStrategy</a>()</pre>
 <div class="block">Gets the move strategy to be used by the resultant transformation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The move strategy</dd>
+<dd>the move strategy</dd>
 </dl>
 </li>
 </ul>
-<a id="setMoveStrategy(org.spongepowered.configurate.transformation.MoveStrategy)">
+<a id="moveStrategy(org.spongepowered.configurate.transformation.MoveStrategy)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setMoveStrategy</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&lt;<a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.118">setMoveStrategy</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;strategy)</pre>
+<h4>moveStrategy</h4>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.133">moveStrategy</a>&#8203;(<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;strategy)</pre>
 <div class="block">Sets the mode strategy to be used by the resultant transformation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>strategy</code> - The strategy</dd>
+<dd><code>strategy</code> - the strategy</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
@@ -307,11 +264,11 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="ConfigurationTransformation.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&lt;<a href="ConfigurationTransformation.Builder.html" title="type parameter in ConfigurationTransformation.Builder">T</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.129">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.143">build</a>()</pre>
 <div class="block">Builds the transformation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The transformation</dd>
+<dd>the transformation</dd>
 </dl>
 </li>
 </ul>
@@ -368,13 +325,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>

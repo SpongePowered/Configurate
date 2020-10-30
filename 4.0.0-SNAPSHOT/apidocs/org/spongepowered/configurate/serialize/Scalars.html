@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -85,7 +84,7 @@ loadScripts(document, 'script');</script>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
@@ -110,17 +109,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.spongepowered.configurate.serialize</a></div>
-<h2 title="Interface Scalars" class="title">Interface Scalars</h2>
+<h2 title="Class Scalars" class="title">Class Scalars</h2>
 </div>
 <div class="contentContainer">
+<ul class="inheritance">
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>
+<ul class="inheritance">
+<li>org.spongepowered.configurate.serialize.Scalars</li>
+</ul>
+</li>
+</ul>
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.28">Scalars</a></pre>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.29">Scalars</a>
+extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Scalar value serializers available
 
- Each of these serializers can be used through a configuration node, or directly with a value.</div>
+ <p>Each of these serializers can be used through a configuration node, or
+ directly with a value.</div>
 </li>
 </ul>
 </div>
@@ -144,74 +153,119 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#BOOLEAN">BOOLEAN</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <code>boolean</code> values.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang" class="externalLink">Byte</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#BYTE">BYTE</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Byte</code></a> values.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CHAR">CHAR</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <code>char</code> values.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang" class="externalLink">Double</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#DOUBLE">DOUBLE</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Double</code></a> values.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;?&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ENUM">ENUM</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for values in <code>enum</code> classes.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang" class="externalLink">Float</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#FLOAT">FLOAT</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Float</code></a> values.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#INTEGER">INTEGER</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Integer</code></a> values.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#LONG">LONG</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Long</code></a> values.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#PATTERN">PATTERN</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>Pattern</code></a> values.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang" class="externalLink">Short</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#SHORT">SHORT</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Short</code></a> values.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#STRING">STRING</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a> values.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URI.html?is-external=true" title="class or interface in java.net" class="externalLink">URI</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#URI">URI</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URI.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URI</code></a> values.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#URL">URL</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URL</code></a> values.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util" class="externalLink">UUID</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#UUID">UUID</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>UUID</code></a> values.</div>
+</td>
 </tr>
 </table>
+</li>
+</ul>
+</section>
+<!-- ========== METHOD SUMMARY =========== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="method.summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
+<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+</ul>
 </li>
 </ul>
 </section>
@@ -234,7 +288,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>BOOLEAN</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.29">BOOLEAN</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.42">BOOLEAN</a></pre>
+<div class="block">Serializer for <code>boolean</code> values.
+
+ <p>Case-insensitive true values are: <code>true</code>, <code>t</code>,
+ <code>yes</code>, <code>y</code>, and <code>1</code>.</p>
+
+ <p>Case-insensitive false values are: <code>false</code>, <code>f</code>,
+ <code>no</code>, <code>n</code>, and <code>0</code></p></div>
 </li>
 </ul>
 <a id="STRING">
@@ -243,7 +304,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>STRING</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.30">STRING</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.50">STRING</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a> values.
+
+ <p>Values that are not already strings are converted
+ using <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Object.toString()</code></a>.</p></div>
 </li>
 </ul>
 <a id="CHAR">
@@ -252,7 +317,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>CHAR</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.31">CHAR</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.58">CHAR</a></pre>
+<div class="block">Serializer for <code>char</code> values.
+
+ <p>A character can be converted from a 1-long <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a>, or
+ a number.</p></div>
 </li>
 </ul>
 <a id="ENUM">
@@ -261,7 +330,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>ENUM</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;?&gt;&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.32">ENUM</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;?&gt;&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.65">ENUM</a></pre>
+<div class="block">Serializer for values in <code>enum</code> classes.
+
+ <p>Value lookup is case-insensitive and ignores underscores.</p></div>
 </li>
 </ul>
 <a id="PATTERN">
@@ -270,7 +342,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>PATTERN</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.33">PATTERN</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.72">PATTERN</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>Pattern</code></a> values.
+
+ <p>Patterns will be compiled with default options.</p></div>
 </li>
 </ul>
 <a id="URI">
@@ -279,7 +354,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>URI</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URI.html?is-external=true" title="class or interface in java.net" class="externalLink">URI</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.34">URI</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URI.html?is-external=true" title="class or interface in java.net" class="externalLink">URI</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.77">URI</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URI.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URI</code></a> values.</div>
 </li>
 </ul>
 <a id="URL">
@@ -288,7 +364,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>URL</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.35">URL</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.82">URL</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URL</code></a> values.</div>
 </li>
 </ul>
 <a id="UUID">
@@ -297,7 +374,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>UUID</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util" class="externalLink">UUID</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.36">UUID</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util" class="externalLink">UUID</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.90">UUID</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>UUID</code></a> values.
+
+ <p>UUIDs will be accept in RFC format, and RFC format without
+ dashes (Mojang style).</p></div>
 </li>
 </ul>
 <a id="BYTE">
@@ -306,7 +387,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>BYTE</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang" class="externalLink">Byte</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.37">BYTE</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang" class="externalLink">Byte</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.95">BYTE</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Byte</code></a> values.</div>
 </li>
 </ul>
 <a id="SHORT">
@@ -315,7 +397,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>SHORT</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang" class="externalLink">Short</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.38">SHORT</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang" class="externalLink">Short</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.100">SHORT</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Short</code></a> values.</div>
 </li>
 </ul>
 <a id="INTEGER">
@@ -324,7 +407,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>INTEGER</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.39">INTEGER</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.105">INTEGER</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Integer</code></a> values.</div>
 </li>
 </ul>
 <a id="LONG">
@@ -333,7 +417,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>LONG</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.40">LONG</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.110">LONG</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Long</code></a> values.</div>
 </li>
 </ul>
 <a id="FLOAT">
@@ -342,7 +427,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>FLOAT</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang" class="externalLink">Float</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.41">FLOAT</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang" class="externalLink">Float</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.115">FLOAT</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Float</code></a> values.</div>
 </li>
 </ul>
 <a id="DOUBLE">
@@ -351,7 +437,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DOUBLE</h4>
-<pre>static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang" class="externalLink">Double</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.42">DOUBLE</a></pre>
+<pre>public static final&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang" class="externalLink">Double</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/serialize/Scalars.html#line.120">DOUBLE</a></pre>
+<div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Double</code></a> values.</div>
 </li>
 </ul>
 </li>
@@ -408,7 +495,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>

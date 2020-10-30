@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -101,23 +100,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section role="region"><a id="package.description">
 <!--   -->
 </a>
-<div class="block">File watcher and infrastructure to support dynamically updating configurations
- <p>
- There are three core components of this package:
+<div class="block">File watcher and infrastructure to support dynamically
+ updating configurations.
+
+ <p>There are three core components of this package:
 
  <ul>
      <li>The <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> provides a
      reactive interface to listen to filesystem changes</li>
      <li><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReferences</code></a>
-     can either be manually updated, or attached to a watch service, and hold a loader plus
-     a loaded node, to pass around a reference to a root node while allowing for reloads.</li>
-     <li><a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference"><code>Value references</code></a> can
-     be retrieved from configuration references, and provide an always up-to-date reference to
-     a deserialized value within a configuration node</li>
+     can either be manually updated, or attached to a watch service, and hold
+     a loader plus a loaded node, to pass around a reference to a root node
+     while allowing for reloads.</li>
+     <li><a href="ValueReference.html" title="interface in org.spongepowered.configurate.reference"><code>Value references</code></a>
+     can be retrieved from configuration references, and provide an always
+     up-to-date reference to a deserialized value within a
+     configuration node</li>
  </ul>
- <p>
- These components are designed to work together, but the watch listener can be used
- independently from the other components for any situation where file watching is necessary.</div>
+
+ <p>These components are designed to work together, but the watch listener can
+ be used independently from the other components for any situation where file
+ watching is necessary.</div>
 </section>
 <ul class="blockList">
 <li class="blockList">
@@ -131,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</th>
 <td class="colLast">
-<div class="block">An updating reference to a base configuration node</div>
+<div class="block">An updating reference to a base configuration node.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -154,8 +157,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></th>
 <td class="colLast">
-<div class="block">A wrapper around NIO's <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchService</code></a> that uses the provided event loop to poll for changes, and calls
- listeners once an event occurs.</div>
+<div class="block">A wrapper around NIO's <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html?is-external=true" title="class or interface in java.nio.file" class="externalLink"><code>WatchService</code></a> that uses the provided watch key
+ to poll for changes, and calls listeners once an event occurs.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -178,7 +181,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></th>
 <td class="colLast">
-<div class="block">Representing the phase where an error occurred</div>
+<div class="block">Representing the phase where an error occurred.</div>
 </td>
 </tr>
 </tbody>

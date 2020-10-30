@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -142,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public enum <a href="../../../../src-html/org/spongepowered/configurate/transformation/MoveStrategy.html#line.24">MoveStrategy</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&gt;</pre>
-<div class="block">Strategy to use when moving a node from one path to another</div>
+<div class="block">Strategy to use when moving a node from one path to another.</div>
 </li>
 </ul>
 </div>
@@ -165,13 +164,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?i
 <tr class="altColor">
 <th class="colFirst" scope="row"><code><span class="memberNameLink"><a href="#MERGE">MERGE</a></span></code></th>
 <td class="colLast">
-<div class="block">Moves nodes using <a href="../ConfigurationNode.html#mergeValuesFrom(org.spongepowered.configurate.ConfigurationNode)"><code>ConfigurationNode.mergeValuesFrom(ConfigurationNode)</code></a>.</div>
+<div class="block">Moves nodes using <a href="../ConfigurationNode.html#mergeFrom(org.spongepowered.configurate.ConfigurationNode)"><code>ConfigurationNode.mergeFrom(ConfigurationNode)</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><code><span class="memberNameLink"><a href="#OVERWRITE">OVERWRITE</a></span></code></th>
 <td class="colLast">
-<div class="block">Moves nodes using <a href="../ConfigurationNode.html#setValue(java.lang.Object)"><code>ConfigurationNode.setValue(Object)</code></a>.</div>
+<div class="block">Moves nodes using <a href="../ConfigurationNode.html#set(java.lang.Object)"><code>ConfigurationNode.set(Object)</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -253,7 +252,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>MERGE</h4>
 <pre>public static final&nbsp;<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a> <a href="../../../../src-html/org/spongepowered/configurate/transformation/MoveStrategy.html#line.29">MERGE</a></pre>
-<div class="block">Moves nodes using <a href="../ConfigurationNode.html#mergeValuesFrom(org.spongepowered.configurate.ConfigurationNode)"><code>ConfigurationNode.mergeValuesFrom(ConfigurationNode)</code></a>.</div>
+<div class="block">Moves nodes using <a href="../ConfigurationNode.html#mergeFrom(org.spongepowered.configurate.ConfigurationNode)"><code>ConfigurationNode.mergeFrom(ConfigurationNode)</code></a>.</div>
 </li>
 </ul>
 <a id="OVERWRITE">
@@ -263,7 +262,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>OVERWRITE</h4>
 <pre>public static final&nbsp;<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a> <a href="../../../../src-html/org/spongepowered/configurate/transformation/MoveStrategy.html#line.39">OVERWRITE</a></pre>
-<div class="block">Moves nodes using <a href="../ConfigurationNode.html#setValue(java.lang.Object)"><code>ConfigurationNode.setValue(Object)</code></a>.</div>
+<div class="block">Moves nodes using <a href="../ConfigurationNode.html#set(java.lang.Object)"><code>ConfigurationNode.set(Object)</code></a>.</div>
 </li>
 </ul>
 </li>
@@ -331,10 +330,10 @@ not permitted.)</div>
 <div class="block">Moves <code>source</code> to <code>target</code>.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type of node being processed</dd>
+<dd><code>T</code> - the type of node being processed</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>source</code> - The source node</dd>
-<dd><code>target</code> - The target node</dd>
+<dd><code>source</code> - the source node</dd>
+<dd><code>target</code> - the target node</dd>
 </dl>
 </li>
 </ul>

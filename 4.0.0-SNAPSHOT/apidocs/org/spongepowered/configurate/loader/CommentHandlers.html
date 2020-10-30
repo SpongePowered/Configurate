@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -140,7 +139,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a>&gt;</code>, <code><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></code></dd>
 </dl>
 <hr>
-<pre>public enum <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.33">CommentHandlers</a>
+<pre>@Immutable
+public enum <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.31">CommentHandlers</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a>&gt;
 implements <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></pre>
 <div class="block">Defines a number of default <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a>s.</div>
@@ -207,24 +207,24 @@ implements <a href="CommentHandler.html" title="interface in org.spongepowered.c
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#extractComment(java.io.BufferedReader,org.spongepowered.configurate.loader.CommentHandler...)">extractComment</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader,
-              <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>...&nbsp;allowedHeaderTypes)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#extractComment(java.io.BufferedReader,java.lang.Iterable)">extractComment</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader,
+              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>&gt;&nbsp;allowedHeaderTypes)</code></th>
 <td class="colLast">
 <div class="block">Uses provided comment handlers to extract a comment from the reader.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#extractHeader(java.io.BufferedReader)">extractHeader</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#extractHeader(java.io.BufferedReader)">extractHeader</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)</code></th>
 <td class="colLast">
 <div class="block">Defines the handlers behaviour for reading comments.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toComment(java.util.Collection)">toComment</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;lines)</code></th>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toComment(java.util.stream.Stream)">toComment</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;lines)</code></th>
 <td class="colLast">
-<div class="block">Converts the given lines into a comment</div>
+<div class="block">Converts the specified lines into a comment.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -279,7 +279,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>HASH</h4>
-<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.38">HASH</a></pre>
+<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.37">HASH</a></pre>
 <div class="block"><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a> for comments prefixed by the <code>#</code> character.</div>
 </li>
 </ul>
@@ -289,7 +289,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>DOUBLE_SLASH</h4>
-<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.43">DOUBLE_SLASH</a></pre>
+<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.42">DOUBLE_SLASH</a></pre>
 <div class="block"><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a> for comments prefixed by a <code>//</code> escape.</div>
 </li>
 </ul>
@@ -299,7 +299,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>SLASH_BLOCK</h4>
-<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.48">SLASH_BLOCK</a></pre>
+<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.47">SLASH_BLOCK</a></pre>
 <div class="block"><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a> for comments delineated using <code>/*  *\</code>.</div>
 </li>
 </ul>
@@ -309,7 +309,7 @@ the order they are declared.</div>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>XML_STYLE</h4>
-<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.53">XML_STYLE</a></pre>
+<pre>public static final&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.52">XML_STYLE</a></pre>
 <div class="block"><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader"><code>CommentHandler</code></a> for comments delineated using <code>&lt;!--  --&gt;</code>.</div>
 </li>
 </ul>
@@ -329,7 +329,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a>[]&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.33">values</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a>[]&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.31">values</a>()</pre>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared. This method may be used to iterate
 over the constants as follows:
@@ -349,7 +349,7 @@ for (CommentHandlers c : CommentHandlers.values())
 <ul class="blockList">
 <li class="blockList">
 <h4>valueOf</h4>
-<pre class="methodSignature">public static&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.33">valueOf</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="CommentHandlers.html" title="enum in org.spongepowered.configurate.loader">CommentHandlers</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.31">valueOf</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name)</pre>
 <div class="block">Returns the enum constant of this type with the specified name.
 The string must match <i>exactly</i> an identifier used to declare an
 enum constant in this type.  (Extraneous whitespace characters are 
@@ -371,59 +371,59 @@ not permitted.)</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>extractHeader</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.67">extractHeader</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)
-                                        throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.66">extractHeader</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)
+                               throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="CommentHandler.html#extractHeader(java.io.BufferedReader)">CommentHandler</a></code></span></div>
 <div class="block">Defines the handlers behaviour for reading comments.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="CommentHandler.html#extractHeader(java.io.BufferedReader)">extractHeader</a></code>&nbsp;in interface&nbsp;<code><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>reader</code> - The reader</dd>
+<dd><code>reader</code> - reader to get input from</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The comment</dd>
+<dd>an extracted comment, if any</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - If any IO error occurs in the process</dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if any IO error occurs in the process</dd>
 </dl>
 </li>
 </ul>
-<a id="toComment(java.util.Collection)">
+<a id="toComment(java.util.stream.Stream)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>toComment</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.73">toComment</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;lines)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="CommentHandler.html#toComment(java.util.Collection)">CommentHandler</a></code></span></div>
-<div class="block">Converts the given lines into a comment</div>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.71">toComment</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;lines)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="CommentHandler.html#toComment(java.util.stream.Stream)">CommentHandler</a></code></span></div>
+<div class="block">Converts the specified lines into a comment.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="CommentHandler.html#toComment(java.util.Collection)">toComment</a></code>&nbsp;in interface&nbsp;<code><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></code></dd>
+<dd><code><a href="CommentHandler.html#toComment(java.util.stream.Stream)">toComment</a></code>&nbsp;in interface&nbsp;<code><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>lines</code> - The lines to make a comment</dd>
+<dd><code>lines</code> - lines to make a comment</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The transformed lines</dd>
+<dd>transformed lines as a stream</dd>
 </dl>
 </li>
 </ul>
-<a id="extractComment(java.io.BufferedReader,org.spongepowered.configurate.loader.CommentHandler...)">
+<a id="extractComment(java.io.BufferedReader,java.lang.Iterable)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>extractComment</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.87">extractComment</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader,
-                                              <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>...&nbsp;allowedHeaderTypes)
+<pre class="methodSignature">public static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/CommentHandlers.html#line.84">extractComment</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader,
+                                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a>&gt;&nbsp;allowedHeaderTypes)
                                        throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Uses provided comment handlers to extract a comment from the reader.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>reader</code> - The reader</dd>
-<dd><code>allowedHeaderTypes</code> - The handlers to try</dd>
+<dd><code>reader</code> - to extract a comment from</dd>
+<dd><code>allowedHeaderTypes</code> - handlers to try</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The extracted comment, or null if a comment could not be extracted</dd>
+<dd>extracted comment, or null if a comment could not be extracted</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - If an IO error occurs</dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an IO error occurs</dd>
 </dl>
 </li>
 </ul>

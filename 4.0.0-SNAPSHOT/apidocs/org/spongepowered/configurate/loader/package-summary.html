@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -93,6 +92,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </header>
 <main role="main">
 <div class="header">
+<p><a href="https://checkerframework.org/api/org/checkerframework/framework/qual/DefaultQualifier.html?is-external=true" title="class or interface in org.checkerframework.framework.qual" class="externalLink">@DefaultQualifier</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">org.checkerframework.checker.nullness.qual.NonNull.class</a>)
+</p>
 <h1 title="Package" class="title">Package&nbsp;org.spongepowered.configurate.loader</h1>
 </div>
 <div class="contentContainer">
@@ -100,12 +101,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a>
 <div class="block">Base infrastructure for configuration loaders
- <p>
- A configuration loader is responsible for converting between the location of a serialized form (a file, string, or
- URL) and a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a>. Most loader implementations will want to extend
- <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a> in order to gain some standard abilities.
- Any binary formats may want to use other solutions, since the abstract loader assumes in many places that
- configuration files are text files.</div>
+
+ <p>A configuration loader is responsible for converting between the location
+ of a serialized form (a file, string, or URL) and a
+ <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a>. Most loader
+ implementations will want to extend
+ <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a> in
+ order to gain some standard abilities. Any binary formats will probably want
+ to find other solutions, since the abstract loader assumes in many places
+ that configuration files are text files.</div>
 </section>
 <ul class="blockList">
 <li class="blockList">
@@ -119,7 +123,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="CommentHandler.html" title="interface in org.spongepowered.configurate.loader">CommentHandler</a></th>
 <td class="colLast">
-<div class="block">Interface specifying methods for handling abstract comments</div>
+<div class="block">Extracts comments from a buffered reader or collection of lines.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -147,7 +151,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;T extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;T&gt;&gt;</th>
+<th class="colFirst" scope="row"><a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;T extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;T,&#8203;L&gt;,&#8203;L extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;&gt;</th>
 <td class="colLast">
 <div class="block">An abstract builder implementation for <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 </td>
@@ -178,7 +182,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></th>
 <td class="colLast">
-<div class="block">Modes which <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationLoader</code></a>s can use to manipulate headers when loading/saving.</div>
+<div class="block">Modes which <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationLoader</code></a>s can use to manipulate headers
+ when loading/saving.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="typeSummary">
+<caption><span>Exception Summary</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Exception</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></th>
+<td class="colLast">
+<div class="block">Indicates an error that occurred while parsing the configuration.</div>
 </td>
 </tr>
 </tbody>

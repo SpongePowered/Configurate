@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -105,20 +104,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Object</span></a>
 <ul>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="DefaultObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">DefaultObjectMapperFactory</span></a> (implements org.spongepowered.configurate.objectmapping.<a href="ObjectMapperFactory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapperFactory</a>)</li>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="GuiceObjectMapperFactory.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">GuiceObjectMapperFactory</span></a> (implements org.spongepowered.configurate.objectmapping.<a href="ObjectMapperFactory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapperFactory</a>)</li>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper</span></a>&lt;T&gt;</li>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.BoundInstance.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper.BoundInstance</span></a></li>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.FieldData.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper.FieldData</span></a></li>
-<li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Throwable</span></a> (implements java.io.<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a>)
-<ul>
-<li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Exception</span></a>
-<ul>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMappingException</span></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="FieldData.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">FieldData</span></a>&lt;I,&#8203;O&gt;</li>
 </ul>
 </li>
 </ul>
@@ -126,13 +112,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section role="region">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapperFactory.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapperFactory</span></a></li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="FieldData.Deserializer.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">FieldData.Deserializer</span></a>&lt;I&gt;</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">FieldDiscoverer</span></a>&lt;I&gt;</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="FieldDiscoverer.FieldCollector.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">FieldDiscoverer.FieldCollector</span></a>&lt;I,&#8203;V&gt;</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="FieldDiscoverer.InstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">FieldDiscoverer.InstanceFactory</span></a>&lt;I&gt;
+<ul>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="FieldDiscoverer.MutableInstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">FieldDiscoverer.MutableInstanceFactory</span></a>&lt;I&gt;</li>
+</ul>
+</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper</span></a>&lt;V&gt;
+<ul>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.Mutable.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper.Mutable</span></a>&lt;V&gt;</li>
+</ul>
+</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper.Factory</span></a></li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMapper.Factory.Builder</span></a></li>
 </ul>
 </section>
 <section role="region">
 <h2 title="Annotation Type Hierarchy">Annotation Type Hierarchy</h2>
 <ul>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">Setting</span></a> (implements java.lang.annotation.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>)</li>
+<li class="circle">org.spongepowered.configurate.objectmapping.<a href="ConfigSerializable.html" title="annotation in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ConfigSerializable</span></a> (implements java.lang.annotation.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>)</li>
 </ul>
 </section>
 </div>

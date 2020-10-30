@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -124,7 +123,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>V</code> - The input and output type</dd>
+<dd><code>V</code> - the input and output type</dd>
 </dl>
 <dl>
 <dt>All Superinterfaces:</dt>
@@ -139,9 +138,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.html" title="type parameter in Processor">I</a>,&#8203;<a href="Processor.html" title="type parameter in Processor">O</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.115">Processor.Iso</a>&lt;V&gt;
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.html#line.130">Processor.Iso</a>&lt;V&gt;
 extends <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;V,&#8203;V&gt;</pre>
-<div class="block">A Processor that has the same type for inputs and outputs</div>
+<div class="block">A Processor that has the same type for inputs and outputs.</div>
 </li>
 </ul>
 </div>
@@ -190,7 +189,8 @@ extends <a href="Processor.html" title="interface in org.spongepowered.configura
 <td class="colFirst"><code>default void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inject(V)">inject</a></span>&#8203;(<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&nbsp;element)</code></th>
 <td class="colLast">
-<div class="block">Submit an element of the observed type, bypassing any mapping this Processor may do.</div>
+<div class="block">Submit an element of the observed type, bypassing any mapping this
+ Processor may do.</div>
 </td>
 </tr>
 </table>
@@ -199,14 +199,14 @@ extends <a href="Processor.html" title="interface in org.spongepowered.configura
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a></h3>
-<code><a href="Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed</a>, <a href="Processor.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a>, <a href="Processor.html#setFallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">setFallbackHandler</a></code></li>
+<code><a href="Processor.html#closeIfUnsubscribed()">closeIfUnsubscribed</a>, <a href="Processor.html#fallbackHandler(org.spongepowered.configurate.reactive.Subscriber)">fallbackHandler</a>, <a href="Processor.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Publisher">
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h3>
-<code><a href="Publisher.html#cache()">cache</a>, <a href="Publisher.html#cache(V)">cache</a>, <a href="Publisher.html#getExecutor()">getExecutor</a>, <a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></li>
+<code><a href="Publisher.html#cache()">cache</a>, <a href="Publisher.html#cache(V)">cache</a>, <a href="Publisher.html#executor()">executor</a>, <a href="Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.reactive.Subscriber">
@@ -239,15 +239,16 @@ extends <a href="Processor.html" title="interface in org.spongepowered.configura
 <ul class="blockListLast">
 <li class="blockList">
 <h4>inject</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.Iso.html#line.116">inject</a>&#8203;(<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&nbsp;element)</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Processor.Iso.html#line.131">inject</a>&#8203;(<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Processor.html#inject(O)">Processor</a></code></span></div>
-<div class="block">Submit an element of the observed type, bypassing any mapping this Processor may do. If the
- input type of this processor equals the output type, this is equivalent to <a href="Subscriber.html#submit(V)"><code>Subscriber.submit(Object)</code></a></div>
+<div class="block">Submit an element of the observed type, bypassing any mapping this
+ Processor may do. If the input type of this processor equals the output
+ type, this is equivalent to <a href="Subscriber.html#submit(V)"><code>Subscriber.submit(Object)</code></a></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Processor.html#inject(O)">inject</a></code>&nbsp;in interface&nbsp;<code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>,&#8203;<a href="Processor.Iso.html" title="type parameter in Processor.Iso">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - The element to submit</dd>
+<dd><code>element</code> - the element to submit</dd>
 </dl>
 </li>
 </ul>

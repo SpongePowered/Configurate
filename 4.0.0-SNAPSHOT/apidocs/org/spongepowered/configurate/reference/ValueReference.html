@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":6,"i2":6,"i3":6};
+var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -124,20 +123,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - The type of value to return</dd>
-<dd><code>N</code> - The type of node</dd>
+<dd><code>T</code> - the type of value to return</dd>
+<dd><code>N</code> - the type of node</dd>
 </dl>
 <dl>
 <dt>All Superinterfaces:</dt>
 <dd><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;T&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.32">ValueReference</a>&lt;T,&#8203;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.35">ValueReference</a>&lt;T,&#8203;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;
 extends <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;T&gt;</pre>
 <div class="block">A pointer to a node within a configuration tree.
- <p>
- This value will update automatically with changes to the underlying configuration file. Subscribers will be provided
- the current value upon subscription, followed by any changes.</div>
+
+ <p>This value will update automatically with changes to the underlying
+ configuration file. Subscribers will be provided the current value upon
+ subscription, followed by any changes.</div>
 </li>
 </ul>
 </div>
@@ -179,12 +179,12 @@ extends <a href="../reactive/Publisher.html" title="interface in org.spongepower
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get()">get</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Get the current value at this node</div>
+<div class="block">Get the current value at this node.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="ValueReference.html" title="type parameter in ValueReference">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNode()">getNode</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#node()">node</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the node this value reference points to.</div>
 </td>
@@ -200,7 +200,30 @@ extends <a href="../reactive/Publisher.html" title="interface in org.spongepower
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAndSave(T)">setAndSave</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Set the new value of this node.</div>
+<div class="block">Set the new value of this node and save the underlying configuration.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAndSaveAsync(T)">setAndSaveAsync</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</code></th>
+<td class="colLast">
+<div class="block">Set the new value of this node and save the underlying configuration
+ asynchronously on the executor of the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#update(java.util.function.Function)">update</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</code></th>
+<td class="colLast">
+<div class="block">Update this value and the underlying node, without saving.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateAsync(java.util.function.Function)">updateAsync</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</code></th>
+<td class="colLast">
+<div class="block">Update, performing the action and save on the executor of the owning
+ <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -209,7 +232,7 @@ extends <a href="../reactive/Publisher.html" title="interface in org.spongepower
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.reactive.<a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a></h3>
-<code><a href="../reactive/Publisher.html#cache()">cache</a>, <a href="../reactive/Publisher.html#cache(V)">cache</a>, <a href="../reactive/Publisher.html#getExecutor()">getExecutor</a>, <a href="../reactive/Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="../reactive/Publisher.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a>, <a href="../reactive/Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></li>
+<code><a href="../reactive/Publisher.html#cache()">cache</a>, <a href="../reactive/Publisher.html#cache(V)">cache</a>, <a href="../reactive/Publisher.html#executor()">executor</a>, <a href="../reactive/Publisher.html#hasSubscribers()">hasSubscribers</a>, <a href="../reactive/Publisher.html#map(org.spongepowered.configurate.util.CheckedFunction)">map</a>, <a href="../reactive/Publisher.html#subscribe(org.spongepowered.configurate.reactive.Subscriber)">subscribe</a></code></li>
 </ul>
 </li>
 </ul>
@@ -233,10 +256,11 @@ extends <a href="../reactive/Publisher.html" title="interface in org.spongepower
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.40">get</a>()</pre>
-<div class="block">Get the current value at this node
- <p>
- Any deserialization failures will be submitted to the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>'s error callback</div>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.45">get</a>()</pre>
+<div class="block">Get the current value at this node.
+
+ <p>Any deserialization failures will be submitted to the owning
+ <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>'s error callback</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the deserialized value, or null if deserialization fails.</dd>
@@ -251,13 +275,14 @@ extends <a href="../reactive/Publisher.html" title="interface in org.spongepower
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.50">set</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.56">set</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</pre>
 <div class="block">Set the new value of this node. The configuration won't be saved.
- <p>
- Any serialization errors will be provided to the error callback of the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a></div>
+
+ <p>Any serialization errors will be provided to the error callback of
+ the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>value</code> - The value</dd>
+<dd><code>value</code> - the value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if successful, false if serialization fails</dd>
 </dl>
@@ -271,29 +296,91 @@ extends <a href="../reactive/Publisher.html" title="interface in org.spongepower
 <ul class="blockList">
 <li class="blockList">
 <h4>setAndSave</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.60">setAndSave</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</pre>
-<div class="block">Set the new value of this node. The configuration won't be saved.
- <p>
- Any serialization errors will be provided to the error callback of the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a></div>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.67">setAndSave</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</pre>
+<div class="block">Set the new value of this node and save the underlying configuration.
+
+ <p>Any serialization errors will be provided to the error callback of the
+ owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>value</code> - The value</dd>
+<dd><code>value</code> - the value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if successful, false if serialization fails</dd>
 </dl>
 </li>
 </ul>
-<a id="getNode()">
+<a id="setAndSaveAsync(java.lang.Object)">
+<!--   -->
+</a><a id="setAndSaveAsync(T)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setAndSaveAsync</h4>
+<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.79">setAndSaveAsync</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&nbsp;value)</pre>
+<div class="block">Set the new value of this node and save the underlying configuration
+ asynchronously on the executor of the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.
+
+ <p>Any serialization errors will be submitted to subscribers of the
+ returned <a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - the value</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if successful, false if serialization fails</dd>
+</dl>
+</li>
+</ul>
+<a id="update(java.util.function.Function)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>update</h4>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.90">update</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</pre>
+<div class="block">Update this value and the underlying node, without saving.
+
+ <p>Any serialization errors will be provided to the error callback of
+ the owning <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - to transform this node's value</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>whether this update was successful</dd>
+</dl>
+</li>
+</ul>
+<a id="updateAsync(java.util.function.Function)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>updateAsync</h4>
+<pre class="methodSignature"><a href="../reactive/Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.102">updateAsync</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ValueReference.html" title="type parameter in ValueReference">T</a>,&#8203;? extends <a href="ValueReference.html" title="type parameter in ValueReference">T</a>&gt;&nbsp;action)</pre>
+<div class="block">Update, performing the action and save on the executor of the owning
+ <a href="ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>. Any errors that occur while saving will
+ be passed along to any subscribers.
+
+ <p>The updated value will only be exposed if the changes are successful.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>action</code> - to transform this node's value</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>whether this update was successful</dd>
+</dl>
+</li>
+</ul>
+<a id="node()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>getNode</h4>
-<pre class="methodSignature"><a href="ValueReference.html" title="type parameter in ValueReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.67">getNode</a>()</pre>
+<h4>node</h4>
+<pre class="methodSignature"><a href="ValueReference.html" title="type parameter in ValueReference">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/ValueReference.html#line.109">node</a>()</pre>
 <div class="block">Get the node this value reference points to.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The node</dd>
+<dd>the node</dd>
 </dl>
 </li>
 </ul>

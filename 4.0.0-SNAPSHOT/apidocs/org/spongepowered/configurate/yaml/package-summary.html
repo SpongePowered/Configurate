@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -93,6 +92,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </header>
 <main role="main">
 <div class="header">
+<p><a href="https://checkerframework.org/api/org/checkerframework/framework/qual/DefaultQualifier.html?is-external=true" title="class or interface in org.checkerframework.framework.qual" class="externalLink">@DefaultQualifier</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">org.checkerframework.checker.nullness.qual.NonNull.class</a>)
+</p>
 <h1 title="Package" class="title">Package&nbsp;org.spongepowered.configurate.yaml</h1>
 </div>
 <div class="contentContainer">
@@ -100,9 +101,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a>
 <div class="block">Configuration loader for the <a href="https://yaml.org/spec/1.1/">YAML 1.1</a> format, plus supports
- <p>
- While by default this loader only declares <a href="https://yaml.org/type/index.html">the YAML 1.1 global tags</a> as
- supported types, the underlying library is capable of serializing any POJO, and the <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a>'s native types field can be adjusted to customize output.</div>
+
+ <p>While by default this loader only declares <a href="https://yaml.org/type/index.html">the YAML 1.1 global tags</a> as
+ supported types, the underlying library is capable of serializing any POJO,
+ and the <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a>'s native
+ types field can be adjusted to customize output.</div>
 </section>
 <ul class="blockList">
 <li class="blockList">
@@ -116,13 +119,31 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></th>
 <td class="colLast">
-<div class="block">A loader for YAML-formatted configurations, using the SnakeYAML library for parsing and generation.</div>
+<div class="block">A loader for YAML-formatted configurations, using the SnakeYAML library for
+ parsing and generation.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="YamlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader.Builder</a></th>
 <td class="colLast">
 <div class="block">Builds a <a href="YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml"><code>YamlConfigurationLoader</code></a>.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="typeSummary">
+<caption><span>Enum Summary</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Enum</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="NodeStyle.html" title="enum in org.spongepowered.configurate.yaml">NodeStyle</a></th>
+<td class="colLast">
+<div class="block">Representation of collections and mappings in a YAML document.</div>
 </td>
 </tr>
 </tbody>

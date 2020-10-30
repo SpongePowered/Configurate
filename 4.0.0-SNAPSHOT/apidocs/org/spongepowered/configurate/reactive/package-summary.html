@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -101,20 +100,33 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section role="region"><a id="package.description">
 <!--   -->
 </a>
-<div class="block">This package contains a rudimentary implementation of a reactive programming API. It does not intend to meet all the
- requirements of the Reactive Streams specification, but it is designed to allow for easy migration to implementations
- based on JDK9's Flow API when Configurate targets Java 9.
- <p>
- With <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a>,
- and <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a>, a system can be easily built that allows the processing
- of a series of units of information.
- <p>
- The origin of a system generally starts from <a href="Processor.html#create()"><code>creating a processor</code></a>, and making it available for users to <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>subscribe</code></a> to. Then, any value <a href="Subscriber.html#submit(V)"><code>submitted</code></a> to the Processor will be forwarded to every registered subscriber.
- <p>
- A unique feature of Configurate's reactive listeners is the ability to have transactional subscribers. A <a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive"><code>SubscriberTransactional</code></a> will receive a new value, followed by either a commit
- or rollback notification. When subscribing to a transactional processor, all subscribers must accept the new value before it's committed.
- <p>
- In many cases, it is best to only expose the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> side of the
+<div class="block">This package contains a rudimentary implementation of a reactive programming
+ API. It does not intend to meet all the requirements of the Reactive Streams
+ specification, but it is designed to allow for easy migration to
+ implementations based on JDK9's Flow API when Configurate targets Java 9.
+
+ <p>With <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>,
+ <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>Subscriber</code></a>,
+ and <a href="Processor.html" title="interface in org.spongepowered.configurate.reactive"><code>Processor</code></a>, a system can
+ easily be built to process a series of units of information.
+
+ <p>The origin of a system is generally in
+ <a href="Processor.html#create()"><code>creating a processor</code></a>,
+ and making it available for users to
+ <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>subscribe</code></a> to. Then,
+ any value
+ <a href="Subscriber.html#submit(V)"><code>submitted</code></a>
+ to the Processor will be forwarded to ever registered subscriber.
+
+ <p>A unique feature of Configurate's reactive listeners is the ability to
+ have transactional subscribers. A
+ <a href="TransactionalSubscriber.html" title="interface in org.spongepowered.configurate.reactive"><code>TransactionalSubscriber</code></a> will
+ receive a new value, followed by either a commit or rollback notification.
+ When subscribing to a transactional processor, all subscribers must accept
+ the new value before it's committed.
+
+ <p>In many cases, it is best to only expose the
+ <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> side of the
  processor, so that the submission of values can be more easily controlled.</div>
 </section>
 <ul class="blockList">
@@ -129,9 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a></th>
 <td class="colLast">
-<div class="block">A representation of something that requires resources
-
- A Disposable</div>
+<div class="block">A representation of something that requires resources.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -143,16 +153,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</th>
 <td class="colLast">
-<div class="block">A Processor that has the same type for inputs and outputs</div>
+<div class="block">A Processor that has the same type for inputs and outputs.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A processor that supports transactions.</div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A processor that supports transactions using the same input and outputs.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;</th>
@@ -163,7 +177,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;V&gt;</th>
 <td class="colLast">
-<div class="block">A publisher that caches the last value received</div>
+<div class="block">A publisher that caches the last value received.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -173,7 +187,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="SubscriberTransactional.html" title="interface in org.spongepowered.configurate.reactive">SubscriberTransactional</a>&lt;V&gt;</th>
+<th class="colFirst" scope="row"><a href="TransactionalSubscriber.html" title="interface in org.spongepowered.configurate.reactive">TransactionalSubscriber</a>&lt;V&gt;</th>
 <td class="colLast">
 <div class="block">A subscriber that is transaction-aware.</div>
 </td>
@@ -191,7 +205,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Indicate that the newly submitted value was invalid, and the transaction that
+ submitted the new value should be marked as a failure.</div>
+</td>
 </tr>
 </tbody>
 </table>

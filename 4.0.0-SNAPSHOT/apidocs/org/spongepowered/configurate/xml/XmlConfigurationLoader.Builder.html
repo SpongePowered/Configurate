@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -90,13 +89,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
@@ -123,7 +122,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">org.spongepowered.configurate.loader.AbstractConfigurationLoader.Builder</a>&lt;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&gt;</li>
+<li><a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">org.spongepowered.configurate.loader.AbstractConfigurationLoader.Builder</a>&lt;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>,&#8203;<a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a>&gt;</li>
 <li>
 <ul class="inheritance">
 <li>org.spongepowered.configurate.xml.XmlConfigurationLoader.Builder</li>
@@ -140,8 +139,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dd>
 </dl>
 <hr>
-<pre>public static class <a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.94">XmlConfigurationLoader.Builder</a>
-extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&gt;</pre>
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.112">XmlConfigurationLoader.Builder</a>
+extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>,&#8203;<a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a>&gt;</pre>
 <div class="block">Builds a <a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml"><code>XmlConfigurationLoader</code></a>.</div>
 </li>
 </ul>
@@ -163,29 +162,6 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <h3>Fields inherited from class&nbsp;org.spongepowered.configurate.loader.<a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></h3>
 <code><a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source">source</a></code></li>
 </ul>
-</li>
-</ul>
-</section>
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="constructor.summary">
-<!--   -->
-</a>
-<h3>Constructor Summary</h3>
-<table class="memberSummary">
-<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier</th>
-<th class="colSecond" scope="col">Constructor</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">Builder</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-</table>
 </li>
 </ul>
 </section>
@@ -212,73 +188,89 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDefaultTagName()">getDefaultTagName</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#defaultTagName()">defaultTagName</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the default tag name to be used by the resultant loader.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIndent()">getIndent</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Gets the level of indentation to be used by the resultant loader.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSchema()">getSchema</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Gets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> to be used by the resultant loader.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDefaultTagName(java.lang.String)">setDefaultTagName</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;defaultTagName)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#defaultTagName(java.lang.String)">defaultTagName</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;defaultTagName)</code></th>
 <td class="colLast">
 <div class="block">Sets the default tag name the resultant loader should use.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setIncludeXmlDeclaration(boolean)">setIncludeXmlDeclaration</a></span>&#8203;(boolean&nbsp;includeXmlDeclaration)</code></th>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#includesXmlDeclaration()">includesXmlDeclaration</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Sets if the resultant loader should include the XML declaration header when saving.</div>
+<div class="block">Gets if the resultant loader should include the XML declaration
+ header when saving.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#includesXmlDeclaration(boolean)">includesXmlDeclaration</a></span>&#8203;(boolean&nbsp;includeXmlDeclaration)</code></th>
+<td class="colLast">
+<div class="block">Sets if the resultant loader should include the XML declaration
+ header when saving.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indent()">indent</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets the level of indentation to be used by the resultant loader.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setIndent(int)">setIndent</a></span>&#8203;(int&nbsp;indent)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indent(int)">indent</a></span>&#8203;(int&nbsp;indent)</code></th>
 <td class="colLast">
 <div class="block">Sets the level of indentation the resultant loader should use.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSchema(javax.xml.validation.Schema)">setSchema</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a>&nbsp;schema)</code></th>
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolvesExternalContent()">resolvesExternalContent</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Sets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> the resultant loader should use.</div>
+<div class="block">Get whether external content should be resolved.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setWriteExplicitType(boolean)">setWriteExplicitType</a></span>&#8203;(boolean&nbsp;writeExplicitType)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolvesExternalContent(boolean)">resolvesExternalContent</a></span>&#8203;(boolean&nbsp;resolvesExternalContent)</code></th>
 <td class="colLast">
-<div class="block">Sets if the resultant loader should write the explicit type of each node
- when saving nodes.</div>
+<div class="block">Sets whether external content should be resolved when loading data.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldIncludeXmlDeclaration()">shouldIncludeXmlDeclaration</a></span>()</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#schema()">schema</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Gets if the resultant loader should include the XML declaration header when saving.</div>
+<div class="block">Gets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> to be used by the resultant loader.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldWriteExplicitType()">shouldWriteExplicitType</a></span>()</code></th>
+<td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#schema(javax.xml.validation.Schema)">schema</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a>&nbsp;schema)</code></th>
 <td class="colLast">
-<div class="block">Gets if explicit type attributes should be written by the resultant loader.</div>
+<div class="block">Sets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> the resultant loader should use.</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writesExplicitType()">writesExplicitType</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets if explicit type attributes should be written by the loader.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writesExplicitType(boolean)">writesExplicitType</a></span>&#8203;(boolean&nbsp;writeExplicitType)</code></th>
+<td class="colLast">
+<div class="block">Sets if the resultant loader should write the explicit type of each
+ node when saving nodes.</div>
 </td>
 </tr>
 </table>
@@ -287,7 +279,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.spongepowered.configurate.loader.<a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></h3>
-<code><a href="../loader/AbstractConfigurationLoader.Builder.html#getDefaultOptions()">getDefaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#getHeaderMode()">getHeaderMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#getSink()">getSink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#getSource()">getSource</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#preservesHeader()">preservesHeader</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setDefaultOptions(java.util.function.UnaryOperator)">setDefaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setDefaultOptions(org.spongepowered.configurate.ConfigurationOptions)">setDefaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setFile(java.io.File)">setFile</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setHeaderMode(org.spongepowered.configurate.loader.HeaderMode)">setHeaderMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setPath(java.nio.file.Path)">setPath</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setPreservesHeader(boolean)">setPreservesHeader</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setSink(java.util.concurrent.Callable)">setSink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setSource(java.util.concurrent.Callable)">setSource</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#setURL(java.net.URL)">setURL</a></code></li>
+<code><a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions()">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions(java.util.function.UnaryOperator)">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions(org.spongepowered.configurate.ConfigurationOptions)">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#file(java.io.File)">file</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode()">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode(org.spongepowered.configurate.loader.HeaderMode)">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#path(java.nio.file.Path)">path</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink()">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink(java.util.concurrent.Callable)">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source()">source</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source(java.util.concurrent.Callable)">source</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#url(java.net.URL)">url</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -305,25 +297,6 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="constructor.detail">
-<!--   -->
-</a>
-<h3>Constructor Detail</h3>
-<a id="&lt;init&gt;()">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>Builder</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.101">Builder</a>()</pre>
-</li>
-</ul>
-</li>
-</ul>
-</section>
 <!-- ============ METHOD DETAIL ========== -->
 <section role="region">
 <ul class="blockList">
@@ -331,161 +304,206 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="setIndent(int)">
+<a id="indent(int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setIndent</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.110">setIndent</a>&#8203;(int&nbsp;indent)</pre>
+<h4>indent</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.129">indent</a>&#8203;(int&nbsp;indent)</pre>
 <div class="block">Sets the level of indentation the resultant loader should use.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>indent</code> - The indent level</dd>
+<dd><code>indent</code> - the indent level</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
-<a id="getIndent()">
+<a id="indent()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getIndent</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.121">getIndent</a>()</pre>
+<h4>indent</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.140">indent</a>()</pre>
 <div class="block">Gets the level of indentation to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The indent level</dd>
+<dd>the indent level</dd>
 </dl>
 </li>
 </ul>
-<a id="setSchema(javax.xml.validation.Schema)">
+<a id="schema(javax.xml.validation.Schema)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setSchema</h4>
-<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.131">setSchema</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a>&nbsp;schema)</pre>
+<h4>schema</h4>
+<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.150">schema</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a>&nbsp;schema)</pre>
 <div class="block">Sets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> the resultant loader should use.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>schema</code> - The schema</dd>
+<dd><code>schema</code> - the schema</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
-<a id="getSchema()">
+<a id="schema()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getSchema</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.141">getSchema</a>()</pre>
+<h4>schema</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink">Schema</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.160">schema</a>()</pre>
 <div class="block">Gets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The schema</dd>
+<dd>the schema</dd>
 </dl>
 </li>
 </ul>
-<a id="setDefaultTagName(java.lang.String)">
+<a id="defaultTagName(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setDefaultTagName</h4>
-<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.151">setDefaultTagName</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;defaultTagName)</pre>
+<h4>defaultTagName</h4>
+<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.170">defaultTagName</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;defaultTagName)</pre>
 <div class="block">Sets the default tag name the resultant loader should use.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>defaultTagName</code> - The default tag name</dd>
+<dd><code>defaultTagName</code> - the default tag name</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
-<a id="getDefaultTagName()">
+<a id="defaultTagName()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getDefaultTagName</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.161">getDefaultTagName</a>()</pre>
+<h4>defaultTagName</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.180">defaultTagName</a>()</pre>
 <div class="block">Gets the default tag name to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The default tag name</dd>
+<dd>the default tag name</dd>
 </dl>
 </li>
 </ul>
-<a id="setWriteExplicitType(boolean)">
+<a id="writesExplicitType(boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setWriteExplicitType</h4>
-<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.177">setWriteExplicitType</a>&#8203;(boolean&nbsp;writeExplicitType)</pre>
-<div class="block">Sets if the resultant loader should write the explicit type of each node
- when saving nodes.
+<h4>writesExplicitType</h4>
+<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.197">writesExplicitType</a>&#8203;(boolean&nbsp;writeExplicitType)</pre>
+<div class="block">Sets if the resultant loader should write the explicit type of each
+ node when saving nodes.
 
- <p>This is necessary in some cases, as XML has no explicit definition of an array or
- list. The loader is able to infer the type in some cases, but this is inaccurate in some
- cases, for example lists with only one element.</p></div>
+ <p>This is necessary in some cases, as XML has no explicit definition
+ of an array or list. The loader is able to infer the type in some
+ cases, but this is inaccurate in some cases, for example lists with
+ only one element.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>writeExplicitType</code> - If the loader should write explicit types</dd>
+<dd><code>writeExplicitType</code> - if the loader should write explicit types</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
-<a id="shouldWriteExplicitType()">
+<a id="writesExplicitType()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>shouldWriteExplicitType</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.190">shouldWriteExplicitType</a>()</pre>
-<div class="block">Gets if explicit type attributes should be written by the resultant loader.
+<h4>writesExplicitType</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.210">writesExplicitType</a>()</pre>
+<div class="block">Gets if explicit type attributes should be written by the loader.
 
- <p>See the method doc for <a href="#setWriteExplicitType(boolean)"><code>setWriteExplicitType(boolean)</code></a> for a more detailed
- explanation.</p></div>
+ <p>See the method doc at <a href="#writesExplicitType(boolean)"><code>writesExplicitType(boolean)</code></a> for
+ a more detailed explanation.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The default tag name</dd>
+<dd>the default tag name</dd>
 </dl>
 </li>
 </ul>
-<a id="setIncludeXmlDeclaration(boolean)">
+<a id="includesXmlDeclaration(boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setIncludeXmlDeclaration</h4>
-<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.200">setIncludeXmlDeclaration</a>&#8203;(boolean&nbsp;includeXmlDeclaration)</pre>
-<div class="block">Sets if the resultant loader should include the XML declaration header when saving.</div>
+<h4>includesXmlDeclaration</h4>
+<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.222">includesXmlDeclaration</a>&#8203;(boolean&nbsp;includeXmlDeclaration)</pre>
+<div class="block">Sets if the resultant loader should include the XML declaration
+ header when saving.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>includeXmlDeclaration</code> - If the XML declaration should be included</dd>
+<dd><code>includeXmlDeclaration</code> - if the XML declaration should be
+                              included</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>This builder (for chaining)</dd>
+<dd>this builder (for chaining)</dd>
 </dl>
 </li>
 </ul>
-<a id="shouldIncludeXmlDeclaration()">
+<a id="includesXmlDeclaration()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>shouldIncludeXmlDeclaration</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.210">shouldIncludeXmlDeclaration</a>()</pre>
-<div class="block">Gets if the resultant loader should include the XML declaration header when saving.</div>
+<h4>includesXmlDeclaration</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.233">includesXmlDeclaration</a>()</pre>
+<div class="block">Gets if the resultant loader should include the XML declaration
+ header when saving.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>If the XML declaration should be included</dd>
+<dd>if the XML declaration should be included</dd>
+</dl>
+</li>
+</ul>
+<a id="resolvesExternalContent(boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resolvesExternalContent</h4>
+<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.254">resolvesExternalContent</a>&#8203;(boolean&nbsp;resolvesExternalContent)</pre>
+<div class="block">Sets whether external content should be resolved when loading data.
+
+ <p>Resolving this content could result in network requests being
+ made, and will allow configuration files to access arbitrary URLs
+ This setting should only be enabled with caution.
+
+ <p>Additionally, through use of features such as entity expansion and
+ XInclude, documents can be crafted that will grow exponentially
+ when parsed, requiring an amount of memory to store that may be
+ greater than what is available for the JVM.
+
+ <p>By default, this is false.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>resolvesExternalContent</code> - whether to resolve external entities</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+</dl>
+</li>
+</ul>
+<a id="resolvesExternalContent()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resolvesExternalContent</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.264">resolvesExternalContent</a>()</pre>
+<div class="block">Get whether external content should be resolved.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>value, defaulting to false</dd>
 </dl>
 </li>
 </ul>
@@ -495,14 +513,14 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.214">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#line.268">build</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html#build()">AbstractConfigurationLoader.Builder</a></code></span></div>
 <div class="block">Builds the loader.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../loader/AbstractConfigurationLoader.Builder.html#build()">build</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&gt;</code></dd>
+<dd><code><a href="../loader/AbstractConfigurationLoader.Builder.html#build()">build</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>,&#8203;<a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The loader</dd>
+<dd>a new loader</dd>
 </dl>
 </li>
 </ul>
@@ -559,13 +577,13 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
-<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>

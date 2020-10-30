@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -27,8 +26,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":18,"i10":18};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
+var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -116,7 +115,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.spongepowered.configurate</a></div>
-<h2 title="Interface ConfigurationVisitor" class="title">Interface ConfigurationVisitor&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</h2>
+<h2 title="Interface ConfigurationVisitor" class="title">Interface ConfigurationVisitor&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -124,22 +123,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>N</code> - The type of node to visit</dd>
-<dd><code>S</code> - A state object that will be used for one visit</dd>
-<dd><code>T</code> - The terminal value, that can be returned at the end of the visit</dd>
+<dd><code>S</code> - a state object that will be used for one visit</dd>
+<dd><code>T</code> - the terminal value, that can be returned at the end of the visit</dd>
 <dd><code>E</code> - exception type that may be thrown</dd>
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
-<dd><code><a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;N,&#8203;S,&#8203;T&gt;</code>, <code><a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a>&lt;N,&#8203;E&gt;</code></dd>
+<dd><code><a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;</code>, <code><a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.65">ConfigurationVisitor</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</pre>
-<div class="block">A visitor to traverse node hierarchies in a depth-first order
- <p>
- Instances of stateful implementations may be reusable by taking advantage of the state object. During each
- visitation, a visitor will experience the node tree as a sequence of events, described by the following
- pseudo-grammar:
+<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.66">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</pre>
+<div class="block">A visitor to traverse node hierarchies in a depth-first order.
+
+ <p>Instances of stateful implementations may be reusable by taking advantage
+ of the state object. During each visitation, a visitor will experience the
+ node tree as a sequence of events, described by the following
+ pseudo-grammar:</p>
 
  <pre>
  mappingNode: enterMappingNode node* exitMappingNode
@@ -155,23 +154,28 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
         node*
         endVisit
  </pre>
- <p>
- If the starting node has no value, no node events will be received. Otherwise, the first event received will be for
- the starting node itself, and will continue from there.
- <p>
- The children to visit for list and mapping nodes will only be collected after both the <code>enterNode</code> and <code>
- enter(List|Mapping)Node</code> methods have been executed for the node, and changes to the node values may be made to
- control which nodes will be visited.
- <p>
- Any exceptions thrown within the visitor will result in the visitation ending immediately and the exception being
- rethrown within the visit method
- <p>
- There are a few specializations of the visitor interface available: <a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor.Stateless</code></a> carries no state and can act as
- a functional interface type, and <a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor.Safe</code></a> which throws no checked exceptions and therefore can be visited without
- having to handle any exceptions.</div>
+
+ <p>If the starting node has no value, no node events will be received.
+ Otherwise, the first event received will be for the starting node itself, and
+ will continue from there.</p>
+
+ <p>The children to visit for list and mapping nodes will only be collected
+ after both the <code>enterNode</code> and <code>enter(List|Mapping)Node</code> methods
+ have been executed for the node, and changes to the node values may be made
+ to control which nodes will be visited.</p>
+
+ <p>Any exceptions thrown within the visitor will result in the visitation
+ ending immediately and the exception being rethrown within the visit
+ method.</p>
+
+ <p>There are a few specializations of the visitor interface available:
+ <a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor.Stateless</code></a> carries no state and can act as a functional interface
+ type, and <a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor.Safe</code></a> which throws no checked exceptions and therefore can
+ be visited without having to handle any exceptions.</p></div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)"><code>to execute this configuration visitation</code></a></dd>
+<dd><a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)"><code>to execute this
+      configuration visitation</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -195,16 +199,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">N</a> extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>,&#8203;<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">T</a>&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>,&#8203;<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">T</a>&gt;</span></code></th>
 <td class="colLast">
-<div class="block">A subinterface for visitors that do not throw any checked exceptions during their execution</div>
+<div class="block">A subinterface for visitors that do not throw any checked exceptions
+ during their execution.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a>&lt;<a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">N</a> extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a>&lt;<a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</span></code></th>
 <td class="colLast">
-<div class="block">Stateless specialization of visitors, where both the state and terminal type are Void</div>
+<div class="block">Stateless specialization of visitors, where both the state and terminal
+ type are Void.</div>
 </td>
 </tr>
 </table>
@@ -219,7 +225,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t5" class="tableTab"><span><a href="javascript:show(16);">Default Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
@@ -227,7 +233,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#beginVisit(N,S)">beginVisit</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#beginVisit(org.spongepowered.configurate.ConfigurationNode,S)">beginVisit</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
           <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
 <div class="block">Called at the beginning of the visit with a state object created.</div>
@@ -237,77 +243,67 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#endVisit(S)">endVisit</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called after every node has been visited, to allow for cleanup and validation</div>
+<div class="block">Called after every node has been visited, to allow for cleanup
+ and validation.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterListNode(N,S)">enterListNode</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterListNode(org.spongepowered.configurate.ConfigurationNode,S)">enterListNode</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
              <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called after <a href="#enterNode(N,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for list nodes</div>
+<div class="block">Called after <a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for list nodes.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterMappingNode(N,S)">enterMappingNode</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">enterMappingNode</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                 <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called after <a href="#enterNode(N,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for mapping nodes</div>
+<div class="block">Called after <a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for mapping
+ nodes.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterNode(N,S)">enterNode</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)">enterNode</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
          <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called once per node, for every node</div>
+<div class="block">Called once per node, for every node.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterScalarNode(N,S)">enterScalarNode</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterScalarNode(org.spongepowered.configurate.ConfigurationNode,S)">enterScalarNode</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called after <a href="#enterNode(N,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for scalar nodes</div>
+<div class="block">Called after <a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for scalar nodes.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#exitListNode(N,S)">exitListNode</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#exitListNode(org.spongepowered.configurate.ConfigurationNode,S)">exitListNode</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
             <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called for a list node after the node and any of its children have been visited</div>
+<div class="block">Called for a list node after the node and any of its children have
+ been visited.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#exitMappingNode(N,S)">exitMappingNode</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#exitMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">exitMappingNode</a></span>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">Called for a list node after the node and any of its children have been visited</div>
+<div class="block">Called for a list node after the node and any of its children have
+ been visited.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newState()">newState</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Called to provide a state object if a visit is initiated without one already existing</div>
-</td>
-</tr>
-<tr id="i9" class="rowColor">
-<td class="colFirst"><code>default <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#visit(N)">visit</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node)</code></th>
-<td class="colLast">
-<div class="block">Begin the visitation using a newly created state object</div>
-</td>
-</tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><code>default <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#visit(N,S)">visit</a></span>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
-     <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)</code></th>
-<td class="colLast">
-<div class="block">Executes a depth-first visitation of the provided configuration node.</div>
+<div class="block">Called to provide a state object if a visit is initiated without one
+ already existing.</div>
 </td>
 </tr>
 </table>
@@ -327,67 +323,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="visit(org.spongepowered.configurate.ConfigurationNode)">
-<!--   -->
-</a><a id="visit(N)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>visit</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.74">visit</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node)
-         throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Begin the visitation using a newly created state object</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The node to start visiting from</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The terminal value</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
-</dl>
-</li>
-</ul>
-<a id="visit(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
-<!--   -->
-</a><a id="visit(N,S)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>visit</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.89">visit</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
-                <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
-         throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Executes a depth-first visitation of the provided configuration node. It is recommended to directly access a
- ScopedConfigurationNode where possible</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The node to begin from</dd>
-<dd><code>state</code> - A state object to begin with</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The terminal value</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
-<dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)"><code>for the recommended visitation method</code></a></dd>
-</dl>
-</li>
-</ul>
 <a id="newState()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>newState</h4>
-<pre class="methodSignature"><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.130">newState</a>()
+<pre class="methodSignature"><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.75">newState</a>()
     throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called to provide a state object if a visit is initiated without one already existing</div>
+<div class="block">Called to provide a state object if a visit is initiated without one
+ already existing.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A new state object to be passed through the rest of this visit</dd>
+<dd>a new state object to be passed through the rest of this visit</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
@@ -396,13 +344,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="beginVisit(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="beginVisit(N,S)">
+</a><a id="beginVisit(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>beginVisit</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.139">beginVisit</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.84">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                 <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
          throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called at the beginning of the visit with a state object created.</div>
@@ -418,19 +366,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="enterNode(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="enterNode(N,S)">
+</a><a id="enterNode(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.148">enterNode</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.93">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
         throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called once per node, for every node</div>
+<div class="block">Called once per node, for every node.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The current node</dd>
+<dd><code>node</code> - the current node</dd>
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
@@ -440,16 +388,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="enterMappingNode(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="enterMappingNode(N,S)">
+</a><a id="enterMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterMappingNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.157">enterMappingNode</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.103">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                       <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
                throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called after <a href="#enterNode(N,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for mapping nodes</div>
+<div class="block">Called after <a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for mapping
+ nodes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>node</code> - current node</dd>
@@ -462,16 +411,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="enterListNode(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="enterListNode(N,S)">
+</a><a id="enterListNode(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterListNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.166">enterListNode</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.112">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                    <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
             throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called after <a href="#enterNode(N,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for list nodes</div>
+<div class="block">Called after <a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for list nodes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>node</code> - current node</dd>
@@ -484,16 +433,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="enterScalarNode(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="enterScalarNode(N,S)">
+</a><a id="enterScalarNode(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>enterScalarNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.175">enterScalarNode</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.121">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                      <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
               throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called after <a href="#enterNode(N,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for scalar nodes</div>
+<div class="block">Called after <a href="#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>enterNode(ConfigurationNode, Object)</code></a> for scalar nodes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>node</code> - current node</dd>
@@ -506,19 +455,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="exitMappingNode(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="exitMappingNode(N,S)">
+</a><a id="exitMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>exitMappingNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.184">exitMappingNode</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.131">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                      <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
               throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called for a list node after the node and any of its children have been visited</div>
+<div class="block">Called for a list node after the node and any of its children have
+ been visited.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The node that has been visited</dd>
+<dd><code>node</code> - the node that has been visited</dd>
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
@@ -528,19 +478,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 <a id="exitListNode(org.spongepowered.configurate.ConfigurationNode,java.lang.Object)">
 <!--   -->
-</a><a id="exitListNode(N,S)">
+</a><a id="exitListNode(org.spongepowered.configurate.ConfigurationNode,S)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>exitListNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.193">exitListNode</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">N</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.141">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                   <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
            throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called for a list node after the node and any of its children have been visited</div>
+<div class="block">Called for a list node after the node and any of its children have
+ been visited.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - The node that has been visited</dd>
+<dd><code>node</code> - the node that has been visited</dd>
 <dd><code>state</code> - provided state</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a></code> - when thrown by implementation</dd>
@@ -556,9 +507,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>endVisit</h4>
-<pre class="methodSignature"><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.202">endVisit</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
+<pre class="methodSignature"><a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.151">endVisit</a>&#8203;(<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>&nbsp;state)
     throws <a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
-<div class="block">Called after every node has been visited, to allow for cleanup and validation</div>
+<div class="block">Called after every node has been visited, to allow for cleanup
+ and validation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>state</code> - provided state</dd>

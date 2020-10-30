@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -105,18 +104,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Object</span></a>
 <ul>
-<li class="circle">org.spongepowered.configurate.serialize.<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">ScalarSerializer</span></a>&lt;T&gt; (implements org.spongepowered.configurate.serialize.<a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;)
-<ul>
-<li class="circle">org.spongepowered.configurate.serialize.<a href="FunctionScalarSerializer.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">FunctionScalarSerializer</span></a>&lt;T&gt;</li>
-</ul>
-</li>
+<li class="circle">org.spongepowered.configurate.serialize.<a href="Scalars.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">Scalars</span></a></li>
+<li class="circle">org.spongepowered.configurate.serialize.<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">ScalarSerializer</span></a>&lt;T&gt; (implements org.spongepowered.configurate.serialize.<a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;)</li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Throwable</span></a> (implements java.io.<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a>)
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink"><span class="typeNameLink">Exception</span></a>
 <ul>
-<li class="circle">org.spongepowered.configurate.objectmapping.<a href="../objectmapping/ObjectMappingException.html" title="class in org.spongepowered.configurate.objectmapping"><span class="typeNameLink">ObjectMappingException</span></a>
+<li class="circle">org.spongepowered.configurate.<a href="../ConfigurateException.html" title="class in org.spongepowered.configurate"><span class="typeNameLink">ConfigurateException</span></a>
+<ul>
+<li class="circle">org.spongepowered.configurate.serialize.<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">SerializationException</span></a>
 <ul>
 <li class="circle">org.spongepowered.configurate.serialize.<a href="CoercionFailedException.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">CoercionFailedException</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -132,14 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <section role="region">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
-<li class="circle">org.spongepowered.configurate.serialize.<a href="Scalars.html" title="interface in org.spongepowered.configurate.serialize"><span class="typeNameLink">Scalars</span></a></li>
 <li class="circle">org.spongepowered.configurate.serialize.<a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><span class="typeNameLink">TypeSerializer</span></a>&lt;T&gt;</li>
-</ul>
-</section>
-<section role="region">
-<h2 title="Annotation Type Hierarchy">Annotation Type Hierarchy</h2>
-<ul>
-<li class="circle">org.spongepowered.configurate.serialize.<a href="ConfigSerializable.html" title="annotation in org.spongepowered.configurate.serialize"><span class="typeNameLink">ConfigSerializable</span></a> (implements java.lang.annotation.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>)</li>
 </ul>
 </section>
 </div>

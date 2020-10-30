@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -123,6 +122,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>N</code> - self type</dd>
+</dl>
+<dl>
 <dt>All Superinterfaces:</dt>
 <dd><code><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></code>, <code><a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;</code></dd>
 </dl>
@@ -131,8 +134,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></code>, <code><a href="CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a></code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.24">CommentedConfigurationNodeIntermediary</a>&lt;N extends CommentedConfigurationNodeIntermediary&lt;N&gt;&gt;
+<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.26">CommentedConfigurationNodeIntermediary</a>&lt;N extends CommentedConfigurationNodeIntermediary&lt;N&gt;&gt;
 extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;</pre>
+<div class="block">Intermediate interface for different types of commented configuration nodes.</div>
 </li>
 </ul>
 </div>
@@ -171,22 +175,22 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getComment()">getComment</a></span>()</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comment()">comment</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the current value for the comment.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setComment(java.lang.String)">setComment</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</code></th>
+<td class="colFirst"><code><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comment(java.lang.String)">comment</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</code></th>
 <td class="colLast">
 <div class="block">Sets the comment for this configuration node.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCommentIfAbsent(java.lang.String)">setCommentIfAbsent</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</code></th>
+<td class="colFirst"><code><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#commentIfAbsent(java.lang.String)">commentIfAbsent</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</code></th>
 <td class="colLast">
 <div class="block">Set a comment on this node if it does not presently have a comment.</div>
 </td>
@@ -197,14 +201,14 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></h3>
-<code><a href="ConfigurationNode.html#getBoolean()">getBoolean</a>, <a href="ConfigurationNode.html#getBoolean(boolean)">getBoolean</a>, <a href="ConfigurationNode.html#getDouble()">getDouble</a>, <a href="ConfigurationNode.html#getDouble(double)">getDouble</a>, <a href="ConfigurationNode.html#getFloat()">getFloat</a>, <a href="ConfigurationNode.html#getFloat(float)">getFloat</a>, <a href="ConfigurationNode.html#getInt()">getInt</a>, <a href="ConfigurationNode.html#getInt(int)">getInt</a>, <a href="ConfigurationNode.html#getKey()">getKey</a>, <a href="ConfigurationNode.html#getList(com.google.common.reflect.TypeToken)">getList</a>, <a href="ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(com.google.common.reflect.TypeToken,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getList(java.util.function.Function)">getList</a>, <a href="ConfigurationNode.html#getList(java.util.function.Function,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(java.util.function.Function,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getLong()">getLong</a>, <a href="ConfigurationNode.html#getLong(long)">getLong</a>, <a href="ConfigurationNode.html#getOptions()">getOptions</a>, <a href="ConfigurationNode.html#getPath()">getPath</a>, <a href="ConfigurationNode.html#getString()">getString</a>, <a href="ConfigurationNode.html#getString(java.lang.String)">getString</a>, <a href="ConfigurationNode.html#getValue()">getValue</a>, <a href="ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken)">getValue</a>, <a href="ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,java.util.function.Supplier)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Function)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Function,java.util.function.Supplier)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Function,V)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.util.function.Supplier)">getValue</a>, <a href="ConfigurationNode.html#getValue(java.lang.Object)">getValue</a>, <a href="ConfigurationNode.html#getValue(com.google.common.reflect.TypeToken,V)">getValue</a>, <a href="ConfigurationNode.html#isEmpty()">isEmpty</a>, <a href="ConfigurationNode.html#isList()">isList</a>, <a href="ConfigurationNode.html#isMap()">isMap</a>, <a href="ConfigurationNode.html#isVirtual()">isVirtual</a>, <a href="ConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a></code></li>
+<code><a href="ConfigurationNode.html#empty()">empty</a>, <a href="ConfigurationNode.html#get(io.leangen.geantyref.TypeToken)">get</a>, <a href="ConfigurationNode.html#get(io.leangen.geantyref.TypeToken,java.util.function.Supplier)">get</a>, <a href="ConfigurationNode.html#get(io.leangen.geantyref.TypeToken,V)">get</a>, <a href="ConfigurationNode.html#get(java.lang.Class)">get</a>, <a href="ConfigurationNode.html#get(java.lang.Class,java.util.function.Supplier)">get</a>, <a href="ConfigurationNode.html#get(java.lang.Class,V)">get</a>, <a href="ConfigurationNode.html#get(java.lang.reflect.Type)">get</a>, <a href="ConfigurationNode.html#get(java.lang.reflect.Type,java.lang.Object)">get</a>, <a href="ConfigurationNode.html#get(java.lang.reflect.Type,java.util.function.Supplier)">get</a>, <a href="ConfigurationNode.html#getBoolean()">getBoolean</a>, <a href="ConfigurationNode.html#getBoolean(boolean)">getBoolean</a>, <a href="ConfigurationNode.html#getDouble()">getDouble</a>, <a href="ConfigurationNode.html#getDouble(double)">getDouble</a>, <a href="ConfigurationNode.html#getFloat()">getFloat</a>, <a href="ConfigurationNode.html#getFloat(float)">getFloat</a>, <a href="ConfigurationNode.html#getInt()">getInt</a>, <a href="ConfigurationNode.html#getInt(int)">getInt</a>, <a href="ConfigurationNode.html#getList(io.leangen.geantyref.TypeToken)">getList</a>, <a href="ConfigurationNode.html#getList(io.leangen.geantyref.TypeToken,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(io.leangen.geantyref.TypeToken,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getList(java.lang.Class)">getList</a>, <a href="ConfigurationNode.html#getList(java.lang.Class,java.util.function.Supplier)">getList</a>, <a href="ConfigurationNode.html#getList(java.lang.Class,java.util.List)">getList</a>, <a href="ConfigurationNode.html#getLong()">getLong</a>, <a href="ConfigurationNode.html#getLong(long)">getLong</a>, <a href="ConfigurationNode.html#getString()">getString</a>, <a href="ConfigurationNode.html#getString(java.lang.String)">getString</a>, <a href="ConfigurationNode.html#hasChild(java.lang.Iterable)">hasChild</a>, <a href="ConfigurationNode.html#hasChild(java.lang.Object...)">hasChild</a>, <a href="ConfigurationNode.html#hint(org.spongepowered.configurate.RepresentationHint)">hint</a>, <a href="ConfigurationNode.html#isList()">isList</a>, <a href="ConfigurationNode.html#isMap()">isMap</a>, <a href="ConfigurationNode.html#key()">key</a>, <a href="ConfigurationNode.html#options()">options</a>, <a href="ConfigurationNode.html#ownHint(org.spongepowered.configurate.RepresentationHint)">ownHint</a>, <a href="ConfigurationNode.html#ownHints()">ownHints</a>, <a href="ConfigurationNode.html#path()">path</a>, <a href="ConfigurationNode.html#raw()">raw</a>, <a href="ConfigurationNode.html#rawScalar()">rawScalar</a>, <a href="ConfigurationNode.html#removeChild(java.lang.Object)">removeChild</a>, <a href="ConfigurationNode.html#virtual()">virtual</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe)">visit</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)">visit</a>, <a href="ConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor,S)">visit</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.ScopedConfigurationNode">
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;org.spongepowered.configurate.<a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a></h3>
-<code><a href="ScopedConfigurationNode.html#act(java.util.function.Consumer)">act</a>, <a href="ScopedConfigurationNode.html#appendListNode()">appendListNode</a>, <a href="ScopedConfigurationNode.html#copy()">copy</a>, <a href="ScopedConfigurationNode.html#getChildrenList()">getChildrenList</a>, <a href="ScopedConfigurationNode.html#getChildrenMap()">getChildrenMap</a>, <a href="ScopedConfigurationNode.html#getNode(java.lang.Iterable)">getNode</a>, <a href="ScopedConfigurationNode.html#getNode(java.lang.Object...)">getNode</a>, <a href="ScopedConfigurationNode.html#getParent()">getParent</a>, <a href="ScopedConfigurationNode.html#mergeValuesFrom(org.spongepowered.configurate.ConfigurationNode)">mergeValuesFrom</a>, <a href="ScopedConfigurationNode.html#self()">self</a>, <a href="ScopedConfigurationNode.html#setValue(com.google.common.reflect.TypeToken,V)">setValue</a>, <a href="ScopedConfigurationNode.html#setValue(java.lang.Object)">setValue</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe,S)">visit</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor.Safe)">visit</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor,S)">visit</a>, <a href="ScopedConfigurationNode.html#visit(org.spongepowered.configurate.ConfigurationVisitor)">visit</a></code></li>
+<code><a href="ScopedConfigurationNode.html#act(org.spongepowered.configurate.util.CheckedConsumer)">act</a>, <a href="ScopedConfigurationNode.html#appendListNode()">appendListNode</a>, <a href="ScopedConfigurationNode.html#childrenList()">childrenList</a>, <a href="ScopedConfigurationNode.html#childrenMap()">childrenMap</a>, <a href="ScopedConfigurationNode.html#copy()">copy</a>, <a href="ScopedConfigurationNode.html#from(org.spongepowered.configurate.ConfigurationNode)">from</a>, <a href="ScopedConfigurationNode.html#hint(org.spongepowered.configurate.RepresentationHint,V)">hint</a>, <a href="ScopedConfigurationNode.html#mergeFrom(org.spongepowered.configurate.ConfigurationNode)">mergeFrom</a>, <a href="ScopedConfigurationNode.html#node(java.lang.Iterable)">node</a>, <a href="ScopedConfigurationNode.html#node(java.lang.Object...)">node</a>, <a href="ScopedConfigurationNode.html#parent()">parent</a>, <a href="ScopedConfigurationNode.html#raw(java.lang.Object)">raw</a>, <a href="ScopedConfigurationNode.html#self()">self</a>, <a href="ScopedConfigurationNode.html#set(java.lang.Object)">set</a>, <a href="ScopedConfigurationNode.html#set(io.leangen.geantyref.TypeToken,V)">set</a>, <a href="ScopedConfigurationNode.html#set(java.lang.Class,V)">set</a>, <a href="ScopedConfigurationNode.html#set(java.lang.reflect.Type,java.lang.Object)">set</a>, <a href="ScopedConfigurationNode.html#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a>, <a href="ScopedConfigurationNode.html#toListCollector(java.lang.Class)">toListCollector</a>, <a href="ScopedConfigurationNode.html#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a>, <a href="ScopedConfigurationNode.html#toMapCollector(java.lang.Class)">toMapCollector</a></code></li>
 </ul>
 </li>
 </ul>
@@ -222,53 +226,57 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="getComment()">
+<a id="comment()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getComment</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.32">getComment</a>()</pre>
+<h4>comment</h4>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.36">comment</a>()</pre>
 <div class="block">Gets the current value for the comment.
 
- <p>If the comment contains multiple lines, the lines will be split by \n</p></div>
+ <p>If the comment contains multiple lines, the lines will be split
+ by \n</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The configuration's current comment</dd>
+<dd>the configuration's current comment</dd>
 </dl>
 </li>
 </ul>
-<a id="setComment(java.lang.String)">
+<a id="comment(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setComment</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.41">setComment</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
+<h4>comment</h4>
+<pre class="methodSignature"><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.45">comment</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
 <div class="block">Sets the comment for this configuration node.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>comment</code> - The comment to set. Line breaks should be represented as LFs (\n)</dd>
+<dd><code>comment</code> - the comment to set. Line breaks should be represented as
+                LFs (\n)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this</dd>
+<dd>this node</dd>
 </dl>
 </li>
 </ul>
-<a id="setCommentIfAbsent(java.lang.String)">
+<a id="commentIfAbsent(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>setCommentIfAbsent</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.52">setCommentIfAbsent</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
+<h4>commentIfAbsent</h4>
+<pre class="methodSignature"><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.57">commentIfAbsent</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
 <div class="block">Set a comment on this node if it does not presently have a comment.
 
- The provided comment must not be null, because setting a null comment would be a no-op</div>
+ <p>The provided comment must not be null, because setting a null comment
+ would be a no-op</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>comment</code> - The comment to set. Line breaks should be represented as LFs (\n)</dd>
+<dd><code>comment</code> - the comment to set. Line breaks should be represented as
+                LFs (\n)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this</dd>
+<dd>this node</dd>
 </dl>
 </li>
 </ul>

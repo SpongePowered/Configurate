@@ -13,8 +13,7 @@
 <!--[if IE]>
 <script type="text/javascript" src="../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../jquery/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="../../../jquery/jquery-migrate-3.0.1.js"></script>
+<script type="text/javascript" src="../../../jquery/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="../../../jquery/jquery-ui.js"></script>
 </head>
 <body>
@@ -103,12 +102,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <div class="block">Core node data structures and supports
 
- At the core of Configurate are nodes.
- We have 3 variants to work with:
+ <p>At the core of Configurate are nodes. We have 3 variants to work with:
  <ul>
      <li><code>BasicConfigurationNode</code> for a standard node</li>
      <li><a href="CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>CommentedConfigurationNode</code></a> for configurations that can have attached comments</li>
-     <li><a href="AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>AttributedConfigurationNode</code></a> for configuration structures that have attributes on each node, like XML</li>
+     <li><a href="AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>AttributedConfigurationNode</code></a> for configuration structures that have attributes on each node,
+     like XML</li>
  </ul></div>
 </section>
 <ul class="blockList">
@@ -123,12 +122,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></th>
 <td class="colLast">
-<div class="block">A configuration node that can have both comments and attributes attached to it.</div>
+<div class="block">A configuration node that can have both comments and attributes attached.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A standard configuration node, without any additional options.</div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a></th>
@@ -138,7 +139,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="CommentedConfigurationNodeIntermediary.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNodeIntermediary</a>&lt;N extends <a href="CommentedConfigurationNodeIntermediary.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNodeIntermediary</a>&lt;N&gt;&gt;</th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Intermediate interface for different types of commented configuration nodes.</div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></th>
@@ -147,26 +150,36 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</th>
+<th class="colFirst" scope="row"><a href="ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</th>
 <td class="colLast">
-<div class="block">A visitor to traverse node hierarchies in a depth-first order</div>
+<div class="block">Various methods to create configuration nodes with specific options.</div>
 </td>
 </tr>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;S,&#8203;T&gt;</th>
+<th class="colFirst" scope="row"><a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</th>
 <td class="colLast">
-<div class="block">A subinterface for visitors that do not throw any checked exceptions during their execution</div>
+<div class="block">A visitor to traverse node hierarchies in a depth-first order.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</th>
+<th class="colFirst" scope="row"><a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;</th>
 <td class="colLast">
-<div class="block">Stateless specialization of visitors, where both the state and terminal type are Void</div>
+<div class="block">A subinterface for visitors that do not throw any checked exceptions
+ during their execution.</div>
 </td>
 </tr>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="ConfigurationVisitor.Stateless.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Stateless</a>&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</th>
+<td class="colLast">
+<div class="block">Stateless specialization of visitors, where both the state and terminal
+ type are Void.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;</th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Intermediate node type to reduce need for casting.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -183,6 +196,35 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colFirst" scope="row"><a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></th>
 <td class="colLast">
 <div class="block">This object is a holder for general configuration options.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;</th>
+<td class="colLast">
+<div class="block">A flag for configuration loaders describing how a node should be serialized.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="RepresentationHint.Builder.html" title="class in org.spongepowered.configurate">RepresentationHint.Builder</a>&lt;V&gt;</th>
+<td class="colLast">
+<div class="block">A builder for <a href="RepresentationHint.html" title="class in org.spongepowered.configurate"><code>RepresentationHint</code></a>s.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="typeSummary">
+<caption><span>Exception Summary</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Exception</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></th>
+<td class="colLast">
+<div class="block">Any sort of error thrown within Configurate.</div>
 </td>
 </tr>
 </tbody>
