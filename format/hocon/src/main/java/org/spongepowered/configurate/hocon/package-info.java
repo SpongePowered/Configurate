@@ -21,4 +21,8 @@
  * respect nodes' map factories. This means that ordering in configurations will
  * not be preserved.</p>
  */
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.hocon;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

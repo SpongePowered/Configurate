@@ -26,7 +26,6 @@ import com.typesafe.config.ConfigOriginFactory;
 import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
@@ -81,7 +80,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
      * @return a new builder
      * @since 4.0.0
      */
-    public static @NonNull Builder builder() {
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -113,7 +112,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         }
 
         /**
-         * Set whether comments should be emmitted.
+         * Set whether comments should be emitted.
          *
          * <p>Comments will always be loaded from files and
          * stored in memory.</p>
@@ -144,7 +143,6 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             return this;
         }
 
-        @NonNull
         @Override
         public HoconConfigurationLoader build() {
             defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
@@ -273,11 +271,9 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         }
     }
 
-    @NonNull
     @Override
-    public CommentedConfigurationNode createNode(@NonNull ConfigurationOptions options) {
-        options = options.nativeTypes(NATIVE_TYPES);
-        return CommentedConfigurationNode.root(options);
+    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {
+        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));
     }
 
     // -- Comment handling -- this might have to be updated as the hocon dep changes
