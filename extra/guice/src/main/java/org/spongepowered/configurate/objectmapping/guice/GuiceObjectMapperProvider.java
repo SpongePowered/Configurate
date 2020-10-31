@@ -32,7 +32,7 @@ import javax.inject.Singleton;
  * wherever it is provided.
  *
  * <p>This class is intended to be constructed through Guice
- * dependency injection.
+ * dependency injection.</p>
  *
  * @since 4.0.0
  */
