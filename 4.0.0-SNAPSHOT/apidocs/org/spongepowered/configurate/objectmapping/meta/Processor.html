@@ -127,8 +127,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.29">Processor</a>&lt;V&gt;</pre>
+public interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.31">Processor</a>&lt;V&gt;</pre>
 <div class="block">Performs a transformation on a value annotated with a specific type.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -222,13 +226,15 @@ public interface <a href="../../../../../src-html/org/spongepowered/configurate/
 <ul class="blockList">
 <li class="blockList">
 <h4>process</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.38">process</a>&#8203;(<a href="Processor.html" title="type parameter in Processor">V</a>&nbsp;value,
+<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.41">process</a>&#8203;(<a href="Processor.html" title="type parameter in Processor">V</a>&nbsp;value,
              <a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;destination)</pre>
 <div class="block">Transform the output node on write.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - source value</dd>
 <dd><code>destination</code> - destination node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -238,11 +244,13 @@ public interface <a href="../../../../../src-html/org/spongepowered/configurate/
 <ul class="blockList">
 <li class="blockList">
 <h4>comments</h4>
-<pre class="methodSignature">static&nbsp;<a href="Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;<a href="Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Comment</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.66">comments</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;<a href="Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Comment</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.72">comments</a>()</pre>
 <div class="block">Apply comments from <a href="Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Comment</code></a> annotation on save.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new processor factory</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -252,7 +260,7 @@ public interface <a href="../../../../../src-html/org/spongepowered/configurate/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>localizedComments</h4>
-<pre class="methodSignature">static&nbsp;<a href="Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;<a href="Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Comment</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.89">localizedComments</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/ResourceBundle.html?is-external=true" title="class or interface in java.util" class="externalLink">ResourceBundle</a>&nbsp;source)</pre>
+<pre class="methodSignature">static&nbsp;<a href="Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;<a href="Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Comment</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.96">localizedComments</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/ResourceBundle.html?is-external=true" title="class or interface in java.util" class="externalLink">ResourceBundle</a>&nbsp;source)</pre>
 <div class="block">Apply localized comments from <a href="Comment.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Comment</code></a> annotation on save.
 
  <p>The <a href="Comment.html#value()"><code>comment's value</code></a> will be treated as a key
@@ -263,6 +271,8 @@ public interface <a href="../../../../../src-html/org/spongepowered/configurate/
 <dd><code>source</code> - source bundle for comments</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new processor factory</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

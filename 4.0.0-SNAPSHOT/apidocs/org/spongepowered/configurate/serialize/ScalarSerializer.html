@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;</code></dd>
 </dl>
 <hr>
-<pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.42">ScalarSerializer</a>&lt;T&gt;
+<pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.43">ScalarSerializer</a>&lt;T&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;</pre>
 <div class="block">Serialize a value that can be represented as a scalar value within a node.
@@ -151,6 +151,10 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
  any transformation.
 
  <p>Any serialized value must be deserializable by the same serializer.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -174,12 +178,16 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(io.leangen.geantyref.TypeToken)">ScalarSerializer</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;type)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a new scalar serializer that handles the provided type.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected </code></td>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.Class)">ScalarSerializer</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;type)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a new scalar serializer that handles the provided type.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -302,7 +310,14 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>ScalarSerializer</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.46">ScalarSerializer</a>&#8203;(io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;type)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.53">ScalarSerializer</a>&#8203;(io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;type)</pre>
+<div class="block">Create a new scalar serializer that handles the provided type.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - type to handle</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.Class)">
@@ -311,7 +326,16 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ScalarSerializer</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.52">ScalarSerializer</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;type)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.67">ScalarSerializer</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;type)</pre>
+<div class="block">Create a new scalar serializer that handles the provided type.
+
+ <p><code>type</code> must not be a raw parameterized type.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - type to handle</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -330,12 +354,14 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>type</h4>
-<pre class="methodSignature">public final&nbsp;io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.70">type</a>()</pre>
+<pre class="methodSignature">public final&nbsp;io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.86">type</a>()</pre>
 <div class="block">Get the general type token applicable for this serializer. This token may
  be parameterized.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the type token for this serializer</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -345,7 +371,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>deserialize</h4>
-<pre class="methodSignature">public final&nbsp;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.74">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">public final&nbsp;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.90">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                            <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                     throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeSerializer.html#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">TypeSerializer</a></code></span></div>
@@ -370,7 +396,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>deserialize</h4>
-<pre class="methodSignature">public final&nbsp;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.112">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
+<pre class="methodSignature">public final&nbsp;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.129">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
                     throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Attempt to deserialize the provided object using an unspecialized type.
  This may fail on more complicated deserialization processes such as with
@@ -383,6 +409,8 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if unable to coerce the value to the
                                 requested type.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -392,7 +420,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>deserialize</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.131">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">public abstract&nbsp;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.149">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)
                        throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Given an object of unknown type, attempt to convert it into the given
@@ -406,6 +434,8 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the object could not be converted for
                                 any reason</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -417,7 +447,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>serialize</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.133">serialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.151">serialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;obj,
                             <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">TypeSerializer</a></code></span></div>
@@ -440,7 +470,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>serialize</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.157">serialize</a>&#8203;(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.176">serialize</a>&#8203;(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
                                     <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</pre>
 <div class="block">Serialize the provided value to a supported type, testing against the
  provided predicate.</div>
@@ -451,6 +481,8 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
                       supported</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a serialized form of this object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -460,7 +492,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockList">
 <li class="blockList">
 <h4>tryDeserialize</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.176">tryDeserialize</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.196">tryDeserialize</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block">Attempt to deserialize the provided object, but rather than throwing an
  exception when a deserialization error occurs, return null instead.</div>
 <dl>
@@ -468,6 +500,8 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <dd><code>obj</code> - the object to try to deserialize</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an instance of the appropriate type, or null</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#deserialize(java.lang.Object)"><code>deserialize(Object)</code></a></dd>
 </dl>
@@ -481,7 +515,7 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>serializeToString</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.195">serializeToString</a>&#8203;(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line.216">serializeToString</a>&#8203;(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item)</pre>
 <div class="block">Serialize the item to a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>String</code></a>, in a representation that can be
  interpreted by this serializer again.</div>
 <dl>
@@ -489,6 +523,8 @@ implements <a href="TypeSerializer.html" title="interface in org.spongepowered.c
 <dd><code>item</code> - the item to serialize</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the serialized form of the item</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

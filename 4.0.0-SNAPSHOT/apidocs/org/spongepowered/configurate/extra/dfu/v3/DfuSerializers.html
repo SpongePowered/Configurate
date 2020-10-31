@@ -130,9 +130,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.31">DfuSerializers</a>
+<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.33">DfuSerializers</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">A bridge between Configurate and DataFixerUpper serialization types.</div>
+<div class="block">A bridge between Configurate and DataFixerUpper serialization systems.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -206,7 +210,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>serializer</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;V&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.43">serializer</a>&#8203;(<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Codec</a>&lt;V&gt;&nbsp;codec)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;V&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.46">serializer</a>&#8203;(<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Codec</a>&lt;V&gt;&nbsp;codec)</pre>
 <div class="block">Create a new serializer wrapping the provided <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink"><code>Codec</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -215,6 +219,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>codec</code> - codec to use for the serialization operation</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new serializer</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -224,7 +230,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>codec</h4>
-<pre class="methodSignature">public static&nbsp;&lt;S&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Codec</a>&lt;S&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.56">codec</a>&#8203;(io.leangen.geantyref.TypeToken&lt;S&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;S&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Codec</a>&lt;S&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.60">codec</a>&#8203;(io.leangen.geantyref.TypeToken&lt;S&gt;&nbsp;type)</pre>
 <div class="block">Create a new codec that uses the default type serializer collection
  to serialize an object of the provided type.</div>
 <dl>
@@ -235,6 +241,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a codec for the type, or null if an appropriate
       <a href="../../../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> could not be found.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -244,7 +252,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>codec</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Codec</a>&lt;V&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.69">codec</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Codec.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Codec</a>&lt;V&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html#line.74">codec</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type,
                                            <a href="../../../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;collection)</pre>
 <div class="block">Create a new codec based on a Configurate <a href="../../../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a>.</div>
 <dl>
@@ -256,6 +264,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a codec, or null if an appropriate <a href="../../../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a>
       could not be found for the TypeToken.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

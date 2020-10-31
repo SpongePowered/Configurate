@@ -135,10 +135,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">S</a>,&#8203;<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">T</a>,&#8203;<a href="ConfigurationVisitor.html" title="type parameter in ConfigurationVisitor">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.285">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;
+<pre>public static interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.305">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;
 extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;org.spongepowered.configurate.VisitorSafeNoopException&gt;</pre>
 <div class="block">A subinterface for visitors that do not throw any checked exceptions
  during their execution.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -274,7 +278,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>newState</h4>
-<pre class="methodSignature"><a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.287">newState</a>()</pre>
+<pre class="methodSignature"><a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.307">newState</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#newState()">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called to provide a state object if a visit is initiated without one
  already existing.</div>
@@ -294,7 +298,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>beginVisit</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.290">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.310">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                 <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#beginVisit(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called at the beginning of the visit with a state object created.</div>
@@ -315,7 +319,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.293">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.313">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called once per node, for every node.</div>
@@ -336,7 +340,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterMappingNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.296">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.316">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                       <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called after <a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>ConfigurationVisitor.enterNode(ConfigurationNode, Object)</code></a> for mapping
@@ -358,7 +362,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterListNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.299">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.319">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                    <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterListNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called after <a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>ConfigurationVisitor.enterNode(ConfigurationNode, Object)</code></a> for list nodes.</div>
@@ -379,7 +383,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterScalarNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.302">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.322">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                      <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterScalarNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called after <a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>ConfigurationVisitor.enterNode(ConfigurationNode, Object)</code></a> for scalar nodes.</div>
@@ -400,7 +404,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>exitMappingNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.305">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.325">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                      <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#exitMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called for a list node after the node and any of its children have
@@ -422,7 +426,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>exitListNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.308">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.328">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                   <a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#exitListNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called for a list node after the node and any of its children have
@@ -444,7 +448,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockListLast">
 <li class="blockList">
 <h4>endVisit</h4>
-<pre class="methodSignature"><a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">T</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.311">endVisit</a>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
+<pre class="methodSignature"><a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">T</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Safe.html#line.331">endVisit</a>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="type parameter in ConfigurationVisitor.Safe">S</a>&nbsp;state)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#endVisit(S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called after every node has been visited, to allow for cleanup
  and validation.</div>

@@ -130,9 +130,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.35">UnmodifiableCollections</a>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.37">UnmodifiableCollections</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Provides a set of methods that produce unmodifiable copies of collections.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -227,7 +231,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.46">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&nbsp;original)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.50">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&nbsp;original)</pre>
 <div class="block">Creates an unmodifiable copy of the given <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> instance.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -236,6 +240,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>original</code> - the list to be copied</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a unmodifiable copy of the given <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -245,7 +251,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.64">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;original)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.69">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;original)</pre>
 <div class="block">Creates an unmodifiable copy of the given <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> instance.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -254,6 +260,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>original</code> - the set to be copied</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a unmodifiable copy of the given <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -266,7 +274,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>toList</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.84">toList</a>&#8203;(E...&nbsp;original)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.90">toList</a>&#8203;(E...&nbsp;original)</pre>
 <div class="block">Creates an unmodifiable copy of the given array as a list, preserving
  order.</div>
 <dl>
@@ -277,6 +285,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a unmodifiable copy of the given array as a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a>
          instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -289,7 +299,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <li class="blockList">
 <h4>toSet</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.104">toSet</a>&#8203;(E...&nbsp;original)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.111">toSet</a>&#8203;(E...&nbsp;original)</pre>
 <div class="block">Creates an unmodifiable copy of the given array as a set.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -298,6 +308,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <dd><code>original</code> - the array to be copied into a set</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a unmodifiable copy of the given array as a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -307,7 +319,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>buildMap</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.125">buildMap</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;&gt;&nbsp;handler)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.133">buildMap</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;&gt;&nbsp;handler)</pre>
 <div class="block">Build an unmodifiable map.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -317,6 +329,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <dd><code>handler</code> - consumer that will populate the map wih keys</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new unmodifiable map</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -328,7 +342,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <ul class="blockListLast">
 <li class="blockList">
 <h4>immutableMapEntry</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.140">immutableMapEntry</a>&#8203;(K&nbsp;key,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/UnmodifiableCollections.html#line.149">immutableMapEntry</a>&#8203;(K&nbsp;key,
                                                                  V&nbsp;value)</pre>
 <div class="block">Creates an immutable instance of <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map.Entry</code></a>.</div>
 <dl>
@@ -340,6 +354,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs
 <dd><code>value</code> - the value in the entry</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new map entry</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

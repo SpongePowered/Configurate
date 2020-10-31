@@ -120,9 +120,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></code>, <code><a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.24">BasicConfigurationNode</a>
+<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.26">BasicConfigurationNode</a>
 extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</pre>
 <div class="block">A standard configuration node, without any additional options.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -233,13 +237,15 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>factory</h4>
-<pre class="methodSignature">static&nbsp;<a href="ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.33">factory</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.36">factory</a>()</pre>
 <div class="block">Create a new factory providing <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>BasicConfigurationNode</code></a> instances.
 
  <p>The returned factory will create nodes with default options.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new factory</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -249,7 +255,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.47">root</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.51">root</a>()</pre>
 <div class="block">Create a new empty root node.
 
  <p>This node will use the <a href="ConfigurationOptions.html#defaults()"><code>default options</code></a></p>
@@ -259,6 +265,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new empty node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -268,7 +276,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.64">root</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)
+<pre class="methodSignature">static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.69">root</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)
                                                   throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Create a new root node with the provided initializer which may throw.
 
@@ -286,6 +294,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when thrown from inner action</dd>
 <dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -295,7 +305,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.77">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<pre class="methodSignature">static&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.83">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block">Create a new empty root node with the provided options.
 
  <p>A root node is always attached, and has no parent and an
@@ -305,6 +315,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <dd><code>options</code> - options to apply.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new empty node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -314,7 +326,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockListLast">
 <li class="blockList">
 <h4>root</h4>
-<pre class="methodSignature">static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.93">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
+<pre class="methodSignature">static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/BasicConfigurationNode.html#line.100">root</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
                                                          <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>,&#8203;E&gt;&nbsp;maker)
                                                   throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Create a new root node with the provided options and initializer.
@@ -332,6 +344,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when thrown from inner action</dd>
 <dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

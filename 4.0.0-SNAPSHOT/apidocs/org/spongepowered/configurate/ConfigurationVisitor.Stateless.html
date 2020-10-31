@@ -135,10 +135,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public static interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.158">ConfigurationVisitor.Stateless</a>&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;
+public static interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.html#line.169">ConfigurationVisitor.Stateless</a>&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;
 extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>,&#8203;E&gt;</pre>
 <div class="block">Stateless specialization of visitors, where both the state and terminal
  type are Void.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -336,7 +340,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>newState</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.160">newState</a>()</pre>
+<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.171">newState</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#newState()">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called to provide a state object if a visit is initiated without one
  already existing.</div>
@@ -354,7 +358,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>beginVisit</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.165">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.176">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                  throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#beginVisit(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -377,7 +381,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>beginVisit</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.176">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.188">beginVisit</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                  throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called at the beginning of the visit with a state object created.</div>
 <dl>
@@ -386,6 +390,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - as required by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -395,7 +401,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.178">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.190">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                        <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                 throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -418,7 +424,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterNode</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.189">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.202">enterNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
         throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called once per node, for every node.</div>
 <dl>
@@ -427,6 +433,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - as required by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -436,7 +444,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterMappingNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.191">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.204">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                        throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -460,7 +468,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterMappingNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.203">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.217">enterMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                        throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called after <a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>ConfigurationVisitor.enterNode(ConfigurationNode, Object)</code></a> for
  mapping nodes.</div>
@@ -470,6 +478,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -479,7 +489,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterListNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.205">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.219">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                     throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterListNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -502,7 +512,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterListNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.217">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.232">enterListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                     throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called after <a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>ConfigurationVisitor.enterNode(ConfigurationNode, Object)</code></a> for list
  nodes.</div>
@@ -512,6 +522,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -521,7 +533,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterScalarNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.220">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.235">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                       throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#enterScalarNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -544,7 +556,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>enterScalarNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.232">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.248">enterScalarNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                       throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called after <a href="ConfigurationVisitor.html#enterNode(org.spongepowered.configurate.ConfigurationNode,S)"><code>ConfigurationVisitor.enterNode(ConfigurationNode, Object)</code></a> for scalar
  nodes.</div>
@@ -554,6 +566,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -563,7 +577,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>exitMappingNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.235">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.251">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                       throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#exitMappingNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -587,7 +601,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>exitMappingNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.247">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.264">exitMappingNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                       throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called for a mapping node after the node and any of its children have
  been visited.</div>
@@ -597,6 +611,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -606,7 +622,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>exitListNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.249">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.266">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                           <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                    throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#exitListNode(org.spongepowered.configurate.ConfigurationNode,S)">ConfigurationVisitor</a></code></span></div>
@@ -630,7 +646,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>exitListNode</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.261">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.279">exitListNode</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                    throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called for a list node after the node and any of its children have
  been visited.</div>
@@ -640,6 +656,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -649,7 +667,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>endVisit</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.263">endVisit</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
+<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.281">endVisit</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang" class="externalLink">Void</a>&nbsp;state)
                throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationVisitor.html#endVisit(S)">ConfigurationVisitor</a></code></span></div>
 <div class="block">Called after every node has been visited, to allow for cleanup
@@ -673,7 +691,7 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <ul class="blockListLast">
 <li class="blockList">
 <h4>endVisit</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.275">endVisit</a>()
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationVisitor.Stateless.html#line.294">endVisit</a>()
                throws <a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Called after every node has been visited, to allow for cleanup
  and validation.</div>
@@ -681,6 +699,8 @@ extends <a href="ConfigurationVisitor.html" title="interface in org.spongepowere
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a></code> - when thrown by implementation</dd>
 <dd><code><a href="ConfigurationVisitor.Stateless.html" title="type parameter in ConfigurationVisitor.Stateless">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

@@ -127,9 +127,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.30">TransformAction</a></pre>
+public interface <a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.32">TransformAction</a></pre>
 <div class="block">Represents an action to be performed that transforms a node in the
  configuration tree.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -222,11 +226,13 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature">static&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.38">remove</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.41">remove</a>()</pre>
 <div class="block">Create a transform action that will remove the node at a specified path.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new action</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -236,7 +242,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>rename</h4>
-<pre class="methodSignature">static&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.53">rename</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;newKey)</pre>
+<pre class="methodSignature">static&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.57">rename</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;newKey)</pre>
 <div class="block">Rename a node
 
  <p>This transformation cannot be applied to the root node.</div>
@@ -245,6 +251,8 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <dd><code>newKey</code> - the new key</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new action</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -256,7 +264,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.73">set</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.78">set</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type,
                                <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;value)</pre>
 <div class="block">Create a transform action that will change the value of a node to one of
  the specified type.</div>
@@ -268,6 +276,8 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <dd><code>value</code> - value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new transformation action</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -277,7 +287,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.89">set</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.95">set</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type,
                                <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&gt;&nbsp;valueSupplier)</pre>
 <div class="block">Create a transform action that will change the value of a node to one of
  the specified type.</div>
@@ -289,6 +299,8 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <dd><code>valueSupplier</code> - supplier returning a value on each call</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new transformation action</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -298,7 +310,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.105">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.112">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
                                <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;V&gt;&nbsp;valueSupplier)</pre>
 <div class="block">Create a transform action that will change the value of a node to one of
  the specified type.</div>
@@ -310,6 +322,8 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <dd><code>valueSupplier</code> - supplier returning a value on each call</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new transformation action</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -319,7 +333,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockListLast">
 <li class="blockList">
 <h4>visitPath</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a> <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.125">visitPath</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a> <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> []&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/TransformAction.html#line.133">visitPath</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
                                         <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;value)
                                  throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Called at a certain path, with the node at that path.
@@ -336,6 +350,8 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <dd>a modified path, or null if the path is to stay the same</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

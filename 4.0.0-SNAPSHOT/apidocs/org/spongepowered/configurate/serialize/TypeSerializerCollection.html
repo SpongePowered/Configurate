@@ -130,9 +130,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.43">TypeSerializerCollection</a>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.45">TypeSerializerCollection</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A calculated collection of <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a>s.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -268,7 +272,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.102">get</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;token)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.105">get</a>&#8203;(io.leangen.geantyref.TypeToken&lt;T&gt;&nbsp;token)</pre>
 <div class="block">Resolve a type serializer.
 
  <p>First, all registered serializers from this collection are queried
@@ -281,6 +285,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a serializer if any is present, or null if no applicable
           serializer is found</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -290,7 +296,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.121">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;token)</pre>
+<pre class="methodSignature">public&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.125">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;token)</pre>
 <div class="block">Resolve a type serializer.
 
  <p>First, all registered serializers from this collection are queried
@@ -305,6 +311,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a serializer if any is present, or null if no applicable
           serializer is found</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -314,7 +322,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.139">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.144">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
 <div class="block">Resolve a type serializer.
 
  <p>First, all registered serializers from this collection are queried
@@ -325,6 +333,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a serializer if any is present, or null if no applicable
           serializer is found</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -334,12 +344,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>childBuilder</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.162">childBuilder</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.168">childBuilder</a>()</pre>
 <div class="block">Create a new builder to begin building a collection of type serializers
  that inherits from this collection.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -349,7 +361,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.166">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.172">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -362,7 +374,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.174">equals</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.180">equals</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -375,7 +387,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.186">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.192">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
@@ -388,7 +400,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.201">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.208">builder</a>()</pre>
 <div class="block">Create a builder for a new type serializer collection without a
  parent set.
 
@@ -398,6 +410,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -407,12 +421,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>defaults</h4>
-<pre class="methodSignature">public static&nbsp;<a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.211">defaults</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializerCollection.html#line.219">defaults</a>()</pre>
 <div class="block">Get a collection containing all of Configurate's built-in
  type serializers.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the collection</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

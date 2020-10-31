@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Documented.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Documented</a>
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Retention</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation" class="externalLink">RUNTIME</a>)
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Target</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation" class="externalLink">FIELD</a>)
-public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Setting.html#line.34">Setting</a></pre>
+public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Setting.html#line.36">Setting</a></pre>
 <div class="block">Marks a field to be targeted by the object mapper.
 
  <p>Optionally, a path override can be provided.</p>
@@ -125,6 +125,10 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
  <p>This annotation is not required on fields unless the
  <a href="NodeResolver.html#onlyWithSetting()"><code>NodeResolver.onlyWithSetting()</code></a> resolver filter has been applied to
  the loading object mapper.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -175,11 +179,13 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <ul class="blockListLast">
 <li class="blockList">
 <h4>value</h4>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Setting.html#line.44">value</a></pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Setting.html#line.47">value</a></pre>
 <div class="block">The path this setting is located at.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the path</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 <dl>
 <dt>Default:</dt>

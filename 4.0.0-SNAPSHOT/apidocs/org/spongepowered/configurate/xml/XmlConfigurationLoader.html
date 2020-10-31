@@ -139,10 +139,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code>, <code><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.70">XmlConfigurationLoader</a>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.72">XmlConfigurationLoader</a>
 extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</pre>
 <div class="block">A loader for XML (Extensible Markup Language), using the native javax library
  for parsing and generation.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -230,18 +234,24 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadInternal(org.spongepowered.configurate.AttributedConfigurationNode,java.io.BufferedReader)">loadInternal</a></span>&#8203;(<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;node,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Using a created node, attempt to read a configuration file.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Perform a save of the node to the provided writer.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeHeaderInternal(java.io.Writer)">writeHeaderInternal</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Write out any implementation-specific file header.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -294,11 +304,13 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.104">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.107">builder</a>()</pre>
 <div class="block">Creates a new <a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml"><code>XmlConfigurationLoader</code></a> builder.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -308,7 +320,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.339">load</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.356">load</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
                                           throws <a href="../loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../loader/ConfigurationLoader.html#load(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
@@ -335,11 +347,18 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>loadInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.404">loadInternal</a>&#8203;(<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.421">loadInternal</a>&#8203;(<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;node,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">AbstractConfigurationLoader</a></code></span></div>
+<div class="block">Using a created node, attempt to read a configuration file.
+
+ <p>The header will already have been read if applicable.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">loadInternal</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - node to load into</dd>
+<dd><code>reader</code> - reader to load from</dd>
 </dl>
 </li>
 </ul>
@@ -349,13 +368,17 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>writeHeaderInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.511">writeHeaderInternal</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.528">writeHeaderInternal</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
                             throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
+<div class="block">Write out any implementation-specific file header.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../loader/AbstractConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">writeHeaderInternal</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>writer</code> - writer to output to</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an error occurs in the implementation</dd>
 </dl>
 </li>
 </ul>
@@ -365,14 +388,19 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>saveInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.519">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.536">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
                      throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
+<div class="block">Perform a save of the node to the provided writer.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - node to save</dd>
+<dd><code>writer</code> - writer to output to</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code></dd>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any of the node's data is unsavable</dd>
 </dl>
 </li>
 </ul>
@@ -382,7 +410,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockListLast">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">public&nbsp;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.592">createNode</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line.609">createNode</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationNodeFactory</a></code></span></div>
 <div class="block">Create an empty node with the provided options.
 

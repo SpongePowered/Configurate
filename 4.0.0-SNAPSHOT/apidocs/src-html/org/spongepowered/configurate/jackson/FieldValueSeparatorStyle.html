@@ -27,40 +27,49 @@
 <span class="sourceLineNo">018</span><a id="line.18"></a>
 <span class="sourceLineNo">019</span><a id="line.19">/**</a>
 <span class="sourceLineNo">020</span><a id="line.20"> * Enumeration of field value separator styles.</a>
-<span class="sourceLineNo">021</span><a id="line.21"> */</a>
-<span class="sourceLineNo">022</span><a id="line.22">public enum FieldValueSeparatorStyle {</a>
-<span class="sourceLineNo">023</span><a id="line.23"></a>
-<span class="sourceLineNo">024</span><a id="line.24">    /**</a>
-<span class="sourceLineNo">025</span><a id="line.25">     * Style which uses spaces either side of the &lt;code&gt;:&lt;/code&gt; character.</a>
-<span class="sourceLineNo">026</span><a id="line.26">     */</a>
-<span class="sourceLineNo">027</span><a id="line.27">    SPACE_BOTH_SIDES(" : "),</a>
-<span class="sourceLineNo">028</span><a id="line.28"></a>
-<span class="sourceLineNo">029</span><a id="line.29">    /**</a>
-<span class="sourceLineNo">030</span><a id="line.30">     * Style which uses a space after the &lt;code&gt;:&lt;/code&gt; character.</a>
-<span class="sourceLineNo">031</span><a id="line.31">     */</a>
-<span class="sourceLineNo">032</span><a id="line.32">    SPACE_AFTER(": "),</a>
-<span class="sourceLineNo">033</span><a id="line.33"></a>
-<span class="sourceLineNo">034</span><a id="line.34">    /**</a>
-<span class="sourceLineNo">035</span><a id="line.35">     * Style which uses no spaces.</a>
-<span class="sourceLineNo">036</span><a id="line.36">     */</a>
-<span class="sourceLineNo">037</span><a id="line.37">    NO_SPACE(":");</a>
-<span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">    private final String decorationType;</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">    FieldValueSeparatorStyle(final String decorationType) {</a>
-<span class="sourceLineNo">042</span><a id="line.42">        this.decorationType = decorationType;</a>
-<span class="sourceLineNo">043</span><a id="line.43">    }</a>
-<span class="sourceLineNo">044</span><a id="line.44"></a>
-<span class="sourceLineNo">045</span><a id="line.45">    /**</a>
-<span class="sourceLineNo">046</span><a id="line.46">     * Get the literal separator for this type.</a>
-<span class="sourceLineNo">047</span><a id="line.47">     *</a>
-<span class="sourceLineNo">048</span><a id="line.48">     * @return literal separator value</a>
-<span class="sourceLineNo">049</span><a id="line.49">     */</a>
-<span class="sourceLineNo">050</span><a id="line.50">    public String value() {</a>
-<span class="sourceLineNo">051</span><a id="line.51">        return this.decorationType;</a>
-<span class="sourceLineNo">052</span><a id="line.52">    }</a>
-<span class="sourceLineNo">053</span><a id="line.53"></a>
-<span class="sourceLineNo">054</span><a id="line.54">}</a>
+<span class="sourceLineNo">021</span><a id="line.21"> *</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * @since 4.0.0</a>
+<span class="sourceLineNo">023</span><a id="line.23"> */</a>
+<span class="sourceLineNo">024</span><a id="line.24">public enum FieldValueSeparatorStyle {</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">    /**</a>
+<span class="sourceLineNo">027</span><a id="line.27">     * Style which uses spaces either side of the &lt;code&gt;:&lt;/code&gt; character.</a>
+<span class="sourceLineNo">028</span><a id="line.28">     *</a>
+<span class="sourceLineNo">029</span><a id="line.29">     * @since 4.0.0</a>
+<span class="sourceLineNo">030</span><a id="line.30">     */</a>
+<span class="sourceLineNo">031</span><a id="line.31">    SPACE_BOTH_SIDES(" : "),</a>
+<span class="sourceLineNo">032</span><a id="line.32"></a>
+<span class="sourceLineNo">033</span><a id="line.33">    /**</a>
+<span class="sourceLineNo">034</span><a id="line.34">     * Style which uses a space after the &lt;code&gt;:&lt;/code&gt; character.</a>
+<span class="sourceLineNo">035</span><a id="line.35">     *</a>
+<span class="sourceLineNo">036</span><a id="line.36">     * @since 4.0.0</a>
+<span class="sourceLineNo">037</span><a id="line.37">     */</a>
+<span class="sourceLineNo">038</span><a id="line.38">    SPACE_AFTER(": "),</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">    /**</a>
+<span class="sourceLineNo">041</span><a id="line.41">     * Style which uses no spaces.</a>
+<span class="sourceLineNo">042</span><a id="line.42">     *</a>
+<span class="sourceLineNo">043</span><a id="line.43">     * @since 4.0.0</a>
+<span class="sourceLineNo">044</span><a id="line.44">     */</a>
+<span class="sourceLineNo">045</span><a id="line.45">    NO_SPACE(":");</a>
+<span class="sourceLineNo">046</span><a id="line.46"></a>
+<span class="sourceLineNo">047</span><a id="line.47">    private final String decorationType;</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">    FieldValueSeparatorStyle(final String decorationType) {</a>
+<span class="sourceLineNo">050</span><a id="line.50">        this.decorationType = decorationType;</a>
+<span class="sourceLineNo">051</span><a id="line.51">    }</a>
+<span class="sourceLineNo">052</span><a id="line.52"></a>
+<span class="sourceLineNo">053</span><a id="line.53">    /**</a>
+<span class="sourceLineNo">054</span><a id="line.54">     * Get the literal separator for this type.</a>
+<span class="sourceLineNo">055</span><a id="line.55">     *</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * @return literal separator value</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * @since 4.0.0</a>
+<span class="sourceLineNo">058</span><a id="line.58">     */</a>
+<span class="sourceLineNo">059</span><a id="line.59">    public String value() {</a>
+<span class="sourceLineNo">060</span><a id="line.60">        return this.decorationType;</a>
+<span class="sourceLineNo">061</span><a id="line.61">    }</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">}</a>
 
 
 

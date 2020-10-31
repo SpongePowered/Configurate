@@ -126,9 +126,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.25">NodePath</a>
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.27">NodePath</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">Represents the path to a given node.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -252,19 +256,94 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="of(java.lang.Object[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>of</h4>
+<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.36">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path)</pre>
+<div class="block">Create a node path reference.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to reference. The provided array will be copied.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
+<a id="of(java.util.Collection)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>of</h4>
+<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.47">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;path)</pre>
+<div class="block">Create a node path reference.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - a collection containing elements of the path to reference</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
+<a id="path(java.lang.Object...)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>path</h4>
+<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.61">path</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;elements)</pre>
+<div class="block">Create a node path reference.
+
+ <p>This overload takes varargs, and is designed to be imported statically
+ to create paths.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elements</code> - the path to reference. The provided array will be copied.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
+<a id="path()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>path</h4>
+<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.71">path</a>()</pre>
+<div class="block">Get an empty node path. This refers to the root node.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the empty path</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
 <a id="get(int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.33">get</a>&#8203;(int&nbsp;i)</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.82">get</a>&#8203;(int&nbsp;i)</pre>
 <div class="block">Gets a specific element from the path array.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>i</code> - the index to get</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>object at the index</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -274,11 +353,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.40">size</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.90">size</a>()</pre>
 <div class="block">Gets the length of the path.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>length of the path array</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -288,11 +369,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>array</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.47">array</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.98">array</a>()</pre>
 <div class="block">Returns a copy of the original path array.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the copied array</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -302,13 +385,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>withAppendedChild</h4>
-<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.55">withAppendedChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;childKey)</pre>
+<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.107">withAppendedChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;childKey)</pre>
 <div class="block">Create a new path with the provided element appended to the end.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>childKey</code> - the new key to append</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new path object reflecting the extended path</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -318,7 +403,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>with</h4>
-<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.66">with</a>&#8203;(int&nbsp;index,
+<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.119">with</a>&#8203;(int&nbsp;index,
               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
        throws <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></pre>
 <div class="block">Create a new path with the value at <code>index</code> replaced
@@ -331,6 +416,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <dd>new path object with changed value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if index &lt; 0 or &ge; <a href="#size()">size()</a></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -340,78 +427,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.73">iterator</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.127">iterator</a>()</pre>
 <div class="block">Returns an iterator over the path.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an iterator of the path elements</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.lang.Object[])">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.82">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;path)</pre>
-<div class="block">Create a node path reference.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - the path to reference. The provided array will be copied.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the path instance</dd>
-</dl>
-</li>
-</ul>
-<a id="of(java.util.Collection)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>of</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.92">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;path)</pre>
-<div class="block">Create a node path reference.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>path</code> - a collection containing elements of the path to reference</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the path instance</dd>
-</dl>
-</li>
-</ul>
-<a id="path(java.lang.Object...)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>path</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.105">path</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;elements)</pre>
-<div class="block">Create a node path reference.
-
- <p>This overload takes varargs, and is designed to be imported statically
- to create paths.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - the path to reference. The provided array will be copied.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the path instance</dd>
-</dl>
-</li>
-</ul>
-<a id="path()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>path</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.114">path</a>()</pre>
-<div class="block">Get an empty node path. This refers to the root node.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the empty path</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -421,11 +445,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.123">copy</a>()</pre>
+<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/NodePath.html#line.136">copy</a>()</pre>
 <div class="block">Create a new node path with the same data as this path.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new path</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

@@ -135,8 +135,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.152">FieldData.Deserializer</a>&lt;I&gt;</pre>
+public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.160">FieldData.Deserializer</a>&lt;I&gt;</pre>
 <div class="block">A deserialization handler to appropriately place object data into fields.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -192,7 +196,7 @@ public static interface <a href="../../../../src-html/org/spongepowered/configur
 <ul class="blockListLast">
 <li class="blockList">
 <h4>accept</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.Deserializer.html#line.163">accept</a>&#8203;(<a href="FieldData.Deserializer.html" title="type parameter in FieldData.Deserializer">I</a>&nbsp;intermediate,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.Deserializer.html#line.172">accept</a>&#8203;(<a href="FieldData.Deserializer.html" title="type parameter in FieldData.Deserializer">I</a>&nbsp;intermediate,
             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;newValue,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;implicitInitializer)</pre>
 <div class="block">Apply either a new value or implicit initializer to the
@@ -202,6 +206,8 @@ public static interface <a href="../../../../src-html/org/spongepowered/configur
 <dd><code>intermediate</code> - the intermediate container</dd>
 <dd><code>newValue</code> - new value to store</dd>
 <dd><code>implicitInitializer</code> - the implicit initializer</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

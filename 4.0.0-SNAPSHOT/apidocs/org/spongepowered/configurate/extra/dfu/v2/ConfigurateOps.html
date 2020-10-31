@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.48">ConfigurateOps</a>
+<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.49">ConfigurateOps</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
 <div class="block">Implementation of DataFixerUpper's DynamicOps.
@@ -144,6 +144,10 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
  factory will be used. The default factory creates a
  <a href="../../../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>CommentedConfigurationNode</code></a> with the <a href="../../../serialize/TypeSerializerCollection.html#defaults()"><code>default TypeSerializer collection</code></a>,
  but a custom factory may be provided.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -343,12 +347,14 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>instance</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.60">instance</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.62">instance</a>()</pre>
 <div class="block">Get the shared instance of this class, which creates new nodes using
  the default factory.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the shared instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -358,13 +364,15 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>withNodeFactory</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.70">withNodeFactory</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;? extends <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;factory)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.73">withNodeFactory</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;? extends <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;factory)</pre>
 <div class="block">Create a new instance of the ops, with a custom node factory.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>factory</code> - the factory function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new ops instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -374,7 +382,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/Dynamic.html?is-external=true" title="class or interface in com.mojang.datafixers" class="externalLink">Dynamic</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.81">wrap</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/Dynamic.html?is-external=true" title="class or interface in com.mojang.datafixers" class="externalLink">Dynamic</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.85">wrap</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
 <div class="block">Wrap a ConfigurationNode in a <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/Dynamic.html?is-external=true" title="class or interface in com.mojang.datafixers" class="externalLink"><code>Dynamic</code></a> instance. The returned Dynamic will use the same type
  serializer collection as the original node for its operations.</div>
 <dl>
@@ -382,6 +390,8 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <dd><code>node</code> - the node to wrap</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a wrapped node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -391,7 +401,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>empty</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.98">empty</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.102">empty</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#empty()" title="class or interface in com.mojang.datafixers.types" class="externalLink">empty</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -404,7 +414,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>getType</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/Type.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">Type</a>&lt;?&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.103">getType</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/Type.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">Type</a>&lt;?&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.107">getType</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#getType(T)" title="class or interface in com.mojang.datafixers.types" class="externalLink">getType</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -417,7 +427,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>getNumberValue</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.140">getNumberValue</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.144">getNumberValue</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#getNumberValue(T)" title="class or interface in com.mojang.datafixers.types" class="externalLink">getNumberValue</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -430,7 +440,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>createNumeric</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.154">createNumeric</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&nbsp;i)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.158">createNumeric</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&nbsp;i)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#createNumeric(java.lang.Number)" title="class or interface in com.mojang.datafixers.types" class="externalLink">createNumeric</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -443,7 +453,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>createBoolean</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.159">createBoolean</a>&#8203;(boolean&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.163">createBoolean</a>&#8203;(boolean&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#createBoolean(boolean)" title="class or interface in com.mojang.datafixers.types" class="externalLink">createBoolean</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -456,7 +466,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>getStringValue</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.164">getStringValue</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.168">getStringValue</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#getStringValue(T)" title="class or interface in com.mojang.datafixers.types" class="externalLink">getStringValue</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -469,7 +479,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>createString</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.169">createString</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.173">createString</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#createString(java.lang.String)" title="class or interface in com.mojang.datafixers.types" class="externalLink">createString</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -482,7 +492,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeInto</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.174">mergeInto</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.178">mergeInto</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                    <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;value)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -496,7 +506,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeInto</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.184">mergeInto</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.188">mergeInto</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                    <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;key,
                                    <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;value)</pre>
 <dl>
@@ -511,7 +521,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>merge</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.197">merge</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;first,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.201">merge</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;first,
                                <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;second)</pre>
 <div class="block">Merge into a newly created node.</div>
 <dl>
@@ -532,7 +542,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>getMapValues</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.203">getMapValues</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.207">getMapValues</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#getMapValues(T)" title="class or interface in com.mojang.datafixers.types" class="externalLink">getMapValues</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -545,7 +555,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>createMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.216">createMap</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.220">createMap</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;map)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#createMap(java.util.Map)" title="class or interface in com.mojang.datafixers.types" class="externalLink">createMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -558,7 +568,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>getStream</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.227">getStream</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.231">getStream</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#getStream(T)" title="class or interface in com.mojang.datafixers.types" class="externalLink">getStream</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -571,7 +581,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>createList</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.237">createList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;input)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.241">createList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;input)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true#createList(java.util.stream.Stream)" title="class or interface in com.mojang.datafixers.types" class="externalLink">createList</a></code>&nbsp;in interface&nbsp;<code><a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/datafixers/types/DynamicOps.html?is-external=true" title="class or interface in com.mojang.datafixers.types" class="externalLink">DynamicOps</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</code></dd>
@@ -584,7 +594,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.244">remove</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.248">remove</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -598,7 +608,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.255">get</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.259">get</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                        <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -612,7 +622,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>getGeneric</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.261">getGeneric</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util" class="externalLink">Optional</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.265">getGeneric</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                               <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -626,7 +636,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.267">set</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.271">set</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;key,
                              <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;value)</pre>
 <dl>
@@ -641,7 +651,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>update</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.274">update</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.278">update</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;key,
                                 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;function)</pre>
 <dl>
@@ -656,7 +666,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockList">
 <li class="blockList">
 <h4>updateGeneric</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.287">updateGeneric</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
+<pre class="methodSignature">public&nbsp;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.291">updateGeneric</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;input,
                                        <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;wrappedKey,
                                        <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;function)</pre>
 <dl>
@@ -671,7 +681,7 @@ implements <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.302">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v2/ConfigurateOps.html#line.306">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>

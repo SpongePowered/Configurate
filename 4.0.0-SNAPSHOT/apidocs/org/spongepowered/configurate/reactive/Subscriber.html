@@ -135,12 +135,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.28">Subscriber</a>&lt;V&gt;</pre>
+public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.29">Subscriber</a>&lt;V&gt;</pre>
 <div class="block">A listener to events that may be called by an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>.
 
  <p>For every publisher this subscriber is subscribed to, the subscriber will
  only process one event at a time -- effectively, within a single publisher
  this subscriber does not have to be aware of concurrent effects.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -210,11 +214,13 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.36">submit</a>&#8203;(<a href="Subscriber.html" title="type parameter in Subscriber">V</a>&nbsp;item)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.38">submit</a>&#8203;(<a href="Subscriber.html" title="type parameter in Subscriber">V</a>&nbsp;item)</pre>
 <div class="block">Called to submit a new item.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>item</code> - the item available</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -224,7 +230,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockList">
 <li class="blockList">
 <h4>onError</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.47">onError</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;thrown)</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.50">onError</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;thrown)</pre>
 <div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is
  thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not
  otherwise handled, this method will be called with the error. The
@@ -233,6 +239,8 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>thrown</code> - the exception thrown</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -242,9 +250,13 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onClose</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.56">onClose</a>()</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.61">onClose</a>()</pre>
 <div class="block">When the <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a> this is subscribed to closes without error,
  this method will be called.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </li>

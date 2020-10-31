@@ -122,8 +122,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.29">NodeResolver</a></pre>
+<pre>public interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.31">NodeResolver</a></pre>
 <div class="block">A function to resolve nodes for a specific field.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -252,8 +256,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SKIP_FIELD</h4>
-<pre>static final&nbsp;<a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a> <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.34">SKIP_FIELD</a></pre>
+<pre>static final&nbsp;<a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a> <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.38">SKIP_FIELD</a></pre>
 <div class="block">Indicates that a field should be explicitly skipped.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -272,13 +280,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>resolve</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.42">resolve</a>&#8203;(<a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;parent)</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.47">resolve</a>&#8203;(<a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;parent)</pre>
 <div class="block">Given a parent node, resolve an appropriate child.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parent</code> - parent node</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>child node, or null if the node should not be deserialized.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -288,11 +298,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeKey</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.66">nodeKey</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.75">nodeKey</a>()</pre>
 <div class="block">Creates resolvers that provide the key of the containing node for values.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>key-based resolver</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -302,11 +314,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>keyFromSetting</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.80">keyFromSetting</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.90">keyFromSetting</a>()</pre>
 <div class="block">Creates resolvers that get the node at a key defined by <a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Setting</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a factory that will extract keys from a provided annotation</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -316,13 +330,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>onlyWithAnnotation</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.98">onlyWithAnnotation</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;annotation)</pre>
+<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.109">onlyWithAnnotation</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;annotation)</pre>
 <div class="block">A resolver that skips any field not annotated with <code>annotation</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>annotation</code> - annotation to require</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new resolver</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -332,11 +348,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onlyWithSetting</h4>
-<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.112">onlyWithSetting</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.124">onlyWithSetting</a>()</pre>
 <div class="block">A resolver that will skip any field not annotated with <a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Setting</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new resolver restricting fields</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

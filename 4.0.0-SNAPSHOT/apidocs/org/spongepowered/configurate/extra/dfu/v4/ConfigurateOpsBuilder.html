@@ -130,9 +130,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.31">ConfigurateOpsBuilder</a>
+<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.33">ConfigurateOpsBuilder</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder for <a href="ConfigurateOps.html" title="class in org.spongepowered.configurate.extra.dfu.v4"><code>ConfigurateOps</code></a> instances.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -248,7 +252,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>factory</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.50">factory</a>&#8203;(<a href="../../../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;? extends <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;supplier)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.53">factory</a>&#8203;(<a href="../../../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;? extends <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;supplier)</pre>
 <div class="block">Set the node factory for the returned ops.
 
  <p>The default node factory wil create <a href="../../../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>CommentedConfigurationNode</code></a>
@@ -259,6 +263,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
      the <code>create*</code> methods</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -268,7 +274,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>factoryFromSerializers</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.63">factoryFromSerializers</a>&#8203;(<a href="../../../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;collection)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.67">factoryFromSerializers</a>&#8203;(<a href="../../../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;collection)</pre>
 <div class="block">Set a node factory that will use the provided collection.
 
  <p>This will replace any set <a href="#factory(org.spongepowered.configurate.ConfigurationNodeFactory)"><code>factory(ConfigurationNodeFactory)</code></a>.</div>
@@ -277,6 +283,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>collection</code> - type serializers to use for nodes.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -286,7 +294,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>factoryFromNode</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.76">factoryFromNode</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.81">factoryFromNode</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
 <div class="block">Set the node factory based on the options of the provided node.
 
  <p>This will replace any set <a href="#factory(org.spongepowered.configurate.ConfigurationNodeFactory)"><code>factory(ConfigurationNodeFactory)</code></a>.</div>
@@ -295,6 +303,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>node</code> - node to use</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -304,13 +314,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>compressed</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.97">compressed</a>&#8203;(boolean&nbsp;compressed)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.103">compressed</a>&#8203;(boolean&nbsp;compressed)</pre>
 <div class="block">Set whether <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Keyable.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink"><code>Keyable</code></a> values should be compressed.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>compressed</code> - whether to compress values</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="ConfigurateOps.html#compressMaps()"><code>for more about what compression is</code></a></dd>
 </dl>
@@ -322,7 +334,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readProtection</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.113">readProtection</a>&#8203;(<a href="ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a>&nbsp;readProtection)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.120">readProtection</a>&#8203;(<a href="ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a>&nbsp;readProtection)</pre>
 <div class="block">Set how nodes returned from read methods will be protected
  from modification.
 
@@ -334,6 +346,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>readProtection</code> - protection level</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -343,7 +357,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>writeProtection</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.129">writeProtection</a>&#8203;(<a href="ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a>&nbsp;writeProtection)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.137">writeProtection</a>&#8203;(<a href="ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a>&nbsp;writeProtection)</pre>
 <div class="block">Set how nodes provided to mutator methods will be protected
  from modification.
 
@@ -355,6 +369,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>writeProtection</code> - protection level</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -364,13 +380,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readWriteProtection</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.144">readWriteProtection</a>&#8203;(<a href="ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a>&nbsp;protection)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.153">readWriteProtection</a>&#8203;(<a href="ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a>&nbsp;protection)</pre>
 <div class="block">Set how nodes will be protected from both read and write modifications.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>protection</code> - protection level</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#readProtection(org.spongepowered.configurate.extra.dfu.v4.ConfigurateOps.Protection)"><code>for how this level
       affects value reads</code></a>, 
@@ -385,7 +403,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurateOps.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.160">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurateOps.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.170">build</a>()</pre>
 <div class="block">Create a new ops instance.
 
  <p>All options have defaults provided and all setters validate their
@@ -394,6 +412,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new instance</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -403,7 +423,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>buildWrapping</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Dynamic.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Dynamic</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.173">buildWrapping</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Dynamic.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Dynamic</a>&lt;<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html#line.184">buildWrapping</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</pre>
 <div class="block">Build a new ops instance, returned as part of a <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Dynamic.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink">Dynamic</a>.
 
  <p>Returned ops instances will not take type serializers or other options
@@ -413,6 +433,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>node</code> - wrapped node</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new dynamic</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

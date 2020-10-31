@@ -126,8 +126,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>V</code> - value type</dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.34">Constraint</a>&lt;V&gt;</pre>
+<pre>public interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.35">Constraint</a>&lt;V&gt;</pre>
 <div class="block">Perform a validation on data upon load.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -227,7 +231,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>validate</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.42">validate</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Constraint.html" title="type parameter in Constraint">V</a>&nbsp;value)
+<pre class="methodSignature">void&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.44">validate</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Constraint.html" title="type parameter in Constraint">V</a>&nbsp;value)
        throws <a href="../../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Check if the provided deserialized value matches an expected condition.</div>
 <dl>
@@ -235,6 +239,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>value</code> - value to test</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the value falls outside its constraint.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -244,7 +250,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>required</h4>
-<pre class="methodSignature">static&nbsp;&lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;T,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.69">required</a>()</pre>
+<pre class="methodSignature">static&nbsp;&lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;T,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.74">required</a>()</pre>
 <div class="block">Require a value to be present for fields marked with the
  annotation <code>T</code>.</div>
 <dl>
@@ -252,6 +258,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>T</code> - marker annotation type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new constraint factory</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -261,13 +269,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>pattern</h4>
-<pre class="methodSignature">static&nbsp;<a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.84">pattern</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.90">pattern</a>()</pre>
 <div class="block">Require values to match the <a href="Matches.html#value()"><code>pattern</code></a> provided.
 
  <p>Upon failure, an error message will be taken from the annotation.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>factory providing matching pattern test</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -277,7 +287,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>localizedPattern</h4>
-<pre class="methodSignature">static&nbsp;<a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.108">localizedPattern</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/ResourceBundle.html?is-external=true" title="class or interface in java.util" class="externalLink">ResourceBundle</a>&nbsp;bundle)</pre>
+<pre class="methodSignature">static&nbsp;<a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.115">localizedPattern</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/ResourceBundle.html?is-external=true" title="class or interface in java.util" class="externalLink">ResourceBundle</a>&nbsp;bundle)</pre>
 <div class="block">Require values to match the <a href="Matches.html#value()"><code>pattern</code></a> provided.
 
  <p>Upon failure, an error message will be taken from <code>bundle</code> with
@@ -287,6 +297,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>bundle</code> - source for localized messages</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>factory providing matching pattern test</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

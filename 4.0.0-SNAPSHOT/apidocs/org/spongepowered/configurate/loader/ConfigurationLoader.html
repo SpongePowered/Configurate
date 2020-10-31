@@ -134,12 +134,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></code>, <code><a href="../gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></code>, <code><a href="../hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code>, <code><a href="../jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></code>, <code><a href="../xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></code>, <code><a href="../yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.37">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.38">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;
 extends <a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;N&gt;</pre>
 <div class="block">Represents an object which can load and save <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> objects in a specific
  configuration format.
 
  <p>An abstract implementation is provided by <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -233,7 +237,7 @@ extends <a href="../ConfigurationNodeFactory.html" title="interface in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.53">load</a>()
+<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.55">load</a>()
         throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the
  defined source.
@@ -249,6 +253,8 @@ extends <a href="../ConfigurationNodeFactory.html" title="interface in org.spong
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with reading or
                               parsing the configuration</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -258,7 +264,7 @@ extends <a href="../ConfigurationNodeFactory.html" title="interface in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature"><a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.68">load</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
+<pre class="methodSignature"><a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.71">load</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)
 throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
 
@@ -272,6 +278,8 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with reading or
                               parsing the configuration</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -281,7 +289,7 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <ul class="blockList">
 <li class="blockList">
 <h4>loadToReference</h4>
-<pre class="methodSignature"><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.79">loadToReference</a>()
+<pre class="methodSignature"><a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference">ConfigurationReference</a>&lt;<a href="ConfigurationLoader.html" title="type parameter in ConfigurationLoader">N</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.83">loadToReference</a>()
                                    throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Attempts to load data from the defined source into a <a href="../reference/ConfigurationReference.html" title="interface in org.spongepowered.configurate.reference"><code>ConfigurationReference</code></a>.
  The returned reference will not reload automatically.</div>
@@ -290,6 +298,8 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <dd>the created reference</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - when an error occurs within the loader</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../reference/WatchServiceListener.html#listenToConfiguration(java.util.function.Function,java.nio.file.Path)"><code>to
       create an auto-reloading configuration.</code></a></dd>
@@ -302,7 +312,7 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <ul class="blockList">
 <li class="blockList">
 <h4>save</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.88">save</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.93">save</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
    throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Attempts to save a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, to the defined sink.</div>
 <dl>
@@ -311,6 +321,8 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any sort of error occurs with writing or
                      generating the configuration</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -320,11 +332,13 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <ul class="blockList">
 <li class="blockList">
 <h4>canLoad</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.95">canLoad</a>()</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.101">canLoad</a>()</pre>
 <div class="block">Gets if this loader is capable of loading configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>if this loader can load</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -334,11 +348,13 @@ throws <a href="../ConfigurateException.html" title="class in org.spongepowered.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>canSave</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.104">canSave</a>()</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationLoader.html#line.111">canSave</a>()</pre>
 <div class="block">Gets if this loader is capable of saving configurations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>if this loader can save</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

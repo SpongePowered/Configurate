@@ -136,9 +136,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public static interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.47">Processor.Factory</a>&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;</pre>
+public static interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.html#line.51">Processor.Factory</a>&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;</pre>
 <div class="block">Provider to, given an annotation instance and the type it's on,
  create a <a href="Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Processor</code></a>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -192,7 +196,7 @@ public static interface <a href="../../../../../src-html/org/spongepowered/confi
 <ul class="blockListLast">
 <li class="blockList">
 <h4>make</h4>
-<pre class="methodSignature"><a href="Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor</a>&lt;<a href="Processor.Factory.html" title="type parameter in Processor.Factory">T</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.Factory.html#line.57">make</a>&#8203;(<a href="Processor.Factory.html" title="type parameter in Processor.Factory">A</a>&nbsp;data,
+<pre class="methodSignature"><a href="Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor</a>&lt;<a href="Processor.Factory.html" title="type parameter in Processor.Factory">T</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Processor.Factory.html#line.62">make</a>&#8203;(<a href="Processor.Factory.html" title="type parameter in Processor.Factory">A</a>&nbsp;data,
                   <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;value)</pre>
 <div class="block">Create a new processor given the annotation and data type.</div>
 <dl>
@@ -201,6 +205,8 @@ public static interface <a href="../../../../../src-html/org/spongepowered/confi
 <dd><code>value</code> - declared field type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new processor</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

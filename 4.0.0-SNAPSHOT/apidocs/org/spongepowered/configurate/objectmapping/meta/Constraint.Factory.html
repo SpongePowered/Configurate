@@ -131,8 +131,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Constraint.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint</a>&lt;<a href="Constraint.html" title="type parameter in Constraint">V</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.50">Constraint.Factory</a>&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;V&gt;</pre>
+<pre>public static interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line.53">Constraint.Factory</a>&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;V&gt;</pre>
 <div class="block">Provider for a specific constraint given a field type.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -186,7 +190,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>make</h4>
-<pre class="methodSignature"><a href="Constraint.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint</a>&lt;<a href="Constraint.Factory.html" title="type parameter in Constraint.Factory">V</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.Factory.html#line.59">make</a>&#8203;(<a href="Constraint.Factory.html" title="type parameter in Constraint.Factory">A</a>&nbsp;data,
+<pre class="methodSignature"><a href="Constraint.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint</a>&lt;<a href="Constraint.Factory.html" title="type parameter in Constraint.Factory">V</a>&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.Factory.html#line.63">make</a>&#8203;(<a href="Constraint.Factory.html" title="type parameter in Constraint.Factory">A</a>&nbsp;data,
                    <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
 <div class="block">Create a new specialized constraint.</div>
 <dl>
@@ -195,6 +199,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>type</code> - annotated type. is a subtype of <code>V</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new constraint</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

@@ -149,13 +149,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.31">ParsingException</a>
+<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.33">ParsingException</a>
 extends <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Indicates an error that occurred while parsing the configuration.
 
  <p>These exceptions can include a specific position reference
  within a file.</p></div>
 <dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../serialized-form.html#org.spongepowered.configurate.loader.ParsingException">Serialized Form</a></dd>
 </dl>
@@ -324,7 +326,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockListLast">
 <li class="blockList">
 <h4>UNKNOWN_POS</h4>
-<pre>public static final&nbsp;int <a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.36">UNKNOWN_POS</a></pre>
+<pre>public static final&nbsp;int <a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.38">UNKNOWN_POS</a></pre>
 <div class="block">Indicates a line or column is unknown.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
@@ -348,7 +350,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>ParsingException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.54">ParsingException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;position,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.57">ParsingException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;position,
                         int&nbsp;line,
                         int&nbsp;column,
                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;context,
@@ -361,6 +363,8 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <dd><code>column</code> - column in the line</dd>
 <dd><code>context</code> - the line in a file where the error occurred</dd>
 <dd><code>message</code> - message describing the error</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -370,7 +374,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>ParsingException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.73">ParsingException</a>&#8203;(int&nbsp;line,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.77">ParsingException</a>&#8203;(int&nbsp;line,
                         int&nbsp;column,
                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;context,
                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
@@ -383,6 +387,8 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <dd><code>context</code> - the line in a file where the error occurred</dd>
 <dd><code>message</code> - message describing the error</dd>
 <dd><code>cause</code> - direct cause</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -392,7 +398,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ParsingException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.96">ParsingException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;position,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.101">ParsingException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;position,
                         int&nbsp;line,
                         int&nbsp;column,
                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;context,
@@ -407,6 +413,8 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <dd><code>context</code> - the line in a file where the error occurred</dd>
 <dd><code>message</code> - message describing the error</dd>
 <dd><code>cause</code> - direct cause</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -426,11 +434,13 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>line</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.115">line</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.121">line</a>()</pre>
 <div class="block">Line most closely associated with this error.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>line, or <code>-1</code> for unknown</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -440,11 +450,13 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>column</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.124">column</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.131">column</a>()</pre>
 <div class="block">Column most closely associated with the error.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>column, or <code>-1</code> for unknown</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -454,11 +466,13 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>context</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.133">context</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.141">context</a>()</pre>
 <div class="block">A context line from the source, if available.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>context line</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -468,7 +482,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getMessage</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.137">getMessage</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ParsingException.html#line.145">getMessage</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../ConfigurateException.html#getMessage()">ConfigurateException</a></code></span></div>
 <div class="block">Get a description of the location of this error, with path included.</div>
 <dl>

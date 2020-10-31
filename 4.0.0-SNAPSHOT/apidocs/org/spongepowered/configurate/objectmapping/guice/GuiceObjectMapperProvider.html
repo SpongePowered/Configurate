@@ -131,13 +131,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre>@Singleton
-public final class <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.37">GuiceObjectMapperProvider</a>
+public final class <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.39">GuiceObjectMapperProvider</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A factory for <a href="../ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping"><code>ObjectMapper</code></a>s that will inherit the injector from
  wherever it is provided.
 
  <p>This class is intended to be constructed through Guice
- dependency injection.</div>
+ dependency injection.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -207,11 +211,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="../ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.54">get</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.57">get</a>()</pre>
 <div class="block">Get the default factory, with guice support added.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the default guice factory</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -221,13 +227,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>injectedObjectDiscoverer</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.64">injectedObjectDiscoverer</a>&#8203;(com.google.inject.Injector&nbsp;injector)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="../FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.68">injectedObjectDiscoverer</a>&#8203;(com.google.inject.Injector&nbsp;injector)</pre>
 <div class="block">Create a field discoverer that uses the provided injector.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>injector</code> - injector to create instances with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new discoverer</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -237,7 +245,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.75">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html#line.79">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>

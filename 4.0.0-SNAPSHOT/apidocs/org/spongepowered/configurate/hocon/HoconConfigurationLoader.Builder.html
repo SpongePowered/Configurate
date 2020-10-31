@@ -139,9 +139,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.89">HoconConfigurationLoader.Builder</a>
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.92">HoconConfigurationLoader.Builder</a>
 extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>,&#8203;<a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a>&gt;</pre>
 <div class="block">Builds a <a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon"><code>HoconConfigurationLoader</code></a>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -180,7 +184,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code></td>
+<td class="colFirst"><code><a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Builds the loader.</div>
@@ -190,7 +194,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <td class="colFirst"><code><a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emitComments(boolean)">emitComments</a></span>&#8203;(boolean&nbsp;emitComments)</code></th>
 <td class="colLast">
-<div class="block">Set whether comments should be emmitted.</div>
+<div class="block">Set whether comments should be emitted.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -245,7 +249,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>prettyPrinting</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.105">prettyPrinting</a>&#8203;(boolean&nbsp;prettyPrinting)</pre>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.109">prettyPrinting</a>&#8203;(boolean&nbsp;prettyPrinting)</pre>
 <div class="block">Set whether output from this loader will be pretty-printed or not.
 
  <p>Output will always print with a fixed indent of 4 spaces per
@@ -256,6 +260,8 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <dd><code>prettyPrinting</code> - whether to pretty-print</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -265,8 +271,8 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>emitComments</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.119">emitComments</a>&#8203;(boolean&nbsp;emitComments)</pre>
-<div class="block">Set whether comments should be emmitted.
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.124">emitComments</a>&#8203;(boolean&nbsp;emitComments)</pre>
+<div class="block">Set whether comments should be emitted.
 
  <p>Comments will always be loaded from files and
  stored in memory.</p></div>
@@ -275,6 +281,8 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <dd><code>emitComments</code> - whether to emit comments</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -284,7 +292,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>emitJsonCompatible</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.135">emitJsonCompatible</a>&#8203;(boolean&nbsp;jsonCompatible)</pre>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.141">emitJsonCompatible</a>&#8203;(boolean&nbsp;jsonCompatible)</pre>
 <div class="block">Set whether output generated by this loader should be
  json-compatible.
 
@@ -296,6 +304,8 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <dd><code>jsonCompatible</code> - to emit json-format output</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -305,7 +315,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.140">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.146">build</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html#build()">AbstractConfigurationLoader.Builder</a></code></span></div>
 <div class="block">Builds the loader.</div>
 <dl>

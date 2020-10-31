@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="../../../transformation/ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a></code>, <code><a href="../../../transformation/ConfigurationTransformation.Versioned.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation.Versioned</a></code></dd>
 </dl>
 <hr>
-<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.43">DataFixerTransformation</a>
+<pre>public final class <a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.45">DataFixerTransformation</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="../../../transformation/ConfigurationTransformation.Versioned.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation.Versioned</a></pre>
 <div class="block">A transformation that exposes a single DataFixer to a configuration in a
@@ -143,6 +143,10 @@ implements <a href="../../../transformation/ConfigurationTransformation.Versione
  <p>Because Configurate does not have a schema model and DFU does, this
  transformation works by explicitly providing a mapping between configurate
  node paths and DFU TypeReferences.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -285,11 +289,13 @@ implements <a href="../../../transformation/ConfigurationTransformation.Versione
 <ul class="blockList">
 <li class="blockList">
 <h4>dfuBuilder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="DataFixerTransformation.Builder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">DataFixerTransformation.Builder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.55">dfuBuilder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="DataFixerTransformation.Builder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">DataFixerTransformation.Builder</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.58">dfuBuilder</a>()</pre>
 <div class="block">Create a builder that can work with any DFU DataFixer.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -299,7 +305,7 @@ implements <a href="../../../transformation/ConfigurationTransformation.Versione
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.67">apply</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.70">apply</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
            throws <a href="../../../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../transformation/ConfigurationTransformation.html#apply(org.spongepowered.configurate.ConfigurationNode)">ConfigurationTransformation</a></code></span></div>
 <div class="block">Apply this transformation to a given node.</div>
@@ -319,7 +325,7 @@ implements <a href="../../../transformation/ConfigurationTransformation.Versione
 <ul class="blockList">
 <li class="blockList">
 <h4>version</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.88">version</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;root)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.91">version</a>&#8203;(<a href="../../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;root)</pre>
 <div class="block">Get the version from a specific configuration node, using the configured
  <a href="#versionKey()">version key</a>.</div>
 <dl>
@@ -338,7 +344,7 @@ implements <a href="../../../transformation/ConfigurationTransformation.Versione
 <ul class="blockList">
 <li class="blockList">
 <h4>versionKey</h4>
-<pre class="methodSignature">public&nbsp;<a href="../../../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.93">versionKey</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../../../transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.96">versionKey</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../transformation/ConfigurationTransformation.Versioned.html#versionKey()">ConfigurationTransformation.Versioned</a></code></span></div>
 <div class="block">Get the path the node's current version is located at.</div>
 <dl>
@@ -355,7 +361,7 @@ implements <a href="../../../transformation/ConfigurationTransformation.Versione
 <ul class="blockListLast">
 <li class="blockList">
 <h4>latestVersion</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.98">latestVersion</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../../src-html/org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.html#line.101">latestVersion</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../transformation/ConfigurationTransformation.Versioned.html#latestVersion()">ConfigurationTransformation.Versioned</a></code></span></div>
 <div class="block">Get the latest version that nodes can be updated to.</div>
 <dl>

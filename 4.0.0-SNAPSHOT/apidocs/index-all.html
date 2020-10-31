@@ -101,7 +101,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Base class for many stream-based configuration loaders.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#%3Cinit%3E(org.spongepowered.configurate.loader.AbstractConfigurationLoader.Builder,org.spongepowered.configurate.loader.CommentHandler%5B%5D)">AbstractConfigurationLoader(AbstractConfigurationLoader.Builder&lt;?, ?&gt;, CommentHandler[])</a></span> - Constructor for class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a loader instance from a builder.</div>
+</dd>
 <dt><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader"><span class="typeNameLink">AbstractConfigurationLoader.Builder</span></a>&lt;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a> extends <a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>,&#8203;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a>&gt;,&#8203;<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a> extends <a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;&gt; - Class in <a href="org/spongepowered/configurate/loader/package-summary.html">org.spongepowered.configurate.loader</a></dt>
 <dd>
 <div class="block">An abstract builder implementation for <a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
@@ -396,7 +398,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.Builder.html#%3Cinit%3E()">Builder()</a></span> - Constructor for class org.spongepowered.configurate.extra.dfu.v4.<a href="org/spongepowered/configurate/extra/dfu/v4/DataFixerTransformation.Builder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">DataFixerTransformation.Builder</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#%3Cinit%3E()">Builder()</a></span> - Constructor for class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a new builder.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/util/UnmodifiableCollections.html#buildMap(java.util.function.Consumer)">buildMap(Consumer&lt;Map&lt;K, V&gt;&gt;)</a></span> - Static method in class org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/UnmodifiableCollections.html" title="class in org.spongepowered.configurate.util">UnmodifiableCollections</a></dt>
 <dd>
 <div class="block">Build an unmodifiable map.</div>
@@ -698,7 +702,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><a href="org/spongepowered/configurate/ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate"><span class="typeNameLink">ConfigurationNodeFactory</span></a>&lt;<a href="org/spongepowered/configurate/ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a> extends <a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt; - Interface in <a href="org/spongepowered/configurate/package-summary.html">org.spongepowered.configurate</a></dt>
 <dd>
-<div class="block">Various methods to create configuration nodes with specific options.</div>
+<div class="block">Something that can create a customized node.</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/ConfigurationOptions.html" title="class in org.spongepowered.configurate"><span class="typeNameLink">ConfigurationOptions</span></a> - Class in <a href="org/spongepowered/configurate/package-summary.html">org.spongepowered.configurate</a></dt>
 <dd>
@@ -865,8 +869,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Create a new node with default options.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode(ConfigurationOptions)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a></dt>
@@ -874,6 +876,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Create an empty node with the provided options.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.gson.<a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode(ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
@@ -1037,7 +1041,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><a href="org/spongepowered/configurate/extra/dfu/v3/DfuSerializers.html" title="class in org.spongepowered.configurate.extra.dfu.v3"><span class="typeNameLink">DfuSerializers</span></a> - Class in <a href="org/spongepowered/configurate/extra/dfu/v3/package-summary.html">org.spongepowered.configurate.extra.dfu.v3</a></dt>
 <dd>
-<div class="block">A bridge between Configurate and DataFixerUpper serialization types.</div>
+<div class="block">A bridge between Configurate and DataFixerUpper serialization systems.</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/extra/dfu/v4/DfuSerializers.html" title="class in org.spongepowered.configurate.extra.dfu.v4"><span class="typeNameLink">DfuSerializers</span></a> - Class in <a href="org/spongepowered/configurate/extra/dfu/v4/package-summary.html">org.spongepowered.configurate.extra.dfu.v4</a></dt>
 <dd>
@@ -1072,7 +1076,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#emitComments(boolean)">emitComments(boolean)</a></span> - Method in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></dt>
 <dd>
-<div class="block">Set whether comments should be emmitted.</div>
+<div class="block">Set whether comments should be emitted.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#emitJsonCompatible(boolean)">emitJsonCompatible(boolean)</a></span> - Method in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></dt>
 <dd>
@@ -1430,7 +1434,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Get the default factory, with guice support added.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.Cached.html#get()">get()</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Get the last cached value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ValueReference.html#get()">get()</a></span> - Method in interface org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a></dt>
 <dd>
 <div class="block">Get the current value at this node.</div>
@@ -2022,7 +2028,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#LOADING">LOADING</a></span> - org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">loadInternal(N, BufferedReader)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Using a created node, attempt to read a configuration file.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#loadInternal(org.spongepowered.configurate.AttributedConfigurationNode,java.io.BufferedReader)">loadInternal(AttributedConfigurationNode, BufferedReader)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html#loadInternal(org.spongepowered.configurate.BasicConfigurationNode,java.io.BufferedReader)">loadInternal(BasicConfigurationNode, BufferedReader)</a></span> - Method in class org.spongepowered.configurate.gson.<a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></dt>
@@ -2432,7 +2440,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Object mapper to handle converting between raw nodes and POJOs.</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/objectmapping/guice/package-summary.html">org.spongepowered.configurate.objectmapping.guice</a> - package org.spongepowered.configurate.objectmapping.guice</dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">An extension to the object mapper that will create constructors
+ using Guice <code>Injector</code>s.</div>
+</dd>
 <dt><a href="org/spongepowered/configurate/objectmapping/meta/package-summary.html">org.spongepowered.configurate.objectmapping.meta</a> - package org.spongepowered.configurate.objectmapping.meta</dt>
 <dd>
 <div class="block">Metadata annotations for use with the object mapper.</div>
@@ -2882,7 +2893,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.jackson.<a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Perform a save of the node to the provided writer.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal(ConfigurationNode, Writer)</a></span> - Method in class org.spongepowered.configurate.yaml.<a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></dt>
@@ -2898,9 +2911,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Serialize a value that can be represented as a scalar value within a node.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#%3Cinit%3E(io.leangen.geantyref.TypeToken)">ScalarSerializer(TypeToken&lt;T&gt;)</a></span> - Constructor for class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a new scalar serializer that handles the provided type.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#%3Cinit%3E(java.lang.Class)">ScalarSerializer(Class&lt;T&gt;)</a></span> - Constructor for class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a new scalar serializer that handles the provided type.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#schema()">schema()</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></dt>
 <dd>
 <div class="block">Gets the <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/Schema.html?is-external=true" title="class or interface in javax.xml.validation" class="externalLink"><code>Schema</code></a> to be used by the resultant loader.</div>
@@ -3182,7 +3199,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Extra string utilities.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Publisher.Cached.html#submit(V)">submit(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Directly submit a value to be the current cached value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reactive/Subscriber.html#submit(V)">submit(V)</a></span> - Method in interface org.spongepowered.configurate.reactive.<a href="org/spongepowered/configurate/reactive/Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a></dt>
 <dd>
 <div class="block">Called to submit a new item.</div>
@@ -3712,7 +3731,9 @@ the order they are declared.</div>
 <div class="block">Wrap a ConfigurationNode in a <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Dynamic.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink"><code>Dynamic</code></a> instance.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">writeHeaderInternal(Writer)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Write out any implementation-specific file header.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">writeHeaderInternal(Writer)</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/extra/dfu/v3/ConfigurateOpsBuilder.html#writeProtection(org.spongepowered.configurate.extra.dfu.v3.ConfigurateOps.Protection)">writeProtection(ConfigurateOps.Protection)</a></span> - Method in class org.spongepowered.configurate.extra.dfu.v3.<a href="org/spongepowered/configurate/extra/dfu/v3/ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v3">ConfigurateOpsBuilder</a></dt>

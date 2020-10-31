@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Target</a>({<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation" class="externalLink">FIELD</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/ElementType.html?is-external=true#PARAMETER" title="class or interface in java.lang.annotation" class="externalLink">PARAMETER</a>})
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Retention</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation" class="externalLink">RUNTIME</a>)
-public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Comment.html#line.34">Comment</a></pre>
+public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Comment.html#line.36">Comment</a></pre>
 <div class="block">A comment that will be applied to a configuration node if possible.
 
  <p>By default, this node will not override any user-defined comments.</p>
@@ -124,6 +124,10 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
  <p>When used with an object mapper with a <a href="Processor.html#comments()"><code>Processor.comments()</code></a> or
  <a href="Processor.html#localizedComments(java.util.ResourceBundle)"><code>Processor.localizedComments(ResourceBundle)</code></a> processor applied,
  the comment in <a href="#value()"><code>value()</code></a> will be applied to the node upon save.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -199,11 +203,13 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <ul class="blockListLast">
 <li class="blockList">
 <h4>value</h4>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Comment.html#line.43">value</a></pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Comment.html#line.46">value</a></pre>
 <div class="block">The comment to use.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>comment</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -219,11 +225,13 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <ul class="blockListLast">
 <li class="blockList">
 <h4>override</h4>
-<pre>boolean&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Comment.html#line.50">override</a></pre>
+<pre>boolean&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Comment.html#line.54">override</a></pre>
 <div class="block">Whether or not to override existing comments on a node.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>if we should override.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 <dl>
 <dt>Default:</dt>

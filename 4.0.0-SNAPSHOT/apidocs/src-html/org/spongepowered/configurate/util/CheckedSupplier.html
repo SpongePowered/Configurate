@@ -33,30 +33,33 @@
 <span class="sourceLineNo">024</span><a id="line.24"> *</a>
 <span class="sourceLineNo">025</span><a id="line.25"> * @param &lt;V&gt; the value returned</a>
 <span class="sourceLineNo">026</span><a id="line.26"> * @param &lt;E&gt; the exception type thrown</a>
-<span class="sourceLineNo">027</span><a id="line.27"> */</a>
-<span class="sourceLineNo">028</span><a id="line.28">@FunctionalInterface</a>
-<span class="sourceLineNo">029</span><a id="line.29">public interface CheckedSupplier&lt;V, E extends Throwable&gt; {</a>
-<span class="sourceLineNo">030</span><a id="line.30"></a>
-<span class="sourceLineNo">031</span><a id="line.31">    /**</a>
-<span class="sourceLineNo">032</span><a id="line.32">     * Perform an operation that returns a value.</a>
-<span class="sourceLineNo">033</span><a id="line.33">     *</a>
-<span class="sourceLineNo">034</span><a id="line.34">     * @return the result value</a>
-<span class="sourceLineNo">035</span><a id="line.35">     * @throws E an implementation-dependent error</a>
-<span class="sourceLineNo">036</span><a id="line.36">     */</a>
-<span class="sourceLineNo">037</span><a id="line.37">    V get() throws E;</a>
-<span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">    /**</a>
-<span class="sourceLineNo">040</span><a id="line.40">     * Create an instance from an ordinary supplier.</a>
-<span class="sourceLineNo">041</span><a id="line.41">     *</a>
-<span class="sourceLineNo">042</span><a id="line.42">     * @param consumer the supplier to convert</a>
-<span class="sourceLineNo">043</span><a id="line.43">     * @param &lt;V&gt; the type returned by the consumer</a>
-<span class="sourceLineNo">044</span><a id="line.44">     * @return a function that executes the provided consumer</a>
-<span class="sourceLineNo">045</span><a id="line.45">     */</a>
-<span class="sourceLineNo">046</span><a id="line.46">    static &lt;V&gt; CheckedSupplier&lt;V, RuntimeException&gt; from(Supplier&lt;V&gt; consumer) {</a>
-<span class="sourceLineNo">047</span><a id="line.47">        return consumer::get;</a>
-<span class="sourceLineNo">048</span><a id="line.48">    }</a>
-<span class="sourceLineNo">049</span><a id="line.49"></a>
-<span class="sourceLineNo">050</span><a id="line.50">}</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * @since 4.0.0</a>
+<span class="sourceLineNo">028</span><a id="line.28"> */</a>
+<span class="sourceLineNo">029</span><a id="line.29">@FunctionalInterface</a>
+<span class="sourceLineNo">030</span><a id="line.30">public interface CheckedSupplier&lt;V, E extends Throwable&gt; {</a>
+<span class="sourceLineNo">031</span><a id="line.31"></a>
+<span class="sourceLineNo">032</span><a id="line.32">    /**</a>
+<span class="sourceLineNo">033</span><a id="line.33">     * Perform an operation that returns a value.</a>
+<span class="sourceLineNo">034</span><a id="line.34">     *</a>
+<span class="sourceLineNo">035</span><a id="line.35">     * @return the result value</a>
+<span class="sourceLineNo">036</span><a id="line.36">     * @throws E an implementation-dependent error</a>
+<span class="sourceLineNo">037</span><a id="line.37">     * @since 4.0.0</a>
+<span class="sourceLineNo">038</span><a id="line.38">     */</a>
+<span class="sourceLineNo">039</span><a id="line.39">    V get() throws E;</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">    /**</a>
+<span class="sourceLineNo">042</span><a id="line.42">     * Create an instance from an ordinary supplier.</a>
+<span class="sourceLineNo">043</span><a id="line.43">     *</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * @param consumer the supplier to convert</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * @param &lt;V&gt; the type returned by the consumer</a>
+<span class="sourceLineNo">046</span><a id="line.46">     * @return a function that executes the provided consumer</a>
+<span class="sourceLineNo">047</span><a id="line.47">     * @since 4.0.0</a>
+<span class="sourceLineNo">048</span><a id="line.48">     */</a>
+<span class="sourceLineNo">049</span><a id="line.49">    static &lt;V&gt; CheckedSupplier&lt;V, RuntimeException&gt; from(Supplier&lt;V&gt; consumer) {</a>
+<span class="sourceLineNo">050</span><a id="line.50">        return consumer::get;</a>
+<span class="sourceLineNo">051</span><a id="line.51">    }</a>
+<span class="sourceLineNo">052</span><a id="line.52"></a>
+<span class="sourceLineNo">053</span><a id="line.53">}</a>
 
 
 

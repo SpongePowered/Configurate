@@ -130,7 +130,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public abstract class <a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.44">ConfigurationOptions</a>
+<pre>public abstract class <a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.46">ConfigurationOptions</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">This object is a holder for general configuration options.
 
@@ -139,6 +139,10 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
  configuration which is located in <a href="loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationLoader</code></a>s.</p>
 
  <p>This class is immutable.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -298,7 +302,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>defaults</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.67">defaults</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.70">defaults</a>()</pre>
 <div class="block">Get the default set of options. This may be overridden by your chosen
  configuration loader, so when building configurations it is recommended
  to access <code>AbstractConfigurationLoader.Builder#getDefaultOptions()</code>
@@ -306,6 +310,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the default options</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -315,11 +321,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>mapFactory</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="util/MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.76">mapFactory</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="util/MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.80">mapFactory</a>()</pre>
 <div class="block">Gets the <a href="util/MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> specified in these options.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the map factory</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -329,7 +337,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>mapFactory</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.85">mapFactory</a>&#8203;(<a href="util/MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;mapFactory)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.90">mapFactory</a>&#8203;(<a href="util/MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;mapFactory)</pre>
 <div class="block">Creates a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with the specified
  <a href="util/MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> set, and all other settings copied from this instance.</div>
 <dl>
@@ -337,6 +345,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>mapFactory</code> - the new factory to use to create a map</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -346,12 +356,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>header</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.100">header</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.106">header</a>()</pre>
 <div class="block">Gets the header specified in these options.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the current header. Lines are split by \n, with no
          trailing newline</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -361,7 +373,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>header</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.109">header</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;header)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.116">header</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;header)</pre>
 <div class="block">Creates a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with the specified
  header set, and all other settings copied from this instance.</div>
 <dl>
@@ -369,6 +381,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>header</code> - the new header to use</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -378,11 +392,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>serializers</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.122">serializers</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.130">serializers</a>()</pre>
 <div class="block">Gets the <a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a> specified in these options.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the type serializers</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -392,7 +408,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>serializers</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.131">serializers</a>&#8203;(<a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;serializers)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.140">serializers</a>&#8203;(<a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a>&nbsp;serializers)</pre>
 <div class="block">Creates a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with the specified <a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a>
  set, and all other settings copied from this instance.</div>
 <dl>
@@ -400,6 +416,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>serializers</code> - the serializers to use</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -409,7 +427,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>serializers</h4>
-<pre class="methodSignature">public final&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.150">serializers</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="serialize/TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&gt;&nbsp;serializerBuilder)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.160">serializers</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Consumer</a>&lt;<a href="serialize/TypeSerializerCollection.Builder.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection.Builder</a>&gt;&nbsp;serializerBuilder)</pre>
 <div class="block">Creates a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with a new
  <a href="serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a> created as a child of this options'
  current collection. The provided function will be called with the builder
@@ -420,6 +438,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
                           be used in the returned options object.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -429,7 +449,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>nativeTypes</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.173">nativeTypes</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;&nbsp;nativeTypes)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.184">nativeTypes</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;&nbsp;nativeTypes)</pre>
 <div class="block">Creates a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with the specified native types
  set, and all other settings copied from this instance.
 
@@ -443,6 +463,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
                      call to <a href="ConfigurationNode.html#set(java.lang.Object)"><code>ConfigurationNode.set(Object)</code></a></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>updated options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -452,7 +474,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>acceptsType</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.188">acceptsType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.200">acceptsType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;type)</pre>
 <div class="block">Gets whether objects of the provided type are natively accepted as values
  for nodes with this as their options object.</div>
 <dl>
@@ -460,6 +482,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>type</code> - the type to check</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether the type is accepted</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -469,12 +493,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>shouldCopyDefaults</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.225">shouldCopyDefaults</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.238">shouldCopyDefaults</a>()</pre>
 <div class="block">Gets whether or not default parameters provided to <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> getter methods
  should be set to the node when used.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether defaults should be copied into value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -484,7 +510,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>shouldCopyDefaults</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.236">shouldCopyDefaults</a>&#8203;(boolean&nbsp;shouldCopyDefaults)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.250">shouldCopyDefaults</a>&#8203;(boolean&nbsp;shouldCopyDefaults)</pre>
 <div class="block">Creates a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance, with the specified
  'copy defaults' setting set, and all other settings copied from
  this instance.</div>
@@ -493,6 +519,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>shouldCopyDefaults</code> - whether to copy defaults</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>updated options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#shouldCopyDefaults()"><code>for information on what this method does</code></a></dd>
 </dl>
@@ -504,7 +532,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>implicitInitialization</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.256">implicitInitialization</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.271">implicitInitialization</a>()</pre>
 <div class="block">Get whether values should be implicitly initialized.
 
  <p>When this is true, any value get operations will return an empty value
@@ -515,6 +543,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>if implicit initialization is enabled.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -524,7 +554,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>implicitInitialization</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.266">implicitInitialization</a>&#8203;(boolean&nbsp;implicitInitialization)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationOptions.html#line.282">implicitInitialization</a>&#8203;(boolean&nbsp;implicitInitialization)</pre>
 <div class="block">Create a new <a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate"><code>ConfigurationOptions</code></a> instance with the specified
  implicit initialization setting.</div>
 <dl>
@@ -532,6 +562,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>implicitInitialization</code> - whether to initialize implicitly</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new options object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#implicitInitialization()"><code>for more details</code></a></dd>
 </dl>

@@ -134,9 +134,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.153">ObjectMapper.Mutable</a>&lt;V&gt;
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.162">ObjectMapper.Mutable</a>&lt;V&gt;
 extends <a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;V&gt;</pre>
 <div class="block">An object mapper capable of loading data into an existing object.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -214,7 +218,7 @@ extends <a href="ObjectMapper.html" title="interface in org.spongepowered.config
 <ul class="blockListLast">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Mutable.html#line.162">load</a>&#8203;(<a href="ObjectMapper.Mutable.html" title="type parameter in ObjectMapper.Mutable">V</a>&nbsp;value,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Mutable.html#line.172">load</a>&#8203;(<a href="ObjectMapper.Mutable.html" title="type parameter in ObjectMapper.Mutable">V</a>&nbsp;value,
           <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
    throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Load data from <code>node</code> into an existing instance.</div>
@@ -224,6 +228,8 @@ extends <a href="ObjectMapper.html" title="interface in org.spongepowered.config
 <dd><code>node</code> - node to load from</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if unable to deserialize data</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

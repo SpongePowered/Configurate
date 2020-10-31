@@ -126,8 +126,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.169">ObjectMapper.Factory</a></pre>
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.181">ObjectMapper.Factory</a></pre>
 <div class="block">Provider for object mappers.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -224,7 +228,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.182">get</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type)
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.195">get</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;type)
                          throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get an object mapper for the provided type.
 
@@ -239,6 +243,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the type does not correspond to a
      mappable object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -248,7 +254,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.198">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;clazz)
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.212">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;clazz)
                          throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get an object mapper for the unparameterized type <code>clazz</code>.
 
@@ -263,6 +269,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the type does not correspond to a
      mappable object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -272,7 +280,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.213">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)
+<pre class="methodSignature"><a href="ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.228">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)
              throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the object mapper for the provided type.
 
@@ -285,6 +293,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the type does not correspond to a
      mappable object</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -294,7 +304,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asTypeSerializer</h4>
-<pre class="methodSignature"><a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.225">asTypeSerializer</a>()</pre>
+<pre class="methodSignature"><a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.241">asTypeSerializer</a>()</pre>
 <div class="block">Creates a <a href="../serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer</code></a> that uses this factory.
 
  <p>The serializer will accept any object type that could otherwise be
@@ -304,6 +314,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a type serializer</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

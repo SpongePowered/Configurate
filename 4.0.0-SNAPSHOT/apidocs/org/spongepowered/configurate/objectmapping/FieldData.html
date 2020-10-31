@@ -135,9 +135,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>O</code> - container type</dd>
 </dl>
 <hr>
-<pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.43">FieldData</a>&lt;I,&#8203;O&gt;
+<pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.44">FieldData</a>&lt;I,&#8203;O&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Holder for field-specific information.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -248,11 +252,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>name</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.75">name</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.78">name</a>()</pre>
 <div class="block">The name of the field.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>field name</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -262,7 +268,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>resolvedType</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.85">resolvedType</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.89">resolvedType</a>()</pre>
 <div class="block">The calculated type of this field within the object type.
 
  <p>This value has had any possible type parameters resolved using
@@ -270,6 +276,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the resolved type</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -279,13 +287,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.103">isValid</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;instance)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.108">isValid</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;instance)</pre>
 <div class="block">Test if an object would be valid for this field.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>instance</code> - instance to validate</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if valid</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -295,7 +305,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>validate</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.118">validate</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;instance)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.124">validate</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;instance)
               throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Try to ensure the provided value is acceptable.</div>
 <dl>
@@ -303,6 +313,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>instance</code> - field value instance to validate</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if validation fails</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -312,13 +324,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>resolveNode</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.143">resolveNode</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldData.html#line.150">resolveNode</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source)</pre>
 <div class="block">Use this field's node resolvers to determine a target node.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>source</code> - parent node</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>resolved node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

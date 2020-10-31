@@ -129,9 +129,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt>All Known Implementing Classes:</dt>
 <dd><code><a href="loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></code>, <code><a href="gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></code>, <code><a href="hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></code>, <code><a href="jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></code>, <code><a href="xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></code>, <code><a href="yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></code></dd>
 </dl>
+<dl>
+<dt>Functional Interface:</dt>
+<dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
+</dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.29">ConfigurationNodeFactory</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
-<div class="block">Various methods to create configuration nodes with specific options.</div>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
+public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.31">ConfigurationNodeFactory</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
+<div class="block">Something that can create a customized node.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -245,7 +254,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>defaultOptions</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.40">defaultOptions</a>()</pre>
+<pre class="methodSignature">default&nbsp;<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.44">defaultOptions</a>()</pre>
 <div class="block">Default options for the types of nodes created by this factory.
 
  <p>All values must match what a created node will see, but some values
@@ -254,6 +263,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>default options</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -263,7 +274,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature"><a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.53">createNode</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<pre class="methodSignature"><a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.58">createNode</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block">Create an empty node with the provided options.
 
  <p>Node options may be overridden if the factory enforces specific
@@ -273,6 +284,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>options</code> - node options</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>newly created empty node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -282,11 +295,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.60">createNode</a>()</pre>
+<pre class="methodSignature">default&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.66">createNode</a>()</pre>
 <div class="block">Create a new node with default options.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>newly created empty node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -296,7 +311,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.73">createNode</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
+<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.80">createNode</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
                                     throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Create a new node with default options and initialize it with the
  provided action.</div>
@@ -310,6 +325,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when thrown from inner action</dd>
 <dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -319,7 +336,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.92">createNode</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
+<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.100">createNode</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
                                            <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
                                     throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Create a new node with the provided options and initialize it with the
@@ -338,6 +355,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when thrown from inner action</dd>
 <dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -347,7 +366,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.108">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.117">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  map children.
 
@@ -359,6 +378,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>valueType</code> - marker for value type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new collector</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -368,7 +389,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.131">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.141">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  map children.
 
@@ -380,6 +401,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>valueType</code> - marker for value type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new collector</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -389,7 +412,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.154">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.165">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  list children.
 
@@ -401,6 +424,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>valueType</code> - marker for value type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new collector</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -410,7 +435,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.177">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.189">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  list children.
 
@@ -422,6 +447,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>valueType</code> - marker for value type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new collector</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

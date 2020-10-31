@@ -134,13 +134,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>V</code> - the value type</dd>
 </dl>
 <hr>
-<pre>public abstract class <a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.32">RepresentationHint</a>&lt;V&gt;
+<pre>public abstract class <a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.33">RepresentationHint</a>&lt;V&gt;
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A flag for configuration loaders describing how a node should be serialized.
 
  <p>A loader may not accept every representation hint available, but any
  understood hints should be exposed as constant fields on the loader class.
  Any unknown hints will be ignored.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -268,7 +272,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.46">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;identifier,
+<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.48">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;identifier,
                                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a new basic representation hint.
 
@@ -282,6 +286,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>valueType</code> - type of value the hint will hold</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new hint</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -291,7 +297,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.61">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;identifier,
+<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.64">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;identifier,
                                            io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a new basic representation hint.
 
@@ -305,6 +311,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>valueType</code> - type of value the hint will hold</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new hint</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -314,13 +322,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="RepresentationHint.Builder.html" title="class in org.spongepowered.configurate">RepresentationHint.Builder</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.71">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;V&gt;&nbsp;<a href="RepresentationHint.Builder.html" title="class in org.spongepowered.configurate">RepresentationHint.Builder</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.75">builder</a>()</pre>
 <div class="block">Create a builder for a new hint.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>V</code> - value type</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -330,11 +340,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>identifier</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.82">identifier</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.87">identifier</a>()</pre>
 <div class="block">An identifier used to represent this hint in error messages.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the identifier</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -344,11 +356,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>valueType</h4>
-<pre class="methodSignature">public abstract&nbsp;io.leangen.geantyref.TypeToken&lt;<a href="RepresentationHint.html" title="type parameter in RepresentationHint">V</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.89">valueType</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;io.leangen.geantyref.TypeToken&lt;<a href="RepresentationHint.html" title="type parameter in RepresentationHint">V</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.95">valueType</a>()</pre>
 <div class="block">The type that values of this type have to have.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>value type</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -358,12 +372,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>defaultValue</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RepresentationHint.html" title="type parameter in RepresentationHint">V</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.97">defaultValue</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RepresentationHint.html" title="type parameter in RepresentationHint">V</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.104">defaultValue</a>()</pre>
 <div class="block">If a value for a representation hint cannot be found by quering a node
  or any of this parents, the default value will be returned.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>default type</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -373,11 +389,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>inheritable</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.104">inheritable</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/RepresentationHint.html#line.112">inheritable</a>()</pre>
 <div class="block">Get whether or not this hint can draw its value from parent nodes.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>if inheritable</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

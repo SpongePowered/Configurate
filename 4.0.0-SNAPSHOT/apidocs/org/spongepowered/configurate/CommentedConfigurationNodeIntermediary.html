@@ -134,9 +134,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></code>, <code><a href="CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a></code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.26">CommentedConfigurationNodeIntermediary</a>&lt;N extends CommentedConfigurationNodeIntermediary&lt;N&gt;&gt;
+<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.27">CommentedConfigurationNodeIntermediary</a>&lt;N extends CommentedConfigurationNodeIntermediary&lt;N&gt;&gt;
 extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;</pre>
 <div class="block">Intermediate interface for different types of commented configuration nodes.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -232,7 +236,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>comment</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.36">comment</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.38">comment</a>()</pre>
 <div class="block">Gets the current value for the comment.
 
  <p>If the comment contains multiple lines, the lines will be split
@@ -240,6 +244,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the configuration's current comment</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -249,7 +255,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockList">
 <li class="blockList">
 <h4>comment</h4>
-<pre class="methodSignature"><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.45">comment</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
+<pre class="methodSignature"><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.48">comment</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
 <div class="block">Sets the comment for this configuration node.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -257,6 +263,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
                 LFs (\n)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -266,7 +274,7 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
 <ul class="blockListLast">
 <li class="blockList">
 <h4>commentIfAbsent</h4>
-<pre class="methodSignature"><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.57">commentIfAbsent</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
+<pre class="methodSignature"><a href="CommentedConfigurationNodeIntermediary.html" title="type parameter in CommentedConfigurationNodeIntermediary">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/CommentedConfigurationNodeIntermediary.html#line.61">commentIfAbsent</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;comment)</pre>
 <div class="block">Set a comment on this node if it does not presently have a comment.
 
  <p>The provided comment must not be null, because setting a null comment
@@ -277,6 +285,8 @@ extends <a href="ScopedConfigurationNode.html" title="interface in org.spongepow
                 LFs (\n)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this node</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

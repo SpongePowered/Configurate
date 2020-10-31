@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.32">TransactionalSubscriber</a>&lt;V&gt;
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.33">TransactionalSubscriber</a>&lt;V&gt;
 extends <a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;V&gt;</pre>
 <div class="block">A subscriber that is transaction-aware. As opposed to standard Subscribers
  which receive simple value events, transactional subscribers receive a series
@@ -145,6 +145,10 @@ extends <a href="Subscriber.html" title="interface in org.spongepowered.configur
  a <a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive"><code>transaction-aware processor</code></a>. A
  transaction-aware processor will roll back all subscribers if the transaction
  fails on any one subscriber, where a standard publisher will not.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -225,7 +229,7 @@ extends <a href="Subscriber.html" title="interface in org.spongepowered.configur
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.34">submit</a>&#8203;(<a href="TransactionalSubscriber.html" title="type parameter in TransactionalSubscriber">V</a>&nbsp;item)</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.35">submit</a>&#8203;(<a href="TransactionalSubscriber.html" title="type parameter in TransactionalSubscriber">V</a>&nbsp;item)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Subscriber.html#submit(V)">Subscriber</a></code></span></div>
 <div class="block">Called to submit a new item.</div>
 <dl>
@@ -244,16 +248,19 @@ extends <a href="Subscriber.html" title="interface in org.spongepowered.configur
 <ul class="blockList">
 <li class="blockList">
 <h4>beginTransaction</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.55">beginTransaction</a>&#8203;(<a href="TransactionalSubscriber.html" title="type parameter in TransactionalSubscriber">V</a>&nbsp;newValue)
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.58">beginTransaction</a>&#8203;(<a href="TransactionalSubscriber.html" title="type parameter in TransactionalSubscriber">V</a>&nbsp;newValue)
                throws <a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a></pre>
-<div class="block">Receive a new value, and validate it. The received value must not be made
- available outside of to other transaction-aware viewers until
- <a href="#commit()"><code>commit()</code></a> has been called.</div>
+<div class="block">Receive a new value, and validate it.
+
+ <p>The received value must not be made available outside of to other
+ transaction-aware viewers until <a href="#commit()"><code>commit()</code></a> has been called.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>newValue</code> - the new value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a></code> - if the new value does not validate</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -263,12 +270,16 @@ extends <a href="Subscriber.html" title="interface in org.spongepowered.configur
 <ul class="blockList">
 <li class="blockList">
 <h4>commit</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.64">commit</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.69">commit</a>()</pre>
 <div class="block">Expose a transaction's result.
 
  <p>This method will be called on all transactional subscribers in a
  system have received and validated any new data. Calling this method when
- a transaction is not in progress should result in a noop.</div>
+ a transaction is not in progress should result in a noop.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 <a id="rollback()">
@@ -277,12 +288,16 @@ extends <a href="Subscriber.html" title="interface in org.spongepowered.configur
 <ul class="blockListLast">
 <li class="blockList">
 <h4>rollback</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.73">rollback</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/TransactionalSubscriber.html#line.80">rollback</a>()</pre>
 <div class="block">Called when a transaction has failed, to revert any prepared changes.
 
  <p>This event indicates that it is safe for clients to discard any
  prepared information from an in-progress transaction. If there is no
- transaction in progress, this must be a no-op.</div>
+ transaction in progress, this must be a no-op.</p></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </li>

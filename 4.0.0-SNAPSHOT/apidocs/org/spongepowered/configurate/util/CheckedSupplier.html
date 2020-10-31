@@ -132,9 +132,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../src-html/org/spongepowered/configurate/util/CheckedSupplier.html#line.28">CheckedSupplier</a>&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;</pre>
+public interface <a href="../../../../src-html/org/spongepowered/configurate/util/CheckedSupplier.html#line.29">CheckedSupplier</a>&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;</pre>
 <div class="block">A functional interface similar to Supplier, except allowing contained methods
  to throw exceptions.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -192,7 +196,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/uti
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">V</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedSupplier.html#line.37">get</a>()
+<pre class="methodSignature"><a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">V</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedSupplier.html#line.39">get</a>()
 throws <a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a></pre>
 <div class="block">Perform an operation that returns a value.</div>
 <dl>
@@ -201,6 +205,8 @@ throws <a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">E</a></code> - an implementation-dependent error</dd>
 <dd><code><a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">E</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a></code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -210,7 +216,7 @@ throws <a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">
 <ul class="blockListLast">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="CheckedSupplier.html" title="interface in org.spongepowered.configurate.util">CheckedSupplier</a>&lt;V,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedSupplier.html#line.46">from</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;V&gt;&nbsp;consumer)</pre>
+<pre class="methodSignature">static&nbsp;&lt;V&gt;&nbsp;<a href="CheckedSupplier.html" title="interface in org.spongepowered.configurate.util">CheckedSupplier</a>&lt;V,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/CheckedSupplier.html#line.49">from</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;V&gt;&nbsp;consumer)</pre>
 <div class="block">Create an instance from an ordinary supplier.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -219,6 +225,8 @@ throws <a href="CheckedSupplier.html" title="type parameter in CheckedSupplier">
 <dd><code>consumer</code> - the supplier to convert</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a function that executes the provided consumer</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

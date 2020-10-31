@@ -126,8 +126,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a></dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.47">NodeResolver.Factory</a></pre>
+<pre>public static interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line.54">NodeResolver.Factory</a></pre>
 <div class="block">Provides fields.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -179,7 +183,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>make</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.Factory.html#line.58">make</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name,
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.Factory.html#line.66">make</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedElement</a>&nbsp;element)</pre>
 <div class="block">Create a function that resolves a child node from its parent.</div>
 <dl>
@@ -190,6 +194,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>null</code> to continue, <a href="NodeResolver.html#SKIP_FIELD"><code>NodeResolver.SKIP_FIELD</code></a> to stop further
      processing and exclude this field from serialization, or a
      resolver for a node.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

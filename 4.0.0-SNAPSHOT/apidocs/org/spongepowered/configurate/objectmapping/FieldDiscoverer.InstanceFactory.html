@@ -134,8 +134,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;<a href="FieldDiscoverer.html" title="type parameter in FieldDiscoverer">I</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.95">FieldDiscoverer.InstanceFactory</a>&lt;I&gt;</pre>
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.101">FieldDiscoverer.InstanceFactory</a>&lt;I&gt;</pre>
 <div class="block">A handler for controlling the deserialization process for an object.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -200,11 +204,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>begin</h4>
-<pre class="methodSignature"><a href="FieldDiscoverer.InstanceFactory.html" title="type parameter in FieldDiscoverer.InstanceFactory">I</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html#line.102">begin</a>()</pre>
+<pre class="methodSignature"><a href="FieldDiscoverer.InstanceFactory.html" title="type parameter in FieldDiscoverer.InstanceFactory">I</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html#line.109">begin</a>()</pre>
 <div class="block">Return a new instance of the intermediary type to be populated.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new intermediate container</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -216,7 +222,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>complete</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html#line.111">complete</a>&#8203;(<a href="FieldDiscoverer.InstanceFactory.html" title="type parameter in FieldDiscoverer.InstanceFactory">I</a>&nbsp;intermediate)
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html#line.119">complete</a>&#8203;(<a href="FieldDiscoverer.InstanceFactory.html" title="type parameter in FieldDiscoverer.InstanceFactory">I</a>&nbsp;intermediate)
          throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Return a finalized object based on the provided intermediate.</div>
 <dl>
@@ -226,6 +232,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>final value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if unable to construct a</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -235,11 +243,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>canCreateInstances</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html#line.118">canCreateInstances</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html#line.127">canCreateInstances</a>()</pre>
 <div class="block">Get whether or not new object instances can be created.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new instance creation</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

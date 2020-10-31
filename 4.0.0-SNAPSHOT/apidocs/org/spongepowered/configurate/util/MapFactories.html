@@ -130,9 +130,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.31">MapFactories</a>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.33">MapFactories</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Default implementations of <a href="MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -211,11 +215,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>unordered</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.40">unordered</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.43">unordered</a>()</pre>
 <div class="block">Returns a <a href="MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> which creates maps without an order.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a map factory which produces unordered maps</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -225,13 +231,15 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sorted</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.50">sorted</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.54">sorted</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <a href="MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> which creates maps which are sorted using the given comparator.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>comparator</code> - the comparator used to sort the map keys</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a map factory which produces sorted maps</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -241,11 +249,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedNatural</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.60">sortedNatural</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.65">sortedNatural</a>()</pre>
 <div class="block">Returns a <a href="MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> which creates maps which are naturally sorted.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a map factory which produces naturally sorted maps</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true#naturalOrder()" title="class or interface in java.util" class="externalLink"><code>Comparator.naturalOrder()</code></a></dd>
 </dl>
@@ -257,11 +267,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>insertionOrdered</h4>
-<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.69">insertionOrdered</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="MapFactory.html" title="interface in org.spongepowered.configurate.util">MapFactory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/util/MapFactories.html#line.75">insertionOrdered</a>()</pre>
 <div class="block">Returns a <a href="MapFactory.html" title="interface in org.spongepowered.configurate.util"><code>MapFactory</code></a> which creates maps which are sorted by insertion order.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a map factory which produces maps sorted by insertion order</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

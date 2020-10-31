@@ -130,11 +130,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="Processor.html" title="interface in org.spongepowered.configurate.reactive">Processor</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.Iso.html" title="interface in org.spongepowered.configurate.reactive">Processor.Iso</a>&lt;V&gt;</code>, <code><a href="Processor.Transactional.html" title="interface in org.spongepowered.configurate.reactive">Processor.Transactional</a>&lt;I,&#8203;O&gt;</code>, <code><a href="Processor.TransactionalIso.html" title="interface in org.spongepowered.configurate.reactive">Processor.TransactionalIso</a>&lt;V&gt;</code>, <code><a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;V&gt;</code>, <code><a href="../reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference">ValueReference</a>&lt;T,&#8203;N&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.36">Publisher</a>&lt;V&gt;</pre>
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.37">Publisher</a>&lt;V&gt;</pre>
 <div class="block">Something that can publish events.
 
  <p>Each subscriber is responsible for removing itself from this stream, by
  using the Disposable returned upon subscription.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -262,7 +266,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>execute</h4>
-<pre class="methodSignature">static&nbsp;&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.50">execute</a>&#8203;(<a href="../util/CheckedSupplier.html" title="interface in org.spongepowered.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action)</pre>
+<pre class="methodSignature">static&nbsp;&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.52">execute</a>&#8203;(<a href="../util/CheckedSupplier.html" title="interface in org.spongepowered.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action)</pre>
 <div class="block">Execute an action returning a single value on the common <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ForkJoinPool</code></a>,
  and pass the result to any subscribers.
 
@@ -276,6 +280,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>action</code> - the action to perform</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a publisher</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -285,7 +291,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>execute</h4>
-<pre class="methodSignature">static&nbsp;&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.67">execute</a>&#8203;(<a href="../util/CheckedSupplier.html" title="interface in org.spongepowered.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action,
+<pre class="methodSignature">static&nbsp;&lt;V,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.70">execute</a>&#8203;(<a href="../util/CheckedSupplier.html" title="interface in org.spongepowered.configurate.util">CheckedSupplier</a>&lt;V,&#8203;E&gt;&nbsp;action,
                                                           <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Execute an action returning a single value on the provided <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executor</code></a>,
  and pass the result to any subscribers.
@@ -301,6 +307,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>executor</code> - the executor to perform this operation on</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a publisher</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -310,7 +318,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>subscribe</h4>
-<pre class="methodSignature"><a href="Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.79">subscribe</a>&#8203;(<a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;subscriber)</pre>
+<pre class="methodSignature"><a href="Disposable.html" title="interface in org.spongepowered.configurate.reactive">Disposable</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.83">subscribe</a>&#8203;(<a href="Subscriber.html" title="interface in org.spongepowered.configurate.reactive">Subscriber</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;subscriber)</pre>
 <div class="block">Subscribe to updates from this Publisher. If this is already closed, the
  Subscriber will receive an error event with an IllegalStateException, and
  the returned <a href="Disposable.html" title="interface in org.spongepowered.configurate.reactive"><code>Disposable</code></a> will be a no-op.</div>
@@ -319,6 +327,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>subscriber</code> - the listener to register</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a disposable that can be used to cancel this subscription</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -328,7 +338,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>hasSubscribers</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.89">hasSubscribers</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.94">hasSubscribers</a>()</pre>
 <div class="block">Return whether or not this Publisher has any subscribers.
 
  <p>In a concurrent environment, this value could change from the time
@@ -336,6 +346,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>if there are subscribers</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -345,7 +357,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre class="methodSignature">default&nbsp;&lt;R&gt;&nbsp;<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.98">map</a>&#8203;(<a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</pre>
+<pre class="methodSignature">default&nbsp;&lt;R&gt;&nbsp;<a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive">Publisher</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.104">map</a>&#8203;(<a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;? super <a href="Publisher.html" title="type parameter in Publisher">V</a>,&#8203;? extends R,&#8203;<a href="TransactionFailedException.html" title="class in org.spongepowered.configurate.reactive">TransactionFailedException</a>&gt;&nbsp;mapper)</pre>
 <div class="block">Create a new publisher that will transform events published.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -354,6 +366,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>mapper</code> - transformer function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new publisher</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -363,12 +377,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>cache</h4>
-<pre class="methodSignature">default&nbsp;<a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.108">cache</a>()</pre>
+<pre class="methodSignature">default&nbsp;<a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.115">cache</a>()</pre>
 <div class="block">Return a publisher that will track its most recent value. The provided
  processor won't have a value until one is submitted to this publisher.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a publisher based on this one</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -380,13 +396,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>cache</h4>
-<pre class="methodSignature">default&nbsp;<a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.118">cache</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Publisher.html" title="type parameter in Publisher">V</a>&nbsp;initialValue)</pre>
+<pre class="methodSignature">default&nbsp;<a href="Publisher.Cached.html" title="interface in org.spongepowered.configurate.reactive">Publisher.Cached</a>&lt;<a href="Publisher.html" title="type parameter in Publisher">V</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.126">cache</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Publisher.html" title="type parameter in Publisher">V</a>&nbsp;initialValue)</pre>
 <div class="block">Create a cached publisher with an initial value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>initialValue</code> - value to initialize the returned publisher with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>publisher that will cache future responses</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -396,11 +414,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>executor</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.127">executor</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Publisher.html#line.136">executor</a>()</pre>
 <div class="block">Get the executor used to handle published events.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the executor</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>

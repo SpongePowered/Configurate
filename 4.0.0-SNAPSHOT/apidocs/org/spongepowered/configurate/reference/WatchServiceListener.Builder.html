@@ -134,10 +134,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.247">WatchServiceListener.Builder</a>
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.html#line.256">WatchServiceListener.Builder</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Set the parameters needed to create a <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a>. All params are optional and defaults will be
  used if no values are specified.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -218,7 +222,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>threadFactory</h4>
-<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.262">threadFactory</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ThreadFactory</a>&nbsp;factory)</pre>
+<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.272">threadFactory</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ThreadFactory</a>&nbsp;factory)</pre>
 <div class="block">Set the thread factory that will be used to create the polling thread
  for the returned watch service.</div>
 <dl>
@@ -226,6 +230,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>factory</code> - the thread factory to use to create the deamon thread</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -235,7 +241,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>taskExecutor</h4>
-<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.275">taskExecutor</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
+<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.286">taskExecutor</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Set the executor that will be used to execute tasks queued based on
  received events. By default, the
  <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html?is-external=true#commonPool()" title="class or interface in java.util.concurrent" class="externalLink"><code>common pool</code></a> is used.</div>
@@ -244,6 +250,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>executor</code> - the executor to use</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -253,7 +261,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>fileSystem</h4>
-<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.288">fileSystem</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">FileSystem</a>&nbsp;system)</pre>
+<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.300">fileSystem</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">FileSystem</a>&nbsp;system)</pre>
 <div class="block">Set the filesystem expected to be used for paths. A separate
  <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a> should be created to listen to events on
  each different file system.</div>
@@ -262,6 +270,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>system</code> - the file system to use.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
@@ -271,7 +281,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.299">build</a>()
+<pre class="methodSignature">public&nbsp;<a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reference/WatchServiceListener.Builder.html#line.312">build</a>()
                            throws <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Create a new listener, using default values for any unset parameters.</div>
 <dl>
@@ -279,6 +289,8 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd>a newly created executor</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if thrown by <a href="WatchServiceListener.html" title="class in org.spongepowered.configurate.reference"><code>WatchServiceListener</code></a>'s constructor</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
 </dl>
 </li>
 </ul>
