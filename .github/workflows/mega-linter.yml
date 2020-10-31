@@ -1,0 +1,43 @@
+---
+# Mega-Linter GitHub Action configuration file
+# More info at https://github.com/nvuillam/mega-linter#readme
+name: Mega-Linter
+
+on:
+  push:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Mega-Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Mega-Linter
+      - name: Mega-Linter
+        uses: nvuillam/mega-linter@v4
+        env:
+          # https://github.com/nvuillam/mega-linter#configuration
+          # Validates all source when push on master, else just the git diff with master. Override with true if you always want to lint all sources
+          VALIDATE_ALL_CODEBASE: true # ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE: COPYPASTE,SPELL
+
+          # Checkstyle
+          JAVA_FILE_NAME: checkstyle.yml
+          JAVA_RULES_PATH: .checkstyle
+
+      # Upload Mega-Linter artifacts. They will be available on Github action page "Artifacts" section
+      - name: Archive production artifacts
+        if: ${{ success() }} || ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Mega-Linter reports
+          path: |
+            report
+            mega-linter.log
