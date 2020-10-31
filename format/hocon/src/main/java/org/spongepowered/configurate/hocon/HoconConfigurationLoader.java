@@ -52,8 +52,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * A loader for HOCON (Hodor)-formatted configurations, using the typesafe
- * config library for parsing and generation.
+ * A loader for HOCON (Hodor)-formatted configurations, using the
+ * <a href="https://github.com/lightbend/config">lightbend config</a> library
+ * for parsing and generation.
  *
  * @since 4.0.0
  */
