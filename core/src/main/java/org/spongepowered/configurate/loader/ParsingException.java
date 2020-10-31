@@ -27,6 +27,8 @@ import java.util.Arrays;
  *
  * <p>These exceptions can include a specific position reference
  * within a file.</p>
+ *
+ * @since 4.0.0
  */
 public class ParsingException extends ConfigurateException {
 
@@ -50,6 +52,7 @@ public class ParsingException extends ConfigurateException {
      * @param column column in the line
      * @param context the line in a file where the error occurred
      * @param message message describing the error
+     * @since 4.0.0
      */
     public ParsingException(
         final ConfigurationNode position,
@@ -69,6 +72,7 @@ public class ParsingException extends ConfigurateException {
      * @param context the line in a file where the error occurred
      * @param message message describing the error
      * @param cause direct cause
+     * @since 4.0.0
      */
     public ParsingException(
         final int line,
@@ -92,6 +96,7 @@ public class ParsingException extends ConfigurateException {
      * @param context the line in a file where the error occurred
      * @param message message describing the error
      * @param cause direct cause
+     * @since 4.0.0
      */
     public ParsingException(
         final ConfigurationNode position,
@@ -111,6 +116,7 @@ public class ParsingException extends ConfigurateException {
      * Line most closely associated with this error.
      *
      * @return line, or {@code -1} for unknown
+     * @since 4.0.0
      */
     public int line() {
         return this.line;
@@ -120,6 +126,7 @@ public class ParsingException extends ConfigurateException {
      * Column most closely associated with the error.
      *
      * @return column, or {@code -1} for unknown
+     * @since 4.0.0
      */
     public int column() {
         return this.column;
@@ -129,6 +136,7 @@ public class ParsingException extends ConfigurateException {
      * A context line from the source, if available.
      *
      * @return context line
+     * @since 4.0.0
      */
     public @Nullable String context() {
         return this.context;

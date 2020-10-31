@@ -20,11 +20,15 @@ import org.spongepowered.configurate.ConfigurationNode;
 
 /**
  * Strategy to use when moving a node from one path to another.
+ *
+ * @since 4.0.0
  */
 public enum MoveStrategy {
 
     /**
      * Moves nodes using {@link ConfigurationNode#mergeFrom(ConfigurationNode)}.
+     *
+     * @since 4.0.0
      */
     MERGE {
         @Override
@@ -35,6 +39,8 @@ public enum MoveStrategy {
 
     /**
      * Moves nodes using {@link ConfigurationNode#set(Object)}.
+     *
+     * @since 4.0.0
      */
     OVERWRITE {
         @Override
@@ -49,6 +55,7 @@ public enum MoveStrategy {
      * @param <T> the type of node being processed
      * @param source the source node
      * @param target the target node
+     * @since 4.0.0
      */
     public abstract <T extends ConfigurationNode> void move(T source, T target);
 

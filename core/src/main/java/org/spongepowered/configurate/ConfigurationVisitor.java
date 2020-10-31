@@ -62,6 +62,7 @@ package org.spongepowered.configurate;
  * @param <E> exception type that may be thrown
  * @see ScopedConfigurationNode#visit(ConfigurationVisitor) to execute this
  *      configuration visitation
+ * @since 4.0.0
  */
 public interface ConfigurationVisitor<S, T, E extends Exception> {
 
@@ -71,6 +72,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      *
      * @return a new state object to be passed through the rest of this visit
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     S newState() throws E;
 
@@ -80,6 +82,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node the root node
      * @param state the state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void beginVisit(ConfigurationNode node, S state) throws E;
 
@@ -89,6 +92,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node the current node
      * @param state provided state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void enterNode(ConfigurationNode node, S state) throws E;
 
@@ -99,6 +103,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node current node
      * @param state provided state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void enterMappingNode(ConfigurationNode node, S state) throws E;
 
@@ -108,6 +113,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node current node
      * @param state provided state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void enterListNode(ConfigurationNode node, S state) throws E;
 
@@ -117,6 +123,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node current node
      * @param state provided state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void enterScalarNode(ConfigurationNode node, S state) throws E;
 
@@ -127,6 +134,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node the node that has been visited
      * @param state provided state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void exitMappingNode(ConfigurationNode node, S state) throws E;
 
@@ -137,6 +145,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param node the node that has been visited
      * @param state provided state
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     void exitListNode(ConfigurationNode node, S state) throws E;
 
@@ -147,6 +156,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * @param state provided state
      * @return a terminal value
      * @throws E when thrown by implementation
+     * @since 4.0.0
      */
     T endVisit(S state) throws E;
 
@@ -154,6 +164,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      * Stateless specialization of visitors, where both the state and terminal
      * type are Void.
      *
+     * @since 4.0.0
      */
     @FunctionalInterface
     interface Stateless<E extends Exception> extends ConfigurationVisitor<Void, Void, E> {
@@ -172,6 +183,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node the root node
          * @throws E as required by implementation
+         * @since 4.0.0
          */
         default void beginVisit(ConfigurationNode node) throws E {}
 
@@ -185,6 +197,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node the current node
          * @throws E as required by implementation
+         * @since 4.0.0
          */
         void enterNode(ConfigurationNode node) throws E;
 
@@ -199,6 +212,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node current node
          * @throws E when thrown by implementation
+         * @since 4.0.0
          */
         default void enterMappingNode(ConfigurationNode node) throws E {}
 
@@ -213,6 +227,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node current node
          * @throws E when thrown by implementation
+         * @since 4.0.0
          */
         default void enterListNode(ConfigurationNode node) throws E {
         }
@@ -228,6 +243,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node current node
          * @throws E when thrown by implementation
+         * @since 4.0.0
          */
         default void enterScalarNode(ConfigurationNode node) throws E {
         }
@@ -243,6 +259,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node the node that has been visited
          * @throws E when thrown by implementation
+         * @since 4.0.0
          */
         default void exitMappingNode(ConfigurationNode node) throws E {}
 
@@ -257,6 +274,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          *
          * @param node the node that has been visited
          * @throws E when thrown by implementation
+         * @since 4.0.0
          */
         default void exitListNode(ConfigurationNode node) throws E {}
 
@@ -271,6 +289,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * and validation.
          *
          * @throws E when thrown by implementation
+         * @since 4.0.0
          */
         default void endVisit() throws E {}
     }
@@ -281,6 +300,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
      *
      * @param <S> state type
      * @param <T> terminal value type
+     * @since 4.0.0
      */
     interface Safe<S, T> extends ConfigurationVisitor<S, T, VisitorSafeNoopException> {
 

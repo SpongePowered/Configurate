@@ -40,6 +40,8 @@ import java.util.function.Consumer;
  * configuration which is located in {@link ConfigurationLoader}s.</p>
  *
  * <p>This class is immutable.</p>
+ *
+ * @since 4.0.0
  */
 @AutoValue
 public abstract class ConfigurationOptions {
@@ -63,6 +65,7 @@ public abstract class ConfigurationOptions {
      * instead.
      *
      * @return the default options
+     * @since 4.0.0
      */
     public static ConfigurationOptions defaults() {
         return Lazy.DEFAULTS;
@@ -72,6 +75,7 @@ public abstract class ConfigurationOptions {
      * Gets the {@link MapFactory} specified in these options.
      *
      * @return the map factory
+     * @since 4.0.0
      */
     public abstract MapFactory mapFactory();
 
@@ -81,6 +85,7 @@ public abstract class ConfigurationOptions {
      *
      * @param mapFactory the new factory to use to create a map
      * @return the new options object
+     * @since 4.0.0
      */
     public ConfigurationOptions mapFactory(final MapFactory mapFactory) {
         requireNonNull(mapFactory, "mapFactory");
@@ -96,6 +101,7 @@ public abstract class ConfigurationOptions {
      *
      * @return the current header. Lines are split by \n, with no
      *         trailing newline
+     * @since 4.0.0
      */
     public abstract @Nullable String header();
 
@@ -105,6 +111,7 @@ public abstract class ConfigurationOptions {
      *
      * @param header the new header to use
      * @return the new options object
+     * @since 4.0.0
      */
     public ConfigurationOptions header(final @Nullable String header) {
         if (Objects.equals(this.header(), header)) {
@@ -118,6 +125,7 @@ public abstract class ConfigurationOptions {
      * Gets the {@link TypeSerializerCollection} specified in these options.
      *
      * @return the type serializers
+     * @since 4.0.0
      */
     public abstract TypeSerializerCollection serializers();
 
@@ -127,6 +135,7 @@ public abstract class ConfigurationOptions {
      *
      * @param serializers the serializers to use
      * @return the new options object
+     * @since 4.0.0
      */
     public ConfigurationOptions serializers(final TypeSerializerCollection serializers) {
         requireNonNull(serializers, "serializers");
@@ -146,6 +155,7 @@ public abstract class ConfigurationOptions {
      * @param serializerBuilder accepts a builder for the collection that will
      *                          be used in the returned options object.
      * @return the new options object
+     * @since 4.0.0
      */
     public final ConfigurationOptions serializers(final Consumer<TypeSerializerCollection.Builder> serializerBuilder) {
         requireNonNull(serializerBuilder, "serializerBuilder");
@@ -169,6 +179,7 @@ public abstract class ConfigurationOptions {
      * @param nativeTypes the types that will be accepted to a
      *                     call to {@link ConfigurationNode#set(Object)}
      * @return updated options object
+     * @since 4.0.0
      */
     public ConfigurationOptions nativeTypes(final @Nullable Set<Class<?>> nativeTypes) {
         if (Objects.equals(this.nativeTypes(), nativeTypes)) {
@@ -184,6 +195,7 @@ public abstract class ConfigurationOptions {
      *
      * @param type the type to check
      * @return whether the type is accepted
+     * @since 4.0.0
      */
     public final boolean acceptsType(final Class<?> type) {
         requireNonNull(type, "type");
@@ -221,6 +233,7 @@ public abstract class ConfigurationOptions {
      * should be set to the node when used.
      *
      * @return whether defaults should be copied into value
+     * @since 4.0.0
      */
     public abstract boolean shouldCopyDefaults();
 
@@ -232,6 +245,7 @@ public abstract class ConfigurationOptions {
      * @param shouldCopyDefaults whether to copy defaults
      * @return updated options object
      * @see #shouldCopyDefaults() for information on what this method does
+     * @since 4.0.0
      */
     public ConfigurationOptions shouldCopyDefaults(final boolean shouldCopyDefaults) {
         if (this.shouldCopyDefaults() == shouldCopyDefaults) {
@@ -252,6 +266,7 @@ public abstract class ConfigurationOptions {
      * <p>This option is disabled by default</p>
      *
      * @return if implicit initialization is enabled.
+     * @since 4.0.0
      */
     public abstract boolean implicitInitialization();
 
@@ -262,6 +277,7 @@ public abstract class ConfigurationOptions {
      * @param implicitInitialization whether to initialize implicitly
      * @return a new options object
      * @see #implicitInitialization() for more details
+     * @since 4.0.0
      */
     public ConfigurationOptions implicitInitialization(final boolean implicitInitialization) {
         if (this.implicitInitialization() == implicitInitialization) {

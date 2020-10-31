@@ -25,11 +25,15 @@ import java.lang.reflect.AnnotatedElement;
 
 /**
  * A function to resolve nodes for a specific field.
+ *
+ * @since 4.0.0
  */
 public interface NodeResolver {
 
     /**
      * Indicates that a field should be explicitly skipped.
+     *
+     * @since 4.0.0
      */
     NodeResolver SKIP_FIELD = parent -> null;
 
@@ -38,11 +42,14 @@ public interface NodeResolver {
      *
      * @param parent parent node
      * @return child node, or null if the node should not be deserialized.
+     * @since 4.0.0
      */
     @Nullable ConfigurationNode resolve(ConfigurationNode parent);
 
     /**
      * Provides fields.
+     *
+     * @since 4.0.0
      */
     interface Factory {
 
@@ -54,6 +61,7 @@ public interface NodeResolver {
          * @return {@code null} to continue, {@link #SKIP_FIELD} to stop further
          *     processing and exclude this field from serialization, or a
          *     resolver for a node.
+         * @since 4.0.0
          */
         @Nullable NodeResolver make(String name, AnnotatedElement element);
     }
@@ -62,6 +70,7 @@ public interface NodeResolver {
      * Creates resolvers that provide the key of the containing node for values.
      *
      * @return key-based resolver
+     * @since 4.0.0
      */
     static NodeResolver.Factory nodeKey() {
         return (name, element) -> {
@@ -76,6 +85,7 @@ public interface NodeResolver {
      * Creates resolvers that get the node at a key defined by {@link Setting}.
      *
      * @return a factory that will extract keys from a provided annotation
+     * @since 4.0.0
      */
     static NodeResolver.Factory keyFromSetting() {
         return (name, element) -> {
@@ -94,6 +104,7 @@ public interface NodeResolver {
      *
      * @param annotation annotation to require
      * @return a new resolver
+     * @since 4.0.0
      */
     static NodeResolver.Factory onlyWithAnnotation(final Class<? extends Annotation> annotation) {
         return (name, element) -> {
@@ -108,6 +119,7 @@ public interface NodeResolver {
      * A resolver that will skip any field not annotated with {@link Setting}.
      *
      * @return new resolver restricting fields
+     * @since 4.0.0
      */
     static NodeResolver.Factory onlyWithSetting() {
         return onlyWithAnnotation(Setting.class);

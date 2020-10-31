@@ -55,6 +55,7 @@ import java.util.stream.StreamSupport;
  *
  * @see GenericTypeReflector for other tools to work with types
  * @see TypeFactory for methods to construct types
+ * @since 4.0.0
  */
 public final class Types {
 
@@ -91,6 +92,7 @@ public final class Types {
      *
      * @param input input type
      * @return whether the type is an array
+     * @since 4.0.0
      */
     public static boolean isArray(final Type input) {
         if (input instanceof Class<?>) {
@@ -109,6 +111,7 @@ public final class Types {
      *
      * @param input type to check
      * @return if type is a boxed primitive
+     * @since 4.0.0
      */
     public static boolean isBoxedPrimitive(final Type input) {
         return BOXED_TO_PRIMITIVE.containsKey(input);
@@ -120,6 +123,7 @@ public final class Types {
      * @param input input type
      * @return the unboxed version of the input type,
      *          or the input type if it was already non-primitive
+     * @since 4.0.0
      */
     public static Type unbox(final Type input) {
         final Type ret = BOXED_TO_PRIMITIVE.get(input);
@@ -132,6 +136,7 @@ public final class Types {
      * @param input input type
      * @return the unboxed version of the input type, or the input type if
      *          it was already a primitive, or had no primitive equivalent
+     * @since 4.0.0
      */
     public static Type box(final Type input) {
         final Type ret = PRIMITIVE_TO_BOXED.get(input);
@@ -144,6 +149,7 @@ public final class Types {
      * @param elementType type token representing the element type
      * @param <T> type of element
      * @return new list type token
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     public static <T> TypeToken<List<T>> makeListType(final TypeToken<T> elementType) {
@@ -158,6 +164,7 @@ public final class Types {
      *
      * @param elements elements to combine
      * @return new union element
+     * @since 4.0.0
      */
     public static AnnotatedElement combinedAnnotations(final AnnotatedElement... elements) {
         return new CombinedAnnotations(Arrays.copyOf(elements, elements.length));
@@ -168,6 +175,7 @@ public final class Types {
      *
      * @param input input type
      * @return type, passed through
+     * @since 4.0.0
      */
     public static Type requireCompleteParameters(final Type input) {
         if (GenericTypeReflector.isMissingTypeParameters(input)) {
@@ -184,6 +192,7 @@ public final class Types {
      *
      * @param type base type
      * @return stream of supertypes
+     * @since 4.0.0
      */
     public static Stream<Type> allSuperTypes(final Type type) {
         return calculateSuperTypes(type, false);
@@ -197,6 +206,7 @@ public final class Types {
      *
      * @param type base type
      * @return stream of supertypes
+     * @since 4.0.0
      */
     public static Stream<Type> allSuperTypesAndInterfaces(final Type type) {
         return calculateSuperTypes(type, true);

@@ -40,6 +40,8 @@ import java.util.WeakHashMap;
  * <p>If the enum has two fields that are equal except for case and underscores,
  * an exact match will return the appropriate value, and any fuzzy matches will
  * map to the first value in the enum that is applicable.</p>
+ *
+ * @since 4.0.0
  */
 public final class EnumLookup {
 
@@ -61,6 +63,7 @@ public final class EnumLookup {
      * @param key key to find
      * @param <T> type of value
      * @return optionally the enum
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     public static <T extends Enum<T>> @Nullable T lookupEnum(final Class<T> clazz, final String key) {

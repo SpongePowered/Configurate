@@ -23,6 +23,8 @@ import java.util.Map;
 
 /**
  * A configuration node that can have both comments and attributes attached.
+ *
+ * @since 4.0.0
  */
 public interface AttributedConfigurationNode extends CommentedConfigurationNodeIntermediary<AttributedConfigurationNode> {
 
@@ -38,6 +40,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * tag name {@code root}.</p>
      *
      * @return a new factory
+     * @since 4.0.0
      */
     static ConfigurationNodeFactory<AttributedConfigurationNode> factory() {
         return options -> AttributedConfigurationNode.root(TAG_ROOT, options);
@@ -47,6 +50,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * Create a new root node with the {@link #TAG_ROOT default} tag name.
      *
      * @return a new empty node
+     * @since 4.0.0
      */
     static AttributedConfigurationNode root() {
         return root(TAG_ROOT, ConfigurationOptions.defaults());
@@ -62,6 +66,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param action action to perform
      * @return a new empty node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> AttributedConfigurationNode root(final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
         return root().act(action);
@@ -75,6 +80,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @param tagName node's tag name
      * @return a new empty node
+     * @since 4.0.0
      */
     static AttributedConfigurationNode root(final String tagName) {
         return root(tagName, ConfigurationOptions.defaults());
@@ -93,6 +99,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param action initialization action
      * @return a new empty node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> AttributedConfigurationNode root(final String tagName,
             final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
@@ -108,6 +115,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param tagName node's tag name
      * @param options options to apply
      * @return a new empty node
+     * @since 4.0.0
      */
     static AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options) {
         return new AttributedConfigurationNodeImpl(tagName, null, null, options);
@@ -126,6 +134,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param action action to initialize the node with
      * @return a new initialized node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,
             CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
@@ -136,6 +145,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * Gets the tag name of this node.
      *
      * @return the tag name
+     * @since 4.0.0
      */
     String tagName();
 
@@ -148,6 +158,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @param name the name to set, cannot be null
      * @return this node
+     * @since 4.0.0
      */
     AttributedConfigurationNode tagName(String name);
 
@@ -157,6 +168,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @param name the name of the attribute
      * @param value the value of the attribute
      * @return this node
+     * @since 4.0.0
      */
     AttributedConfigurationNode addAttribute(String name, String value);
 
@@ -165,6 +177,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @param name the name of the attribute to remove
      * @return this node
+     * @since 4.0.0
      */
     AttributedConfigurationNode removeAttribute(String name);
 
@@ -173,6 +186,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @param attributes the attributes to set
      * @return this node
+     * @since 4.0.0
      */
     AttributedConfigurationNode attributes(Map<String, String> attributes);
 
@@ -182,6 +196,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * <p>The returned map is immutable.</p>
      *
      * @return the map of attributes
+     * @since 4.0.0
      */
     Map<String, String> attributes();
 
@@ -189,6 +204,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * Gets if this node has any attributes.
      *
      * @return true if this node has any attributes
+     * @since 4.0.0
      */
     boolean hasAttributes();
 
@@ -198,6 +214,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      *
      * @param name the name of the attribute to get
      * @return this node
+     * @since 4.0.0
      */
     @Nullable String attribute(String name);
 

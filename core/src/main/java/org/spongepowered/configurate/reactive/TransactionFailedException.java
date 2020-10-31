@@ -19,6 +19,8 @@ package org.spongepowered.configurate.reactive;
 /**
  * Indicate that the newly submitted value was invalid, and the transaction that
  * submitted the new value should be marked as a failure.
+ *
+ * @since 4.0.0
  */
 public class TransactionFailedException extends Exception {
 
@@ -27,6 +29,8 @@ public class TransactionFailedException extends Exception {
     /**
      * Create an exception indicating a transaction has failed for an
      * unknown reason.
+     *
+     * @since 4.0.0
      */
     public TransactionFailedException() {
     }
@@ -35,6 +39,7 @@ public class TransactionFailedException extends Exception {
      * Create an exception wrapping the cause of a transaction failure.
      *
      * @param cause the original exception cause
+     * @since 4.0.0
      */
     public TransactionFailedException(final Throwable cause) {
         super(cause);

@@ -91,6 +91,8 @@ import java.util.stream.Stream;
  *     <dd>A sequence of longs. Either a native long array in the node,
  *         or (by default impl) a list of longs</dd>
  * </dl>
+ *
+ * @since 4.0.0
  */
 public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
@@ -107,6 +109,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * the default factory. The returned instance will not be compressed
      *
      * @return the shared instance
+     * @since 4.0.0
      */
     public static DynamicOps<ConfigurationNode> instance() {
         return instance(false);
@@ -122,6 +125,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * @param compressed whether keys should be compressed in the output of
      *     this serializer
      * @return the shared instance
+     * @since 4.0.0
      */
     public static DynamicOps<ConfigurationNode> instance(final boolean compressed) {
         return compressed ? COMPRESSED : UNCOMPRESSED;
@@ -132,6 +136,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param collection collection to provide through created nodes' options
      * @return ops instance
+     * @since 4.0.0
      */
     public static DynamicOps<ConfigurationNode> forSerializers(final TypeSerializerCollection collection) {
         if (requireNonNull(collection, "collection").equals(TypeSerializerCollection.defaults())) {
@@ -148,6 +153,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param node the node to wrap
      * @return a wrapped node
+     * @since 4.0.0
      */
     public static Dynamic<ConfigurationNode> wrap(final ConfigurationNode node) {
         if (node.options().serializers().equals(TypeSerializerCollection.defaults())) {
@@ -162,6 +168,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param value the value type
      * @return values
+     * @since 4.0.0
      */
     public static DynamicOps<ConfigurationNode> fromNode(final ConfigurationNode value) {
         return builder().factoryFromNode(value).build();
@@ -171,6 +178,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * Create a new builder for an ops instance.
      *
      * @return builder
+     * @since 4.0.0
      */
     public static ConfigurateOpsBuilder builder() {
         return new ConfigurateOpsBuilder();
@@ -764,6 +772,8 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     /**
      * Protection level for configuration node accesses through ops instance.
+     *
+     * @since 4.0.0
      */
     public enum Protection {
         /**

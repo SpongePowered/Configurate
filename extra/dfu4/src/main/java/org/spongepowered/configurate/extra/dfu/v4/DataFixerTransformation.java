@@ -39,6 +39,8 @@ import java.util.Set;
  * <p>Because Configurate does not have a schema model and DFU does, this
  * transformation works by explicitly providing a mapping between configurate
  * node paths and DFU TypeReferences.</p>
+ *
+ * @since 4.0.0
  */
 public final class DataFixerTransformation implements ConfigurationTransformation.Versioned {
 
@@ -51,6 +53,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
      * Create a builder that can work with any DFU DataFixer.
      *
      * @return the builder
+     * @since 4.0.0
      */
     public static Builder dfuBuilder() {
         return new Builder();
@@ -102,6 +105,8 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
 
     /**
      * Builder for {@link DataFixerTransformation}.
+     *
+     * @since 4.0.0
      */
     public static class Builder {
         private NodePath versionPath = NodePath.path("dfu-version");
@@ -114,6 +119,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          *
          * @param fixer the fixer
          * @return this builder
+         * @since 4.0.0
          */
         public Builder dataFixer(final DataFixer fixer) {
             this.fixer = requireNonNull(fixer);
@@ -126,6 +132,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          *
          * @param path the path
          * @return this builder
+         * @since 4.0.0
          */
         public Builder versionKey(final Object... path) {
             this.versionPath = NodePath.of(requireNonNull(path, "path"));
@@ -138,6 +145,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          *
          * @param path the path
          * @return this builder
+         * @since 4.0.0
          */
         public Builder versionKey(final NodePath path) {
             this.versionPath = requireNonNull(path, "path");
@@ -150,6 +158,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          *
          * @param targetVersion target version
          * @return this builder
+         * @since 4.0.0
          */
         public Builder targetVersion(final int targetVersion) {
             this.targetVersion = targetVersion;
@@ -162,6 +171,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          * @param type value type reference
          * @param path target path
          * @return this builder
+         * @since 4.0.0
          */
         public Builder addType(final DSL.TypeReference type, final Object... path) {
             return addType(type, NodePath.of(path));
@@ -173,6 +183,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          * @param type value type reference
          * @param path target path
          * @return this builder
+         * @since 4.0.0
          */
         public Builder addType(final DSL.TypeReference type, final NodePath path) {
             this.dataFixes.add(Pair.of(type, path));
@@ -183,6 +194,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          * Create a new transformation based on the provided info.
          *
          * @return new transformation
+         * @since 4.0.0
          */
         public DataFixerTransformation build() {
             requireNonNull(this.fixer, "A fixer must be provided!");

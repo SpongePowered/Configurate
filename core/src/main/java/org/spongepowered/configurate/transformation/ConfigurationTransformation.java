@@ -28,6 +28,8 @@ import java.util.function.Consumer;
 
 /**
  * Represents a set of transformations on a configuration.
+ *
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface ConfigurationTransformation {
@@ -35,6 +37,8 @@ public interface ConfigurationTransformation {
     /**
      * A special object that represents a wildcard in a path provided to a
      * configuration transformer.
+     *
+     * @since 4.0.0
      */
     Object WILDCARD_OBJECT = new Object();
 
@@ -44,6 +48,7 @@ public interface ConfigurationTransformation {
      * <p>This transformation will perform no actions.</p>
      *
      * @return empty transformation
+     * @since 4.0.0
      */
     static ConfigurationTransformation empty() {
         return node -> {};
@@ -53,6 +58,7 @@ public interface ConfigurationTransformation {
      * Create a new builder to create a basic configuration transformation.
      *
      * @return a new transformation builder.
+     * @since 4.0.0
      */
     static Builder builder() {
         return new Builder();
@@ -62,6 +68,7 @@ public interface ConfigurationTransformation {
      * This creates a builder for versioned transformations.
      *
      * @return a new builder for versioned transformations
+     * @since 4.0.0
      */
     static VersionedBuilder versionedBuilder() {
         return new VersionedBuilder();
@@ -72,6 +79,7 @@ public interface ConfigurationTransformation {
      *
      * @param transformations the transformations
      * @return a new transformation chain
+     * @since 4.0.0
      */
     static ConfigurationTransformation chain(final ConfigurationTransformation... transformations) {
         if (requireNonNull(transformations, "transformations").length == 0) {
@@ -89,11 +97,14 @@ public interface ConfigurationTransformation {
      * Apply this transformation to a given node.
      *
      * @param node the target node
+     * @since 4.0.0
      */
     void apply(ConfigurationNode node) throws ConfigurateException;
 
     /**
      * Builds a basic {@link ConfigurationTransformation}.
+     *
+     * @since 4.0.0
      */
     final class Builder {
         private MoveStrategy strategy = MoveStrategy.OVERWRITE;
@@ -109,6 +120,7 @@ public interface ConfigurationTransformation {
          * @param path the path to apply the action at
          * @param action the action
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder addAction(final NodePath path, final TransformAction action) {
             this.actions.put(requireNonNull(path, "path"), requireNonNull(action, "action"));
@@ -119,6 +131,7 @@ public interface ConfigurationTransformation {
          * Gets the move strategy to be used by the resultant transformation.
          *
          * @return the move strategy
+         * @since 4.0.0
          */
         public MoveStrategy moveStrategy() {
             return this.strategy;
@@ -129,6 +142,7 @@ public interface ConfigurationTransformation {
          *
          * @param strategy the strategy
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder moveStrategy(final MoveStrategy strategy) {
             this.strategy = requireNonNull(strategy, "strategy");
@@ -139,6 +153,7 @@ public interface ConfigurationTransformation {
          * Builds the transformation.
          *
          * @return the transformation
+         * @since 4.0.0
          */
         public ConfigurationTransformation build() {
             if (this.actions.isEmpty()) {
@@ -150,6 +165,8 @@ public interface ConfigurationTransformation {
 
     /**
      * Builds a versioned {@link ConfigurationTransformation}.
+     *
+     * @since 4.0.0
      */
     final class VersionedBuilder {
         private NodePath versionKey = NodePath.path("version");
@@ -162,6 +179,7 @@ public interface ConfigurationTransformation {
          *
          * @param versionKey the path to the version key
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public VersionedBuilder versionKey(final Object... versionKey) {
             this.versionKey = NodePath.of(versionKey);
@@ -176,6 +194,7 @@ public interface ConfigurationTransformation {
          * @param version the version
          * @param transformation the transformation
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         @NonNull
         public VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation transformation) {
@@ -198,6 +217,7 @@ public interface ConfigurationTransformation {
          *                        upgrade, these transformations will be
          *                        executed in order.
          * @return this builder
+         * @since 4.0.0
          */
         public @NonNull VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation... transformations) {
             return this.addVersion(version, chain(transformations));
@@ -214,6 +234,7 @@ public interface ConfigurationTransformation {
          * @param version the version
          * @param maker the transformation
          * @return this builder
+         * @since 4.0.0
          */
         public @NonNull VersionedBuilder makeVersion(final int version, final @NonNull Consumer<? super Builder> maker) {
             final Builder builder = builder();
@@ -225,6 +246,7 @@ public interface ConfigurationTransformation {
          * Builds the transformation.
          *
          * @return the transformation
+         * @since 4.0.0
          */
         public ConfigurationTransformation.@NonNull Versioned build() {
             if (this.versions.isEmpty()) {
@@ -236,6 +258,8 @@ public interface ConfigurationTransformation {
 
     /**
      * A transformation that is aware of node versions.
+     *
+     * @since 4.0.0
      */
     interface Versioned extends ConfigurationTransformation {
         int VERSION_UNKNOWN = -1;
@@ -244,6 +268,7 @@ public interface ConfigurationTransformation {
          * Get the path the node's current version is located at.
          *
          * @return version path
+         * @since 4.0.0
          */
         NodePath versionKey();
 
@@ -251,6 +276,7 @@ public interface ConfigurationTransformation {
          * Get the latest version that nodes can be updated to.
          *
          * @return the most recent version
+         * @since 4.0.0
          */
         int latestVersion();
 
@@ -266,6 +292,7 @@ public interface ConfigurationTransformation {
          *
          * @param node node to check
          * @return version, or {@link #VERSION_UNKNOWN} if no value is present
+         * @since 4.0.0
          */
         default int version(final ConfigurationNode node) {
             return node.node(versionKey()).getInt(VERSION_UNKNOWN);

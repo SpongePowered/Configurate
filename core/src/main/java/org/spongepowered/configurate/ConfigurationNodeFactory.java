@@ -24,8 +24,11 @@ import java.util.Map;
 import java.util.stream.Collector;
 
 /**
- * Various methods to create configuration nodes with specific options.
+ * Something that can create a customized node.
+ *
+ * @since 4.0.0
  */
+@FunctionalInterface
 public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
 
     /**
@@ -36,6 +39,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * be documented for any factory implementation.
      *
      * @return default options
+     * @since 4.0.0
      */
     default ConfigurationOptions defaultOptions() {
         return ConfigurationOptions.defaults();
@@ -49,6 +53,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      *
      * @param options node options
      * @return newly created empty node
+     * @since 4.0.0
      */
     N createNode(ConfigurationOptions options);
 
@@ -56,6 +61,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * Create a new node with default options.
      *
      * @return newly created empty node
+     * @since 4.0.0
      */
     default N createNode() {
         return createNode(defaultOptions());
@@ -69,6 +75,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param action action to initialize node with
      * @return newly created empty node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     default <E extends Exception> N createNode(final CheckedConsumer<N, E> action) throws E {
         final N node = createNode();
@@ -88,6 +95,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param action action to initialize node with
      * @return newly created empty node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     default <E extends Exception> N createNode(final ConfigurationOptions options, final CheckedConsumer<N, E> action) throws E {
         final N node = createNode(options);
@@ -104,6 +112,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param valueType marker for value type
      * @param <V> value type
      * @return a new collector
+     * @since 4.0.0
      */
     default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final TypeToken<V> valueType) {
         return Collector.of(this::createNode, (node, entry) -> {
@@ -127,6 +136,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param valueType marker for value type
      * @param <V> value type
      * @return a new collector
+     * @since 4.0.0
      */
     default <V> Collector<Map.Entry<?, V>, N, N> toMapCollector(final Class<V> valueType) {
         return Collector.of(this::createNode, (node, entry) -> {
@@ -150,6 +160,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param valueType marker for value type
      * @param <V> value type
      * @return a new collector
+     * @since 4.0.0
      */
     default <V> Collector<V, N, N> toListCollector(final TypeToken<V> valueType) {
         return Collector.of(this::createNode, (node, value) -> {
@@ -173,6 +184,7 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
      * @param valueType marker for value type
      * @param <V> value type
      * @return a new collector
+     * @since 4.0.0
      */
     default <V> Collector<V, N, N> toListCollector(final Class<V> valueType) {
         return Collector.of(this::createNode, (node, value) -> {

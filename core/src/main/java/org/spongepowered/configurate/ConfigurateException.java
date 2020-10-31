@@ -27,6 +27,8 @@ import java.util.function.Supplier;
  * <p>Configurate's errors are designed to provide a view of as
  * many errors as possible within one configuration tree, though the
  * {@link Throwable#getSuppressed() suppressed exceptions}</p>
+ *
+ * @since 4.0.0
  */
 public class ConfigurateException extends Exception {
 
@@ -36,6 +38,8 @@ public class ConfigurateException extends Exception {
 
     /**
      * Create a new unknown exception.
+     *
+     * @since 4.0.0
      */
     public ConfigurateException() {
         this.path = null;
@@ -46,6 +50,7 @@ public class ConfigurateException extends Exception {
      * informational message.
      *
      * @param message informational message
+     * @since 4.0.0
      */
     public ConfigurateException(final String message) {
         super(message);
@@ -56,6 +61,7 @@ public class ConfigurateException extends Exception {
      * Create a new exception with a cause and unknown message.
      *
      * @param cause the cause of this exception
+     * @since 4.0.0
      */
     public ConfigurateException(final Throwable cause) {
         super(cause);
@@ -67,6 +73,7 @@ public class ConfigurateException extends Exception {
      *
      * @param message the informational message
      * @param cause the cause of the exception
+     * @since 4.0.0
      */
     public ConfigurateException(final @Nullable String message, final @Nullable Throwable cause) {
         super(message, cause);
@@ -78,6 +85,7 @@ public class ConfigurateException extends Exception {
      *
      * @param pos node where the error occurred
      * @param message message describing the error
+     * @since 4.0.0
      */
     public ConfigurateException(final ConfigurationNode pos, final String message) {
         super(message);
@@ -89,6 +97,7 @@ public class ConfigurateException extends Exception {
      *
      * @param pos node where the error occurred
      * @param cause direct cause of this exception
+     * @since 4.0.0
      */
     public ConfigurateException(final ConfigurationNode pos, final Throwable cause) {
         super(cause);
@@ -101,6 +110,7 @@ public class ConfigurateException extends Exception {
      * @param pos node where the error occurred
      * @param message message describing the error
      * @param cause direct cause of this exception
+     * @since 4.0.0
      */
     public ConfigurateException(final ConfigurationNode pos, final @Nullable String message, final @Nullable Throwable cause) {
         super(message, cause);
@@ -113,6 +123,7 @@ public class ConfigurateException extends Exception {
      * @param path path to the node where the error occurred
      * @param message message describing the error
      * @param cause direct cause of this exception
+     * @since 4.0.0
      */
     public ConfigurateException(final NodePath path, final @Nullable String message, final @Nullable Throwable cause) {
         super(message, cause);
@@ -123,6 +134,7 @@ public class ConfigurateException extends Exception {
      * Get the path associated with this failure.
      *
      * @return the path
+     * @since 4.0.0
      */
     public NodePath path() {
         final @Nullable Supplier<NodePath> path = this.path;
@@ -133,6 +145,7 @@ public class ConfigurateException extends Exception {
      * Initialize path if none has been set.
      *
      * @param path new path
+     * @since 4.0.0
      */
     public void initPath(final Supplier<NodePath> path) {
         if (this.path == null) {
@@ -144,6 +157,7 @@ public class ConfigurateException extends Exception {
      * Get the exception's message without any extra formatting.
      *
      * @return the raw message
+     * @since 4.0.0
      */
     public @Nullable String rawMessage() {
         return super.getMessage();
@@ -153,6 +167,7 @@ public class ConfigurateException extends Exception {
      * Get a description of the location of this error, with path included.
      *
      * @return message
+     * @since 4.0.0
      */
     @Override
     public @Nullable String getMessage() {

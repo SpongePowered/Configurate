@@ -65,6 +65,10 @@ license {
 // We have the checkstyle version exposed as a property for use in checkstyle's own CI
 // do not modify the checkstyle configuration without an understanding of how they test against Configurate
 val checkstyleVersion: String by project
+dependencies {
+    checkstyle("com.puppycrawl.tools:checkstyle:$checkstyleVersion")
+    checkstyle("ca.stellardrift:stylecheck:0.1")
+}
 indra.checkstyle.set(checkstyleVersion)
 
 // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot

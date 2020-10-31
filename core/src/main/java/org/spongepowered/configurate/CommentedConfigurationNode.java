@@ -22,6 +22,8 @@ import org.spongepowered.configurate.util.CheckedConsumer;
  * A configuration node that can have a comment attached to it.
  *
  * <p>All other standard data is supported.</p>
+ *
+ * @since 4.0.0
  */
 public interface CommentedConfigurationNode extends CommentedConfigurationNodeIntermediary<CommentedConfigurationNode> {
 
@@ -31,6 +33,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * <p>The returned factory will create nodes with default options.</p>
      *
      * @return a new factory
+     * @since 4.0.0
      */
     static ConfigurationNodeFactory<CommentedConfigurationNode> factory() {
         return CommentedConfigurationNode::root;
@@ -45,6 +48,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * empty path.</p>
      *
      * @return a new empty node
+     * @since 4.0.0
      */
     static CommentedConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
@@ -62,6 +66,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * @param action action to be applied to the newly created node
      * @return a new initialized node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> CommentedConfigurationNode root(final CheckedConsumer<? super CommentedConfigurationNode, E> action) throws E {
         return root().act(action);
@@ -75,6 +80,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      *
      * @param options options to apply
      * @return a new empty node
+     * @since 4.0.0
      */
     static CommentedConfigurationNode root(final ConfigurationOptions options) {
         return new CommentedConfigurationNodeImpl(null, null, options);
@@ -91,6 +97,7 @@ public interface CommentedConfigurationNode extends CommentedConfigurationNodeIn
      * @param action action to be applied to the newly created node
      * @return a new initialized node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> CommentedConfigurationNode root(final ConfigurationOptions options,
             final CheckedConsumer<? super CommentedConfigurationNode, E> action) throws E {

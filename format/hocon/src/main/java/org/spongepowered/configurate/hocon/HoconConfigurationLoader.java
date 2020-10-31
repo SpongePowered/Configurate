@@ -55,6 +55,8 @@ import java.util.stream.Collectors;
 /**
  * A loader for HOCON (Hodor)-formatted configurations, using the typesafe
  * config library for parsing and generation.
+ *
+ * @since 4.0.0
  */
 public final class HoconConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
@@ -77,14 +79,16 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
      * Creates a new {@link HoconConfigurationLoader} builder.
      *
      * @return a new builder
+     * @since 4.0.0
      */
-    @NonNull
-    public static Builder builder() {
+    public static @NonNull Builder builder() {
         return new Builder();
     }
 
     /**
      * Builds a {@link HoconConfigurationLoader}.
+     *
+     * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, HoconConfigurationLoader> {
         private ConfigRenderOptions render = DEFAULT_RENDER_OPTIONS;
@@ -101,6 +105,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          *
          * @param prettyPrinting whether to pretty-print
          * @return this builder
+         * @since 4.0.0
          */
         public Builder prettyPrinting(final boolean prettyPrinting) {
             this.render = this.render.setFormatted(prettyPrinting);
@@ -115,6 +120,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          *
          * @param emitComments whether to emit comments
          * @return this builder
+         * @since 4.0.0
          */
         public Builder emitComments(final boolean emitComments) {
             this.render = this.render.setComments(emitComments);
@@ -131,6 +137,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          *
          * @param jsonCompatible to emit json-format output
          * @return this builder
+         * @since 4.0.0
          */
         public Builder emitJsonCompatible(final boolean jsonCompatible) {
             this.render = this.render.setJson(jsonCompatible);

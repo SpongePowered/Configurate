@@ -27,6 +27,8 @@ import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 /**
  * A builder for {@link ConfigurateOps} instances.
+ *
+ * @since 4.0.0
  */
 public final class ConfigurateOpsBuilder {
 
@@ -46,6 +48,7 @@ public final class ConfigurateOpsBuilder {
      * @param supplier source for new nodes created to store values in
      *     the {@code create*} methods
      * @return this builder
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder factory(final ConfigurationNodeFactory<? extends ConfigurationNode> supplier) {
         this.nodeSupplier = requireNonNull(supplier, "nodeSupplier");
@@ -59,6 +62,7 @@ public final class ConfigurateOpsBuilder {
      *
      * @param collection type serializers to use for nodes.
      * @return this builder
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder factoryFromSerializers(final TypeSerializerCollection collection) {
         requireNonNull(collection, "collection");
@@ -72,6 +76,7 @@ public final class ConfigurateOpsBuilder {
      *
      * @param node node to use
      * @return this builder
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder factoryFromNode(final ConfigurationNode node) {
         final ConfigurationOptions options = requireNonNull(node, "node").options();
@@ -93,6 +98,7 @@ public final class ConfigurateOpsBuilder {
      * @param compressed whether to compress values
      * @return this builder
      * @see ConfigurateOps#compressMaps() for more about what compression is
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder compressed(final boolean compressed) {
         this.compressed = compressed;
@@ -109,6 +115,7 @@ public final class ConfigurateOpsBuilder {
      *
      * @param readProtection protection level
      * @return this builder
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder readProtection(final ConfigurateOps.Protection readProtection) {
         this.readProtection = requireNonNull(readProtection, "readProtection");
@@ -125,6 +132,7 @@ public final class ConfigurateOpsBuilder {
      *
      * @param writeProtection protection level
      * @return this builder
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder writeProtection(final ConfigurateOps.Protection writeProtection) {
         this.writeProtection = requireNonNull(writeProtection, "writeProtection");
@@ -140,6 +148,7 @@ public final class ConfigurateOpsBuilder {
      *      affects value reads
      * @see #writeProtection(ConfigurateOps.Protection) for how this level
      *      affects value writes
+     * @since 4.0.0
      */
     public ConfigurateOpsBuilder readWriteProtection(final ConfigurateOps.Protection protection) {
         requireNonNull(protection, "protection");
@@ -156,6 +165,7 @@ public final class ConfigurateOpsBuilder {
      * valid state.
      *
      * @return the new instance
+     * @since 4.0.0
      */
     public ConfigurateOps build() {
         return new ConfigurateOps(this.nodeSupplier, this.compressed, this.readProtection, this.writeProtection);
@@ -169,6 +179,7 @@ public final class ConfigurateOpsBuilder {
      *
      * @param node wrapped node
      * @return new dynamic
+     * @since 4.0.0
      */
     public Dynamic<ConfigurationNode> buildWrapping(final ConfigurationNode node) {
         return new Dynamic<>(build(), node);

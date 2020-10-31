@@ -24,6 +24,7 @@ import java.util.function.Supplier;
  *
  * @param <V> the value returned
  * @param <E> the exception type thrown
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface CheckedSupplier<V, E extends Throwable> {
@@ -33,6 +34,7 @@ public interface CheckedSupplier<V, E extends Throwable> {
      *
      * @return the result value
      * @throws E an implementation-dependent error
+     * @since 4.0.0
      */
     V get() throws E;
 
@@ -42,6 +44,7 @@ public interface CheckedSupplier<V, E extends Throwable> {
      * @param consumer the supplier to convert
      * @param <V> the type returned by the consumer
      * @return a function that executes the provided consumer
+     * @since 4.0.0
      */
     static <V> CheckedSupplier<V, RuntimeException> from(Supplier<V> consumer) {
         return consumer::get;

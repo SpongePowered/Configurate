@@ -35,6 +35,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>An atomic writer copies any existing file at the given path to a temporary
  * location, then writes to the same temporary location, before moving the file
  * back to the desired output path once the write is fully complete.</p>
+ *
+ * @since 4.0.0
  */
 public final class AtomicFiles {
 
@@ -46,6 +48,7 @@ public final class AtomicFiles {
      * @param path path the complete file should be written to
      * @param charset the charset to be used by the writer
      * @return a new writer factory
+     * @since 4.0.0
      */
     public static Callable<BufferedWriter> atomicWriterFactory(final Path path, final Charset charset) {
         requireNonNull(path, "path");
@@ -59,6 +62,7 @@ public final class AtomicFiles {
      * @param charset the charset to be used by the writer
      * @return a new writer factory
      * @throws IOException for any underlying filesystem errors
+     * @since 4.0.0
      */
     public static BufferedWriter atomicBufferedWriter(Path path, final Charset charset) throws IOException {
         // absolute

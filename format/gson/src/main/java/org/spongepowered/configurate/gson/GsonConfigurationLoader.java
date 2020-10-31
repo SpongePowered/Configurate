@@ -43,6 +43,8 @@ import java.util.Set;
 /**
  * A loader for JSON-formatted configurations, using the GSON library for
  * parsing and generation.
+ *
+ * @since 4.0.0
  */
 public final class GsonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
@@ -53,6 +55,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
      * Creates a new {@link GsonConfigurationLoader} builder.
      *
      * @return a new builder
+     * @since 4.0.0
      */
     @NonNull
     public static Builder builder() {
@@ -61,6 +64,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
     /**
      * Builds a {@link GsonConfigurationLoader}.
+     *
+     * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, GsonConfigurationLoader> {
         private boolean lenient = true;
@@ -73,6 +78,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          *
          * @param indent the indent level
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         @NonNull
         public Builder indent(final int indent) {
@@ -84,6 +90,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * Gets the level of indentation to be used by the resultant loader.
          *
          * @return the indent level
+         * @since 4.0.0
          */
         public int indent() {
             return this.indent;
@@ -95,6 +102,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @see JsonReader#setLenient(boolean)
          * @param lenient whether the parser should parse leniently
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         @NonNull
         public Builder lenient(final boolean lenient) {
@@ -106,6 +114,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * Gets if the resultant loader should parse leniently.
          *
          * @return whether the parser should parse leniently
+         * @since 4.0.0
          */
         public boolean lenient() {
             return this.lenient;

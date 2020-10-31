@@ -21,11 +21,15 @@ import java.util.regex.Pattern;
 
 /**
  * Standard naming schemes.
+ *
+ * @since 4.0.0
  */
 public enum NamingSchemes implements NamingScheme {
 
     /**
      * Passes through names unchanged.
+     *
+     * @since 4.0.0
      */
     PASSTHROUGH {
         @Override
@@ -36,6 +40,8 @@ public enum NamingSchemes implements NamingScheme {
 
     /**
      * Reformats names to {@code camelCase} style.
+     *
+     * @since 4.0.0
      */
     CAMEL_CASE {
         @Override
@@ -58,6 +64,8 @@ public enum NamingSchemes implements NamingScheme {
 
     /**
      * Reformats names to {@code snake_case} format.
+     *
+     * @since 4.0.0
      */
     SNAKE_CASE {
         @Override
@@ -68,6 +76,8 @@ public enum NamingSchemes implements NamingScheme {
 
     /**
      * Reformats names to {@code lower-case-dashed} format.
+     *
+     * @since 4.0.0
      */
     LOWER_CASE_DASHED {
         @Override

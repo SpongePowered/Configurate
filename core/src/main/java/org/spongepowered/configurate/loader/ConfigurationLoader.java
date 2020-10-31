@@ -33,6 +33,7 @@ import java.util.function.Function;
  * <p>An abstract implementation is provided by {@link AbstractConfigurationLoader}.</p>
  *
  * @param <N> the {@link ConfigurationNode} type produced by the loader
+ * @since 4.0.0
  */
 public interface ConfigurationLoader<N extends ConfigurationNode> extends ConfigurationNodeFactory<N> {
 
@@ -49,6 +50,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @return the newly constructed node
      * @throws ConfigurateException if any sort of error occurs with reading or
      *                              parsing the configuration
+     * @since 4.0.0
      */
     default N load() throws ConfigurateException {
         return load(defaultOptions());
@@ -64,6 +66,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @return the newly constructed node
      * @throws ConfigurateException if any sort of error occurs with reading or
      *                              parsing the configuration
+     * @since 4.0.0
      */
     N load(ConfigurationOptions options) throws ConfigurateException;
 
@@ -75,6 +78,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @throws ConfigurateException when an error occurs within the loader
      * @see WatchServiceListener#listenToConfiguration(Function, Path) to
      *      create an auto-reloading configuration.
+     * @since 4.0.0
      */
     ConfigurationReference<N> loadToReference() throws ConfigurateException;
 
@@ -84,6 +88,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * @param node the node to save
      * @throws ConfigurateException if any sort of error occurs with writing or
      *                     generating the configuration
+     * @since 4.0.0
      */
     void save(ConfigurationNode node) throws ConfigurateException;
 
@@ -91,6 +96,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * Gets if this loader is capable of loading configurations.
      *
      * @return if this loader can load
+     * @since 4.0.0
      */
     default boolean canLoad() {
         return true;
@@ -100,6 +106,7 @@ public interface ConfigurationLoader<N extends ConfigurationNode> extends Config
      * Gets if this loader is capable of saving configurations.
      *
      * @return if this loader can save
+     * @since 4.0.0
      */
     default boolean canSave() {
         return true;

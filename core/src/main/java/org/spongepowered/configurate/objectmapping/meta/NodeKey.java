@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
  * Marks a field that gets its value from the node's key.
  *
  * <p>Fields annotated as such should be treated as <em>read-only</em>.</p>
+ *
+ * @since 4.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

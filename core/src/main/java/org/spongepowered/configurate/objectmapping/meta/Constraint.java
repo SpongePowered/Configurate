@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
  * Perform a validation on data upon load.
  *
  * @param <V> value type
+ * @since 4.0.0
  */
 public interface Constraint<V> {
 
@@ -38,6 +39,7 @@ public interface Constraint<V> {
      *
      * @param value value to test
      * @throws SerializationException if the value falls outside its constraint.
+     * @since 4.0.0
      */
     void validate(@Nullable V value) throws SerializationException;
 
@@ -46,6 +48,7 @@ public interface Constraint<V> {
      *
      * @param <A> annotation type
      * @param <V> data type
+     * @since 4.0.0
      */
     interface Factory<A extends Annotation, V> {
 
@@ -55,6 +58,7 @@ public interface Constraint<V> {
          * @param data annotation with metadata
          * @param type annotated type. is a subtype of {@code V}
          * @return new constraint
+         * @since 4.0.0
          */
         Constraint<V> make(A data, Type type);
     }
@@ -65,6 +69,7 @@ public interface Constraint<V> {
      *
      * @param <T> marker annotation type
      * @return new constraint factory
+     * @since 4.0.0
      */
     static <T extends Annotation> Constraint.Factory<T, Object> required() {
         return (data, type) -> value -> {
@@ -80,6 +85,7 @@ public interface Constraint<V> {
      * <p>Upon failure, an error message will be taken from the annotation.</p>
      *
      * @return factory providing matching pattern test
+     * @since 4.0.0
      */
     static Constraint.Factory<Matches, String> pattern() {
         return (data, type) -> {
@@ -104,6 +110,7 @@ public interface Constraint<V> {
      *
      * @param bundle source for localized messages
      * @return factory providing matching pattern test
+     * @since 4.0.0
      */
     static Constraint.Factory<Matches, String> localizedPattern(final ResourceBundle bundle) {
         return (data, type) -> {

@@ -19,6 +19,8 @@ package org.spongepowered.configurate.loader;
 /**
  * Modes which {@link ConfigurationLoader}s can use to manipulate headers
  * when loading/saving.
+ *
+ * @since 4.0.0
  */
 public enum HeaderMode {
 

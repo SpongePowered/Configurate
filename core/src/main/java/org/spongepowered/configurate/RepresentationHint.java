@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Any unknown hints will be ignored.
  *
  * @param <V> the value type
+ * @since 4.0.0
  */
 @AutoValue
 public abstract class RepresentationHint<V> {
@@ -42,6 +43,7 @@ public abstract class RepresentationHint<V> {
      * @param valueType type of value the hint will hold
      * @param <V> value type
      * @return a new hint
+     * @since 4.0.0
      */
     public static <V> RepresentationHint<V> of(final String identifier, final Class<V> valueType) {
         return RepresentationHint.<V>builder().identifier(identifier).valueType(valueType).build();
@@ -57,6 +59,7 @@ public abstract class RepresentationHint<V> {
      * @param valueType type of value the hint will hold
      * @param <V> value type
      * @return a new hint
+     * @since 4.0.0
      */
     public static <V> RepresentationHint<V> of(final String identifier, final TypeToken<V> valueType) {
         return RepresentationHint.<V>builder().identifier(identifier).valueType(valueType).build();
@@ -67,6 +70,7 @@ public abstract class RepresentationHint<V> {
      *
      * @param <V> value type
      * @return a new builder
+     * @since 4.0.0
      */
     public static <V> Builder<V> builder() {
         return new AutoValue_RepresentationHint.Builder<>();
@@ -78,6 +82,7 @@ public abstract class RepresentationHint<V> {
      * An identifier used to represent this hint in error messages.
      *
      * @return the identifier
+     * @since 4.0.0
      */
     public abstract String identifier();
 
@@ -85,6 +90,7 @@ public abstract class RepresentationHint<V> {
      * The type that values of this type have to have.
      *
      * @return value type
+     * @since 4.0.0
      */
     public abstract TypeToken<V> valueType();
 
@@ -93,6 +99,7 @@ public abstract class RepresentationHint<V> {
      * or any of this parents, the default value will be returned.
      *
      * @return default type
+     * @since 4.0.0
      */
     public abstract @Nullable V defaultValue();
 
@@ -100,6 +107,7 @@ public abstract class RepresentationHint<V> {
      * Get whether or not this hint can draw its value from parent nodes.
      *
      * @return if inheritable
+     * @since 4.0.0
      */
     public abstract boolean inheritable();
 
@@ -107,6 +115,7 @@ public abstract class RepresentationHint<V> {
      * A builder for {@link RepresentationHint}s.
      *
      * @param <V> value type
+     * @since 4.0.0
      */
     @AutoValue.Builder
     public abstract static class Builder<V> {
@@ -120,6 +129,7 @@ public abstract class RepresentationHint<V> {
          *
          * @param identifier hint identifier
          * @return this builder
+         * @since 4.0.0
          */
         public abstract Builder<V> identifier(String identifier);
 
@@ -130,6 +140,7 @@ public abstract class RepresentationHint<V> {
          *
          * @param valueType the value type
          * @return this builder
+         * @since 4.0.0
          */
         public final Builder<V> valueType(final Class<V> valueType) {
             return valueType(TypeToken.get(valueType));
@@ -142,6 +153,7 @@ public abstract class RepresentationHint<V> {
          *
          * @param valueType the value type
          * @return this builder
+         * @since 4.0.0
          */
         public abstract Builder<V> valueType(TypeToken<V> valueType);
 
@@ -152,6 +164,7 @@ public abstract class RepresentationHint<V> {
          *
          * @param defaultValue value to return on gets
          * @return this builder
+         * @since 4.0.0
          */
         public abstract Builder<V> defaultValue(@Nullable V defaultValue);
 
@@ -163,6 +176,7 @@ public abstract class RepresentationHint<V> {
          * @param inheritable if inheritable
          * @return this builder
          * @see #inheritable()
+         * @since 4.0.0
          */
         public abstract Builder<V> inheritable(boolean inheritable);
 
@@ -173,6 +187,7 @@ public abstract class RepresentationHint<V> {
          * build a complete hint.</p>
          *
          * @return a new representation hint
+         * @since 4.0.0
          */
         public abstract RepresentationHint<V> build();
 

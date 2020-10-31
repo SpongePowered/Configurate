@@ -29,6 +29,8 @@ import java.lang.annotation.Target;
  * Indicates that a field is required.
  *
  * <p>Loading will fail if this field has a null value.</p>
+ *
+ * @since 4.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

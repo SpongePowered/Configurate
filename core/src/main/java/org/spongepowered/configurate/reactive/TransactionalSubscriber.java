@@ -28,6 +28,7 @@ package org.spongepowered.configurate.reactive;
  * fails on any one subscriber, where a standard publisher will not.
  *
  * @param <V> the value handled by this subscriber
+ * @since 4.0.0
  */
 public interface TransactionalSubscriber<V> extends Subscriber<V> {
 
@@ -45,12 +46,14 @@ public interface TransactionalSubscriber<V> extends Subscriber<V> {
     }
 
     /**
-     * Receive a new value, and validate it. The received value must not be made
-     * available outside of to other transaction-aware viewers until
-     * {@link #commit()} has been called.
+     * Receive a new value, and validate it.
+     *
+     * <p>The received value must not be made available outside of to other
+     * transaction-aware viewers until {@link #commit()} has been called.</p>
      *
      * @param newValue the new value
      * @throws TransactionFailedException if the new value does not validate
+     * @since 4.0.0
      */
     void beginTransaction(V newValue) throws TransactionFailedException;
 
@@ -59,7 +62,9 @@ public interface TransactionalSubscriber<V> extends Subscriber<V> {
      *
      * <p>This method will be called on all transactional subscribers in a
      * system have received and validated any new data. Calling this method when
-     * a transaction is not in progress should result in a noop.
+     * a transaction is not in progress should result in a noop.</p>
+     *
+     * @since 4.0.0
      */
     void commit();
 
@@ -68,7 +73,9 @@ public interface TransactionalSubscriber<V> extends Subscriber<V> {
      *
      * <p>This event indicates that it is safe for clients to discard any
      * prepared information from an in-progress transaction. If there is no
-     * transaction in progress, this must be a no-op.
+     * transaction in progress, this must be a no-op.</p>
+     *
+     * @since 4.0.0
      */
     void rollback();
 

@@ -26,6 +26,8 @@ import java.util.function.Supplier;
 /**
  * Represents an action to be performed that transforms a node in the
  * configuration tree.
+ *
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface TransformAction {
@@ -34,6 +36,7 @@ public interface TransformAction {
      * Create a transform action that will remove the node at a specified path.
      *
      * @return new action
+     * @since 4.0.0
      */
     static TransformAction remove() {
         return (path, value) -> {
@@ -49,6 +52,7 @@ public interface TransformAction {
      *
      * @param newKey the new key
      * @return new action
+     * @since 4.0.0
      */
     static TransformAction rename(Object newKey) {
         return (path, value) -> {
@@ -69,6 +73,7 @@ public interface TransformAction {
      * @param value value
      * @param <V> value type
      * @return new transformation action
+     * @since 4.0.0
      */
     static <V> TransformAction set(TypeToken<V> type, @Nullable V value) {
         return (path, node) -> {
@@ -85,6 +90,7 @@ public interface TransformAction {
      * @param valueSupplier supplier returning a value on each call
      * @param <V> value type
      * @return new transformation action
+     * @since 4.0.0
      */
     static <V> TransformAction set(TypeToken<V> type, Supplier<@Nullable V> valueSupplier) {
         return (path, value) -> {
@@ -101,6 +107,7 @@ public interface TransformAction {
      * @param valueSupplier supplier returning a value on each call
      * @param <V> value type
      * @return new transformation action
+     * @since 4.0.0
      */
     static <V> TransformAction set(Class<V> type, Supplier<V> valueSupplier) {
         return (path, value) -> {
@@ -121,6 +128,7 @@ public interface TransformAction {
      * @param path the path of the given node
      * @param value the node at the input path. May be modified
      * @return a modified path, or null if the path is to stay the same
+     * @since 4.0.0
      */
     @Nullable Object @Nullable[] visitPath(NodePath path, ConfigurationNode value) throws ConfigurateException;
 

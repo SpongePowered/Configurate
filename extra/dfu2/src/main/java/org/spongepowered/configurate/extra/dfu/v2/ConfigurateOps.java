@@ -44,6 +44,7 @@ import java.util.stream.Stream;
  * {@link CommentedConfigurationNode} with the {@link TypeSerializerCollection#defaults() default TypeSerializer collection},
  * but a custom factory may be provided.
  *
+ * @since 4.0.0
  */
 public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
@@ -56,6 +57,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      * the default factory.
      *
      * @return the shared instance
+     * @since 4.0.0
      */
     public static DynamicOps<ConfigurationNode> instance() {
         return INSTANCE;
@@ -66,6 +68,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param factory the factory function
      * @return a new ops instance
+     * @since 4.0.0
      */
     public static DynamicOps<ConfigurationNode> withNodeFactory(final Supplier<? extends ConfigurationNode> factory) {
         return new ConfigurateOps(factory);
@@ -77,6 +80,7 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
      *
      * @param node the node to wrap
      * @return a wrapped node
+     * @since 4.0.0
      */
     public static Dynamic<ConfigurationNode> wrap(final ConfigurationNode node) {
         if (node.options().serializers().equals(TypeSerializerCollection.defaults())) {

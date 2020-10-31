@@ -39,6 +39,8 @@ import java.util.function.Predicate;
 
 /**
  * A calculated collection of {@link TypeSerializer}s.
+ *
+ * @since 4.0.0
  */
 public final class TypeSerializerCollection {
 
@@ -98,6 +100,7 @@ public final class TypeSerializerCollection {
      * @param <T> the type to serialize
      * @return a serializer if any is present, or null if no applicable
      *          serializer is found
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     public <T> @Nullable TypeSerializer<T> get(final TypeToken<T> token) {
@@ -117,6 +120,7 @@ public final class TypeSerializerCollection {
      * @param <T> the type to serialize
      * @return a serializer if any is present, or null if no applicable
      *          serializer is found
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     public <T> @Nullable TypeSerializer<T> get(final Class<T> token) {
@@ -135,6 +139,7 @@ public final class TypeSerializerCollection {
      * @param type the type a serializer is required for
      * @return a serializer if any is present, or null if no applicable
      *          serializer is found
+     * @since 4.0.0
      */
     public @Nullable TypeSerializer<?> get(Type type) {
         type = GenericTypeReflector.toCanonicalBoxed(annotate(requireNonNull(type, "type"))).getType();
@@ -158,6 +163,7 @@ public final class TypeSerializerCollection {
      * that inherits from this collection.
      *
      * @return the new builder
+     * @since 4.0.0
      */
     public Builder childBuilder() {
         return new Builder(this);
@@ -197,6 +203,7 @@ public final class TypeSerializerCollection {
      * from the default collection should be applied.
      *
      * @return the builder
+     * @since 4.0.0
      */
     public static Builder builder() {
         return new Builder(null);
@@ -207,6 +214,7 @@ public final class TypeSerializerCollection {
      * type serializers.
      *
      * @return the collection
+     * @since 4.0.0
      */
     public static TypeSerializerCollection defaults() {
         return DEFAULTS;
@@ -214,6 +222,8 @@ public final class TypeSerializerCollection {
 
     /**
      * A builder to construct new serializer collections.
+     *
+     * @since 4.0.0
      */
     public static class Builder {
         private final @Nullable TypeSerializerCollection parent;
@@ -233,6 +243,7 @@ public final class TypeSerializerCollection {
          * @param serializer the serializer that will be serialized with
          * @param <T> the type to generify around
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder register(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
             return register0(type.getType(), serializer);
@@ -248,6 +259,7 @@ public final class TypeSerializerCollection {
          * @param serializer the serializer that will be serialized with
          * @param <T> the type to generify around
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder register(final Class<T> type, final TypeSerializer<? super T> serializer) {
             return register0(type, serializer);
@@ -260,6 +272,7 @@ public final class TypeSerializerCollection {
          * @param serializer the serializer to serialize matching types with
          * @param <T> the type parameter
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder register(final Predicate<Type> test, final TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
@@ -277,6 +290,7 @@ public final class TypeSerializerCollection {
          * @param serializer serializer to register
          * @param <T> value type
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder register(final ScalarSerializer<T> serializer) {
             requireNonNull(serializer, "serializer");
@@ -315,6 +329,7 @@ public final class TypeSerializerCollection {
          * @param serializer the serializer that will be serialized with
          * @param <T> the type to generify around
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder registerExact(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
             return registerExact0(type.getType(), serializer);
@@ -331,6 +346,7 @@ public final class TypeSerializerCollection {
          * @param serializer the serializer that will be serialized with
          * @param <T> the type to generify around
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder registerExact(final Class<T> type, final TypeSerializer<? super T> serializer) {
             return registerExact0(type, serializer);
@@ -346,6 +362,7 @@ public final class TypeSerializerCollection {
          * @param serializer serializer to register
          * @param <T> value type
          * @return this builder
+         * @since 4.0.0
          */
         public <T> Builder registerExact(final ScalarSerializer<T> serializer) {
             requireNonNull(serializer, "serializer");
@@ -368,6 +385,7 @@ public final class TypeSerializerCollection {
          *
          * @param other source collection
          * @return this builder
+         * @since 4.0.0
          */
         public Builder registerAll(final TypeSerializerCollection other) {
             this.serializers.addAll(requireNonNull(other, "other").serializers);
@@ -380,6 +398,7 @@ public final class TypeSerializerCollection {
          *
          * @param factory factory to retrieve object mappers from
          * @return this builder
+         * @since 4.0.0
          */
         public Builder registerAnnotatedObjects(final ObjectMapper.Factory factory) {
             return register(Builder::isAnnotatedTarget, factory.asTypeSerializer());
@@ -390,6 +409,7 @@ public final class TypeSerializerCollection {
          * {@link ObjectMapper.Factory#asTypeSerializer()} to annotated types.
          *
          * @return whether a type is annotated with {@link ConfigSerializable}
+         * @since 4.0.0
          */
         static boolean isAnnotatedTarget(final Type type) {
             return GenericTypeReflector.annotate(type).isAnnotationPresent(ConfigSerializable.class);
@@ -399,6 +419,7 @@ public final class TypeSerializerCollection {
          * Create a new type serializer collection.
          *
          * @return a newly created collection
+         * @since 4.0.0
          */
         public TypeSerializerCollection build() {
             return new TypeSerializerCollection(this.parent, this.serializers);

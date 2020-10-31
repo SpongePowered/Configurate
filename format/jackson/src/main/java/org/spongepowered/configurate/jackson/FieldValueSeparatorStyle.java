@@ -18,21 +18,29 @@ package org.spongepowered.configurate.jackson;
 
 /**
  * Enumeration of field value separator styles.
+ *
+ * @since 4.0.0
  */
 public enum FieldValueSeparatorStyle {
 
     /**
      * Style which uses spaces either side of the <code>:</code> character.
+     *
+     * @since 4.0.0
      */
     SPACE_BOTH_SIDES(" : "),
 
     /**
      * Style which uses a space after the <code>:</code> character.
+     *
+     * @since 4.0.0
      */
     SPACE_AFTER(": "),
 
     /**
      * Style which uses no spaces.
+     *
+     * @since 4.0.0
      */
     NO_SPACE(":");
 
@@ -46,6 +54,7 @@ public enum FieldValueSeparatorStyle {
      * Get the literal separator for this type.
      *
      * @return literal separator value
+     * @since 4.0.0
      */
     public String value() {
         return this.decorationType;

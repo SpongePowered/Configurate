@@ -47,6 +47,8 @@ import java.util.Set;
 /**
  * A loader for JSON-formatted configurations, using the jackson library for
  * parsing and generation.
+ *
+ * @since 4.0.0
  */
 public final class JacksonConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
@@ -57,6 +59,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
      * Creates a new {@link JacksonConfigurationLoader} builder.
      *
      * @return a new builder
+     * @since 4.0.0
      */
     public static Builder builder() {
         return new Builder();
@@ -64,6 +67,8 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
 
     /**
      * Builds a {@link JacksonConfigurationLoader}.
+     *
+     * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, JacksonConfigurationLoader> {
         private final JsonFactoryBuilder factory = new JsonFactoryBuilder();
@@ -84,6 +89,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * Gets the {@link JsonFactory} used to configure the implementation.
          *
          * @return the json factory
+         * @since 4.0.0
          */
         public JsonFactoryBuilder factoryBuilder() {
             return this.factory;
@@ -94,6 +100,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          *
          * @param indent the indent level
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder indent(final int indent) {
             this.indent = indent;
@@ -104,6 +111,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * Gets the level of indentation to be used by the resultant loader.
          *
          * @return the indent level
+         * @since 4.0.0
          */
         public int indent() {
             return this.indent;
@@ -114,6 +122,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          *
          * @param style the style
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder fieldValueSeparatorStyle(final FieldValueSeparatorStyle style) {
             this.fieldValueSeparatorStyle = style;
@@ -124,6 +133,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * Gets the field value separator style to be used by the built loader.
          *
          * @return the style
+         * @since 4.0.0
          */
         public FieldValueSeparatorStyle fieldValueSeparatorStyle() {
             return this.fieldValueSeparatorStyle;

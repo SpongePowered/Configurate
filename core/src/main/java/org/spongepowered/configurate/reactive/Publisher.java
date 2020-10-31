@@ -32,6 +32,7 @@ import java.util.concurrent.ForkJoinPool;
  * using the Disposable returned upon subscription.
  *
  * @param <V> the type of notification received by subscribers
+ * @since 4.0.0
  */
 public interface Publisher<V> {
 
@@ -46,6 +47,7 @@ public interface Publisher<V> {
      * @param <V> returned value type
      * @param <E> exception thrown
      * @return a publisher
+     * @since 4.0.0
      */
     static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action) {
         return execute(action, ForkJoinPool.commonPool());
@@ -63,6 +65,7 @@ public interface Publisher<V> {
      * @param <V> returned value type
      * @param <E> exception thrown
      * @return a publisher
+     * @since 4.0.0
      */
     static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action, Executor executor) {
         return new ExecutePublisher<>(requireNonNull(action, "action"), requireNonNull(executor, "executor"));
@@ -75,6 +78,7 @@ public interface Publisher<V> {
      *
      * @param subscriber the listener to register
      * @return a disposable that can be used to cancel this subscription
+     * @since 4.0.0
      */
     Disposable subscribe(Subscriber<? super V> subscriber);
 
@@ -85,6 +89,7 @@ public interface Publisher<V> {
      * of calling.
      *
      * @return if there are subscribers
+     * @since 4.0.0
      */
     boolean hasSubscribers();
 
@@ -94,6 +99,7 @@ public interface Publisher<V> {
      * @param mapper transformer function
      * @param <R> output value type
      * @return a new publisher
+     * @since 4.0.0
      */
     default <R> Publisher<R> map(CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
         return new MappedProcessor<>(mapper, this);
@@ -104,6 +110,7 @@ public interface Publisher<V> {
      * processor won't have a value until one is submitted to this publisher.
      *
      * @return a publisher based on this one
+     * @since 4.0.0
      */
     default Cached<V> cache() {
         return cache(null);
@@ -114,6 +121,7 @@ public interface Publisher<V> {
      *
      * @param initialValue value to initialize the returned publisher with
      * @return publisher that will cache future responses
+     * @since 4.0.0
      */
     default Cached<V> cache(@Nullable V initialValue) {
         return new CachedPublisher<>(this, initialValue);
@@ -123,6 +131,7 @@ public interface Publisher<V> {
      * Get the executor used to handle published events.
      *
      * @return the executor
+     * @since 4.0.0
      */
     Executor executor();
 
@@ -130,11 +139,26 @@ public interface Publisher<V> {
      * A publisher that caches the last value received.
      *
      * @param <V> value type
+     * @since 4.0.0
      */
     interface Cached<V> extends Publisher<V> {
 
+        /**
+         * Get the last cached value.
+         *
+         * @return latest cached value
+         * @since 4.0.0
+         */
         V get();
 
+        /**
+         * Directly submit a value to be the current cached value.
+         *
+         * <p>This will be passed on to downstream subscribers.</p>
+         *
+         * @param value new value
+         * @since 4.0.0
+         */
         void submit(V value);
 
     }

@@ -20,6 +20,8 @@ import org.spongepowered.configurate.util.CheckedConsumer;
 
 /**
  * A standard configuration node, without any additional options.
+ *
+ * @since 4.0.0
  */
 public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicConfigurationNode> {
 
@@ -29,6 +31,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * <p>The returned factory will create nodes with default options.</p>
      *
      * @return a new factory
+     * @since 4.0.0
      */
     static ConfigurationNodeFactory<BasicConfigurationNode> factory() {
         return BasicConfigurationNode::root;
@@ -43,6 +46,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * empty path.</p>
      *
      * @return a new empty node
+     * @since 4.0.0
      */
     static BasicConfigurationNode root() {
         return root(ConfigurationOptions.defaults());
@@ -60,6 +64,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * @param maker action to be applied to the newly created node
      * @return a new initialized node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> BasicConfigurationNode root(final CheckedConsumer<? super BasicConfigurationNode, E> maker) throws E {
         return root().act(maker);
@@ -73,6 +78,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      *
      * @param options options to apply.
      * @return a new empty node
+     * @since 4.0.0
      */
     static BasicConfigurationNode root(final ConfigurationOptions options) {
         return new BasicConfigurationNodeImpl(null, null, options);
@@ -89,6 +95,7 @@ public interface BasicConfigurationNode extends ScopedConfigurationNode<BasicCon
      * @param maker action to be applied to the newly created node
      * @return a new initialized node
      * @throws E when thrown from inner action
+     * @since 4.0.0
      */
     static <E extends Exception> BasicConfigurationNode root(final ConfigurationOptions options,
             final CheckedConsumer<? super BasicConfigurationNode, E> maker) throws E {

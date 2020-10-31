@@ -30,6 +30,8 @@ import java.lang.annotation.Target;
  * default, this includes objects with zero-argument constructors and records,
  * but this may be extended using a customized
  * {@link org.spongepowered.configurate.objectmapping.ObjectMapper.Factory}.</p>
+ *
+ * @since 4.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

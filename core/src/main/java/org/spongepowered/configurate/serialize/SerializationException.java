@@ -25,6 +25,8 @@ import java.lang.reflect.Type;
 
 /**
  * Exception thrown on errors encountered while using type serializers.
+ *
+ * @since 4.0.0
  */
 public class SerializationException extends ConfigurateException {
 
@@ -33,6 +35,8 @@ public class SerializationException extends ConfigurateException {
 
     /**
      * Create an exception with unknown message and cause.
+     *
+     * @since 4.0.0
      */
     public SerializationException() {
         this.expectedType = null;
@@ -42,6 +46,7 @@ public class SerializationException extends ConfigurateException {
      * Create an exception without a cause.
      *
      * @param message message with information about the exception
+     * @since 4.0.0
      */
     public SerializationException(final String message) {
         super(message);
@@ -51,6 +56,7 @@ public class SerializationException extends ConfigurateException {
      * Create an exception with a cause and no additional information.
      *
      * @param cause wrapped causing throwable
+     * @since 4.0.0
      */
     public SerializationException(final Throwable cause) {
         super(cause);
@@ -61,6 +67,7 @@ public class SerializationException extends ConfigurateException {
      *
      * @param expectedType declared type being processed
      * @param message message with information about the exception
+     * @since 4.0.0
      */
     public SerializationException(final Type expectedType, final String message) {
         super(message);
@@ -72,6 +79,7 @@ public class SerializationException extends ConfigurateException {
      *
      * @param expectedType declared type being processed
      * @param cause wrapped causing throwable
+     * @since 4.0.0
      */
     public SerializationException(final Type expectedType, final Throwable cause) {
         super(cause);
@@ -84,6 +92,7 @@ public class SerializationException extends ConfigurateException {
      * @param expectedType declared type being processed
      * @param message informational message
      * @param cause cause to be wrapped
+     * @since 4.0.0
      */
     public SerializationException(final Type expectedType, final String message, final Throwable cause) {
         super(message, cause);
@@ -96,6 +105,7 @@ public class SerializationException extends ConfigurateException {
      * @param node node being processed
      * @param message informational message
      * @param expectedType declared type being processed
+     * @since 4.0.0
      */
     public SerializationException(final ConfigurationNode node, final Type expectedType, final String message) {
         this(node, expectedType, message, null);
@@ -107,6 +117,7 @@ public class SerializationException extends ConfigurateException {
      * @param node node being processed
      * @param expectedType declared type being processed
      * @param cause cause to be wrapped
+     * @since 4.0.0
      */
     public SerializationException(final ConfigurationNode node, final Type expectedType, final Throwable cause) {
         this(node, expectedType, null, cause);
@@ -119,6 +130,7 @@ public class SerializationException extends ConfigurateException {
      * @param expectedType declared type being processed
      * @param message informational message
      * @param cause cause to be wrapped
+     * @since 4.0.0
      */
     public SerializationException(final ConfigurationNode node, final Type expectedType,
             final @Nullable String message, final @Nullable Throwable cause) {
@@ -132,6 +144,7 @@ public class SerializationException extends ConfigurateException {
      * @param path path to node being processed
      * @param expectedType declared type being processed
      * @param message informational message
+     * @since 4.0.0
      */
     public SerializationException(final NodePath path, final Type expectedType, final String message) {
         super(path, message, null);
@@ -143,6 +156,7 @@ public class SerializationException extends ConfigurateException {
      * Get the desired type associated with the failed object mapping operation.
      *
      * @return type
+     * @since 4.0.0
      */
     public @Nullable Type expectedType() {
         return this.expectedType;
@@ -163,6 +177,7 @@ public class SerializationException extends ConfigurateException {
      * <p>If a type has already been set, it will not be overridden.</p>
      *
      * @param type expected type
+     * @since 4.0.0
      */
     public void initType(final Type type) {
         if (this.expectedType != null) {

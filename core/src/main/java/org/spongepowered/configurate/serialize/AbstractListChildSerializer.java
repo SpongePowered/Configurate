@@ -30,6 +30,7 @@ import java.util.List;
  * {@literal true}.
  *
  * @param <T> the type of collection to serialize
+ * @since 4.0.0
  */
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 

@@ -35,6 +35,7 @@ import java.util.stream.Collector;
  * self-type instead.</p>
  *
  * @param <N> self type
+ * @since 4.0.0
  */
 public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> extends ConfigurationNode {
 
@@ -42,6 +43,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * Get a correctly typed instance of this node.
      *
      * @return the node type
+     * @since 4.0.0
      */
     N self();
 
@@ -186,6 +188,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * @param <E> thrown type
      * @param action the action to perform on this node
      * @return this node
+     * @since 4.0.0
      */
     default <E extends Exception> N act(CheckedConsumer<? super N, E> action) throws E {
         action.accept(self());

@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
  * <p>When used with an object mapper with a {@link Processor#comments()} or
  * {@link Processor#localizedComments(ResourceBundle)} processor applied,
  * the comment in {@link #value()} will be applied to the node upon save.</p>
+ *
+ * @since 4.0.0
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
@@ -39,6 +41,7 @@ public @interface Comment {
      * The comment to use.
      *
      * @return comment
+     * @since 4.0.0
      */
     String value();
 
@@ -46,6 +49,7 @@ public @interface Comment {
      * Whether or not to override existing comments on a node.
      *
      * @return if we should override.
+     * @since 4.0.0
      */
     boolean override() default false;
 

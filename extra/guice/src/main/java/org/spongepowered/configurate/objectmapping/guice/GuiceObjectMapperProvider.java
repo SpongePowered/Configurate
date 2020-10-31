@@ -33,6 +33,8 @@ import javax.inject.Singleton;
  *
  * <p>This class is intended to be constructed through Guice
  * dependency injection.
+ *
+ * @since 4.0.0
  */
 @Singleton
 public final class GuiceObjectMapperProvider {
@@ -50,6 +52,7 @@ public final class GuiceObjectMapperProvider {
      * Get the default factory, with guice support added.
      *
      * @return the default guice factory
+     * @since 4.0.0
      */
     public ObjectMapper.Factory get() {
         return this.factory;
@@ -60,6 +63,7 @@ public final class GuiceObjectMapperProvider {
      *
      * @param injector injector to create instances with
      * @return new discoverer
+     * @since 4.0.0
      */
     public static FieldDiscoverer<?> injectedObjectDiscoverer(final Injector injector) {
         return FieldDiscoverer.object(type -> {

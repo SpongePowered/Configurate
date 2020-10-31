@@ -31,6 +31,7 @@ import java.util.function.Function;
  *
  * @param <T> the type of value to return
  * @param <N> the type of node
+ * @since 4.0.0
  */
 public interface ValueReference<T, N extends ConfigurationNode> extends Publisher<T> {
 
@@ -41,6 +42,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * {@link ConfigurationReference}'s error callback
      *
      * @return the deserialized value, or null if deserialization fails.
+     * @since 4.0.0
      */
     @Nullable T get();
 
@@ -52,6 +54,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      *
      * @param value the value
      * @return true if successful, false if serialization fails
+     * @since 4.0.0
      */
     boolean set(@Nullable T value);
 
@@ -63,6 +66,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      *
      * @param value the value
      * @return true if successful, false if serialization fails
+     * @since 4.0.0
      */
     boolean setAndSave(@Nullable T value); // @cs-: NoGetSetPrefix (not a property accessor)
 
@@ -75,6 +79,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      *
      * @param value the value
      * @return true if successful, false if serialization fails
+     * @since 4.0.0
      */
     Publisher<Boolean> setAndSaveAsync(@Nullable T value); // @cs-: NoGetSetPrefix (not a property accessor)
 
@@ -86,6 +91,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      *
      * @param action to transform this node's value
      * @return whether this update was successful
+     * @since 4.0.0
      */
     boolean update(Function<@Nullable T, ? extends T> action);
 
@@ -98,6 +104,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      *
      * @param action to transform this node's value
      * @return whether this update was successful
+     * @since 4.0.0
      */
     Publisher<Boolean> updateAsync(Function<@Nullable T, ? extends T> action);
 
@@ -105,6 +112,7 @@ public interface ValueReference<T, N extends ConfigurationNode> extends Publishe
      * Get the node this value reference points to.
      *
      * @return the node
+     * @since 4.0.0
      */
     N node();
 

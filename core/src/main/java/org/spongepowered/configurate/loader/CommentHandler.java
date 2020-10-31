@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 /**
  * Extracts comments from a buffered reader or collection of lines.
+ *
+ * @since 4.0.0
  */
 @Immutable
 public interface CommentHandler {
@@ -35,6 +37,7 @@ public interface CommentHandler {
      * @param reader reader to get input from
      * @return an extracted comment, if any
      * @throws IOException if any IO error occurs in the process
+     * @since 4.0.0
      */
     @Nullable String extractHeader(BufferedReader reader) throws IOException;
 
@@ -43,6 +46,7 @@ public interface CommentHandler {
      *
      * @param lines lines to make a comment
      * @return transformed lines as a stream
+     * @since 4.0.0
      */
     Stream<String> toComment(Stream<String> lines);
 

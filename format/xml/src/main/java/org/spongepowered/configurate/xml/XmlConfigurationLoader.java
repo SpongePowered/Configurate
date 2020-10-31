@@ -66,6 +66,8 @@ import javax.xml.validation.Schema;
 /**
  * A loader for XML (Extensible Markup Language), using the native javax library
  * for parsing and generation.
+ *
+ * @since 4.0.0
  */
 public final class XmlConfigurationLoader extends AbstractConfigurationLoader<AttributedConfigurationNode> {
 
@@ -100,6 +102,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
      * Creates a new {@link XmlConfigurationLoader} builder.
      *
      * @return a new builder
+     * @since 4.0.0
      */
     @NonNull
     public static Builder builder() {
@@ -108,6 +111,8 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     /**
      * Builds a {@link XmlConfigurationLoader}.
+     *
+     * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, XmlConfigurationLoader> {
         private @Nullable Schema schema;
@@ -125,6 +130,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @param indent the indent level
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         @NonNull
         public Builder indent(final int indent) {
@@ -136,6 +142,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * Gets the level of indentation to be used by the resultant loader.
          *
          * @return the indent level
+         * @since 4.0.0
          */
         public int indent() {
             return this.indent;
@@ -146,6 +153,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @param schema the schema
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder schema(final @Nullable Schema schema) {
             this.schema = schema;
@@ -156,6 +164,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * Gets the {@link Schema} to be used by the resultant loader.
          *
          * @return the schema
+         * @since 4.0.0
          */
         public @Nullable Schema schema() {
             return this.schema;
@@ -166,6 +175,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @param defaultTagName the default tag name
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder defaultTagName(final String defaultTagName) {
             this.defaultTagName = defaultTagName;
@@ -176,6 +186,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * Gets the default tag name to be used by the resultant loader.
          *
          * @return the default tag name
+         * @since 4.0.0
          */
         @NonNull
         public String defaultTagName() {
@@ -193,6 +204,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @param writeExplicitType if the loader should write explicit types
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder writesExplicitType(final boolean writeExplicitType) {
             this.writeExplicitType = writeExplicitType;
@@ -206,6 +218,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * a more detailed explanation.</p>
          *
          * @return the default tag name
+         * @since 4.0.0
          */
         public boolean writesExplicitType() {
             return this.writeExplicitType;
@@ -218,6 +231,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @param includeXmlDeclaration if the XML declaration should be
          *                              included
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder includesXmlDeclaration(final boolean includeXmlDeclaration) {
             this.includeXmlDeclaration = includeXmlDeclaration;
@@ -229,6 +243,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * header when saving.
          *
          * @return if the XML declaration should be included
+         * @since 4.0.0
          */
         public boolean includesXmlDeclaration() {
             return this.includeXmlDeclaration;
@@ -250,6 +265,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          *
          * @param resolvesExternalContent whether to resolve external entities
          * @return this builder
+         * @since 4.0.0
          */
         public Builder resolvesExternalContent(final boolean resolvesExternalContent) {
             this.resolvesExternalContent = resolvesExternalContent;
@@ -260,6 +276,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * Get whether external content should be resolved.
          *
          * @return value, defaulting to false
+         * @since 4.0.0
          */
         public boolean resolvesExternalContent() {
             return this.resolvesExternalContent;

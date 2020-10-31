@@ -30,6 +30,7 @@ import java.util.function.Predicate;
  * given type.
  *
  * @param <T> the type
+ * @since 4.0.0
  */
 public interface TypeSerializer<T> {
 
@@ -43,6 +44,7 @@ public interface TypeSerializer<T> {
      * @param deserializer the deserialization function, implementing {@link ScalarSerializer#deserialize(Type, Object)}
      * @param <T> the type of value to deserialize
      * @return a new and unregistered type serializer
+     * @since 4.0.0
      */
     static <T> ScalarSerializer<T> of(Type type, BiFunction<T, Predicate<Class<?>>, Object> serializer,
                                       CheckedFunction<Object, T, SerializationException> deserializer) {
@@ -62,6 +64,7 @@ public interface TypeSerializer<T> {
      * @return a new and unregistered type serializer
      * @see #of(Type, BiFunction, CheckedFunction) for the version of this
      *      function that takes a parameterized type
+     * @since 4.0.0
      */
     static <T> ScalarSerializer<T> of(Class<T> type,
             BiFunction<T, Predicate<Class<?>>, Object> serializer, CheckedFunction<Object, T, SerializationException> deserializer) {
@@ -80,6 +83,7 @@ public interface TypeSerializer<T> {
      * @param node the node containing serialized data
      * @return an object
      * @throws SerializationException if the presented data is invalid
+     * @since 4.0.0
      */
     T deserialize(Type type, ConfigurationNode node) throws SerializationException;
 
@@ -90,6 +94,7 @@ public interface TypeSerializer<T> {
      * @param obj the object to be serialized
      * @param node the node to write to
      * @throws SerializationException if the object cannot be serialized
+     * @since 4.0.0
      */
     void serialize(Type type, @Nullable T obj, ConfigurationNode node) throws SerializationException;
 
@@ -102,6 +107,7 @@ public interface TypeSerializer<T> {
      * @param specificType specific subtype to create an empty value of
      * @param options options used from the loading node
      * @return new empty value
+     * @since 4.0.0
      */
     default @Nullable T emptyValue(final Type specificType, ConfigurationOptions options) {
         return null;

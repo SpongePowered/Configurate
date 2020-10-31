@@ -48,13 +48,15 @@ import java.util.function.Function;
  * to poll for changes, and calls listeners once an event occurs.
  *
  * <p>Some deduplication is performed because Windows can be fairly spammy with
- * its events, so one callback may receive multiple events at one time.
+ * its events, so one callback may receive multiple events at one time.</p>
  *
  * <p>Callback functions are {@link Subscriber Subscribers} that take the
- * {@link WatchEvent} as their parameter.
+ * {@link WatchEvent} as their parameter.</p>
  *
  * <p>Listening to a directory provides updates on the directory's immediate
- * children, but does not listen recursively.
+ * children, but does not listen recursively.</p>
+ *
+ * @since 4.0.0
  */
 public final class WatchServiceListener implements AutoCloseable {
 
@@ -76,6 +78,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * customized listener.
      *
      * @return a new builder
+     * @since 4.0.0
      */
     public static Builder builder() {
         return new Builder();
@@ -88,6 +91,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * @return a new instance with default values
      * @throws IOException if a watch service cannot be created
      * @see #builder() for customization
+     * @since 4.0.0
      */
     public static WatchServiceListener create() throws IOException {
         return new WatchServiceListener(DEFAULT_THREAD_FACTORY, FileSystems.getDefault(), ForkJoinPool.commonPool());
@@ -179,6 +183,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * @return a {@link Disposable} that can be used to cancel this subscription
      * @throws ConfigurateException if a filesystem error occurs.
      * @throws IllegalArgumentException if the provided path is a directory.
+     * @since 4.0.0
      */
     public Disposable listenToFile(Path file, final Subscriber<WatchEvent<?>> callback) throws ConfigurateException, IllegalArgumentException {
         file = file.toAbsolutePath();
@@ -200,6 +205,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * @throws ConfigurateException when an error occurs registering with the
      *                              underlying watch service.
      * @throws IllegalArgumentException if the provided path is not a directory
+     * @since 4.0.0
      */
     public Disposable listenToDirectory(Path directory, final Subscriber<WatchEvent<?>> callback)
             throws ConfigurateException, IllegalArgumentException {
@@ -220,6 +226,7 @@ public final class WatchServiceListener implements AutoCloseable {
      * @return new reference
      * @throws ConfigurateException if unable to complete an initial load of
      *      the configuration.
+     * @since 4.0.0
      */
     public <N extends ScopedConfigurationNode<N>> ConfigurationReference<N>
         listenToConfiguration(final Function<Path, ConfigurationLoader<? extends N>> loaderFunc, final Path path) throws ConfigurateException {
@@ -243,6 +250,8 @@ public final class WatchServiceListener implements AutoCloseable {
     /**
      * Set the parameters needed to create a {@link WatchServiceListener}. All params are optional and defaults will be
      * used if no values are specified.
+     *
+     * @since 4.0.0
      */
     public static final class Builder {
 
@@ -258,6 +267,7 @@ public final class WatchServiceListener implements AutoCloseable {
          *
          * @param factory the thread factory to use to create the deamon thread
          * @return this builder
+         * @since 4.0.0
          */
         public Builder threadFactory(final ThreadFactory factory) {
             this.threadFactory = requireNonNull(factory, "factory");
@@ -271,6 +281,7 @@ public final class WatchServiceListener implements AutoCloseable {
          *
          * @param executor the executor to use
          * @return this builder
+         * @since 4.0.0
          */
         public Builder taskExecutor(final Executor executor) {
             this.taskExecutor = requireNonNull(executor, "executor");
@@ -284,6 +295,7 @@ public final class WatchServiceListener implements AutoCloseable {
          *
          * @param system the file system to use.
          * @return this builder
+         * @since 4.0.0
          */
         public Builder fileSystem(final FileSystem system) {
             this.fileSystem = system;
@@ -295,6 +307,7 @@ public final class WatchServiceListener implements AutoCloseable {
          *
          * @return a newly created executor
          * @throws IOException if thrown by {@link WatchServiceListener}'s constructor
+         * @since 4.0.0
          */
         public WatchServiceListener build() throws IOException {
             if (this.threadFactory == null) {

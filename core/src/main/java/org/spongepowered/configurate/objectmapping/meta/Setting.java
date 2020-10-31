@@ -30,6 +30,8 @@ import java.lang.annotation.Target;
  * <p>This annotation is not required on fields unless the
  * {@link NodeResolver#onlyWithSetting()} resolver filter has been applied to
  * the loading object mapper.</p>
+ *
+ * @since 4.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,6 +42,7 @@ public @interface Setting {
      * The path this setting is located at.
      *
      * @return the path
+     * @since 4.0.0
      */
     String value() default "";
 

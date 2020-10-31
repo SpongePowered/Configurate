@@ -45,6 +45,7 @@ import java.util.List;
  * by the node.</p>
  *
  * @param <V> mapped type
+ * @since 4.0.0
  */
 public interface ObjectMapper<V> {
 
@@ -68,6 +69,7 @@ public interface ObjectMapper<V> {
      * </ul>
      *
      * @return default factory
+     * @since 4.0.0
      */
     static Factory factory() {
         return ObjectMapperFactoryImpl.INSTANCE;
@@ -81,6 +83,7 @@ public interface ObjectMapper<V> {
      * you should probably be using {@link #factoryBuilder()}.</p>
      *
      * @return new empty builder
+     * @since 4.0.0
      */
     static Factory.Builder emptyFactoryBuilder() {
         return new ObjectMapperFactoryImpl.Builder();
@@ -94,6 +97,7 @@ public interface ObjectMapper<V> {
      *
      * @return new builder
      * @see #factory() for a description of the default settings
+     * @since 4.0.0
      */
     static Factory.Builder factoryBuilder() {
         return ObjectMapperFactoryImpl.defaultBuilder();
@@ -107,7 +111,7 @@ public interface ObjectMapper<V> {
      * @throws SerializationException if any invalid data is present. Loading is
      *      done in stages, so any deserialization errors will occur before
      *      anything is written to objects.
-     *
+     * @since 4.0.0
      */
     V load(ConfigurationNode source) throws SerializationException;
 
@@ -117,6 +121,7 @@ public interface ObjectMapper<V> {
      * @param value value type
      * @param target destination
      * @throws SerializationException if unable to fully save
+     * @since 4.0.0
      */
     void save(V value, ConfigurationNode target) throws SerializationException;
 
@@ -124,6 +129,7 @@ public interface ObjectMapper<V> {
      * Get the parameters that will be handled by this mapper.
      *
      * @return immutable list of fields
+     * @since 4.0.0
      */
     List<? extends FieldData<?, V>> fields();
 
@@ -131,6 +137,7 @@ public interface ObjectMapper<V> {
      * The generic type of object that this mapper instance handles.
      *
      * @return object type
+     * @since 4.0.0
      */
     Type mappedType();
 
@@ -142,6 +149,7 @@ public interface ObjectMapper<V> {
      * always fail.</p>
      *
      * @return if the mapped type can be instantiated.
+     * @since 4.0.0
      */
     boolean canCreateInstances();
 
@@ -149,6 +157,7 @@ public interface ObjectMapper<V> {
      * An object mapper capable of loading data into an existing object.
      *
      * @param <V> value type
+     * @since 4.0.0
      */
     interface Mutable<V> extends ObjectMapper<V> {
 
@@ -158,6 +167,7 @@ public interface ObjectMapper<V> {
          * @param value existing instance
          * @param node node to load from
          * @throws SerializationException if unable to deserialize data
+         * @since 4.0.0
          */
         void load(V value, ConfigurationNode node) throws SerializationException;
 
@@ -165,6 +175,8 @@ public interface ObjectMapper<V> {
 
     /**
      * Provider for object mappers.
+     *
+     * @since 4.0.0
      */
     interface Factory {
 
@@ -178,6 +190,7 @@ public interface ObjectMapper<V> {
          * @return a mapper for the provided type
          * @throws SerializationException if the type does not correspond to a
          *     mappable object
+         * @since 4.0.0
          */
         @SuppressWarnings("unchecked")
         default <V> ObjectMapper<V> get(TypeToken<V> type) throws SerializationException {
@@ -194,6 +207,7 @@ public interface ObjectMapper<V> {
          * @return a mapper for the provided type
          * @throws SerializationException if the type does not correspond to a
          *     mappable object
+         * @since 4.0.0
          */
         @SuppressWarnings("unchecked")
         default <V> ObjectMapper<V> get(Class<V> clazz) throws SerializationException {
@@ -209,6 +223,7 @@ public interface ObjectMapper<V> {
          * @return a mapper for the provided type
          * @throws SerializationException if the type does not correspond to a
          *     mappable object
+         * @since 4.0.0
          */
         ObjectMapper<?> get(Type type) throws SerializationException;
 
@@ -221,6 +236,7 @@ public interface ObjectMapper<V> {
          * to enforce the presence of {@link ConfigSerializable} annotations.</p>
          *
          * @return a type serializer
+         * @since 4.0.0
          */
         TypeSerializer<Object> asTypeSerializer();
 
@@ -229,6 +245,8 @@ public interface ObjectMapper<V> {
          *
          * <p>In general, with multiple applicable resolvers, the one registered
          * last will take priority.</p>
+         *
+         * @since 4.0.0
          */
         interface Builder {
 
@@ -240,6 +258,7 @@ public interface ObjectMapper<V> {
              *
              * @param scheme naming scheme
              * @return this builder
+             * @since 4.0.0
              */
             Builder defaultNamingScheme(NamingScheme scheme);
 
@@ -248,6 +267,7 @@ public interface ObjectMapper<V> {
              *
              * @param resolver the resolver
              * @return this builder
+             * @since 4.0.0
              */
             Builder addNodeResolver(NodeResolver.Factory resolver);
 
@@ -259,6 +279,7 @@ public interface ObjectMapper<V> {
              *
              * @param discoverer field discoverer
              * @return this builder
+             * @since 4.0.0
              */
             Builder addDiscoverer(FieldDiscoverer<?> discoverer);
 
@@ -272,6 +293,7 @@ public interface ObjectMapper<V> {
              * @param factory factory for callback function
              * @param <A> annotation type
              * @return this builder
+             * @since 4.0.0
              */
             default <A extends Annotation> Builder addProcessor(Class<A> definition, Processor.Factory<A, Object> factory) {
                 return addProcessor(definition, Object.class, factory);
@@ -289,6 +311,7 @@ public interface ObjectMapper<V> {
              * @param <A> annotation type
              * @param <T> data type
              * @return this builder
+             * @since 4.0.0
              */
             <A extends Annotation, T> Builder addProcessor(Class<A> definition, Class<T> valueType, Processor.Factory<A, T> factory);
 
@@ -302,6 +325,7 @@ public interface ObjectMapper<V> {
              * @param factory factory for callback function
              * @param <A> annotation type
              * @return this builder
+             * @since 4.0.0
              */
             default <A extends Annotation> Builder addConstraint(Class<A> definition, Constraint.Factory<A, Object> factory) {
                 return addConstraint(definition, Object.class, factory);
@@ -319,6 +343,7 @@ public interface ObjectMapper<V> {
              * @param <A> annotation type
              * @param <T> data type
              * @return this builder
+             * @since 4.0.0
              */
             <A extends Annotation, T> Builder addConstraint(Class<A> definition, Class<T> valueType, Constraint.Factory<A, T> factory);
 
@@ -326,6 +351,7 @@ public interface ObjectMapper<V> {
              * Create a new factory using the current configuration.
              *
              * @return new factory instance
+             * @since 4.0.0
              */
             Factory build();
 

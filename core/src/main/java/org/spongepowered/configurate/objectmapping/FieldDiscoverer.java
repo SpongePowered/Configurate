@@ -32,6 +32,7 @@ import java.util.function.Supplier;
  * <p>Any type of data object can be added this way.</p>
  *
  * @param <I> intermediate data type
+ * @since 4.0.0
  */
 public interface FieldDiscoverer<I> {
 
@@ -39,6 +40,7 @@ public interface FieldDiscoverer<I> {
      * Create a new field discoverer that will handle record classes.
      *
      * @return new discoverer
+     * @since 4.0.0
      */
     static FieldDiscoverer<?> record() {
         return RecordFieldDiscoverer.INSTANCE;
@@ -52,6 +54,7 @@ public interface FieldDiscoverer<I> {
      *
      * @param instanceFactory a factory for instance providers
      * @return new discoverer
+     * @since 4.0.0
      */
     static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
         return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
@@ -65,6 +68,7 @@ public interface FieldDiscoverer<I> {
      * @return new discoverer
      * @see #object(CheckedFunction) for more details on which fields will
      *      be discovered.
+     * @since 4.0.0
      */
     static FieldDiscoverer<?> emptyConstructorObject() {
         return ObjectFieldDiscoverer.EMPTY_CONSTRUCTOR_INSTANCE;
@@ -84,6 +88,7 @@ public interface FieldDiscoverer<I> {
      * @return a factory for handling the construction of object instances, or
      *      {@code null} if {@code target} is not of a handleable type.
      * @throws SerializationException if any fields have invalid data
+     * @since 4.0.0
      */
     <V> @Nullable InstanceFactory<I> discover(AnnotatedType target, FieldCollector<I, V> collector) throws SerializationException;
 
@@ -91,6 +96,7 @@ public interface FieldDiscoverer<I> {
      * A handler for controlling the deserialization process for an object.
      *
      * @param <I> intermediate type
+     * @since 4.0.0
      */
     interface InstanceFactory<I> {
 
@@ -98,6 +104,7 @@ public interface FieldDiscoverer<I> {
          * Return a new instance of the intermediary type to be populated.
          *
          * @return new intermediate container
+         * @since 4.0.0
          */
         I begin();
 
@@ -107,6 +114,7 @@ public interface FieldDiscoverer<I> {
          * @param intermediate intermediate container to hold values
          * @return final value
          * @throws SerializationException if unable to construct a
+         * @since 4.0.0
          */
         Object complete(I intermediate) throws SerializationException;
 
@@ -114,6 +122,7 @@ public interface FieldDiscoverer<I> {
          * Get whether or not new object instances can be created.
          *
          * @return new instance creation
+         * @since 4.0.0
          */
         boolean canCreateInstances();
     }
@@ -122,6 +131,7 @@ public interface FieldDiscoverer<I> {
      * A handler for working with mutable objects in the object mapper.
      *
      * @param <I> intermediate type
+     * @since 4.0.0
      */
     interface MutableInstanceFactory<I> extends InstanceFactory<I> {
 
@@ -131,6 +141,7 @@ public interface FieldDiscoverer<I> {
          * @param instance instance to write to
          * @param intermediate intermediate container
          * @throws SerializationException if unable to apply info
+         * @since 4.0.0
          */
         void complete(Object instance, I intermediate) throws SerializationException;
     }
@@ -140,6 +151,7 @@ public interface FieldDiscoverer<I> {
      *
      * @param <I> intermediate type
      * @param <V> container type
+     * @since 4.0.0
      */
     @FunctionalInterface
     interface FieldCollector<I, V> {
@@ -155,6 +167,7 @@ public interface FieldDiscoverer<I> {
          *                     with a single deserialized field value.
          * @param serializer a function to extract a value from a completed
          *                   object instance.
+         * @since 4.0.0
          */
         void accept(String name, AnnotatedType type, AnnotatedElement annotations, FieldData.Deserializer<I> deserializer,
                 CheckedFunction<V, @Nullable Object, Exception> serializer);

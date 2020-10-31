@@ -21,6 +21,8 @@ import org.yaml.snakeyaml.DumperOptions;
 
 /**
  * Representation of collections and mappings in a YAML document.
+ *
+ * @since 4.0.0
  */
 public enum NodeStyle {
 

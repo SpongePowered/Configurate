@@ -27,6 +27,8 @@ import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 /**
  * A bridge between Configurate and DataFixerUpper serialization types.
+ *
+ * @since 4.0.0
  */
 public final class DfuSerializers {
 
@@ -39,6 +41,7 @@ public final class DfuSerializers {
      * @param codec codec to use for the serialization operation
      * @param <V> value type
      * @return a new serializer
+     * @since 4.0.0
      */
     public static <V> TypeSerializer<V> serializer(final Codec<V> codec) {
         return new CodecSerializer<>(requireNonNull(codec, "codec"));
@@ -52,6 +55,7 @@ public final class DfuSerializers {
      * @param <S> value type
      * @return a codec for the type, or null if an appropriate
      *      {@link TypeSerializer} could not be found.
+     * @since 4.0.0
      */
     public static <S> @Nullable Codec<S> codec(final TypeToken<S> type) {
         return codec(requireNonNull(type, "type"), TypeSerializerCollection.defaults());
@@ -65,6 +69,7 @@ public final class DfuSerializers {
      * @param <V> value type
      * @return a codec, or null if an appropriate {@link TypeSerializer}
      *      could not be found for the TypeToken.
+     * @since 4.0.0
      */
     public static <V> @Nullable Codec<V> codec(final TypeToken<V> type, final TypeSerializerCollection collection) {
         final @Nullable TypeSerializer<V> serial = collection.get(requireNonNull(type, "type"));

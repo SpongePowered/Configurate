@@ -31,6 +31,8 @@ import java.util.function.Consumer;
 
 /**
  * Provides a set of methods that produce unmodifiable copies of collections.
+ *
+ * @since 4.0.0
  */
 public final class UnmodifiableCollections {
 
@@ -42,6 +44,8 @@ public final class UnmodifiableCollections {
      * @param original the list to be copied
      * @param <E> the type of every item in the entry
      * @return a unmodifiable copy of the given {@link List} instance
+     *
+     * @since 4.0.0
      */
     public static <E> List<E> copyOf(final List<E> original) {
         switch (original.size()) {
@@ -60,6 +64,7 @@ public final class UnmodifiableCollections {
      * @param original the set to be copied
      * @param <E> the type of every item in the entry
      * @return a unmodifiable copy of the given {@link Set} instance
+     * @since 4.0.0
      */
     public static <E> Set<E> copyOf(final Set<E> original) {
         switch (original.size()) {
@@ -80,6 +85,7 @@ public final class UnmodifiableCollections {
      * @param <E> the type of every item in the entry
      * @return a unmodifiable copy of the given array as a {@link List}
      *         instance
+     * @since 4.0.0
      */
     @SafeVarargs
     @SuppressWarnings("varargs")
@@ -100,6 +106,7 @@ public final class UnmodifiableCollections {
      * @param original the array to be copied into a set
      * @param <E> the type of every item in the entry
      * @return a unmodifiable copy of the given array as a {@link Set} instance
+     * @since 4.0.0
      */
     @SafeVarargs
     @SuppressWarnings("varargs")
@@ -121,6 +128,7 @@ public final class UnmodifiableCollections {
      * @param <V> value type
      * @param handler consumer that will populate the map wih keys
      * @return a new unmodifiable map
+     * @since 4.0.0
      */
     public static <K, V> Map<K, V> buildMap(final Consumer<Map<K, V>> handler) {
         final Map<K, V> builder = new LinkedHashMap<>();
@@ -136,6 +144,7 @@ public final class UnmodifiableCollections {
      * @param <K> the key's type
      * @param <V> the value's type
      * @return the new map entry
+     * @since 4.0.0
      */
     public static <K, V> Map.Entry<K, V> immutableMapEntry(final K key, final V value) {
         return new AbstractMap.SimpleImmutableEntry<>(key, value);

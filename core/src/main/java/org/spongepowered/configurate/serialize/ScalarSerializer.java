@@ -38,17 +38,32 @@ import java.util.function.Predicate;
  * <p>Any serialized value must be deserializable by the same serializer.
  *
  * @param <T> the object type to serialize
+ * @since 4.0.0
  */
 public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
 
     private final TypeToken<T> type;
 
+    /**
+     * Create a new scalar serializer that handles the provided type.
+     *
+     * @param type type to handle
+     * @since 4.0.0
+     */
     @SuppressWarnings("unchecked")
     protected ScalarSerializer(final TypeToken<T> type) {
         final Type boxed = GenericTypeReflector.box(type.getType());
         this.type = boxed == type.getType() ? type : (TypeToken<T>) TypeToken.get(boxed);
     }
 
+    /**
+     * Create a new scalar serializer that handles the provided type.
+     *
+     * <p>{@code type} must not be a raw parameterized type.</p>
+     *
+     * @param type type to handle
+     * @since 4.0.0
+     */
     protected ScalarSerializer(final Class<T> type) {
         if (type.getTypeParameters().length > 0) {
             throw new IllegalArgumentException("Provided type " + type + " has type parameters but was not provided as a TypeToken!");
@@ -66,6 +81,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * be parameterized.
      *
      * @return the type token for this serializer
+     * @since 4.0.0
      */
     public final TypeToken<T> type() {
         return this.type;
@@ -108,6 +124,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @return the deserialized object, if possible
      * @throws SerializationException if unable to coerce the value to the
      *                                requested type.
+     * @since 4.0.0
      */
     public final T deserialize(final Object value) throws SerializationException {
         final @Nullable T possible = cast(value);
@@ -127,6 +144,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @return a converted object
      * @throws SerializationException if the object could not be converted for
      *                                any reason
+     * @since 4.0.0
      */
     public abstract T deserialize(Type type, Object obj) throws SerializationException;
 
@@ -153,6 +171,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @param typeSupported a predicate to allow choosing which types are
      *                      supported
      * @return a serialized form of this object
+     * @since 4.0.0
      */
     protected abstract Object serialize(T item, Predicate<Class<?>> typeSupported);
 
@@ -172,6 +191,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @param obj the object to try to deserialize
      * @return an instance of the appropriate type, or null
      * @see #deserialize(Object)
+     * @since 4.0.0
      */
     public final @Nullable T tryDeserialize(final @Nullable Object obj) {
         if (obj == null) {
@@ -191,6 +211,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      *
      * @param item the item to serialize
      * @return the serialized form of the item
+     * @since 4.0.0
      */
     public final String serializeToString(final T item) {
         if (item instanceof CharSequence) {

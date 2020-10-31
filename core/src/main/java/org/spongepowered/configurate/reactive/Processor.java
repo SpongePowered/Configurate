@@ -35,6 +35,7 @@ import java.util.concurrent.ForkJoinPool;
  *
  * @param <I> the type observed
  * @param <O> the type produced
+ * @since 4.0.0
  */
 public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
 
@@ -45,6 +46,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      *
      * @param <V> the type
      * @return a new processor instance
+     * @since 4.0.0
      */
     static <V> Processor.Iso<V> create() {
         return create(ForkJoinPool.commonPool());
@@ -57,6 +59,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * @param <V> the type
      * @param executor task executor
      * @return a new processor instance
+     * @since 4.0.0
      */
     static <V> Processor.Iso<V> create(Executor executor) {
         return new ProcessorImpl<>(executor);
@@ -67,6 +70,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      *
      * @param <V> the value type
      * @return a new transactional processor
+     * @since 4.0.0
      */
     static <V> Processor.TransactionalIso<V> createTransactional() {
         return createTransactional(ForkJoinPool.commonPool());
@@ -80,6 +84,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * @param exec executor to run operations on
      * @param <V> the value type
      * @return a new transactional processor
+     * @since 4.0.0
      */
     static <V> Processor.TransactionalIso<V> createTransactional(final Executor exec) {
         return new TransactionalProcessorImpl<>(exec);
@@ -99,6 +104,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * type, this is equivalent to {@link #submit(Object)}
      *
      * @param element the element to submit
+     * @since 4.0.0
      */
     void inject(O element);
 
@@ -108,6 +114,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      *
      * @param subscriber the fallback subscriber to add. Provide {@code null} to
      *                   remove the handler
+     * @since 4.0.0
      */
     void fallbackHandler(@Nullable Subscriber<O> subscriber);
 
@@ -119,6 +126,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * will simply return true.
      *
      * @return true if there are no subscribers and this processor is closed
+     * @since 4.0.0
      */
     boolean closeIfUnsubscribed();
 
@@ -126,6 +134,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * A Processor that has the same type for inputs and outputs.
      *
      * @param <V> the input and output type
+     * @since 4.0.0
      */
     interface Iso<V> extends Processor<V, V> {
         @Override
@@ -139,6 +148,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      *
      * @param <I> input type
      * @param <O> output type
+     * @since 4.0.0
      */
     interface Transactional<I, O> extends Processor<I, O>, Publisher<O>, TransactionalSubscriber<I> {
     }
@@ -147,6 +157,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * A processor that supports transactions using the same input and outputs.
      *
      * @param <V> input/output type
+     * @since 4.0.0
      */
     interface TransactionalIso<V> extends Transactional<V, V>, Iso<V> {
 

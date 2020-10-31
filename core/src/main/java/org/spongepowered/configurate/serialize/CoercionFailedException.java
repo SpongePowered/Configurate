@@ -20,6 +20,8 @@ import java.lang.reflect.Type;
 
 /**
  * Error thrown when a value fails to be converted to an expected type.
+ *
+ * @since 4.0.0
  */
 public class CoercionFailedException extends SerializationException {
 
@@ -30,6 +32,7 @@ public class CoercionFailedException extends SerializationException {
      *
      * @param inputValue original value
      * @param typeDescription description of the expected type
+     * @since 4.0.0
      */
     public CoercionFailedException(final Object inputValue, final String typeDescription) {
         super("Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
@@ -41,6 +44,7 @@ public class CoercionFailedException extends SerializationException {
      * @param target expected type
      * @param inputValue original value
      * @param typeDescription description of the expected type
+     * @since 4.0.0
      */
     public CoercionFailedException(final Type target, final Object inputValue, final String typeDescription) {
         super(target, "Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);

@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Intermediate interface for different types of commented configuration nodes.
  *
  * @param <N> self type
+ * @since 4.0.0
  */
 public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfigurationNodeIntermediary<N>> extends ScopedConfigurationNode<N> {
 
@@ -32,6 +33,7 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      * by \n</p>
      *
      * @return the configuration's current comment
+     * @since 4.0.0
      */
     @Nullable String comment();
 
@@ -41,6 +43,7 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      * @param comment the comment to set. Line breaks should be represented as
      *                LFs (\n)
      * @return this node
+     * @since 4.0.0
      */
     N comment(@Nullable String comment);
 
@@ -53,6 +56,7 @@ public interface CommentedConfigurationNodeIntermediary<N extends CommentedConfi
      * @param comment the comment to set. Line breaks should be represented as
      *                LFs (\n)
      * @return this node
+     * @since 4.0.0
      */
     N commentIfAbsent(String comment);
 

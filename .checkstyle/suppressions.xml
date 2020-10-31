@@ -4,11 +4,13 @@
         "http://checkstyle.org/dtds/suppressions_1_2.dtd">
 
 <suppressions>
-    <suppress checks="SummaryJavadoc|AvoidEscapedUnicodeCharacters|(?:(?:Missing)?Javadoc.*)" files="src[\\/]test[\\/]java[^\\/]*[\\/].*"/>
+    <suppress checks="SummaryJavadoc|AvoidEscapedUnicodeCharacters|(?:(?:Missing)?Javadoc.*)|FilteringWriteTag"
+              files="src[\\/]test[\\/]java[^\\/]*[\\/].*"/>
     <suppress checks="Indentation" files="package-info\.java"/>
     <suppress id="LineLengthComment" files="JacksonVisitor\.java"/> <!-- Commented out code -->
     <!-- We don't need javadoc on examples, they already go alongside documentation -->
-    <suppress checks="MissingJavadoc.*" files="src[\\/]main[\\/]java[\\/]org[\\/]spongepowered[\\/]configurate[\\/]examples[\\/].*"/>
+    <suppress checks="MissingJavadoc.*|FilteringWriteTag"
+              files="src[\\/]main[\\/]java[\\/]org[\\/]spongepowered[\\/]configurate[\\/]examples[\\/].*"/>
 
     <!-- ConfigurateScanner is imported from SnakeYAML, so for minimal diff we don't check style -->
     <suppress checks=".*" files="src[\\/]main[\\/]java[\\/]org[\\/]spongepowered[\\/]configurate[\\/]yaml[\\/](ConfigurateScanner|SimpleKey).java"/>

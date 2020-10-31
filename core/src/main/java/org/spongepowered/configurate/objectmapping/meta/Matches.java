@@ -29,6 +29,8 @@ import java.lang.annotation.Target;
  *
  * <p>This constraint will always pass with an empty field. See {@link Required}
  * to enforce a non-null value.</p>
+ *
+ * @since 4.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -39,6 +41,7 @@ public @interface Matches {
      * Pattern to test string value against.
      *
      * @return pattern to test against
+     * @since 4.0.0
      */
     @Regex String value();
 
@@ -53,6 +56,7 @@ public @interface Matches {
      * </ol>
      *
      * @return message format.
+     * @since 4.0.0
      */
     String failureMessage() default "";
 

@@ -36,6 +36,7 @@ import java.util.function.Function;
  * An updating reference to a base configuration node.
  *
  * @param <N> the type of node to work with
+ * @since 4.0.0
  */
 public interface ConfigurationReference<N extends ConfigurationNode> extends AutoCloseable {
 
@@ -46,6 +47,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param <N> the type of node
      * @return the newly created reference, with an initial load performed
      * @throws ConfigurateException if the configuration contained fails to load
+     * @since 4.0.0
      */
     static <N extends ScopedConfigurationNode<N>> ConfigurationReference<N>
             fixed(ConfigurationLoader<? extends N> loader) throws ConfigurateException {
@@ -66,6 +68,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws ConfigurateException if the underlying loader fails to load
      *         a configuration
      * @see WatchServiceListener#listenToConfiguration(Function, Path)
+     * @since 4.0.0
      */
     static <T extends ScopedConfigurationNode<T>> ConfigurationReference<T>
             watching(Function<Path, ConfigurationLoader<? extends T>> loaderCreator, Path file, WatchServiceListener listener)
@@ -84,6 +87,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * configuration values.
      *
      * @throws ConfigurateException when an error occurs
+     * @since 4.0.0
      */
     void load() throws ConfigurateException;
 
@@ -91,6 +95,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Save this configuration using the provided loader.
      *
      * @throws ConfigurateException when an error occurs in the underlying IO
+     * @since 4.0.0
      */
     void save() throws ConfigurateException;
 
@@ -103,6 +108,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @param newNode the new node to save
      * @throws ConfigurateException when an error occurs within the loader
+     * @since 4.0.0
      */
     void save(ConfigurationNode newNode) throws ConfigurateException;
 
@@ -111,6 +117,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * submitted to subscribers of the returned publisher.
      *
      * @return publisher providing an event when the save is complete
+     * @since 4.0.0
      */
     Publisher<N> saveAsync();
 
@@ -122,6 +129,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @param updater update function
      * @return publisher providing an event when the update is complete
+     * @since 4.0.0
      */
     Publisher<N> updateAsync(Function<N, ? extends N> updater);
 
@@ -129,6 +137,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Get the base node this reference refers to.
      *
      * @return the node
+     * @since 4.0.0
      */
     N node();
 
@@ -136,6 +145,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * Get the loader this reference uses to load and save its node.
      *
      * @return the loader
+     * @since 4.0.0
      */
     ConfigurationLoader<? extends N> loader();
 
@@ -145,6 +155,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param path the path, a series of path elements
      * @return a child node
      * @see ConfigurationNode#node(Object...)
+     * @since 4.0.0
      */
     N get(Object... path);
 
@@ -154,6 +165,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param path the path, a series of path elements
      * @return a child node
      * @see ConfigurationNode#node(Iterable)
+     * @since 4.0.0
      */
     N get(Iterable<?> path);
 
@@ -163,6 +175,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @param path the path to get the child at
      * @param value the value to set the child node to
+     * @since 4.0.0
      */
     default void set(Object[] path, @Nullable Object value) throws SerializationException {
         node().node(path).set(value);
@@ -182,6 +195,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param <T> the type parameter for the value
      * @throws IllegalArgumentException if a raw type is provided
      * @throws SerializationException if thrown by the serialization mechanism
+     * @since 4.0.0
      */
     default <T> void set(Object[] path, Class<T> type, @Nullable T value) throws SerializationException {
         node().node(path).set(type, value);
@@ -200,6 +214,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param value the value to set
      * @param <T> the type parameter for the value
      * @throws SerializationException if thrown by the serialization mechanism
+     * @since 4.0.0
      */
     default <T> void set(Object[] path, TypeToken<T> type, @Nullable T value) throws SerializationException {
         node().node(path).set(type, value);
@@ -211,6 +226,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @param path the path to get the child at
      * @param value the value to set the child node to
+     * @since 4.0.0
      */
     default void set(NodePath path, @Nullable Object value) throws SerializationException {
         node().node(path).set(value);
@@ -229,6 +245,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param value the value to set
      * @param <T> the type parameter for the value
      * @throws SerializationException if thrown by the serialization mechanism
+     * @since 4.0.0
      */
     default <T> void set(NodePath path, Class<T> type, @Nullable T value) throws SerializationException {
         node().node(path).set(type, value);
@@ -247,6 +264,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param value the value to set
      * @param <T> the type parameter for the value
      * @throws SerializationException if thrown by the serialization mechanism
+     * @since 4.0.0
      */
     default <T> void set(NodePath path, TypeToken<T> type, @Nullable T value) throws SerializationException {
         node().node(path).set(type, value);
@@ -266,6 +284,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return a deserializing reference to the node at the given path
      * @throws SerializationException if a type serializer could not be found
      *         for the provided type
+     * @since 4.0.0
      */
     default <T> ValueReference<T, N> referenceTo(TypeToken<T> type, Object... path) throws SerializationException {
         return referenceTo(type, NodePath.of(path));
@@ -285,6 +304,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return a deserializing reference to the node at the given path
      * @throws SerializationException if a type serializer could not be found
      *         for the provided type
+     * @since 4.0.0
      */
     default <T> ValueReference<T, N> referenceTo(Class<T> type, Object... path) throws SerializationException {
         return referenceTo(type, NodePath.of(path));
@@ -304,6 +324,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return a deserializing reference to the node at the given path
      * @throws SerializationException if a type serializer could not be found
      *          for the provided type
+     * @since 4.0.0
      */
     default <T> ValueReference<T, N> referenceTo(TypeToken<T> type, NodePath path) throws SerializationException {
         return referenceTo(type, path, null);
@@ -323,6 +344,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return a deserializing reference to the node at the given path
      * @throws SerializationException if a type serializer could not be found
      *          for the provided type
+     * @since 4.0.0
      */
     default <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path) throws SerializationException {
         return referenceTo(type, path, null);
@@ -344,6 +366,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return a deserializing reference to the node at the given path
      * @throws SerializationException if a type serializer could not be found
      *         for the provided type
+     * @since 4.0.0
      */
     <T> ValueReference<T, N> referenceTo(TypeToken<T> type, NodePath path, @Nullable T defaultValue) throws SerializationException;
 
@@ -363,6 +386,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @return a deserializing reference to the node at the given path
      * @throws SerializationException if a type serializer could not be found
      *          for the provided type
+     * @since 4.0.0
      */
     <T> ValueReference<T, N> referenceTo(Class<T> type, NodePath path, @Nullable T defaultValue) throws SerializationException;
 
@@ -372,6 +396,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * their phases appropriately
      *
      * @return the publisher
+     * @since 4.0.0
      */
     Publisher<N> updates();
 
@@ -380,6 +405,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * this reference.
      *
      * @return the publisher
+     * @since 4.0.0
      */
     Publisher<Map.Entry<ErrorPhase, Throwable>> errors();
 
@@ -391,6 +417,8 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
 
     /**
      * Representing the phase where an error occurred.
+     *
+     * @since 4.0.0
      */
     enum ErrorPhase {
         LOADING, SAVING, UNKNOWN, VALUE;

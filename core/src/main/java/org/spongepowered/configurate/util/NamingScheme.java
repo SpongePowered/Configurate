@@ -20,6 +20,8 @@ package org.spongepowered.configurate.util;
  * An enforced style of naming.
  *
  * <p>Common formats are exposed in {@link NamingSchemes}</p>
+ *
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface NamingScheme {
@@ -30,6 +32,7 @@ public interface NamingScheme {
      *
      * @param input input string
      * @return output string
+     * @since 4.0.0
      */
     String coerce(String input);
 

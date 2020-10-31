@@ -39,6 +39,7 @@ import java.util.function.Supplier;
  *
  * @param <I> intermediate type
  * @param <O> container type
+ * @since 4.0.0
  */
 @AutoValue
 @SuppressWarnings("AutoValueImmutableFields") // we don't use guava collections
@@ -54,6 +55,7 @@ public abstract class FieldData<I, O> {
      * @param <I> intermediate type
      * @param <O> container type
      * @return new field data
+     * @since 4.0.0
      */
     static <I, O> FieldData<I, O> of(final String name, final AnnotatedType resolvedFieldType,
             final List<Constraint<?>> constraints, final List<Processor<?>> processors,
@@ -71,6 +73,7 @@ public abstract class FieldData<I, O> {
      * The name of the field.
      *
      * @return field name
+     * @since 4.0.0
      */
     public abstract String name();
 
@@ -81,6 +84,7 @@ public abstract class FieldData<I, O> {
      * information available in the context.</p>
      *
      * @return the resolved type
+     * @since 4.0.0
      */
     public abstract AnnotatedType resolvedType();
 
@@ -99,6 +103,7 @@ public abstract class FieldData<I, O> {
      *
      * @param instance instance to validate
      * @return true if valid
+     * @since 4.0.0
      */
     public boolean isValid(final Object instance) {
         try {
@@ -114,6 +119,7 @@ public abstract class FieldData<I, O> {
      *
      * @param instance field value instance to validate
      * @throws SerializationException if validation fails
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     public void validate(final @Nullable Object instance) throws SerializationException {
@@ -139,6 +145,7 @@ public abstract class FieldData<I, O> {
      *
      * @param source parent node
      * @return resolved node
+     * @since 4.0.0
      */
     public @Nullable ConfigurationNode resolveNode(final ConfigurationNode source) {
         return this.nodeResolver().resolve(source);
@@ -148,6 +155,7 @@ public abstract class FieldData<I, O> {
      * A deserialization handler to appropriately place object data into fields.
      *
      * @param <I> intermediate data type
+     * @since 4.0.0
      */
     @FunctionalInterface
     public interface Deserializer<I> {
@@ -159,6 +167,7 @@ public abstract class FieldData<I, O> {
          * @param intermediate the intermediate container
          * @param newValue new value to store
          * @param implicitInitializer the implicit initializer
+         * @since 4.0.0
          */
         void accept(I intermediate, @Nullable Object newValue, Supplier<@Nullable Object> implicitInitializer);
     }

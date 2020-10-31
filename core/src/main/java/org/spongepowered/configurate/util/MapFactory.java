@@ -21,6 +21,8 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * A factory which creates {@link ConcurrentMap} instances.
+ *
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface MapFactory {
@@ -31,6 +33,7 @@ public interface MapFactory {
      * @param <K> key type
      * @param <V> value type
      * @return a new map instance
+     * @since 4.0.0
      */
     <K, V> Map<K, V> create();
 

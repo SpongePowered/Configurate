@@ -38,6 +38,7 @@ import java.util.Set;
  * A loader for YAML-formatted configurations, using the SnakeYAML library for
  * parsing and generation.
  *
+ * @since 4.0.0
  */
 public final class YamlConfigurationLoader extends AbstractConfigurationLoader<CommentedConfigurationNode> {
 
@@ -54,6 +55,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * Creates a new {@link YamlConfigurationLoader} builder.
      *
      * @return a new builder
+     * @since 4.0.0
      */
     public static Builder builder() {
         return new Builder();
@@ -61,6 +63,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
     /**
      * Builds a {@link YamlConfigurationLoader}.
+     *
+     * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
         private final DumperOptions options = new DumperOptions();
@@ -76,6 +80,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          *
          * @param indent the indent level
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder indent(final int indent) {
             this.options.setIndent(indent);
@@ -86,6 +91,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * Gets the level of indentation to be used by the resultant loader.
          *
          * @return the indent level
+         * @since 4.0.0
          */
         public int indent() {
             return this.options.getIndent();
@@ -116,6 +122,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          *
          * @param style the node style to use
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public Builder nodeStyle(final @Nullable NodeStyle style) {
             this.style = style;
@@ -126,6 +133,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * Gets the node style to be used by the resultant loader.
          *
          * @return the node style
+         * @since 4.0.0
          */
         public @Nullable NodeStyle nodeStyle() {
             return this.style;

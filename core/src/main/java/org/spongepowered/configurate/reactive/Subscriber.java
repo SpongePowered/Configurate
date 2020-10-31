@@ -24,6 +24,7 @@ package org.spongepowered.configurate.reactive;
  * this subscriber does not have to be aware of concurrent effects.
  *
  * @param <V> the value that will be received
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface Subscriber<V> {
@@ -32,6 +33,7 @@ public interface Subscriber<V> {
      * Called to submit a new item.
      *
      * @param item the item available
+     * @since 4.0.0
      */
     void submit(V item);
 
@@ -43,6 +45,7 @@ public interface Subscriber<V> {
      * an error is thrown.
      *
      * @param thrown the exception thrown
+     * @since 4.0.0
      */
     default void onError(Throwable thrown) {
         final Thread t = Thread.currentThread();
@@ -52,6 +55,8 @@ public interface Subscriber<V> {
     /**
      * When the {@link Publisher} this is subscribed to closes without error,
      * this method will be called.
+     *
+     * @since 4.0.0
      */
     default void onClose() {
         // no-op

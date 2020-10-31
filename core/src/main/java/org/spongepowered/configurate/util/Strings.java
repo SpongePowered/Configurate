@@ -20,6 +20,8 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Extra string utilities.
+ *
+ * @since 4.0.0
  */
 public final class Strings {
 
@@ -34,6 +36,7 @@ public final class Strings {
      * @param content text to repeat
      * @param times amount to repeat
      * @return repeated string
+     * @since 4.0.0
      */
     public static String repeat(final String content, final int times) {
         requireNonNull(content, "content");

@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 
 /**
  * Defines a number of default {@link CommentHandler}s.
+ *
+ * @since 4.0.0
  */
 @Immutable
 public enum CommentHandlers implements CommentHandler {
@@ -80,6 +82,7 @@ public enum CommentHandlers implements CommentHandler {
      * @param allowedHeaderTypes handlers to try
      * @return extracted comment, or null if a comment could not be extracted
      * @throws IOException if an IO error occurs
+     * @since 4.0.0
      */
     public static @Nullable String extractComment(final BufferedReader reader,
             final Iterable<CommentHandler> allowedHeaderTypes) throws IOException {

@@ -27,6 +27,8 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Default implementations of {@link MapFactory}.
+ *
+ * @since 4.0.0
  */
 public final class MapFactories {
 
@@ -36,6 +38,7 @@ public final class MapFactories {
      * Returns a {@link MapFactory} which creates maps without an order.
      *
      * @return a map factory which produces unordered maps
+     * @since 4.0.0
      */
     public static MapFactory unordered() {
         return DefaultFactory.UNORDERED;
@@ -46,6 +49,7 @@ public final class MapFactories {
      *
      * @param comparator the comparator used to sort the map keys
      * @return a map factory which produces sorted maps
+     * @since 4.0.0
      */
     public static MapFactory sorted(final Comparator<Object> comparator) {
         return new SortedMapFactory(requireNonNull(comparator, "comparator"));
@@ -56,6 +60,7 @@ public final class MapFactories {
      *
      * @return a map factory which produces naturally sorted maps
      * @see Comparator#naturalOrder()
+     * @since 4.0.0
      */
     public static MapFactory sortedNatural() {
         return DefaultFactory.SORTED_NATURAL;
@@ -65,6 +70,7 @@ public final class MapFactories {
      * Returns a {@link MapFactory} which creates maps which are sorted by insertion order.
      *
      * @return a map factory which produces maps sorted by insertion order
+     * @since 4.0.0
      */
     public static MapFactory insertionOrdered() {
         return DefaultFactory.INSERTION_ORDERED;

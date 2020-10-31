@@ -55,6 +55,7 @@ import java.util.regex.Pattern;
  * expected to throw an {@link IOException} for the unsupported operation.</p>
  *
  * @param <N> the {@link ConfigurationNode} type produced by the loader
+ * @since 4.0.0
  */
 public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationNode<N>> implements ConfigurationLoader<N> {
 
@@ -104,6 +105,14 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      */
     private final ConfigurationOptions defaultOptions;
 
+    /**
+     * Create a loader instance from a builder.
+     *
+     * @param builder the user-configured builder
+     * @param commentHandlers supported comment formats for extracting the
+     *      configuration header
+     * @since 4.0.0
+     */
     protected AbstractConfigurationLoader(final Builder<?, ?> builder, final CommentHandler[] commentHandlers) {
         this.source = builder.source();
         this.sink = builder.sink();
@@ -116,6 +125,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * Gets the primary {@link CommentHandler} used by this loader.
      *
      * @return the default comment handler
+     * @since 4.0.0
      */
     public CommentHandler defaultCommentHandler() {
         return this.commentHandlers.get(0);
@@ -153,6 +163,16 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         }
     }
 
+    /**
+     * Using a created node, attempt to read a configuration file.
+     *
+     * <p>The header will already have been read if applicable.</p>
+     *
+     * @param node node to load into
+     * @param reader reader to load from
+     * @throws ParsingException if an error occurs at any stage of loading
+     * @since 4.0.0
+     */
     protected abstract void loadInternal(N node, BufferedReader reader) throws ParsingException;
 
     @Override
@@ -181,8 +201,23 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         }
     }
 
+    /**
+     * Write out any implementation-specific file header.
+     *
+     * @param writer writer to output to
+     * @throws IOException if an error occurs in the implementation
+     * @since 4.0.0
+     */
     protected void writeHeaderInternal(final Writer writer) throws IOException {}
 
+    /**
+     * Perform a save of the node to the provided writer.
+     *
+     * @param node node to save
+     * @param writer writer to output to
+     * @throws ConfigurateException if any of the node's data is unsavable
+     * @since 4.0.0
+     */
     protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws ConfigurateException;
 
     @Override
@@ -204,6 +239,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * An abstract builder implementation for {@link AbstractConfigurationLoader}s.
      *
      * @param <T> the builder's own type (for chaining using generic types)
+     * @since 4.0.0
      */
     public abstract static class Builder<T extends Builder<T, L>, L extends AbstractConfigurationLoader<?>> {
         protected HeaderMode headerMode = HeaderMode.PRESERVE;
@@ -211,6 +247,13 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         protected @Nullable Callable<BufferedWriter> sink;
         protected ConfigurationOptions defaultOptions = ConfigurationOptions.defaults();
 
+        /**
+         * Create a new builder.
+         *
+         * <p>This is where any custom default options can be applied.</p>
+         *
+         * @since 4.0.0
+         */
         protected Builder() {}
 
         @SuppressWarnings("unchecked")
@@ -229,6 +272,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param file the configuration file
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T file(final File file) {
             return path(requireNonNull(file, "file").toPath());
@@ -245,6 +289,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param path the path of the configuration file
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T path(final Path path) {
             final Path absPath = requireNonNull(path, "path").toAbsolutePath();
@@ -258,6 +303,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param url the URL of the source
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T url(final URL url) {
             requireNonNull(url, "url");
@@ -272,6 +318,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param source the source
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T source(final @Nullable Callable<BufferedReader> source) {
             this.source = source;
@@ -282,6 +329,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * Gets the source to be used by the resultant loader.
          *
          * @return the source
+         * @since 4.0.0
          */
         public @Nullable Callable<BufferedReader> source() {
             return this.source;
@@ -294,6 +342,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param sink the sink
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T sink(final @Nullable Callable<BufferedWriter> sink) {
             this.sink = sink;
@@ -304,6 +353,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * Gets the sink to be used by the resultant loader.
          *
          * @return the sink
+         * @since 4.0.0
          */
         public @Nullable Callable<BufferedWriter> sink() {
             return this.sink;
@@ -314,6 +364,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param mode the header mode
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T headerMode(final HeaderMode mode) {
             this.headerMode = requireNonNull(mode, "mode");
@@ -324,6 +375,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * Gets the header mode to be used by the resultant loader.
          *
          * @return the header mode
+         * @since 4.0.0
          */
         public HeaderMode headerMode() {
             return this.headerMode;
@@ -335,6 +387,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param defaultOptions the options
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T defaultOptions(final ConfigurationOptions defaultOptions) {
             this.defaultOptions = requireNonNull(defaultOptions, "defaultOptions");
@@ -348,6 +401,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * @param defaultOptions to transform the existing default options
          * @return this builder (for chaining)
+         * @since 4.0.0
          */
         public T defaultOptions(final UnaryOperator<ConfigurationOptions> defaultOptions) {
             this.defaultOptions = requireNonNull(defaultOptions.apply(this.defaultOptions), "defaultOptions (updated)");
@@ -359,6 +413,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * loader.
          *
          * @return the options
+         * @since 4.0.0
          */
         public ConfigurationOptions defaultOptions() {
             return this.defaultOptions;
@@ -368,6 +423,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * Builds the loader.
          *
          * @return a new loader
+         * @since 4.0.0
          */
         public abstract L build();
 

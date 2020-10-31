@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 
 /**
  * Performs a transformation on a value annotated with a specific type.
+ *
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface Processor<V> {
@@ -34,6 +36,7 @@ public interface Processor<V> {
      *
      * @param value source value
      * @param destination destination node
+     * @since 4.0.0
      */
     void process(V value, ConfigurationNode destination);
 
@@ -43,6 +46,7 @@ public interface Processor<V> {
      *
      * @param <A> annotation type
      * @param <T> handled value type
+     * @since 4.0.0
      */
     @FunctionalInterface
     interface Factory<A extends Annotation, T> {
@@ -53,6 +57,7 @@ public interface Processor<V> {
          * @param data annotation type on record field
          * @param value declared field type
          * @return new processor
+         * @since 4.0.0
          */
         Processor<T> make(A data, Type value);
 
@@ -62,6 +67,7 @@ public interface Processor<V> {
      * Apply comments from {@link Comment} annotation on save.
      *
      * @return a new processor factory
+     * @since 4.0.0
      */
     static Processor.Factory<Comment, Object> comments() {
         return (data, fieldType) -> (value, destination) -> {
@@ -85,6 +91,7 @@ public interface Processor<V> {
      *
      * @param source source bundle for comments
      * @return a new processor factory
+     * @since 4.0.0
      */
     static Processor.Factory<Comment, Object> localizedComments(final ResourceBundle source) {
         return (data, fieldType) -> {
