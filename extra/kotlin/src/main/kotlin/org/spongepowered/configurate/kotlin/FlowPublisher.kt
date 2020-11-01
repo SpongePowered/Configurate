@@ -17,7 +17,6 @@
 package org.spongepowered.configurate.kotlin
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -37,7 +36,6 @@ internal class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : 
     private val executor = Executor { task -> scope.launch { task.run() } }
     override fun executor(): Executor = this.executor
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun subscribe(subscriber: Subscriber<in V>): Disposable {
         val ret = flow
             .onEach { subscriber.submit(it) }
