@@ -61,15 +61,14 @@ public class RecordDiscovererTest {
         assertEquals(32, target.node("testable").raw());
     }
 
-    @ConfigSerializable
-    @SuppressWarnings("UnusedVariable")
-    record AnnotatedRecord(
-        @Required TestRecord element,
-        @Comment("The most url") URL fetchLoc
-    ) {}
-
     @Test
     void testAnnotationsApplied() throws SerializationException, MalformedURLException {
+        @ConfigSerializable
+        @SuppressWarnings("UnusedVariable")
+        record AnnotatedRecord(
+            @Required TestRecord element,
+            @Comment("The most url") URL fetchLoc
+        ) {}
 
         final var record = new AnnotatedRecord(new TestRecord("nested", 0xFACE),
                 new URL("https://spongepowered.org/"));
