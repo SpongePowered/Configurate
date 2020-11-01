@@ -167,21 +167,28 @@
 <span class="sourceLineNo">158</span><a id="line.158">        }</a>
 <span class="sourceLineNo">159</span><a id="line.159">    }</a>
 <span class="sourceLineNo">160</span><a id="line.160"></a>
-<span class="sourceLineNo">161</span><a id="line.161">    public static void main(final String[] args) {</a>
-<span class="sourceLineNo">162</span><a id="line.162">        if (args.length != 1) {</a>
-<span class="sourceLineNo">163</span><a id="line.163">            System.err.println("Usage: ./reference-example &lt;file&gt;");</a>
-<span class="sourceLineNo">164</span><a id="line.164">            return;</a>
-<span class="sourceLineNo">165</span><a id="line.165">        }</a>
-<span class="sourceLineNo">166</span><a id="line.166">        final Path path = Paths.get(args[0]);</a>
-<span class="sourceLineNo">167</span><a id="line.167">        try {</a>
-<span class="sourceLineNo">168</span><a id="line.168">            new ValueReferences(path).repl();</a>
-<span class="sourceLineNo">169</span><a id="line.169">        } catch (IOException | ConfigurateException e) {</a>
-<span class="sourceLineNo">170</span><a id="line.170">            System.out.println("Error loading configuration: " + e.getMessage());</a>
-<span class="sourceLineNo">171</span><a id="line.171">            e.printStackTrace();</a>
-<span class="sourceLineNo">172</span><a id="line.172">        }</a>
-<span class="sourceLineNo">173</span><a id="line.173">    }</a>
-<span class="sourceLineNo">174</span><a id="line.174"></a>
-<span class="sourceLineNo">175</span><a id="line.175">}</a>
+<span class="sourceLineNo">161</span><a id="line.161">    public void close() throws IOException {</a>
+<span class="sourceLineNo">162</span><a id="line.162">        this.base.close();</a>
+<span class="sourceLineNo">163</span><a id="line.163">        this.listener.close();</a>
+<span class="sourceLineNo">164</span><a id="line.164">    }</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">    public static void main(final String[] args) {</a>
+<span class="sourceLineNo">167</span><a id="line.167">        if (args.length != 1) {</a>
+<span class="sourceLineNo">168</span><a id="line.168">            System.err.println("Usage: ./reference-example &lt;file&gt;");</a>
+<span class="sourceLineNo">169</span><a id="line.169">            return;</a>
+<span class="sourceLineNo">170</span><a id="line.170">        }</a>
+<span class="sourceLineNo">171</span><a id="line.171">        final Path path = Paths.get(args[0]);</a>
+<span class="sourceLineNo">172</span><a id="line.172">        try {</a>
+<span class="sourceLineNo">173</span><a id="line.173">            final ValueReferences engine = new ValueReferences(path);</a>
+<span class="sourceLineNo">174</span><a id="line.174">            engine.repl();</a>
+<span class="sourceLineNo">175</span><a id="line.175">            engine.close();</a>
+<span class="sourceLineNo">176</span><a id="line.176">        } catch (IOException | ConfigurateException e) {</a>
+<span class="sourceLineNo">177</span><a id="line.177">            System.out.println("Error loading configuration: " + e.getMessage());</a>
+<span class="sourceLineNo">178</span><a id="line.178">            e.printStackTrace();</a>
+<span class="sourceLineNo">179</span><a id="line.179">        }</a>
+<span class="sourceLineNo">180</span><a id="line.180">    }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">}</a>
 
 
 

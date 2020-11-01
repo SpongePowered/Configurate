@@ -230,72 +230,70 @@
 <span class="sourceLineNo">221</span><a id="line.221">        boolean written = false;</a>
 <span class="sourceLineNo">222</span><a id="line.222">        @Nullable JsonToken token;</a>
 <span class="sourceLineNo">223</span><a id="line.223">        while ((token = parser.peek()) != null) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">            switch (token) {</a>
-<span class="sourceLineNo">225</span><a id="line.225">                case END_ARRAY:</a>
-<span class="sourceLineNo">226</span><a id="line.226">                    parser.endArray();</a>
-<span class="sourceLineNo">227</span><a id="line.227">                    // ensure the type is preserved</a>
-<span class="sourceLineNo">228</span><a id="line.228">                    if (!written) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">                        node.raw(Collections.emptyList());</a>
-<span class="sourceLineNo">230</span><a id="line.230">                    }</a>
-<span class="sourceLineNo">231</span><a id="line.231">                    return;</a>
-<span class="sourceLineNo">232</span><a id="line.232">                default:</a>
-<span class="sourceLineNo">233</span><a id="line.233">                    parseValue(parser, node.appendListNode());</a>
-<span class="sourceLineNo">234</span><a id="line.234">                    written = true;</a>
-<span class="sourceLineNo">235</span><a id="line.235">            }</a>
-<span class="sourceLineNo">236</span><a id="line.236">        }</a>
-<span class="sourceLineNo">237</span><a id="line.237">        throw newException(parser, node, "Reached end of stream with unclosed array!", null);</a>
-<span class="sourceLineNo">238</span><a id="line.238">    }</a>
-<span class="sourceLineNo">239</span><a id="line.239"></a>
-<span class="sourceLineNo">240</span><a id="line.240">    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {</a>
-<span class="sourceLineNo">241</span><a id="line.241">        parser.beginObject();</a>
-<span class="sourceLineNo">242</span><a id="line.242"></a>
-<span class="sourceLineNo">243</span><a id="line.243">        boolean written = false;</a>
-<span class="sourceLineNo">244</span><a id="line.244">        @Nullable JsonToken token;</a>
-<span class="sourceLineNo">245</span><a id="line.245">        while ((token = parser.peek()) != null) {</a>
-<span class="sourceLineNo">246</span><a id="line.246">            switch (token) {</a>
-<span class="sourceLineNo">247</span><a id="line.247">                case END_OBJECT:</a>
-<span class="sourceLineNo">248</span><a id="line.248">                case END_DOCUMENT:</a>
-<span class="sourceLineNo">249</span><a id="line.249">                    parser.endObject();</a>
-<span class="sourceLineNo">250</span><a id="line.250">                    // ensure the type is preserved</a>
-<span class="sourceLineNo">251</span><a id="line.251">                    if (!written) {</a>
-<span class="sourceLineNo">252</span><a id="line.252">                        node.raw(Collections.emptyMap());</a>
-<span class="sourceLineNo">253</span><a id="line.253">                    }</a>
-<span class="sourceLineNo">254</span><a id="line.254">                    return;</a>
-<span class="sourceLineNo">255</span><a id="line.255">                case NAME:</a>
-<span class="sourceLineNo">256</span><a id="line.256">                    parseValue(parser, node.node(parser.nextName()));</a>
-<span class="sourceLineNo">257</span><a id="line.257">                    written = true;</a>
-<span class="sourceLineNo">258</span><a id="line.258">                    break;</a>
-<span class="sourceLineNo">259</span><a id="line.259">                default:</a>
-<span class="sourceLineNo">260</span><a id="line.260">                    throw new JsonParseException("Received improper object value " + token);</a>
-<span class="sourceLineNo">261</span><a id="line.261">            }</a>
-<span class="sourceLineNo">262</span><a id="line.262">        }</a>
-<span class="sourceLineNo">263</span><a id="line.263">        throw new JsonParseException("Reached end of stream with unclosed object!");</a>
-<span class="sourceLineNo">264</span><a id="line.264">    }</a>
-<span class="sourceLineNo">265</span><a id="line.265"></a>
-<span class="sourceLineNo">266</span><a id="line.266">    @Override</a>
-<span class="sourceLineNo">267</span><a id="line.267">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
-<span class="sourceLineNo">268</span><a id="line.268">        if (!this.lenient &amp;&amp; !node.isMap()) {</a>
-<span class="sourceLineNo">269</span><a id="line.269">            throw new ConfigurateException(node, "Non-lenient json generators must have children of map type");</a>
-<span class="sourceLineNo">270</span><a id="line.270">        }</a>
-<span class="sourceLineNo">271</span><a id="line.271">        try {</a>
-<span class="sourceLineNo">272</span><a id="line.272">            try (JsonWriter generator = new JsonWriter(writer)) {</a>
-<span class="sourceLineNo">273</span><a id="line.273">                generator.setIndent(this.indent);</a>
-<span class="sourceLineNo">274</span><a id="line.274">                generator.setLenient(this.lenient);</a>
-<span class="sourceLineNo">275</span><a id="line.275">                node.visit(GsonVisitor.INSTANCE.get(), generator);</a>
-<span class="sourceLineNo">276</span><a id="line.276">                writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default</a>
-<span class="sourceLineNo">277</span><a id="line.277">            }</a>
-<span class="sourceLineNo">278</span><a id="line.278">        } catch (final IOException ex) {</a>
-<span class="sourceLineNo">279</span><a id="line.279">            throw new ConfigurateException(node, ex);</a>
-<span class="sourceLineNo">280</span><a id="line.280">        }</a>
-<span class="sourceLineNo">281</span><a id="line.281">    }</a>
-<span class="sourceLineNo">282</span><a id="line.282"></a>
-<span class="sourceLineNo">283</span><a id="line.283">    @Override</a>
-<span class="sourceLineNo">284</span><a id="line.284">    public BasicConfigurationNode createNode(ConfigurationOptions options) {</a>
-<span class="sourceLineNo">285</span><a id="line.285">        options = options.nativeTypes(NATIVE_TYPES);</a>
-<span class="sourceLineNo">286</span><a id="line.286">        return BasicConfigurationNode.root(options);</a>
-<span class="sourceLineNo">287</span><a id="line.287">    }</a>
-<span class="sourceLineNo">288</span><a id="line.288"></a>
-<span class="sourceLineNo">289</span><a id="line.289">}</a>
+<span class="sourceLineNo">224</span><a id="line.224">            if (token == JsonToken.END_ARRAY) {</a>
+<span class="sourceLineNo">225</span><a id="line.225">                parser.endArray();</a>
+<span class="sourceLineNo">226</span><a id="line.226">                // ensure the type is preserved</a>
+<span class="sourceLineNo">227</span><a id="line.227">                if (!written) {</a>
+<span class="sourceLineNo">228</span><a id="line.228">                    node.raw(Collections.emptyList());</a>
+<span class="sourceLineNo">229</span><a id="line.229">                }</a>
+<span class="sourceLineNo">230</span><a id="line.230">                return;</a>
+<span class="sourceLineNo">231</span><a id="line.231">            } else {</a>
+<span class="sourceLineNo">232</span><a id="line.232">                parseValue(parser, node.appendListNode());</a>
+<span class="sourceLineNo">233</span><a id="line.233">                written = true;</a>
+<span class="sourceLineNo">234</span><a id="line.234">            }</a>
+<span class="sourceLineNo">235</span><a id="line.235">        }</a>
+<span class="sourceLineNo">236</span><a id="line.236">        throw newException(parser, node, "Reached end of stream with unclosed array!", null);</a>
+<span class="sourceLineNo">237</span><a id="line.237">    }</a>
+<span class="sourceLineNo">238</span><a id="line.238"></a>
+<span class="sourceLineNo">239</span><a id="line.239">    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {</a>
+<span class="sourceLineNo">240</span><a id="line.240">        parser.beginObject();</a>
+<span class="sourceLineNo">241</span><a id="line.241"></a>
+<span class="sourceLineNo">242</span><a id="line.242">        boolean written = false;</a>
+<span class="sourceLineNo">243</span><a id="line.243">        @Nullable JsonToken token;</a>
+<span class="sourceLineNo">244</span><a id="line.244">        while ((token = parser.peek()) != null) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">            switch (token) {</a>
+<span class="sourceLineNo">246</span><a id="line.246">                case END_OBJECT:</a>
+<span class="sourceLineNo">247</span><a id="line.247">                case END_DOCUMENT:</a>
+<span class="sourceLineNo">248</span><a id="line.248">                    parser.endObject();</a>
+<span class="sourceLineNo">249</span><a id="line.249">                    // ensure the type is preserved</a>
+<span class="sourceLineNo">250</span><a id="line.250">                    if (!written) {</a>
+<span class="sourceLineNo">251</span><a id="line.251">                        node.raw(Collections.emptyMap());</a>
+<span class="sourceLineNo">252</span><a id="line.252">                    }</a>
+<span class="sourceLineNo">253</span><a id="line.253">                    return;</a>
+<span class="sourceLineNo">254</span><a id="line.254">                case NAME:</a>
+<span class="sourceLineNo">255</span><a id="line.255">                    parseValue(parser, node.node(parser.nextName()));</a>
+<span class="sourceLineNo">256</span><a id="line.256">                    written = true;</a>
+<span class="sourceLineNo">257</span><a id="line.257">                    break;</a>
+<span class="sourceLineNo">258</span><a id="line.258">                default:</a>
+<span class="sourceLineNo">259</span><a id="line.259">                    throw new JsonParseException("Received improper object value " + token);</a>
+<span class="sourceLineNo">260</span><a id="line.260">            }</a>
+<span class="sourceLineNo">261</span><a id="line.261">        }</a>
+<span class="sourceLineNo">262</span><a id="line.262">        throw new JsonParseException("Reached end of stream with unclosed object!");</a>
+<span class="sourceLineNo">263</span><a id="line.263">    }</a>
+<span class="sourceLineNo">264</span><a id="line.264"></a>
+<span class="sourceLineNo">265</span><a id="line.265">    @Override</a>
+<span class="sourceLineNo">266</span><a id="line.266">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
+<span class="sourceLineNo">267</span><a id="line.267">        if (!this.lenient &amp;&amp; !node.isMap()) {</a>
+<span class="sourceLineNo">268</span><a id="line.268">            throw new ConfigurateException(node, "Non-lenient json generators must have children of map type");</a>
+<span class="sourceLineNo">269</span><a id="line.269">        }</a>
+<span class="sourceLineNo">270</span><a id="line.270">        try {</a>
+<span class="sourceLineNo">271</span><a id="line.271">            try (JsonWriter generator = new JsonWriter(writer)) {</a>
+<span class="sourceLineNo">272</span><a id="line.272">                generator.setIndent(this.indent);</a>
+<span class="sourceLineNo">273</span><a id="line.273">                generator.setLenient(this.lenient);</a>
+<span class="sourceLineNo">274</span><a id="line.274">                node.visit(GsonVisitor.INSTANCE.get(), generator);</a>
+<span class="sourceLineNo">275</span><a id="line.275">                writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default</a>
+<span class="sourceLineNo">276</span><a id="line.276">            }</a>
+<span class="sourceLineNo">277</span><a id="line.277">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">278</span><a id="line.278">            throw new ConfigurateException(node, ex);</a>
+<span class="sourceLineNo">279</span><a id="line.279">        }</a>
+<span class="sourceLineNo">280</span><a id="line.280">    }</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">    @Override</a>
+<span class="sourceLineNo">283</span><a id="line.283">    public BasicConfigurationNode createNode(final ConfigurationOptions options) {</a>
+<span class="sourceLineNo">284</span><a id="line.284">        return BasicConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">285</span><a id="line.285">    }</a>
+<span class="sourceLineNo">286</span><a id="line.286"></a>
+<span class="sourceLineNo">287</span><a id="line.287">}</a>
 
 
 

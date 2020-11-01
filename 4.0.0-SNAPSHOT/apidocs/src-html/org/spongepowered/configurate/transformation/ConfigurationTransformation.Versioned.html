@@ -120,7 +120,7 @@
 <span class="sourceLineNo">111</span><a id="line.111">        private final NavigableMap&lt;NodePath, TransformAction&gt; actions;</a>
 <span class="sourceLineNo">112</span><a id="line.112"></a>
 <span class="sourceLineNo">113</span><a id="line.113">        Builder() {</a>
-<span class="sourceLineNo">114</span><a id="line.114">            this.actions = new TreeMap&lt;&gt;(new NodePathComparator());</a>
+<span class="sourceLineNo">114</span><a id="line.114">            this.actions = new TreeMap&lt;&gt;(NodePathComparator.INSTANCE);</a>
 <span class="sourceLineNo">115</span><a id="line.115">        }</a>
 <span class="sourceLineNo">116</span><a id="line.116"></a>
 <span class="sourceLineNo">117</span><a id="line.117">        /**</a>

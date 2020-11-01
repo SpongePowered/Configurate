@@ -230,81 +230,79 @@
 <span class="sourceLineNo">221</span><a id="line.221">        boolean written = false;</a>
 <span class="sourceLineNo">222</span><a id="line.222">        JsonToken token;</a>
 <span class="sourceLineNo">223</span><a id="line.223">        while ((token = parser.nextToken()) != null) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">            switch (token) {</a>
-<span class="sourceLineNo">225</span><a id="line.225">                case END_ARRAY:</a>
-<span class="sourceLineNo">226</span><a id="line.226">                    // ensure the type is preserved</a>
-<span class="sourceLineNo">227</span><a id="line.227">                    if (!written) {</a>
-<span class="sourceLineNo">228</span><a id="line.228">                        node.raw(Collections.emptyList());</a>
-<span class="sourceLineNo">229</span><a id="line.229">                    }</a>
-<span class="sourceLineNo">230</span><a id="line.230">                    return;</a>
-<span class="sourceLineNo">231</span><a id="line.231">                default:</a>
-<span class="sourceLineNo">232</span><a id="line.232">                    parseValue(parser, node.appendListNode());</a>
-<span class="sourceLineNo">233</span><a id="line.233">                    written = true;</a>
-<span class="sourceLineNo">234</span><a id="line.234">            }</a>
-<span class="sourceLineNo">235</span><a id="line.235">        }</a>
-<span class="sourceLineNo">236</span><a id="line.236">        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);</a>
-<span class="sourceLineNo">237</span><a id="line.237">    }</a>
-<span class="sourceLineNo">238</span><a id="line.238"></a>
-<span class="sourceLineNo">239</span><a id="line.239">    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {</a>
-<span class="sourceLineNo">240</span><a id="line.240">        boolean written = false;</a>
-<span class="sourceLineNo">241</span><a id="line.241">        JsonToken token;</a>
-<span class="sourceLineNo">242</span><a id="line.242">        while ((token = parser.nextToken()) != null) {</a>
-<span class="sourceLineNo">243</span><a id="line.243">            if (token == JsonToken.END_OBJECT) { // ensure the type is preserved</a>
-<span class="sourceLineNo">244</span><a id="line.244">                if (!written) {</a>
-<span class="sourceLineNo">245</span><a id="line.245">                    node.raw(Collections.emptyMap());</a>
-<span class="sourceLineNo">246</span><a id="line.246">                }</a>
-<span class="sourceLineNo">247</span><a id="line.247">                return;</a>
-<span class="sourceLineNo">248</span><a id="line.248">            } else {</a>
-<span class="sourceLineNo">249</span><a id="line.249">                parseValue(parser, node.node(parser.getCurrentName()));</a>
-<span class="sourceLineNo">250</span><a id="line.250">                written = true;</a>
-<span class="sourceLineNo">251</span><a id="line.251">            }</a>
-<span class="sourceLineNo">252</span><a id="line.252">        }</a>
-<span class="sourceLineNo">253</span><a id="line.253">        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed object!", null);</a>
-<span class="sourceLineNo">254</span><a id="line.254">    }</a>
-<span class="sourceLineNo">255</span><a id="line.255"></a>
-<span class="sourceLineNo">256</span><a id="line.256">    @Override</a>
-<span class="sourceLineNo">257</span><a id="line.257">    public void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
-<span class="sourceLineNo">258</span><a id="line.258">        try (JsonGenerator generator = this.factory.createGenerator(writer)) {</a>
-<span class="sourceLineNo">259</span><a id="line.259">            generator.setPrettyPrinter(new ConfiguratePrettyPrinter(this.indent, this.fieldValueSeparatorStyle));</a>
-<span class="sourceLineNo">260</span><a id="line.260">            node.visit(JacksonVisitor.INSTANCE.get(), generator);</a>
-<span class="sourceLineNo">261</span><a id="line.261">            writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default</a>
-<span class="sourceLineNo">262</span><a id="line.262">        } catch (final IOException ex) {</a>
-<span class="sourceLineNo">263</span><a id="line.263">            throw new ConfigurateException(ex);</a>
-<span class="sourceLineNo">264</span><a id="line.264">        }</a>
-<span class="sourceLineNo">265</span><a id="line.265">    }</a>
-<span class="sourceLineNo">266</span><a id="line.266"></a>
-<span class="sourceLineNo">267</span><a id="line.267">    @Override</a>
-<span class="sourceLineNo">268</span><a id="line.268">    public BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {</a>
-<span class="sourceLineNo">269</span><a id="line.269">        return BasicConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
-<span class="sourceLineNo">270</span><a id="line.270">    }</a>
-<span class="sourceLineNo">271</span><a id="line.271"></a>
-<span class="sourceLineNo">272</span><a id="line.272">    private static ParsingException newException(final ConfigurationNode node,</a>
-<span class="sourceLineNo">273</span><a id="line.273">            final JsonLocation position,</a>
-<span class="sourceLineNo">274</span><a id="line.274">            final @Nullable String content,</a>
-<span class="sourceLineNo">275</span><a id="line.275">            final @Nullable String message,</a>
-<span class="sourceLineNo">276</span><a id="line.276">            final @Nullable Throwable cause) {</a>
-<span class="sourceLineNo">277</span><a id="line.277">        @Nullable String context = content == null ? null : content.substring((int) position.getCharOffset());</a>
-<span class="sourceLineNo">278</span><a id="line.278">        if (context != null) {</a>
-<span class="sourceLineNo">279</span><a id="line.279">            int nextLine = context.indexOf('\n');</a>
-<span class="sourceLineNo">280</span><a id="line.280">            if (nextLine == -1) {</a>
-<span class="sourceLineNo">281</span><a id="line.281">                nextLine = context.length();</a>
-<span class="sourceLineNo">282</span><a id="line.282">            } else if (context.charAt(nextLine - 1) == '\r') {</a>
-<span class="sourceLineNo">283</span><a id="line.283">                nextLine--;</a>
-<span class="sourceLineNo">284</span><a id="line.284">            }</a>
-<span class="sourceLineNo">285</span><a id="line.285"></a>
-<span class="sourceLineNo">286</span><a id="line.286">            if (nextLine &gt; MAX_CTX_LENGTH) {</a>
-<span class="sourceLineNo">287</span><a id="line.287">                context = context.substring(0, MAX_CTX_LENGTH) + "...";</a>
-<span class="sourceLineNo">288</span><a id="line.288">            } else {</a>
-<span class="sourceLineNo">289</span><a id="line.289">                context = context.substring(0, nextLine);</a>
-<span class="sourceLineNo">290</span><a id="line.290">            }</a>
-<span class="sourceLineNo">291</span><a id="line.291">        }</a>
-<span class="sourceLineNo">292</span><a id="line.292">        // no newline: set to length</a>
-<span class="sourceLineNo">293</span><a id="line.293">        // too long: truncate</a>
-<span class="sourceLineNo">294</span><a id="line.294">        // otherwise: trim to position of next newline</a>
-<span class="sourceLineNo">295</span><a id="line.295">        return new ParsingException(node, position.getLineNr(), position.getColumnNr(), context, message, cause);</a>
-<span class="sourceLineNo">296</span><a id="line.296">    }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">}</a>
+<span class="sourceLineNo">224</span><a id="line.224">            if (token == JsonToken.END_ARRAY) { // ensure the type is preserved</a>
+<span class="sourceLineNo">225</span><a id="line.225">                if (!written) {</a>
+<span class="sourceLineNo">226</span><a id="line.226">                    node.raw(Collections.emptyList());</a>
+<span class="sourceLineNo">227</span><a id="line.227">                }</a>
+<span class="sourceLineNo">228</span><a id="line.228">                return;</a>
+<span class="sourceLineNo">229</span><a id="line.229">            } else {</a>
+<span class="sourceLineNo">230</span><a id="line.230">                parseValue(parser, node.appendListNode());</a>
+<span class="sourceLineNo">231</span><a id="line.231">                written = true;</a>
+<span class="sourceLineNo">232</span><a id="line.232">            }</a>
+<span class="sourceLineNo">233</span><a id="line.233">        }</a>
+<span class="sourceLineNo">234</span><a id="line.234">        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);</a>
+<span class="sourceLineNo">235</span><a id="line.235">    }</a>
+<span class="sourceLineNo">236</span><a id="line.236"></a>
+<span class="sourceLineNo">237</span><a id="line.237">    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {</a>
+<span class="sourceLineNo">238</span><a id="line.238">        boolean written = false;</a>
+<span class="sourceLineNo">239</span><a id="line.239">        JsonToken token;</a>
+<span class="sourceLineNo">240</span><a id="line.240">        while ((token = parser.nextToken()) != null) {</a>
+<span class="sourceLineNo">241</span><a id="line.241">            if (token == JsonToken.END_OBJECT) { // ensure the type is preserved</a>
+<span class="sourceLineNo">242</span><a id="line.242">                if (!written) {</a>
+<span class="sourceLineNo">243</span><a id="line.243">                    node.raw(Collections.emptyMap());</a>
+<span class="sourceLineNo">244</span><a id="line.244">                }</a>
+<span class="sourceLineNo">245</span><a id="line.245">                return;</a>
+<span class="sourceLineNo">246</span><a id="line.246">            } else {</a>
+<span class="sourceLineNo">247</span><a id="line.247">                parseValue(parser, node.node(parser.getCurrentName()));</a>
+<span class="sourceLineNo">248</span><a id="line.248">                written = true;</a>
+<span class="sourceLineNo">249</span><a id="line.249">            }</a>
+<span class="sourceLineNo">250</span><a id="line.250">        }</a>
+<span class="sourceLineNo">251</span><a id="line.251">        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed object!", null);</a>
+<span class="sourceLineNo">252</span><a id="line.252">    }</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">    @Override</a>
+<span class="sourceLineNo">255</span><a id="line.255">    public void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
+<span class="sourceLineNo">256</span><a id="line.256">        try (JsonGenerator generator = this.factory.createGenerator(writer)) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">            generator.setPrettyPrinter(new ConfiguratePrettyPrinter(this.indent, this.fieldValueSeparatorStyle));</a>
+<span class="sourceLineNo">258</span><a id="line.258">            node.visit(JacksonVisitor.INSTANCE.get(), generator);</a>
+<span class="sourceLineNo">259</span><a id="line.259">            writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default</a>
+<span class="sourceLineNo">260</span><a id="line.260">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">261</span><a id="line.261">            throw new ConfigurateException(ex);</a>
+<span class="sourceLineNo">262</span><a id="line.262">        }</a>
+<span class="sourceLineNo">263</span><a id="line.263">    }</a>
+<span class="sourceLineNo">264</span><a id="line.264"></a>
+<span class="sourceLineNo">265</span><a id="line.265">    @Override</a>
+<span class="sourceLineNo">266</span><a id="line.266">    public BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {</a>
+<span class="sourceLineNo">267</span><a id="line.267">        return BasicConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">268</span><a id="line.268">    }</a>
+<span class="sourceLineNo">269</span><a id="line.269"></a>
+<span class="sourceLineNo">270</span><a id="line.270">    private static ParsingException newException(final ConfigurationNode node,</a>
+<span class="sourceLineNo">271</span><a id="line.271">            final JsonLocation position,</a>
+<span class="sourceLineNo">272</span><a id="line.272">            final @Nullable String content,</a>
+<span class="sourceLineNo">273</span><a id="line.273">            final @Nullable String message,</a>
+<span class="sourceLineNo">274</span><a id="line.274">            final @Nullable Throwable cause) {</a>
+<span class="sourceLineNo">275</span><a id="line.275">        @Nullable String context = content == null ? null : content.substring((int) position.getCharOffset());</a>
+<span class="sourceLineNo">276</span><a id="line.276">        if (context != null) {</a>
+<span class="sourceLineNo">277</span><a id="line.277">            int nextLine = context.indexOf('\n');</a>
+<span class="sourceLineNo">278</span><a id="line.278">            if (nextLine == -1) {</a>
+<span class="sourceLineNo">279</span><a id="line.279">                nextLine = context.length();</a>
+<span class="sourceLineNo">280</span><a id="line.280">            } else if (context.charAt(nextLine - 1) == '\r') {</a>
+<span class="sourceLineNo">281</span><a id="line.281">                nextLine--;</a>
+<span class="sourceLineNo">282</span><a id="line.282">            }</a>
+<span class="sourceLineNo">283</span><a id="line.283"></a>
+<span class="sourceLineNo">284</span><a id="line.284">            if (nextLine &gt; MAX_CTX_LENGTH) {</a>
+<span class="sourceLineNo">285</span><a id="line.285">                context = context.substring(0, MAX_CTX_LENGTH) + "...";</a>
+<span class="sourceLineNo">286</span><a id="line.286">            } else {</a>
+<span class="sourceLineNo">287</span><a id="line.287">                context = context.substring(0, nextLine);</a>
+<span class="sourceLineNo">288</span><a id="line.288">            }</a>
+<span class="sourceLineNo">289</span><a id="line.289">        }</a>
+<span class="sourceLineNo">290</span><a id="line.290">        // no newline: set to length</a>
+<span class="sourceLineNo">291</span><a id="line.291">        // too long: truncate</a>
+<span class="sourceLineNo">292</span><a id="line.292">        // otherwise: trim to position of next newline</a>
+<span class="sourceLineNo">293</span><a id="line.293">        return new ParsingException(node, position.getLineNr(), position.getColumnNr(), context, message, cause);</a>
+<span class="sourceLineNo">294</span><a id="line.294">    }</a>
+<span class="sourceLineNo">295</span><a id="line.295"></a>
+<span class="sourceLineNo">296</span><a id="line.296">}</a>
 
 
 
