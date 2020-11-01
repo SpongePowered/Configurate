@@ -128,7 +128,7 @@ sourceSets.configureEach set@{
             }
 
             val text = project.resources.text.fromFile(outputFile).asString()
-            if (!text.isEmpty) {
+            if (!text.isEmpty()) {
                 logger.error(text)
                 throw GradleException("Found duplication in source set $name!")
             }
