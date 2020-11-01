@@ -36,6 +36,9 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 
+    MapSerializer() {
+    }
+
     @Override
     public Map<?, ?> deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         final Map<Object, Object> ret = new LinkedHashMap<>();

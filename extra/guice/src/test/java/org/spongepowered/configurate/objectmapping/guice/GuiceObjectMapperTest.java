@@ -29,9 +29,6 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-/**
- * Created by zml on 7/5/15.
- */
 public class GuiceObjectMapperTest {
 
     private static class TestModule extends AbstractModule {

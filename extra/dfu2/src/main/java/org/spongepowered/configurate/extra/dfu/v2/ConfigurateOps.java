@@ -106,13 +106,10 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
 
     @Override
     public Type<?> getType(final ConfigurationNode input) {
-        if (input == null) {
-            throw new NullPointerException("input is null");
-        }
+        requireNonNull(input, "input");
 
         if (input.isMap()) {
             return DSL.compoundList(DSL.remainderType(), DSL.remainderType());
-
         } else if (input.isList()) {
             return DSL.list(DSL.remainderType());
         } else {

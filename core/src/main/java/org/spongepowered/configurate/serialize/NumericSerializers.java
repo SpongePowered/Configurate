@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import java.util.Locale;
 import java.util.function.BiFunction;
 
 /**
@@ -279,7 +280,7 @@ final class NumericSerializers {
         int endIdx = input.length();
 
         // type suffix
-        if (input.endsWith(suffix) || input.endsWith(suffix.toUpperCase())) {
+        if (input.endsWith(suffix) || input.endsWith(suffix.toUpperCase(Locale.ROOT))) {
             --endIdx;
         }
 
@@ -289,13 +290,13 @@ final class NumericSerializers {
             --endIdx;
         }
 
-        if (input.startsWith("-", startIdx)) {
+        if (endIdx > startIdx && input.charAt(startIdx) == '-') {
             if (unsigned) {
                 throw new SerializationException("Negative numbers cannot be unsigned! (both - prefix and u suffix were used)");
             }
             negative = true;
             ++startIdx;
-        } else if (input.startsWith("+", startIdx)) { // skip, positive is the default
+        } else if (endIdx > startIdx && input.charAt(startIdx) == '+') { // skip, positive is the default
             ++startIdx;
         }
 
@@ -304,7 +305,7 @@ final class NumericSerializers {
         if (input.startsWith("0x", startIdx)) { // hex
             radix = 16;
             startIdx += 2;
-        } else if (input.startsWith("#", startIdx)) { // hex
+        } else if (input.length() > startIdx && input.charAt(startIdx) == '#') { // hex
             radix = 16;
             ++startIdx;
         } else if (input.startsWith("0b", startIdx)) { // binary

@@ -33,6 +33,9 @@ final class PathSerializer implements TypeSerializer<Path> {
     static final PathSerializer INSTANCE = new PathSerializer();
     static final Class<Path> TYPE = Path.class;
 
+    private PathSerializer() {
+    }
+
     @Override
     public Path deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         if (node.isList()) {

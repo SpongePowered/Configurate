@@ -27,11 +27,14 @@ import org.spongepowered.configurate.transformation.NodePath;
 
 import java.io.IOException;
 
-class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, ConfigurateException> {
+final class GsonVisitor implements ConfigurationVisitor<JsonWriter, Void, ConfigurateException> {
 
     static final ThreadLocal<GsonVisitor> INSTANCE = ThreadLocal.withInitial(GsonVisitor::new);
 
     private @Nullable ConfigurationNode start;
+
+    private GsonVisitor() {
+    }
 
     @Override
     public JsonWriter newState() {

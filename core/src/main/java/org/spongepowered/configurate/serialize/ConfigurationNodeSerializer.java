@@ -34,6 +34,9 @@ class ConfigurationNodeSerializer implements TypeSerializer<ConfigurationNode> {
 
     static final Class<ConfigurationNode> TYPE = ConfigurationNode.class;
 
+    ConfigurationNodeSerializer() {
+    }
+
     @Override
     public ConfigurationNode deserialize(final Type type, final ConfigurationNode node) {
         return node.copy();

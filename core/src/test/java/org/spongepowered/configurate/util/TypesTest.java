@@ -95,12 +95,16 @@ public class TypesTest {
     static class ParamHolder<A, B, C, D, E, F> {
     }
 
-    @SuppressWarnings("UnusedVariable")
-    private final @Nullable ParamHolder<? extends Executable, ? extends AccessibleObject, ? extends Member, ? extends GenericDeclaration, ?
+    private static final @Nullable ParamHolder<? extends Executable, ? extends AccessibleObject, ? extends Member, ? extends GenericDeclaration, ?
             extends AnnotatedElement, ?> wildcardHolder = null;
 
     @Test
     void testWildcardTypes() throws NoSuchFieldException {
+        //noinspection ConstantConditions
+        if (wildcardHolder != null) {
+            // Make the variable appear as used
+            throw new AssertionError();
+        }
         final Type[] hierarchy =
                 ((ParameterizedType) this.getClass().getDeclaredField("wildcardHolder").getGenericType()).getActualTypeArguments();
         final Type base = hierarchy[0];

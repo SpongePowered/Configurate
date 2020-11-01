@@ -20,7 +20,12 @@ import static org.spongepowered.configurate.transformation.ConfigurationTransfor
 
 import java.util.Comparator;
 
-class NodePathComparator implements Comparator<NodePath> {
+final class NodePathComparator implements Comparator<NodePath> {
+
+    static final NodePathComparator INSTANCE = new NodePathComparator();
+
+    private NodePathComparator() {
+    }
 
     @Override
     public int compare(final NodePath pathA, final NodePath pathB) {

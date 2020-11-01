@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -53,7 +54,7 @@ public final class EnumLookup {
 
     private static String processKey(final String key) {
         // stick a flower at the front so processed keys are different from literal keys
-        return "🌸" + key.toLowerCase().replace("_", "");
+        return "🌸" + key.toLowerCase(Locale.ROOT).replace("_", "");
     }
 
     /**

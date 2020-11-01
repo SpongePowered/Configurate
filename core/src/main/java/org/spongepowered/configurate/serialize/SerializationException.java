@@ -39,7 +39,6 @@ public class SerializationException extends ConfigurateException {
      * @since 4.0.0
      */
     public SerializationException() {
-        this.expectedType = null;
     }
 
     /**

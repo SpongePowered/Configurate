@@ -29,6 +29,9 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
     static final TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
 
+    SetSerializer() {
+    }
+
     @Override
     Type elementType(final Type containerType) throws SerializationException {
         if (!(containerType instanceof ParameterizedType)) {

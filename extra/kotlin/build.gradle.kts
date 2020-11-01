@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.spongepowered.configurate.build.core
@@ -5,6 +6,7 @@ import org.spongepowered.configurate.build.core
 plugins {
     kotlin("jvm")
     id("org.jetbrains.dokka")
+    id("io.gitlab.arturbosch.detekt")
     id("org.spongepowered.configurate.build.component")
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -25,6 +27,10 @@ tasks.withType(DokkaTask::class).configureEach {
         jdkVersion.set(8)
         reportUndocumented.set(true)
     }
+}
+
+tasks.withType(Detekt::class).configureEach {
+    config.setFrom(rootProject.file(".detekt/detekt.yml"))
 }
 
 dependencies {

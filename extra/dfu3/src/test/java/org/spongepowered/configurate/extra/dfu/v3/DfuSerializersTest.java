@@ -72,7 +72,7 @@ public class DfuSerializersTest {
             n.appendListNode().raw(8);
         });
 
-        final Vector3i pos = testElement.get(VEC3I_TYPE);
+        final @Nullable Vector3i pos = testElement.get(VEC3I_TYPE);
 
         assertEquals(new Vector3i(4, 5, 8), pos);
     }

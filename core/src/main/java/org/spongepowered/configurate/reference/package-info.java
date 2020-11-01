@@ -37,7 +37,7 @@
  * be used independently from the other components for any situation where file
  * watching is necessary.
  */
-@DefaultQualifier(value = NonNull.class)
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.reference;
 
 import org.checkerframework.checker.nullness.qual.NonNull;

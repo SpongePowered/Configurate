@@ -221,16 +221,14 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
-            switch (token) {
-                case END_ARRAY:
-                    // ensure the type is preserved
-                    if (!written) {
-                        node.raw(Collections.emptyList());
-                    }
-                    return;
-                default:
-                    parseValue(parser, node.appendListNode());
-                    written = true;
+            if (token == JsonToken.END_ARRAY) { // ensure the type is preserved
+                if (!written) {
+                    node.raw(Collections.emptyList());
+                }
+                return;
+            } else {
+                parseValue(parser, node.appendListNode());
+                written = true;
             }
         }
         throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);

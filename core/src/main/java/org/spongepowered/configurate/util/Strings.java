@@ -53,4 +53,23 @@ public final class Strings {
         }
     }
 
+    /**
+     * Return if the input string is empty or has no non-whitespace characters.
+     *
+     * <p>This matches the behaviour of {@code String.isBlank()}
+     * in Java 11+.</p>
+     *
+     * @param test input string to test
+     * @return if the input string is blank
+     * @since 4.0.0
+     */
+    public static boolean isBlank(final String test) {
+        for (int i = 0, len = test.length(); i < len; ++i) {
+            if (!Character.isWhitespace(test.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

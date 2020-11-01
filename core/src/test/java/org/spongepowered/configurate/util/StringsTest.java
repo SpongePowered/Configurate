@@ -14,17 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate;
+package org.spongepowered.configurate.util;
 
-/**
- * Placeholder exception, not to be thrown.
- */
-final class VisitorSafeNoopException extends Exception {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    private static final long serialVersionUID = 3031624503762201856L;
+import org.junit.jupiter.api.Test;
 
-    VisitorSafeNoopException() {
-        throw new AssertionError();
+public class StringsTest {
+
+    @Test
+    void testEmptyIsBlank() {
+        assertTrue(Strings.isBlank(""));
+    }
+
+    @Test
+    void testSpacesIsBlank() {
+        assertTrue(Strings.isBlank(" \r\n\t"));
+    }
+
+    @Test
+    void testContentIsNonBlank() {
+        assertFalse(Strings.isBlank("asdf"));
     }
 
 }
