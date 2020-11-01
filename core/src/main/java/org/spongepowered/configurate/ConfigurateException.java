@@ -42,7 +42,6 @@ public class ConfigurateException extends Exception {
      * @since 4.0.0
      */
     public ConfigurateException() {
-        this.path = null;
     }
 
     /**
@@ -54,7 +53,6 @@ public class ConfigurateException extends Exception {
      */
     public ConfigurateException(final String message) {
         super(message);
-        this.path = null;
     }
 
     /**
@@ -65,7 +63,6 @@ public class ConfigurateException extends Exception {
      */
     public ConfigurateException(final Throwable cause) {
         super(cause);
-        this.path = null;
     }
 
     /**
@@ -77,7 +74,6 @@ public class ConfigurateException extends Exception {
      */
     public ConfigurateException(final @Nullable String message, final @Nullable Throwable cause) {
         super(message, cause);
-        this.path = null;
     }
 
     /**

@@ -29,6 +29,9 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
 
     static final TypeToken<List<?>> TYPE = new TypeToken<List<?>>() {};
 
+    ListSerializer() {
+    }
+
     @Override
     Type elementType(final Type containerType) throws SerializationException {
         if (!(containerType instanceof ParameterizedType)) {

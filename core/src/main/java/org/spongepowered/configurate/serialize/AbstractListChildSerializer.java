@@ -34,6 +34,9 @@ import java.util.List;
  */
 abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
+    protected AbstractListChildSerializer() {
+    }
+
     @Override
     public T deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         final Type entryType = elementType(type);

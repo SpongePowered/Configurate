@@ -35,6 +35,10 @@ abstract class Definition<A extends Annotation, T, F> {
         return new AutoValue_Definition<>(annotation, type, factory);
     }
 
+    Definition() {
+        // for auto-value use
+    }
+
     /**
      * Marker annotation type.
      *

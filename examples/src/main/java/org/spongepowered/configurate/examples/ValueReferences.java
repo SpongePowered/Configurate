@@ -158,6 +158,11 @@ public class ValueReferences {
         }
     }
 
+    public void close() throws IOException {
+        this.base.close();
+        this.listener.close();
+    }
+
     public static void main(final String[] args) {
         if (args.length != 1) {
             System.err.println("Usage: ./reference-example <file>");
@@ -165,7 +170,9 @@ public class ValueReferences {
         }
         final Path path = Paths.get(args[0]);
         try {
-            new ValueReferences(path).repl();
+            final ValueReferences engine = new ValueReferences(path);
+            engine.repl();
+            engine.close();
         } catch (IOException | ConfigurateException e) {
             System.out.println("Error loading configuration: " + e.getMessage());
             e.printStackTrace();

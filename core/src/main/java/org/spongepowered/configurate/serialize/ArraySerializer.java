@@ -32,6 +32,9 @@ import java.lang.reflect.Type;
  */
 abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
 
+    ArraySerializer() {
+    }
+
     @Override
     Type elementType(final Type containerType) throws SerializationException {
         final Type componentType = GenericTypeReflector.getArrayComponentType(containerType);

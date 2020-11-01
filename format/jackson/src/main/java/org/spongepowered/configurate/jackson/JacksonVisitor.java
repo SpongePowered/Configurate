@@ -24,11 +24,14 @@ import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
-class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, ConfigurateException> {
+final class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, ConfigurateException> {
 
     static final ThreadLocal<JacksonVisitor> INSTANCE = ThreadLocal.withInitial(JacksonVisitor::new);
 
     private @Nullable ConfigurationNode start;
+
+    private JacksonVisitor() {
+    }
 
     @Override
     public JsonGenerator newState() {

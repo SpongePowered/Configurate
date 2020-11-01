@@ -276,7 +276,7 @@ public final class Types {
             return head;
         }
 
-        private void addAllIfUnseen(final Type base, final Type[] types) {
+        private void addAllIfUnseen(final Type base, final Type... types) {
             for (final Type type : types) {
                 addIfUnseen(resolveType(type, base));
             }

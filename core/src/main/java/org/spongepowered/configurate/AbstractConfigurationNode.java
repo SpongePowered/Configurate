@@ -632,9 +632,9 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     public final <S, T> T visit(final ConfigurationVisitor.Safe<S, T> visitor, final S state) {
         try {
             return visitInternal(visitor, state);
-        } catch (final VisitorSafeNoopException e) {
+        } catch (final VisitorSafeNoopException ex) {
             // this exception should never be thrown, has a private constructor
-            throw new AssertionError("Exception was thrown on a Safe visitor");
+            throw new AssertionError("Exception was thrown on a Safe visitor", ex);
         }
     }
 

@@ -111,7 +111,7 @@ public interface ConfigurationTransformation {
         private final NavigableMap<NodePath, TransformAction> actions;
 
         Builder() {
-            this.actions = new TreeMap<>(new NodePathComparator());
+            this.actions = new TreeMap<>(NodePathComparator.INSTANCE);
         }
 
         /**

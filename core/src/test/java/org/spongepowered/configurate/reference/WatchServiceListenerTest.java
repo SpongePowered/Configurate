@@ -79,7 +79,7 @@ public class WatchServiceListenerTest {
                     return;
                 }
                 notified.set(true);
-                condition.notify();
+                condition.notifyAll();
                 if (oldVal >= 1) {
                     disposer.get().dispose();
                 }

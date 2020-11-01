@@ -221,17 +221,16 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         boolean written = false;
         @Nullable JsonToken token;
         while ((token = parser.peek()) != null) {
-            switch (token) {
-                case END_ARRAY:
-                    parser.endArray();
-                    // ensure the type is preserved
-                    if (!written) {
-                        node.raw(Collections.emptyList());
-                    }
-                    return;
-                default:
-                    parseValue(parser, node.appendListNode());
-                    written = true;
+            if (token == JsonToken.END_ARRAY) {
+                parser.endArray();
+                // ensure the type is preserved
+                if (!written) {
+                    node.raw(Collections.emptyList());
+                }
+                return;
+            } else {
+                parseValue(parser, node.appendListNode());
+                written = true;
             }
         }
         throw newException(parser, node, "Reached end of stream with unclosed array!", null);
@@ -281,9 +280,8 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
-    public BasicConfigurationNode createNode(ConfigurationOptions options) {
-        options = options.nativeTypes(NATIVE_TYPES);
-        return BasicConfigurationNode.root(options);
+    public BasicConfigurationNode createNode(final ConfigurationOptions options) {
+        return BasicConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));
     }
 
 }

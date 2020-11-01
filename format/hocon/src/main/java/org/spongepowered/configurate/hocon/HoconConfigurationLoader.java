@@ -205,6 +205,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
                 return;
             default:
                 node.raw(value.unwrapped());
+                break;
         }
     }
 

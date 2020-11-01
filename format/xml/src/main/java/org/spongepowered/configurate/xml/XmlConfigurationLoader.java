@@ -410,7 +410,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
                         line = line.substring(line.indexOf(HEADER_PREFIX) + 1);
                     }
 
-                    if (line.startsWith(" ")) {
+                    if (line.length() > 0 && line.charAt(0) == ' ') {
                         line = line.substring(1);
                     }
                     return line;

@@ -69,6 +69,8 @@ final class JsonReaderAccess {
 
         try {
             return (int) JSON_READER_LINE_NUMBER.invoke(reader) + 1;
+        } catch (final Error err) {
+            throw err;
         } catch (final Throwable throwable) {
             return VALUE_UNKNOWN;
         }
@@ -83,6 +85,8 @@ final class JsonReaderAccess {
             final int pos = (int) JSON_READER_POS.invoke(reader);
             final int lineStart = (int) JSON_READER_LINE_START.invoke(reader);
             return pos - lineStart + 1;
+        } catch (final Error err) {
+            throw err;
         } catch (final Throwable thr) {
             return VALUE_UNKNOWN;
         }
