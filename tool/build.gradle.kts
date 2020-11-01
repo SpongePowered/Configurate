@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.spongepowered.configurate.build.format
 
@@ -5,6 +6,7 @@ plugins {
     application
     kotlin("jvm")
     id("org.spongepowered.configurate.build.component")
+    id("io.gitlab.arturbosch.detekt")
 }
 
 dependencies {
@@ -35,6 +37,10 @@ tasks.jar {
             )
         )
     }
+}
+
+tasks.withType(Detekt::class).configureEach {
+    config.setFrom(rootProject.file(".detekt/detekt.yml"))
 }
 
 application {

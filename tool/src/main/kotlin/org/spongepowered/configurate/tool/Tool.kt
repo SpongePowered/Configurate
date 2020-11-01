@@ -49,7 +49,9 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystems
 
+const val DEFAULT_INDENT = 4
 val HAS_UTF8 = Charset.defaultCharset() == StandardCharsets.UTF_8
+val NEWLINE = Regex("(\r?\n)")
 
 const val INDENT = "  "
 
@@ -173,6 +175,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                 write(heading("Comment"), SPLIT, it)
             }
         }
+
         when {
             node.isList -> node.childrenList().iterator().also {
                 while (it.hasNext()) {
@@ -191,15 +194,11 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             }
             else -> {
                 val value = node.rawScalar()
-                if (value != null) {
-                    write(
-                        heading("Value"), SPLIT,
-                        "@|green ${value.toString().replace(Regex("(\r?\n)"), "$1$prefix    ")}|@",
-                        "@|black,bold (a ${value::class.qualifiedName}) |@"
-                    )
-                } else {
-                    write(heading("Value: "), SPLIT, "@|black,bold (null)|@")
-                }
+                write(
+                    heading("Value"), SPLIT,
+                    "@|green ${value.toString().replace(NEWLINE, "$1$prefix    ")}|@",
+                    if (value != null) "@|black,bold (a ${value::class.qualifiedName}) |@" else ""
+                )
             }
         }
     }
@@ -224,7 +223,7 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 }
 
 class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
-    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
+    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(DEFAULT_INDENT)
     private val flowStyle by option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return YamlConfigurationLoader.builder()
@@ -238,7 +237,7 @@ class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
 
 class Json : FormatSubcommand<BasicConfigurationNode>("JSON") {
     private val lenient by option("-l", "--lenient", help = "Parse JSON leniently").flag("-L", "--strict", default = true)
-    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(4)
+    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(DEFAULT_INDENT)
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return GsonConfigurationLoader.builder()
             .path(path)
