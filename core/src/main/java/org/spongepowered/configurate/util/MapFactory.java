@@ -17,10 +17,9 @@
 package org.spongepowered.configurate.util;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
 /**
- * A factory which creates {@link ConcurrentMap} instances.
+ * A factory which creates thread-safe map instances.
  *
  * @since 4.0.0
  */

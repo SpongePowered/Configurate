@@ -64,7 +64,7 @@ public final class Tutorial {
         System.out.println("Thanks for viewing your messages");
 
         // Update values
-        countNode.set(0); // native type
+        countNode.raw(0); // native type
         moodNode.set(Mood.class, Mood.NEUTRAL); // serialized type
 
         root.node("accesses").act(n -> {
