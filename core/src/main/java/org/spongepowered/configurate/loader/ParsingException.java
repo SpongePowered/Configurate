@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -39,6 +40,25 @@ public class ParsingException extends ConfigurateException {
 
     private static final char POSITION_MARKER = '^';
     private static final long serialVersionUID = 8379206111053602577L;
+
+    /**
+     * Given an unknown {@link IOException}, return it as a Configurate type.
+     *
+     * <p>If the input {@code ex} is already a {@link ParsingException},
+     * this method returns the input value.</p>
+     *
+     * @param source node where the source exception was thrown
+     * @param ex the source exception
+     * @return an exception, either casted or wrapped
+     * @since 4.0.0
+     */
+    public static ParsingException wrap(final ConfigurationNode source, final IOException ex) {
+        if (ex instanceof ParsingException) {
+            return (ParsingException) ex;
+        } else {
+            return new ParsingException(source, -1, -1, null, null, ex);
+        }
+    }
 
     private final int line;
     private final int column;

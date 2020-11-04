@@ -144,12 +144,15 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                 return;
             }
             reader.reset();
-            try (JsonReader parser = new JsonReader(reader)) {
-                parser.setLenient(this.lenient);
-                parseValue(parser, node);
-            }
         } catch (final IOException ex) {
             throw new ParsingException(node, 0, 0, null, "peeking file size", ex);
+        }
+
+        try (JsonReader parser = new JsonReader(reader)) {
+            parser.setLenient(this.lenient);
+            parseValue(parser, node);
+        } catch (final IOException ex) {
+            throw ParsingException.wrap(node, ex);
         }
     }
 
@@ -189,11 +192,11 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
             }
         } catch (final JsonParseException | MalformedJsonException ex) {
             throw newException(parser, node, ex.getMessage(), ex.getCause());
-        } catch (final IOException ex) {
-            throw newException(parser, node, "An underlying exception occurred", ex);
         } catch (final ParsingException ex) {
             ex.initPath(node::path);
             throw ex;
+        } catch (final IOException ex) {
+            throw newException(parser, node, "An underlying exception occurred", ex);
         }
     }
 
@@ -215,7 +218,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         return nextLong;
     }
 
-    private void parseArray(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {
+    private void parseArray(final JsonReader parser, final BasicConfigurationNode node) throws IOException {
         parser.beginArray();
 
         boolean written = false;
@@ -275,7 +278,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                 writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
             }
         } catch (final IOException ex) {
-            throw new ConfigurateException(node, ex);
+            throw ConfigurateException.wrap(node, ex);
         }
     }
 

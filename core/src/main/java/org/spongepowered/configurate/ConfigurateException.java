@@ -19,6 +19,7 @@ package org.spongepowered.configurate;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.transformation.NodePath;
 
+import java.io.IOException;
 import java.util.function.Supplier;
 
 /**
@@ -30,11 +31,30 @@ import java.util.function.Supplier;
  *
  * @since 4.0.0
  */
-public class ConfigurateException extends Exception {
+public class ConfigurateException extends IOException {
 
     private static final long serialVersionUID = 1635526451813128733L;
 
     private @Nullable Supplier<NodePath> path;
+
+    /**
+     * Given an unknown {@link IOException}, return it as a Configurate type.
+     *
+     * <p>If the input {@code ex} is already a {@link ConfigurateException},
+     * this method returns the input value.</p>
+     *
+     * @param source node where the source exception was thrown
+     * @param ex the source exception
+     * @return an exception, either casted or wrapped
+     * @since 4.0.0
+     */
+    public static ConfigurateException wrap(final ConfigurationNode source, final IOException ex) {
+        if (ex instanceof ConfigurateException) {
+            return (ConfigurateException) ex;
+        } else {
+            return new ConfigurateException(source, ex);
+        }
+    }
 
     /**
      * Create a new unknown exception.

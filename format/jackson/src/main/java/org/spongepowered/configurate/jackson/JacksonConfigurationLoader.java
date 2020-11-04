@@ -168,11 +168,11 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         } catch (final StreamReadException ex) {
             throw newException(node, ex.getLocation(), ex.getRequestPayloadAsString(), ex.getMessage(), ex.getCause());
         } catch (final IOException ex) {
-            throw new ParsingException(node, -1, -1, null, null, ex);
+            throw ParsingException.wrap(node, ex);
         }
     }
 
-    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {
+    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException {
         try {
             final JsonToken token = parser.getCurrentToken();
             switch (token) {
@@ -217,7 +217,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         }
     }
 
-    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {
+    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -234,7 +234,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);
     }
 
-    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {
+    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException {
         boolean written = false;
         JsonToken token;
         while ((token = parser.nextToken()) != null) {
@@ -258,7 +258,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
             node.visit(JacksonVisitor.INSTANCE.get(), generator);
             writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default
         } catch (final IOException ex) {
-            throw new ConfigurateException(ex);
+            throw ConfigurateException.wrap(node, ex);
         }
     }
 

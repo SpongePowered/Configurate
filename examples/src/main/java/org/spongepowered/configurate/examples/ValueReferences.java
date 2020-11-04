@@ -173,7 +173,7 @@ public class ValueReferences {
             final ValueReferences engine = new ValueReferences(path);
             engine.repl();
             engine.close();
-        } catch (IOException | ConfigurateException e) {
+        } catch (final IOException e) { // may be a ConfigurateException, or something else
             System.out.println("Error loading configuration: " + e.getMessage());
             e.printStackTrace();
         }
