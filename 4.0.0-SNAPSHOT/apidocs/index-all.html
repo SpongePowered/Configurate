@@ -2133,7 +2133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><a href="org/spongepowered/configurate/util/MapFactory.html" title="interface in org.spongepowered.configurate.util"><span class="typeNameLink">MapFactory</span></a> - Interface in <a href="org/spongepowered/configurate/util/package-summary.html">org.spongepowered.configurate.util</a></dt>
 <dd>
-<div class="block">A factory which creates <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentMap</code></a> instances.</div>
+<div class="block">A factory which creates thread-safe map instances.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/ObjectMapper.html#mappedType()">mappedType()</a></span> - Method in interface org.spongepowered.configurate.objectmapping.<a href="org/spongepowered/configurate/objectmapping/ObjectMapper.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper</a></dt>
 <dd>
@@ -3736,6 +3736,14 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/extra/dfu/v4/ConfigurateOps.html#wrap(org.spongepowered.configurate.ConfigurationNode)">wrap(ConfigurationNode)</a></span> - Static method in class org.spongepowered.configurate.extra.dfu.v4.<a href="org/spongepowered/configurate/extra/dfu/v4/ConfigurateOps.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps</a></dt>
 <dd>
 <div class="block">Wrap a ConfigurationNode in a <a href="https://kvverti.github.io/Documented-DataFixerUpper/snapshot/com/mojang/serialization/Dynamic.html?is-external=true" title="class or interface in com.mojang.serialization" class="externalLink"><code>Dynamic</code></a> instance.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurateException.html#wrap(org.spongepowered.configurate.ConfigurationNode,java.io.IOException)">wrap(ConfigurationNode, IOException)</a></span> - Static method in exception org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></dt>
+<dd>
+<div class="block">Given an unknown <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>, return it as a Configurate type.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/ParsingException.html#wrap(org.spongepowered.configurate.ConfigurationNode,java.io.IOException)">wrap(ConfigurationNode, IOException)</a></span> - Static method in exception org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></dt>
+<dd>
+<div class="block">Given an unknown <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>, return it as a Configurate type.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">writeHeaderInternal(Writer)</a></span> - Method in class org.spongepowered.configurate.loader.<a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></dt>
 <dd>

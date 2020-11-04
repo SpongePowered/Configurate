@@ -177,11 +177,11 @@
 <span class="sourceLineNo">168</span><a id="line.168">        } catch (final StreamReadException ex) {</a>
 <span class="sourceLineNo">169</span><a id="line.169">            throw newException(node, ex.getLocation(), ex.getRequestPayloadAsString(), ex.getMessage(), ex.getCause());</a>
 <span class="sourceLineNo">170</span><a id="line.170">        } catch (final IOException ex) {</a>
-<span class="sourceLineNo">171</span><a id="line.171">            throw new ParsingException(node, -1, -1, null, null, ex);</a>
+<span class="sourceLineNo">171</span><a id="line.171">            throw ParsingException.wrap(node, ex);</a>
 <span class="sourceLineNo">172</span><a id="line.172">        }</a>
 <span class="sourceLineNo">173</span><a id="line.173">    }</a>
 <span class="sourceLineNo">174</span><a id="line.174"></a>
-<span class="sourceLineNo">175</span><a id="line.175">    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {</a>
+<span class="sourceLineNo">175</span><a id="line.175">    private static void parseValue(final JsonParser parser, final ConfigurationNode node) throws IOException {</a>
 <span class="sourceLineNo">176</span><a id="line.176">        try {</a>
 <span class="sourceLineNo">177</span><a id="line.177">            final JsonToken token = parser.getCurrentToken();</a>
 <span class="sourceLineNo">178</span><a id="line.178">            switch (token) {</a>
@@ -226,7 +226,7 @@
 <span class="sourceLineNo">217</span><a id="line.217">        }</a>
 <span class="sourceLineNo">218</span><a id="line.218">    }</a>
 <span class="sourceLineNo">219</span><a id="line.219"></a>
-<span class="sourceLineNo">220</span><a id="line.220">    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {</a>
+<span class="sourceLineNo">220</span><a id="line.220">    private static void parseArray(final JsonParser parser, final ConfigurationNode node) throws IOException {</a>
 <span class="sourceLineNo">221</span><a id="line.221">        boolean written = false;</a>
 <span class="sourceLineNo">222</span><a id="line.222">        JsonToken token;</a>
 <span class="sourceLineNo">223</span><a id="line.223">        while ((token = parser.nextToken()) != null) {</a>
@@ -243,7 +243,7 @@
 <span class="sourceLineNo">234</span><a id="line.234">        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);</a>
 <span class="sourceLineNo">235</span><a id="line.235">    }</a>
 <span class="sourceLineNo">236</span><a id="line.236"></a>
-<span class="sourceLineNo">237</span><a id="line.237">    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException, ParsingException {</a>
+<span class="sourceLineNo">237</span><a id="line.237">    private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException {</a>
 <span class="sourceLineNo">238</span><a id="line.238">        boolean written = false;</a>
 <span class="sourceLineNo">239</span><a id="line.239">        JsonToken token;</a>
 <span class="sourceLineNo">240</span><a id="line.240">        while ((token = parser.nextToken()) != null) {</a>
@@ -267,7 +267,7 @@
 <span class="sourceLineNo">258</span><a id="line.258">            node.visit(JacksonVisitor.INSTANCE.get(), generator);</a>
 <span class="sourceLineNo">259</span><a id="line.259">            writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default</a>
 <span class="sourceLineNo">260</span><a id="line.260">        } catch (final IOException ex) {</a>
-<span class="sourceLineNo">261</span><a id="line.261">            throw new ConfigurateException(ex);</a>
+<span class="sourceLineNo">261</span><a id="line.261">            throw ConfigurateException.wrap(node, ex);</a>
 <span class="sourceLineNo">262</span><a id="line.262">        }</a>
 <span class="sourceLineNo">263</span><a id="line.263">    }</a>
 <span class="sourceLineNo">264</span><a id="line.264"></a>

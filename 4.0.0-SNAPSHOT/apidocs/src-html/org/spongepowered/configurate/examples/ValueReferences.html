@@ -182,7 +182,7 @@
 <span class="sourceLineNo">173</span><a id="line.173">            final ValueReferences engine = new ValueReferences(path);</a>
 <span class="sourceLineNo">174</span><a id="line.174">            engine.repl();</a>
 <span class="sourceLineNo">175</span><a id="line.175">            engine.close();</a>
-<span class="sourceLineNo">176</span><a id="line.176">        } catch (IOException | ConfigurateException e) {</a>
+<span class="sourceLineNo">176</span><a id="line.176">        } catch (final IOException e) { // may be a ConfigurateException, or something else</a>
 <span class="sourceLineNo">177</span><a id="line.177">            System.out.println("Error loading configuration: " + e.getMessage());</a>
 <span class="sourceLineNo">178</span><a id="line.178">            e.printStackTrace();</a>
 <span class="sourceLineNo">179</span><a id="line.179">        }</a>
