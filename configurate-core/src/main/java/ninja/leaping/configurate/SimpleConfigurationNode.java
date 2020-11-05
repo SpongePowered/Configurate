@@ -673,6 +673,8 @@ public class SimpleConfigurationNode implements ConfigurationNode {
                     toVisit.addAll(0, ((ListConfigValue) value).values.get());
                 } else if (value instanceof ScalarConfigValue) {
                     visitor.enterScalarNode(current, state);
+                } else if (value instanceof NullConfigValue) {
+                    // no-op. this shouldn't happen, but in most cases it's harmless
                 } else {
                     throw new IllegalStateException("Unknown value type " + value.getClass());
                 }
