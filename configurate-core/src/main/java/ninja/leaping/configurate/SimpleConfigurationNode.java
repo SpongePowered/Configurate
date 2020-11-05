@@ -204,13 +204,13 @@ public class SimpleConfigurationNode implements ConfigurationNode {
     public <T> List<T> getList(@NonNull TypeToken<T> type, List<T> def) throws ObjectMappingException {
         List<T> ret = getValue(new TypeToken<List<T>>() {}
                 .where(new TypeParameter<T>() {}, type), def);
-        return ret.isEmpty() ? storeDefault(def) : ret;
+        return ret == null || ret.isEmpty() ? storeDefault(def) : ret;
     }
 
     @Override
     public <T> List<T> getList(@NonNull TypeToken<T> type, @NonNull Supplier<List<T>> defSupplier) throws ObjectMappingException {
         List<T> ret = getValue(new TypeToken<List<T>>(){}.where(new TypeParameter<T>(){}, type), defSupplier);
-        return ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
+        return ret == null || ret.isEmpty() ? storeDefault(defSupplier.get()) : ret;
     }
 
     @Override
