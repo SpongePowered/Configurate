@@ -17,6 +17,54 @@ repositories {
     jcenter()
 }
 
+// Dependency locking
+
+dependencyLocking {
+    lockAllConfigurations()
+    lockFile.set(rootProject.layout.projectDirectory.file("gradle/dependencies/${project.path.replace(':', '-').substring(1)}.lock"))
+}
+
+tasks.register("resolveAllForLocking") {
+    description = "Update all dependency locks. Must be run with the `--write-locks` flag."
+
+    doFirst {
+        require(gradle.startParameter.isWriteDependencyLocks)
+    }
+    doLast {
+        configurations
+            .filter { it.isCanBeResolved }
+            .forEach { it.resolve() }
+    }
+}
+
+/**
+ * Fix metadata on Maven artifacts to properly handle rc/beta/alpha versions.
+ *
+ * These should not be detected as releases -- but are, sadly.
+ */
+@CacheableRule
+open class RcAsIntegrationRule : ComponentMetadataRule {
+    companion object {
+        val notActuallyReleaseStatus = Regex("rc|beta|alpha")
+    }
+
+    override fun execute(context: ComponentMetadataContext) {
+        with(context.details) {
+            val version = id.version
+
+            if (status == "release" && notActuallyReleaseStatus.containsMatchIn(version)) {
+                status = "milestone"
+            }
+        }
+    }
+}
+
+dependencies {
+    components {
+        all(RcAsIntegrationRule::class.java)
+    }
+}
+
 tasks.withType(JavaCompile::class).configureEach {
     options.errorprone {
         isEnabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 }.orElse(JavaVersion.current().isJava9Compatible))
@@ -70,6 +118,11 @@ dependencies {
     checkstyle("com.puppycrawl.tools:checkstyle:$checkstyleVersion")
     checkstyle("ca.stellardrift:stylecheck:0.1")
 }
+
+dependencyLocking {
+    ignoredDependencies.add("com.puppycrawl.tools:*")
+}
+
 indra.checkstyle.set(checkstyleVersion)
 
 // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot

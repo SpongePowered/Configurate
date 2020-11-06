@@ -6,6 +6,12 @@ plugins {
 
 dependencies {
     api(core())
-    api("com.fasterxml.jackson.core:jackson-core:2.11.3")
-    testImplementation("com.google.guava:guava:30.0-jre")
+    api("com.fasterxml.jackson.core:jackson-core:2.+") {
+        attributes {
+            // Require that we're an actual release...
+            // Too bad Gradle doesn't properly expsoe this attribute
+            attribute(Attribute.of("org.gradle.status", String::class.java), "release")
+        }
+    }
+    testImplementation("com.google.guava:guava:latest.release")
 }

@@ -11,6 +11,12 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
+configurations.matching { it.name.startsWith("dokka") && it.name.endsWith("Plugin") }.configureEach {
+    // Appears the configuration can't be resolved?
+    // thanks Kotlin
+    resolutionStrategy.deactivateDependencyLocking()
+}
+
 tasks.withType(KotlinCompile::class).configureEach {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions.freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xemit-jvm-type-annotations")
@@ -37,5 +43,6 @@ dependencies {
     api(core())
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
+    // This version has to be kept in sync with the Kotlin plugin version
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0")
 }

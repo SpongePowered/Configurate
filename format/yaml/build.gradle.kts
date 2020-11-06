@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
     api(core())
-    implementation("org.yaml:snakeyaml:1.27")
+    implementation("org.yaml:snakeyaml:1.+")
 }
 
 tasks.compileJava {

@@ -13,6 +13,14 @@ plugins {
     `java-base`
 }
 
+buildscript {
+    configurations.classpath {
+        resolutionStrategy {
+            activateDependencyLocking()
+        }
+    }
+}
+
 group = "org.spongepowered"
 version = "4.0.0-SNAPSHOT"
 

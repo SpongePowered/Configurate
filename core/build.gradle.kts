@@ -3,11 +3,11 @@ plugins {
 }
 
 dependencies {
-    api("io.leangen.geantyref:geantyref:1.3.11")
-    compileOnlyApi("org.checkerframework:checker-qual:3.7.0")
-    compileOnly("com.google.auto.value:auto-value-annotations:1.7.4")
-    annotationProcessor("com.google.auto.value:auto-value:1.7.4")
-    testImplementation("com.google.guava:guava:30.0-jre")
+    api("io.leangen.geantyref:geantyref:1.+")
+    compileOnlyApi("org.checkerframework:checker-qual:3.+")
+    compileOnly("com.google.auto.value:auto-value-annotations:1.+")
+    annotationProcessor("com.google.auto.value:auto-value:1.+")
+    testImplementation("com.google.guava:guava:latest.release")
 }
 
 // Set up Java 14 tests for record support

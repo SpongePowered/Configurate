@@ -19,8 +19,8 @@ dependencies {
 
     // Libraries
     implementation(kotlin("stdlib-jdk8"))
-    implementation("com.github.ajalt:clikt:2.8.0")
-    implementation("org.fusesource.jansi:jansi:1.18")
+    implementation("com.github.ajalt:clikt:2.+")
+    implementation("org.fusesource.jansi:jansi:1.+")
 }
 
 tasks.withType<KotlinCompile> {
@@ -44,5 +44,5 @@ tasks.withType(Detekt::class).configureEach {
 }
 
 application {
-    mainClassName = "org.spongepowered.configurate.tool.ToolKt"
+    mainClass.set("org.spongepowered.configurate.tool.ToolKt")
 }

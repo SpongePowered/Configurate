@@ -43,6 +43,12 @@ indra {
                 }
             }
         }
+
+        // Don't publish version ranges
+        versionMapping {
+            usage(Usage.JAVA_API) { fromResolutionResult() }
+            usage(Usage.JAVA_RUNTIME) { fromResolutionResult() }
+        }
     }
 }
 
