@@ -26,6 +26,7 @@ dependencies {
     api("net.ltgt.gradle:gradle-errorprone-plugin:1.+")
     api("net.ltgt.gradle:gradle-nullaway-plugin:1.+")
     api("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.+")
+    api("org.ajoberstar.grgit:grgit-gradle:4.+")
 }
 
 kotlinDslPluginOptions {

@@ -2,7 +2,7 @@
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
 com.github.shyiko.klob:klob:0.2.1=ktlint
-com.googlecode.javaewah:JavaEWAH:1.1.7=runtimeClasspath
+com.googlecode.javaewah:JavaEWAH:1.1.7=compileClasspath,runtimeClasspath
 com.pinterest.ktlint:ktlint-core:0.39.0=ktlint
 com.pinterest.ktlint:ktlint-reporter-checkstyle:0.39.0=ktlint
 com.pinterest.ktlint:ktlint-reporter-html:0.39.0=ktlint
@@ -29,14 +29,14 @@ net.ltgt.gradle:gradle-nullaway-plugin:1.0.2=compileClasspath,runtimeClasspath
 net.sf.ezmorph:ezmorph:1.0.6=compileClasspath,runtimeClasspath
 net.sf.json-lib:json-lib:2.3=compileClasspath,runtimeClasspath
 net.sourceforge.nekohtml:nekohtml:1.9.16=compileClasspath,runtimeClasspath
-org.ajoberstar.grgit:grgit-core:4.1.0=runtimeClasspath
-org.ajoberstar.grgit:grgit-gradle:4.1.0=runtimeClasspath
+org.ajoberstar.grgit:grgit-core:4.1.0=compileClasspath,runtimeClasspath
+org.ajoberstar.grgit:grgit-gradle:4.1.0=compileClasspath,runtimeClasspath
 org.apache.httpcomponents:httpclient:4.2.1=compileClasspath,runtimeClasspath
 org.apache.httpcomponents:httpcore:4.2.1=compileClasspath,runtimeClasspath
 org.assertj:assertj-core:3.12.2=ktlint
 org.codehaus.groovy.modules.http-builder:http-builder:0.7.1=compileClasspath,runtimeClasspath
 org.ec4j.core:ec4j-core:0.2.2=ktlint
-org.eclipse.jgit:org.eclipse.jgit:5.9.0.202009080501-r=runtimeClasspath
+org.eclipse.jgit:org.eclipse.jgit:5.9.0.202009080501-r=compileClasspath,runtimeClasspath
 org.hamcrest:hamcrest-core:1.3=ktlint
 org.jetbrains.intellij.deps:trove4j:1.0.20181211=kotlinCompilerClasspath,ktlint
 org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.72=kotlinCompilerClasspath
@@ -64,7 +64,7 @@ org.jetbrains.kotlin:kotlin-stdlib:1.4.10=ktlint
 org.jetbrains.kotlin:kotlin-util-io:1.3.72=kotlinCompilerPluginClasspath
 org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1=kotlinCompilerPluginClasspath
 org.jetbrains:annotations:13.0=compileClasspath,kotlinCompilerClasspath,kotlinCompilerPluginClasspath,ktlint,runtimeClasspath
-org.slf4j:slf4j-api:1.7.2=runtimeClasspath
+org.slf4j:slf4j-api:1.7.2=compileClasspath,runtimeClasspath
 xerces:xercesImpl:2.9.1=compileClasspath,runtimeClasspath
 xml-resolver:xml-resolver:1.2=compileClasspath,runtimeClasspath
 empty=ktlintReporter,ktlintRuleset

@@ -1,13 +1,23 @@
 package org.spongepowered.configurate.build
 
+import net.kyori.indra.grgit
 import java.util.Locale
 
 plugins {
     id("net.kyori.indra.publishing.sonatype")
+    id("org.ajoberstar.grgit")
 }
 
 val archiveName = "configurate-${name.toLowerCase(Locale.ROOT)}"
 convention.getPlugin(BasePluginConvention::class).archivesBaseName = archiveName
+
+tasks.withType(Jar::class).configureEach {
+    val git = grgit(project)
+    if (git != null) {
+        git.head()?.also { manifest.attributes["Git-Commit"] = it.id }
+        git.branch.current()?.also { manifest.attributes["Git-Branch"] = it.name }
+    }
+}
 
 indra {
     github("SpongePowered", "Configurate") {
