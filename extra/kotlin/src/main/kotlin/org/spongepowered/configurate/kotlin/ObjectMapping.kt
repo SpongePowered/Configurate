@@ -51,6 +51,8 @@ fun objectMapperFactory(): Factory {
 
 /**
  * Get a field discoverer that can determine field information from data classes.
+ *
+ * @sample [org.spongepowered.configurate.kotlin.examples.createLoader]
  */
 fun dataClassFieldDiscoverer(): FieldDiscoverer<*> {
     return DataClassFieldDiscoverer

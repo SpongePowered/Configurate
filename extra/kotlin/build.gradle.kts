@@ -1,7 +1,9 @@
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.spongepowered.configurate.build.core
+import org.spongepowered.configurate.build.format
 
 plugins {
     kotlin("jvm")
@@ -11,12 +13,22 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-description = "Kotlin language support for Configurate"
+description = "Kotlin API support for Configurate"
 
 configurations.matching { it.name.startsWith("dokka") && it.name.endsWith("Plugin") }.configureEach {
     // Appears the configuration can't be resolved?
     // thanks Kotlin
     resolutionStrategy.deactivateDependencyLocking()
+}
+
+val examples by sourceSets.registering {
+    compileClasspath += sourceSets.main.get().compileClasspath
+    runtimeClasspath += sourceSets.main.get().runtimeClasspath
+}
+
+dependencies {
+    "examplesImplementation"(sourceSets.main.map { it.output })
+    "examplesImplementation"(format("yaml"))
 }
 
 tasks.withType(KotlinCompile::class).configureEach {
@@ -32,6 +44,11 @@ tasks.withType(DokkaTask::class).configureEach {
     moduleName.set("configurate-${project.name}")
     dokkaSourceSets.configureEach {
         includes.from(file("src/main/packages.md"))
+        samples.from(
+            kotlin.sourceSets.named("examples").map {
+                it.kotlin.sourceDirectories
+            }
+        )
         jdkVersion.set(8)
         reportUndocumented.set(true)
     }
