@@ -43,7 +43,7 @@ tasks.register("resolveAllForLocking") {
  * These should not be detected as releases -- but are, sadly.
  */
 @CacheableRule
-open class RcAsIntegrationRule : ComponentMetadataRule {
+open class CorrectlyClassifyMilestonesRule : ComponentMetadataRule {
     companion object {
         val notActuallyReleaseStatus = Regex("rc|beta|alpha")
     }
@@ -61,7 +61,7 @@ open class RcAsIntegrationRule : ComponentMetadataRule {
 
 dependencies {
     components {
-        all(RcAsIntegrationRule::class.java)
+        all(CorrectlyClassifyMilestonesRule::class.java)
     }
 }
 
