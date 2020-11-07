@@ -134,7 +134,26 @@
 <span class="sourceLineNo">125</span><a id="line.125">        return onlyWithAnnotation(Setting.class);</a>
 <span class="sourceLineNo">126</span><a id="line.126">    }</a>
 <span class="sourceLineNo">127</span><a id="line.127"></a>
-<span class="sourceLineNo">128</span><a id="line.128">}</a>
+<span class="sourceLineNo">128</span><a id="line.128">    /**</a>
+<span class="sourceLineNo">129</span><a id="line.129">     * A resolver that uses the containing node of a field.</a>
+<span class="sourceLineNo">130</span><a id="line.130">     *</a>
+<span class="sourceLineNo">131</span><a id="line.131">     * &lt;p&gt;This can be used to combine multiple Java objects into one</a>
+<span class="sourceLineNo">132</span><a id="line.132">     * configuration node.&lt;/p&gt;</a>
+<span class="sourceLineNo">133</span><a id="line.133">     *</a>
+<span class="sourceLineNo">134</span><a id="line.134">     * @return new resolver using containing field value</a>
+<span class="sourceLineNo">135</span><a id="line.135">     * @since 4.0.0</a>
+<span class="sourceLineNo">136</span><a id="line.136">     */</a>
+<span class="sourceLineNo">137</span><a id="line.137">    static NodeResolver.Factory nodeFromParent() {</a>
+<span class="sourceLineNo">138</span><a id="line.138">        return (name, element) -&gt; {</a>
+<span class="sourceLineNo">139</span><a id="line.139">            final @Nullable Setting setting = element.getAnnotation(Setting.class);</a>
+<span class="sourceLineNo">140</span><a id="line.140">            if (setting != null &amp;&amp; setting.nodeFromParent()) {</a>
+<span class="sourceLineNo">141</span><a id="line.141">                return node -&gt; node;</a>
+<span class="sourceLineNo">142</span><a id="line.142">            }</a>
+<span class="sourceLineNo">143</span><a id="line.143">            return null;</a>
+<span class="sourceLineNo">144</span><a id="line.144">        };</a>
+<span class="sourceLineNo">145</span><a id="line.145">    }</a>
+<span class="sourceLineNo">146</span><a id="line.146"></a>
+<span class="sourceLineNo">147</span><a id="line.147">}</a>
 
 
 

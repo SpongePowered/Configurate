@@ -150,6 +150,13 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeFromParent()">nodeFromParent</a></span></code></th>
+<td class="colLast">
+<div class="block">Whether a field should use its containing node for its value.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#value()">value</a></span></code></th>
 <td class="colLast">
@@ -176,7 +183,7 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <a id="value()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>value</h4>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Setting.html#line.47">value</a></pre>
@@ -190,6 +197,32 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <dl>
 <dt>Default:</dt>
 <dd>""</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="nodeFromParent()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>nodeFromParent</h4>
+<pre>boolean&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Setting.html#line.56">nodeFromParent</a></pre>
+<div class="block">Whether a field should use its containing node for its value.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>whether this field should source its data from the node of
+     its container</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.0.0</dd>
+</dl>
+<dl>
+<dt>Default:</dt>
+<dd>false</dd>
 </dl>
 </li>
 </ul>
