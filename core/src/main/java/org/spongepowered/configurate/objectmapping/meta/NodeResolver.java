@@ -125,4 +125,23 @@ public interface NodeResolver {
         return onlyWithAnnotation(Setting.class);
     }
 
+    /**
+     * A resolver that uses the containing node of a field.
+     *
+     * <p>This can be used to combine multiple Java objects into one
+     * configuration node.</p>
+     *
+     * @return new resolver using containing field value
+     * @since 4.0.0
+     */
+    static NodeResolver.Factory nodeFromParent() {
+        return (name, element) -> {
+            final @Nullable Setting setting = element.getAnnotation(Setting.class);
+            if (setting != null && setting.nodeFromParent()) {
+                return node -> node;
+            }
+            return null;
+        };
+    }
+
 }

@@ -46,4 +46,13 @@ public @interface Setting {
      */
     String value() default "";
 
+    /**
+     * Whether a field should use its containing node for its value.
+     *
+     * @return whether this field should source its data from the node of
+     *     its container
+     * @since 4.0.0
+     */
+    boolean nodeFromParent() default false;
+
 }

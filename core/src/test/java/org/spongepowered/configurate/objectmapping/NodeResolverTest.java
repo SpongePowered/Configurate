@@ -17,10 +17,14 @@
 package org.spongepowered.configurate.objectmapping;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.NodeKey;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
@@ -88,6 +92,52 @@ public class NodeResolverTest {
 
         assertEquals("something", object.marked);
         assertNull(object.notProcessed);
+    }
+
+    @ConfigSerializable
+    static class HolderOne {
+        String hello = "eek";
+    }
+
+    @ConfigSerializable
+    static class HolderTwo {
+        String skeletons = "spooky | scary";
+    }
+
+    @ConfigSerializable
+    static class TestNodeFromParent {
+        @Setting(nodeFromParent = true) HolderOne one;
+        @Setting(nodeFromParent = true) HolderTwo two;
+    }
+
+    @Test
+    void testNodeFromParentRead() throws SerializationException {
+        final ConfigurationNode root = BasicConfigurationNode.root(ConfigurationOptions.defaults()
+                                                                           .nativeTypes(ImmutableSet.of(String.class))
+                                                                           .implicitInitialization(true)
+                                                                           .shouldCopyDefaults(true));
+
+        root.node("hello").set("yay");
+        root.node("skeletons").set("go clunk");
+
+        final TestNodeFromParent value = root.get(TestNodeFromParent.class);
+        assertNotNull(value);
+
+        assertEquals("yay", value.one.hello);
+        assertEquals("go clunk", value.two.skeletons);
+    }
+
+    @Test
+    void testNodeFromParentWritesDefaults() throws SerializationException {
+        final ConfigurationNode root = BasicConfigurationNode.root(ConfigurationOptions.defaults()
+                                                                           .nativeTypes(ImmutableSet.of(String.class))
+                                                                           .implicitInitialization(true)
+                                                                           .shouldCopyDefaults(true));
+
+        root.get(TestNodeFromParent.class);
+
+        assertEquals("eek", root.node("hello").raw());
+        assertEquals("spooky | scary", root.node("skeletons").raw());
     }
 
 }
