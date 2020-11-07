@@ -110,6 +110,10 @@ license {
     header = rootProject.file("LICENSE_HEADER")
 }
 
+tasks.jar {
+    manifest.attributes["Automatic-Module-Name"] = "${project.group}.configurate.${project.name.replace('-', '.')}"
+}
+
 // Checkstyle (based on Sponge config)
 // We have the checkstyle version exposed as a property for use in checkstyle's own CI
 // do not modify the checkstyle configuration without an understanding of how they test against Configurate

@@ -10,6 +10,10 @@ dependencies {
     testImplementation("com.google.guava:guava:latest.release")
 }
 
+tasks.jar {
+    manifest.attributes["Automatic-Module-Name"] = "${project.group}.configurate"
+}
+
 // Set up Java 14 tests for record support
 
 if (JavaVersion.current() >= JavaVersion.VERSION_14) {
