@@ -11,6 +11,8 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
+description = "Kotlin language support for Configurate"
+
 configurations.matching { it.name.startsWith("dokka") && it.name.endsWith("Plugin") }.configureEach {
     // Appears the configuration can't be resolved?
     // thanks Kotlin

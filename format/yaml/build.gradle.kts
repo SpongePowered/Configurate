@@ -5,6 +5,8 @@ plugins {
     id("org.spongepowered.configurate.build.component")
 }
 
+description = "YAML format loader for Configurate"
+
 dependencies {
     api(core())
     implementation("org.yaml:snakeyaml:1.+")

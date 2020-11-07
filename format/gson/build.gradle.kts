@@ -4,6 +4,8 @@ plugins {
     id("org.spongepowered.configurate.build.component")
 }
 
+description = "JSON loader for Configurate, implemented using Gson"
+
 dependencies {
     api(core())
     // version must be kept in sync with MC's version

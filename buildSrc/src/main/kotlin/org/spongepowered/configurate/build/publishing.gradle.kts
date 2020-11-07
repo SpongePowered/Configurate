@@ -37,13 +37,6 @@ indra {
         pom {
             artifactId = archiveName
 
-            description.set(
-                """
-                A simple configuration library for Java applications that can handle a variety of formats and
-                provides a node-based data structure able to handle a wide variety of configuration schemas
-                """.trimIndent().replace('\n', ' ')
-            )
-
             inceptionYear.set("2014")
 
             developers {

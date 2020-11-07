@@ -5,6 +5,8 @@ plugins {
     id("org.spongepowered.configurate.build.component")
 }
 
+description = "Integration between Configurate and Mojang's DataFixerUpper v2 library"
+
 repositories {
     mojang()
 }

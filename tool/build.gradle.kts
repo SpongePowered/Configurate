@@ -9,6 +9,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 }
 
+description = "CLI tool to inspect Configurate's view of files"
+
 dependencies {
     // Configurate
     implementation(format("xml"))
