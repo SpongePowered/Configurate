@@ -666,7 +666,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                         toVisit.addAll(0, ((ListConfigValue<N, A>) value).values.get());
                     } else if (value instanceof ScalarConfigValue) {
                         visitor.enterScalarNode(current.self(), state);
-                    } else {
+                    } else if (!(value instanceof NullConfigValue)) { // temporary workaround, no null values should appear in attached nodes
                         throw new IllegalStateException("Unknown value type " + value.getClass() + " at " + current.path());
                     }
                 } catch (final Exception ex) {
