@@ -20,4 +20,8 @@
  * <p>This version of DataFixerUpper was used in Minecraft
  * versions 1.15.2 and earlier.</p>
  */
+@DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.extra.dfu.v2;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
