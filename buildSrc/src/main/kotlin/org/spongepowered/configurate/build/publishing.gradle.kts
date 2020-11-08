@@ -1,6 +1,8 @@
 package org.spongepowered.configurate.build
 
-import net.kyori.indra.grgit
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.attribute.PosixFilePermission
 import java.util.Locale
 
 plugins {
@@ -9,13 +11,68 @@ plugins {
 }
 
 val archiveName = "configurate-${name.toLowerCase(Locale.ROOT)}"
-convention.getPlugin(BasePluginConvention::class).archivesBaseName = archiveName
+// convention.getPlugin(BasePluginConvention::class).archivesBaseName = archiveName
 
-tasks.withType(Jar::class).configureEach {
-    val git = grgit(project)
-    if (git != null) {
-        git.head()?.also { manifest.attributes["Git-Commit"] = it.id }
-        git.branch.current()?.also { manifest.attributes["Git-Branch"] = it.name }
+tasks.withType(Jar::class).configureEach jar@{
+    manifest.attributes["Git-Commit"] = grgit.head().id
+    manifest.attributes["Git-Branch"] = grgit.branch.current().name
+}
+
+if (project.hasProperty("spongeKeyStore")) {
+    // We have to replace the default artifact which is a bit ugly
+    // https://github.com/gradle/gradle/pull/13650 should make it easier
+    fun forRelevantOutgoings(action: ConfigurationPublications.() -> Unit) {
+        configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing.action()
+        configurations[JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME].outgoing.action()
+        configurations[JavaPlugin.RUNTIME_CONFIGURATION_NAME].outgoing.action()
+    }
+    val keyStoreProp = project.property("spongeKeyStore") as String
+    val fileTemp = File(keyStoreProp)
+    val keyStoreFile = if (fileTemp.exists()) {
+        fileTemp
+    } else {
+        // Write keystore to a temporary file
+        val dest = layout.projectDirectory.file(".gradle/signing-key").asFile
+        dest.createNewFile()
+        try {
+            Files.setPosixFilePermissions(dest.toPath(), setOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE))
+        } catch (_: IOException) {
+            // oh well
+        }
+
+        dest.writeText(keyStoreProp, Charsets.UTF_8)
+        // Delete the temporary file when the runtime exits
+        dest.deleteOnExit()
+        dest
+    }
+
+    tasks.matching { it.name == "jar" && it is Jar }.whenTaskAdded {
+        val jarTask = this as Jar
+        jarTask.archiveClassifier.set("unsigned")
+        val sign = tasks.register("signJar", SignJarTask::class) {
+            dependsOn(jarTask)
+            from(zipTree(jarTask.outputs.files.singleFile))
+            manifest = jarTask.manifest
+            archiveClassifier.set("")
+            keyStore.set(keyStoreFile)
+            alias.set(project.property("spongeKeyStoreAlias") as String)
+            storePassword.set(project.property("spongeKeyStorePassword") as String)
+        }
+
+        forRelevantOutgoings {
+            artifact(sign)
+        }
+
+        tasks.assemble {
+            dependsOn(sign)
+        }
+    }
+
+    afterEvaluate {
+        // Remove the unsigned artifact from publications
+        forRelevantOutgoings {
+            artifacts.removeIf { it.classifier == "unsigned" }
+        }
     }
 }
 
