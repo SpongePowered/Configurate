@@ -95,6 +95,7 @@ indra {
             artifactId = archiveName
 
             inceptionYear.set("2014")
+            description.set(providers.provider { project.description })
 
             developers {
                 developer {
