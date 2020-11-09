@@ -126,6 +126,18 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         return set(type.getType(), value);
     }
 
+    @Override
+    default <V> N setList(Class<V> elementType, @Nullable List<V> items) throws SerializationException {
+        ConfigurationNode.super.setList(elementType, items);
+        return self();
+    }
+
+    @Override
+    default <V> N setList(TypeToken<V> elementType, @Nullable List<V> items) throws SerializationException {
+        ConfigurationNode.super.setList(elementType, items);
+        return self();
+    }
+
     /**
      * {@inheritDoc}
      */

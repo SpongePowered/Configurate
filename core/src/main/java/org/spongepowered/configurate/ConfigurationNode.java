@@ -45,7 +45,7 @@ import java.util.stream.Collector;
  * <p>{@link ConfigurationNode}s can hold different types of value. They can:</p>
  *
  * <ul>
- *     <li>Hold a single "scalar" value (accessed by {@link #raw()}</li>
+ *     <li>Hold a single "scalar" value (accessed by {@link #rawScalar()}</li>
  *     <li>Represent a "list" of child {@link ConfigurationNode}s (accessed by {@link #isList()} and {@link #childrenList()})</li>
  *     <li>Represent a "map" of child {@link ConfigurationNode}s (accessed by {@link #isMap()} and {@link #childrenMap()})</li>
  *     <li>Hold no value at all (when {@link #virtual()} is true)</li>
@@ -53,8 +53,6 @@ import java.util.stream.Collector;
  *
  * <p>The overall configuration stems from a single "root" node, which is
  * provided by the {@link ConfigurationLoader}, or by other means programmatically.</p>
- *
- * <p>This is effectively the main class of Configurate.</p>
  *
  * @since 4.0.0
  */
@@ -948,6 +946,48 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     ConfigurationNode set(Type type, @Nullable Object value) throws SerializationException;
+
+    /**
+     * Set the node's value to the provided list.
+     *
+     * <p>This method provides a helper for constructing the appropriate
+     * {@link Type} for serializing a {@link List}</p>
+     *
+     * @param elementType the type of the list elements. This must not be
+     *         a raw type.
+     * @param items the list to serializer
+     * @param <V> list element type, the {@code T} in {@code List<T>}
+     * @return this node
+     * @throws SerializationException if the value fails to be converted to the
+     *         requested type.
+     * @see #set(TypeToken, Object) for details on restrictions.
+     * @since 4.0.0
+     */
+    @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
+    default <V> ConfigurationNode setList(Class<V> elementType, @Nullable List<V> items) throws SerializationException {
+        return set(TypeFactory.parameterizedClass(List.class, elementType), items);
+    }
+
+    /**
+     * Set the node's value to the provided list.
+     *
+     * <p>This method provides a helper for constructing the appropriate
+     * {@link Type} for serializing a {@link List}</p>
+     *
+     * @param elementType the type of the list elements. This must not be
+     *         a raw type.
+     * @param items the list to serializer
+     * @param <V> list element type, the {@code T} in {@code List<T>}
+     * @return this node
+     * @throws SerializationException if the value fails to be converted to the
+     *         requested type.
+     * @see #set(TypeToken, Object) for details on restrictions.
+     * @since 4.0.0
+     */
+    @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
+    default <V> ConfigurationNode setList(TypeToken<V> elementType, @Nullable List<V> items) throws SerializationException {
+        return set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);
+    }
 
     /**
      * Get the raw value of this node.
