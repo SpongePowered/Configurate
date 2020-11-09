@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":18,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":18,"i15":18,"i16":18,"i17":18,"i18":18,"i19":18,"i20":18};
+var data = {"i0":18,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":18,"i15":18,"i16":18,"i17":18,"i18":18,"i19":18,"i20":18,"i21":18,"i22":18};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -310,27 +310,43 @@ extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.c
 </td>
 </tr>
 <tr id="i17" class="rowColor">
+<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setList(io.leangen.geantyref.TypeToken,java.util.List)">setList</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;elementType,
+       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;items)</code></th>
+<td class="colLast">
+<div class="block">Set the node's value to the provided list.</div>
+</td>
+</tr>
+<tr id="i18" class="altColor">
+<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setList(java.lang.Class,java.util.List)">setList</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
+       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;items)</code></th>
+<td class="colLast">
+<div class="block">Set the node's value to the provided list.</div>
+</td>
+</tr>
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to this node as list children.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(java.lang.Class)">toListCollector</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to this node as list children.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to this node as map children.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(java.lang.Class)">toMapCollector</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
@@ -684,13 +700,79 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 </dl>
 </li>
 </ul>
+<a id="setList(java.lang.Class,java.util.List)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setList</h4>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.129">setList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
+                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;items)
+               throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#setList(java.lang.Class,java.util.List)">ConfigurationNode</a></code></span></div>
+<div class="block">Set the node's value to the provided list.
+
+ <p>This method provides a helper for constructing the appropriate
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a> for serializing a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a></p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="ConfigurationNode.html#setList(java.lang.Class,java.util.List)">setList</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - list element type, the <code>T</code> in <code>List&lt;T&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elementType</code> - the type of the list elements. This must not be
+         a raw type.</dd>
+<dd><code>items</code> - the list to serializer</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this node</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the value fails to be converted to the
+         requested type.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="ConfigurationNode.html#set(io.leangen.geantyref.TypeToken,V)"><code>for details on restrictions.</code></a></dd>
+</dl>
+</li>
+</ul>
+<a id="setList(io.leangen.geantyref.TypeToken,java.util.List)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setList</h4>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.135">setList</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;elementType,
+                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;items)
+               throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#setList(io.leangen.geantyref.TypeToken,java.util.List)">ConfigurationNode</a></code></span></div>
+<div class="block">Set the node's value to the provided list.
+
+ <p>This method provides a helper for constructing the appropriate
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a> for serializing a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a></p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="ConfigurationNode.html#setList(io.leangen.geantyref.TypeToken,java.util.List)">setList</a></code>&nbsp;in interface&nbsp;<code><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>V</code> - list element type, the <code>T</code> in <code>List&lt;T&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elementType</code> - the type of the list elements. This must not be
+         a raw type.</dd>
+<dd><code>items</code> - the list to serializer</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this node</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the value fails to be converted to the
+         requested type.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="ConfigurationNode.html#set(io.leangen.geantyref.TypeToken,V)"><code>for details on restrictions.</code></a></dd>
+</dl>
+</li>
+</ul>
 <a id="raw(java.lang.Object)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>raw</h4>
-<pre class="methodSignature"><a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.132">raw</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+<pre class="methodSignature"><a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.144">raw</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block">Set the raw value of this node.
 
  <p>The provided value must be of a type accepted by
@@ -712,7 +794,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>childrenList</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.138">childrenList</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.150">childrenList</a>()</pre>
 <div class="block">Gets the "list children" attached to this node, if it has any.
 
  <p>If this node does not <a href="ConfigurationNode.html#isList()"><code>have list children</code></a>, an empty
@@ -731,7 +813,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>childrenMap</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.144">childrenMap</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.156">childrenMap</a>()</pre>
 <div class="block">Gets the "map children" attached to this node, if it has any.
 
  <p>If this node does not <a href="ConfigurationNode.html#isMap()"><code>have map children</code></a>, an empty map
@@ -750,7 +832,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.150">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.162">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as map children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -772,7 +854,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.159">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.171">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as map children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -794,7 +876,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.168">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.180">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as list children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -816,7 +898,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.177">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.189">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as list children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -838,7 +920,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>act</h4>
-<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.193">act</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;E&gt;&nbsp;action)
+<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.205">act</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;E&gt;&nbsp;action)
                              throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Execute an action on this node. This allows performing multiple
  operations on a single node without having to clutter up the surrounding
@@ -865,7 +947,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hint</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.198">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint,
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.210">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint,
            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#hint(org.spongepowered.configurate.RepresentationHint,V)">ConfigurationNode</a></code></span></div>
 <div class="block">Set a representation hint on this node.

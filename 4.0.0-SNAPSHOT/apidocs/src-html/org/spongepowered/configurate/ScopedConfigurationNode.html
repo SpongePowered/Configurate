@@ -135,79 +135,91 @@
 <span class="sourceLineNo">126</span><a id="line.126">        return set(type.getType(), value);</a>
 <span class="sourceLineNo">127</span><a id="line.127">    }</a>
 <span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">    /**</a>
-<span class="sourceLineNo">130</span><a id="line.130">     * {@inheritDoc}</a>
-<span class="sourceLineNo">131</span><a id="line.131">     */</a>
-<span class="sourceLineNo">132</span><a id="line.132">    @Override</a>
-<span class="sourceLineNo">133</span><a id="line.133">    N raw(@Nullable Object value);</a>
+<span class="sourceLineNo">129</span><a id="line.129">    @Override</a>
+<span class="sourceLineNo">130</span><a id="line.130">    default &lt;V&gt; N setList(Class&lt;V&gt; elementType, @Nullable List&lt;V&gt; items) throws SerializationException {</a>
+<span class="sourceLineNo">131</span><a id="line.131">        ConfigurationNode.super.setList(elementType, items);</a>
+<span class="sourceLineNo">132</span><a id="line.132">        return self();</a>
+<span class="sourceLineNo">133</span><a id="line.133">    }</a>
 <span class="sourceLineNo">134</span><a id="line.134"></a>
-<span class="sourceLineNo">135</span><a id="line.135">    /**</a>
-<span class="sourceLineNo">136</span><a id="line.136">     * {@inheritDoc}</a>
-<span class="sourceLineNo">137</span><a id="line.137">     */</a>
-<span class="sourceLineNo">138</span><a id="line.138">    @Override</a>
-<span class="sourceLineNo">139</span><a id="line.139">    List&lt;N&gt; childrenList();</a>
+<span class="sourceLineNo">135</span><a id="line.135">    @Override</a>
+<span class="sourceLineNo">136</span><a id="line.136">    default &lt;V&gt; N setList(TypeToken&lt;V&gt; elementType, @Nullable List&lt;V&gt; items) throws SerializationException {</a>
+<span class="sourceLineNo">137</span><a id="line.137">        ConfigurationNode.super.setList(elementType, items);</a>
+<span class="sourceLineNo">138</span><a id="line.138">        return self();</a>
+<span class="sourceLineNo">139</span><a id="line.139">    }</a>
 <span class="sourceLineNo">140</span><a id="line.140"></a>
 <span class="sourceLineNo">141</span><a id="line.141">    /**</a>
 <span class="sourceLineNo">142</span><a id="line.142">     * {@inheritDoc}</a>
 <span class="sourceLineNo">143</span><a id="line.143">     */</a>
 <span class="sourceLineNo">144</span><a id="line.144">    @Override</a>
-<span class="sourceLineNo">145</span><a id="line.145">    Map&lt;Object, N&gt; childrenMap();</a>
+<span class="sourceLineNo">145</span><a id="line.145">    N raw(@Nullable Object value);</a>
 <span class="sourceLineNo">146</span><a id="line.146"></a>
 <span class="sourceLineNo">147</span><a id="line.147">    /**</a>
 <span class="sourceLineNo">148</span><a id="line.148">     * {@inheritDoc}</a>
 <span class="sourceLineNo">149</span><a id="line.149">     */</a>
-<span class="sourceLineNo">150</span><a id="line.150">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">151</span><a id="line.151">    @Override</a>
-<span class="sourceLineNo">152</span><a id="line.152">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final TypeToken&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">153</span><a id="line.153">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
-<span class="sourceLineNo">154</span><a id="line.154">    }</a>
-<span class="sourceLineNo">155</span><a id="line.155"></a>
-<span class="sourceLineNo">156</span><a id="line.156">    /**</a>
-<span class="sourceLineNo">157</span><a id="line.157">     * {@inheritDoc}</a>
-<span class="sourceLineNo">158</span><a id="line.158">     */</a>
-<span class="sourceLineNo">159</span><a id="line.159">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">160</span><a id="line.160">    @Override</a>
-<span class="sourceLineNo">161</span><a id="line.161">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final Class&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">162</span><a id="line.162">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
-<span class="sourceLineNo">163</span><a id="line.163">    }</a>
-<span class="sourceLineNo">164</span><a id="line.164"></a>
-<span class="sourceLineNo">165</span><a id="line.165">    /**</a>
-<span class="sourceLineNo">166</span><a id="line.166">     * {@inheritDoc}</a>
-<span class="sourceLineNo">167</span><a id="line.167">     */</a>
-<span class="sourceLineNo">168</span><a id="line.168">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">169</span><a id="line.169">    @Override</a>
-<span class="sourceLineNo">170</span><a id="line.170">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final TypeToken&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">171</span><a id="line.171">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
-<span class="sourceLineNo">172</span><a id="line.172">    }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    /**</a>
-<span class="sourceLineNo">175</span><a id="line.175">     * {@inheritDoc}</a>
-<span class="sourceLineNo">176</span><a id="line.176">     */</a>
-<span class="sourceLineNo">177</span><a id="line.177">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">178</span><a id="line.178">    @Override</a>
-<span class="sourceLineNo">179</span><a id="line.179">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final Class&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">180</span><a id="line.180">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
-<span class="sourceLineNo">181</span><a id="line.181">    }</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">    /**</a>
-<span class="sourceLineNo">184</span><a id="line.184">     * Execute an action on this node. This allows performing multiple</a>
-<span class="sourceLineNo">185</span><a id="line.185">     * operations on a single node without having to clutter up the surrounding</a>
-<span class="sourceLineNo">186</span><a id="line.186">     * scope.</a>
-<span class="sourceLineNo">187</span><a id="line.187">     *</a>
-<span class="sourceLineNo">188</span><a id="line.188">     * @param &lt;E&gt; thrown type</a>
-<span class="sourceLineNo">189</span><a id="line.189">     * @param action the action to perform on this node</a>
-<span class="sourceLineNo">190</span><a id="line.190">     * @return this node</a>
-<span class="sourceLineNo">191</span><a id="line.191">     * @since 4.0.0</a>
-<span class="sourceLineNo">192</span><a id="line.192">     */</a>
-<span class="sourceLineNo">193</span><a id="line.193">    default &lt;E extends Exception&gt; N act(CheckedConsumer&lt;? super N, E&gt; action) throws E {</a>
-<span class="sourceLineNo">194</span><a id="line.194">        action.accept(self());</a>
-<span class="sourceLineNo">195</span><a id="line.195">        return self();</a>
-<span class="sourceLineNo">196</span><a id="line.196">    }</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">    @Override</a>
-<span class="sourceLineNo">199</span><a id="line.199">    &lt;V&gt; N hint(RepresentationHint&lt;V&gt; hint, @Nullable V value);</a>
-<span class="sourceLineNo">200</span><a id="line.200"></a>
-<span class="sourceLineNo">201</span><a id="line.201">}</a>
+<span class="sourceLineNo">150</span><a id="line.150">    @Override</a>
+<span class="sourceLineNo">151</span><a id="line.151">    List&lt;N&gt; childrenList();</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">    /**</a>
+<span class="sourceLineNo">154</span><a id="line.154">     * {@inheritDoc}</a>
+<span class="sourceLineNo">155</span><a id="line.155">     */</a>
+<span class="sourceLineNo">156</span><a id="line.156">    @Override</a>
+<span class="sourceLineNo">157</span><a id="line.157">    Map&lt;Object, N&gt; childrenMap();</a>
+<span class="sourceLineNo">158</span><a id="line.158"></a>
+<span class="sourceLineNo">159</span><a id="line.159">    /**</a>
+<span class="sourceLineNo">160</span><a id="line.160">     * {@inheritDoc}</a>
+<span class="sourceLineNo">161</span><a id="line.161">     */</a>
+<span class="sourceLineNo">162</span><a id="line.162">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">163</span><a id="line.163">    @Override</a>
+<span class="sourceLineNo">164</span><a id="line.164">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final TypeToken&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">165</span><a id="line.165">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
+<span class="sourceLineNo">166</span><a id="line.166">    }</a>
+<span class="sourceLineNo">167</span><a id="line.167"></a>
+<span class="sourceLineNo">168</span><a id="line.168">    /**</a>
+<span class="sourceLineNo">169</span><a id="line.169">     * {@inheritDoc}</a>
+<span class="sourceLineNo">170</span><a id="line.170">     */</a>
+<span class="sourceLineNo">171</span><a id="line.171">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">172</span><a id="line.172">    @Override</a>
+<span class="sourceLineNo">173</span><a id="line.173">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">174</span><a id="line.174">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
+<span class="sourceLineNo">175</span><a id="line.175">    }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">    /**</a>
+<span class="sourceLineNo">178</span><a id="line.178">     * {@inheritDoc}</a>
+<span class="sourceLineNo">179</span><a id="line.179">     */</a>
+<span class="sourceLineNo">180</span><a id="line.180">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">181</span><a id="line.181">    @Override</a>
+<span class="sourceLineNo">182</span><a id="line.182">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final TypeToken&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">183</span><a id="line.183">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
+<span class="sourceLineNo">184</span><a id="line.184">    }</a>
+<span class="sourceLineNo">185</span><a id="line.185"></a>
+<span class="sourceLineNo">186</span><a id="line.186">    /**</a>
+<span class="sourceLineNo">187</span><a id="line.187">     * {@inheritDoc}</a>
+<span class="sourceLineNo">188</span><a id="line.188">     */</a>
+<span class="sourceLineNo">189</span><a id="line.189">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">190</span><a id="line.190">    @Override</a>
+<span class="sourceLineNo">191</span><a id="line.191">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">192</span><a id="line.192">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
+<span class="sourceLineNo">193</span><a id="line.193">    }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">    /**</a>
+<span class="sourceLineNo">196</span><a id="line.196">     * Execute an action on this node. This allows performing multiple</a>
+<span class="sourceLineNo">197</span><a id="line.197">     * operations on a single node without having to clutter up the surrounding</a>
+<span class="sourceLineNo">198</span><a id="line.198">     * scope.</a>
+<span class="sourceLineNo">199</span><a id="line.199">     *</a>
+<span class="sourceLineNo">200</span><a id="line.200">     * @param &lt;E&gt; thrown type</a>
+<span class="sourceLineNo">201</span><a id="line.201">     * @param action the action to perform on this node</a>
+<span class="sourceLineNo">202</span><a id="line.202">     * @return this node</a>
+<span class="sourceLineNo">203</span><a id="line.203">     * @since 4.0.0</a>
+<span class="sourceLineNo">204</span><a id="line.204">     */</a>
+<span class="sourceLineNo">205</span><a id="line.205">    default &lt;E extends Exception&gt; N act(CheckedConsumer&lt;? super N, E&gt; action) throws E {</a>
+<span class="sourceLineNo">206</span><a id="line.206">        action.accept(self());</a>
+<span class="sourceLineNo">207</span><a id="line.207">        return self();</a>
+<span class="sourceLineNo">208</span><a id="line.208">    }</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">    @Override</a>
+<span class="sourceLineNo">211</span><a id="line.211">    &lt;V&gt; N hint(RepresentationHint&lt;V&gt; hint, @Nullable V value);</a>
+<span class="sourceLineNo">212</span><a id="line.212"></a>
+<span class="sourceLineNo">213</span><a id="line.213">}</a>
 
 
 
