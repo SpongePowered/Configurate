@@ -17,3 +17,10 @@ dependencies {
     }
     testImplementation("com.google.guava:guava:latest.release")
 }
+
+indra {
+    configurePublications {
+        // We only publish resolved versions, so the warning about using attributes is irrelevant.
+        suppressAllPomMetadataWarnings()
+    }
+}
