@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
 </dl>
 <hr>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
+<pre>@FunctionalInterface
 public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.31">ConfigurationNodeFactory</a>&lt;N extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</pre>
 <div class="block">Something that can create a customized node.</div>
 <dl>
@@ -176,7 +176,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>default &lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br><a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a></code></td>
+<td class="colFirst"><code>default &lt;E extends java.lang.Exception&gt;<br><a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createNode(org.spongepowered.configurate.ConfigurationOptions,org.spongepowered.configurate.util.CheckedConsumer)">createNode</a></span>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
           <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)</code></th>
 <td class="colLast">
@@ -185,7 +185,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>default &lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;<br><a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a></code></td>
+<td class="colFirst"><code>default &lt;E extends java.lang.Exception&gt;<br><a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createNode(org.spongepowered.configurate.util.CheckedConsumer)">createNode</a></span>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Create a new node with default options and initialize it with the
@@ -200,7 +200,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
+<td class="colFirst"><code>default &lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to a newly created node as
@@ -208,15 +208,15 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(java.lang.Class)">toListCollector</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</code></th>
+<td class="colFirst"><code>default &lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(java.lang.Class)">toListCollector</a></span>&#8203;(java.lang.Class&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to a newly created node as
  list children.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
+<td class="colFirst"><code>default &lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to a newly created node as
@@ -224,8 +224,8 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(java.lang.Class)">toMapCollector</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</code></th>
+<td class="colFirst"><code>default &lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(java.lang.Class)">toMapCollector</a></span>&#8203;(java.lang.Class&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to a newly created node as
  map children.</div>
@@ -311,8 +311,8 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.80">createNode</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
-                                    throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
+<pre class="methodSignature">default&nbsp;&lt;E extends java.lang.Exception&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.80">createNode</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
+                                              throws E extends java.lang.Exception</pre>
 <div class="block">Create a new node with default options and initialize it with the
  provided action.</div>
 <dl>
@@ -324,7 +324,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <dd>newly created empty node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when thrown from inner action</dd>
-<dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dd><code>E extends java.lang.Exception</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
 </dl>
@@ -336,9 +336,9 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.100">createNode</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
-                                           <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
-                                    throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
+<pre class="methodSignature">default&nbsp;&lt;E extends java.lang.Exception&gt;&nbsp;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.100">createNode</a>&#8203;(<a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options,
+                                                     <a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;E&gt;&nbsp;action)
+                                              throws E extends java.lang.Exception</pre>
 <div class="block">Create a new node with the provided options and initialize it with the
  provided action.
 
@@ -354,7 +354,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <dd>newly created empty node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>E</code> - when thrown from inner action</dd>
-<dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
+<dd><code>E extends java.lang.Exception</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
 </dl>
@@ -366,7 +366,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.117">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.117">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  map children.
 
@@ -389,7 +389,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.141">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.141">toMapCollector</a>&#8203;(java.lang.Class&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  map children.
 
@@ -412,7 +412,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.165">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.165">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  list children.
 
@@ -435,7 +435,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.189">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.189">toListCollector</a>&#8203;(java.lang.Class&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  list children.
 
