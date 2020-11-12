@@ -70,12 +70,14 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
 
     private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws SerializationException {
         final N node = parent.node(this.path);
-        if (node.virtual()) {
+        if (!node.virtual()) {
             return this.serializer.deserialize(this.type.getType(), node);
-        } else if (defaultVal != null && node.options().shouldCopyDefaults()) {
-            this.serializer.serialize(this.type.getType(), defaultVal, node);
         }
-        return defaultVal;
+        final @Nullable T defaultOrEmpty = defaultVal == null ? this.serializer.emptyValue(this.type.getType(), node.options()) : defaultVal;
+        if (node.options().shouldCopyDefaults()) {
+            this.serializer.serialize(this.type.getType(), defaultOrEmpty, node);
+        }
+        return defaultOrEmpty;
     }
 
     @Override
