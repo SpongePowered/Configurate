@@ -1,0 +1,364 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Configurate</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * Copyright (C) zml and Configurate contributors</a>
+<span class="sourceLineNo">004</span><a id="line.4"> *</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *    http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">010</span><a id="line.10"> *</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * limitations under the License.</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate.gson;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.gson.JsonParseException;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.gson.stream.JsonReader;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.gson.stream.JsonToken;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.gson.stream.JsonWriter;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.gson.stream.MalformedJsonException;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.spongepowered.configurate.BasicConfigurationNode;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import org.spongepowered.configurate.ConfigurateException;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.spongepowered.configurate.ConfigurationNode;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import org.spongepowered.configurate.ConfigurationOptions;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import org.spongepowered.configurate.loader.AbstractConfigurationLoader;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import org.spongepowered.configurate.loader.CommentHandler;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.spongepowered.configurate.loader.CommentHandlers;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import org.spongepowered.configurate.loader.ParsingException;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import org.spongepowered.configurate.util.Strings;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import org.spongepowered.configurate.util.UnmodifiableCollections;</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">import java.io.BufferedReader;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import java.io.IOException;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import java.io.Writer;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import java.util.Collections;</a>
+<span class="sourceLineNo">041</span><a id="line.41">import java.util.Set;</a>
+<span class="sourceLineNo">042</span><a id="line.42"></a>
+<span class="sourceLineNo">043</span><a id="line.43">/**</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * A loader for JSON-formatted configurations, using the GSON library for</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * parsing and generation.</a>
+<span class="sourceLineNo">046</span><a id="line.46"> *</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * @since 4.0.0</a>
+<span class="sourceLineNo">048</span><a id="line.48"> */</a>
+<span class="sourceLineNo">049</span><a id="line.49">public final class GsonConfigurationLoader extends AbstractConfigurationLoader&lt;BasicConfigurationNode&gt; {</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">    private static final Set&lt;Class&lt;?&gt;&gt; NATIVE_TYPES = UnmodifiableCollections.toSet(</a>
+<span class="sourceLineNo">052</span><a id="line.52">            Double.class, Float.class, Long.class, Integer.class, Boolean.class, String.class);</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">    /**</a>
+<span class="sourceLineNo">055</span><a id="line.55">     * Creates a new {@link GsonConfigurationLoader} builder.</a>
+<span class="sourceLineNo">056</span><a id="line.56">     *</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * @return a new builder</a>
+<span class="sourceLineNo">058</span><a id="line.58">     * @since 4.0.0</a>
+<span class="sourceLineNo">059</span><a id="line.59">     */</a>
+<span class="sourceLineNo">060</span><a id="line.60">    @NonNull</a>
+<span class="sourceLineNo">061</span><a id="line.61">    public static Builder builder() {</a>
+<span class="sourceLineNo">062</span><a id="line.62">        return new Builder();</a>
+<span class="sourceLineNo">063</span><a id="line.63">    }</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">    /**</a>
+<span class="sourceLineNo">066</span><a id="line.66">     * Builds a {@link GsonConfigurationLoader}.</a>
+<span class="sourceLineNo">067</span><a id="line.67">     *</a>
+<span class="sourceLineNo">068</span><a id="line.68">     * @since 4.0.0</a>
+<span class="sourceLineNo">069</span><a id="line.69">     */</a>
+<span class="sourceLineNo">070</span><a id="line.70">    public static final class Builder extends AbstractConfigurationLoader.Builder&lt;Builder, GsonConfigurationLoader&gt; {</a>
+<span class="sourceLineNo">071</span><a id="line.71">        private boolean lenient = true;</a>
+<span class="sourceLineNo">072</span><a id="line.72">        private int indent = 2;</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">        Builder() { }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">        /**</a>
+<span class="sourceLineNo">077</span><a id="line.77">         * Sets the level of indentation the resultant loader should use.</a>
+<span class="sourceLineNo">078</span><a id="line.78">         *</a>
+<span class="sourceLineNo">079</span><a id="line.79">         * @param indent the indent level</a>
+<span class="sourceLineNo">080</span><a id="line.80">         * @return this builder (for chaining)</a>
+<span class="sourceLineNo">081</span><a id="line.81">         * @since 4.0.0</a>
+<span class="sourceLineNo">082</span><a id="line.82">         */</a>
+<span class="sourceLineNo">083</span><a id="line.83">        @NonNull</a>
+<span class="sourceLineNo">084</span><a id="line.84">        public Builder indent(final int indent) {</a>
+<span class="sourceLineNo">085</span><a id="line.85">            this.indent = indent;</a>
+<span class="sourceLineNo">086</span><a id="line.86">            return this;</a>
+<span class="sourceLineNo">087</span><a id="line.87">        }</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">        /**</a>
+<span class="sourceLineNo">090</span><a id="line.90">         * Gets the level of indentation to be used by the resultant loader.</a>
+<span class="sourceLineNo">091</span><a id="line.91">         *</a>
+<span class="sourceLineNo">092</span><a id="line.92">         * @return the indent level</a>
+<span class="sourceLineNo">093</span><a id="line.93">         * @since 4.0.0</a>
+<span class="sourceLineNo">094</span><a id="line.94">         */</a>
+<span class="sourceLineNo">095</span><a id="line.95">        public int indent() {</a>
+<span class="sourceLineNo">096</span><a id="line.96">            return this.indent;</a>
+<span class="sourceLineNo">097</span><a id="line.97">        }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">        /**</a>
+<span class="sourceLineNo">100</span><a id="line.100">         * Sets if the resultant loader should parse leniently.</a>
+<span class="sourceLineNo">101</span><a id="line.101">         *</a>
+<span class="sourceLineNo">102</span><a id="line.102">         * @see JsonReader#setLenient(boolean)</a>
+<span class="sourceLineNo">103</span><a id="line.103">         * @param lenient whether the parser should parse leniently</a>
+<span class="sourceLineNo">104</span><a id="line.104">         * @return this builder (for chaining)</a>
+<span class="sourceLineNo">105</span><a id="line.105">         * @since 4.0.0</a>
+<span class="sourceLineNo">106</span><a id="line.106">         */</a>
+<span class="sourceLineNo">107</span><a id="line.107">        @NonNull</a>
+<span class="sourceLineNo">108</span><a id="line.108">        public Builder lenient(final boolean lenient) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">            this.lenient = lenient;</a>
+<span class="sourceLineNo">110</span><a id="line.110">            return this;</a>
+<span class="sourceLineNo">111</span><a id="line.111">        }</a>
+<span class="sourceLineNo">112</span><a id="line.112"></a>
+<span class="sourceLineNo">113</span><a id="line.113">        /**</a>
+<span class="sourceLineNo">114</span><a id="line.114">         * Gets if the resultant loader should parse leniently.</a>
+<span class="sourceLineNo">115</span><a id="line.115">         *</a>
+<span class="sourceLineNo">116</span><a id="line.116">         * @return whether the parser should parse leniently</a>
+<span class="sourceLineNo">117</span><a id="line.117">         * @since 4.0.0</a>
+<span class="sourceLineNo">118</span><a id="line.118">         */</a>
+<span class="sourceLineNo">119</span><a id="line.119">        public boolean lenient() {</a>
+<span class="sourceLineNo">120</span><a id="line.120">            return this.lenient;</a>
+<span class="sourceLineNo">121</span><a id="line.121">        }</a>
+<span class="sourceLineNo">122</span><a id="line.122"></a>
+<span class="sourceLineNo">123</span><a id="line.123">        @Override</a>
+<span class="sourceLineNo">124</span><a id="line.124">        public @NonNull GsonConfigurationLoader build() {</a>
+<span class="sourceLineNo">125</span><a id="line.125">            this.defaultOptions(o -&gt; o.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">126</span><a id="line.126">            return new GsonConfigurationLoader(this);</a>
+<span class="sourceLineNo">127</span><a id="line.127">        }</a>
+<span class="sourceLineNo">128</span><a id="line.128">    }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">    private final boolean lenient;</a>
+<span class="sourceLineNo">131</span><a id="line.131">    private final String indent;</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">    private GsonConfigurationLoader(final Builder builder) {</a>
+<span class="sourceLineNo">134</span><a id="line.134">        super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});</a>
+<span class="sourceLineNo">135</span><a id="line.135">        this.lenient = builder.lenient();</a>
+<span class="sourceLineNo">136</span><a id="line.136">        this.indent = Strings.repeat(" ", builder.indent());</a>
+<span class="sourceLineNo">137</span><a id="line.137">    }</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">    @Override</a>
+<span class="sourceLineNo">140</span><a id="line.140">    protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws ParsingException {</a>
+<span class="sourceLineNo">141</span><a id="line.141">        try {</a>
+<span class="sourceLineNo">142</span><a id="line.142">            reader.mark(1);</a>
+<span class="sourceLineNo">143</span><a id="line.143">            if (reader.read() == -1) {</a>
+<span class="sourceLineNo">144</span><a id="line.144">                return;</a>
+<span class="sourceLineNo">145</span><a id="line.145">            }</a>
+<span class="sourceLineNo">146</span><a id="line.146">            reader.reset();</a>
+<span class="sourceLineNo">147</span><a id="line.147">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">148</span><a id="line.148">            throw new ParsingException(node, 0, 0, null, "peeking file size", ex);</a>
+<span class="sourceLineNo">149</span><a id="line.149">        }</a>
+<span class="sourceLineNo">150</span><a id="line.150"></a>
+<span class="sourceLineNo">151</span><a id="line.151">        try (JsonReader parser = new JsonReader(reader)) {</a>
+<span class="sourceLineNo">152</span><a id="line.152">            parser.setLenient(this.lenient);</a>
+<span class="sourceLineNo">153</span><a id="line.153">            parseValue(parser, node);</a>
+<span class="sourceLineNo">154</span><a id="line.154">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">155</span><a id="line.155">            throw ParsingException.wrap(node, ex);</a>
+<span class="sourceLineNo">156</span><a id="line.156">        }</a>
+<span class="sourceLineNo">157</span><a id="line.157">    }</a>
+<span class="sourceLineNo">158</span><a id="line.158"></a>
+<span class="sourceLineNo">159</span><a id="line.159">    private void parseValue(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException {</a>
+<span class="sourceLineNo">160</span><a id="line.160">        final JsonToken token;</a>
+<span class="sourceLineNo">161</span><a id="line.161">        try {</a>
+<span class="sourceLineNo">162</span><a id="line.162">            token = parser.peek();</a>
+<span class="sourceLineNo">163</span><a id="line.163">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">164</span><a id="line.164">            throw newException(parser, node, ex.getMessage(), ex);</a>
+<span class="sourceLineNo">165</span><a id="line.165">        }</a>
+<span class="sourceLineNo">166</span><a id="line.166"></a>
+<span class="sourceLineNo">167</span><a id="line.167">        try {</a>
+<span class="sourceLineNo">168</span><a id="line.168">            switch (token) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">                case BEGIN_OBJECT:</a>
+<span class="sourceLineNo">170</span><a id="line.170">                    parseObject(parser, node);</a>
+<span class="sourceLineNo">171</span><a id="line.171">                    break;</a>
+<span class="sourceLineNo">172</span><a id="line.172">                case BEGIN_ARRAY:</a>
+<span class="sourceLineNo">173</span><a id="line.173">                    parseArray(parser, node);</a>
+<span class="sourceLineNo">174</span><a id="line.174">                    break;</a>
+<span class="sourceLineNo">175</span><a id="line.175">                case NUMBER:</a>
+<span class="sourceLineNo">176</span><a id="line.176">                    node.raw(readNumber(parser));</a>
+<span class="sourceLineNo">177</span><a id="line.177">                    break;</a>
+<span class="sourceLineNo">178</span><a id="line.178">                case STRING:</a>
+<span class="sourceLineNo">179</span><a id="line.179">                    node.raw(parser.nextString());</a>
+<span class="sourceLineNo">180</span><a id="line.180">                    break;</a>
+<span class="sourceLineNo">181</span><a id="line.181">                case BOOLEAN:</a>
+<span class="sourceLineNo">182</span><a id="line.182">                    node.raw(parser.nextBoolean());</a>
+<span class="sourceLineNo">183</span><a id="line.183">                    break;</a>
+<span class="sourceLineNo">184</span><a id="line.184">                case NULL: // Ignored values</a>
+<span class="sourceLineNo">185</span><a id="line.185">                    parser.nextNull();</a>
+<span class="sourceLineNo">186</span><a id="line.186">                    node.raw(null);</a>
+<span class="sourceLineNo">187</span><a id="line.187">                    break;</a>
+<span class="sourceLineNo">188</span><a id="line.188">                case NAME:</a>
+<span class="sourceLineNo">189</span><a id="line.189">                    break;</a>
+<span class="sourceLineNo">190</span><a id="line.190">                default:</a>
+<span class="sourceLineNo">191</span><a id="line.191">                    throw newException(parser, node, "Unsupported token type: " + token, null);</a>
+<span class="sourceLineNo">192</span><a id="line.192">            }</a>
+<span class="sourceLineNo">193</span><a id="line.193">        } catch (final JsonParseException | MalformedJsonException ex) {</a>
+<span class="sourceLineNo">194</span><a id="line.194">            throw newException(parser, node, ex.getMessage(), ex.getCause());</a>
+<span class="sourceLineNo">195</span><a id="line.195">        } catch (final ParsingException ex) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">            ex.initPath(node::path);</a>
+<span class="sourceLineNo">197</span><a id="line.197">            throw ex;</a>
+<span class="sourceLineNo">198</span><a id="line.198">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">199</span><a id="line.199">            throw newException(parser, node, "An underlying exception occurred", ex);</a>
+<span class="sourceLineNo">200</span><a id="line.200">        }</a>
+<span class="sourceLineNo">201</span><a id="line.201">    }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">    private ParsingException newException(final JsonReader reader, final ConfigurationNode node, final @Nullable String message,</a>
+<span class="sourceLineNo">204</span><a id="line.204">            final @Nullable Throwable cause) {</a>
+<span class="sourceLineNo">205</span><a id="line.205">        return new ParsingException(node, JsonReaderAccess.lineNumber(reader), JsonReaderAccess.column(reader), null, message, cause);</a>
+<span class="sourceLineNo">206</span><a id="line.206">    }</a>
+<span class="sourceLineNo">207</span><a id="line.207"></a>
+<span class="sourceLineNo">208</span><a id="line.208">    private Number readNumber(final JsonReader reader) throws IOException {</a>
+<span class="sourceLineNo">209</span><a id="line.209">        final String number = reader.nextString();</a>
+<span class="sourceLineNo">210</span><a id="line.210">        if (number.contains(".")) {</a>
+<span class="sourceLineNo">211</span><a id="line.211">            return Double.parseDouble(number);</a>
+<span class="sourceLineNo">212</span><a id="line.212">        }</a>
+<span class="sourceLineNo">213</span><a id="line.213">        final long nextLong = Long.parseLong(number);</a>
+<span class="sourceLineNo">214</span><a id="line.214">        final int nextInt = (int) nextLong;</a>
+<span class="sourceLineNo">215</span><a id="line.215">        if (nextInt == nextLong) {</a>
+<span class="sourceLineNo">216</span><a id="line.216">            return nextInt;</a>
+<span class="sourceLineNo">217</span><a id="line.217">        }</a>
+<span class="sourceLineNo">218</span><a id="line.218">        return nextLong;</a>
+<span class="sourceLineNo">219</span><a id="line.219">    }</a>
+<span class="sourceLineNo">220</span><a id="line.220"></a>
+<span class="sourceLineNo">221</span><a id="line.221">    private void parseArray(final JsonReader parser, final BasicConfigurationNode node) throws IOException {</a>
+<span class="sourceLineNo">222</span><a id="line.222">        parser.beginArray();</a>
+<span class="sourceLineNo">223</span><a id="line.223"></a>
+<span class="sourceLineNo">224</span><a id="line.224">        boolean written = false;</a>
+<span class="sourceLineNo">225</span><a id="line.225">        @Nullable JsonToken token;</a>
+<span class="sourceLineNo">226</span><a id="line.226">        while ((token = parser.peek()) != null) {</a>
+<span class="sourceLineNo">227</span><a id="line.227">            if (token == JsonToken.END_ARRAY) {</a>
+<span class="sourceLineNo">228</span><a id="line.228">                parser.endArray();</a>
+<span class="sourceLineNo">229</span><a id="line.229">                // ensure the type is preserved</a>
+<span class="sourceLineNo">230</span><a id="line.230">                if (!written) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">                    node.raw(Collections.emptyList());</a>
+<span class="sourceLineNo">232</span><a id="line.232">                }</a>
+<span class="sourceLineNo">233</span><a id="line.233">                return;</a>
+<span class="sourceLineNo">234</span><a id="line.234">            } else {</a>
+<span class="sourceLineNo">235</span><a id="line.235">                parseValue(parser, node.appendListNode());</a>
+<span class="sourceLineNo">236</span><a id="line.236">                written = true;</a>
+<span class="sourceLineNo">237</span><a id="line.237">            }</a>
+<span class="sourceLineNo">238</span><a id="line.238">        }</a>
+<span class="sourceLineNo">239</span><a id="line.239">        throw newException(parser, node, "Reached end of stream with unclosed array!", null);</a>
+<span class="sourceLineNo">240</span><a id="line.240">    }</a>
+<span class="sourceLineNo">241</span><a id="line.241"></a>
+<span class="sourceLineNo">242</span><a id="line.242">    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {</a>
+<span class="sourceLineNo">243</span><a id="line.243">        parser.beginObject();</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">        boolean written = false;</a>
+<span class="sourceLineNo">246</span><a id="line.246">        @Nullable JsonToken token;</a>
+<span class="sourceLineNo">247</span><a id="line.247">        while ((token = parser.peek()) != null) {</a>
+<span class="sourceLineNo">248</span><a id="line.248">            switch (token) {</a>
+<span class="sourceLineNo">249</span><a id="line.249">                case END_OBJECT:</a>
+<span class="sourceLineNo">250</span><a id="line.250">                case END_DOCUMENT:</a>
+<span class="sourceLineNo">251</span><a id="line.251">                    parser.endObject();</a>
+<span class="sourceLineNo">252</span><a id="line.252">                    // ensure the type is preserved</a>
+<span class="sourceLineNo">253</span><a id="line.253">                    if (!written) {</a>
+<span class="sourceLineNo">254</span><a id="line.254">                        node.raw(Collections.emptyMap());</a>
+<span class="sourceLineNo">255</span><a id="line.255">                    }</a>
+<span class="sourceLineNo">256</span><a id="line.256">                    return;</a>
+<span class="sourceLineNo">257</span><a id="line.257">                case NAME:</a>
+<span class="sourceLineNo">258</span><a id="line.258">                    parseValue(parser, node.node(parser.nextName()));</a>
+<span class="sourceLineNo">259</span><a id="line.259">                    written = true;</a>
+<span class="sourceLineNo">260</span><a id="line.260">                    break;</a>
+<span class="sourceLineNo">261</span><a id="line.261">                default:</a>
+<span class="sourceLineNo">262</span><a id="line.262">                    throw new JsonParseException("Received improper object value " + token);</a>
+<span class="sourceLineNo">263</span><a id="line.263">            }</a>
+<span class="sourceLineNo">264</span><a id="line.264">        }</a>
+<span class="sourceLineNo">265</span><a id="line.265">        throw new JsonParseException("Reached end of stream with unclosed object!");</a>
+<span class="sourceLineNo">266</span><a id="line.266">    }</a>
+<span class="sourceLineNo">267</span><a id="line.267"></a>
+<span class="sourceLineNo">268</span><a id="line.268">    @Override</a>
+<span class="sourceLineNo">269</span><a id="line.269">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
+<span class="sourceLineNo">270</span><a id="line.270">        if (!this.lenient &amp;&amp; !node.isMap()) {</a>
+<span class="sourceLineNo">271</span><a id="line.271">            throw new ConfigurateException(node, "Non-lenient json generators must have children of map type");</a>
+<span class="sourceLineNo">272</span><a id="line.272">        }</a>
+<span class="sourceLineNo">273</span><a id="line.273">        try {</a>
+<span class="sourceLineNo">274</span><a id="line.274">            try (JsonWriter generator = new JsonWriter(writer)) {</a>
+<span class="sourceLineNo">275</span><a id="line.275">                generator.setIndent(this.indent);</a>
+<span class="sourceLineNo">276</span><a id="line.276">                generator.setLenient(this.lenient);</a>
+<span class="sourceLineNo">277</span><a id="line.277">                node.visit(GsonVisitor.INSTANCE.get(), generator);</a>
+<span class="sourceLineNo">278</span><a id="line.278">                writer.write(SYSTEM_LINE_SEPARATOR); // Jackson doesn't add a newline at the end of files by default</a>
+<span class="sourceLineNo">279</span><a id="line.279">            }</a>
+<span class="sourceLineNo">280</span><a id="line.280">        } catch (final IOException ex) {</a>
+<span class="sourceLineNo">281</span><a id="line.281">            throw ConfigurateException.wrap(node, ex);</a>
+<span class="sourceLineNo">282</span><a id="line.282">        }</a>
+<span class="sourceLineNo">283</span><a id="line.283">    }</a>
+<span class="sourceLineNo">284</span><a id="line.284"></a>
+<span class="sourceLineNo">285</span><a id="line.285">    @Override</a>
+<span class="sourceLineNo">286</span><a id="line.286">    public BasicConfigurationNode createNode(final ConfigurationOptions options) {</a>
+<span class="sourceLineNo">287</span><a id="line.287">        return BasicConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">288</span><a id="line.288">    }</a>
+<span class="sourceLineNo">289</span><a id="line.289"></a>
+<span class="sourceLineNo">290</span><a id="line.290">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
