@@ -130,6 +130,6 @@ public interface TransformAction {
      * @return a modified path, or null if the path is to stay the same
      * @since 4.0.0
      */
-    @Nullable Object @Nullable[] visitPath(NodePath path, ConfigurationNode value) throws ConfigurateException;
+    Object @Nullable[] visitPath(NodePath path, ConfigurationNode value) throws ConfigurateException;
 
 }
