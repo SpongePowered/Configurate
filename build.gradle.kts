@@ -71,9 +71,6 @@ gitPublish {
         }
         from(tasks.aggregateJavadoc) {
             into("$version/apidocs")
-            if (!(version as String).endsWith("SNAPSHOT")) {
-                into("apidocs")
-            }
         }
     }
 
