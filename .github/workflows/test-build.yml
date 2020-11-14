@@ -6,6 +6,9 @@ on: [push, pull_request]
 
 jobs:
   build:
+    # Only run on PRs if the source branch is on someone else's repo
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.repository.full_name }}
+
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
