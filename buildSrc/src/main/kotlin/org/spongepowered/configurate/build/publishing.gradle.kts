@@ -36,6 +36,7 @@ if (project.hasProperty("spongeKeyStore")) {
     } else {
         // Write keystore to a temporary file
         val dest = layout.projectDirectory.file(".gradle/signing-key").asFile
+        dest.parentFile.mkdirs()
         dest.createNewFile()
         try {
             Files.setPosixFilePermissions(dest.toPath(), setOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE))
