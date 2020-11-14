@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://github.com/lightbend/config/">HOCON</a> library, plus supports.
+ * Configuration loader for the <a href="https://github.com/lightbend/config/">HOCON</a> library.
  *
  * <p>Due to limitations in the library currently used, this loader does not
  * respect nodes' map factories. This means that ordering in configurations will

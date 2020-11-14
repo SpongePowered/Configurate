@@ -16,7 +16,7 @@
  */
 /**
  * Configuration loader for the <a href="https://www.w3.org/TR/xml/">XML</a>
- * format, plus supports.
+ * format.
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.xml;

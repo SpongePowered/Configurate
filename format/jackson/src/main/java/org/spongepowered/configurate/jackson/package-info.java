@@ -16,7 +16,7 @@
  */
 /**
  * Configuration loader for the <a href="https://www.json.org/json-en.html">JSON</a> format using <a
- * href="https://github.com/FasterXML/jackson">Jackson</a>, plus supports.
+ * href="https://github.com/FasterXML/jackson">Jackson</a>.
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.jackson;

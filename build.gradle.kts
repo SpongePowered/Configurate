@@ -55,6 +55,7 @@ tasks.aggregateJavadoc.configure {
     classpath = classpath.minus(files(excludedProjects))
     (options as? StandardJavadocDocletOptions)?.apply {
         addBooleanOption("Xdoclint:-missing", true)
+        links("https://docs.oracle.com/javase/8/docs/api/")
     }
 }
 

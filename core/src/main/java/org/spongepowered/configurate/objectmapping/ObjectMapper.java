@@ -241,7 +241,7 @@ public interface ObjectMapper<V> {
         TypeSerializer<Object> asTypeSerializer();
 
         /**
-         * A builder for settings to be applied to an object mapper.
+         * A builder for a configured factory producing object mappers.
          *
          * <p>In general, with multiple applicable resolvers, the one registered
          * last will take priority.</p>

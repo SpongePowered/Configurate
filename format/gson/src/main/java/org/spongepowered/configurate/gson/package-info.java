@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 /**
- * Configuration loader for the <a href="https://json.org">JSON</a> format, plus supports.
+ * Configuration loader for the <a href="https://json.org">JSON</a> format.
  *
- * <p>Currently, this format is implemented using the <a href="https://github.com/google/gson/">Gson</a> library, but that
- * is subject to change at any time.</p>
+ * <p>Currently, this format is implemented using the <a href="https://github.com/google/gson/">Google Gson</a> library.</p>
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.gson;

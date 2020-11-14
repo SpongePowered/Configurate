@@ -38,7 +38,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public T deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
+    public final T deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         final Type entryType = elementType(type);
         final @Nullable TypeSerializer<?> entrySerial = node.options().serializers().get(entryType);
         if (entrySerial == null) {
@@ -70,7 +70,7 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
+    public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
         final Type entryType = elementType(type);
         final @Nullable TypeSerializer entrySerial = node.options().serializers().get(entryType);
         if (entrySerial == null) {

@@ -93,7 +93,7 @@ public interface FieldDiscoverer<I> {
     <V> @Nullable InstanceFactory<I> discover(AnnotatedType target, FieldCollector<I, V> collector) throws SerializationException;
 
     /**
-     * A handler for controlling the deserialization process for an object.
+     * A handler that controls the deserialization process for an object.
      *
      * @param <I> intermediate type
      * @since 4.0.0
