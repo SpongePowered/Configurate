@@ -62,7 +62,7 @@ repositories {
 
 dependencies {
     // Modify this line to target the loader you wish to use.
-    compile 'org.spongepowered:configurate-hocon:3.7.1'
+    compile 'org.spongepowered:configurate-hocon:4.0.0'
 }
 ```
 
@@ -74,7 +74,7 @@ dependencies {
         <groupId>org.spongepowered</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>configurate-hocon</artifactId>
-        <version>3.7.1</version>
+        <version>4.0.0</version>
     </dependency>
 </dependencies>
 ```
