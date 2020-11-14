@@ -22,7 +22,7 @@ buildscript {
 }
 
 group = "org.spongepowered"
-version = "4.0.0"
+version = "4.1.0-SNAPSHOT"
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
