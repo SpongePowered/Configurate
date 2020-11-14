@@ -22,6 +22,7 @@ dependencies {
     implementation(gradleApi())
     api("net.kyori:indra-common:$indraVersion")
     api("net.kyori:indra-publishing-sonatype:$indraVersion")
+    api("de.marcphilipp.gradle:nexus-publish-plugin:0.4.+")
     api("gradle.plugin.org.cadixdev.gradle:licenser:0.5.+")
     api("net.ltgt.gradle:gradle-errorprone-plugin:1.+")
     api("net.ltgt.gradle:gradle-nullaway-plugin:1.+")

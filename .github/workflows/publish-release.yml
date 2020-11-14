@@ -40,6 +40,9 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SPONGE_MAVEN_OSSRH_PASSWORD }}
           ORG_GRADLE_PROJECT_spongeSigningKey: ${{ secrets.SPONGE_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_spongeSigningPassword: ${{ secrets.SPONGE_SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_spongeKeyStore: ${{ secrets.CONFIGURATE_JARSIGNING_KEY }}
+          ORG_GRADLE_PROJECT_spongeKeyStoreAlias: ${{ secrets.CONFIGURATE_JARSIGNING_ALIAS }}
+          ORG_GRADLE_PROJECT_spongeKeyStorePassword: ${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}
       - name: Publish to GH pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

@@ -1,8 +1,11 @@
 package org.spongepowered.configurate.build
 
+import de.marcphilipp.gradle.nexus.InitializeNexusStagingRepository
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission
+import java.util.Base64
 import java.util.Locale
 
 plugins {
@@ -40,7 +43,7 @@ if (project.hasProperty("spongeKeyStore")) {
             // oh well
         }
 
-        dest.writeText(keyStoreProp, Charsets.UTF_8)
+        dest.writeBytes(Base64.getDecoder().decode(keyStoreProp))
         // Delete the temporary file when the runtime exits
         dest.deleteOnExit()
         dest
@@ -126,6 +129,19 @@ signing {
         }
     } else {
         signatories = PgpSignatoryProvider() // don't use gpg agent
+    }
+}
+
+// Only publish releases if explicitly chosen
+tasks.withType(PublishToMavenRepository::class).configureEach {
+    onlyIf {
+        project.version.toString().endsWith("-SNAPSHOT") || project.hasProperty("deployRelease")
+    }
+}
+
+tasks.withType(InitializeNexusStagingRepository::class).configureEach {
+    onlyIf {
+        project.version.toString().endsWith("-SNAPSHOT") || project.hasProperty("deployRelease")
     }
 }
 
