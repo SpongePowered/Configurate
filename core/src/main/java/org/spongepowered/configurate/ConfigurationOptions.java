@@ -51,7 +51,7 @@ public abstract class ConfigurationOptions {
         // avoid initialization cycles
 
         static final ConfigurationOptions DEFAULTS = new AutoValue_ConfigurationOptions(MapFactories.insertionOrdered(), null,
-                TypeSerializerCollection.defaults(), null, false, false);
+                TypeSerializerCollection.defaults(), null, true, true);
 
     }
 

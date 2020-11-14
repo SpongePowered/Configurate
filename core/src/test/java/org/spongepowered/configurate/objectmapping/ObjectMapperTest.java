@@ -77,9 +77,9 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testDefaultsNotAppiledUnlessCopyDefaults() throws SerializationException {
+    void testDefaultsNotAppliedUnlessCopyDefaults() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
-        final BasicConfigurationNode source = BasicConfigurationNode.root();
+        final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().shouldCopyDefaults(false));
         final TestObject instance = new TestObject();
         assertTrue(mapper instanceof ObjectMapper.Mutable<?>);
 
@@ -91,7 +91,7 @@ public class ObjectMapperTest {
     @Test
     void testDefaultsApplied() throws SerializationException {
         final ObjectMapper<TestObject> mapper = ObjectMapper.factory().get(TestObject.class);
-        final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults().shouldCopyDefaults(true));
+        final BasicConfigurationNode source = BasicConfigurationNode.root(ConfigurationOptions.defaults());
         final TestObject instance = new TestObject();
         assertTrue(mapper instanceof ObjectMapper.Mutable<?>);
 
