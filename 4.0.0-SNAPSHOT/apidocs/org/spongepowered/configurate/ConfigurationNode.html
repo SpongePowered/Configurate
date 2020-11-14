@@ -126,7 +126,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></code>, <code><a href="BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></code>, <code><a href="CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a></code>, <code><a href="CommentedConfigurationNodeIntermediary.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNodeIntermediary</a>&lt;N&gt;</code>, <code><a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.59">ConfigurationNode</a></pre>
+<pre>public interface <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.58">ConfigurationNode</a></pre>
 <div class="block">A node in the configuration tree.
 
  <p>All aspects of a configurations structure are represented using instances
@@ -545,7 +545,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr id="i47" class="rowColor">
-<td class="colFirst"><code><a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></code></td>
+<td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#path()">path</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the full path of <a href="#key()"><code>keys</code></a> from the root node to this
@@ -715,7 +715,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>NUMBER_DEF</h4>
-<pre>static final&nbsp;int <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.66">NUMBER_DEF</a></pre>
+<pre>static final&nbsp;int <a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.65">NUMBER_DEF</a></pre>
 <div class="block">Default value for unknown number results.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -741,7 +741,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>key</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.92">key</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.91">key</a>()</pre>
 <div class="block">Gets the "key" of this node.
 
  <p>The key determines this <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a>s position within
@@ -775,7 +775,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>path</h4>
-<pre class="methodSignature"><a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.105">path</a>()</pre>
+<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.104">path</a>()</pre>
 <div class="block">Gets the full path of <a href="#key()"><code>keys</code></a> from the root node to this
  node.
 
@@ -796,7 +796,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>parent</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.116">parent</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.115">parent</a>()</pre>
 <div class="block">Gets the parent of this node.
 
  <p>If this node is currently <a href="#virtual()"><code>virtual</code></a>, this method's
@@ -815,7 +815,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>node</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.137">node</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.136">node</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</pre>
 <div class="block">Gets the node at the given (relative) path, possibly traversing multiple
  levels of nodes.
 
@@ -845,7 +845,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>node</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.157">node</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.156">node</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</pre>
 <div class="block">Gets the node at the given (relative) path, possibly traversing multiple
  levels of nodes.
 
@@ -874,7 +874,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>hasChild</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.170">hasChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.169">hasChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;path)</pre>
 <div class="block">Checks whether or not a non-virtual node is present at the relative
  path <code>path</code>.
 
@@ -896,7 +896,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>hasChild</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.183">hasChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.182">hasChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;path)</pre>
 <div class="block">Checks whether or not a non-virtual node is present at the relative
  path <code>path</code>.
 
@@ -918,7 +918,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>virtual</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.196">virtual</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.195">virtual</a>()</pre>
 <div class="block">Gets if this node is virtual.
 
  <p>Virtual nodes are nodes which are not attached to a wider
@@ -939,7 +939,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>options</h4>
-<pre class="methodSignature"><a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.205">options</a>()</pre>
+<pre class="methodSignature"><a href="ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.204">options</a>()</pre>
 <div class="block">Gets the options that currently apply to this node.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -956,7 +956,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>isList</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.213">isList</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.212">isList</a>()</pre>
 <div class="block">Gets if this node has "list children".</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -972,7 +972,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>isMap</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.221">isMap</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.220">isMap</a>()</pre>
 <div class="block">Gets if this node has "map children".</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -988,7 +988,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>empty</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.243">empty</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.242">empty</a>()</pre>
 <div class="block">Return true when this node has a null or empty value.
 
  <p>Values that may result in this method returning true include:
@@ -1018,7 +1018,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>childrenList</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.254">childrenList</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.253">childrenList</a>()</pre>
 <div class="block">Gets the "list children" attached to this node, if it has any.
 
  <p>If this node does not <a href="#isList()"><code>have list children</code></a>, an empty
@@ -1037,7 +1037,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>childrenMap</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.265">childrenMap</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.264">childrenMap</a>()</pre>
 <div class="block">Gets the "map children" attached to this node, if it has any.
 
  <p>If this node does not <a href="#isMap()"><code>have map children</code></a>, an empty map
@@ -1056,7 +1056,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.277">toMapCollector</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.276">toMapCollector</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as map children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -1078,7 +1078,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.297">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;?,&#8203;V&gt;,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.296">toMapCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as map children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -1100,7 +1100,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.317">toListCollector</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.316">toListCollector</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as list children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -1122,7 +1122,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.337">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;V,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>,&#8203;? extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.336">toListCollector</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to this node as list children.
 
  <p>This collector does not accept values in parallel.</p></div>
@@ -1144,7 +1144,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.361">get</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type)
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.360">get</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type)
                      throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
 
@@ -1174,7 +1174,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.385">get</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.384">get</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type,
                   V&nbsp;def)
            throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
@@ -1208,7 +1208,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.410">get</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.409">get</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type,
                   <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;V&gt;&nbsp;defSupplier)
            throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
@@ -1243,7 +1243,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.432">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type)
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.431">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type)
                      throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
 
@@ -1276,7 +1276,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.456">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.455">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
                   V&nbsp;def)
            throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
@@ -1310,7 +1310,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.481">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.480">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
                   <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;V&gt;&nbsp;defSupplier)
            throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
@@ -1345,7 +1345,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.499">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.498">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)
               throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
 
@@ -1371,7 +1371,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.516">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.515">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                    <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;def)
             throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
@@ -1400,7 +1400,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.537">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.536">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                    <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;?&gt;&nbsp;defSupplier)
             throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Get the current value associated with this node.
@@ -1430,7 +1430,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.556">getList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type)
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.555">getList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type)
                                throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">If this node has list values, this function unwraps them and converts
  them to an appropriate type based on the provided function.
@@ -1458,7 +1458,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.577">getList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;elementType,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.576">getList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;elementType,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;def)
                      throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">If this node has list values, this function unwraps them and converts
@@ -1490,7 +1490,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.603">getList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;elementType,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.602">getList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;elementType,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&gt;&nbsp;defSupplier)
                      throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">If this node has list values, this function unwraps them and converts
@@ -1524,7 +1524,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.623">getList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type)
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.622">getList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type)
                                throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">If this node has list values, this function unwraps them and converts
  them to an appropriate type based on the provided function.
@@ -1552,7 +1552,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.645">getList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.644">getList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;def)
                      throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">If this node has list values, this function unwraps them and converts
@@ -1584,7 +1584,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.671">getList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.670">getList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&gt;&nbsp;defSupplier)
                      throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">If this node has list values, this function unwraps them and converts
@@ -1618,7 +1618,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getString</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.685">getString</a>()</pre>
+<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.684">getString</a>()</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1636,7 +1636,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getString</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.697">getString</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;def)</pre>
+<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.696">getString</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;def)</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1656,7 +1656,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getFloat</h4>
-<pre class="methodSignature">default&nbsp;float&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.716">getFloat</a>()</pre>
+<pre class="methodSignature">default&nbsp;float&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.715">getFloat</a>()</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1674,7 +1674,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getFloat</h4>
-<pre class="methodSignature">default&nbsp;float&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.728">getFloat</a>&#8203;(float&nbsp;def)</pre>
+<pre class="methodSignature">default&nbsp;float&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.727">getFloat</a>&#8203;(float&nbsp;def)</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1694,7 +1694,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getDouble</h4>
-<pre class="methodSignature">default&nbsp;double&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.747">getDouble</a>()</pre>
+<pre class="methodSignature">default&nbsp;double&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.746">getDouble</a>()</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1713,7 +1713,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getDouble</h4>
-<pre class="methodSignature">default&nbsp;double&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.759">getDouble</a>&#8203;(double&nbsp;def)</pre>
+<pre class="methodSignature">default&nbsp;double&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.758">getDouble</a>&#8203;(double&nbsp;def)</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1733,7 +1733,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getInt</h4>
-<pre class="methodSignature">default&nbsp;int&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.777">getInt</a>()</pre>
+<pre class="methodSignature">default&nbsp;int&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.776">getInt</a>()</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1751,7 +1751,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getInt</h4>
-<pre class="methodSignature">default&nbsp;int&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.789">getInt</a>&#8203;(int&nbsp;def)</pre>
+<pre class="methodSignature">default&nbsp;int&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.788">getInt</a>&#8203;(int&nbsp;def)</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1771,7 +1771,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getLong</h4>
-<pre class="methodSignature">default&nbsp;long&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.807">getLong</a>()</pre>
+<pre class="methodSignature">default&nbsp;long&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.806">getLong</a>()</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1789,7 +1789,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getLong</h4>
-<pre class="methodSignature">default&nbsp;long&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.819">getLong</a>&#8203;(long&nbsp;def)</pre>
+<pre class="methodSignature">default&nbsp;long&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.818">getLong</a>&#8203;(long&nbsp;def)</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1809,7 +1809,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getBoolean</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.837">getBoolean</a>()</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.836">getBoolean</a>()</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1827,7 +1827,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getBoolean</h4>
-<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.849">getBoolean</a>&#8203;(boolean&nbsp;def)</pre>
+<pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.848">getBoolean</a>&#8203;(boolean&nbsp;def)</pre>
 <div class="block">Gets the value typed using the appropriate type conversion from <a href="serialize/Scalars.html" title="class in org.spongepowered.configurate.serialize"><code>Scalars</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1847,7 +1847,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.871">set</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.870">set</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
                throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Set this node's value to the given value.
 
@@ -1874,7 +1874,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.892">set</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.891">set</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;type,
                           <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;value)
                    throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Set this node's value to the given value.
@@ -1910,7 +1910,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.917">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.916">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;type,
                           <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;value)
                    throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Set this node's value to the given value.
@@ -1948,7 +1948,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.948">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.947">set</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)
                throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Set this node's value to the given value.
@@ -1991,7 +1991,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>setList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.966">setList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.965">setList</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;V&gt;&nbsp;elementType,
                                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;items)
                                throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Set the node's value to the provided list.
@@ -2023,7 +2023,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>setList</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.987">setList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;elementType,
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.986">setList</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;elementType,
                                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;V&gt;&nbsp;items)
                                throws <a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Set the node's value to the provided list.
@@ -2055,7 +2055,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>raw</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1002">raw</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1001">raw</a>()</pre>
 <div class="block">Get the raw value of this node.
 
  <p>The raw value is the plain value that will be passed to the loaders,
@@ -2076,7 +2076,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>raw</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1015">raw</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1014">raw</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
 <div class="block">Set the raw value of this node.
 
  <p>The provided value must be of a type accepted by
@@ -2098,7 +2098,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>rawScalar</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1030">rawScalar</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1029">rawScalar</a>()</pre>
 <div class="block">Get the raw value of this node if the node is a scalar.
 
  <p>The raw value is the plain value that will be passed to the loaders,
@@ -2122,7 +2122,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1040">from</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;other)</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1039">from</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;other)</pre>
 <div class="block">Apply all data from <code>other</code> to this node, overwriting any
  existing data.</div>
 <dl>
@@ -2141,7 +2141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeFrom</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1052">mergeFrom</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;other)</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1051">mergeFrom</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;other)</pre>
 <div class="block">Set all the values from the given node that are not present in this node
  to their values in the provided node.
 
@@ -2162,7 +2162,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>removeChild</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1061">removeChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1060">removeChild</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
 <div class="block">Removes a direct child of this node.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -2180,7 +2180,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>appendListNode</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1070">appendListNode</a>()</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1069">appendListNode</a>()</pre>
 <div class="block">Gets a new child node created as the next entry in the list.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -2197,7 +2197,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1092">copy</a>()</pre>
+<pre class="methodSignature"><a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1091">copy</a>()</pre>
 <div class="block">Creates a deep copy of this node.
 
  <p>If this node has child nodes (is a list or map), the child nodes will
@@ -2227,7 +2227,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>visit</h4>
-<pre class="methodSignature">default&nbsp;&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1105">visit</a>&#8203;(<a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E&gt;&nbsp;visitor)
+<pre class="methodSignature">default&nbsp;&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1104">visit</a>&#8203;(<a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E&gt;&nbsp;visitor)
                                                throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Visit this node hierarchy as described in <a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor</code></a>.</div>
 <dl>
@@ -2255,7 +2255,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>visit</h4>
-<pre class="methodSignature">&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1121">visit</a>&#8203;(<a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E&gt;&nbsp;visitor,
+<pre class="methodSignature">&lt;S,&#8203;T,&#8203;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1120">visit</a>&#8203;(<a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor</a>&lt;S,&#8203;T,&#8203;E&gt;&nbsp;visitor,
                                               S&nbsp;state)
                                        throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Visit this node hierarchy as described in <a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor</code></a>.</div>
@@ -2283,7 +2283,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>visit</h4>
-<pre class="methodSignature">default&nbsp;&lt;S,&#8203;T&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1135">visit</a>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor)</pre>
+<pre class="methodSignature">default&nbsp;&lt;S,&#8203;T&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1134">visit</a>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor)</pre>
 <div class="block">Visit this node hierarchy as described in <a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor</code></a>.
 
  <p>This overload will remove the need for exception handling for visitors
@@ -2309,7 +2309,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>visit</h4>
-<pre class="methodSignature">&lt;S,&#8203;T&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1152">visit</a>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor,
+<pre class="methodSignature">&lt;S,&#8203;T&gt;&nbsp;T&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1151">visit</a>&#8203;(<a href="ConfigurationVisitor.Safe.html" title="interface in org.spongepowered.configurate">ConfigurationVisitor.Safe</a>&lt;S,&#8203;T&gt;&nbsp;visitor,
                     S&nbsp;state)</pre>
 <div class="block">Visit this node hierarchy as described in <a href="ConfigurationVisitor.html" title="interface in org.spongepowered.configurate"><code>ConfigurationVisitor</code></a>.
 
@@ -2337,7 +2337,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>hint</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1167">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint,
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1166">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint,
                            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;value)</pre>
 <div class="block">Set a representation hint on this node.
 
@@ -2363,7 +2363,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>hint</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1180">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint)</pre>
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1179">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint)</pre>
 <div class="block">Query a representation hint from this node.
 
  <p>If the hint is not set on this node, its parents will be recursively
@@ -2386,7 +2386,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>ownHint</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1193">ownHint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint)</pre>
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1192">ownHint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint)</pre>
 <div class="block">Query a representation hint from this node.
 
  <p>This will only check the current node, and return null rather than
@@ -2409,7 +2409,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ownHints</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;?&gt;,&#8203;?&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1203">ownHints</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;?&gt;,&#8203;?&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNode.html#line.1202">ownHints</a>()</pre>
 <div class="block">Get an unmodifiable copy of representation hints stored on this node.
 
  <p>This does not include inherited hints.</p></div>

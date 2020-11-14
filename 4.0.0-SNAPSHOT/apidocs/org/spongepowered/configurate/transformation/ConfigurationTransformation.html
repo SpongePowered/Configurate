@@ -135,7 +135,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.34">ConfigurationTransformation</a></pre>
+public interface <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.35">ConfigurationTransformation</a></pre>
 <div class="block">Represents a set of transformations on a configuration.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -284,7 +284,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockListLast">
 <li class="blockList">
 <h4>WILDCARD_OBJECT</h4>
-<pre>static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a> <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.43">WILDCARD_OBJECT</a></pre>
+<pre>static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a> <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.44">WILDCARD_OBJECT</a></pre>
 <div class="block">A special object that represents a wildcard in a path provided to a
  configuration transformer.</div>
 <dl>
@@ -309,7 +309,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>empty</h4>
-<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.53">empty</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.54">empty</a>()</pre>
 <div class="block">Get an empty transformation.
 
  <p>This transformation will perform no actions.</p></div>
@@ -327,7 +327,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.63">builder</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.64">builder</a>()</pre>
 <div class="block">Create a new builder to create a basic configuration transformation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -343,7 +343,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>versionedBuilder</h4>
-<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.VersionedBuilder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.VersionedBuilder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.73">versionedBuilder</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.VersionedBuilder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.VersionedBuilder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.74">versionedBuilder</a>()</pre>
 <div class="block">This creates a builder for versioned transformations.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -359,7 +359,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockList">
 <li class="blockList">
 <h4>chain</h4>
-<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.84">chain</a>&#8203;(<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>...&nbsp;transformations)</pre>
+<pre class="methodSignature">static&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.85">chain</a>&#8203;(<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>...&nbsp;transformations)</pre>
 <div class="block">Creates a chain of <a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>s.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -377,7 +377,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/tra
 <ul class="blockListLast">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.102">apply</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.103">apply</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
     throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Apply this transformation to a given node.</div>
 <dl>

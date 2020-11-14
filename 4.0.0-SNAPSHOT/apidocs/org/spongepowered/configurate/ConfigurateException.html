@@ -153,7 +153,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></code>, <code><a href="serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.34">ConfigurateException</a>
+<pre>public class <a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.33">ConfigurateException</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Any sort of error thrown within Configurate.
 
@@ -234,7 +234,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.transformation.NodePath,java.lang.String,java.lang.Throwable)">ConfigurateException</a></span>&#8203;(<a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.NodePath,java.lang.String,java.lang.Throwable)">ConfigurateException</a></span>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
                     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
 <td class="colLast">
@@ -268,13 +268,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initPath(java.util.function.Supplier)">initPath</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&gt;&nbsp;path)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initPath(java.util.function.Supplier)">initPath</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&gt;&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Initialize path if none has been set.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a></code></td>
+<td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#path()">path</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the path associated with this failure.</div>
@@ -332,7 +332,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.64">ConfigurateException</a>()</pre>
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.63">ConfigurateException</a>()</pre>
 <div class="block">Create a new unknown exception.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -346,7 +346,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.74">ConfigurateException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.73">ConfigurateException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
 <div class="block">Create a new exception at unknown path with provided
  informational message.</div>
 <dl>
@@ -363,7 +363,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.84">ConfigurateException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.83">ConfigurateException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create a new exception with a cause and unknown message.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -379,7 +379,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.95">ConfigurateException</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.94">ConfigurateException</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create a new exception with informational message and cause.</div>
 <dl>
@@ -397,7 +397,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.106">ConfigurateException</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;pos,
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.105">ConfigurateException</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;pos,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
 <div class="block">Create a new exception pre-initialized with path and message.</div>
 <dl>
@@ -415,7 +415,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.118">ConfigurateException</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;pos,
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.117">ConfigurateException</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;pos,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create a new exception pre-initialized with path and cause.</div>
 <dl>
@@ -433,7 +433,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.131">ConfigurateException</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;pos,
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.130">ConfigurateException</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;pos,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create a new exception pre-initialized with path, message, and cause.</div>
@@ -447,13 +447,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 </dl>
 </li>
 </ul>
-<a id="&lt;init&gt;(org.spongepowered.configurate.transformation.NodePath,java.lang.String,java.lang.Throwable)">
+<a id="&lt;init&gt;(org.spongepowered.configurate.NodePath,java.lang.String,java.lang.Throwable)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ConfigurateException</h4>
-<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.144">ConfigurateException</a>&#8203;(<a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+<pre>public&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.143">ConfigurateException</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create a new exception pre-initialized with path, message, and cause.</div>
@@ -483,7 +483,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.51">wrap</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source,
+<pre class="methodSignature">public static&nbsp;<a href="ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.50">wrap</a>&#8203;(<a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source,
                                         <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>&nbsp;ex)</pre>
 <div class="block">Given an unknown <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>, return it as a Configurate type.
 
@@ -506,7 +506,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>path</h4>
-<pre class="methodSignature">public&nbsp;<a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.155">path</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.154">path</a>()</pre>
 <div class="block">Get the path associated with this failure.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -522,7 +522,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>initPath</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.166">initPath</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="transformation/NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&gt;&nbsp;path)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.165">initPath</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&gt;&nbsp;path)</pre>
 <div class="block">Initialize path if none has been set.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -538,7 +538,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockList">
 <li class="blockList">
 <h4>rawMessage</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.178">rawMessage</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.177">rawMessage</a>()</pre>
 <div class="block">Get the exception's message without any extra formatting.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -554,7 +554,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getMessage</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.188">getMessage</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurateException.html#line.187">getMessage</a>()</pre>
 <div class="block">Get a description of the location of this error, with path included.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

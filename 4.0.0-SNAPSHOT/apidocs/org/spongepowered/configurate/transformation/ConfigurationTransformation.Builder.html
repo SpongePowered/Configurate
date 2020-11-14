@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.109">ConfigurationTransformation.Builder</a>
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.html#line.110">ConfigurationTransformation.Builder</a>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Builds a basic <a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation"><code>ConfigurationTransformation</code></a>.</div>
 <dl>
@@ -163,7 +163,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAction(org.spongepowered.configurate.transformation.NodePath,org.spongepowered.configurate.transformation.TransformAction)">addAction</a></span>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAction(org.spongepowered.configurate.NodePath,org.spongepowered.configurate.transformation.TransformAction)">addAction</a></span>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
          <a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Adds an action to the transformation.</div>
@@ -214,13 +214,13 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="addAction(org.spongepowered.configurate.transformation.NodePath,org.spongepowered.configurate.transformation.TransformAction)">
+<a id="addAction(org.spongepowered.configurate.NodePath,org.spongepowered.configurate.transformation.TransformAction)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAction</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.125">addAction</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate.transformation">NodePath</a>&nbsp;path,
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.126">addAction</a>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
                                                      <a href="TransformAction.html" title="interface in org.spongepowered.configurate.transformation">TransformAction</a>&nbsp;action)</pre>
 <div class="block">Adds an action to the transformation.</div>
 <dl>
@@ -240,7 +240,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>moveStrategy</h4>
-<pre class="methodSignature">public&nbsp;<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.136">moveStrategy</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.137">moveStrategy</a>()</pre>
 <div class="block">Gets the move strategy to be used by the resultant transformation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -256,7 +256,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>moveStrategy</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.147">moveStrategy</a>&#8203;(<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;strategy)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.Builder.html" title="class in org.spongepowered.configurate.transformation">ConfigurationTransformation.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.148">moveStrategy</a>&#8203;(<a href="MoveStrategy.html" title="enum in org.spongepowered.configurate.transformation">MoveStrategy</a>&nbsp;strategy)</pre>
 <div class="block">Sets the mode strategy to be used by the resultant transformation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -274,7 +274,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.158">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationTransformation.html" title="interface in org.spongepowered.configurate.transformation">ConfigurationTransformation</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/transformation/ConfigurationTransformation.Builder.html#line.159">build</a>()</pre>
 <div class="block">Builds the transformation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
