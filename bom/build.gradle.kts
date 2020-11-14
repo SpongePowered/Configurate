@@ -6,6 +6,8 @@ plugins {
     id("org.spongepowered.configurate.build.publishing")
 }
 
+description = "Dependency alignment for all Configurate modules"
+
 indra {
     configurePublications {
         from(components["javaPlatform"])
