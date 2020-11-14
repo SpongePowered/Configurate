@@ -19,6 +19,7 @@ package org.spongepowered.configurate.transformation;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.NodePath;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ final class SingleConfigurationTransformation implements ConfigurationTransforma
      * <p>As such, data within paths is only guaranteed to be the same during a
      * run of a transform function.
      */
-    private final ThreadLocal<NodePathImpl> sharedPath = ThreadLocal.withInitial(NodePathImpl::new);
+    private final ThreadLocal<MutableNodePath> sharedPath = ThreadLocal.withInitial(MutableNodePath::new);
 
     SingleConfigurationTransformation(final Map<NodePath, TransformAction> actions, final MoveStrategy strategy) {
         this.actions = actions;
@@ -117,7 +118,7 @@ final class SingleConfigurationTransformation implements ConfigurationTransforma
         }
 
         // apply action
-        final NodePathImpl nodePath = this.sharedPath.get();
+        final MutableNodePath nodePath = this.sharedPath.get();
         nodePath.arr = path;
 
         final Object @Nullable [] transformedPath = action.visitPath(nodePath, node);

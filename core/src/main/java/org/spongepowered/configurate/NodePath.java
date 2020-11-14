@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.transformation;
+package org.spongepowered.configurate;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,7 +34,11 @@ public interface NodePath extends Iterable<Object> {
      * @since 4.0.0
      */
     static NodePath of(Object[] path) {
-        return new NodePathImpl(path, true);
+        if (path.length == 0) {
+            return NodePathImpl.EMPTY;
+        } else {
+            return new NodePathImpl(path, true);
+        }
     }
 
     /**
@@ -45,7 +49,11 @@ public interface NodePath extends Iterable<Object> {
      * @since 4.0.0
      */
     static NodePath of(Collection<?> path) {
-        return new NodePathImpl(path.toArray(), false);
+        if (path.isEmpty()) {
+            return NodePathImpl.EMPTY;
+        } else {
+            return new NodePathImpl(path.toArray(), false);
+        }
     }
 
     /**

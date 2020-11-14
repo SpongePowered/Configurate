@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.examples;
 
-import static org.spongepowered.configurate.transformation.NodePath.path;
+import static org.spongepowered.configurate.NodePath.path;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;

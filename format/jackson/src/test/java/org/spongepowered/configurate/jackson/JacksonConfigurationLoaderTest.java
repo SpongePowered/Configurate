@@ -27,11 +27,11 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.NodePath;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.loader.HeaderMode;
 import org.spongepowered.configurate.loader.ParsingException;
-import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.MapFactories;
 
 import java.io.BufferedReader;

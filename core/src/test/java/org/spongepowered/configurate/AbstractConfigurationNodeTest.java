@@ -31,7 +31,6 @@ import io.leangen.geantyref.TypeToken;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.serialize.SerializationException;
-import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Type;

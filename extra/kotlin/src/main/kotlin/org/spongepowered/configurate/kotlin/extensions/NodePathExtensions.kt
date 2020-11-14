@@ -16,7 +16,7 @@
  */
 package org.spongepowered.configurate.kotlin.extensions
 
-import org.spongepowered.configurate.transformation.NodePath
+import org.spongepowered.configurate.NodePath
 
 /**
  * Concatenate [this] with another [NodePath].

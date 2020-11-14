@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.transformation;
+package org.spongepowered.configurate;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.concurrent.LazyInit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -27,11 +27,7 @@ final class NodePathImpl implements NodePath {
 
     static final NodePath EMPTY = new NodePathImpl(new Object[0], false);
 
-    @LazyInit Object[] arr;
-
-    NodePathImpl() {
-
-    }
+    private final Object[] arr;
 
     NodePathImpl(final Object[] arr, final boolean copy) {
         requireNonNull(arr);
@@ -88,16 +84,16 @@ final class NodePathImpl implements NodePath {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final @Nullable Object other) {
+        if (this == other) {
             return true;
         }
 
-        if (o == null || getClass() != o.getClass()) {
+        if (other == null || getClass() != other.getClass()) {
             return false;
         }
 
-        final NodePathImpl that = (NodePathImpl) o;
+        final NodePathImpl that = (NodePathImpl) other;
         return Arrays.equals(this.arr, that.arr);
     }
 

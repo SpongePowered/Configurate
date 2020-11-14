@@ -17,10 +17,10 @@
 package org.spongepowered.configurate.kotlin.extensions
 
 import org.spongepowered.configurate.ConfigurationNode
+import org.spongepowered.configurate.NodePath
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.kotlin.typeTokenOf
 import org.spongepowered.configurate.serialize.SerializationException
-import org.spongepowered.configurate.transformation.NodePath
 import kotlin.reflect.KClass
 
 /**

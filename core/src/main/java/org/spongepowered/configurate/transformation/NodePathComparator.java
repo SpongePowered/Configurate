@@ -18,6 +18,8 @@ package org.spongepowered.configurate.transformation;
 
 import static org.spongepowered.configurate.transformation.ConfigurationTransformation.WILDCARD_OBJECT;
 
+import org.spongepowered.configurate.NodePath;
+
 import java.util.Comparator;
 
 final class NodePathComparator implements Comparator<NodePath> {

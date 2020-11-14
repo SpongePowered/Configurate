@@ -19,6 +19,7 @@ package org.spongepowered.configurate.transformation;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.NodePath;
 
 import java.util.Map;
 import java.util.NavigableMap;

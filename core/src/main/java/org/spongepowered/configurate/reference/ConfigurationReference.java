@@ -20,12 +20,12 @@ import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.NodePath;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reactive.Publisher;
 import org.spongepowered.configurate.reactive.TransactionalSubscriber;
 import org.spongepowered.configurate.serialize.SerializationException;
-import org.spongepowered.configurate.transformation.NodePath;
 
 import java.nio.file.Path;
 import java.util.Map;

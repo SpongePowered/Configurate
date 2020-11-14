@@ -19,7 +19,7 @@ package org.spongepowered.configurate.serialize;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.transformation.NodePath;
+import org.spongepowered.configurate.NodePath;
 
 import java.lang.reflect.Type;
 

@@ -19,12 +19,13 @@ package org.spongepowered.configurate.transformation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.spongepowered.configurate.transformation.NodePath.path;
+import static org.spongepowered.configurate.NodePath.path;
 
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.NodePath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public class ConfigurationTransformationTest {
                 path("a", "b", "c", "d"),
                 path("a", "c"),
                 path("a", "b", "b")
-        );
+                                                         );
         final List<NodePath> autoSortedKeys = new ArrayList<>();
         final List<NodePath> expectedSortedKeys = Arrays.asList(
                 path("a", "b", "b"),

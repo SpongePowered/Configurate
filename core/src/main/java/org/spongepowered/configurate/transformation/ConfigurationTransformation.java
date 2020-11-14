@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.NodePath;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;

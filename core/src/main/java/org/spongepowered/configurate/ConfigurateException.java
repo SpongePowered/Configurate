@@ -17,7 +17,6 @@
 package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.transformation.NodePath;
 
 import java.io.IOException;
 import java.util.function.Supplier;

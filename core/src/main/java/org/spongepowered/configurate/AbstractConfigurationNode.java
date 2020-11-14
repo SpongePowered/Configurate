@@ -23,7 +23,6 @@ import static java.util.Objects.requireNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Type;

@@ -19,6 +19,7 @@ package org.spongepowered.configurate.reference;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.NodePath;
 import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.reactive.Disposable;
 import org.spongepowered.configurate.reactive.Publisher;
@@ -27,7 +28,6 @@ import org.spongepowered.configurate.reactive.TransactionFailedException;
 import org.spongepowered.configurate.reference.ConfigurationReference.ErrorPhase;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.transformation.NodePath;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.util.concurrent.Executor;

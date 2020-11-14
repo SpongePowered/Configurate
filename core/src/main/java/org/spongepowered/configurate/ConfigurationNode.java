@@ -27,7 +27,6 @@ import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import org.spongepowered.configurate.transformation.NodePath;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
