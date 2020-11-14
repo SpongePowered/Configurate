@@ -467,4 +467,25 @@ public class AbstractConfigurationNodeTest {
         assertEquals(Collections.singletonList("I'm a list now!"), node.getList(String.class));
     }
 
+    @Test
+    void testMergeToVirtualNode() throws SerializationException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root(n -> {
+            n.node("source", "one").set("hi");
+            n.node("source", "two").set("there");
+        });
+
+        final ConfigurationNode source = node.node("source");
+        assertFalse(source.empty());
+
+        final ConfigurationNode target = node.node("target");
+        assertTrue(target.empty());
+        assertTrue(target.virtual());
+
+        target.mergeFrom(source);
+
+        assertEquals("hi", target.node("one").raw());
+        assertEquals("there", target.node("two").raw());
+        assertFalse(target.virtual());
+    }
+
 }

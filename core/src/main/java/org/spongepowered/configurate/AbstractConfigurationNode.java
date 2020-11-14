@@ -269,6 +269,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public N mergeFrom(final ConfigurationNode other) {
+        // If we are empty, then just directly set our value from the source
+        if ((this.virtual() || this.empty()) && !other.virtual()) {
+            return this.from(other);
+        }
+
         this.hints.putAll(other.ownHints());
         if (other.isMap()) {
             final ConfigValue<N, A> oldValue;
