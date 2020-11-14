@@ -26,7 +26,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: Publish with Gradle (snapshot)
         if: ${{ github.event_name != 'release' }}
-        run: ./gradlew publish gitPublishCopy --stacktrace --info
+        run: ./gradlew publish gitPublishCopy
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}
