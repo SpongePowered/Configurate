@@ -41,7 +41,7 @@ fun Javadoc.applyCommonAttributes() {
             "https://lightbend.github.io/config/latest/api/",
             "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
             "https://checkerframework.org/api/",
-            "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/latest/"
+            "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/"
         )
         options.source = "1.8"
         if (version.isJava9Compatible) {
