@@ -65,6 +65,7 @@ gitPublish {
         from("src/site") {
             val versions = {
                 (listOf(project.version as String) + grgit.tag.list().map { it.name }.reversed())
+                    .distinct()
                     .filter { repoDir.get().dir(it).getAsFile().exists() || it == project.version }
             }
             expand("project" to project, "versions" to versions)
