@@ -23,6 +23,7 @@ import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -39,6 +40,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * @since 4.0.0
  */
 public final class AtomicFiles {
+
+    private static final int MAX_TRIES = 2;
 
     private AtomicFiles() {}
 
@@ -107,7 +110,26 @@ public final class AtomicFiles {
         @Override
         public void close() throws IOException {
             super.close();
-            Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            try {
+                Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (final AccessDeniedException ex) {
+                // Sometimes because of file locking this will fail... Let's just try again and hope for the best
+                // Thanks Windows!
+                for (int tries = 0; tries < MAX_TRIES; ++tries) {
+                    // Pause for a bit
+                    try {
+                        Thread.sleep(5 * tries);
+                        Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (final AccessDeniedException ex2) {
+                        if (tries == MAX_TRIES - 1) {
+                            throw ex;
+                        }
+                    } catch (final InterruptedException exInterrupt) {
+                        Thread.currentThread().interrupt();
+                        throw ex;
+                    }
+                }
+            }
         }
 
     }
