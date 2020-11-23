@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":1,"i5":1,"i6":1,"i7":1,"i8":6,"i9":6,"i10":6};
+var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":1,"i5":1,"i6":1,"i7":1,"i8":6,"i9":6,"i10":6,"i11":6};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -210,13 +210,20 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 </td>
 </tr>
 <tr id="i8" class="altColor">
+<td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#plus(org.spongepowered.configurate.NodePath)">plus</a></span>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;other)</code></th>
+<td class="colLast">
+<div class="block">Create a new path from the combination of <code>this</code> and <code>other</code>.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the length of the path.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#with(int,java.lang.Object)">with</a></span>&#8203;(int&nbsp;index,
     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
@@ -225,7 +232,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
  with <code>value</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withAppendedChild(java.lang.Object)">withAppendedChild</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;childKey)</code></th>
 <td class="colLast">
@@ -421,13 +428,32 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 </dl>
 </li>
 </ul>
+<a id="plus(org.spongepowered.configurate.NodePath)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>plus</h4>
+<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/NodePath.html#line.137">plus</a>&#8203;(<a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;other)</pre>
+<div class="block">Create a new path from the combination of <code>this</code> and <code>other</code>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>other</code> - the path to append</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new path, containing the elements of this path followed by the
+      elements of <code>other</code>.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.1.0</dd>
+</dl>
+</li>
+</ul>
 <a id="iterator()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/NodePath.html#line.135">iterator</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/NodePath.html#line.145">iterator</a>()</pre>
 <div class="block">Returns an iterator over the path.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -445,7 +471,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>copy</h4>
-<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/NodePath.html#line.144">copy</a>()</pre>
+<pre class="methodSignature"><a href="NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/NodePath.html#line.154">copy</a>()</pre>
 <div class="block">Create a new node path with the same data as this path.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
