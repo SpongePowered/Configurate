@@ -46,6 +46,7 @@ final class NodePathImpl implements NodePath {
 
     @Override
     public NodePath withAppendedChild(final Object childKey) {
+        requireNonNull(childKey, "childKey");
         final Object[] arr = this.arr;
         if (arr.length == 0) {
             return new NodePathImpl(new Object[] {childKey}, false);
@@ -59,6 +60,7 @@ final class NodePathImpl implements NodePath {
 
     @Override
     public NodePath with(final int index, final Object value) throws IndexOutOfBoundsException {
+        requireNonNull(value, "value");
         final Object[] arr = this.arr;
         if (index < 0 || index >= arr.length) {
             throw new IndexOutOfBoundsException("Index " + index + " is not within limit of [0," + arr.length + ")");
@@ -66,6 +68,24 @@ final class NodePathImpl implements NodePath {
         final Object[] newPath = Arrays.copyOf(arr, arr.length);
         newPath[index] = value;
         return new NodePathImpl(newPath, false);
+    }
+
+    @Override
+    public NodePath plus(final NodePath other) {
+        requireNonNull(other, "other");
+
+        // Avoid copies for empty paths
+        if (this.arr.length == 0) {
+            return other;
+        } else if (other.size() == 0) {
+            return this;
+        }
+
+        final Object[] otherArr = (other instanceof NodePathImpl) ? ((NodePathImpl) other).arr : other.array();
+        final Object[] result = new Object[this.arr.length + otherArr.length];
+        System.arraycopy(this.arr, 0, result, 0, this.arr.length);
+        System.arraycopy(otherArr, 0, result, this.arr.length, otherArr.length);
+        return new NodePathImpl(result, false);
     }
 
     @Override

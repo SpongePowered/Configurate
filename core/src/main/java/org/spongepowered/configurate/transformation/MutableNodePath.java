@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.transformation;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import org.spongepowered.configurate.NodePath;
 
@@ -52,6 +54,16 @@ final class MutableNodePath implements NodePath {
     @Override
     public NodePath with(final int index, final Object value) throws IndexOutOfBoundsException {
         return copy().with(index, value);
+    }
+
+    @Override
+    public NodePath plus(final NodePath other) {
+        requireNonNull(other, "other");
+        final Object[] otherArr = other.array();
+        final Object[] target = Arrays.copyOf(this.arr, this.arr.length + otherArr.length);
+        System.arraycopy(otherArr, 0, target, this.arr.length, otherArr.length);
+
+        return NodePath.of(target);
     }
 
     @Override

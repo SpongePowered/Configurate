@@ -127,6 +127,16 @@ public interface NodePath extends Iterable<Object> {
     NodePath with(int index, Object value) throws IndexOutOfBoundsException;
 
     /**
+     * Create a new path from the combination of {@code this} and {@code other}.
+     *
+     * @param other the path to append
+     * @return a new path, containing the elements of this path followed by the
+     *      elements of {@code other}.
+     * @since 4.1.0
+     */
+    NodePath plus(NodePath other);
+
+    /**
      * Returns an iterator over the path.
      *
      * @return an iterator of the path elements
