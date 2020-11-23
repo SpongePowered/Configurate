@@ -113,9 +113,7 @@ public class NodeResolverTest {
     @Test
     void testNodeFromParentRead() throws SerializationException {
         final ConfigurationNode root = BasicConfigurationNode.root(ConfigurationOptions.defaults()
-                                                                           .nativeTypes(ImmutableSet.of(String.class))
-                                                                           .implicitInitialization(true)
-                                                                           .shouldCopyDefaults(true));
+                                                                           .nativeTypes(ImmutableSet.of(String.class)));
 
         root.node("hello").set("yay");
         root.node("skeletons").set("go clunk");
