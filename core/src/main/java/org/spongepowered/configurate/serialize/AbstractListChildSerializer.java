@@ -30,10 +30,15 @@ import java.util.List;
  * {@literal true}.
  *
  * @param <T> the type of collection to serialize
- * @since 4.0.0
+ * @since 4.1.0
  */
-abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
+public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
 
+    /**
+     * Create a new serializer, only for use by subclasses.
+     *
+     * @since 4.1.0
+     */
     protected AbstractListChildSerializer() {
     }
 
@@ -108,8 +113,9 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      *                      to the extent possible.
      * @return the element type
      * @throws SerializationException if the element type could not be detected
+     * @since 4.1.0
      */
-    abstract Type elementType(Type containerType) throws SerializationException;
+    protected abstract Type elementType(Type containerType) throws SerializationException;
 
     /**
      * Create a new instance of the collection. The returned instance must be
@@ -121,8 +127,9 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * @return a newly created collection
      * @throws SerializationException when an error occurs during the creation
      *                                of the collection
+     * @since 4.1.0
      */
-    abstract T createNew(int length, Type elementType) throws SerializationException;
+    protected abstract T createNew(int length, Type elementType) throws SerializationException;
 
     /**
      * Perform the provided action on each element of the provided collection.
@@ -132,8 +139,9 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * @param collection the collection to act on
      * @param action the action to perform
      * @throws SerializationException when thrown by the underlying action
+     * @since 4.1.0
      */
-    abstract void forEachElement(T collection, CheckedConsumer<Object, SerializationException> action) throws SerializationException;
+    protected abstract void forEachElement(T collection, CheckedConsumer<Object, SerializationException> action) throws SerializationException;
 
     /**
      * Place a single deserialized value into the collection being deserialized.
@@ -143,7 +151,8 @@ abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
      * @param deserialized value to add
      * @throws SerializationException if object could not be coerced to an
      *         appropriate type.
+     * @since 4.1.0
      */
-    abstract void deserializeSingle(int index, T collection, @Nullable Object deserialized) throws SerializationException;
+    protected abstract void deserializeSingle(int index, T collection, @Nullable Object deserialized) throws SerializationException;
 
 }

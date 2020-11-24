@@ -36,7 +36,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     @Override
-    Type elementType(final Type containerType) throws SerializationException {
+    protected Type elementType(final Type containerType) throws SerializationException {
         final Type componentType = GenericTypeReflector.getArrayComponentType(containerType);
         if (componentType == null) {
             throw new SerializationException(containerType, "Must be array type");
@@ -44,7 +44,7 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         return componentType;
     }
 
-    static class Objects extends ArraySerializer<Object[]> {
+    static final class Objects extends ArraySerializer<Object[]> {
 
         public static boolean accepts(final Type token) {
             if (!Types.isArray(token)) {
@@ -58,203 +58,220 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        Object[] createNew(final int length, final Type elementType) {
+        protected Object[] createNew(final int length, final Type elementType) {
             return (Object[]) Array.newInstance(GenericTypeReflector.erase(elementType), length);
         }
 
         @Override
-        void forEachElement(final Object[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final Object[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (Object o : collection) {
                 action.accept(o);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final Object[] collection, final @Nullable Object deserialized) {
+        protected void deserializeSingle(final int index, final Object[] collection, final @Nullable Object deserialized) {
             collection[index] = deserialized;
         }
 
     }
 
-    static class Booleans extends ArraySerializer<boolean[]> {
+    static final class Booleans extends ArraySerializer<boolean[]> {
 
         static final Class<boolean[]> TYPE = boolean[].class;
 
         @Override
-        boolean[] createNew(final int length, final Type elementType) {
+        protected boolean[] createNew(final int length, final Type elementType) {
             return new boolean[length];
         }
 
         @Override
-        void forEachElement(final boolean[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final boolean[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (boolean b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final boolean[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final boolean[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? false : Scalars.BOOLEAN.deserialize(deserialized);
         }
 
     }
 
-    static class Bytes extends ArraySerializer<byte[]> {
+    static final class Bytes extends ArraySerializer<byte[]> {
 
         static final Class<byte[]> TYPE = byte[].class;
 
         @Override
-        byte[] createNew(final int length, final Type elementType) {
+        protected byte[] createNew(final int length, final Type elementType) {
             return new byte[length];
         }
 
         @Override
-        void forEachElement(final byte[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final byte[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (byte b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final byte[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final byte[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).byteValue();
         }
 
     }
 
-    static class Chars extends ArraySerializer<char[]> {
+    static final class Chars extends ArraySerializer<char[]> {
 
         static final Class<char[]> TYPE = char[].class;
 
         @Override
-        char[] createNew(final int length, final Type elementType) {
+        protected char[] createNew(final int length, final Type elementType) {
             return new char[length];
         }
 
         @Override
-        void forEachElement(final char[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final char[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (char b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final char[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final char[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.CHAR.deserialize(deserialized);
         }
 
     }
 
-    static class Shorts extends ArraySerializer<short[]> {
+    static final class Shorts extends ArraySerializer<short[]> {
 
         static final Class<short[]> TYPE = short[].class;
 
         @Override
-        short[] createNew(final int length, final Type elementType) {
+        protected short[] createNew(final int length, final Type elementType) {
             return new short[length];
         }
 
         @Override
-        void forEachElement(final short[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final short[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (short b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final short[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final short[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized).shortValue();
         }
 
     }
 
-    static class Ints extends ArraySerializer<int[]> {
+    static final class Ints extends ArraySerializer<int[]> {
 
         static final Class<int[]> TYPE = int[].class;
 
         @Override
-        int[] createNew(final int length, final Type elementType) {
+        protected int[] createNew(final int length, final Type elementType) {
             return new int[length];
         }
 
         @Override
-        void forEachElement(final int[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final int[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (int b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final int[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final int[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.INTEGER.deserialize(deserialized);
         }
 
     }
 
-    static class Longs extends ArraySerializer<long[]> {
+    static final class Longs extends ArraySerializer<long[]> {
 
         static final Class<long[]> TYPE = long[].class;
 
         @Override
-        long[] createNew(final int length, final Type elementType) {
+        protected long[] createNew(final int length, final Type elementType) {
             return new long[length];
         }
 
         @Override
-        void forEachElement(final long[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final long[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (long b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final long[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final long[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.LONG.deserialize(deserialized);
         }
 
     }
 
-    static class Floats extends ArraySerializer<float[]> {
+    static final class Floats extends ArraySerializer<float[]> {
 
         static final Class<float[]> TYPE = float[].class;
 
         @Override
-        float[] createNew(final int length, final Type elementType) {
+        protected float[] createNew(final int length, final Type elementType) {
             return new float[length];
         }
 
         @Override
-        void forEachElement(final float[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final float[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (float b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final float[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final float[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.FLOAT.deserialize(deserialized);
         }
 
     }
 
-    static class Doubles extends ArraySerializer<double[]> {
+    static final class Doubles extends ArraySerializer<double[]> {
 
         static final Class<double[]> TYPE = double[].class;
 
         @Override
-        double[] createNew(final int length, final Type elementType) {
+        protected double[] createNew(final int length, final Type elementType) {
             return new double[length];
         }
 
         @Override
-        void forEachElement(final double[] collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+        protected void forEachElement(final double[] collection,
+                final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
             for (double b : collection) {
                 action.accept(b);
             }
         }
 
         @Override
-        void deserializeSingle(final int index, final double[] collection, final @Nullable Object deserialized) throws SerializationException {
+        protected void deserializeSingle(final int index, final double[] collection,
+                final @Nullable Object deserialized) throws SerializationException {
             collection[index] = deserialized == null ? 0 : Scalars.DOUBLE.deserialize(deserialized);
         }
 

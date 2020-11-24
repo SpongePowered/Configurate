@@ -33,7 +33,7 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     }
 
     @Override
-    Type elementType(final Type containerType) throws SerializationException {
+    protected Type elementType(final Type containerType) throws SerializationException {
         if (!(containerType instanceof ParameterizedType)) {
             throw new SerializationException(containerType, "Raw types are not supported for collections");
         }
@@ -41,12 +41,13 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     }
 
     @Override
-    List<?> createNew(final int length, final Type elementType) {
+    protected List<?> createNew(final int length, final Type elementType) {
         return new ArrayList<>(length);
     }
 
     @Override
-    void forEachElement(final List<?> collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+    protected void forEachElement(final List<?> collection,
+            final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
         for (Object el: collection) {
             action.accept(el);
         }
@@ -54,7 +55,7 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    void deserializeSingle(final int index, final List<?> collection, final @Nullable Object deserialized) {
+    protected void deserializeSingle(final int index, final List<?> collection, final @Nullable Object deserialized) {
         ((List) collection).add(deserialized);
     }
 

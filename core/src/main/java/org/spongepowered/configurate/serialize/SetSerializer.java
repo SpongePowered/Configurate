@@ -33,7 +33,7 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    Type elementType(final Type containerType) throws SerializationException {
+    protected Type elementType(final Type containerType) throws SerializationException {
         if (!(containerType instanceof ParameterizedType)) {
             throw new SerializationException("Raw types are not supported for collections");
         }
@@ -41,12 +41,13 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    Set<?> createNew(final int length, final Type elementType) {
+    protected Set<?> createNew(final int length, final Type elementType) {
         return new LinkedHashSet<>(length);
     }
 
     @Override
-    void forEachElement(final Set<?> collection, final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
+    protected void forEachElement(final Set<?> collection,
+            final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
         for (Object el: collection) {
             action.accept(el);
         }
@@ -54,7 +55,7 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    void deserializeSingle(final int index, final Set<?> collection, final @Nullable Object deserialized) {
+    protected void deserializeSingle(final int index, final Set<?> collection, final @Nullable Object deserialized) {
         ((Set) collection).add(deserialized);
     }
 
