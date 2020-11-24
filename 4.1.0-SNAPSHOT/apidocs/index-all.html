@@ -108,6 +108,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">An abstract builder implementation for <a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 </dd>
+<dt><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">AbstractListChildSerializer</span></a>&lt;<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&gt; - Class in <a href="org/spongepowered/configurate/serialize/package-summary.html">org.spongepowered.configurate.serialize</a></dt>
+<dd>
+<div class="block">A serializer for nodes that are 'list-like' (i.e may be stored in nodes where <a href="org/spongepowered/configurate/ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> is
+ true.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#%3Cinit%3E()">AbstractListChildSerializer()</a></span> - Constructor for class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>
+<div class="block">Create a new serializer, only for use by subclasses.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/FieldData.Deserializer.html#accept(I,java.lang.Object,java.util.function.Supplier)">accept(I, Object, Supplier&lt;Object&gt;)</a></span> - Method in interface org.spongepowered.configurate.objectmapping.<a href="org/spongepowered/configurate/objectmapping/FieldData.Deserializer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldData.Deserializer</a></dt>
 <dd>
 <div class="block">Apply either a new value or implicit initializer to the
@@ -867,6 +876,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Create a new node containing the map entries from the
  stream <code>values</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#createNew(int,java.lang.reflect.Type)">createNew(int, Type)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>
+<div class="block">Create a new instance of the collection.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationNodeFactory.html#createNode()">createNode()</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a></dt>
 <dd>
 <div class="block">Create a new node with default options.</div>
@@ -1026,12 +1039,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Given an object of unknown type, attempt to convert it into the given
  type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">deserialize(Type, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">deserialize(Type, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializer.html#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">deserialize(Type, ConfigurationNode)</a></span> - Method in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a></dt>
 <dd>
 <div class="block">Deserialize an object (of the correct type) from the given configuration
  node.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#deserializeSingle(int,T,java.lang.Object)">deserializeSingle(int, T, Object)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>
+<div class="block">Place a single deserialized value into the collection being deserialized.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/extra/dfu/v3/DataFixerTransformation.html#dfuBuilder()">dfuBuilder()</a></span> - Static method in class org.spongepowered.configurate.extra.dfu.v3.<a href="org/spongepowered/configurate/extra/dfu/v3/DataFixerTransformation.html" title="class in org.spongepowered.configurate.extra.dfu.v3">DataFixerTransformation</a></dt>
 <dd>
@@ -1076,6 +1095,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">E</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#elementType(java.lang.reflect.Type)">elementType(Type)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>
+<div class="block">Given the type of container, provide the expected type of an element.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#emitComments(boolean)">emitComments(boolean)</a></span> - Method in class org.spongepowered.configurate.hocon.<a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></dt>
 <dd>
 <div class="block">Set whether comments should be emitted.</div>
@@ -1118,6 +1141,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/extra/dfu/v3/ConfigurateOps.html#emptyMap()">emptyMap()</a></span> - Method in class org.spongepowered.configurate.extra.dfu.v3.<a href="org/spongepowered/configurate/extra/dfu/v3/ConfigurateOps.html" title="class in org.spongepowered.configurate.extra.dfu.v3">ConfigurateOps</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/extra/dfu/v4/ConfigurateOps.html#emptyMap()">emptyMap()</a></span> - Method in class org.spongepowered.configurate.extra.dfu.v4.<a href="org/spongepowered/configurate/extra/dfu/v4/ConfigurateOps.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#emptyValue(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationOptions)">emptyValue(Type, ConfigurationOptions)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializer.html#emptyValue(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationOptions)">emptyValue(Type, ConfigurationOptions)</a></span> - Method in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a></dt>
 <dd>
@@ -1382,6 +1407,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/yaml/NodeStyle.html#FLOW">FLOW</a></span> - org.spongepowered.configurate.yaml.<a href="org/spongepowered/configurate/yaml/NodeStyle.html" title="enum in org.spongepowered.configurate.yaml">NodeStyle</a></dt>
 <dd>
 <div class="block">Always use <a href="https://yaml.org/spec/1.1/#id902924">flow style</a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#forEachElement(T,org.spongepowered.configurate.util.CheckedConsumer)">forEachElement(T, CheckedConsumer&lt;Object, SerializationException&gt;)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>
+<div class="block">Perform the provided action on each element of the provided collection.</div>
 </dd>
 <dt><a href="org/spongepowered/configurate/examples/FormatConversion.html" title="class in org.spongepowered.configurate.examples"><span class="typeNameLink">FormatConversion</span></a> - Class in <a href="org/spongepowered/configurate/examples/package-summary.html">org.spongepowered.configurate.examples</a></dt>
 <dd>
@@ -2997,6 +3026,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Create an exception with message and wrapped cause.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">serialize(Type, T, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">serialize(Type, T, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">serialize(Type, T, ConfigurationNode)</a></span> - Method in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a></dt>
