@@ -21,6 +21,7 @@ import org.spongepowered.configurate.NodePath
 /**
  * Concatenate [this] with another [NodePath].
  */
+@Deprecated(message = "This method has been added directly to NodePath", replaceWith = ReplaceWith("this.plus(other)"))
 operator fun NodePath.plus(other: NodePath): NodePath {
     return NodePath.of(
         Array(this.size() + other.size()) {
