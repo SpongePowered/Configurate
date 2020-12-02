@@ -99,7 +99,13 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
         if (obj == null || obj.isEmpty()) {
             node.set(Collections.emptyMap());
         } else {
-            final Set<Object> unvisitedKeys = new HashSet<>(node.childrenMap().keySet());
+            final Set<Object> unvisitedKeys;
+            if (node.empty()) {
+                node.raw(Collections.emptyMap());
+                unvisitedKeys = Collections.emptySet();
+            } else {
+                unvisitedKeys = new HashSet<>(node.childrenMap().keySet());
+            }
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
             for (Map.Entry<?, ?> ent : obj.entrySet()) {
                 keySerial.serialize(key, ent.getKey(), keyNode);

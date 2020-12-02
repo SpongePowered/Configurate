@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -564,6 +565,24 @@ public class TypeSerializersTest {
         final BasicConfigurationNode source = BasicConfigurationNode.root().set("hello/world.png");
 
         assertEquals(new File("hello/world.png"), fileSerializer.deserialize(File.class, source));
+    }
+
+    @Test
+    void testMapSerializerWriteToEmptyNodeWithIntegerKeys() throws SerializationException {
+        final TypeToken<Map<Integer, String>> type = new TypeToken<Map<Integer, String>>() {};
+        final TypeSerializer<Map<Integer, String>> serializer = this.serializer(type);
+
+        final Map<Integer, String> source = new HashMap<>();
+        source.put(1, "yoink");
+        source.put(5, "hah");
+
+        final BasicConfigurationNode destination = BasicConfigurationNode.root();
+
+        serializer.serialize(type.getType(), source, destination);
+
+        assertTrue(destination.isMap());
+        assertEquals("yoink", destination.node(1).raw());
+        assertEquals("hah", destination.node(5).raw());
     }
 
 }
