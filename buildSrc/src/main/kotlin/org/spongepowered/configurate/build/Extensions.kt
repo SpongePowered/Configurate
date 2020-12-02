@@ -43,9 +43,11 @@ fun Javadoc.applyCommonAttributes() {
             "https://checkerframework.org/api/",
             "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/"
         )
-        options.source = "1.8"
         if (version.isJava9Compatible) {
             options.addBooleanOption("html5", true)
+            options.addStringOption("-release", "8")
+        } else {
+            options.source = "1.8"
         }
         options.linkSource()
     }
