@@ -1,6 +1,5 @@
 package org.spongepowered.configurate.build
 
-import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -27,13 +26,6 @@ fun RepositoryHandler.mojang() {
 }
 
 fun Javadoc.applyCommonAttributes() {
-    val version = JavaVersion.toVersion(toolChain.version)
-    if (version == JavaVersion.VERSION_12) {
-        throw GradleException(
-            "Javadoc cannot be generated on JDK 12 -- " +
-                "see https://bugs.openjdk.java.net/browse/JDK-8222091"
-        )
-    }
     val options = this.options
     options.encoding = "UTF-8"
     if (options is StandardJavadocDocletOptions) {
@@ -43,12 +35,13 @@ fun Javadoc.applyCommonAttributes() {
             "https://checkerframework.org/api/",
             "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/"
         )
-        if (version.isJava9Compatible) {
-            options.addBooleanOption("html5", true)
-            options.addStringOption("-release", "8")
-        } else {
-            options.source = "1.8"
+
+        if (JavaVersion.current() > JavaVersion.VERSION_1_8 && JavaVersion.current() < JavaVersion.VERSION_12) {
+            options.addBooleanOption("-no-module-directories", true)
         }
+
+        options.addBooleanOption("html5", true)
+        options.addStringOption("-release", "8")
         options.linkSource()
     }
 }
