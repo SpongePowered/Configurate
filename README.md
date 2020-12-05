@@ -96,8 +96,8 @@ The following steps will ensure your project is cloned properly.
 In order to build Configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in
  each subproject) labeled similarly to '<subproject>-x.x.x-SNAPSHOT.jar'.
  
- While the entire project can be built on Java 8, some tests require at least Java 14 to run. Our CI will run these for you if you don't have the
-  latest JDK set up locally.
+ While the entire project can run on Java 8, the project requires Java 11 to build, and some tests require at least Java 14 to run. 
+ Our CI will run these for you if you don't have the latest JDK set up locally.
 
 #### Pull Requests
 We love PRs! However, when contributing, here are some things to keep in mind:
