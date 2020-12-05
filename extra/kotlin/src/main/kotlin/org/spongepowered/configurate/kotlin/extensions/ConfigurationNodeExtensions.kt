@@ -58,7 +58,7 @@ operator fun ConfigurationNode.contains(path: Any): Boolean {
  */
 @Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.get(): V? {
-    return get(typeTokenOf<V>(), null as V?)
+    return get(typeTokenOf<V>())
 }
 
 /**
