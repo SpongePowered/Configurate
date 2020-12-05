@@ -1,7 +1,6 @@
 package org.spongepowered.configurate.build
 
 import de.marcphilipp.gradle.nexus.InitializeNexusStagingRepository
-import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission
@@ -148,6 +147,6 @@ tasks.withType(InitializeNexusStagingRepository::class).configureEach {
 
 tasks.withType<Sign>().configureEach {
     onlyIf {
-        !project.hasProperty("skipSigning")
+        !project.hasProperty("skipSigning") && !project.version.toString().endsWith("-SNAPSHOT")
     }
 }
