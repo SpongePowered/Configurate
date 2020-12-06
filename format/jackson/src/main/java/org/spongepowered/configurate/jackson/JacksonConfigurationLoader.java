@@ -252,7 +252,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     }
 
     @Override
-    public void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
         try (JsonGenerator generator = this.factory.createGenerator(writer)) {
             generator.setPrettyPrinter(new ConfiguratePrettyPrinter(this.indent, this.fieldValueSeparatorStyle));
             node.visit(JacksonVisitor.INSTANCE.get(), generator);

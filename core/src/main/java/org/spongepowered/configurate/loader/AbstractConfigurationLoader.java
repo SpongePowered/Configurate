@@ -19,6 +19,7 @@ package org.spongepowered.configurate.loader;
 import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.loader.ParsingException.UNKNOWN_POS;
 
+import com.google.errorprone.annotations.ForOverride;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -175,6 +176,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * @throws ParsingException if an error occurs at any stage of loading
      * @since 4.0.0
      */
+    @ForOverride
     protected abstract void loadInternal(N node, BufferedReader reader) throws ParsingException;
 
     @Override
@@ -210,6 +212,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * @throws IOException if an error occurs in the implementation
      * @since 4.0.0
      */
+    @ForOverride
     protected void writeHeaderInternal(final Writer writer) throws IOException {}
 
     /**
@@ -220,6 +223,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * @throws ConfigurateException if any of the node's data is unsavable
      * @since 4.0.0
      */
+    @ForOverride
     protected abstract void saveInternal(ConfigurationNode node, Writer writer) throws ConfigurateException;
 
     @Override
