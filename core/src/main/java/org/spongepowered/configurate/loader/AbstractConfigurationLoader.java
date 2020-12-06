@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -426,6 +428,35 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @since 4.0.0
          */
         public abstract L build();
+
+        /**
+         * Configure to read from a string, build, and load in one step.
+         *
+         * @param input the input to load
+         * @return a deserialized node
+         * @since 4.1.0
+         */
+        public ConfigurationNode buildAndLoadString(final String input) throws ConfigurateException {
+            return this.source(() -> new BufferedReader(new StringReader(input)))
+                    .build()
+                    .load();
+        }
+
+        /**
+         * Configure to write to a string, build, and save in one step.
+         *
+         * @param output the node to write
+         * @return the output string
+         * @since 4.1.0
+         */
+        public String buildAndSaveString(final ConfigurationNode output) throws ConfigurateException {
+            requireNonNull(output, "output");
+            final StringWriter writer = new StringWriter();
+            this.sink(() -> new BufferedWriter(writer))
+                    .build()
+                    .save(output);
+            return writer.toString();
+        }
 
     }
 

@@ -17,25 +17,25 @@
 package org.spongepowered.configurate.loader;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Writer;
+import java.util.stream.Collectors;
 
 /**
- * This test configuration loader holds a single {@link ConfigurationNode},
- * {@code result}, that is updated when a node is saved and loaded when
- * necessary.
+ * This test configuration loader uses the literal content
+ * of a node as a String, performing no parsing.
  */
 public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicConfigurationNode> {
 
-    private ConfigurationNode result;
-
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, TestConfigurationLoader> {
 
-        @NonNull
         @Override
         public TestConfigurationLoader build() {
             return new TestConfigurationLoader(this);
@@ -52,28 +52,21 @@ public class TestConfigurationLoader extends AbstractConfigurationLoader<BasicCo
 
     @Override
     protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) {
-        node.from(this.result);
+        node.raw(reader.lines().collect(Collectors.joining("\n")));
     }
 
     @Override
-    protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        this.result.from(node);
+    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
+        try {
+            final @Nullable String value = node.getString();
+            if (value != null) {
+                writer.write(value);
+            }
+        } catch (final IOException ex) {
+            throw new ConfigurateException(ex);
+        }
     }
 
-    public ConfigurationNode node() {
-        return this.result;
-    }
-
-    public void node(final ConfigurationNode node) {
-        this.result = node;
-    }
-
-    /**
-     * Return an empty node of the most appropriate type for this loader
-     *
-     * @param options the options to use with this node. Must not be null (take a look at {@link ConfigurationOptions#defaults()})
-     * @return the appropriate node type
-     */
     @Override
     public @NonNull BasicConfigurationNode createNode(final @NonNull ConfigurationOptions options) {
         return BasicConfigurationNode.root(options);

@@ -23,7 +23,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.io.TempDir;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -71,6 +73,20 @@ public class AbstractConfigurationLoaderTest {
         assertEquals(layerOne, Files.readSymbolicLink(layerTwo));
         assertEquals(actualFile, Files.readSymbolicLink(layerOne));
         assertEquals("I should follow symlinks!", String.join("\n", Files.readAllLines(layerTwo, StandardCharsets.UTF_8)));
+    }
+
+    @Test
+    void testLoadFromString() throws ConfigurateException {
+        final ConfigurationNode expected = TestConfigurationLoader.builder().buildAndLoadString("hi there!");
+
+        assertEquals("hi there!", expected.getString());
+    }
+
+    @Test
+    void testSaveToString() throws ConfigurateException {
+        final String expected = TestConfigurationLoader.builder().buildAndSaveString(BasicConfigurationNode.root().raw("i'm a shortcut!"));
+
+        assertEquals("i'm a shortcut!", expected);
     }
 
 }
