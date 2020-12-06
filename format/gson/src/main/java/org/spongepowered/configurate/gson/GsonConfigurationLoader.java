@@ -16,7 +16,12 @@
  */
 package org.spongepowered.configurate.gson;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -31,6 +36,7 @@ import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
 import org.spongepowered.configurate.loader.ParsingException;
+import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.Strings;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -50,6 +56,14 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
     private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
             Double.class, Float.class, Long.class, Integer.class, Boolean.class, String.class);
+    private static final TypeSerializerCollection GSON_SERIALIZERS = TypeSerializerCollection.defaults().childBuilder()
+            .register(JsonElement.class, JsonElementSerializer.INSTANCE)
+            .build();
+
+    // visible for tests
+    static final ConfigurationOptions DEFAULT_OPTIONS = ConfigurationOptions.defaults()
+            .nativeTypes(NATIVE_TYPES)
+            .serializers(GSON_SERIALIZERS);
 
     /**
      * Creates a new {@link GsonConfigurationLoader} builder.
@@ -63,6 +77,22 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     /**
+     * Get a {@link TypeSerializerCollection} for handling Gson types.
+     *
+     * <p>Currently, this serializer can handle:</p>
+     * <ul>
+     *     <li>{@link JsonElement} and its subtypes: {@link JsonArray}, {@link JsonObject},
+     *          {@link JsonPrimitive}, and {@link JsonNull}</li>
+     * </ul>
+     *
+     * @return gson type serializers
+     * @since 4.1.0
+     */
+    public static TypeSerializerCollection gsonSerializers() {
+        return GSON_SERIALIZERS;
+    }
+
+    /**
      * Builds a {@link GsonConfigurationLoader}.
      *
      * @since 4.0.0
@@ -71,7 +101,9 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         private boolean lenient = true;
         private int indent = 2;
 
-        Builder() { }
+        Builder() {
+            defaultOptions(DEFAULT_OPTIONS);
+        }
 
         /**
          * Sets the level of indentation the resultant loader should use.
@@ -130,7 +162,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     private final boolean lenient;
     private final String indent;
 
-    private GsonConfigurationLoader(final Builder builder) {
+    GsonConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
         this.lenient = builder.lenient();
         this.indent = Strings.repeat(" ", builder.indent());
