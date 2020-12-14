@@ -14,19 +14,23 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
+      # Setup
       - name: Check out
         uses: actions/checkout@v2
       - name: Setup JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Cache Gradle packages
-        uses: actions/cache@v1
+      - name: Cache Gradle data
+        uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
           restore-keys: ${{ runner.os }}-gradle
 
+      # Actually build
       - name: Build with Gradle
         run: ./gradlew build
       - name: Archive test results
