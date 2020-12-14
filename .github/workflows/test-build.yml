@@ -13,18 +13,20 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        java: [
-                11, # LTS
-                15 # Latest
-        ]
     steps:
       - name: Check out
         uses: actions/checkout@v2
-
-      - name: Setup JDK ${{ matrix.java }}
+      - name: Setup JDK 11
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 11
+      - name: Cache Gradle packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
       - name: Build with Gradle
         run: ./gradlew build
       - name: Archive test results

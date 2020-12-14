@@ -1,6 +1,5 @@
 package org.spongepowered.configurate.build
 
-import net.kyori.indra.versionNumber
 import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
 
@@ -109,12 +108,19 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
+// Apply a license header
 license {
     header = rootProject.file("LICENSE_HEADER")
 }
 
+// Set up automatic module name
 tasks.jar {
     manifest.attributes["Automatic-Module-Name"] = "${project.group}.configurate.${project.name.replace('-', '.')}"
+}
+
+// Configure target versions
+indra {
+    javaVersions.testWith(8, 11, 15)
 }
 
 // Checkstyle (based on Sponge config)
@@ -209,7 +215,7 @@ val apiDiffPrevious by configurations.registering {
     attributes {
         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class, Usage.JAVA_API))
         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class, Category.LIBRARY))
-        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, versionNumber(indra.java.get()))
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, indra.javaVersions.target.get())
     }
 
     defaultDependencies {
@@ -240,6 +246,7 @@ val apiDiff by tasks.registering(me.champeau.gradle.japicmp.JapicmpTask::class) 
     newArchives = configurations.apiElements.get().outgoing.artifacts.files
     isIgnoreMissingClasses = true // TODO: Doesn't seem to respect the classpath parameters
 
+    isOnlyModified = true
     htmlOutputFile = layout.buildDirectory.file("reports/api-diff-long.html").get().asFile
 
     richReport {
