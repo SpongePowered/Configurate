@@ -1,6 +1,8 @@
 package org.spongepowered.configurate.build
 
+import net.kyori.indra.versionNumber
 import net.ltgt.gradle.errorprone.errorprone
+import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
 
 plugins {
     id("org.spongepowered.configurate.build.publishing")
@@ -9,6 +11,7 @@ plugins {
     id("net.kyori.indra.license-header")
     id("net.ltgt.errorprone")
     // id("net.ltgt.nullaway")
+    id("me.champeau.gradle.japicmp")
     pmd
 }
 
@@ -32,7 +35,7 @@ tasks.register("resolveAllForLocking") {
     }
     doLast {
         configurations
-            .filter { it.isCanBeResolved }
+            .filter { it.isCanBeResolved && (it.resolutionStrategy as ResolutionStrategyInternal).isDependencyLockingEnabled }
             .forEach { it.resolve() }
     }
 }
@@ -194,5 +197,53 @@ sourceSets.configureEach set@{
 
     tasks.check.configure {
         dependsOn(cpdTask)
+    }
+}
+
+// API diff viewer
+
+val apiDiffPrevious by configurations.registering {
+    isCanBeConsumed = false
+    isCanBeResolved = true
+    resolutionStrategy.deactivateDependencyLocking() // We dynamically calculate our version, no need for this
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class, Usage.JAVA_API))
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class, Category.LIBRARY))
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, versionNumber(indra.java.get()))
+    }
+
+    defaultDependencies {
+        // create based on grgit's previous tag
+        val lastTag = grgit.tag.list().lastOrNull()
+        if (lastTag != null) {
+            add(project.dependencies.create("$group:configurate-${project.name}:${lastTag.name}"))
+        }
+    }
+}
+
+val apiDiffPreviousArchive by configurations.registering {
+    isCanBeResolved = true
+    isTransitive = false
+    resolutionStrategy.deactivateDependencyLocking()
+    extendsFrom(apiDiffPrevious.get())
+    isVisible = false
+}
+
+val apiDiff by tasks.registering(me.champeau.gradle.japicmp.JapicmpTask::class) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Generate an API diff between the current source and the last tagged version."
+    // Old artifact: output of old japicmp
+    oldClasspath = apiDiffPrevious.get()
+    oldArchives = apiDiffPreviousArchive.get()
+    // New: Current compile classpath and api output
+    newClasspath = configurations.compileClasspath.get()
+    newArchives = configurations.apiElements.get().outgoing.artifacts.files
+    isIgnoreMissingClasses = true // TODO: Doesn't seem to respect the classpath parameters
+
+    htmlOutputFile = layout.buildDirectory.file("reports/api-diff-long.html").get().asFile
+
+    richReport {
+        title = "${rootProject.name} API difference report for ${project.name}"
+        reportName = "api-diff.html"
     }
 }
