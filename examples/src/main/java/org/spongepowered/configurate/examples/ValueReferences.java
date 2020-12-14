@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ValueReferences {
+public class ValueReferences implements AutoCloseable {
 
     private final WatchServiceListener listener;
     private final ConfigurationReference<CommentedConfigurationNode> base;
@@ -77,22 +77,30 @@ public class ValueReferences {
     }
 
     public ValueReferences(final Path configFile) throws IOException, ConfigurateException {
+        // Initialize the watch service and node
         this.listener = WatchServiceListener.create();
         this.base = this.listener.listenToConfiguration(file -> HoconConfigurationLoader.builder()
-                .defaultOptions(o -> o.shouldCopyDefaults(true)).path(file).build(), configFile);
+                .defaultOptions(opts -> opts.shouldCopyDefaults(true))
+                .path(file)
+                .build(), configFile);
+
+        // Perform actions on successful and unsuccessful reloads
         this.base.updates().subscribe($ -> System.out.println("Configuration auto-reloaded"));
         this.base.errors().subscribe(err -> {
-            final Throwable t = err.getValue();
-            System.out.println("Unable to " + err.getKey() + " the configuration: " + t.getMessage());
-            if (t.getCause() != null) {
-                System.out.println(t.getCause().getMessage());
+            final Throwable thr = err.getValue();
+            System.out.println("Unable to " + err.getKey() + " the configuration: " + thr.getMessage());
+            if (thr.getCause() != null) {
+                System.out.println(thr.getCause().getMessage());
             }
         });
 
+        // Get node references
         this.name = this.base.referenceTo(String.class, "name");
         this.name.subscribe(newName -> System.out.println("Reloaded, name is: " + newName));
         this.cookieCount = this.base.referenceTo(Integer.class, NodePath.path("cookie-count"), 5);
         this.complex = this.base.referenceTo(new TypeToken<List<TestObject>>() {}, "complex");
+
+        // And then save now that values have been initialized
         this.base.save();
     }
 
@@ -158,6 +166,7 @@ public class ValueReferences {
         }
     }
 
+    @Override
     public void close() throws IOException {
         this.base.close();
         this.listener.close();
@@ -169,10 +178,8 @@ public class ValueReferences {
             return;
         }
         final Path path = Paths.get(args[0]);
-        try {
-            final ValueReferences engine = new ValueReferences(path);
+        try (ValueReferences engine = new ValueReferences(path)) {
             engine.repl();
-            engine.close();
         } catch (final IOException e) { // may be a ConfigurateException, or something else
             System.out.println("Error loading configuration: " + e.getMessage());
             e.printStackTrace();

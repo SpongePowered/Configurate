@@ -39,6 +39,17 @@ public interface FieldDiscoverer<I> {
     /**
      * Create a new field discoverer that will handle record classes.
      *
+     * <p>This discoverer will use the record's canonical constructor to create
+     * new instances, passing {@code null} for any missing parameters. The
+     * accessor methods for each record component will be used to read
+     * values from the record.</p>
+     *
+     * @implNote To avoid requiring preview features to run on Java 14 and 15,
+     *     the record discoverer accesses methods reflectively, and can safely
+     *     be created and applied to object mappers running on any Java version.
+     *     Continued support of preview features once they have been released in
+     *     a stable Java version is not guaranteed.
+     *
      * @return new discoverer
      * @since 4.0.0
      */
@@ -50,7 +61,8 @@ public interface FieldDiscoverer<I> {
      * Create a new discoverer for object instance fields.
      *
      * <p>This discoverer will process any non-static and non-transient field
-     * in the object.</p>
+     * in the object. Modifying {@code final} fields is unsupported and may stop
+     * working with newer Java versions.</p>
      *
      * @param instanceFactory a factory for instance providers
      * @return new discoverer

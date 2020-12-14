@@ -22,13 +22,9 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ScopedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +34,8 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
- * Example of how to use the ObjectMapper for a simple read-only configuration.
+ * Example of how to use the ObjectMapper for a simple configuration that is
+ * read to and written from.
  *
  * <p>Error handling is not considered in this example, but for a fully fledged
  * application it would be essential.</p>
@@ -55,31 +52,19 @@ public final class ObjectMapperExample {
                 .build();
 
         final CommentedConfigurationNode node = loader.load(); // Load from file
-        final MyConfiguration config = MyConfiguration.loadFrom(node); // Populate object
+        final MyConfiguration config = node.get(MyConfiguration.class); // Populate object
 
         // Do whatever actions with the configuration, then...
         config.itemName("Steve");
 
-        config.saveTo(node); // Update the backing node
+        node.set(MyConfiguration.class, config); // Update the backing node
         loader.save(node); // Write to the original file
     }
 
     @ConfigSerializable
     static class MyConfiguration {
 
-        private static final ObjectMapper<MyConfiguration> MAPPER;
-
-        static {
-            try {
-                MAPPER = ObjectMapper.factory().get(MyConfiguration.class); // We hold on to the instance of our ObjectMapper
-            } catch (final SerializationException e) {
-                throw new ExceptionInInitializerError(e);
-            }
-        }
-
-        public static MyConfiguration loadFrom(final ConfigurationNode node) throws SerializationException {
-            return MAPPER.load(node);
-        }
+        // Fields must be non-final to be modified
 
         private @Nullable String itemName;
 
@@ -113,10 +98,6 @@ public final class ObjectMapperExample {
                 this.decoratedName = "[" + this.itemName + "]";
             }
             return this.decoratedName;
-        }
-
-        public <N extends ScopedConfigurationNode<N>> void saveTo(final N node) throws SerializationException {
-            MAPPER.save(this, node);
         }
 
     }

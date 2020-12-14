@@ -26,6 +26,10 @@ import java.lang.reflect.AnnotatedElement;
 /**
  * A function to resolve nodes for a specific field.
  *
+ * <p>A {@link Factory} is responsible for creating node resolvers for each
+ * field in an object, and provides the context necessary for a resolver to
+ * determine which node to navigate to.</p>
+ *
  * @since 4.0.0
  */
 public interface NodeResolver {
@@ -39,6 +43,9 @@ public interface NodeResolver {
 
     /**
      * Given a parent node, resolve an appropriate child.
+     *
+     * <p>The {@code parent} node is the node that the mapped object is being
+     * deserialized from.</p>
      *
      * @param parent parent node
      * @return child node, or null if the node should not be deserialized.

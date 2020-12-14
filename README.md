@@ -7,7 +7,7 @@
 
 Configurate is a simple configuration library for Java applications that provides a node-based representation of data, able to handle a wide variety of configuration formats.
 
-Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs).
+Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs) or start a thread on our (new!) [Discussions](https://github.com/SpongePowered/Configurate/discussions) page.
 
 The current supported formats are:
 

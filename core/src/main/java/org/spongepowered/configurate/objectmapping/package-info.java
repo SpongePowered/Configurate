@@ -25,7 +25,8 @@
  *
  * <p>Object mappers work on fields in classes, components in records, and
  * similar data structures with custom {@link org.spongepowered.configurate.objectmapping.FieldDiscoverer}
- * implementations.</p>
+ * implementations. See the method documentation for each field discoverer to
+ * understand the limitations in each type.</p>
  */
 @DefaultQualifier(NonNull.class)
 package org.spongepowered.configurate.objectmapping;
