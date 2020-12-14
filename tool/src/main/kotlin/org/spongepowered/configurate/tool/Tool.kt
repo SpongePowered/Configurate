@@ -93,11 +93,11 @@ class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
 
 class Tool : CliktCommand(
     help =
-        """
+    """
     This tool displays the Configurate data structures read from a config file
     
     This helps to understand the internal structure of Configurate's nodes
-        """.trimIndent()
+    """.trimIndent()
 ) {
     init {
         AnsiConsole.systemInstall()
