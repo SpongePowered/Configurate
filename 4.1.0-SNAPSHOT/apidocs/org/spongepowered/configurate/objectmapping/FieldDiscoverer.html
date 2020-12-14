@@ -246,8 +246,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>record</h4>
-<pre class="methodSignature">static&nbsp;<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.45">record</a>()</pre>
-<div class="block">Create a new field discoverer that will handle record classes.</div>
+<pre class="methodSignature">static&nbsp;<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.56">record</a>()</pre>
+<div class="block">Create a new field discoverer that will handle record classes.
+
+ <p>This discoverer will use the record's canonical constructor to create
+ new instances, passing <code>null</code> for any missing parameters. The
+ accessor methods for each record component will be used to read
+ values from the record.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>new discoverer</dd>
@@ -262,11 +267,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>object</h4>
-<pre class="methodSignature">static&nbsp;<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.59">object</a>&#8203;(<a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;,&#8203;<a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;instanceFactory)</pre>
+<pre class="methodSignature">static&nbsp;<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.71">object</a>&#8203;(<a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>,&#8203;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;,&#8203;<a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;instanceFactory)</pre>
 <div class="block">Create a new discoverer for object instance fields.
 
  <p>This discoverer will process any non-static and non-transient field
- in the object.</p></div>
+ in the object. Modifying <code>final</code> fields is unsupported and may stop
+ working with newer Java versions.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>instanceFactory</code> - a factory for instance providers</dd>
@@ -283,7 +289,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>emptyConstructorObject</h4>
-<pre class="methodSignature">static&nbsp;<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.73">emptyConstructorObject</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.85">emptyConstructorObject</a>()</pre>
 <div class="block">Create a new discoverer for object instance fields.
 
  <p>Only objects with empty constructors can be created.</p></div>
@@ -304,7 +310,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>discover</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="FieldDiscoverer.InstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer.InstanceFactory</a>&lt;<a href="FieldDiscoverer.html" title="type parameter in FieldDiscoverer">I</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.93">discover</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;target,
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="FieldDiscoverer.InstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer.InstanceFactory</a>&lt;<a href="FieldDiscoverer.html" title="type parameter in FieldDiscoverer">I</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/FieldDiscoverer.html#line.105">discover</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;target,
                                                           <a href="FieldDiscoverer.FieldCollector.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer.FieldCollector</a>&lt;<a href="FieldDiscoverer.html" title="type parameter in FieldDiscoverer">I</a>,&#8203;V&gt;&nbsp;collector)
                                                    throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Inspect the <code>target</code> type for fields to be supplied to
