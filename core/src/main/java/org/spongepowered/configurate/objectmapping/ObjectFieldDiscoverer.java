@@ -51,12 +51,20 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
         } catch (final NoSuchMethodException e) {
             return null;
         }
-    });
+    }, "Objects must have a zero-argument constructor to be able to create new instances");
 
     private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory;
+    private final String instanceUnavailableErrorMessage;
 
-    ObjectFieldDiscoverer(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
+    ObjectFieldDiscoverer(
+            final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
+            final @Nullable String instanceUnavailableErrorMessage) {
         this.instanceFactory = instanceFactory;
+        if (instanceUnavailableErrorMessage == null) {
+            this.instanceUnavailableErrorMessage = "Unable to create instances for this type!";
+        } else {
+            this.instanceUnavailableErrorMessage = instanceUnavailableErrorMessage;
+        }
     }
 
     @Override
@@ -112,7 +120,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
             public Object complete(final Map<Field, Object> intermediate) throws SerializationException {
                 final Object instance = maker == null ? null : maker.get();
                 if (instance == null) {
-                    throw new SerializationException(target.getType(), "Unable to create instance with this populator");
+                    throw new SerializationException(target.getType(), ObjectFieldDiscoverer.this.instanceUnavailableErrorMessage);
                 }
                 complete(instance, intermediate);
                 return instance;

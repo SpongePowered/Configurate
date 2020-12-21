@@ -69,7 +69,27 @@ public interface FieldDiscoverer<I> {
      * @since 4.0.0
      */
     static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
-        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"));
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null); // TODO: expose this
+    }
+
+    /**
+     * Create a new discoverer for object instance fields.
+     *
+     * <p>This discoverer will process any non-static and non-transient field
+     * in the object. Modifying {@code final} fields is unsupported and may stop
+     * working with newer Java versions.</p>
+     *
+     * @param instanceFactory a factory for instance providers
+     * @param instanceUnavailableErrorMessage a message that will be part of the
+     *     exception thrown when trying to create instances for an
+     *     unsupported type
+     * @return new discoverer
+     * @since 4.0.0
+     */
+    static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
+            final String instanceUnavailableErrorMessage) {
+        requireNonNull(instanceUnavailableErrorMessage, "instanceUnavailableErrorMessage");
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), instanceUnavailableErrorMessage);
     }
 
     /**

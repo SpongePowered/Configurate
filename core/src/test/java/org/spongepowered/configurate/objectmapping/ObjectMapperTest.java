@@ -132,12 +132,12 @@ public class ObjectMapperTest {
     }
 
     @Test
-    void testNoArglessConstructor() throws SerializationException {
+    void testNoArglessConstructor() {
         Assertions.assertTrue(assertThrows(SerializationException.class, () -> {
             final ObjectMapper<NonZeroArgConstructorObject> mapper = ObjectMapper.factory().get(NonZeroArgConstructorObject.class);
             assertFalse(mapper.canCreateInstances());
             mapper.load(BasicConfigurationNode.root());
-        }).rawMessage().startsWith("Unable to create instance"));
+        }).rawMessage().startsWith("Objects must have a zero-argument"));
     }
 
     @ConfigSerializable
