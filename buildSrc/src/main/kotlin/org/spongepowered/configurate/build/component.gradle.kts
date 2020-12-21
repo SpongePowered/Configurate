@@ -99,7 +99,7 @@ tasks.withType(Javadoc::class).configureEach {
 dependencies {
     // error-prone compiler
     val errorProneVersion: String by project
-    compileOnly("com.google.errorprone:error_prone_annotations:$errorProneVersion")
+    compileOnlyApi("com.google.errorprone:error_prone_annotations:$errorProneVersion")
     errorprone("com.google.errorprone:error_prone_core:$errorProneVersion")
     // errorprone("com.uber.nullaway:nullaway:0.8.0")
 
