@@ -179,7 +179,7 @@ public class SerializationException extends ConfigurateException {
      * @since 4.0.0
      */
     public void initType(final Type type) {
-        if (this.expectedType != null) {
+        if (this.expectedType == null) {
             this.expectedType = type;
         }
     }
