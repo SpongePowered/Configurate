@@ -69,7 +69,7 @@ public interface FieldDiscoverer<I> {
      * @since 4.0.0
      */
     static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
-        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null); // TODO: expose this
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null);
     }
 
     /**
@@ -84,7 +84,7 @@ public interface FieldDiscoverer<I> {
      *     exception thrown when trying to create instances for an
      *     unsupported type
      * @return new discoverer
-     * @since 4.0.0
+     * @since 4.1.0
      */
     static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
             final String instanceUnavailableErrorMessage) {
