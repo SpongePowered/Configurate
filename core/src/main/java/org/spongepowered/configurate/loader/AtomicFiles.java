@@ -91,7 +91,7 @@ public final class AtomicFiles {
     }
 
     private static Path temporaryPath(final Path parent, final String key) {
-        final String fileName = System.nanoTime() + ThreadLocalRandom.current().nextInt()
+        final String fileName = "." + System.nanoTime() + ThreadLocalRandom.current().nextInt()
                 + requireNonNull(key, "key").replaceAll("[\\\\/:]", "-") + ".tmp";
         return parent.resolve(fileName);
     }
