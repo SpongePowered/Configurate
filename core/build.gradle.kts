@@ -1,3 +1,6 @@
+import net.kyori.indra.versionNumber
+import kotlin.math.max
+
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -18,28 +21,38 @@ tasks.jar {
     manifest.attributes["Automatic-Module-Name"] = "${project.group}.configurate"
 }
 
-// Set up Java 14 tests for record support
+// Set up Java 15 tests for record support
+val java15Test by sourceSets.registering {
+    val testDir = file("src/test/java15")
+    java.srcDir(testDir)
 
-if (JavaVersion.current() >= JavaVersion.VERSION_14) {
-    val java14Test by sourceSets.registering {
-        val testDir = file("src/test/java14")
-        java.srcDir(testDir)
-
-        tasks.named<JavaCompile>(compileJavaTaskName).configure {
-            options.release.set(JavaVersion.current().ordinal + 1)
-            options.compilerArgs.addAll(listOf("--enable-preview", "-Xlint:-preview")) // For records
-        }
-
-        dependencies.add(implementationConfigurationName, sourceSets.main.map { it.output })
-
-        configurations.named(compileClasspathConfigurationName).configure { extendsFrom(configurations.testCompileClasspath.get()) }
-        configurations.named(runtimeClasspathConfigurationName).configure { extendsFrom(configurations.testRuntimeClasspath.get()) }
+    tasks.named<JavaCompile>(compileJavaTaskName).configure {
+        javaCompiler.set(javaToolchains.compilerFor { languageVersion.set(JavaLanguageVersion.of(15)) })
+        options.release.set(15)
+        options.compilerArgs.addAll(listOf("--enable-preview", "-Xlint:-preview")) // For records
     }
 
-    tasks.test {
-        testClassesDirs += java14Test.get().output.classesDirs
-        classpath += java14Test.get().runtimeClasspath
-        dependsOn(tasks.named(java14Test.get().compileJavaTaskName))
+    dependencies.add(implementationConfigurationName, sourceSets.main.map { it.output })
+
+    configurations.named(compileClasspathConfigurationName).configure { extendsFrom(configurations.testCompileClasspath.get()) }
+    configurations.named(runtimeClasspathConfigurationName).configure { extendsFrom(configurations.testRuntimeClasspath.get()) }
+}
+
+// If our primary JDK is Java 15, then let's add the Java 15 classes to the main test task
+tasks.test {
+    if (max(indra.javaVersions.minimumToolchain.get(), versionNumber(JavaVersion.current())) == 15) {
+        testClassesDirs += java15Test.get().output.classesDirs
+        classpath += java15Test.get().runtimeClasspath
+        dependsOn(tasks.named(java15Test.get().compileJavaTaskName))
         jvmArgs("--enable-preview") // For records
     }
+}
+
+// But always add to the java 15-specific test task
+tasks.matching { it.name == "testJava15" }.configureEach {
+    require(this is Test) { "Unexpected task type!" }
+    testClassesDirs += java15Test.get().output.classesDirs
+    classpath += java15Test.get().runtimeClasspath
+    dependsOn(tasks.named(java15Test.get().compileJavaTaskName))
+    jvmArgs("--enable-preview") // For records
 }

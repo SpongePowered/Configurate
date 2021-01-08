@@ -88,7 +88,6 @@ public class RecordDiscovererTest {
     @SuppressWarnings("UnusedVariable")
     record Empty(@Nullable String value) {
 
-        @SuppressWarnings("checkstyle:RequireThis") // TODO remove when https://github.com/checkstyle/checkstyle/issues/8873 is resolved
         public Empty {
             if (value == null) {
                 value = "<unknown>";
@@ -101,7 +100,6 @@ public class RecordDiscovererTest {
     @SuppressWarnings("UnusedVariable")
     record ImplicitlyFillable(Empty something, Set<String> somethingElse) {
 
-        @SuppressWarnings("checkstyle:RequireThis") // TODO remove when https://github.com/checkstyle/checkstyle/issues/8873 is resolved
         public ImplicitlyFillable {
             somethingElse = Set.copyOf(somethingElse);
         }
