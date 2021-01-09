@@ -121,6 +121,11 @@ tasks.jar {
 // Configure target versions
 indra {
     javaVersions.testWith(8, 11, 15)
+
+    // TODO: this is fixed in indra 1.3
+    configurePublications {
+        from(components["java"])
+    }
 }
 
 // Checkstyle (based on Sponge config)

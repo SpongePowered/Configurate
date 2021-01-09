@@ -81,7 +81,8 @@ if (project.hasProperty("spongeKeyStore")) {
 
 indra {
     github("SpongePowered", "Configurate") {
-        publishing = true // GH packages
+        publishing = true // GH Packages
+        ci = true // GH Actions
     }
     apache2License()
 
@@ -147,6 +148,6 @@ tasks.withType(InitializeNexusStagingRepository::class).configureEach {
 
 tasks.withType<Sign>().configureEach {
     onlyIf {
-        !project.hasProperty("skipSigning") && !project.version.toString().endsWith("-SNAPSHOT")
+        !project.hasProperty("skipSigning")
     }
 }
