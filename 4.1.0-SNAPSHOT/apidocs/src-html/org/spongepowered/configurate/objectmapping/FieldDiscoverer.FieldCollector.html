@@ -78,7 +78,7 @@
 <span class="sourceLineNo">069</span><a id="line.69">     * @since 4.0.0</a>
 <span class="sourceLineNo">070</span><a id="line.70">     */</a>
 <span class="sourceLineNo">071</span><a id="line.71">    static FieldDiscoverer&lt;?&gt; object(final CheckedFunction&lt;AnnotatedType, @Nullable Supplier&lt;Object&gt;, SerializationException&gt; instanceFactory) {</a>
-<span class="sourceLineNo">072</span><a id="line.72">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null); // TODO: expose this</a>
+<span class="sourceLineNo">072</span><a id="line.72">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null);</a>
 <span class="sourceLineNo">073</span><a id="line.73">    }</a>
 <span class="sourceLineNo">074</span><a id="line.74"></a>
 <span class="sourceLineNo">075</span><a id="line.75">    /**</a>
@@ -93,7 +93,7 @@
 <span class="sourceLineNo">084</span><a id="line.84">     *     exception thrown when trying to create instances for an</a>
 <span class="sourceLineNo">085</span><a id="line.85">     *     unsupported type</a>
 <span class="sourceLineNo">086</span><a id="line.86">     * @return new discoverer</a>
-<span class="sourceLineNo">087</span><a id="line.87">     * @since 4.0.0</a>
+<span class="sourceLineNo">087</span><a id="line.87">     * @since 4.1.0</a>
 <span class="sourceLineNo">088</span><a id="line.88">     */</a>
 <span class="sourceLineNo">089</span><a id="line.89">    static FieldDiscoverer&lt;?&gt; object(final CheckedFunction&lt;AnnotatedType, @Nullable Supplier&lt;Object&gt;, SerializationException&gt; instanceFactory,</a>
 <span class="sourceLineNo">090</span><a id="line.90">            final String instanceUnavailableErrorMessage) {</a>
