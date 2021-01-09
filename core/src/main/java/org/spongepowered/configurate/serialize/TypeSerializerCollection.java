@@ -93,8 +93,9 @@ public final class TypeSerializerCollection {
     /**
      * Resolve a type serializer.
      *
-     * <p>First, all registered serializers from this collection are queried
-     * then if a parent collection is set, that collection is queried.
+     * <p>First, all registered serializers from this collection are queried in
+     * registration order, then if a parent collection is set, that collection
+     * is queried.</p>
      *
      * @param token the type a serializer is required for
      * @param <T> the type to serialize
@@ -111,8 +112,9 @@ public final class TypeSerializerCollection {
     /**
      * Resolve a type serializer.
      *
-     * <p>First, all registered serializers from this collection are queried
-     * then if a parent collection is set, that collection is queried.
+     * <p>First, all registered serializers from this collection are queried in
+     * registration order, then if a parent collection is set, that collection
+     * is queried.</p>
      *
      * <p>This method will fail when provided a raw parameterized type</p>
      *
@@ -222,6 +224,10 @@ public final class TypeSerializerCollection {
 
     /**
      * A builder to construct new serializer collections.
+     *
+     * <p>Serializers added to a builder will be prioritized based on
+     * registration order, so if multiple serializers could match a single type,
+     * the first-registered one will be used.</p>
      *
      * @since 4.0.0
      */
