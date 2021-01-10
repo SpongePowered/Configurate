@@ -90,6 +90,25 @@ fun <T : Any> ConfigurationNode.get(type: KClass<T>, default: T): T {
 }
 
 /**
+ * Get a value from the receiver using the type parameter.
+ *
+ * @see ConfigurationNode.get
+ */
+fun <T : Any> ConfigurationNode.get(type: KClass<T>, default: () -> T): T {
+    return get(type.java, default)
+}
+
+/**
+ * Get a value from the receiver using the type parameter.
+ *
+ * @see ConfigurationNode.get
+ */
+@Throws(SerializationException::class)
+inline fun <reified V> ConfigurationNode.get(noinline default: () -> V): V {
+    return get(typeTokenOf<V>(), default)
+}
+
+/**
  * Set a value from the receiver using the type parameter to resolve a serializer.
  *
  * @see ConfigurationNode.set
