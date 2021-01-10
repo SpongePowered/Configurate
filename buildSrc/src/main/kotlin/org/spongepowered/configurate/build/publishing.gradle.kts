@@ -12,8 +12,13 @@ plugins {
     id("org.ajoberstar.grgit")
 }
 
-val archiveName = "configurate-${name.toLowerCase(Locale.ROOT)}"
-// convention.getPlugin(BasePluginConvention::class).archivesBaseName = archiveName
+val archiveName = if (name.startsWith("configurate")) {
+    name
+} else {
+    "configurate-${name.toLowerCase(Locale.ROOT)}"
+}
+
+base.archivesBaseName = archiveName
 
 tasks.withType(Jar::class).configureEach jar@{
     manifest.attributes["Git-Commit"] = grgit.head().id
@@ -95,9 +100,8 @@ indra {
     }
 
     configurePublications {
+        artifactId = archiveName
         pom {
-            artifactId = archiveName
-
             inceptionYear.set("2014")
             description.set(providers.provider { project.description })
 

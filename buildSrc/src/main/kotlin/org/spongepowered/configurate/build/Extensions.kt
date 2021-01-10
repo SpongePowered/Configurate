@@ -12,11 +12,11 @@ import org.gradle.kotlin.dsl.maven
  * Create a dependency on a specific component in this project
  */
 fun DependencyHandler.format(component: String): Dependency {
-    return project(mapOf("path" to ":format:$component"))
+    return project(mapOf("path" to ":format:configurate-$component"))
 }
 
 fun DependencyHandler.core(): Dependency {
-    return project(mapOf("path" to ":core"))
+    return project(mapOf("path" to ":configurate-core"))
 }
 
 fun RepositoryHandler.mojang() {

@@ -1,4 +1,5 @@
 import org.spongepowered.configurate.build.core
+import org.spongepowered.configurate.build.format
 import org.spongepowered.configurate.build.mojang
 
 plugins {
@@ -14,7 +15,7 @@ repositories {
 dependencies {
     api(core())
     api("com.mojang:datafixerupper:3.0.25")
-    testImplementation(project(":format:gson"))
+    testImplementation(format("gson"))
     testImplementation("com.flowpowered:flow-math:1.0.3")
 }
 

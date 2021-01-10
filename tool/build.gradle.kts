@@ -17,7 +17,7 @@ dependencies {
     implementation(format("yaml"))
     implementation(format("gson"))
     implementation(format("hocon"))
-    implementation(project(":extra:extra-kotlin"))
+    implementation(project(":extra:configurate-extra-kotlin"))
 
     // Libraries
     implementation(kotlin("stdlib-jdk8"))
