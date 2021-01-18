@@ -22,6 +22,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -90,7 +91,7 @@ public interface Constraint<V> {
     static Constraint.Factory<Matches, String> pattern() {
         return (data, type) -> {
             final Pattern test = Pattern.compile(data.value());
-            final MessageFormat format = new MessageFormat(data.failureMessage());
+            final MessageFormat format = new MessageFormat(data.failureMessage(), Locale.getDefault());
             return value -> {
                 if (value != null) {
                     final Matcher match = test.matcher(value);

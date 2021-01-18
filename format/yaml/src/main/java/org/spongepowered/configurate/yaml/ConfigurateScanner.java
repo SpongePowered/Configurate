@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -440,8 +441,8 @@ final class ConfigurateScanner implements Scanner { // Configurate: rename + pac
         }
         if (c == '\t')
             chRepresentation += "(TAB)";
-        String text = String
-                .format("found character '%s' that cannot start any token. (Do not use %s for indentation)",
+        String text = String // Configurate: explicitly specify locale
+                .format(Locale.ROOT, "found character '%s' that cannot start any token. (Do not use %s for indentation)",
                         chRepresentation, chRepresentation);
         throw new ScannerException("while scanning for the next token", null, text,
                 reader.getMark());

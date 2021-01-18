@@ -11,6 +11,7 @@ plugins {
     id("net.ltgt.errorprone")
     // id("net.ltgt.nullaway")
     id("me.champeau.gradle.japicmp")
+    id("de.thetaphi.forbiddenapis")
     pmd
 }
 
@@ -126,6 +127,12 @@ indra {
     configurePublications {
         from(components["java"])
     }
+}
+
+// Forbidden API validation
+forbiddenApis {
+    bundledSignatures = setOf("jdk-unsafe", "jdk-deprecated")
+    failOnMissingClasses = false
 }
 
 // Checkstyle (based on Sponge config)

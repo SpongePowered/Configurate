@@ -29,6 +29,7 @@ dependencies {
     api("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.+")
     api("org.ajoberstar.grgit:grgit-gradle:4.+")
     api("me.champeau.gradle:japicmp-gradle-plugin:0.2.+")
+    api("de.thetaphi:forbiddenapis:3.+")
     implementation("com.google.guava:guava:+")
 }
 
