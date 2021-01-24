@@ -17,12 +17,12 @@ indra {
 dependencies {
     constraints {
         api(core())
-        api(project(":extra:configurate-extra-kotlin"))
-        api(project(":extra:configurate-extra-guice"))
-        api(project(":extra:configurate-extra-dfu2"))
-        api(project(":extra:configurate-extra-dfu3"))
-        api(project(":extra:configurate-extra-dfu4"))
-        api(project(":configurate-tool"))
+        api(project(":extra:extra-kotlin"))
+        api(project(":extra:extra-guice"))
+        api(project(":extra:extra-dfu2"))
+        api(project(":extra:extra-dfu3"))
+        api(project(":extra:extra-dfu4"))
+        api(project(":tool"))
         api(format("gson"))
         api(format("hocon"))
         api(format("jackson"))

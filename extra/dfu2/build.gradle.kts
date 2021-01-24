@@ -1,5 +1,4 @@
 import org.spongepowered.configurate.build.core
-import org.spongepowered.configurate.build.format
 import org.spongepowered.configurate.build.mojang
 
 plugins {
@@ -15,7 +14,7 @@ repositories {
 dependencies {
     api(core())
     api("com.mojang:datafixerupper:2.0.24")
-    testImplementation(format("gson"))
+    testImplementation(project(":format:gson"))
 }
 
 tasks.withType(Javadoc::class) {
