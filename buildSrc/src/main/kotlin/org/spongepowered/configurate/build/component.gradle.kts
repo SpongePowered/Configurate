@@ -158,6 +158,11 @@ if (checkstyleVersion.endsWith("-SNAPSHOT")) {
     }
 }
 
+val objects = project.objects
+tasks.withType(Checkstyle::class) {
+    classpath = objects.fileCollection()
+}
+
 pmd {
     isConsoleOutput = true
     // incrementalAnalysis.set(true)
