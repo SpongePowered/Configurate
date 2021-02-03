@@ -1,15 +1,10 @@
 import org.spongepowered.configurate.build.core
-import org.spongepowered.configurate.build.mojang
 
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
 
 description = "Integration between Configurate and Mojang's DataFixerUpper v3 library"
-
-repositories {
-    mojang()
-}
 
 dependencies {
     api(core())

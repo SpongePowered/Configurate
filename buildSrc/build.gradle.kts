@@ -4,7 +4,13 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    jcenter {
+        content {
+            includeGroup("org.ajoberstar.grgit")
+            includeGroup("org.ajoberstar.grgit.gradle")
+        }
+    }
     gradlePluginPortal()
 }
 

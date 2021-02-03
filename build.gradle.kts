@@ -29,10 +29,6 @@ subprojects {
 }
 
 allprojects {
-    repositories {
-        jcenter()
-    }
-
     ktlint {
         version.set("0.40.0")
     }
@@ -56,6 +52,9 @@ tasks.aggregateJavadoc.configure {
     (options as? StandardJavadocDocletOptions)?.apply {
         addBooleanOption("Xdoclint:-missing", true)
         links("https://docs.oracle.com/javase/8/docs/api/")
+        if (JavaVersion.current() > JavaVersion.VERSION_1_8 && JavaVersion.current() < JavaVersion.VERSION_12) {
+            addBooleanOption("-no-module-directories", true)
+        }
     }
 }
 

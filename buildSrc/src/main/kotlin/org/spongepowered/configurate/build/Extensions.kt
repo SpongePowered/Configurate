@@ -1,6 +1,5 @@
 package org.spongepowered.configurate.build
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.artifacts.dsl.RepositoryHandler
@@ -35,10 +34,6 @@ fun Javadoc.applyCommonAttributes() {
             "https://checkerframework.org/api/",
             "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.11/"
         )
-
-        if (JavaVersion.current() > JavaVersion.VERSION_1_8 && JavaVersion.current() < JavaVersion.VERSION_12) {
-            options.addBooleanOption("-no-module-directories", true)
-        }
 
         options.addBooleanOption("html5", true)
         options.addStringOption("-release", "8")

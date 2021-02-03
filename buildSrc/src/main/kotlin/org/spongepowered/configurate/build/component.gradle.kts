@@ -1,5 +1,6 @@
 package org.spongepowered.configurate.build
 
+import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
 
@@ -13,11 +14,6 @@ plugins {
     id("me.champeau.gradle.japicmp")
     id("de.thetaphi.forbiddenapis")
     pmd
-}
-
-repositories {
-    mavenCentral()
-    jcenter()
 }
 
 // Dependency locking
@@ -109,6 +105,10 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
+configurations {
+    runtimeClasspath { shouldResolveConsistentlyWith(compileClasspath.get()) }
+}
+
 // Apply a license header
 license {
     header = rootProject.file("LICENSE_HEADER")
@@ -122,17 +122,16 @@ tasks.jar {
 // Configure target versions
 indra {
     javaVersions.testWith(8, 11, 15)
-
-    // TODO: this is fixed in indra 1.3
-    configurePublications {
-        from(components["java"])
-    }
 }
 
 // Forbidden API validation
 forbiddenApis {
     bundledSignatures = setOf("jdk-unsafe", "jdk-deprecated")
     failOnMissingClasses = false
+}
+
+tasks.withType(CheckForbiddenApis::class).configureEach {
+    targetCompatibility = indra.javaVersions.actualVersion.get().toString()
 }
 
 // Checkstyle (based on Sponge config)
@@ -157,12 +156,6 @@ if (checkstyleVersion.endsWith("-SNAPSHOT")) {
             includeGroup("com.puppycrawl.tools")
         }
     }
-}
-
-// Create task for executing all checkstyle tasks
-tasks.register("checkstyleAll") {
-    group = LifecycleBasePlugin.VERIFICATION_GROUP
-    dependsOn(tasks.withType(Checkstyle::class))
 }
 
 pmd {

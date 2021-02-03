@@ -1,3 +1,24 @@
+pluginManagement {
+    repositories {
+        maven("https://repo.spongepowered.org/repository/maven-public/") {
+            name = "sponge"
+            mavenContent { releasesOnly() }
+        }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        repositories {
+            maven("https://repo.spongepowered.org/repository/maven-public/") {
+                name = "sponge"
+                mavenContent { releasesOnly() }
+            }
+        }
+    }
+}
+
 private val prefix = "configurate"
 
 rootProject.name = "$prefix-parent"

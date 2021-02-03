@@ -1,3 +1,4 @@
+import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import net.kyori.indra.versionNumber
 import kotlin.math.max
 
@@ -46,6 +47,10 @@ tasks.test {
         dependsOn(tasks.named(java15Test.get().compileJavaTaskName))
         jvmArgs("--enable-preview") // For records
     }
+}
+
+tasks.named("forbiddenApisJava15Test", CheckForbiddenApis::class) {
+    targetCompatibility = "15"
 }
 
 // But always add to the java 15-specific test task
