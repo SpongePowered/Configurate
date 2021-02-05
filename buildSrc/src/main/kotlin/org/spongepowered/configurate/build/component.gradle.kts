@@ -77,6 +77,11 @@ tasks.withType(JavaCompile::class).configureEach {
         }*/
     }
     options.compilerArgs.add("-Xlint:-processing")
+    options.isFork = true
+    options.forkOptions.jvmArgs = listOf(
+        "--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED"
+    )
 }
 
 tasks.withType(Javadoc::class).configureEach {
