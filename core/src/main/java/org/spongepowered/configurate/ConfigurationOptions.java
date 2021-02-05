@@ -19,6 +19,7 @@ package org.spongepowered.configurate;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
@@ -44,6 +45,7 @@ import java.util.function.Consumer;
  * @since 4.0.0
  */
 @AutoValue
+@CheckReturnValue // No method has side effects, so any return value must be used.
 public abstract class ConfigurationOptions {
 
     static class Lazy {
