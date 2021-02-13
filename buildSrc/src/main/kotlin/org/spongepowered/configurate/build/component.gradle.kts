@@ -44,7 +44,7 @@ tasks.register("resolveAllForLocking") {
 @CacheableRule
 open class CorrectlyClassifyMilestonesRule : ComponentMetadataRule {
     companion object {
-        val notActuallyReleaseStatus = Regex("rc|beta|alpha")
+        val notActuallyReleaseStatus = Regex("rc|beta|alpha|(-M\\d+$)")
     }
 
     override fun execute(context: ComponentMetadataContext) {
@@ -106,8 +106,16 @@ dependencies {
 
     // Testing
     val junitVersion: String by project
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion") {
+        attributes {
+            attribute(Attribute.of("org.gradle.status", String::class.java), "release")
+        }
+    }
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion") {
+        attributes {
+            attribute(Attribute.of("org.gradle.status", String::class.java), "release")
+        }
+    }
 }
 
 configurations {
