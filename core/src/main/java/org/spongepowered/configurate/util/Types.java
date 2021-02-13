@@ -62,6 +62,7 @@ public final class Types {
 
     private static final Map<Type, Type> BOXED_TO_PRIMITIVE = UnmodifiableCollections.buildMap(m -> {
         m.put(Boolean.class, boolean.class);
+        m.put(Character.class, char.class);
         m.put(Byte.class, byte.class);
         m.put(Short.class, short.class);
         m.put(Integer.class, int.class);
@@ -73,6 +74,7 @@ public final class Types {
 
     private static final Map<Type, Type> PRIMITIVE_TO_BOXED = UnmodifiableCollections.buildMap(m -> {
         m.put(boolean.class, Boolean.class);
+        m.put(char.class, Character.class);
         m.put(byte.class, Byte.class);
         m.put(short.class, Short.class);
         m.put(int.class, Integer.class);
