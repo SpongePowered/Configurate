@@ -18,36 +18,24 @@ package org.spongepowered.configurate;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Iterator;
-import java.util.Objects;
-
 /**
  * The value in a {@link ConfigurationNode}.
  */
-abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> {
-
-    /**
-     * The node this value "belongs" to.
-     */
-    protected final T holder;
-
-    protected ConfigValue(final T holder) {
-        this.holder = holder;
-    }
+interface ConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> {
 
     /**
      * Gets the value encapsulated by this instance.
      *
      * @return the value
      */
-    abstract @Nullable Object get();
+    @Nullable Object get();
 
     /**
      * Sets the value encapsulated by this instance.
      *
      * @param value the value
      */
-    abstract void set(@Nullable Object value);
+    void set(@Nullable Object value);
 
     /**
      * Put a child value, or null to remove value at that key.
@@ -56,7 +44,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param value the node to put at key
      * @return existing node at key, if present
      */
-    abstract @Nullable T putChild(Object key, @Nullable T value);
+    @Nullable A putChild(Object key, @Nullable A value);
 
     /**
      * Put a child value, if one isn't already present at that key.
@@ -65,7 +53,7 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param value the node to put at key
      * @return existing node at key, if present
      */
-    abstract @Nullable T putChildIfAbsent(Object key, @Nullable T value);
+    @Nullable A putChildIfAbsent(Object key, @Nullable A value);
 
     /**
      * Gets the currently present child for the given key. Returns null if no
@@ -74,41 +62,32 @@ abstract class ConfigValue<N extends ScopedConfigurationNode<N>, T extends Abstr
      * @param key the key to get child at
      * @return the child if any
      */
-    abstract @Nullable T child(@Nullable Object key);
+    @Nullable A child(@Nullable Object key);
 
     /**
      * Returns an iterable over all child nodes.
      *
      * @return an iterator
      */
-    abstract Iterable<T> iterateChildren();
+    Iterable<A> iterateChildren();
 
     /**
      * Creates a copy of this node.
      *
      * @return a copy
      */
-    abstract ConfigValue<N, T> copy(T holder);
+    ConfigValue<N, A> copy(A holder);
 
     /**
      * Whether this value has any content.
      *
      * @return value
      */
-    abstract boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Clears the set value (or any attached child values) from this value.
      */
-    void clear() {
-        for (Iterator<T> it = iterateChildren().iterator(); it.hasNext();) {
-            final T node = it.next();
-            node.attached = false;
-            it.remove();
-            if (Objects.equals(node.parentEnsureAttached(), this.holder)) {
-                node.clear();
-            }
-        }
-    }
+    void clear();
 
 }

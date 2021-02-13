@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A {@link ConfigValue} which holds a list of values.
  */
-final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> implements ConfigValue<N, A> {
 
     /**
      * A specific key for nodes who are destined to be part of a list.
@@ -56,16 +56,17 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         return key instanceof Integer || key == UNALLOCATED_IDX;
     }
 
-    final AtomicReference<@NonNull List<T>> values = new AtomicReference<>(new ArrayList<>());
+    private final A holder;
+    final AtomicReference<@NonNull List<A>> values = new AtomicReference<>(new ArrayList<>());
 
-    ListConfigValue(final T holder) {
-        super(holder);
+    ListConfigValue(final A holder) {
+        this.holder = holder;
     }
 
-    ListConfigValue(final T holder, final @Nullable Object startValue) {
-        super(holder);
+    ListConfigValue(final A holder, final @Nullable Object startValue) {
+        this.holder = holder;
         if (startValue != null) {
-            final T child = holder.createNode(0);
+            final A child = holder.createNode(0);
             child.attached = true;
             child.raw(startValue);
             this.values.get().add(child);
@@ -74,10 +75,10 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
 
     @Override
     public Object get() {
-        final List<T> values = this.values.get();
+        final List<A> values = this.values.get();
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
-            for (T obj : values) {
+            for (A obj : values) {
                 ret.add(obj.raw()); // unwrap
             }
             return ret;
@@ -85,10 +86,10 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     public List<N> unwrapped() {
-        final List<T> orig = this.values.get();
+        final List<A> orig = this.values.get();
         synchronized (orig) {
             final List<N> ret = new ArrayList<>(orig.size());
-            for (T element : orig) {
+            for (A element : orig) {
                 ret.add(element.self());
             }
             return Collections.unmodifiableList(ret);
@@ -101,7 +102,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
             value = Collections.singleton(value);
         }
         final Collection<@Nullable ?> valueAsList = (Collection<@Nullable ?>) value;
-        final List<T> newValue = new ArrayList<>(valueAsList.size());
+        final List<A> newValue = new ArrayList<>(valueAsList.size());
 
         int count = 0;
         for (@Nullable Object o : valueAsList) {
@@ -109,7 +110,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
                 continue;
             }
 
-            final T child = this.holder.createNode(count);
+            final A child = this.holder.createNode(count);
             newValue.add(count, child);
             child.attached = true;
             child.raw(o);
@@ -119,19 +120,19 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    @Nullable T putChild(final Object key, final @Nullable T value) {
+    public @Nullable A putChild(final Object key, final @Nullable A value) {
         return putChildInternal(key, value, false);
     }
 
     @Override
-    @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
+    public @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
         return putChildInternal(key, value, true);
     }
 
-    private @Nullable T putChildInternal(final Object index, final @Nullable T value, final boolean onlyIfAbsent) {
+    private @Nullable A putChildInternal(final Object index, final @Nullable A value, final boolean onlyIfAbsent) {
         if (index == UNALLOCATED_IDX) {
             if (value != null) { // can't remove an unallocated node
-                List<T> values;
+                List<A> values;
                 do {
                     // Allocate an index for the newly added node
                     values = this.values.get();
@@ -145,9 +146,9 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
         }
     }
 
-    private @Nullable T putChildInternal(final int index, final @Nullable T value, final boolean onlyIfAbsent) {
-        @Nullable T ret = null;
-        List<T> values;
+    private @Nullable A putChildInternal(final int index, final @Nullable A value, final boolean onlyIfAbsent) {
+        @Nullable A ret = null;
+        List<A> values;
         do {
             values = this.values.get();
             synchronized (values) {
@@ -179,13 +180,13 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public @Nullable T child(final @Nullable Object key) {
+    public @Nullable A child(final @Nullable Object key) {
         final @Nullable Integer value = Scalars.INTEGER.tryDeserialize(key);
         if (value == null || value < 0) {
             return null;
         }
 
-        final List<T> values = this.values.get();
+        final List<A> values = this.values.get();
         synchronized (values) {
             if (value >= values.size()) {
                 return null;
@@ -195,22 +196,22 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    public Iterable<T> iterateChildren() {
-        final List<T> values = this.values.get();
+    public Iterable<A> iterateChildren() {
+        final List<A> values = this.values.get();
         synchronized (values) {
             return UnmodifiableCollections.copyOf(values);
         }
     }
 
     @Override
-    ListConfigValue<N, T> copy(final T holder) {
-        final ListConfigValue<N, T> copy = new ListConfigValue<>(holder);
-        final List<T> copyValues;
+    public ListConfigValue<N, A> copy(final A holder) {
+        final ListConfigValue<N, A> copy = new ListConfigValue<>(holder);
+        final List<A> copyValues;
 
-        final List<T> values = this.values.get();
+        final List<A> values = this.values.get();
         synchronized (values) {
             copyValues = new ArrayList<>(values.size());
-            for (T obj : values) {
+            for (A obj : values) {
                 copyValues.add(obj.copy(holder)); // recursively copy
             }
         }
@@ -220,22 +221,24 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, T extends Abst
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return this.values.get().isEmpty();
     }
 
-    private static void detachNodes(final List<? extends AbstractConfigurationNode<?, ?>> children) {
+    private void detachNodes(final List<? extends AbstractConfigurationNode<?, ?>> children) {
         synchronized (children) {
             for (AbstractConfigurationNode<?, ?> node : children) {
                 node.attached = false;
-                node.clear();
+                if (Objects.equals(node.parent(), this.holder)) {
+                    node.clear();
+                }
             }
         }
     }
 
     @Override
     public void clear() {
-        final List<T> oldValues = this.values.getAndSet(new ArrayList<>());
+        final List<A> oldValues = this.values.getAndSet(new ArrayList<>());
         detachNodes(oldValues);
     }
 

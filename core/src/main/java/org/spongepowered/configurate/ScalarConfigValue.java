@@ -25,12 +25,13 @@ import java.util.Objects;
 /**
  * A {@link ConfigValue} which holds a single ("scalar") value.
  */
-final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> implements ConfigValue<N, A> {
 
+    private final A holder;
     private volatile @Nullable Object value;
 
-    ScalarConfigValue(final T holder) {
-        super(holder);
+    ScalarConfigValue(final A holder) {
+        this.holder = holder;
     }
 
     @Override
@@ -47,34 +48,34 @@ final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, T extends Ab
     }
 
     @Override
-    @Nullable T putChild(final Object key, final @Nullable T value) {
+    public @Nullable A putChild(final Object key, final @Nullable A value) {
         return null;
     }
 
     @Override
-    @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
+    public @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
         return null;
     }
 
     @Override
-    public @Nullable T child(final @Nullable Object key) {
+    public @Nullable A child(final @Nullable Object key) {
         return null;
     }
 
     @Override
-    public Iterable<T> iterateChildren() {
+    public Iterable<A> iterateChildren() {
         return Collections.emptySet();
     }
 
     @Override
-    ScalarConfigValue<N, T> copy(final T holder) {
-        final ScalarConfigValue<N, T> copy = new ScalarConfigValue<>(holder);
+    public ScalarConfigValue<N, A> copy(final A holder) {
+        final ScalarConfigValue<N, A> copy = new ScalarConfigValue<>(holder);
         copy.value = this.value;
         return copy;
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
         final @Nullable Object value = this.value;
         return (value instanceof String && ((String) value).isEmpty())
                 || (value instanceof Collection<?> && ((Collection<?>) value).isEmpty());

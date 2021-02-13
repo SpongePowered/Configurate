@@ -27,12 +27,13 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * A {@link ConfigValue} which holds a map of values.
  */
-final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> extends ConfigValue<N, A> {
+final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> implements ConfigValue<N, A> {
 
+    private final A holder;
     volatile Map<Object, A> values;
 
     MapConfigValue(final A holder) {
-        super(holder);
+        this.holder = holder;
         this.values = newMap();
     }
 
@@ -46,7 +47,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     @Override
-    public @Nullable Object get() {
+    public Object get() {
         final Map<Object, Object> value = new LinkedHashMap<>();
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
             value.put(ent.getKey(), ent.getValue().raw()); // unwrap key from the backing node
@@ -84,7 +85,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     @Override
-    @Nullable A putChild(final Object key, final @Nullable A value) {
+    public @Nullable A putChild(final Object key, final @Nullable A value) {
         if (value == null) {
             return this.values.remove(key);
         } else {
@@ -93,7 +94,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     @Override
-    @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
+    public @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
         if (value == null) {
             return this.values.remove(key);
         } else {
@@ -112,7 +113,7 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     @Override
-    MapConfigValue<N, A> copy(final A holder) {
+    public MapConfigValue<N, A> copy(final A holder) {
         final MapConfigValue<N, A> copy = new MapConfigValue<>(holder);
         for (Map.Entry<Object, A> ent : this.values.entrySet()) {
             copy.values.put(ent.getKey(), ent.getValue().copy(holder)); // recursively copy
@@ -121,14 +122,16 @@ final class MapConfigValue<N extends ScopedConfigurationNode<N>, A extends Abstr
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return this.values.isEmpty();
     }
 
-    private static void detachChildren(final Map<Object, ? extends AbstractConfigurationNode<?, ?>> map) {
+    private void detachChildren(final Map<Object, ? extends AbstractConfigurationNode<?, ?>> map) {
         for (AbstractConfigurationNode<?, ?> value : map.values()) {
             value.attached = false;
-            value.clear();
+            if (Objects.equals(value.parent(), this.holder)) {
+                value.clear();
+            }
         }
     }
 

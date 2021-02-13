@@ -24,7 +24,7 @@ import java.util.Collections;
  * A {@link ConfigValue} which holds no value.
  */
 final class NullConfigValue<N extends @Nullable ScopedConfigurationNode<N>,
-        T extends @Nullable AbstractConfigurationNode<N, T>> extends ConfigValue<N, T> {
+        A extends @Nullable AbstractConfigurationNode<N, A>> implements ConfigValue<N, A> {
 
     @SuppressWarnings("rawtypes")
     private static final NullConfigValue INSTANCE = new NullConfigValue();
@@ -35,7 +35,6 @@ final class NullConfigValue<N extends @Nullable ScopedConfigurationNode<N>,
     }
 
     private NullConfigValue() {
-        super(null);
     }
 
     @Override
@@ -49,32 +48,32 @@ final class NullConfigValue<N extends @Nullable ScopedConfigurationNode<N>,
     }
 
     @Override
-    @Nullable T putChild(final Object key, final @Nullable T value) {
+    public @Nullable A putChild(final Object key, final @Nullable A value) {
         return null;
     }
 
     @Override
-    @Nullable T putChildIfAbsent(final Object key, final @Nullable T value) {
+    public @Nullable A putChildIfAbsent(final Object key, final @Nullable A value) {
         return null;
     }
 
     @Override
-    public @Nullable T child(final @Nullable Object key) {
+    public @Nullable A child(final @Nullable Object key) {
         return null;
     }
 
     @Override
-    public Iterable<T> iterateChildren() {
+    public Iterable<A> iterateChildren() {
         return Collections.emptySet();
     }
 
     @Override
-    NullConfigValue<N, T> copy(final T holder) {
+    public NullConfigValue<N, A> copy(final A holder) {
         return instance();
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return true;
     }
 
