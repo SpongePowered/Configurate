@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
+@SuppressWarnings("UnusedVariable") // set by object mapper
 public class RecordDiscovererTest {
 
     @ConfigSerializable

@@ -30,15 +30,13 @@ final class ConfigurateYaml extends Yaml {
         super(options);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T load(final Reader yaml) {
+    public Object loadConfigurate(final Reader yaml) {
         // Match the superclass implementation, except we substitute our own scanner implementation
         final StreamReader reader = new StreamReader(yaml);
         final ParserImpl parser = new ParserImpl(new ConfigurateScanner(reader));
         final Composer compose = new Composer(parser, this.resolver, this.loadingConfig);
         this.constructor.setComposer(compose);
-        return (T) this.constructor.getSingleData(Object.class);
+        return this.constructor.getSingleData(Object.class);
     }
 
 }

@@ -25,7 +25,6 @@ import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
 import java.io.Writer;
@@ -145,7 +144,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         }
     }
 
-    private final ThreadLocal<Yaml> yaml;
+    private final ThreadLocal<ConfigurateYaml> yaml;
 
     private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
@@ -156,7 +155,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
-        node.raw(this.yaml.get().load(reader));
+        node.raw(this.yaml.get().loadConfigurate(reader));
     }
 
     @Override
