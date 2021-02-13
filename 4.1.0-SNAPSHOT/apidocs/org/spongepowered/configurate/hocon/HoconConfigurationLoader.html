@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":10,"i2":10,"i3":10};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -218,13 +218,20 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>protected void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">checkCanWrite</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
+<td class="colLast">
+<div class="block">Perform format-specific validation of a node.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createNode(org.spongepowered.configurate.ConfigurationOptions)">createNode</a></span>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Create an empty node with the provided options.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadInternal(org.spongepowered.configurate.CommentedConfigurationNode,java.io.BufferedReader)">loadInternal</a></span>&#8203;(<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;node,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)</code></th>
@@ -232,7 +239,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <div class="block">Using a created node, attempt to read a configuration file.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">saveInternal</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</code></th>
@@ -301,13 +308,37 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 </dl>
 </li>
 </ul>
+<a id="checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>checkCanWrite</h4>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.161">checkCanWrite</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+                      throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">AbstractConfigurationLoader</a></code></span></div>
+<div class="block">Perform format-specific validation of a node.
+
+ <p>This method will be called before a writer is opened, allowing the
+ loader to perform any basic validation it may need to before it opens a
+ writer replacing an existing file.</p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../loader/AbstractConfigurationLoader.html#checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">checkCanWrite</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - the node to write</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></code> - if any invalid data is present</dd>
+</dl>
+</li>
+</ul>
 <a id="loadInternal(org.spongepowered.configurate.CommentedConfigurationNode,java.io.BufferedReader)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>loadInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.161">loadInternal</a>&#8203;(<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.168">loadInternal</a>&#8203;(<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;node,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)
                      throws <a href="../loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">AbstractConfigurationLoader</a></code></span></div>
@@ -331,7 +362,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>saveInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.212">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.219">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
                      throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
@@ -353,7 +384,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockListLast">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">public&nbsp;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.276">createNode</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.279">createNode</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationNodeFactory</a></code></span></div>
 <div class="block">Create an empty node with the provided options.
 
