@@ -22,6 +22,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -78,13 +79,37 @@ public final class UnmodifiableCollections {
     }
 
     /**
-     * Creates an unmodifiable copy of the given array as a list, preserving
-     * order.
+     * Creates an unmodifiable copy of the given {@link Map} instance.
+     *
+     * @param original the map to be copied
+     * @param <K> key type of the map
+     * @param <V> value type of the map
+     * @return an unmodifiable copy of the given {@link Map} instance.
+     * @since 4.1.0
+     */
+    public static <K, V> Map<K, V> copyOf(final Map<K, V> original) {
+        switch (original.size()) {
+            case 0:
+                return Collections.emptyMap();
+            case 1:
+                final Map.Entry<K, V> entry = original.entrySet().iterator().next();
+                return Collections.singletonMap(entry.getKey(), entry.getValue());
+            default:
+                if (original instanceof LinkedHashMap<?, ?>) {
+                    return Collections.unmodifiableMap(new LinkedHashMap<>(original));
+                } else {
+                    return Collections.unmodifiableMap(new HashMap<>(original));
+                }
+        }
+    }
+
+    /**
+     * Creates an unmodifiable copy of the given array as a list,
+     * preserving order.
      *
      * @param original the array to be copied into a list
      * @param <E> the type of every item in the entry
-     * @return a unmodifiable copy of the given array as a {@link List}
-     *         instance
+     * @return a unmodifiable copy of the given array as a {@link List} instance
      * @since 4.0.0
      */
     @SafeVarargs

@@ -719,7 +719,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public final Map<RepresentationHint<?>, ?> ownHints() {
-        return UnmodifiableCollections.buildMap(m -> m.putAll(this.hints));
+        return UnmodifiableCollections.copyOf(this.hints);
     }
 
     @Override
