@@ -184,6 +184,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         if (this.sink == null) {
             throw new ConfigurateException(node, "No sink present to write to!");
         }
+        this.checkCanWrite(node);
         try (Writer writer = this.sink.call()) {
             writeHeaderInternal(writer);
             if (this.headerMode != HeaderMode.NONE) {
@@ -204,6 +205,20 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
             throw new ConfigurateException(node, ex);
         }
     }
+
+    /**
+     * Perform format-specific validation of a node.
+     *
+     * <p>This method will be called before a writer is opened, allowing the
+     * loader to perform any basic validation it may need to before it opens a
+     * writer replacing an existing file.</p>
+     *
+     * @param node the node to write
+     * @throws ConfigurateException if any invalid data is present
+     * @since 4.1.0
+     */
+    @ForOverride
+    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {}
 
     /**
      * Write out any implementation-specific file header.

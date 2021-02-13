@@ -169,6 +169,13 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     }
 
     @Override
+    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {
+        if (!this.lenient && !node.isMap()) {
+            throw new ConfigurateException(node, "Non-lenient json generators must have children of map type");
+        }
+    }
+
+    @Override
     protected void loadInternal(final BasicConfigurationNode node, final BufferedReader reader) throws ParsingException {
         try {
             reader.mark(1);
@@ -299,9 +306,6 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
-        if (!this.lenient && !node.isMap()) {
-            throw new ConfigurateException(node, "Non-lenient json generators must have children of map type");
-        }
         try {
             try (JsonWriter generator = new JsonWriter(writer)) {
                 generator.setIndent(this.indent);

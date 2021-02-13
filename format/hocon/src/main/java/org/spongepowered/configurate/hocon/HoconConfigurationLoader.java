@@ -159,6 +159,13 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     }
 
     @Override
+    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {
+        if (!node.isMap() && !node.virtual() && node.raw() != null) {
+            throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");
+        }
+    }
+
+    @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {
         Config hoconConfig;
         try {
@@ -212,13 +219,9 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
         try {
-            if (!node.isMap()) {
-                if (node.virtual() || node.raw() == null) {
-                    writer.write(SYSTEM_LINE_SEPARATOR);
-                    return;
-                } else {
-                    throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");
-                }
+            if (!node.isMap() && (node.virtual() || node.raw() == null)) {
+                writer.write(SYSTEM_LINE_SEPARATOR);
+                return;
             }
             final ConfigValue value = fromValue(node);
             final String renderedValue = value.render(this.render);
