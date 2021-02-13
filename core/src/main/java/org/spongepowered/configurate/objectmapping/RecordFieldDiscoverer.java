@@ -136,7 +136,14 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
                         }
 
                         @Override
-                        public Object complete(final Object[] intermediate) throws SerializationException {
+                        public Object complete(final @Nullable Object[] intermediate) throws SerializationException {
+                            // Primitive values cannot be null, but we must pass a value for every parameter.
+                            for (int i = 0, length = intermediate.length; i < length; ++i) {
+                                if (intermediate[i] == null && constructorParams[i].isPrimitive()) {
+                                    intermediate[i] = Types.defaultValue(constructorParams[i]);
+                                }
+                            }
+
                             try {
                                 return clazzConstructor.newInstance(intermediate);
                             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {

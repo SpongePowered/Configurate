@@ -117,4 +117,17 @@ public class RecordDiscovererTest {
         assertEquals(Set.of(), filled.somethingElse());
     }
 
+    @Test
+    void testPrimitveDefaultsFilled() throws SerializationException {
+        @ConfigSerializable
+        record WithPrimitives(@Nullable String test, int helloWorld) {}
+
+        final var withPrimitives = BasicConfigurationNode.root(n -> {
+            n.node("test").set("Hi");
+        }).get(WithPrimitives.class);
+
+        assertEquals("Hi", withPrimitives.test());
+        assertEquals(0, withPrimitives.helloWorld());
+    }
+
 }

@@ -27,6 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -128,6 +129,43 @@ public final class Types {
     public static Type unbox(final Type input) {
         final Type ret = BOXED_TO_PRIMITIVE.get(input);
         return ret == null ? input : ret;
+    }
+
+    /**
+     * Get the default value for a type.
+     *
+     * <p>For all reference types, this is {@code null}. For all primitive
+     * types, this is equivalent to their defined {@code default} value.</p>
+     *
+     * @param type the type to get a default value for
+     * @return the default value, or {@code null} for reference types
+     * @since 4.1.0
+     */
+    public static @Nullable Object defaultValue(final Class<?> type) {
+        requireNonNull(type, "type");
+
+        if (!type.isPrimitive() || type == void.class) {
+            return null;
+        } else if (type == boolean.class) {
+            return Boolean.FALSE;
+        } else if (type == char.class) {
+            return (char) 0;
+        } else if (type == byte.class) {
+            return (byte) 0;
+        } else if (type == short.class) {
+            return (short) 0;
+        } else if (type == int.class) {
+            return 0;
+        } else if (type == long.class) {
+            return 0L;
+        } else if (type == float.class) {
+            return 0F;
+        } else if (type == double.class) {
+            return 0D;
+        } else {
+            // TODO: Verify that this works with Valhalla primitive types
+            return Array.get(Array.newInstance(type, 1), 0);
+        }
     }
 
     /**
