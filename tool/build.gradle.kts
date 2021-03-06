@@ -11,6 +11,11 @@ plugins {
 
 description = "CLI tool to inspect Configurate's view of files"
 
+configurations.matching { it.name.startsWith("dokka") }.configureEach {
+    // Dokka bad
+    resolutionStrategy.deactivateDependencyLocking()
+}
+
 dependencies {
     // Configurate
     implementation(format("xml"))
