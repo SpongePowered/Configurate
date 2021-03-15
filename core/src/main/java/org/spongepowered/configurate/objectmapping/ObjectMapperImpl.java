@@ -61,7 +61,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
             try {
                 final TypeSerializer<?> serial = field.serializerFrom(node);
-                final @Nullable Object newVal = node.virtual() ? null : serial.deserialize(field.resolvedType().getType(), node);
+                final @Nullable Object newVal = node.isNull() ? null : serial.deserialize(field.resolvedType().getType(), node);
                 field.validate(newVal);
 
                 // set up an implicit initializer

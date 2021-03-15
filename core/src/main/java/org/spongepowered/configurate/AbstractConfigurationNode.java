@@ -403,6 +403,11 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     }
 
     @Override
+    public boolean isNull() {
+        return this.value instanceof NullConfigValue;
+    }
+
+    @Override
     public final boolean isList() {
         return this.value instanceof ListConfigValue;
     }

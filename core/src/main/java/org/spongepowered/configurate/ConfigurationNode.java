@@ -204,6 +204,18 @@ public interface ConfigurationNode {
     ConfigurationOptions options();
 
     /**
+     * Get if this node has a 'null' value.
+     *
+     * <p>This generally overlaps with the value of {@link #virtual()}, but may
+     * be distinct in situations where the node has additional metadata
+     * (comment, attributes, etc).</p>
+     *
+     * @return whether this node
+     * @since 4.1.0
+     */
+    boolean isNull();
+
+    /**
      * Gets if this node has "list children".
      *
      * @return if this node has children in the form of a list

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.leangen.geantyref.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -37,6 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 @SuppressWarnings("UnusedVariable") // test object mapper objects are not always read
 public class ObjectMapperTest {
@@ -306,6 +308,28 @@ public class ObjectMapperTest {
     @Test
     void testDirectInterfacesProhibited() {
         assertThrows(SerializationException.class, () -> ObjectMapper.factory().get(ParentInterface.class));
+    }
+
+    @ConfigSerializable
+    static class HandleNonVirtualNulls {
+        @Comment("Test")
+        private @Nullable String hello;
+    }
+
+    @Test
+    void testNullNonVirtualNodeHasNoValue() throws SerializationException {
+        final CommentedConfigurationNode value = CommentedConfigurationNode.root(n -> {
+            n.node("hello").comment("Hi friend!");
+        });
+
+        assertFalse(value.node("hello").virtual());
+        assertTrue(value.node("hello").isNull());
+
+        final HandleNonVirtualNulls deserialized = value.get(
+            HandleNonVirtualNulls.class,
+            (Supplier<HandleNonVirtualNulls>) HandleNonVirtualNulls::new
+        );
+        assertNull(deserialized.hello);
     }
 
 }
