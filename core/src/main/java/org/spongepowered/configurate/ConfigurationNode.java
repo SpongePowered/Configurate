@@ -32,6 +32,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
@@ -356,6 +357,89 @@ public interface ConfigurationNode {
     }
 
     /**
+     * Get the current value associated with this node, asserting that it
+     * is non-null.
+     *
+     * <p>This method can be used when it is known that a certain key exists, or
+     * when implicit initialization is enabled for the expected {@code type}</p>
+     *
+     * <p>This method will perform deserialization using the appropriate
+     * {@link TypeSerializer} for the given type, or attempting to cast if no
+     * type serializer is found.</p>
+     *
+     * @param type the type to deserialize to
+     * @param <V> the type to get
+     * @return the value if present and of the proper type
+     * @throws NoSuchElementException if the returned value is null
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type
+     * @since 4.1.0
+     */
+    default <V> V require(final TypeToken<V> type) throws SerializationException {
+        final @Nullable V ret = this.get(type);
+        if (ret == null) {
+            throw new NoSuchElementException("Node value was null when a non-null node was require()d");
+        }
+
+        return ret;
+    }
+
+    /**
+     * Get the current value associated with this node, asserting that it
+     * is non-null.
+     *
+     * <p>This method can be used when it is known that a certain key exists, or
+     * when implicit initialization is enabled for the expected {@code type}</p>
+     *
+     * <p>This method will also perform deserialization using the appropriate
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * @param type the type to deserialize to
+     * @param <V> the type to get
+     * @return the value if present and of the proper type
+     * @throws NoSuchElementException if the returned value is null
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type
+     * @since 4.1.0
+     */
+    default <V> V require(final Class<V> type) throws SerializationException {
+        final @Nullable V ret = this.get(type);
+        if (ret == null) {
+            throw new NoSuchElementException("Node value was null when a non-null node was require()d");
+        }
+
+        return ret;
+    }
+
+    /**
+     * Get the current value associated with this node, asserting that it
+     * is non-null.
+     *
+     * <p>This method can be used when it is known that a certain key exists, or
+     * when implicit initialization is enabled for the expected {@code type}</p>
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link Type} using a configured {@link TypeSerializer} for
+     * the given type, or casting if no type serializer is found.</p>
+     *
+     * @param type the type to deserialize to
+     * @return the value if present and of the proper type
+     * @throws NoSuchElementException if the returned value is null
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type
+     * @since 4.1.0
+     */
+    default @Nullable Object require(final Type type) throws SerializationException {
+        final @Nullable Object ret = this.get(type);
+        if (ret == null) {
+            throw new NoSuchElementException("Node value was null when a non-null node was require()d");
+        }
+
+        return ret;
+    }
+
+    /**
      * Get the current value associated with this node.
      *
      * <p>This method will perform deserialization using the appropriate
@@ -377,9 +461,6 @@ public interface ConfigurationNode {
     /**
      * Get the current value associated with this node.
      *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
-     *
      * <p>This method will also perform deserialization using the appropriate
      * {@link TypeSerializer} for the given type, or casting if no type
      * serializer is found.</p>
@@ -400,9 +481,6 @@ public interface ConfigurationNode {
 
     /**
      * Get the current value associated with this node.
-     *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
      *
      * <p>This method will also perform deserialization using the appropriate
      * TypeSerializer for the given type, or casting if no type serializer is
@@ -426,9 +504,6 @@ public interface ConfigurationNode {
     /**
      * Get the current value associated with this node.
      *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
-     *
      * <p>This method will also perform deserialization using the appropriate
      * {@link TypeSerializer} for the given type, or casting if no type
      * serializer is found.</p>
@@ -447,9 +522,6 @@ public interface ConfigurationNode {
 
     /**
      * Get the current value associated with this node.
-     *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
      *
      * <p>This method will also perform deserialization using the appropriate
      * {@link TypeSerializer} for the given type, or casting if no type
@@ -471,9 +543,6 @@ public interface ConfigurationNode {
 
     /**
      * Get the current value associated with this node.
-     *
-     * <p>If this node has children, this method will recursively unwrap them to
-     * construct a List or a Map.</p>
      *
      * <p>This method will also perform deserialization using the appropriate
      * TypeSerializer for the given type, or casting if no type serializer is

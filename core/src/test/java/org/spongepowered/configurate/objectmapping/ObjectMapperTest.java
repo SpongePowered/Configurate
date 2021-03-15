@@ -38,7 +38,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 @SuppressWarnings("UnusedVariable") // test object mapper objects are not always read
 public class ObjectMapperTest {
@@ -325,10 +324,7 @@ public class ObjectMapperTest {
         assertFalse(value.node("hello").virtual());
         assertTrue(value.node("hello").isNull());
 
-        final HandleNonVirtualNulls deserialized = value.get(
-            HandleNonVirtualNulls.class,
-            (Supplier<HandleNonVirtualNulls>) HandleNonVirtualNulls::new
-        );
+        final HandleNonVirtualNulls deserialized = value.require(HandleNonVirtualNulls.class);
         assertNull(deserialized.hello);
     }
 
