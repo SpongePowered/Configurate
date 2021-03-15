@@ -1,34 +1,43 @@
 # Making changes? https://github.com/nektos/act may help you test locally
 
-name: Build And Test
+name: Configurate CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["**"]
+    tags-ignore: ["**"]
+  pull_request:
+  release:
+    types: [released]
 
 jobs:
   build:
     # Only run on PRs if the source branch is on someone else's repo
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
+    if: "${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}"
 
     runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-20.04, windows-latest]
     steps:
       # Setup
       - name: Check out
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # checkout full history for site generation
       - name: Setup JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - uses: gradle/wrapper-validation-action@v1
       - name: Cache Gradle data
         uses: actions/cache@v2
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
-          restore-keys: ${{ runner.os }}-gradle
+          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}"
+          restore-keys: "${{ runner.os }}-gradle-"
 
       # Actually build
       - name: Build with Gradle
@@ -43,3 +52,35 @@ jobs:
             format/*/build/test-results/test
             extra/*/build/test-results/test/
 
+      # Then deploy, but only on the main branch
+      - name: Determine status
+        if: "${{ runner.os == 'Linux' }}"
+        run: |
+          if [ "$(./gradlew properties | awk '/^version:/ { print $2; }' | grep '\-SNAPSHOT')" ]; then
+            echo "STATUS=snapshot" >> $GITHUB_ENV
+          else
+            echo "STATUS=release" >> $GITHUB_ENV
+          fi
+      - name: Publish with Gradle
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
+        run: ./gradlew publish gitPublishCopy
+        env:
+          ORG_GRADLE_PROJECT_githubPackagesUsername: "${{ github.actor }}"
+          ORG_GRADLE_PROJECT_githubPackagesPassword: "${{ secrets.GITHUB_TOKEN }}"
+          ORG_GRADLE_PROJECT_spongeSnapshotRepo: "${{ secrets.SPONGE_MAVEN_SNAPSHOT_REPO_URL }}"
+          ORG_GRADLE_PROJECT_spongeReleaseRepo: "${{ secrets.SPONGE_MAVEN_RELEASE_REPO_URL }}"
+          ORG_GRADLE_PROJECT_spongeUsername: "${{ secrets.SPONGE_MAVEN_REPO_USER }}"
+          ORG_GRADLE_PROJECT_spongePassword: "${{ secrets.SPONGE_MAVEN_REPO_PASSWORD }}"
+          ORG_GRADLE_PROJECT_sonatypeUsername: "${{ secrets.SPONGE_MAVEN_OSSRH_USER }}"
+          ORG_GRADLE_PROJECT_sonatypePassword: "${{ secrets.SPONGE_MAVEN_OSSRH_PASSWORD }}"
+          ORG_GRADLE_PROJECT_spongeSigningKey: "${{ secrets.SPONGE_SIGNING_KEY }}"
+          ORG_GRADLE_PROJECT_spongeSigningPassword: "${{ secrets.SPONGE_SIGNING_PASSWORD }}"
+          ORG_GRADLE_PROJECT_spongeKeyStore: "${{ secrets.CONFIGURATE_JARSIGNING_KEY }}"
+          ORG_GRADLE_PROJECT_spongeKeyStoreAlias: "${{ secrets.CONFIGURATE_JARSIGNING_ALIAS }}"
+          ORG_GRADLE_PROJECT_spongeKeyStorePassword: "${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}"
+      - name: Publish to GH pages
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: build/gitPublish
