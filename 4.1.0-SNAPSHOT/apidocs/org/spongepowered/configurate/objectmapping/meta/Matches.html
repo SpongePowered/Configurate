@@ -114,9 +114,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Documented.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Documented</a>
-<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Retention</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation" class="externalLink">RUNTIME</a>)
-<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Target</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation" class="externalLink">FIELD</a>)
+<pre>@Documented
+@Retention(RUNTIME)
+@Target(FIELD)
 public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.35">Matches</a></pre>
 <div class="block">Constrains a field value to ensure it matches the provided expression.
 
@@ -147,7 +147,7 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/regex/qual/Regex.html?is-external=true" title="class or interface in org.checkerframework.checker.regex.qual" class="externalLink">@Regex</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/regex/qual/Regex.html?is-external=true" title="class or interface in org.checkerframework.checker.regex.qual" class="externalLink">@Regex</a> java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#value()">value</a></span></code></th>
 <td class="colLast">
 <div class="block">Pattern to test string value against.</div>
@@ -172,7 +172,7 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#failureMessage()">failureMessage</a></span></code></th>
 <td class="colLast">
 <div class="block">Message to throw in an exception when a match fails.</div>
@@ -201,7 +201,7 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <ul class="blockListLast">
 <li class="blockList">
 <h4>value</h4>
-<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/regex/qual/Regex.html?is-external=true" title="class or interface in org.checkerframework.checker.regex.qual" class="externalLink">@Regex</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.46">value</a></pre>
+<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/regex/qual/Regex.html?is-external=true" title="class or interface in org.checkerframework.checker.regex.qual" class="externalLink">@Regex</a> java.lang.String&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.46">value</a></pre>
 <div class="block">Pattern to test string value against.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -223,7 +223,7 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <ul class="blockListLast">
 <li class="blockList">
 <h4>failureMessage</h4>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.61">failureMessage</a></pre>
+<pre>java.lang.String&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.61">failureMessage</a></pre>
 <div class="block">Message to throw in an exception when a match fails.
 
  <p>This message will be formatted as a MessageFormat with two

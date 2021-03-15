@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
 </dl>
 <hr>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
+<pre>@FunctionalInterface
 public interface <a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.29">Subscriber</a>&lt;V&gt;</pre>
 <div class="block">A listener to events that may be called by an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>.
 
@@ -175,7 +175,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>default void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onError(java.lang.Throwable)">onError</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;thrown)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onError(java.lang.Throwable)">onError</a></span>&#8203;(java.lang.Throwable&nbsp;thrown)</code></th>
 <td class="colLast">
 <div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is
  thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not
@@ -230,7 +230,7 @@ public interface <a href="../../../../src-html/org/spongepowered/configurate/rea
 <ul class="blockList">
 <li class="blockList">
 <h4>onError</h4>
-<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.50">onError</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;thrown)</pre>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/reactive/Subscriber.html#line.50">onError</a>&#8203;(java.lang.Throwable&nbsp;thrown)</pre>
 <div class="block">When an error occurs while subscribing to an <a href="Publisher.html" title="interface in org.spongepowered.configurate.reactive"><code>Publisher</code></a>, or is
  thrown during the execution of <a href="#submit(V)"><code>submit(Object)</code></a> that is not
  otherwise handled, this method will be called with the error. The
