@@ -74,7 +74,7 @@ public final class TypeSerializerCollection {
                 .registerExact(ArraySerializer.Longs.TYPE, new ArraySerializer.Longs())
                 .registerExact(ArraySerializer.Floats.TYPE, new ArraySerializer.Floats())
                 .registerExact(ArraySerializer.Doubles.TYPE, new ArraySerializer.Doubles())
-                .register(SetSerializer.TYPE, new SetSerializer())
+                .register(SetSerializer::accepts, new SetSerializer())
                 .register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer())
                 .register(PathSerializer.TYPE, PathSerializer.INSTANCE)
                 .registerExact(FileSerializer.TYPE, FileSerializer.INSTANCE)

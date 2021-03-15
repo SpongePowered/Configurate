@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -586,6 +587,22 @@ public class TypeSerializersTest {
         assertTrue(destination.isMap());
         assertEquals("yoink", destination.node(1).raw());
         assertEquals("hah", destination.node(5).raw());
+    }
+
+    @Test
+    void testDeserializeEnumResultsInEnumSet() throws SerializationException {
+        final TypeToken<Set<TestEnum>> type = new TypeToken<Set<TestEnum>>() {};
+        final TypeSerializer<Set<TestEnum>> serializer = this.serializer(type);
+
+        final ConfigurationNode out = BasicConfigurationNode.root(n -> {
+            n.appendListNode().set("first");
+            n.appendListNode().set("second");
+        });
+
+        assertTrue(serializer.deserialize(type.getType(), out) instanceof EnumSet<?>);
+
+        // Then with specifically an enum set
+        assertNotNull(TypeSerializerCollection.defaults().get(new TypeToken<EnumSet<TestEnum>>() {}));
     }
 
 }

@@ -16,18 +16,23 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import io.leangen.geantyref.TypeToken;
+import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
-    static final TypeToken<Set<?>> TYPE = new TypeToken<Set<?>>() {};
+    @SuppressWarnings("PMD")
+    static boolean accepts(final Type type) {
+        final Class<?> erased = GenericTypeReflector.erase(type);
+        return Set.class.isAssignableFrom(erased) && (erased.isAssignableFrom(EnumSet.class) || erased.isAssignableFrom(LinkedHashSet.class));
+    }
 
     SetSerializer() {
     }
@@ -41,7 +46,12 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected Set<?> createNew(final int length, final Type elementType) {
+        final Class<?> erased = GenericTypeReflector.erase(elementType);
+        if (erased.isEnum()) {
+            return EnumSet.noneOf(erased.asSubclass(Enum.class));
+        }
         return new LinkedHashSet<>(length);
     }
 
