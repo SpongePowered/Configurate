@@ -1,6 +1,5 @@
 package org.spongepowered.configurate.build
 
-import de.marcphilipp.gradle.nexus.InitializeNexusStagingRepository
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission
@@ -95,8 +94,9 @@ indra {
     }
 
     configurePublications {
+        artifactId = archiveName
+
         pom {
-            artifactId = archiveName
 
             inceptionYear.set("2014")
             description.set(providers.provider { project.description })
@@ -130,19 +130,6 @@ signing {
         }
     } else {
         signatories = PgpSignatoryProvider() // don't use gpg agent
-    }
-}
-
-// Only publish releases if explicitly chosen
-tasks.withType(PublishToMavenRepository::class).configureEach {
-    onlyIf {
-        project.version.toString().endsWith("-SNAPSHOT") || project.hasProperty("deployRelease")
-    }
-}
-
-tasks.withType(InitializeNexusStagingRepository::class).configureEach {
-    onlyIf {
-        project.version.toString().endsWith("-SNAPSHOT") || project.hasProperty("deployRelease")
     }
 }
 
