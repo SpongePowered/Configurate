@@ -125,7 +125,7 @@ public class RecordDiscovererTest {
 
         final var withPrimitives = BasicConfigurationNode.root(n -> {
             n.node("test").set("Hi");
-        }).get(WithPrimitives.class);
+        }).require(WithPrimitives.class);
 
         assertEquals("Hi", withPrimitives.test());
         assertEquals(0, withPrimitives.helloWorld());

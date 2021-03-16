@@ -31,8 +31,9 @@ java {
 fun SourceSet.versionName(version: Int) = this.getTaskName(null, "java$version")
 
 val alternateVersions = arrayOf(
-    9,
-    10
+    9, // VarHandles
+    10, // immutable collections
+    16 // FieldDiscoverer for records
 )
 alternateVersions.sort()
 
@@ -102,15 +103,14 @@ if (!alternateVersions.isEmpty()) {
 
 // TODO: Standardized multi-release test sources handling
 
-// Set up Java 15 tests for record support
-val java15Test by sourceSets.registering {
-    val testDir = file("src/test/java15")
+// Set up Java 16 tests for record support
+val java16Test by sourceSets.registering {
+    val testDir = file("src/test/java16")
     java.srcDir(testDir)
 
     tasks.named<JavaCompile>(compileJavaTaskName).configure {
-        javaCompiler.set(javaToolchains.compilerFor { languageVersion.set(JavaLanguageVersion.of(15)) })
-        options.release.set(15)
-        options.compilerArgs.addAll(listOf("--enable-preview", "-Xlint:-preview")) // For records
+        javaCompiler.set(javaToolchains.compilerFor { languageVersion.set(JavaLanguageVersion.of(16)) })
+        options.release.set(16)
     }
 
     dependencies.add(implementationConfigurationName, sourceSets.main.map { it.output })
@@ -119,25 +119,24 @@ val java15Test by sourceSets.registering {
     configurations.named(runtimeClasspathConfigurationName).configure { extendsFrom(configurations.testRuntimeClasspath.get()) }
 }
 
-// If our primary JDK is Java 15, then let's add the Java 15 classes to the main test task
+// If our primary JDK is Java 16, then let's add the Java 16 classes to the main test task
 tasks.test {
-    if (indra.javaVersions.actualVersion.get() == 15) {
-        testClassesDirs += java15Test.get().output.classesDirs
-        classpath += java15Test.get().runtimeClasspath
-        dependsOn(tasks.named(java15Test.get().compileJavaTaskName))
-        jvmArgs("--enable-preview") // For records
+    if (indra.javaVersions.actualVersion.get() == 16) {
+        testClassesDirs += java16Test.get().output.classesDirs
+        classpath += java16Test.get().runtimeClasspath
+        dependsOn(tasks.named(java16Test.get().compileJavaTaskName))
     }
 }
 
-tasks.named("forbiddenApisJava15Test", CheckForbiddenApis::class) {
-    targetCompatibility = "15"
+tasks.named("forbiddenApisJava16Test", CheckForbiddenApis::class) {
+    isEnabled = false // fails to load records classes
+    targetCompatibility = "15" // todo: update when J16 signatures added
 }
 
-// But always add to the java 15-specific test task
-tasks.matching { it.name == "testJava15" }.configureEach {
+// But always add to the java 16-specific test task
+tasks.matching { it.name == "testJava16" }.configureEach {
     require(this is Test) { "Unexpected task type!" }
-    testClassesDirs += java15Test.get().output.classesDirs
-    classpath += java15Test.get().runtimeClasspath
-    dependsOn(tasks.named(java15Test.get().compileJavaTaskName))
-    jvmArgs("--enable-preview") // For records
+    testClassesDirs += java16Test.get().output.classesDirs
+    classpath += java16Test.get().runtimeClasspath
+    dependsOn(tasks.named(java16Test.get().compileJavaTaskName))
 }
