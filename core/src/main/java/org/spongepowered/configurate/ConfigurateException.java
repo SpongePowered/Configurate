@@ -25,7 +25,7 @@ import java.util.function.Supplier;
  * Any sort of error thrown within Configurate.
  *
  * <p>Configurate's errors are designed to provide a view of as
- * many errors as possible within one configuration tree, though the
+ * many errors as possible within one configuration tree, through the
  * {@link Throwable#getSuppressed() suppressed exceptions}</p>
  *
  * @since 4.0.0
