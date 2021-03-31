@@ -90,7 +90,7 @@ public interface Constraint<V> {
      */
     static Constraint.Factory<Matches, String> pattern() {
         return (data, type) -> {
-            final Pattern test = Pattern.compile(data.value());
+            final Pattern test = Pattern.compile(data.value(), data.flags());
             final MessageFormat format = new MessageFormat(data.failureMessage(), Locale.getDefault());
             return value -> {
                 if (value != null) {
@@ -115,7 +115,7 @@ public interface Constraint<V> {
      */
     static Constraint.Factory<Matches, String> localizedPattern(final ResourceBundle bundle) {
         return (data, type) -> {
-            final Pattern test = Pattern.compile(data.value());
+            final Pattern test = Pattern.compile(data.value(), data.flags());
             final MessageFormat format = new MessageFormat(Localization.key(bundle, data.failureMessage()), bundle.getLocale());
             return value -> {
                 if (value != null) {

@@ -33,6 +33,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("NotNullFieldNotInitialized") // object mapper does initialization
 public class ConstraintTest {
@@ -84,6 +85,7 @@ public class ConstraintTest {
 
     static class TestPattern {
         @Matches("[a-z]+") String test;
+        @Matches(value = "[abc]", flags = Pattern.LITERAL) String flagsTest;
     }
 
     @Test
@@ -104,6 +106,17 @@ public class ConstraintTest {
                 () -> assertThrows(SerializationException.class, () -> {
                     mapper.load(BasicConfigurationNode.root(n -> {
                         n.node("test").raw("LOUD");
+                    }));
+                }),
+                () -> {
+                    final TestPattern result = mapper.load(BasicConfigurationNode.root(n -> {
+                        n.node("flags-test").raw("[abc]");
+                    }));
+                    assertEquals("[abc]", result.flagsTest);
+                },
+                () -> assertThrows(SerializationException.class, () -> {
+                    mapper.load(BasicConfigurationNode.root(n -> {
+                        n.node("flags-test").raw("a");
                     }));
                 })
         );

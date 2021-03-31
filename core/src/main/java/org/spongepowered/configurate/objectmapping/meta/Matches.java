@@ -23,6 +23,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.regex.Pattern;
 
 /**
  * Constrains a field value to ensure it matches the provided expression.
@@ -44,6 +45,15 @@ public @interface Matches {
      * @since 4.0.0
      */
     @Regex String value();
+
+    /**
+     * Flags to pass to the compiled {@link Pattern}.
+     *
+     * @return the regex pattern parsing flags
+     * @since 4.1.0
+     * @see Pattern for the bitflags accepted here
+     */
+    int flags() default 0;
 
     /**
      * Message to throw in an exception when a match fails.
