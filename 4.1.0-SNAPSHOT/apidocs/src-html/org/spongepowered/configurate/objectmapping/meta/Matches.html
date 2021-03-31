@@ -32,44 +32,54 @@
 <span class="sourceLineNo">023</span><a id="line.23">import java.lang.annotation.Retention;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import java.lang.annotation.RetentionPolicy;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import java.lang.annotation.Target;</a>
-<span class="sourceLineNo">026</span><a id="line.26"></a>
-<span class="sourceLineNo">027</span><a id="line.27">/**</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * Constrains a field value to ensure it matches the provided expression.</a>
-<span class="sourceLineNo">029</span><a id="line.29"> *</a>
-<span class="sourceLineNo">030</span><a id="line.30"> * &lt;p&gt;This constraint will always pass with an empty field. See {@link Required}</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * to enforce a non-null value.&lt;/p&gt;</a>
-<span class="sourceLineNo">032</span><a id="line.32"> *</a>
-<span class="sourceLineNo">033</span><a id="line.33"> * @since 4.0.0</a>
-<span class="sourceLineNo">034</span><a id="line.34"> */</a>
-<span class="sourceLineNo">035</span><a id="line.35">@Documented</a>
-<span class="sourceLineNo">036</span><a id="line.36">@Retention(RetentionPolicy.RUNTIME)</a>
-<span class="sourceLineNo">037</span><a id="line.37">@Target(ElementType.FIELD)</a>
-<span class="sourceLineNo">038</span><a id="line.38">public @interface Matches {</a>
-<span class="sourceLineNo">039</span><a id="line.39"></a>
-<span class="sourceLineNo">040</span><a id="line.40">    /**</a>
-<span class="sourceLineNo">041</span><a id="line.41">     * Pattern to test string value against.</a>
-<span class="sourceLineNo">042</span><a id="line.42">     *</a>
-<span class="sourceLineNo">043</span><a id="line.43">     * @return pattern to test against</a>
-<span class="sourceLineNo">044</span><a id="line.44">     * @since 4.0.0</a>
-<span class="sourceLineNo">045</span><a id="line.45">     */</a>
-<span class="sourceLineNo">046</span><a id="line.46">    @Regex String value();</a>
-<span class="sourceLineNo">047</span><a id="line.47"></a>
-<span class="sourceLineNo">048</span><a id="line.48">    /**</a>
-<span class="sourceLineNo">049</span><a id="line.49">     * Message to throw in an exception when a match fails.</a>
-<span class="sourceLineNo">050</span><a id="line.50">     *</a>
-<span class="sourceLineNo">051</span><a id="line.51">     * &lt;p&gt;This message will be formatted as a MessageFormat with two</a>
-<span class="sourceLineNo">052</span><a id="line.52">     * parameters:&lt;/p&gt;</a>
-<span class="sourceLineNo">053</span><a id="line.53">     * &lt;ol start="0"&gt;</a>
-<span class="sourceLineNo">054</span><a id="line.54">     *     &lt;li&gt;the input string&lt;/li&gt;</a>
-<span class="sourceLineNo">055</span><a id="line.55">     *     &lt;li&gt;the pattern being matched&lt;/li&gt;</a>
-<span class="sourceLineNo">056</span><a id="line.56">     * &lt;/ol&gt;</a>
-<span class="sourceLineNo">057</span><a id="line.57">     *</a>
-<span class="sourceLineNo">058</span><a id="line.58">     * @return message format.</a>
-<span class="sourceLineNo">059</span><a id="line.59">     * @since 4.0.0</a>
-<span class="sourceLineNo">060</span><a id="line.60">     */</a>
-<span class="sourceLineNo">061</span><a id="line.61">    String failureMessage() default "";</a>
-<span class="sourceLineNo">062</span><a id="line.62"></a>
-<span class="sourceLineNo">063</span><a id="line.63">}</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.util.regex.Pattern;</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">/**</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * Constrains a field value to ensure it matches the provided expression.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;This constraint will always pass with an empty field. See {@link Required}</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * to enforce a non-null value.&lt;/p&gt;</a>
+<span class="sourceLineNo">033</span><a id="line.33"> *</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * @since 4.0.0</a>
+<span class="sourceLineNo">035</span><a id="line.35"> */</a>
+<span class="sourceLineNo">036</span><a id="line.36">@Documented</a>
+<span class="sourceLineNo">037</span><a id="line.37">@Retention(RetentionPolicy.RUNTIME)</a>
+<span class="sourceLineNo">038</span><a id="line.38">@Target(ElementType.FIELD)</a>
+<span class="sourceLineNo">039</span><a id="line.39">public @interface Matches {</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">    /**</a>
+<span class="sourceLineNo">042</span><a id="line.42">     * Pattern to test string value against.</a>
+<span class="sourceLineNo">043</span><a id="line.43">     *</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * @return pattern to test against</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * @since 4.0.0</a>
+<span class="sourceLineNo">046</span><a id="line.46">     */</a>
+<span class="sourceLineNo">047</span><a id="line.47">    @Regex String value();</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">    /**</a>
+<span class="sourceLineNo">050</span><a id="line.50">     * Flags to pass to the compiled {@link Pattern}.</a>
+<span class="sourceLineNo">051</span><a id="line.51">     *</a>
+<span class="sourceLineNo">052</span><a id="line.52">     * @return the regex pattern parsing flags</a>
+<span class="sourceLineNo">053</span><a id="line.53">     * @since 4.1.0</a>
+<span class="sourceLineNo">054</span><a id="line.54">     * @see Pattern for the bitflags accepted here</a>
+<span class="sourceLineNo">055</span><a id="line.55">     */</a>
+<span class="sourceLineNo">056</span><a id="line.56">    int flags() default 0;</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">    /**</a>
+<span class="sourceLineNo">059</span><a id="line.59">     * Message to throw in an exception when a match fails.</a>
+<span class="sourceLineNo">060</span><a id="line.60">     *</a>
+<span class="sourceLineNo">061</span><a id="line.61">     * &lt;p&gt;This message will be formatted as a MessageFormat with two</a>
+<span class="sourceLineNo">062</span><a id="line.62">     * parameters:&lt;/p&gt;</a>
+<span class="sourceLineNo">063</span><a id="line.63">     * &lt;ol start="0"&gt;</a>
+<span class="sourceLineNo">064</span><a id="line.64">     *     &lt;li&gt;the input string&lt;/li&gt;</a>
+<span class="sourceLineNo">065</span><a id="line.65">     *     &lt;li&gt;the pattern being matched&lt;/li&gt;</a>
+<span class="sourceLineNo">066</span><a id="line.66">     * &lt;/ol&gt;</a>
+<span class="sourceLineNo">067</span><a id="line.67">     *</a>
+<span class="sourceLineNo">068</span><a id="line.68">     * @return message format.</a>
+<span class="sourceLineNo">069</span><a id="line.69">     * @since 4.0.0</a>
+<span class="sourceLineNo">070</span><a id="line.70">     */</a>
+<span class="sourceLineNo">071</span><a id="line.71">    String failureMessage() default "";</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">}</a>
 
 
 

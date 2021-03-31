@@ -117,7 +117,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Documented.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Documented</a>
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Retention</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation" class="externalLink">RUNTIME</a>)
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">@Target</a>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation" class="externalLink">FIELD</a>)
-public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.35">Matches</a></pre>
+public @interface <a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.36">Matches</a></pre>
 <div class="block">Constrains a field value to ensure it matches the provided expression.
 
  <p>This constraint will always pass with an empty field. See <a href="Required.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Required</code></a>
@@ -178,6 +178,13 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <div class="block">Message to throw in an exception when a match fails.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#flags()">flags</a></span></code></th>
+<td class="colLast">
+<div class="block">Flags to pass to the compiled <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>Pattern</code></a>.</div>
+</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -201,7 +208,7 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <ul class="blockListLast">
 <li class="blockList">
 <h4>value</h4>
-<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/regex/qual/Regex.html?is-external=true" title="class or interface in org.checkerframework.checker.regex.qual" class="externalLink">@Regex</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.46">value</a></pre>
+<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/regex/qual/Regex.html?is-external=true" title="class or interface in org.checkerframework.checker.regex.qual" class="externalLink">@Regex</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.47">value</a></pre>
 <div class="block">Pattern to test string value against.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -217,13 +224,40 @@ public @interface <a href="../../../../../src-html/org/spongepowered/configurate
 <!-- ============ ANNOTATION TYPE MEMBER DETAIL =========== -->
 <section role="region">
 <ul class="blockList">
+<li class="blockList"><a id="flags()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>flags</h4>
+<pre>int&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.56">flags</a></pre>
+<div class="block">Flags to pass to the compiled <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>Pattern</code></a>.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the regex pattern parsing flags</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.1.0</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>for the bitflags accepted here</code></a></dd>
+</dl>
+<dl>
+<dt>Default:</dt>
+<dd>0</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section role="region">
+<ul class="blockList">
 <li class="blockList"><a id="failureMessage()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>failureMessage</h4>
-<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.61">failureMessage</a></pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Matches.html#line.71">failureMessage</a></pre>
 <div class="block">Message to throw in an exception when a match fails.
 
  <p>This message will be formatted as a MessageFormat with two
