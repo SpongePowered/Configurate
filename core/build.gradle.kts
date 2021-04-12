@@ -2,6 +2,7 @@ import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import kotlin.math.max
 
 plugins {
+    jacoco
     id("org.spongepowered.configurate.build.component")
 }
 description = """
@@ -26,6 +27,15 @@ tasks.jar {
 // and an example at https://github.com/melix/mrjar-gradle
 java {
     modularity.inferModulePath.set(true)
+}
+
+tasks {
+    test {
+        finalizedBy(jacocoTestReport)
+    }
+    jacocoTestReport {
+        dependsOn(test)
+    }
 }
 
 fun SourceSet.versionName(version: Int) = this.getTaskName(null, "java$version")

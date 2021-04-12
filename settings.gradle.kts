@@ -23,8 +23,6 @@ private val prefix = "configurate"
 
 rootProject.name = "$prefix-parent"
 
-enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
-
 // core
 listOf("core", "tool", "bom", "examples").forEach {
     include(":$it")

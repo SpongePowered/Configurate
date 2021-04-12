@@ -42,7 +42,3 @@ dependencies {
     api("de.thetaphi:forbiddenapis:3.+")
     implementation("com.google.guava:guava:+")
 }
-
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
-}
