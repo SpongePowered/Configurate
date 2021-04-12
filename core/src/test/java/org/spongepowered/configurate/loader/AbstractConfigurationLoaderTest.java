@@ -27,6 +27,7 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +73,38 @@ public class AbstractConfigurationLoaderTest {
         assertTrue(Files.isSymbolicLink(layerOne));
         assertEquals(layerOne, Files.readSymbolicLink(layerTwo));
         assertEquals(actualFile, Files.readSymbolicLink(layerOne));
-        assertEquals("I should follow symlinks!", String.join("\n", Files.readAllLines(layerTwo, StandardCharsets.UTF_8)));
+        assertEquals("I should follow symlinks!\n", readToString(layerTwo));
+    }
+
+    @Test
+    @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Symlink permissions on windows are inconsistent")
+    void testWriteFileInSymlinkedDirectory(final @TempDir Path tempDir) throws IOException {
+        final Path realDirectory = tempDir.resolve("real");
+        Files.createDirectories(realDirectory);
+        final Path linked = tempDir.resolve("link");
+        Files.createSymbolicLink(linked, realDirectory);
+
+        final Path configFile = linked.resolve("config.yaml");
+
+        final String contents = "helo friends\n";
+        try (BufferedWriter writer = AtomicFiles.atomicBufferedWriter(configFile, StandardCharsets.UTF_8)) {
+            writer.write(contents);
+        }
+
+        assertEquals(contents, readToString(configFile));
+        assertEquals(contents, readToString(realDirectory.resolve("config.yaml")));
+    }
+
+    private static String readToString(final Path file) throws IOException {
+        final StringBuilder builder = new StringBuilder();
+        try (BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
+            final char[] buffer = new char[4096];
+            int read;
+            while ((read = reader.read(buffer)) != -1) {
+                builder.append(buffer, 0, read);
+            }
+        }
+        return builder.toString();
     }
 
     @Test

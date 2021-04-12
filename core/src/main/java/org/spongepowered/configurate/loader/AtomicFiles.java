@@ -85,9 +85,16 @@ public final class AtomicFiles {
             Files.copy(path, writePath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        Files.createDirectories(writePath.getParent());
+        createDirectoriesIfNecessary(writePath.getParent());
         final BufferedWriter output = Files.newBufferedWriter(writePath, charset);
         return new BufferedWriter(new AtomicFileWriter(writePath, path, output));
+    }
+
+    // symlink-aware directory creation
+    private static void createDirectoriesIfNecessary(final Path directory) throws IOException {
+        if (!Files.isDirectory(directory)) {
+            Files.createDirectories(directory);
+        }
     }
 
     private static Path temporaryPath(final Path parent, final String key) {
