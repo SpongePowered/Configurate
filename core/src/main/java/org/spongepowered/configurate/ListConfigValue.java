@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -26,12 +25,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 /**
  * A {@link ConfigValue} which holds a list of values.
  */
 final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> implements ConfigValue<N, A> {
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    static final AtomicReferenceFieldUpdater<ListConfigValue, List> VALUES_HANDLE =
+        AtomicReferenceFieldUpdater.newUpdater(ListConfigValue.class, List.class, "values");
 
     /**
      * A specific key for nodes who are destined to be part of a list.
@@ -57,7 +60,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
     }
 
     private final A holder;
-    final AtomicReference<@NonNull List<A>> values = new AtomicReference<>(new ArrayList<>());
+    volatile List<A> values = new ArrayList<>();
 
     ListConfigValue(final A holder) {
         this.holder = holder;
@@ -69,13 +72,13 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
             final A child = holder.createNode(0);
             child.attached = true;
             child.raw(startValue);
-            this.values.get().add(child);
+            this.values.add(child);
         }
     }
 
     @Override
     public Object get() {
-        final List<A> values = this.values.get();
+        final List<A> values = this.values;
         synchronized (values) {
             final List<Object> ret = new ArrayList<>(values.size());
             for (A obj : values) {
@@ -86,7 +89,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
     }
 
     public List<N> unwrapped() {
-        final List<A> orig = this.values.get();
+        final List<A> orig = this.values;
         synchronized (orig) {
             final List<N> ret = new ArrayList<>(orig.size());
             for (A element : orig) {
@@ -97,6 +100,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void set(@Nullable Object value) {
         if (!(value instanceof Collection)) {
             value = Collections.singleton(value);
@@ -116,7 +120,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
             child.raw(o);
             ++count;
         }
-        detachNodes(this.values.getAndSet(newValue));
+        detachNodes(VALUES_HANDLE.getAndSet(this, newValue));
     }
 
     @Override
@@ -135,10 +139,10 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
                 List<A> values;
                 do {
                     // Allocate an index for the newly added node
-                    values = this.values.get();
+                    values = this.values;
                     values.add(value);
                     value.key = values.lastIndexOf(value);
-                } while (!this.values.compareAndSet(values, values));
+                } while (!VALUES_HANDLE.compareAndSet(this, values, values));
             }
             return null;
         } else {
@@ -150,7 +154,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
         @Nullable A ret = null;
         List<A> values;
         do {
-            values = this.values.get();
+            values = this.values;
             synchronized (values) {
                 if (value == null) {
                     // only remove actually existing values
@@ -175,7 +179,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
                     }
                 }
             }
-        } while (!this.values.compareAndSet(values, values));
+        } while (!VALUES_HANDLE.compareAndSet(this, values, values));
         return ret;
     }
 
@@ -186,7 +190,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
             return null;
         }
 
-        final List<A> values = this.values.get();
+        final List<A> values = this.values;
         synchronized (values) {
             if (value >= values.size()) {
                 return null;
@@ -197,7 +201,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
 
     @Override
     public Iterable<A> iterateChildren() {
-        final List<A> values = this.values.get();
+        final List<A> values = this.values;
         synchronized (values) {
             return UnmodifiableCollections.copyOf(values);
         }
@@ -208,7 +212,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
         final ListConfigValue<N, A> copy = new ListConfigValue<>(holder);
         final List<A> copyValues;
 
-        final List<A> values = this.values.get();
+        final List<A> values = this.values;
         synchronized (values) {
             copyValues = new ArrayList<>(values.size());
             for (A obj : values) {
@@ -216,13 +220,13 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
             }
         }
 
-        copy.values.set(copyValues);
+        copy.values = copyValues;
         return copy;
     }
 
     @Override
     public boolean isEmpty() {
-        return this.values.get().isEmpty();
+        return this.values.isEmpty();
     }
 
     private void detachNodes(final List<? extends AbstractConfigurationNode<?, ?>> children) {
@@ -237,8 +241,9 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void clear() {
-        final List<A> oldValues = this.values.getAndSet(new ArrayList<>());
+        final List<A> oldValues = VALUES_HANDLE.getAndSet(this, new ArrayList<>());
         detachNodes(oldValues);
     }
 
@@ -251,17 +256,17 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
             return false;
         }
         final ListConfigValue<?, ?> that = (ListConfigValue<?, ?>) other;
-        return Objects.equals(this.values.get(), that.values.get());
+        return Objects.equals(this.values, that.values);
     }
 
     @Override
     public int hashCode() {
-        return this.values.get().hashCode();
+        return this.values.hashCode();
     }
 
     @Override
     public String toString() {
-        return "ListConfigValue{values=" + this.values.get().toString() + '}';
+        return "ListConfigValue{values=" + this.values.toString() + '}';
     }
 
 }

@@ -44,7 +44,7 @@ class CommentedConfigurationNodeImpl extends AbstractCommentedConfigurationNode<
     @Override
     protected CommentedConfigurationNodeImpl copy(final @Nullable CommentedConfigurationNodeImpl parent) {
         final CommentedConfigurationNodeImpl copy = new CommentedConfigurationNodeImpl(parent, this);
-        copy.comment.set(this.comment.get());
+        COMMENT_UPDATER.set(copy, this.comment);
         return copy;
     }
 

@@ -144,7 +144,7 @@ class AttributedConfigurationNodeImpl extends AbstractCommentedConfigurationNode
     protected AttributedConfigurationNodeImpl copy(final @Nullable AttributedConfigurationNodeImpl parent) {
         final AttributedConfigurationNodeImpl copy = new AttributedConfigurationNodeImpl(this.tagName, parent, this);
         copy.attributes.putAll(this.attributes);
-        copy.comment.set(this.comment.get());
+        COMMENT_UPDATER.set(copy, this.comment);
         return copy;
     }
 

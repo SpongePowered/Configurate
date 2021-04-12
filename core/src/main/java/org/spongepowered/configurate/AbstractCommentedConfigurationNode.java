@@ -20,12 +20,16 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurationNodeIntermediary<N>, A extends
         AbstractCommentedConfigurationNode<N, A>> extends AbstractConfigurationNode<N, A> implements CommentedConfigurationNodeIntermediary<N> {
 
-    protected final AtomicReference<String> comment = new AtomicReference<>();
+    @SuppressWarnings("rawtypes")
+    protected static final AtomicReferenceFieldUpdater<AbstractCommentedConfigurationNode, String> COMMENT_UPDATER =
+        AtomicReferenceFieldUpdater.newUpdater(AbstractCommentedConfigurationNode.class, String.class, "comment");
+
+    protected volatile @Nullable String comment;
 
     protected AbstractCommentedConfigurationNode(final @Nullable A parent, final A copyOf) {
         super(parent, copyOf);
@@ -37,12 +41,12 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
 
     @Override
     public @Nullable String comment() {
-        return this.comment.get();
+        return this.comment;
     }
 
     @Override
     public N comment(final @Nullable String comment) {
-        if (!Objects.equals(this.comment.getAndSet(comment), comment)) {
+        if (!Objects.equals(COMMENT_UPDATER.getAndSet(this, comment), comment)) {
             attachIfNecessary();
         }
         return self();
@@ -50,7 +54,7 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
 
     @Override
     public N commentIfAbsent(final String comment) {
-        if (this.comment.compareAndSet(null, comment)) {
+        if (COMMENT_UPDATER.compareAndSet(this, null, comment)) {
             attachIfNecessary();
         }
         return self();
@@ -93,13 +97,13 @@ abstract class AbstractCommentedConfigurationNode<N extends CommentedConfigurati
         }
 
         final AbstractCommentedConfigurationNode<?, ?> that = (AbstractCommentedConfigurationNode<?, ?>) o;
-        return Objects.equals(this.comment.get(), that.comment.get());
+        return Objects.equals(this.comment, that.comment);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + Objects.hashCode(this.comment.get());
+        result = 31 * result + Objects.hashCode(this.comment);
         return result;
     }
 

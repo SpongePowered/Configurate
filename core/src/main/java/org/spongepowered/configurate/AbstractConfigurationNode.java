@@ -672,7 +672,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                     } else if (value instanceof ListConfigValue) {
                         visitor.enterListNode(current.self(), state);
                         toVisit.addFirst(new VisitorNodeEnd(current, false));
-                        toVisit.addAll(0, ((ListConfigValue<N, A>) value).values.get());
+                        toVisit.addAll(0, ((ListConfigValue<N, A>) value).values);
                     } else if (value instanceof ScalarConfigValue) {
                         visitor.enterScalarNode(current.self(), state);
                     } else if (!(value instanceof NullConfigValue)) { // temporary workaround, no null values should appear in attached nodes
