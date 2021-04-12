@@ -3,12 +3,12 @@ import org.spongepowered.configurate.build.applyCommonAttributes
 plugins {
     kotlin("jvm") version "1.4.20" apply false
     id("org.jetbrains.dokka") version "1.4.20" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.15.0" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
-    id("io.freefair.aggregate-javadoc-jar") version "5.3.0"
+    id("io.gitlab.arturbosch.detekt") version "1.16.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("io.freefair.aggregate-javadoc-jar") version "5.3.3.3"
     id("org.ajoberstar.grgit")
     id("org.ajoberstar.git-publish") version "3.0.0"
-    id("com.github.ben-manes.versions") version "0.36.0"
+    id("com.github.ben-manes.versions") version "0.38.0"
     id("io.codearte.nexus-staging")
     `java-base`
 }
@@ -22,7 +22,7 @@ subprojects {
 
 allprojects {
     ktlint {
-        version.set("0.40.0")
+        version.set("0.41.0")
     }
 }
 

@@ -77,21 +77,6 @@ tasks.withType(JavaCompile::class).configureEach {
         }*/
     }
     options.compilerArgs.add("-Xlint:-processing")
-    // For error-prone
-    options.isFork = true
-    options.forkOptions.jvmArgs = listOf(
-        "--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-        "--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-        // "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-        // "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
-    )
 }
 
 tasks.withType(Javadoc::class).configureEach {
@@ -194,51 +179,6 @@ pmd {
     toolVersion = "6.29.0"
 }
 
-// Copy-paste detector
-
-sourceSets.configureEach set@{
-    val outputDir = project.layout.buildDirectory.dir("reports/cpd")
-    val outputFile = outputDir.map { it.file("$name.txt") }
-    val cpdClasspath = configurations["pmd"]
-
-    // TODO: Break this out into a proper task
-    // That'll let us declare inputs properly and declare per-subproject exclusions
-    val cpdTask = tasks.register(getTaskName("cpd", null)) {
-        onlyIf {
-            this@set.allJava.files.firstOrNull { it.exists() } != null
-        }
-
-        doLast {
-            outputDir.get().asFile.mkdirs()
-            ant.withGroovyBuilder {
-                "taskdef"(
-                    "name" to "cpd",
-                    "classname" to "net.sourceforge.pmd.cpd.CPDTask",
-                    "classpath" to cpdClasspath.asPath
-                )
-                "cpd"(
-                    "encoding" to "UTF-8",
-                    "minimumtokencount" to 105,
-                    "outputFile" to outputFile.get().asFile,
-                    "skipLexicalErrors" to true
-                ) {
-                    this@set.allJava.addToAntBuilder(this, "fileset", FileCollection.AntType.FileSet)
-                }
-            }
-
-            val text = project.resources.text.fromFile(outputFile).asString()
-            if (!text.isEmpty()) {
-                logger.error(text)
-                throw GradleException("Found duplication in source set $name!")
-            }
-        }
-    }
-
-    tasks.check.configure {
-        dependsOn(cpdTask)
-    }
-}
-
 // API diff viewer
 
 val apiDiffPrevious by configurations.registering {
@@ -249,6 +189,7 @@ val apiDiffPrevious by configurations.registering {
         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class, Usage.JAVA_API))
         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class, Category.LIBRARY))
         attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, indra.javaVersions.target.get())
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
     }
 
     defaultDependencies {

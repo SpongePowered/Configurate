@@ -25,7 +25,6 @@ if (project.hasProperty("spongeKeyStore")) {
     fun forRelevantOutgoings(action: ConfigurationPublications.() -> Unit) {
         configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing.action()
         configurations[JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME].outgoing.action()
-        configurations[JavaPlugin.RUNTIME_CONFIGURATION_NAME].outgoing.action()
     }
     val keyStoreProp = project.property("spongeKeyStore") as String
     val fileTemp = File(keyStoreProp)
