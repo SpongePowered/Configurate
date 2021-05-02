@@ -1,6 +1,4 @@
 import net.ltgt.gradle.errorprone.errorprone
-import org.spongepowered.configurate.build.core
-
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -8,7 +6,7 @@ plugins {
 description = "YAML format loader for Configurate"
 
 dependencies {
-    api(core())
+    api(projects.core)
     implementation("org.yaml:snakeyaml:1.+")
 }
 

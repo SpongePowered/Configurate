@@ -1,15 +1,12 @@
-import org.spongepowered.configurate.build.core
-import org.spongepowered.configurate.build.format
-
 plugins {
     id("org.spongepowered.configurate.build.component")
     application
 }
 
 dependencies {
-    implementation(core())
-    implementation(format("hocon"))
-    implementation(format("yaml"))
+    implementation(projects.core)
+    implementation(projects.format.hocon)
+    implementation(projects.format.yaml)
 }
 
 application {

@@ -1,6 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.spongepowered.configurate.build.format
 
 plugins {
     application
@@ -18,11 +17,11 @@ configurations.matching { it.name.startsWith("dokka") }.configureEach {
 
 dependencies {
     // Configurate
-    implementation(format("xml"))
-    implementation(format("yaml"))
-    implementation(format("gson"))
-    implementation(format("hocon"))
-    implementation(project(":extra:extra-kotlin"))
+    implementation(projects.format.xml)
+    implementation(projects.format.yaml)
+    implementation(projects.format.gson)
+    implementation(projects.format.hocon)
+    implementation(projects.extra.extraKotlin)
 
     // Libraries
     implementation(kotlin("stdlib-jdk8"))

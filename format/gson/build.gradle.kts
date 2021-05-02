@@ -1,5 +1,3 @@
-import org.spongepowered.configurate.build.core
-
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -7,7 +5,7 @@ plugins {
 description = "JSON loader for Configurate, implemented using Gson"
 
 dependencies {
-    api(core())
+    api(projects.core)
     // version must be kept in sync with MC's version
     implementation("com.google.code.gson:gson:2.8.0")
     testImplementation("com.google.guava:guava:latest.release")

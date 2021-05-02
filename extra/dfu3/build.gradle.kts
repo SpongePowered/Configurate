@@ -1,5 +1,3 @@
-import org.spongepowered.configurate.build.core
-
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -7,9 +5,9 @@ plugins {
 description = "Integration between Configurate and Mojang's DataFixerUpper v3 library"
 
 dependencies {
-    api(core())
+    api(projects.core)
     api("com.mojang:datafixerupper:3.0.25")
-    testImplementation(project(":format:gson"))
+    testImplementation(projects.format.gson)
     testImplementation("com.flowpowered:flow-math:1.0.3")
 }
 

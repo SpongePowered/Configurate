@@ -7,16 +7,14 @@ import java.util.Base64
 import java.util.Locale
 
 plugins {
-    id("net.kyori.indra.publishing.sonatype")
-    id("org.ajoberstar.grgit")
+    id("net.kyori.indra.publishing")
 }
 
 val archiveName = "configurate-${name.toLowerCase(Locale.ROOT)}"
 // convention.getPlugin(BasePluginConvention::class).archivesBaseName = archiveName
 
 tasks.withType(Jar::class).configureEach jar@{
-    manifest.attributes["Git-Commit"] = grgit.head().id
-    manifest.attributes["Git-Branch"] = grgit.branch.current().name
+    indraGit.applyVcsInformationToManifest(manifest)
 }
 
 if (project.hasProperty("spongeKeyStore")) {
@@ -79,8 +77,8 @@ if (project.hasProperty("spongeKeyStore")) {
 
 indra {
     github("SpongePowered", "Configurate") {
-        publishing = true // GH Packages
-        ci = true // GH Actions
+        publishing(true) // GH Packages
+        ci(true) // GH Actions
     }
     apache2License()
 
@@ -96,9 +94,7 @@ indra {
         artifactId = archiveName
 
         pom {
-
             inceptionYear.set("2014")
-            description.set(providers.provider { project.description })
 
             developers {
                 developer {

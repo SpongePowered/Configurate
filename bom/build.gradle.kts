@@ -1,6 +1,3 @@
-import org.spongepowered.configurate.build.core
-import org.spongepowered.configurate.build.format
-
 plugins {
     `java-platform`
     id("org.spongepowered.configurate.build.publishing")
@@ -16,17 +13,17 @@ indra {
 
 dependencies {
     constraints {
-        api(core())
-        api(project(":extra:extra-kotlin"))
-        api(project(":extra:extra-guice"))
-        api(project(":extra:extra-dfu2"))
-        api(project(":extra:extra-dfu3"))
-        api(project(":extra:extra-dfu4"))
-        api(project(":tool"))
-        api(format("gson"))
-        api(format("hocon"))
-        api(format("jackson"))
-        api(format("xml"))
-        api(format("yaml"))
+        api(projects.core)
+        api(projects.extra.extraKotlin)
+        api(projects.extra.extraGuice)
+        api(projects.extra.extraDfu2)
+        api(projects.extra.extraDfu3)
+        api(projects.extra.extraDfu4)
+        api(projects.tool)
+        api(projects.format.gson)
+        api(projects.format.hocon)
+        api(projects.format.jackson)
+        api(projects.format.xml)
+        api(projects.format.yaml)
     }
 }

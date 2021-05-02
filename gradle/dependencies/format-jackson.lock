@@ -4,8 +4,8 @@
 antlr:antlr:2.7.7=checkstyle
 ca.stellardrift:stylecheck:0.1=checkstyle
 com.beust:jcommander:1.48=pmd
-com.fasterxml.jackson.core:jackson-core:2.12.2=compileClasspath,default,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
-com.fasterxml.jackson:jackson-bom:2.12.2=compileClasspath,default,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-core:2.12.3=compileClasspath,default,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson:jackson-bom:2.12.3=compileClasspath,default,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.github.ben-manes.caffeine:caffeine:2.8.8=annotationProcessor,errorprone,testAnnotationProcessor
 com.github.kevinstern:software-and-algorithms:1.0=annotationProcessor,errorprone,testAnnotationProcessor
 com.github.shyiko.klob:klob:0.2.1=ktlint

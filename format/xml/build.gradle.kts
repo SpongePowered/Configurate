@@ -1,5 +1,3 @@
-import org.spongepowered.configurate.build.core
-
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -7,6 +5,6 @@ plugins {
 description = "XML format loader for Configurate"
 
 dependencies {
-    api(core())
+    api(projects.core)
     testImplementation("com.google.guava:guava:latest.release")
 }

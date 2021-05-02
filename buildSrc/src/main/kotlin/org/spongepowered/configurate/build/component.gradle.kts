@@ -2,7 +2,9 @@ package org.spongepowered.configurate.build
 
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import net.ltgt.gradle.errorprone.errorprone
+import org.eclipse.jgit.lib.Repository
 import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
+import kotlin.math.min
 
 plugins {
     id("org.spongepowered.configurate.build.publishing")
@@ -119,7 +121,7 @@ configurations {
 
 // Apply a license header
 license {
-    header = rootProject.file("LICENSE_HEADER")
+    header(rootProject.file("LICENSE_HEADER"))
 }
 
 // Set up automatic module name
@@ -129,7 +131,7 @@ tasks.jar {
 
 // Configure target versions
 indra {
-    javaVersions.testWith(8, 11, 16)
+    javaVersions().testWith(8, 11, 16)
 }
 
 // Forbidden API validation
@@ -139,7 +141,7 @@ forbiddenApis {
 }
 
 tasks.withType(CheckForbiddenApis::class).configureEach {
-    targetCompatibility = indra.javaVersions.actualVersion.get().toString()
+    targetCompatibility = min(indra.javaVersions().actualVersion().get(), 15).toString() // todo: forbidden apis needs J16 sigs
 }
 
 // Checkstyle (based on Sponge config)
@@ -155,7 +157,7 @@ dependencyLocking {
     ignoredDependencies.add("com.puppycrawl.tools:*")
 }
 
-indra.checkstyle.set(checkstyleVersion)
+indra.checkstyle().set(checkstyleVersion)
 
 // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot
 if (checkstyleVersion.endsWith("-SNAPSHOT")) {
@@ -188,15 +190,15 @@ val apiDiffPrevious by configurations.registering {
     attributes {
         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class, Usage.JAVA_API))
         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class, Category.LIBRARY))
-        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, indra.javaVersions.target.get())
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, indra.javaVersions().target().get())
         attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
     }
 
     defaultDependencies {
-        // create based on grgit's previous tag
-        val lastTag = grgit.tag.list().lastOrNull()
+        // create based on git's previous tag
+        val lastTag = indraGit.tags().lastOrNull()
         if (lastTag != null) {
-            add(project.dependencies.create("$group:configurate-${project.name}:${lastTag.name}"))
+            add(project.dependencies.create("$group:configurate-${project.name}:${Repository.shortenRefName(lastTag.name)}"))
         }
     }
 }

@@ -2,8 +2,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.spongepowered.configurate.build.core
-import org.spongepowered.configurate.build.format
 
 plugins {
     kotlin("jvm")
@@ -27,7 +25,7 @@ val examples by sourceSets.registering {
 
 dependencies {
     "examplesImplementation"(sourceSets.main.map { it.output })
-    "examplesImplementation"(format("yaml"))
+    "examplesImplementation"(projects.format.yaml)
 }
 
 tasks.withType(KotlinCompile::class).configureEach {
@@ -58,7 +56,7 @@ tasks.withType(Detekt::class).configureEach {
 }
 
 dependencies {
-    api(core())
+    api(projects.core)
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     // This version has to be kept in sync with the Kotlin plugin version

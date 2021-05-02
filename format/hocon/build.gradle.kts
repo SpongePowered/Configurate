@@ -1,5 +1,3 @@
-import org.spongepowered.configurate.build.core
-
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -7,7 +5,7 @@ plugins {
 description = "HOCON format loader for Configurate"
 
 dependencies {
-    api(core())
+    api(projects.core)
     implementation("com.typesafe:config:1.+")
     testImplementation("com.google.guava:guava:latest.release")
 }

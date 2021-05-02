@@ -119,7 +119,7 @@ public class RecordDiscovererTest {
     }
 
     @Test
-    void testPrimitveDefaultsFilled() throws SerializationException {
+    void testPrimitiveDefaultsFilled() throws SerializationException {
         @ConfigSerializable
         record WithPrimitives(@Nullable String test, int helloWorld) {}
 

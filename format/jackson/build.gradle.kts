@@ -1,5 +1,3 @@
-import org.spongepowered.configurate.build.core
-
 plugins {
     id("org.spongepowered.configurate.build.component")
 }
@@ -7,7 +5,7 @@ plugins {
 description = "JSON format loader for Configurate, implemented using Jackson"
 
 dependencies {
-    api(core())
+    api(projects.core)
     api("com.fasterxml.jackson.core:jackson-core:2.+") {
         attributes {
             // Require that we're an actual release...

@@ -1,3 +1,4 @@
+import org.eclipse.jgit.lib.Repository.shortenRefName
 import org.spongepowered.configurate.build.applyCommonAttributes
 
 plugins {
@@ -6,10 +7,10 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.16.0" apply false
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("io.freefair.aggregate-javadoc-jar") version "5.3.3.3"
-    id("org.ajoberstar.grgit")
+    id("net.kyori.indra.publishing.sonatype")
+    id("net.kyori.indra.git")
     id("org.ajoberstar.git-publish") version "3.0.0"
     id("com.github.ben-manes.versions") version "0.38.0"
-    id("io.codearte.nexus-staging")
     `java-base`
 }
 
@@ -24,13 +25,6 @@ allprojects {
     ktlint {
         version.set("0.41.0")
     }
-}
-
-nexusStaging {
-    val sonatypeUsername: String? by project
-    val sonatypePassword: String? by project
-    username = sonatypeUsername
-    password = sonatypePassword
 }
 
 tasks.aggregateJavadoc.configure {
@@ -60,11 +54,19 @@ tasks.aggregateJavadoc.configure {
 }
 
 gitPublish {
+    val repo = indraGit.git()
+    if (repo != null) {
+        repo.remoteList().call().find { config -> config.name == "origin" }?.apply {
+            repoUri.set((this.pushURIs.firstOrNull() ?: this.urIs.first()).toPrivateString())
+            referenceRepoUri.set(this.urIs.first().toPrivateString())
+        }
+    }
+
     branch.set("gh-pages")
     contents {
         from("src/site") {
             val versions = {
-                (listOf(project.version as String) + grgit.tag.list().map { it.name }.reversed())
+                (listOf(project.version as String) + indraGit.tags().map { shortenRefName(it.name) }.reversed())
                     .distinct()
                     .filter { repoDir.get().dir(it).getAsFile().exists() || it == project.version }
             }

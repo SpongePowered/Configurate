@@ -1,9 +1,12 @@
 .gradle/
 /*/build/
 /*/out/
+/*/bin/
 buildSrc/build/
 buildSrc/out/
+buildSrc/*/bin/
 /build/
+/format/*/bin/
 /format/*/build/
 /format/*/out/
 /extra/*/build/
