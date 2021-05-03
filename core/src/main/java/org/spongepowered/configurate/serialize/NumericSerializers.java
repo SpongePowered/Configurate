@@ -40,8 +40,8 @@ import java.util.function.BiFunction;
  *         When deserializing decimal types ({@code float} and {@code double}):
  *         <ul>
  *             <li>If the input value is a {@link Number}, convert it to the
- *             applicable type, throwing an exception if it is out
- *             of bounds</li>
+ *             applicable type, throwing an exception if it cannot be converted
+ *             without major precision loss.</li>
  *             <li>If the input value is a {@link CharSequence}, attempt to
  *             parse the numeric type, with an accepted suffix of {@code f} or
  *             {@code d}, aligned with the type of number being parsed</li>
@@ -78,6 +78,28 @@ final class NumericSerializers {
 
     private NumericSerializers() {}
 
+    /**
+     * Attempt to determine if a double can reasonably be coerced to a float.
+     *
+     * <p>This will only fail for numbers that are far outside the acceptable
+     * limits for floats.</p>
+     *
+     * <p>Even when this method return {@code true}, precision loss
+     * may occur.</p>
+     *
+     * @param test the value to check
+     * @return if the number can be represented as a float
+     */
+    private static boolean canRepresentDoubleAsFloat(final double test) {
+        if (!Double.isFinite(test)) { // NaN, ±inf
+            return true;
+        }
+
+        // only check exponent, since there's no trivial cutoff for precision loss.
+        final int exponent = Math.getExponent(test);
+        return exponent >= Float.MIN_EXPONENT && exponent <= Float.MAX_EXPONENT;
+    }
+
     static final ScalarSerializer<Float> FLOAT = TypeSerializer.of(Float.class, (v, pass) -> {
         if (pass.test(Double.class)) {
             return v.doubleValue();
@@ -87,8 +109,8 @@ final class NumericSerializers {
     }, v -> {
             if (v instanceof Number) {
                 final double d = ((Number) v).doubleValue();
-                if (d > Float.MAX_VALUE || d < Float.MIN_VALUE) {
-                    throw new SerializationException("Value " + d + " is out of bounds of a float");
+                if (!canRepresentDoubleAsFloat(d)) {
+                    throw new SerializationException("Value " + d + " cannot be represented as a float without significant loss of precision");
                 }
                 return (float) d;
             } else if (v instanceof CharSequence) {

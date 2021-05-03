@@ -244,6 +244,25 @@ public class NumericSerializersTest {
         assertEquals((Float) i, serializer.deserialize(Float.class, this.node));
     }
 
+    // https://github.com/SpongePowered/Configurate/issues/198
+    @Test
+    void testFloatPrecision() throws SerializationException {
+        final TypeSerializer<Float> serializer = serializer(Float.class);
+
+        final float expected = -34.050217f;
+        final double expectedAsFloatAsDouble = -34.050217f;
+        final double expectedAsDouble = -34.050217d;
+
+        this.node.set(expected);
+        assertEquals(expected, serializer.deserialize(Float.class, this.node));
+
+        this.node.set(expectedAsFloatAsDouble);
+        assertEquals(expected, serializer.deserialize(Float.class, this.node));
+
+        this.node.set(expectedAsDouble);
+        assertEquals(expected, serializer.deserialize(Float.class, this.node));
+    }
+
     @Test
     void testDouble() throws Exception {
         final TypeSerializer<Double> serializer = serializer(Double.class);
