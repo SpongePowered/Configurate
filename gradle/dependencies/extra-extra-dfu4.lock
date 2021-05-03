@@ -4,7 +4,6 @@
 antlr:antlr:2.7.7=checkstyle
 ca.stellardrift:stylecheck:0.1=checkstyle
 com.beust:jcommander:1.48=pmd
-com.flowpowered:flow-math:1.0.3=testCompileClasspath,testRuntimeClasspath
 com.github.ben-manes.caffeine:caffeine:2.8.8=annotationProcessor,errorprone,testAnnotationProcessor
 com.github.kevinstern:software-and-algorithms:1.0=annotationProcessor,errorprone,testAnnotationProcessor
 com.github.shyiko.klob:klob:0.2.1=ktlint
@@ -85,4 +84,5 @@ org.opentest4j:opentest4j:1.2.0=testCompileClasspath,testRuntimeClasspath
 org.ow2.asm:asm:9.0-beta=pmd
 org.pcollections:pcollections:2.1.2=annotationProcessor,errorprone,testAnnotationProcessor
 org.reflections:reflections:0.9.12=checkstyle
+org.spongepowered:math:2.0.0=testCompileClasspath,testRuntimeClasspath
 empty=archives,compile,errorproneJavac,ktlintReporter,ktlintRuleset,runtime,signatures,testCompile,testRuntime

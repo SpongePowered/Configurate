@@ -8,7 +8,7 @@ dependencies {
     api(projects.core)
     api("com.mojang:datafixerupper:4.0.26")
     testImplementation(projects.format.gson)
-    testImplementation("com.flowpowered:flow-math:1.0.3")
+    testImplementation("org.spongepowered:math:2.0.0")
 }
 
 tasks.withType(Javadoc::class) {

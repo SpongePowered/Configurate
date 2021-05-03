@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.flowpowered.math.vector.Vector3i;
 import com.google.common.io.Resources;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.Streams;
@@ -39,6 +38,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
+import org.spongepowered.math.vector.Vector3i;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -58,7 +58,7 @@ public class DfuSerializersTest {
         values[2] = ints.nextInt();
         assertFalse(ints.hasNext());
         return new Vector3i(values[0], values[1], values[2]);
-    }, vec -> IntStream.of(vec.getX(), vec.getY(), vec.getZ()));
+    }, vec -> IntStream.of(vec.x(), vec.y(), vec.z()));
 
     @Test
     void testCodecSerializer() throws SerializationException {
@@ -78,7 +78,7 @@ public class DfuSerializersTest {
     }
 
     @ConfigSerializable
-    @SuppressWarnings("UnusedVariable")
+    @SuppressWarnings("unused")
     static class TestSerializable {
         @Setting
         private String testValue = "hello world";
