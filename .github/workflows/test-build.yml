@@ -26,8 +26,9 @@ jobs:
         with:
           fetch-depth: 0 # checkout full history for site generation
       - name: Setup JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: adopt
           java-version: 11
       - uses: gradle/wrapper-validation-action@v1
       - name: Cache Gradle data
@@ -63,7 +64,7 @@ jobs:
           fi
       - name: Publish with Gradle
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
-        run: ./gradlew publish gitPublishCopy
+        run: ./gradlew publish gitPublishCopy closeSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: "${{ github.actor }}"
           ORG_GRADLE_PROJECT_githubPackagesPassword: "${{ secrets.GITHUB_TOKEN }}"
