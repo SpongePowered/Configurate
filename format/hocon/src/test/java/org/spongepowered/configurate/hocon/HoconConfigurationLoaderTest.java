@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
@@ -64,7 +65,7 @@ public class HoconConfigurationLoaderTest {
         assertEquals("unicorn", node.node("test", "op-level").raw());
         assertEquals("dragon", node.node("other", "op-level").raw());
         final CommentedConfigurationNode testNode = node.node("test");
-        assertEquals(" Test node", testNode.comment());
+        assertEquals("Test node", testNode.comment());
         assertEquals("dog park", node.node("other", "location").raw());
         loader.save(node);
         assertEquals(Resources.readLines(requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
@@ -174,6 +175,19 @@ public class HoconConfigurationLoaderTest {
         ObjectMapper.factory().get(OuterConfig.TYPE).load(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+    }
+
+    @Test
+    void testCommentAtBeginningStripped() throws ConfigurateException {
+        final URL resource = requireResource("comments-test.conf");
+
+        final CommentedConfigurationNode root = HoconConfigurationLoader.builder()
+            .url(resource)
+            .build()
+            .load();
+
+        assertEquals("fruit", root.node("test", "apple").comment());
+        assertEquals("tasty", root.node("test", "donut").comment());
     }
 
     private URL requireResource(final String path) {

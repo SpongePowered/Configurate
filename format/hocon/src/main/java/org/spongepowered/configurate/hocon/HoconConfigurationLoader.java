@@ -183,8 +183,15 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {
         if (!value.origin().comments().isEmpty()) {
             node.comment(value.origin().comments().stream()
-                    .map(input -> input.replace("\r", ""))
-                    .collect(Collectors.joining("\n")));
+                .map(input -> {
+                    final String lineStripped = input.replace("\r", "");
+                    if (!lineStripped.isEmpty() && lineStripped.charAt(0) == ' ') {
+                        return lineStripped.substring(1);
+                    } else {
+                        return lineStripped;
+                    }
+                })
+                .collect(Collectors.joining("\n")));
         }
 
         switch (value.valueType()) {
