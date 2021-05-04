@@ -18,15 +18,16 @@ package org.spongepowered.configurate.hocon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AtomicFiles;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
@@ -52,8 +53,8 @@ import java.util.Map;
 public class HoconConfigurationLoaderTest {
 
     @Test
-    void testSimpleLoading(final @TempDir Path tempDir) throws ConfigurateException, IOException {
-        final URL url = getClass().getResource("/example.conf");
+    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+        final URL url = requireResource("example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
@@ -66,26 +67,26 @@ public class HoconConfigurationLoaderTest {
         assertEquals(" Test node", testNode.comment());
         assertEquals("dog park", node.node("other", "location").raw());
         loader.save(node);
-        assertEquals(Resources.readLines(getClass().getResource("/roundtrip-test.conf"), StandardCharsets.UTF_8), Files
+        assertEquals(Resources.readLines(requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
                 .readAllLines(saveTest, StandardCharsets.UTF_8));
     }
 
     @Test
-    void testSplitLineCommentInput(final @TempDir Path tempDir) throws ConfigurateException, IOException {
+    void testSplitLineCommentInput(final @TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text2.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo)
-                .url(getClass().getResource("/splitline-comment-input.conf"))
+                .url(requireResource("splitline-comment-input.conf"))
                 .build();
         final CommentedConfigurationNode node = loader.load();
         loader.save(node);
 
-        assertEquals(Resources.readLines(getClass().getResource("/splitline-comment-output.conf"), StandardCharsets.UTF_8),
+        assertEquals(Resources.readLines(requireResource("splitline-comment-output.conf"), StandardCharsets.UTF_8),
                 Files.readAllLines(saveTo, StandardCharsets.UTF_8));
     }
 
     @Test
-    void testHeaderSaved(final @TempDir Path tempDir) throws IOException, ConfigurateException {
+    void testHeaderSaved(final @TempDir Path tempDir) throws IOException {
         final Path saveTo = tempDir.resolve("text3.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo)
@@ -95,14 +96,14 @@ public class HoconConfigurationLoaderTest {
         node.node("node").comment("I have a comment").node("party").set("now");
 
         loader.save(node);
-        assertEquals(Resources.readLines(getClass().getResource("/header.conf"), StandardCharsets.UTF_8),
+        assertEquals(Resources.readLines(requireResource("header.conf"), StandardCharsets.UTF_8),
                 Files.readAllLines(saveTo, StandardCharsets.UTF_8));
 
     }
 
     @Test
-    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL url = getClass().getResource("/comments-test.conf");
+    void testBooleansNotShared(final @TempDir Path tempDir) throws IOException {
+        final URL url = requireResource("comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo).url(url).build();
@@ -130,9 +131,9 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException, ConfigurateException {
+    void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/44
-        final URL rsrc = getClass().getResource("/empty-values.conf");
+        final URL rsrc = requireResource("empty-values.conf");
         final Path output = tempDir.resolve("load-merge-empty.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(output)
@@ -160,9 +161,9 @@ public class HoconConfigurationLoaderTest {
     }
 
     @Test
-    void testCreateEmptyObjectmappingSection(final @TempDir Path tempDir) throws IOException, ConfigurateException {
+    void testCreateEmptyObjectMappingSection(final @TempDir Path tempDir) throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/40
-        final URL rsrc = getClass().getResource("/empty-section.conf");
+        final URL rsrc = requireResource("empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .defaultOptions(o -> o.shouldCopyDefaults(true))
@@ -173,6 +174,12 @@ public class HoconConfigurationLoaderTest {
         ObjectMapper.factory().get(OuterConfig.TYPE).load(source);
         loader.save(source);
         assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+    }
+
+    private URL requireResource(final String path) {
+        final @Nullable URL resource = this.getClass().getResource('/' + path);
+        assertNotNull(resource, () -> "Resource " + path + " was not present when expected to be!");
+        return resource;
     }
 
 }
