@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "org.spongepowered"
-version = "4.1.0"
+version = "4.2.0-SNAPSHOT"
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
