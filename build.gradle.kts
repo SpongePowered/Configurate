@@ -38,10 +38,10 @@ tasks.aggregateJavadoc.configure {
     title = "Configurate $version (all modules)"
 
     val excludedProjects = listOf("examples").map {
-        project(":$it").tasks.named("javadoc", Javadoc::class).get().classpath
+        project(":$it").projectDir.toPath().toAbsolutePath()
     }
     exclude {
-        excludedProjects.find { coll -> coll.contains(it.file) } != null
+        excludedProjects.find { path -> it.file.toPath().toAbsolutePath().startsWith(path) } != null
     }
 
     (options as? StandardJavadocDocletOptions)?.apply {
