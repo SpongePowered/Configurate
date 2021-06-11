@@ -34,7 +34,7 @@ sourceSets {
     main {
         multirelease {
             alternateVersions(
-                9, // VarHandles
+                // 9, // VarHandles // TODO: temporarily disabled, cannot write final fields
                 10, // immutable collections
                 16 // FieldDiscoverer for records
             )
