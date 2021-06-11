@@ -286,4 +286,15 @@ public class NumericSerializersTest {
         assertEquals((Double) i, serializer.deserialize(Double.class, this.node));
     }
 
+    @Test
+    void testFloatFromDoubleZeroes() throws Exception {
+        final TypeSerializer<Float> serializer = serializer(Float.class);
+
+        this.node.set(0d);
+        assertEquals(0f, serializer.deserialize(Float.class, this.node));
+
+        this.node.set(-0d);
+        assertEquals(-0f, serializer.deserialize(Float.class, this.node));
+    }
+
 }
