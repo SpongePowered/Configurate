@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import static io.leangen.geantyref.GenericTypeReflector.annotate;
 import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
 import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.util.Types.requireCompleteParameters;
@@ -24,6 +23,7 @@ import static org.spongepowered.configurate.util.Types.requireCompleteParameters
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
@@ -82,7 +82,7 @@ public final class TypeSerializerCollection {
     }
 
     private final @Nullable TypeSerializerCollection parent;
-    private final List<RegisteredSerializer> serializers;
+    final List<RegisteredSerializer> serializers;
     private final Map<Type, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
 
     private TypeSerializerCollection(final @Nullable TypeSerializerCollection parent, final List<RegisteredSerializer> serializers) {
@@ -106,7 +106,7 @@ public final class TypeSerializerCollection {
     @SuppressWarnings("unchecked")
     public <T> @Nullable TypeSerializer<T> get(final TypeToken<T> token) {
         requireNonNull(token, "type");
-        return (TypeSerializer<T>) get(token.getType());
+        return (TypeSerializer<T>) get0(token.getType());
     }
 
     /**
@@ -143,19 +143,26 @@ public final class TypeSerializerCollection {
      *          serializer is found
      * @since 4.0.0
      */
-    public @Nullable TypeSerializer<?> get(Type type) {
-        type = GenericTypeReflector.toCanonicalBoxed(annotate(requireNonNull(type, "type"))).getType();
-        @Nullable TypeSerializer<?> serial = this.typeMatches.computeIfAbsent(type, param -> {
+    public @Nullable TypeSerializer<?> get(final Type type) {
+        return this.get0(GenericTypeReflector.box(type));
+    }
+
+    private @Nullable TypeSerializer<?> get0(final Type canonical) {
+        @Nullable TypeSerializer<?> serial = this.typeMatches.computeIfAbsent(canonical, param -> {
             for (RegisteredSerializer ent : this.serializers) {
                 if (ent.predicate.test(param)) {
                     return ent.serializer;
                 }
             }
-            return null;
+            return NoOp.INSTANCE;
         });
 
+        if (serial == NoOp.INSTANCE) {
+            serial = null;
+        }
+
         if (serial == null && this.parent != null) {
-            serial = this.parent.get(type);
+            serial = this.parent.get0(canonical);
         }
         return serial;
     }
@@ -432,16 +439,34 @@ public final class TypeSerializerCollection {
         }
     }
 
-    private static final class RegisteredSerializer {
+    static final class RegisteredSerializer {
 
-        private final Predicate<Type> predicate;
-        private final TypeSerializer<?> serializer;
+        final Predicate<Type> predicate;
+        final TypeSerializer<?> serializer;
 
         private RegisteredSerializer(final Predicate<Type> predicate, final TypeSerializer<?> serializer) {
             this.predicate = predicate;
             this.serializer = serializer;
         }
 
+    }
+
+    static final class NoOp implements TypeSerializer<Void> {
+
+        static final NoOp INSTANCE = new NoOp();
+
+        private NoOp() {
+        }
+
+        @Override
+        public Void deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
+            throw new UnsupportedOperationException("this is a placeholder for null, should not be called directly");
+        }
+
+        @Override
+        public void serialize(final Type type, @Nullable final Void obj, final ConfigurationNode node) throws SerializationException {
+            throw new UnsupportedOperationException("this is a placeholder for null, should not be called directly");
+        }
     }
 
 }
