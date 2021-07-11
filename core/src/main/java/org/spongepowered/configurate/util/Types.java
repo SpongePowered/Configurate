@@ -186,6 +186,27 @@ public final class Types {
     /**
      * Given an element type, create a new list type.
      *
+     * <p>The provided element type must not be a <em>raw type</em></p>
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
+     * @param elementType class representing the element type
+     * @param <T> type of element
+     * @return new list type token
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> TypeToken<List<T>> makeList(final Class<T> elementType) {
+        return (TypeToken<List<T>>) TypeToken.get(TypeFactory.parameterizedClass(List.class, elementType));
+    }
+
+    /**
+     * Given an element type, create a new list type.
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
      * @param elementType type token representing the element type
      * @param <T> type of element
      * @return new list type token
@@ -194,6 +215,80 @@ public final class Types {
     @SuppressWarnings("unchecked")
     public static <T> TypeToken<List<T>> makeListType(final TypeToken<T> elementType) {
         return (TypeToken<List<T>>) TypeToken.get(TypeFactory.parameterizedClass(List.class, elementType.getType()));
+    }
+
+    /**
+     * Given an element type, create a new {@link Map} type.
+     *
+     * <p>The provided key and value types must not be a <em>raw type</em></p>
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
+     * @param key type of the map's key
+     * @param value type of the map's value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return new {@link Map} type token
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static <K, V> TypeToken<Map<K, V>> makeMap(final Class<K> key, final Class<V> value) {
+        return (TypeToken<Map<K, V>>) TypeToken.get(TypeFactory.parameterizedClass(Map.class, key, value));
+    }
+
+    /**
+     * Given an element type, create a new {@link Map} type.
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
+     * @param key type of the map's key
+     * @param value type of the map's value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return new {@link Map} type token
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static <K, V> TypeToken<Map<K, V>> makeMap(final TypeToken<K> key, final TypeToken<V> value) {
+        return (TypeToken<Map<K, V>>) TypeToken.get(TypeFactory.parameterizedClass(Map.class, key.getType(), value.getType()));
+    }
+
+    /**
+     * Given an element type, create a new {@link Map} type.
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
+     * @param key type of the map's key
+     * @param value type of the map's value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return new {@link Map} type token
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static <K, V> TypeToken<Map<K, V>> makeMap(final Class<K> key, final TypeToken<V> value) {
+        return (TypeToken<Map<K, V>>) TypeToken.get(TypeFactory.parameterizedClass(Map.class, key, value.getType()));
+    }
+
+    /**
+     * Given an element type, create a new {@link Map} type.
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
+     * @param key type of the map's key
+     * @param value type of the map's value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return new {@link Map} type token
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static <K, V> TypeToken<Map<K, V>> makeMap(final TypeToken<K> key, final Class<V> value) {
+        return (TypeToken<Map<K, V>>) TypeToken.get(TypeFactory.parameterizedClass(Map.class, key.getType(), value));
     }
 
     /**
