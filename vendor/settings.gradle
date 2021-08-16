@@ -1,0 +1,31 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+    repositories {
+       maven {
+           url = 'https://repo.spongepowered.org/repository/maven-public'
+           name = 'sponge'
+       }
+    }
+}
+
+rootProject.name = "configurate-vendor"
+
+sourceControl {
+    gitRepository("https://github.com/zml2008/gitpatcher.git") {
+        // producesModule "org.cadixdev.gitpatcher:org.cadixdev.gitpatcher.gradle.plugin"
+        producesModule "org.cadixdev.gradle:gitpatcher"
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        maven {
+            url = 'https://repo.spongepowered.org/repository/maven-public'
+            name = 'sponge'
+        }
+    }
+}
+
+include "snakeyaml"

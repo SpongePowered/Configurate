@@ -1,0 +1,11 @@
+# Header
+# This file contains a more complex example
+# to test comment reading.
+
+core:
+  users:
+    # comment on list entry
+    - # ambiguous comment
+      first: one
+      # very mapping
+      second: two

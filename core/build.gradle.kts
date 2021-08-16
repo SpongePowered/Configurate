@@ -1,4 +1,6 @@
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
+import org.spongepowered.configurate.build.useAutoValue
+import kotlin.math.max
 
 plugins {
     jacoco
@@ -9,11 +11,10 @@ description = """
     provides a node-based data structure able to handle a wide variety of configuration schemas
 """.trimIndent().replace('\n', ' ')
 
+useAutoValue()
 dependencies {
     api("io.leangen.geantyref:geantyref:1.+")
     compileOnlyApi("org.checkerframework:checker-qual:3.+")
-    compileOnly("com.google.auto.value:auto-value-annotations:1.+")
-    annotationProcessor("com.google.auto.value:auto-value:1.+")
     testImplementation("com.google.guava:guava:latest.release")
 }
 

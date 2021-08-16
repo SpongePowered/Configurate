@@ -1,5 +1,7 @@
 package org.spongepowered.configurate.build
 
+import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
@@ -17,5 +19,13 @@ fun Javadoc.applyCommonAttributes() {
         options.addBooleanOption("html5", true)
         options.addStringOption("-release", "8")
         options.linkSource()
+    }
+}
+
+fun Project.useAutoValue() {
+    val autoValueVersion = findProperty("autoValueVersion")
+    dependencies.apply {
+        add(JavaPlugin.COMPILE_ONLY_CONFIGURATION_NAME, "com.google.auto.value:auto-value-annotations:$autoValueVersion")
+        add(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME, "com.google.auto.value:auto-value:$autoValueVersion")
     }
 }

@@ -1,0 +1,92 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: zml <zml@stellardrift.ca>
+Date: Fri, 19 Mar 2021 22:51:12 -0700
+Subject: [PATCH] scanner: Initial implementation of tab acceptance
+
+
+diff --git a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
+index f3c3f65b023a8ee2c9359baa219f36f81e39cf53..abfdce3eb9403f22e9c6941566f6106c687c9226 100644
+--- a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
++++ b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
+@@ -184,6 +184,8 @@ public final class ScannerImpl implements Scanner {
+     // A flag that indicates if comments should be emitted
+     private boolean emitComments;
+ 
++    private boolean acceptTabs;
++
+     // Variables related to simple keys treatment. See PyYAML.
+ 
+     /**
+@@ -243,6 +245,27 @@ public final class ScannerImpl implements Scanner {
+         return emitComments;
+     }
+ 
++    /**
++     * Set the scanner to accept tabs.
++     *
++     * <p>This mode is disabled by default, since tabs are not valid in a YAML
++     * document. However, when working with user-generated input it can be
++     * beneficial to attempt to process tabs.</p>
++     *
++     * <p>When tabs are accepted, each tab is treated as <em>one space.</em></p>
++     *
++     * @param acceptTabs whether tabs should be accepted
++     * @return this
++     */
++    public ScannerImpl setAcceptTabs(boolean acceptTabs) {
++        this.acceptTabs = acceptTabs;
++        return this;
++    }
++
++    public boolean isAcceptTabs() {
++        return acceptTabs;
++    }
++
+     /**
+      * Check whether the next token is one of the given types.
+      */
+@@ -1225,7 +1248,7 @@ public final class ScannerImpl implements Scanner {
+             int ff = 0;
+             // Peek ahead until we find the first non-space character, then
+             // move forward directly to that character.
+-            while (reader.peek(ff) == ' ') {
++            while (reader.peek(ff) == ' ' || (this.acceptTabs && reader.peek(ff) == '\t')) {
+                 ff++;
+             }
+             if (ff > 0) {
+diff --git a/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java b/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java
+index eca1fa06187ae55bba64597a607bcc7fa0c8b8ae..34c32a88a279534d4f12df4ae2a3ac512a9f5fcc 100644
+--- a/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java
++++ b/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java
+@@ -16,6 +16,7 @@
+ package org.yaml.snakeyaml.scanner;
+ 
+ import java.util.LinkedList;
++import java.util.Map;
+ 
+ import junit.framework.TestCase;
+ 
+@@ -67,4 +68,23 @@ public class ScannerImplTest extends TestCase {
+                     e.getMessage());
+         }
+     }
++
++    public void testTabsAllowed() {
++        // TODO: Test mixed tabs and spaces once those are properly handled
++        final Scanner scanner = new ScannerImpl(new StreamReader("\tdata: 1")).setAcceptTabs(true);
++        final Token.ID[] expectedTokens = {
++            Token.ID.StreamStart,
++            Token.ID.BlockMappingStart,
++            Token.ID.Key,
++            Token.ID.Scalar,
++            Token.ID.Value,
++            Token.ID.Scalar,
++            Token.ID.BlockEnd,
++        };
++
++        int expected = 0;
++        do {
++            assertEquals(expectedTokens[expected++], scanner.getToken().getTokenId());
++        } while (!scanner.checkToken(Token.ID.StreamEnd));
++    }
+ }

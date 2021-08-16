@@ -13,11 +13,18 @@ buildSrc/*/bin/
 /extra/*/out/
 /extra/*/bin/
 
+# gitpatcher local data
+/vendor/snakeyaml/
+
 # IntelliJ project data
 .idea
 *.iml
 *.ipr
 idea/
+/*/*/src/*/java/generated/
+/*/*/src/*/generated/
+/*/src/*/java/generated/
+/*/src/*/generated/
 
 # Mac stuff
 .DS_Store

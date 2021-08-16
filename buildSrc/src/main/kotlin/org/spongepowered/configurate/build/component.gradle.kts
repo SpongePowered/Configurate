@@ -25,6 +25,10 @@ dependencyLocking {
     lockFile.set(rootProject.layout.projectDirectory.file("gradle/dependencies/${project.path.replace(':', '-').substring(1)}.lock"))
 }
 
+configurations.matching { "ktlint" in it.name }.configureEach {
+    resolutionStrategy.deactivateDependencyLocking()
+}
+
 tasks.register("resolveAllForLocking") {
     description = "Update all dependency locks. Must be run with the `--write-locks` flag."
 
@@ -33,7 +37,10 @@ tasks.register("resolveAllForLocking") {
     }
     doLast {
         configurations
-            .filter { it.isCanBeResolved && (it.resolutionStrategy as ResolutionStrategyInternal).isDependencyLockingEnabled }
+            .filter {
+                (it.isCanBeResolved || "ktlint" in it.name) && // workaround because ktlint is bad
+                    (it.resolutionStrategy as ResolutionStrategyInternal).isDependencyLockingEnabled
+            }
             .forEach { it.resolve() }
     }
 }
@@ -113,6 +120,7 @@ dependencies {
             attribute(Attribute.of("org.gradle.status", String::class.java), "release")
         }
     }
+    testImplementation("org.assertj:assertj-core:3.+")
 }
 
 configurations {

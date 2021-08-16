@@ -225,12 +225,14 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
     private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(DEFAULT_INDENT)
     private val flowStyle by option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
+    private val comments by option("-c", "--comments", help = "Whether or not to enable comment handling").flag("--no-comments", default = false)
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return YamlConfigurationLoader.builder()
             .path(path)
             .headerMode(header)
             .indent(indent)
             .nodeStyle(flowStyle)
+            .commentsEnabled(comments)
             .build()
     }
 }

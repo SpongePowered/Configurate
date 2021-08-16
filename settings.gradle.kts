@@ -42,3 +42,6 @@ listOf("kotlin", "guice", "dfu2", "dfu3", "dfu4").forEach {
     include(":extra:$it")
     findProject(":extra:$it")?.name = "extra-$it"
 }
+
+// Third-party libraries we build forks of
+includeBuild("vendor")

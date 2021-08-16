@@ -1,4 +1,6 @@
 import org.eclipse.jgit.lib.Repository.shortenRefName
+import org.jetbrains.gradle.ext.ActionDelegationConfig
+import org.jetbrains.gradle.ext.ProjectSettings
 import org.spongepowered.configurate.build.applyCommonAttributes
 
 plugins {
@@ -11,6 +13,7 @@ plugins {
     id("net.kyori.indra.git")
     id("org.ajoberstar.git-publish") version "3.0.0"
     id("com.github.ben-manes.versions") version "0.38.0"
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.0.1"
     `java-base`
 }
 
@@ -24,6 +27,17 @@ subprojects {
 allprojects {
     ktlint {
         version.set("0.41.0")
+    }
+}
+
+idea {
+    project {
+        (this as ExtensionAware).extensions.configure(ProjectSettings::class) {
+            (this as ExtensionAware).extensions.configure(ActionDelegationConfig::class) {
+                this.delegateBuildRunToGradle = false
+                this.testRunner = ActionDelegationConfig.TestRunner.PLATFORM
+            }
+        }
     }
 }
 
