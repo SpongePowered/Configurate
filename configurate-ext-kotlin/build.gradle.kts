@@ -10,6 +10,12 @@ tasks.withType(KotlinCompile::class).configureEach {
     kotlinOptions.freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
 }
 
+tasks.jar {
+    manifest.attributes(
+            "Automatic-Module-Name" to "org.spongepowered.configurate.extra.kotlin"
+    )
+}
+
 dependencies {
     api(project(":configurate-core"))
     implementation(kotlin("stdlib-jdk8"))

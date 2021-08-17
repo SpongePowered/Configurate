@@ -55,6 +55,11 @@ class ConfigurateDevPlugin : Plugin<Project> {
                 it.from(rootProject.file("LICENSE")) {
                     it.rename { f -> "${f}_${project.name}" }
                 }
+                it.manifest {
+                    it.attributes(
+                            mapOf("Automatic-Module-Name" to "org.spongepowered.${project.name.replace("-", ".")}")
+                    )
+                }
             }
 
             extensions.configure(LicenseExtension::class.java) {

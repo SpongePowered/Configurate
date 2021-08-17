@@ -10,3 +10,9 @@ dependencies {
   testImplementation("com.google.inject:guice:4.2.3")
   api("org.checkerframework:checker-qual:2.4.0")
 }
+
+tasks.jar {
+  manifest.attributes(
+      "Automatic-Module-Name" to "org.spongepowered.configurate"
+  )
+}
