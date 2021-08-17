@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.spongepowered"
-version = "3.7.3-SNAPSHOT"
+version = "3.7.3"
 
 nexusStaging {
     val spongeOssrhUsername: String? by project
