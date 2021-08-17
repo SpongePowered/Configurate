@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 
@@ -50,6 +52,7 @@ public class AbstractConfigurationLoaderTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     public void testSaveFollowsSymbolicLinks(final @TempDirectory.TempDir Path tempDir) throws IOException {
         final Path actualFile = tempDir.resolve(Paths.get("first", "second", "third.json"));
         Files.createDirectories(actualFile.getParent());
