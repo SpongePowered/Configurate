@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate;
 
+import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -104,6 +105,11 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         if (value == null) {
             return set(null);
         }
+        final Class<?> erasedType = GenericTypeReflector.erase(type);
+        if (!erasedType.isInstance(value)) {
+            throw new SerializationException(this, type, "Got a value of unexpected type "
+                + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
+        }
 
         final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
         if (serial != null) {
@@ -111,7 +117,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         } else if (options().acceptsType(value.getClass())) {
             raw(value); // Just write if no applicable serializer exists?
         } else {
-            throw new SerializationException("No serializer available for type " + type);
+            throw new SerializationException(this, type, "No serializer available for type " + type);
         }
         return self();
     }
