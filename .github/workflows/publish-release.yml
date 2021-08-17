@@ -25,7 +25,7 @@ jobs:
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: Publish with Gradle
-        run: ./gradlew -PdeployRelease=true publish closeAndReleaseRepository
+        run: ./gradlew -PdeployRelease=true publish closeRepository
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
