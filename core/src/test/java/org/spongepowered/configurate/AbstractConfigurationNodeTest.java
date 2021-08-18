@@ -487,4 +487,13 @@ public class AbstractConfigurationNodeTest {
         assertFalse(target.virtual());
     }
 
+    @Test
+    void testSetValueOfInvalidType() {
+        final BasicConfigurationNode root = BasicConfigurationNode.root(ConfigurationOptions.defaults()
+            .nativeTypes(UnmodifiableCollections.toSet(String.class)));
+
+        assertTrue(assertThrows(SerializationException.class, () -> root.set(Integer.class, "hello"))
+            .getMessage().contains("Got a value of unexpected type"));
+    }
+
 }
