@@ -23,6 +23,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
 
@@ -63,6 +64,12 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
     /**
      * Builds a {@link YamlConfigurationLoader}.
      *
+     * <p>This builder supports the following options:</p>
+     * <dl>
+     *     <dt>&lt;prefix&gt;.yaml.node-style</dt>
+     *     <dd>Equivalent to {@link #nodeStyle(NodeStyle)}<dd>
+     * </dl>
+     *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
@@ -72,6 +79,15 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         Builder() {
             indent(4);
             defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
+            this.from(DEFAULT_OPTIONS_SOURCE);
+        }
+
+        @Override
+        protected void populate(final LoaderOptionSource options) {
+            final @Nullable NodeStyle declared = options.getEnum(NodeStyle.class, "yaml", "node-style");
+            if (declared != null) {
+                this.style = declared;
+            }
         }
 
         /**

@@ -263,6 +263,12 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      * @since 4.0.0
      */
     public abstract static class Builder<T extends Builder<T, L>, L extends AbstractConfigurationLoader<?>> {
+
+        protected static final LoaderOptionSource DEFAULT_OPTIONS_SOURCE = LoaderOptionSource.composite(
+            LoaderOptionSource.systemProperties(),
+            LoaderOptionSource.environmentVariables()
+        );
+
         protected HeaderMode headerMode = HeaderMode.PRESERVE;
         protected @Nullable Callable<BufferedReader> source;
         protected @Nullable Callable<BufferedWriter> sink;
@@ -273,9 +279,49 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          *
          * <p>This is where any custom default options can be applied.</p>
          *
+         * <p>At the end of this constructor, {@link #from(LoaderOptionSource)}
+         * should be called with {@link #DEFAULT_OPTIONS_SOURCE} to read any supported
+         * options from environment variables and system properties.</p>
+         *
          * @since 4.0.0
          */
         protected Builder() {}
+
+        /**
+         * Populate this builder by reading options from the provided source.
+         *
+         * <p>These options should control all options for the reading and
+         * representation of nodes produced by this loader, specifically
+         * excluding the {@link #source()} and {@link #sink()} of the loader,
+         * and the {@link #defaultOptions()}.</p>
+         *
+         * <p>The options read from the provided source are format-defined.</p>
+         *
+         * @param source the source to read
+         * @return this builder (for chaining)
+         * @since 4.2.0
+         */
+        public final T from(final LoaderOptionSource source) {
+            requireNonNull(source, "source");
+            final @Nullable HeaderMode headerMode = source.getEnum(HeaderMode.class, "header");
+            if (headerMode != null) {
+                this.headerMode = headerMode;
+            }
+            this.populate(source);
+            return this.self();
+        }
+
+        /**
+         * Populate options from the provided source.
+         *
+         * <p>The source will have already been validated for nullness.</p>
+         *
+         * @param options the options to read
+         * @since 4.2.0
+         */
+        @ForOverride
+        protected void populate(final LoaderOptionSource options) {
+        }
 
         @SuppressWarnings("unchecked")
         private T self() {

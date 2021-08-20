@@ -33,6 +33,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -68,6 +69,14 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
     /**
      * Builds a {@link JacksonConfigurationLoader}.
      *
+     * <p>This builder supports the following options:</p>
+     * <dl>
+     *     <dt>&lt;prefix&gt;.jackson.field-value-separator</dt>
+     *     <dd>Equivalent to {@link #fieldValueSeparatorStyle(FieldValueSeparatorStyle)}</dd>
+     *     <dt>&lt;prefix&gt;.jackson.indent</dt>
+     *     <dd>Equivalent to {@link #indent(int)}</dd>
+     * </dl>
+     *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, JacksonConfigurationLoader> {
@@ -83,6 +92,18 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                     .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
                     .enable(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS)
                     .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS);
+            this.from(DEFAULT_OPTIONS_SOURCE);
+        }
+
+        @Override
+        protected void populate(final LoaderOptionSource options) {
+            this.indent = options.getInt(this.indent, "jackson", "indent");
+            this.fieldValueSeparatorStyle = options.getEnum(
+                FieldValueSeparatorStyle.class,
+                this.fieldValueSeparatorStyle,
+                "jackson",
+                "field-value-separator"
+            );
         }
 
         /**

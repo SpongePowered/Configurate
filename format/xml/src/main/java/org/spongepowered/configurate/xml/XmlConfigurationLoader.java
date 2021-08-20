@@ -26,6 +26,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.w3c.dom.Document;
@@ -112,6 +113,20 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     /**
      * Builds a {@link XmlConfigurationLoader}.
      *
+     * <p>This builder supports the following options:</p>
+     * <dl>
+     *     <dt>&lt;prefix&gt;.xml.default-tag-name</dt>
+     *     <dd>Equivalent to {@link #defaultTagName(String)}</dd>
+     *     <dt>&lt;prefix&gt;.xml.indent</dt>
+     *     <dd>Equivalent to {@link #indent(int)}</dd>
+     *     <dt>&lt;prefix&gt;.xml.writes-explicit-type</dt>
+     *     <dd>Equivalent to {@link #writesExplicitType(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.xml.resolves-external-content</dt>
+     *     <dd>Equivalent to {@link #resolvesExternalContent(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.xml.includes-xml-declaration</dt>
+     *     <dd>Equivalent to {@link #includesXmlDeclaration(boolean)}</dd>
+     * </dl>
+     *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, XmlConfigurationLoader> {
@@ -123,6 +138,16 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         private boolean includeXmlDeclaration = true;
 
         Builder() {
+            this.from(DEFAULT_OPTIONS_SOURCE);
+        }
+
+        @Override
+        protected void populate(final LoaderOptionSource options) {
+            this.defaultTagName = options.getOr(this.defaultTagName, "xml", "default-tag-name");
+            this.indent = options.getInt(this.indent, "xml", "indent");
+            this.writeExplicitType = options.getBoolean(this.writeExplicitType, "xml", "writes-explicit-type");
+            this.resolvesExternalContent = options.getBoolean(this.resolvesExternalContent, "xml", "resolves-external-content");
+            this.includeXmlDeclaration = options.getBoolean(this.includeXmlDeclaration, "xml", "includes-xml-declaration");
         }
 
         /**
