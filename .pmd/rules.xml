@@ -13,6 +13,7 @@
         <exclude name="ArrayIsStoredDirectly"/> <!-- triggers on package-private constructors -->
         <exclude name="AvoidReassigningLoopVariables"/>
         <exclude name="AvoidReassigningParameters"/>
+        <exclude name="ForLoopCanBeForeach"/> <!-- has false positives when catching exceptions thrown by Iterator.next -->
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="JUnitTestContainsTooManyAsserts"/>
         <exclude name="JUnitTestsShouldIncludeAssert"/>

@@ -67,7 +67,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * <p>This builder supports the following options:</p>
      * <dl>
      *     <dt>&lt;prefix&gt;.yaml.node-style</dt>
-     *     <dd>Equivalent to {@link #nodeStyle(NodeStyle)}<dd>
+     *     <dd>Equivalent to {@link #nodeStyle(NodeStyle)}</dd>
      * </dl>
      *
      * @since 4.0.0
@@ -77,8 +77,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         private @Nullable NodeStyle style;
 
         Builder() {
-            indent(4);
-            defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
+            this.indent(4);
+            this.defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
             this.from(DEFAULT_OPTIONS_SOURCE);
         }
 

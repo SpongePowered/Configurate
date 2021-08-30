@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configuate.xml;
+package org.spongepowered.configurate.xml;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +27,6 @@ import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.AttributedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.loader.AtomicFiles;
-import org.spongepowered.configurate.xml.XmlConfigurationLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
