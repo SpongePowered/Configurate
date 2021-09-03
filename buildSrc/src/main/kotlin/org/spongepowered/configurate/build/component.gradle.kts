@@ -2,8 +2,12 @@ package org.spongepowered.configurate.build
 
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import net.ltgt.gradle.errorprone.errorprone
+import org.cadixdev.gradle.licenser.tasks.LicenseCheck
 import org.eclipse.jgit.lib.Repository
 import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
+import org.gradle.api.plugins.quality.Checkstyle
+import org.gradle.api.plugins.quality.Pmd
+import org.gradle.api.tasks.compile.JavaCompile
 import kotlin.math.min
 
 plugins {
@@ -122,6 +126,7 @@ configurations {
 // Apply a license header
 license {
     header(rootProject.file("LICENSE_HEADER"))
+    exclude("generated/**")
 }
 
 // Set up automatic module name
@@ -132,6 +137,21 @@ tasks.jar {
 // Configure target versions
 indra {
     javaVersions().testWith(8, 11, 16)
+}
+
+// Don't compile AP-generated sources from within IDE
+// IntelliJ puts its output *within* the Gradle source root.....................
+
+sourceSets.configureEach {
+    tasks.named(compileJavaTaskName, JavaCompile::class) {
+        exclude("generated/**")
+    }
+}
+tasks.withType(Checkstyle::class) {
+    exclude("generated/**")
+}
+tasks.withType(Pmd::class) {
+    exclude("generated/**")
 }
 
 // Forbidden API validation
