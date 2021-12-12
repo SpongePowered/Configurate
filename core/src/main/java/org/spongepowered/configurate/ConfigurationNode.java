@@ -430,7 +430,7 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.1.0
      */
-    default @Nullable Object require(final Type type) throws SerializationException {
+    default Object require(final Type type) throws SerializationException {
         final @Nullable Object ret = this.get(type);
         if (ret == null) {
             throw new NoSuchElementException("Node value was null when a non-null node was require()d");
@@ -656,8 +656,8 @@ public interface ConfigurationNode {
      */
     default <V> List<V> getList(TypeToken<V> elementType, List<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
         final TypeToken<List<V>> type = makeListType(elementType);
-        final @Nullable List<V> ret = get(type, def);
-        return ret == null || ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;
+        final List<V> ret = get(type, def);
+        return ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;
     }
 
     /**
@@ -725,8 +725,8 @@ public interface ConfigurationNode {
     @SuppressWarnings("unchecked")
     default <V> List<V> getList(Class<V> elementType, List<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
         final Type type = TypeFactory.parameterizedClass(List.class, elementType);
-        final @Nullable List<V> ret = (List<V>) get(type, def);
-        return ret == null || ret.isEmpty() ? storeDefault(this, type, def) : ret;
+        final List<V> ret = (List<V>) get(type, def);
+        return ret.isEmpty() ? storeDefault(this, type, def) : ret;
     }
 
     /**
