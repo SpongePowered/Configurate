@@ -1,0 +1,41 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "ignoreDeps": [
+    "com.google.code.gson:gson",
+    "com.google.inject:guice"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"],
+      "excludePackageNames": ["gradle"],
+      "groupName": "patch-release dependency changes"
+    },
+    {
+      "description": "Correct Guava version handling",
+      "matchPackagePrefixes": ["com.google.guava:"],
+      "versioning": "regex:^(?<major>\\d+)(\\.(?<minor>\\d+))?(\\.(?<patch>\\d+))?(-(?<compatibility>.*))?$"
+    },
+    {
+      "matchDepTypes": ["plugin"],
+      "groupName": "gradle plugins"
+    },
+    {
+      "matchPaths": ["build-logic/*", "buildSrc/*"],
+      "groupName": "gradle plugins"
+    },
+    { 
+      "matchDatasources": [ "maven" ],
+      "registryUrls": [ 
+        "https://repo.spongepowered.org/repository/maven-public/"
+      ]
+    }
+  ],
+  "prHourlyLimit": 4,
+  "pruneStaleBranches": false,
+  "semanticCommitType": "build"
+}
