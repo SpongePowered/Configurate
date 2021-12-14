@@ -7,7 +7,7 @@ description = "YAML format loader for Configurate"
 
 dependencies {
     api(projects.core)
-    implementation("org.yaml:snakeyaml:1.28")
+    implementation("org.yaml:snakeyaml:1.29")
 }
 
 tasks.compileJava {
