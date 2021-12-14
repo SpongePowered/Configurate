@@ -2,9 +2,6 @@
   "extends": [
     "config:base"
   ],
-  "registryUrls": [ 
-    "https://repo.spongepowered.org/repository/maven-public/"
-  ],
   "ignoreDeps": [
     "com.google.code.gson:gson",
     "com.google.inject:guice"
@@ -30,6 +27,12 @@
     {
       "matchPaths": ["build-logic/*", "buildSrc/*"],
       "groupName": "gradle plugins"
+    },
+    { 
+      "matchDatasources": [ "maven" ],
+      "registryUrls": [ 
+        "https://repo.spongepowered.org/repository/maven-public/"
+      ]
     }
   ],
   "prHourlyLimit": 4,
