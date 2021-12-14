@@ -8,7 +8,7 @@ dependencies {
     api(projects.core)
     api("com.mojang:datafixerupper:3.0.25")
     testImplementation(projects.format.gson)
-    testImplementation("org.spongepowered:math:2.0.0")
+    testImplementation("org.spongepowered:math:2.0.1")
 }
 
 tasks.withType(Javadoc::class) {

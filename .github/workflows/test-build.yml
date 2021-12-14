@@ -81,7 +81,7 @@ jobs:
           ORG_GRADLE_PROJECT_spongeKeyStorePassword: "${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}"
       - name: Publish to GH pages
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
-        uses: JamesIves/github-pages-deploy-action@4.1.0
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
           folder: build/gitPublish
