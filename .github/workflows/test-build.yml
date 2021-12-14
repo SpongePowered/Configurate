@@ -44,7 +44,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Archive test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4 # https://github.com/actions/upload-artifact/issues/281 :( :( :( :(
         with:
           name: "test-results-${{ runner.os }}"
           path: |
