@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.20" apply false
     id("io.gitlab.arturbosch.detekt") version "1.16.0" apply false
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("io.freefair.aggregate-javadoc-jar") version "5.3.3.3"
+    id("io.freefair.aggregate-javadoc-jar") version "6.3.0"
     id("net.kyori.indra.publishing.sonatype")
     id("net.kyori.indra.git")
     id("org.ajoberstar.git-publish") version "3.0.0"
