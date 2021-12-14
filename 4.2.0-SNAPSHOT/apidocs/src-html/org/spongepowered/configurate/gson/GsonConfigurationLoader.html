@@ -111,7 +111,7 @@
 <span class="sourceLineNo">102</span><a id="line.102">        private int indent = 2;</a>
 <span class="sourceLineNo">103</span><a id="line.103"></a>
 <span class="sourceLineNo">104</span><a id="line.104">        Builder() {</a>
-<span class="sourceLineNo">105</span><a id="line.105">            defaultOptions(DEFAULT_OPTIONS);</a>
+<span class="sourceLineNo">105</span><a id="line.105">            this.defaultOptions(DEFAULT_OPTIONS);</a>
 <span class="sourceLineNo">106</span><a id="line.106">        }</a>
 <span class="sourceLineNo">107</span><a id="line.107"></a>
 <span class="sourceLineNo">108</span><a id="line.108">        /**</a>
@@ -140,9 +140,9 @@
 <span class="sourceLineNo">131</span><a id="line.131">        /**</a>
 <span class="sourceLineNo">132</span><a id="line.132">         * Sets if the resultant loader should parse leniently.</a>
 <span class="sourceLineNo">133</span><a id="line.133">         *</a>
-<span class="sourceLineNo">134</span><a id="line.134">         * @see JsonReader#setLenient(boolean)</a>
-<span class="sourceLineNo">135</span><a id="line.135">         * @param lenient whether the parser should parse leniently</a>
-<span class="sourceLineNo">136</span><a id="line.136">         * @return this builder (for chaining)</a>
+<span class="sourceLineNo">134</span><a id="line.134">         * @param lenient whether the parser should parse leniently</a>
+<span class="sourceLineNo">135</span><a id="line.135">         * @return this builder (for chaining)</a>
+<span class="sourceLineNo">136</span><a id="line.136">         * @see JsonReader#setLenient(boolean)</a>
 <span class="sourceLineNo">137</span><a id="line.137">         * @since 4.0.0</a>
 <span class="sourceLineNo">138</span><a id="line.138">         */</a>
 <span class="sourceLineNo">139</span><a id="line.139">        @NonNull</a>
@@ -198,7 +198,7 @@
 <span class="sourceLineNo">189</span><a id="line.189"></a>
 <span class="sourceLineNo">190</span><a id="line.190">        try (JsonReader parser = new JsonReader(reader)) {</a>
 <span class="sourceLineNo">191</span><a id="line.191">            parser.setLenient(this.lenient);</a>
-<span class="sourceLineNo">192</span><a id="line.192">            parseValue(parser, node);</a>
+<span class="sourceLineNo">192</span><a id="line.192">            this.parseValue(parser, node);</a>
 <span class="sourceLineNo">193</span><a id="line.193">        } catch (final IOException ex) {</a>
 <span class="sourceLineNo">194</span><a id="line.194">            throw ParsingException.wrap(node, ex);</a>
 <span class="sourceLineNo">195</span><a id="line.195">        }</a>
@@ -209,19 +209,19 @@
 <span class="sourceLineNo">200</span><a id="line.200">        try {</a>
 <span class="sourceLineNo">201</span><a id="line.201">            token = parser.peek();</a>
 <span class="sourceLineNo">202</span><a id="line.202">        } catch (final IOException ex) {</a>
-<span class="sourceLineNo">203</span><a id="line.203">            throw newException(parser, node, ex.getMessage(), ex);</a>
+<span class="sourceLineNo">203</span><a id="line.203">            throw this.newException(parser, node, ex.getMessage(), ex);</a>
 <span class="sourceLineNo">204</span><a id="line.204">        }</a>
 <span class="sourceLineNo">205</span><a id="line.205"></a>
 <span class="sourceLineNo">206</span><a id="line.206">        try {</a>
 <span class="sourceLineNo">207</span><a id="line.207">            switch (token) {</a>
 <span class="sourceLineNo">208</span><a id="line.208">                case BEGIN_OBJECT:</a>
-<span class="sourceLineNo">209</span><a id="line.209">                    parseObject(parser, node);</a>
+<span class="sourceLineNo">209</span><a id="line.209">                    this.parseObject(parser, node);</a>
 <span class="sourceLineNo">210</span><a id="line.210">                    break;</a>
 <span class="sourceLineNo">211</span><a id="line.211">                case BEGIN_ARRAY:</a>
-<span class="sourceLineNo">212</span><a id="line.212">                    parseArray(parser, node);</a>
+<span class="sourceLineNo">212</span><a id="line.212">                    this.parseArray(parser, node);</a>
 <span class="sourceLineNo">213</span><a id="line.213">                    break;</a>
 <span class="sourceLineNo">214</span><a id="line.214">                case NUMBER:</a>
-<span class="sourceLineNo">215</span><a id="line.215">                    node.raw(readNumber(parser));</a>
+<span class="sourceLineNo">215</span><a id="line.215">                    node.raw(this.readNumber(parser));</a>
 <span class="sourceLineNo">216</span><a id="line.216">                    break;</a>
 <span class="sourceLineNo">217</span><a id="line.217">                case STRING:</a>
 <span class="sourceLineNo">218</span><a id="line.218">                    node.raw(parser.nextString());</a>
@@ -236,15 +236,15 @@
 <span class="sourceLineNo">227</span><a id="line.227">                case NAME:</a>
 <span class="sourceLineNo">228</span><a id="line.228">                    break;</a>
 <span class="sourceLineNo">229</span><a id="line.229">                default:</a>
-<span class="sourceLineNo">230</span><a id="line.230">                    throw newException(parser, node, "Unsupported token type: " + token, null);</a>
+<span class="sourceLineNo">230</span><a id="line.230">                    throw this.newException(parser, node, "Unsupported token type: " + token, null);</a>
 <span class="sourceLineNo">231</span><a id="line.231">            }</a>
 <span class="sourceLineNo">232</span><a id="line.232">        } catch (final JsonParseException | MalformedJsonException ex) {</a>
-<span class="sourceLineNo">233</span><a id="line.233">            throw newException(parser, node, ex.getMessage(), ex.getCause());</a>
+<span class="sourceLineNo">233</span><a id="line.233">            throw this.newException(parser, node, ex.getMessage(), ex.getCause());</a>
 <span class="sourceLineNo">234</span><a id="line.234">        } catch (final ParsingException ex) {</a>
 <span class="sourceLineNo">235</span><a id="line.235">            ex.initPath(node::path);</a>
 <span class="sourceLineNo">236</span><a id="line.236">            throw ex;</a>
 <span class="sourceLineNo">237</span><a id="line.237">        } catch (final IOException ex) {</a>
-<span class="sourceLineNo">238</span><a id="line.238">            throw newException(parser, node, "An underlying exception occurred", ex);</a>
+<span class="sourceLineNo">238</span><a id="line.238">            throw this.newException(parser, node, "An underlying exception occurred", ex);</a>
 <span class="sourceLineNo">239</span><a id="line.239">        }</a>
 <span class="sourceLineNo">240</span><a id="line.240">    }</a>
 <span class="sourceLineNo">241</span><a id="line.241"></a>
@@ -280,11 +280,11 @@
 <span class="sourceLineNo">271</span><a id="line.271">                }</a>
 <span class="sourceLineNo">272</span><a id="line.272">                return;</a>
 <span class="sourceLineNo">273</span><a id="line.273">            } else {</a>
-<span class="sourceLineNo">274</span><a id="line.274">                parseValue(parser, node.appendListNode());</a>
+<span class="sourceLineNo">274</span><a id="line.274">                this.parseValue(parser, node.appendListNode());</a>
 <span class="sourceLineNo">275</span><a id="line.275">                written = true;</a>
 <span class="sourceLineNo">276</span><a id="line.276">            }</a>
 <span class="sourceLineNo">277</span><a id="line.277">        }</a>
-<span class="sourceLineNo">278</span><a id="line.278">        throw newException(parser, node, "Reached end of stream with unclosed array!", null);</a>
+<span class="sourceLineNo">278</span><a id="line.278">        throw this.newException(parser, node, "Reached end of stream with unclosed array!", null);</a>
 <span class="sourceLineNo">279</span><a id="line.279">    }</a>
 <span class="sourceLineNo">280</span><a id="line.280"></a>
 <span class="sourceLineNo">281</span><a id="line.281">    private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {</a>
@@ -303,7 +303,7 @@
 <span class="sourceLineNo">294</span><a id="line.294">                    }</a>
 <span class="sourceLineNo">295</span><a id="line.295">                    return;</a>
 <span class="sourceLineNo">296</span><a id="line.296">                case NAME:</a>
-<span class="sourceLineNo">297</span><a id="line.297">                    parseValue(parser, node.node(parser.nextName()));</a>
+<span class="sourceLineNo">297</span><a id="line.297">                    this.parseValue(parser, node.node(parser.nextName()));</a>
 <span class="sourceLineNo">298</span><a id="line.298">                    written = true;</a>
 <span class="sourceLineNo">299</span><a id="line.299">                    break;</a>
 <span class="sourceLineNo">300</span><a id="line.300">                default:</a>

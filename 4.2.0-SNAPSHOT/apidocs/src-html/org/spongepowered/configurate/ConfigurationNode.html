@@ -439,7 +439,7 @@
 <span class="sourceLineNo">430</span><a id="line.430">     *                                requested type</a>
 <span class="sourceLineNo">431</span><a id="line.431">     * @since 4.1.0</a>
 <span class="sourceLineNo">432</span><a id="line.432">     */</a>
-<span class="sourceLineNo">433</span><a id="line.433">    default @Nullable Object require(final Type type) throws SerializationException {</a>
+<span class="sourceLineNo">433</span><a id="line.433">    default Object require(final Type type) throws SerializationException {</a>
 <span class="sourceLineNo">434</span><a id="line.434">        final @Nullable Object ret = this.get(type);</a>
 <span class="sourceLineNo">435</span><a id="line.435">        if (ret == null) {</a>
 <span class="sourceLineNo">436</span><a id="line.436">            throw new NoSuchElementException("Node value was null when a non-null node was require()d");</a>
@@ -665,8 +665,8 @@
 <span class="sourceLineNo">656</span><a id="line.656">     */</a>
 <span class="sourceLineNo">657</span><a id="line.657">    default &lt;V&gt; List&lt;V&gt; getList(TypeToken&lt;V&gt; elementType, List&lt;V&gt; def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
 <span class="sourceLineNo">658</span><a id="line.658">        final TypeToken&lt;List&lt;V&gt;&gt; type = makeListType(elementType);</a>
-<span class="sourceLineNo">659</span><a id="line.659">        final @Nullable List&lt;V&gt; ret = get(type, def);</a>
-<span class="sourceLineNo">660</span><a id="line.660">        return ret == null || ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;</a>
+<span class="sourceLineNo">659</span><a id="line.659">        final List&lt;V&gt; ret = get(type, def);</a>
+<span class="sourceLineNo">660</span><a id="line.660">        return ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;</a>
 <span class="sourceLineNo">661</span><a id="line.661">    }</a>
 <span class="sourceLineNo">662</span><a id="line.662"></a>
 <span class="sourceLineNo">663</span><a id="line.663">    /**</a>
@@ -734,8 +734,8 @@
 <span class="sourceLineNo">725</span><a id="line.725">    @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">726</span><a id="line.726">    default &lt;V&gt; List&lt;V&gt; getList(Class&lt;V&gt; elementType, List&lt;V&gt; def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
 <span class="sourceLineNo">727</span><a id="line.727">        final Type type = TypeFactory.parameterizedClass(List.class, elementType);</a>
-<span class="sourceLineNo">728</span><a id="line.728">        final @Nullable List&lt;V&gt; ret = (List&lt;V&gt;) get(type, def);</a>
-<span class="sourceLineNo">729</span><a id="line.729">        return ret == null || ret.isEmpty() ? storeDefault(this, type, def) : ret;</a>
+<span class="sourceLineNo">728</span><a id="line.728">        final List&lt;V&gt; ret = (List&lt;V&gt;) get(type, def);</a>
+<span class="sourceLineNo">729</span><a id="line.729">        return ret.isEmpty() ? storeDefault(this, type, def) : ret;</a>
 <span class="sourceLineNo">730</span><a id="line.730">    }</a>
 <span class="sourceLineNo">731</span><a id="line.731"></a>
 <span class="sourceLineNo">732</span><a id="line.732">    /**</a>
