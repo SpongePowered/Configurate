@@ -2,6 +2,9 @@
   "extends": [
     "config:base"
   ],
+  "registryUrls": [ 
+    "https://repo.spongepowered.org/repository/maven-public/"
+  ],
   "ignoreDeps": [
     "com.google.code.gson:gson",
     "com.google.inject:guice"
