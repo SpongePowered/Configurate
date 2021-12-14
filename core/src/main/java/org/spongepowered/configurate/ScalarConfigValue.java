@@ -75,6 +75,7 @@ final class ScalarConfigValue<N extends ScopedConfigurationNode<N>, A extends Ab
     }
 
     @Override
+    @SuppressWarnings("checkstyle:UnnecessaryParentheses")
     public boolean isEmpty() {
         final @Nullable Object value = this.value;
         return (value instanceof String && ((String) value).isEmpty())

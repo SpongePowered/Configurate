@@ -372,6 +372,7 @@ public final class Types {
         }
 
         @Override
+        @SuppressWarnings("checkstyle:UnnecessaryParentheses")
         public Type next() {
             // Get current type, throws the correct exception if empty
             final Type head = this.types.removeLast();
@@ -387,7 +388,7 @@ public final class Types {
                     componentType = ((GenericArrayType) head).getGenericComponentType();
                 }
 
-                addSuperClassAndInterface(componentType, erase(componentType), TypeFactory::arrayOf);
+                this.addSuperClassAndInterface(componentType, erase(componentType), TypeFactory::arrayOf);
             } else if (head instanceof Class<?> || head instanceof ParameterizedType) {
                 final Class<?> clazz;
                 if (head instanceof ParameterizedType) {
@@ -396,16 +397,16 @@ public final class Types {
                 } else {
                     clazz = (Class<?>) head;
                 }
-                addSuperClassAndInterface(head, clazz, null);
+                this.addSuperClassAndInterface(head, clazz, null);
             } else if (head instanceof TypeVariable<?>) {
-                addAllIfUnseen(head, ((TypeVariable<?>) head).getBounds());
+                this.addAllIfUnseen(head, ((TypeVariable<?>) head).getBounds());
             } else if (head instanceof WildcardType) {
                 final Type[] upperBounds = ((WildcardType) head).getUpperBounds();
                 if (upperBounds.length == 1) { // single type
                     final Type upperBound = upperBounds[0];
-                    addSuperClassAndInterface(head, erase(upperBound), TypeFactory::wildcardExtends);
+                    this.addSuperClassAndInterface(head, erase(upperBound), TypeFactory::wildcardExtends);
                 } else { // for each bound, add as a single supertype
-                    addAllIfUnseen(head, ((WildcardType) head).getUpperBounds());
+                    this.addAllIfUnseen(head, ((WildcardType) head).getUpperBounds());
                 }
             }
             return head;
@@ -413,7 +414,7 @@ public final class Types {
 
         private void addAllIfUnseen(final Type base, final Type... types) {
             for (final Type type : types) {
-                addIfUnseen(resolveType(type, base));
+                this.addIfUnseen(resolveType(type, base));
             }
         }
 
@@ -425,18 +426,18 @@ public final class Types {
 
         private void addSuperClassAndInterface(final Type base, final Class<?> actualClass, final @Nullable UnaryOperator<Type> postProcess) {
             if (this.includeInterfaces) {
-                for (Type itf : actualClass.getGenericInterfaces()) {
+                for (final Type itf : actualClass.getGenericInterfaces()) {
                     if (postProcess != null) {
-                        addIfUnseen(postProcess.apply(resolveType(itf, base)));
+                        this.addIfUnseen(postProcess.apply(resolveType(itf, base)));
                     } else {
-                        addIfUnseen(resolveType(itf, base));
+                        this.addIfUnseen(resolveType(itf, base));
                     }
                 }
             }
 
             if (actualClass.getSuperclass() != null) {
                 final Type resolved = resolveType(actualClass.getGenericSuperclass(), base);
-                addIfUnseen(postProcess == null ? resolved : postProcess.apply(resolved));
+                this.addIfUnseen(postProcess == null ? resolved : postProcess.apply(resolved));
             }
         }
     }
@@ -452,7 +453,7 @@ public final class Types {
 
         @Override
         public boolean isAnnotationPresent(final Class<? extends Annotation> annotationClass) {
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 if (element.isAnnotationPresent(annotationClass)) {
                     return true;
                 }
@@ -463,7 +464,7 @@ public final class Types {
         @Override
         public <T extends Annotation> @Nullable T getAnnotation(final Class<T> annotationClass) {
             @Nullable T ret = null;
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 ret = element.getAnnotation(annotationClass);
                 if (ret != null) {
                     break;
@@ -475,7 +476,7 @@ public final class Types {
         @Override
         public Annotation[] getAnnotations() {
             final List<Annotation> annotations = new ArrayList<>();
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 final Annotation[] annotation = element.getAnnotations();
                 if (annotation.length > 0) {
                     annotations.addAll(Arrays.asList(annotation));
@@ -488,7 +489,7 @@ public final class Types {
         @Override
         public <T extends Annotation> T[] getAnnotationsByType(final Class<T> annotationClass) {
             final List<T> annotations = new ArrayList<>();
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 final T[] annotation = element.getAnnotationsByType(annotationClass);
                 if (annotation.length > 0) {
                     annotations.addAll(Arrays.asList(annotation));
@@ -500,7 +501,7 @@ public final class Types {
         @Override
         public <T extends Annotation> @Nullable T getDeclaredAnnotation(final Class<T> annotationClass) {
             @Nullable T ret = null;
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 ret = element.getDeclaredAnnotation(annotationClass);
                 if (ret != null) {
                     break;
@@ -513,7 +514,7 @@ public final class Types {
         @Override
         public <T extends Annotation> T[] getDeclaredAnnotationsByType(final Class<T> annotationClass) {
             final List<T> annotations = new ArrayList<>();
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 final T[] annotation = element.getDeclaredAnnotationsByType(annotationClass);
                 if (annotation.length > 0) {
                     annotations.addAll(Arrays.asList(annotation));
@@ -525,7 +526,7 @@ public final class Types {
         @Override
         public Annotation[] getDeclaredAnnotations() {
             final List<Annotation> annotations = new ArrayList<>();
-            for (AnnotatedElement element : this.elements) {
+            for (final AnnotatedElement element : this.elements) {
                 final Annotation[] annotation = element.getDeclaredAnnotations();
                 if (annotation.length > 0) {
                     annotations.addAll(Arrays.asList(annotation));

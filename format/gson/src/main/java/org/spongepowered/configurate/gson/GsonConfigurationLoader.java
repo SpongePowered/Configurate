@@ -102,7 +102,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         private int indent = 2;
 
         Builder() {
-            defaultOptions(DEFAULT_OPTIONS);
+            this.defaultOptions(DEFAULT_OPTIONS);
         }
 
         /**
@@ -131,9 +131,9 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         /**
          * Sets if the resultant loader should parse leniently.
          *
-         * @see JsonReader#setLenient(boolean)
          * @param lenient whether the parser should parse leniently
          * @return this builder (for chaining)
+         * @see JsonReader#setLenient(boolean)
          * @since 4.0.0
          */
         @NonNull
@@ -189,7 +189,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
         try (JsonReader parser = new JsonReader(reader)) {
             parser.setLenient(this.lenient);
-            parseValue(parser, node);
+            this.parseValue(parser, node);
         } catch (final IOException ex) {
             throw ParsingException.wrap(node, ex);
         }
@@ -200,19 +200,19 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
         try {
             token = parser.peek();
         } catch (final IOException ex) {
-            throw newException(parser, node, ex.getMessage(), ex);
+            throw this.newException(parser, node, ex.getMessage(), ex);
         }
 
         try {
             switch (token) {
                 case BEGIN_OBJECT:
-                    parseObject(parser, node);
+                    this.parseObject(parser, node);
                     break;
                 case BEGIN_ARRAY:
-                    parseArray(parser, node);
+                    this.parseArray(parser, node);
                     break;
                 case NUMBER:
-                    node.raw(readNumber(parser));
+                    node.raw(this.readNumber(parser));
                     break;
                 case STRING:
                     node.raw(parser.nextString());
@@ -227,15 +227,15 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                 case NAME:
                     break;
                 default:
-                    throw newException(parser, node, "Unsupported token type: " + token, null);
+                    throw this.newException(parser, node, "Unsupported token type: " + token, null);
             }
         } catch (final JsonParseException | MalformedJsonException ex) {
-            throw newException(parser, node, ex.getMessage(), ex.getCause());
+            throw this.newException(parser, node, ex.getMessage(), ex.getCause());
         } catch (final ParsingException ex) {
             ex.initPath(node::path);
             throw ex;
         } catch (final IOException ex) {
-            throw newException(parser, node, "An underlying exception occurred", ex);
+            throw this.newException(parser, node, "An underlying exception occurred", ex);
         }
     }
 
@@ -271,11 +271,11 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                 }
                 return;
             } else {
-                parseValue(parser, node.appendListNode());
+                this.parseValue(parser, node.appendListNode());
                 written = true;
             }
         }
-        throw newException(parser, node, "Reached end of stream with unclosed array!", null);
+        throw this.newException(parser, node, "Reached end of stream with unclosed array!", null);
     }
 
     private void parseObject(final JsonReader parser, final BasicConfigurationNode node) throws ParsingException, IOException {
@@ -294,7 +294,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
                     }
                     return;
                 case NAME:
-                    parseValue(parser, node.node(parser.nextName()));
+                    this.parseValue(parser, node.node(parser.nextName()));
                     written = true;
                     break;
                 default:

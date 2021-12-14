@@ -5,8 +5,9 @@ plugins {
 description = "JSON loader for Configurate, implemented using Gson"
 
 dependencies {
+    val guavaVersion: String by project
     api(projects.core)
     // version must be kept in sync with MC's version
     implementation("com.google.code.gson:gson:2.8.0")
-    testImplementation("com.google.guava:guava:latest.release")
+    testImplementation("com.google.guava:guava:$guavaVersion")
 }

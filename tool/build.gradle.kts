@@ -10,11 +10,6 @@ plugins {
 
 description = "CLI tool to inspect Configurate's view of files"
 
-configurations.matching { it.name.startsWith("dokka") }.configureEach {
-    // Dokka bad
-    resolutionStrategy.deactivateDependencyLocking()
-}
-
 dependencies {
     // Configurate
     implementation(projects.format.xml)
@@ -25,8 +20,8 @@ dependencies {
 
     // Libraries
     implementation(kotlin("stdlib-jdk8"))
-    implementation("com.github.ajalt:clikt:2.+")
-    implementation("org.fusesource.jansi:jansi:1.+")
+    implementation("com.github.ajalt:clikt:2.8.0")
+    implementation("org.fusesource.jansi:jansi:2.4.0")
 }
 
 tasks.withType<KotlinCompile> {

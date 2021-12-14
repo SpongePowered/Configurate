@@ -22,23 +22,9 @@ plugins {
     pmd
 }
 
-// Dependency locking
-
-dependencyLocking {
-    lockAllConfigurations()
-    lockFile.set(rootProject.layout.projectDirectory.file("gradle/dependencies/${project.path.replace(':', '-').substring(1)}.lock"))
-}
-
-tasks.register("resolveAllForLocking") {
-    description = "Update all dependency locks. Must be run with the `--write-locks` flag."
-
-    doFirst {
-        require(gradle.startParameter.isWriteDependencyLocks)
-    }
-    doLast {
-        configurations
-            .filter { it.isCanBeResolved && (it.resolutionStrategy as ResolutionStrategyInternal).isDependencyLockingEnabled }
-            .forEach { it.resolve() }
+configurations.configureEach {
+    resolutionStrategy {
+        failOnDynamicVersions()
     }
 }
 
@@ -206,7 +192,6 @@ pmd {
 val apiDiffPrevious by configurations.registering {
     isCanBeConsumed = false
     isCanBeResolved = true
-    resolutionStrategy.deactivateDependencyLocking() // We dynamically calculate our version, no need for this
     attributes {
         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class, Usage.JAVA_API))
         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class, Category.LIBRARY))
@@ -226,7 +211,6 @@ val apiDiffPrevious by configurations.registering {
 val apiDiffPreviousArchive by configurations.registering {
     isCanBeResolved = true
     isTransitive = false
-    resolutionStrategy.deactivateDependencyLocking()
     extendsFrom(apiDiffPrevious.get())
     isVisible = false
 }

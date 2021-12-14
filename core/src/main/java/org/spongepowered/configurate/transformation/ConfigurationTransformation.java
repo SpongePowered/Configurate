@@ -263,6 +263,14 @@ public interface ConfigurationTransformation {
      * @since 4.0.0
      */
     interface Versioned extends ConfigurationTransformation {
+
+        /**
+         * Indicates a node with an unknown version.
+         *
+         * <p>This can be returned as the latest version.</p>
+         *
+         * @since 4.0.0
+         */
         int VERSION_UNKNOWN = -1;
 
         /**
@@ -296,7 +304,7 @@ public interface ConfigurationTransformation {
          * @since 4.0.0
          */
         default int version(final ConfigurationNode node) {
-            return node.node(versionKey()).getInt(VERSION_UNKNOWN);
+            return node.node(this.versionKey()).getInt(VERSION_UNKNOWN);
         }
     }
 

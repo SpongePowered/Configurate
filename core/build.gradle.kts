@@ -10,11 +10,12 @@ description = """
 """.trimIndent().replace('\n', ' ')
 
 dependencies {
-    api("io.leangen.geantyref:geantyref:1.+")
-    compileOnlyApi("org.checkerframework:checker-qual:3.+")
-    compileOnly("com.google.auto.value:auto-value-annotations:1.+")
-    annotationProcessor("com.google.auto.value:auto-value:1.+")
-    testImplementation("com.google.guava:guava:latest.release")
+    val guavaVersion: String by project
+    api("io.leangen.geantyref:geantyref:1.3.13")
+    compileOnlyApi("org.checkerframework:checker-qual:3.20.0")
+    compileOnly("com.google.auto.value:auto-value-annotations:1.8.2")
+    annotationProcessor("com.google.auto.value:auto-value:1.8.2")
+    testImplementation("com.google.guava:guava:$guavaVersion")
 }
 
 tasks.jar {
