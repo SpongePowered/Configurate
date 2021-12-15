@@ -7,6 +7,17 @@ repositories {
     gradlePluginPortal()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType(JavaCompile::class) {
+    if (JavaVersion.current() > JavaVersion.VERSION_1_10) {
+        options.release.set(8)
+    }
+}
+
 dependencies {
     constraints {
         implementation("com.github.siom79.japicmp:japicmp") {

@@ -2,10 +2,10 @@ import org.eclipse.jgit.lib.Repository.shortenRefName
 import org.spongepowered.configurate.build.applyCommonAttributes
 
 plugins {
-    kotlin("jvm") version "1.4.20" apply false
-    id("org.jetbrains.dokka") version "1.4.20" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.16.0" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    kotlin("jvm") version "1.6.0" apply false
+    id("org.jetbrains.dokka") version "1.6.0" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.19.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     id("io.freefair.aggregate-javadoc-jar") version "6.3.0"
     id("net.kyori.indra.publishing.sonatype")
     id("net.kyori.indra.git")

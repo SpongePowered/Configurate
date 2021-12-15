@@ -159,10 +159,6 @@ dependencies {
     checkstyle("ca.stellardrift:stylecheck:0.1")
 }
 
-dependencyLocking {
-    ignoredDependencies.add("com.puppycrawl.tools:*")
-}
-
 indra.checkstyle().set(checkstyleVersion)
 
 // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot

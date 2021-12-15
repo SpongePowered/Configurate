@@ -13,7 +13,7 @@ plugins {
 val archiveName = "configurate-${name.toLowerCase(Locale.ROOT)}"
 // convention.getPlugin(BasePluginConvention::class).archivesBaseName = archiveName
 
-tasks.withType(Jar::class).configureEach jar@{
+tasks.withType(Jar::class).configureEach {
     indraGit.applyVcsInformationToManifest(manifest)
 }
 

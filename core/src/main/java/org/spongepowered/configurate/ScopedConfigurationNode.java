@@ -32,7 +32,7 @@ import java.util.stream.Collector;
  * Intermediate node type to reduce need for casting.
  *
  * <p>Any methods that return {@link ConfigurationNode} in
- * {@link ConfigurationNode} should be overridden to return the {@link N}
+ * {@link ConfigurationNode} should be overridden to return the {@code N}
  * self-type instead.</p>
  *
  * @param <N> self type
@@ -101,9 +101,9 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      */
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize
-    default N set(Type type, @Nullable Object value) throws SerializationException {
+    default N set(final Type type, final @Nullable Object value) throws SerializationException {
         if (value == null) {
-            return set(null);
+            return this.set(null);
         }
         final Class<?> erasedType = GenericTypeReflector.erase(type);
         if (!erasedType.isInstance(value)) {
@@ -111,37 +111,37 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
                 + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
         }
 
-        final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
+        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
         if (serial != null) {
-            ((TypeSerializer) serial).serialize(type, value, self());
-        } else if (options().acceptsType(value.getClass())) {
-            raw(value); // Just write if no applicable serializer exists?
+            ((TypeSerializer) serial).serialize(type, value, this.self());
+        } else if (this.options().acceptsType(value.getClass())) {
+            this.raw(value); // Just write if no applicable serializer exists?
         } else {
             throw new SerializationException(this, type, "No serializer available for type " + type);
         }
-        return self();
+        return this.self();
     }
 
     @Override
-    default <V> N set(Class<V> type, @Nullable V value) throws SerializationException {
-        return set((Type) type, value);
+    default <V> N set(final Class<V> type, final @Nullable V value) throws SerializationException {
+        return this.set((Type) type, value);
     }
 
     @Override
-    default <V> N set(TypeToken<V> type, @Nullable V value) throws SerializationException {
-        return set(type.getType(), value);
+    default <V> N set(final TypeToken<V> type, final @Nullable V value) throws SerializationException {
+        return this.set(type.getType(), value);
     }
 
     @Override
-    default <V> N setList(Class<V> elementType, @Nullable List<V> items) throws SerializationException {
+    default <V> N setList(final Class<V> elementType, final @Nullable List<V> items) throws SerializationException {
         ConfigurationNode.super.setList(elementType, items);
-        return self();
+        return this.self();
     }
 
     @Override
-    default <V> N setList(TypeToken<V> elementType, @Nullable List<V> items) throws SerializationException {
+    default <V> N setList(final TypeToken<V> elementType, final @Nullable List<V> items) throws SerializationException {
         ConfigurationNode.super.setList(elementType, items);
-        return self();
+        return this.self();
     }
 
     /**
@@ -206,11 +206,12 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
      * @param <E> thrown type
      * @param action the action to perform on this node
      * @return this node
+     * @throws E when thrown by callback {@code action}
      * @since 4.0.0
      */
-    default <E extends Exception> N act(CheckedConsumer<? super N, E> action) throws E {
-        action.accept(self());
-        return self();
+    default <E extends Exception> N act(final CheckedConsumer<? super N, E> action) throws E {
+        action.accept(this.self());
+        return this.self();
     }
 
     @Override

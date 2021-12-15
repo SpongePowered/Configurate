@@ -1,7 +1,5 @@
-
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
@@ -13,11 +11,6 @@ plugins {
 
 description = "Kotlin API support for Configurate"
 
-configurations.matching { it.name.startsWith("dokka") }.configureEach {
-    // Dokka bad
-    resolutionStrategy.deactivateDependencyLocking()
-}
-
 val examples by sourceSets.registering {
     compileClasspath += sourceSets.main.get().compileClasspath
     runtimeClasspath += sourceSets.main.get().runtimeClasspath
@@ -28,9 +21,17 @@ dependencies {
     "examplesImplementation"(projects.format.yaml)
 }
 
-tasks.withType(KotlinCompile::class).configureEach {
-    kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xemit-jvm-type-annotations")
+kotlin {
+    coreLibrariesVersion = "1.4.20"
+    target {
+        compilations.configureEach {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                languageVersion = "1.4"
+                freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xemit-jvm-type-annotations")
+            }
+        }
+    }
 }
 
 tasks.javadocJar.configure {
@@ -57,8 +58,7 @@ tasks.withType(Detekt::class).configureEach {
 
 dependencies {
     api(projects.core)
-    implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     // This version has to be kept in sync with the Kotlin plugin version
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }
