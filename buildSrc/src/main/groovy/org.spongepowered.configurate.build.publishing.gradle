@@ -4,6 +4,7 @@ import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission
 import java.util.Base64
 import java.util.Locale
+import org.gradle.plugins.signing.signatory.pgp.PgpSignatoryProvider
 import org.spongepowered.configurate.build.SignJarTask
 
 plugins {
@@ -128,7 +129,7 @@ signing {
             useInMemoryPgpKeys(spongeSigningKey, spongeSigningPassword)
         }
     } else {
-        signatories = PgpSignatoryProvider() // don't use gpg agent
+        signatories = new PgpSignatoryProvider() // don't use gpg agent
     }
 }
 
