@@ -2,22 +2,33 @@
 /*/build/
 /*/out/
 /*/bin/
+/*/.factorypath
 buildSrc/build/
 buildSrc/out/
 buildSrc/*/bin/
 /build/
+buildSrc/build/
 /format/*/bin/
 /format/*/build/
 /format/*/out/
+/format/*/.factorypath
 /extra/*/build/
 /extra/*/out/
 /extra/*/bin/
+/extra/*/.factorypath
+
+# gitpatcher local data
+/vendor/snakeyaml/
 
 # IntelliJ project data
 .idea
 *.iml
 *.ipr
 idea/
+/*/*/src/*/java/generated/
+/*/*/src/*/generated/
+/*/src/*/java/generated/
+/*/src/*/generated/
 
 # Mac stuff
 .DS_Store

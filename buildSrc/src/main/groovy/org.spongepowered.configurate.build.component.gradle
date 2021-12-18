@@ -17,6 +17,7 @@ plugins {
     id "me.champeau.gradle.japicmp"
     id "de.thetaphi.forbiddenapis"
     id 'pmd'
+    id 'com.diffplug.eclipse.apt'
 }
 
 configurations.configureEach {
