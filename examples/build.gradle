@@ -1,0 +1,22 @@
+plugins {
+    id 'org.spongepowered.configurate.build.component'
+    id 'application'
+}
+
+dependencies {
+    implementation projects.core
+    implementation projects.format.hocon
+    implementation projects.format.yaml
+}
+
+application {
+    mainClass = "org.spongepowered.configurate.examples.ValueReferences"
+}
+
+tasks.withType(AbstractPublishToMaven).configureEach {
+    onlyIf { false } // don't publish
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.addBooleanOption("Xdoclint:-missing", true)
+}

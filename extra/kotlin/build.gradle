@@ -2,23 +2,25 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    kotlin("jvm")
-    id("org.jetbrains.dokka")
-    id("io.gitlab.arturbosch.detekt")
-    id("org.spongepowered.configurate.build.component")
-    id("org.jlleitschuh.gradle.ktlint")
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.dokka'
+    id 'io.gitlab.arturbosch.detekt'
+    id 'org.spongepowered.configurate.build.component'
+    id 'org.jlleitschuh.gradle.ktlint'
 }
 
 description = "Kotlin API support for Configurate"
 
-val examples by sourceSets.registering {
-    compileClasspath += sourceSets.main.get().compileClasspath
-    runtimeClasspath += sourceSets.main.get().runtimeClasspath
+sourceSets {
+    register('examples') {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
 }
 
 dependencies {
-    "examplesImplementation"(sourceSets.main.map { it.output })
-    "examplesImplementation"(projects.format.yaml)
+    examplesImplementation sourceSets.named('main').map { it.output }
+    examplesImplementation projects.format.yaml
 }
 
 kotlin {
@@ -28,17 +30,17 @@ kotlin {
             kotlinOptions {
                 jvmTarget = "1.8"
                 languageVersion = "1.4"
-                freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xemit-jvm-type-annotations")
+                freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn", "-Xemit-jvm-type-annotations"]
             }
         }
     }
 }
 
-tasks.javadocJar.configure {
-    from(tasks.dokkaJavadoc.map { it.outputs })
+javadocJar.configure {
+    from(tasks.named('dokkaJavadoc').map { it.outputs })
 }
 
-tasks.withType(DokkaTask::class).configureEach {
+tasks.withType(DokkaTask).configureEach {
     moduleName.set("configurate-${project.name}")
     dokkaSourceSets.configureEach {
         includes.from(file("src/main/packages.md"))
@@ -52,13 +54,13 @@ tasks.withType(DokkaTask::class).configureEach {
     }
 }
 
-tasks.withType(Detekt::class).configureEach {
+tasks.withType(Detekt).configureEach {
     config.setFrom(rootProject.file(".detekt/detekt.yml"))
 }
 
 dependencies {
-    api(projects.core)
-    implementation(kotlin("reflect"))
+    api projects.core
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
     // This version has to be kept in sync with the Kotlin plugin version
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }

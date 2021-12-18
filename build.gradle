@@ -1,0 +1,78 @@
+import static org.eclipse.jgit.lib.Repository.shortenRefName
+import static org.spongepowered.configurate.build.Util.applyCommonAttributes
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.6.0" apply false
+    id "org.jetbrains.dokka" version "1.6.0" apply false
+    id "io.gitlab.arturbosch.detekt" version "1.19.0" apply false
+    id "org.jlleitschuh.gradle.ktlint" version "10.2.0" apply false
+    id "io.freefair.aggregate-javadoc-jar" version "6.3.0"
+    id "net.kyori.indra.publishing.sonatype"
+    id "net.kyori.indra.git"
+    id "org.ajoberstar.git-publish" version "3.0.0"
+    id "com.github.ben-manes.versions" version "0.38.0"
+    id 'java-base'
+}
+
+group = "org.spongepowered"
+version = "4.2.0-SNAPSHOT"
+
+tasks.named('aggregateJavadoc').configure {
+    def gradleJdk = JavaVersion.current()
+    // at least java 11, but not 12 (java 12 is broken for some reason :( )
+    if (gradleJdk < JavaVersion.VERSION_11 || gradleJdk == JavaVersion.VERSION_12) {
+        javadocTool.set(javaToolchains.javadocToolFor { this.languageVersion.set(JavaLanguageVersion.of(11)) })
+    }
+
+    applyCommonAttributes(it)
+    title = "Configurate $version (all modules)"
+
+    def excludedProjects = ["examples"].collect {
+        project(":$it").projectDir.toPath().toAbsolutePath()
+    }
+    exclude {
+        excludedProjects.find { path -> it.file.toPath().toAbsolutePath().startsWith(path) } != null
+    }
+
+    options.addBooleanOption("Xdoclint:-missing", true)
+    options.links("https://docs.oracle.com/javase/8/docs/api/")
+    if (gradleJdk > JavaVersion.VERSION_1_8 && gradleJdk < JavaVersion.VERSION_12) {
+        options.addBooleanOption("-no-module-directories", true)
+    }
+}
+
+gitPublish {
+    def repo = indraGit.git()
+    if (repo != null) {
+        repo.remoteList().call().find { config -> config.name == "origin" }?.with { remote ->
+            repoUri.set((remote.pushURIs.find() ?: remote.URIs.first()).toPrivateString())
+            referenceRepoUri.set(remote.URIs.first().toPrivateString())
+        }
+    }
+
+    branch = "gh-pages"
+    contents {
+        from("src/site") {
+            def versionProvider = { 
+                ([project.version as String] + indraGit.tags().collect { tag -> shortenRefName(tag.name) }.reverse())
+                    .unique()
+                    .findAll { tag -> repoDir.get().dir(tag).getAsFile().exists() || tag == project.version }
+            }
+            expand project: project, versions: versionProvider
+        }
+        from(tasks.aggregateJavadoc) {
+            into("$version/apidocs")
+        }
+    }
+
+    preserve {
+        include(".gitattributes")
+        include("**/") // include everything in directories
+        exclude("/*.html")
+    }
+}
+
+tasks.named('dependencyUpdates') {
+    gradleReleaseChannel = "current"
+    revision = "release"
+}

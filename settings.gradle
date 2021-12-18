@@ -1,0 +1,44 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = "sponge"
+            url = "https://repo.spongepowered.org/repository/maven-public/"
+            mavenContent { releasesOnly() }
+        }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        maven {
+            name = "sponge"
+            url = "https://repo.spongepowered.org/repository/maven-public/"
+            mavenContent { releasesOnly() }
+        }
+    }
+}
+
+enableFeaturePreview "TYPESAFE_PROJECT_ACCESSORS"
+
+def prefix = "configurate"
+
+rootProject.name = "$prefix-parent"
+
+// core
+["core", "tool", "bom", "examples"].each {
+    include ":$it"
+    // findProject(":$it")?.name = "$prefix-$it"
+}
+
+// formats
+["gson", "hocon", "jackson", "xml", "yaml"].each {
+    include ":format:$it"
+    // findProject(":format:$it")?.name = "$prefix-$it"
+}
+
+// extras
+["kotlin", "guice", "dfu2", "dfu3", "dfu4"].each {
+    include ":extra:$it"
+    findProject(":extra:$it")?.name = "extra-$it"
+}

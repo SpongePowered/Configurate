@@ -1,25 +1,21 @@
-package org.spongepowered.configurate.build
-
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
-import net.ltgt.gradle.errorprone.errorprone
 import org.cadixdev.gradle.licenser.tasks.LicenseCheck
 import org.eclipse.jgit.lib.Repository
 import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.tasks.compile.JavaCompile
-import kotlin.math.min
 
 plugins {
-    id("org.spongepowered.configurate.build.publishing")
-    id("net.kyori.indra")
-    id("net.kyori.indra.checkstyle")
-    id("net.kyori.indra.license-header")
-    id("net.ltgt.errorprone")
+    id "org.spongepowered.configurate.build.publishing"
+    id "net.kyori.indra"
+    id "net.kyori.indra.checkstyle"
+    id "net.kyori.indra.license-header"
+    id "net.ltgt.errorprone"
     // id("net.ltgt.nullaway")
-    id("me.champeau.gradle.japicmp")
-    id("de.thetaphi.forbiddenapis")
-    pmd
+    id "me.champeau.gradle.japicmp"
+    id "de.thetaphi.forbiddenapis"
+    id 'pmd'
 }
 
 configurations.configureEach {
@@ -34,16 +30,14 @@ configurations.configureEach {
  * These should not be detected as releases -- but are, sadly.
  */
 @CacheableRule
-open class CorrectlyClassifyMilestonesRule : ComponentMetadataRule {
-    companion object {
-        val notActuallyReleaseStatus = Regex("rc|beta|alpha|(-M\\d+$)")
-    }
+class CorrectlyClassifyMilestonesRule implements ComponentMetadataRule {
+    private static final def notActuallyReleaseStatus = ~/rc|beta|alpha|(-M\\d+$)/
 
-    override fun execute(context: ComponentMetadataContext) {
-        with(context.details) {
-            val version = id.version
+    public void execute(final ComponentMetadataContext context) {
+        context.details.with {
+            def version = id.version
 
-            if (status == "release" && notActuallyReleaseStatus.containsMatchIn(version)) {
+            if (status == "release" && version =~ notActuallyReleaseStatus) {
                 status = "milestone"
             }
         }
@@ -52,13 +46,13 @@ open class CorrectlyClassifyMilestonesRule : ComponentMetadataRule {
 
 dependencies {
     components {
-        all(CorrectlyClassifyMilestonesRule::class.java)
+        all(CorrectlyClassifyMilestonesRule)
     }
 }
 
-tasks.withType(JavaCompile::class).configureEach {
+tasks.withType(JavaCompile).configureEach {
     options.errorprone {
-        isEnabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 }.orElse(JavaVersion.current().isJava9Compatible))
+        enabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 }.orElse(JavaVersion.current().java9Compatible))
         /* if (!name.toLowerCase().contains("test")) {
             nullaway {
                 severity.set(CheckSeverity.ERROR)
@@ -68,12 +62,11 @@ tasks.withType(JavaCompile::class).configureEach {
             }
         }*/
     }
-    options.compilerArgs.add("-Xlint:-processing")
+    options.compilerArgs << "-Xlint:-processing"
 }
 
-tasks.withType(Javadoc::class).configureEach {
-    val options = this.options
-    if (options is StandardJavadocDocletOptions) {
+tasks.withType(Javadoc).configureEach {
+    if (options instanceof StandardJavadocDocletOptions) {
         options.links(
             "https://lightbend.github.io/config/latest/api/",
             "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
@@ -86,33 +79,31 @@ tasks.withType(Javadoc::class).configureEach {
 
 dependencies {
     // error-prone compiler
-    val errorProneVersion: String by project
     compileOnlyApi("com.google.errorprone:error_prone_annotations:$errorProneVersion")
     errorprone("com.google.errorprone:error_prone_core:$errorProneVersion")
     // errorprone("com.uber.nullaway:nullaway:0.8.0")
 
     // Testing
-    val junitVersion: String by project
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion") {
         attributes {
-            attribute(Attribute.of("org.gradle.status", String::class.java), "release")
+            attribute(Attribute.of("org.gradle.status", String), "release")
         }
     }
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion") {
         attributes {
-            attribute(Attribute.of("org.gradle.status", String::class.java), "release")
+            attribute(Attribute.of("org.gradle.status", String), "release")
         }
     }
 }
 
 configurations {
-    runtimeClasspath { shouldResolveConsistentlyWith(compileClasspath.get()) }
+    runtimeClasspath { shouldResolveConsistentlyWith(compileClasspath) }
 }
 
 // Apply a license header
 license {
-    header(rootProject.file("LICENSE_HEADER"))
-    exclude("generated/**")
+    header rootProject.file("LICENSE_HEADER")
+    exclude "generated/**"
 }
 
 // Set up automatic module name
@@ -129,31 +120,30 @@ indra {
 // IntelliJ puts its output *within* the Gradle source root.....................
 
 sourceSets.configureEach {
-    tasks.named(compileJavaTaskName, JavaCompile::class) {
+    tasks.named(compileJavaTaskName, JavaCompile) {
         exclude("generated/**")
     }
 }
-tasks.withType(Checkstyle::class) {
+tasks.withType(Checkstyle) {
     exclude("generated/**")
 }
-tasks.withType(Pmd::class) {
+tasks.withType(Pmd) {
     exclude("generated/**")
 }
 
 // Forbidden API validation
 forbiddenApis {
-    bundledSignatures = setOf("jdk-unsafe", "jdk-deprecated")
+    bundledSignatures = ["jdk-unsafe", "jdk-deprecated"]
     failOnMissingClasses = false
 }
 
-tasks.withType(CheckForbiddenApis::class).configureEach {
-    targetCompatibility = min(indra.javaVersions().actualVersion().get(), 15).toString() // todo: forbidden apis needs J16 sigs
+tasks.withType(CheckForbiddenApis).configureEach {
+    targetCompatibility = Math.min(indra.javaVersions().actualVersion().get(), 15).toString() // todo: forbidden apis needs J16 sigs
 }
 
 // Checkstyle (based on Sponge config)
 // We have the checkstyle version exposed as a property for use in checkstyle's own CI
 // do not modify the checkstyle configuration without an understanding of how they test against Configurate
-val checkstyleVersion: String by project
 dependencies {
     checkstyle("com.puppycrawl.tools:checkstyle:$checkstyleVersion")
     checkstyle("ca.stellardrift:stylecheck:0.1")
@@ -170,59 +160,66 @@ if (checkstyleVersion.endsWith("-SNAPSHOT")) {
     }
 }
 
-val objects = project.objects
-tasks.withType(Checkstyle::class) {
+def objects = project.objects
+tasks.withType(Checkstyle) {
     classpath = objects.fileCollection()
 }
 
 pmd {
-    isConsoleOutput = true
+    consoleOutput = true
     // incrementalAnalysis.set(true)
     ruleSetConfig = resources.text.fromFile(rootProject.file(".pmd/rules.xml"))
     ruleSets.clear() // Remove default rule sets
     toolVersion = "6.29.0"
 }
 
+// configure ktlint
+plugins.withId('org.jlleitschuh.gradle.ktlint') {
+    ktlint {
+        version = "$ktlintVersion"
+    }
+}
+
 // API diff viewer
 
-val apiDiffPrevious by configurations.registering {
-    isCanBeConsumed = false
-    isCanBeResolved = true
+def apiDiffPrevious = configurations.register("apiDiffPrevious") {
+    canBeConsumed = false
+    canBeResolved = true
     attributes {
-        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class, Usage.JAVA_API))
-        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class, Category.LIBRARY))
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_API))
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
         attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, indra.javaVersions().target().get())
-        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL))
     }
 
     defaultDependencies {
         // create based on git's previous tag
-        val lastTag = indraGit.tags().lastOrNull()
-        if (lastTag != null) {
-            add(project.dependencies.create("$group:configurate-${project.name}:${Repository.shortenRefName(lastTag.name)}"))
+        def tags = indraGit.tags()
+        if (tags) {
+            add(project.dependencies.create("$group:configurate-${project.name}:${Repository.shortenRefName(tags.last().name)}"))
         }
     }
 }
 
-val apiDiffPreviousArchive by configurations.registering {
-    isCanBeResolved = true
-    isTransitive = false
+def apiDiffPreviousArchive = configurations.register("apiDiffPreviousArchive") {
+    canBeResolved = true
+    transitive = false
     extendsFrom(apiDiffPrevious.get())
-    isVisible = false
+    visible = false
 }
 
-val apiDiff by tasks.registering(me.champeau.gradle.japicmp.JapicmpTask::class) {
+tasks.register("apiDiff", me.champeau.gradle.japicmp.JapicmpTask) {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
     description = "Generate an API diff between the current source and the last tagged version."
     // Old artifact: output of old japicmp
     oldClasspath = apiDiffPrevious.get()
     oldArchives = apiDiffPreviousArchive.get()
     // New: Current compile classpath and api output
-    newClasspath = configurations.compileClasspath.get()
-    newArchives = configurations.apiElements.get().outgoing.artifacts.files
-    isIgnoreMissingClasses = true // TODO: Doesn't seem to respect the classpath parameters
+    newClasspath = configurations.compileClasspath
+    newArchives = configurations.apiElements.outgoing.artifacts.files
+    ignoreMissingClasses = true // TODO: Doesn't seem to respect the classpath parameters
 
-    isOnlyModified = true
+    onlyModified = true
     htmlOutputFile = layout.buildDirectory.file("reports/api-diff-long.html").get().asFile
 
     richReport {
