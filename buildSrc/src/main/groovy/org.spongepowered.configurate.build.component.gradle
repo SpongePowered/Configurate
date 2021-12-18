@@ -5,6 +5,7 @@ import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyIntern
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.tasks.compile.JavaCompile
+import org.spongepowered.configurate.build.ConfigurateExtension
 
 plugins {
     id "org.spongepowered.configurate.build.publishing"
@@ -23,6 +24,9 @@ configurations.configureEach {
         failOnDynamicVersions()
     }
 }
+
+def configurateExt = project.extensions.create("configurate", ConfigurateExtension, dependencies)
+configurateExt.autoValueVersion = "$autoValueVersion"
 
 /**
  * Fix metadata on Maven artifacts to properly handle rc/beta/alpha versions.
