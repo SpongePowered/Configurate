@@ -139,7 +139,7 @@ extends <a href="ConfigurationNode.html" title="interface in org.spongepowered.c
 <div class="block">Intermediate node type to reduce need for casting.
 
  <p>Any methods that return <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> in
- <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> should be overridden to return the <a href="ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ScopedConfigurationNode</code></a>
+ <a href="ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> should be overridden to return the <code>N</code>
  self-type instead.</p></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -920,7 +920,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>act</h4>
-<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.211">act</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;E&gt;&nbsp;action)
+<pre class="methodSignature">default&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.212">act</a>&#8203;(<a href="util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;? super <a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>,&#8203;E&gt;&nbsp;action)
                              throws E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Execute an action on this node. This allows performing multiple
  operations on a single node without having to clutter up the surrounding
@@ -933,6 +933,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this node</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>E</code> - when thrown by callback <code>action</code></dd>
 <dd><code>E extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
@@ -947,7 +948,7 @@ throws <a href="serialize/SerializationException.html" title="class in org.spong
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hint</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.216">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint,
+<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ScopedConfigurationNode.html" title="type parameter in ScopedConfigurationNode">N</a>&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ScopedConfigurationNode.html#line.217">hint</a>&#8203;(<a href="RepresentationHint.html" title="class in org.spongepowered.configurate">RepresentationHint</a>&lt;V&gt;&nbsp;hint,
            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationNode.html#hint(org.spongepowered.configurate.RepresentationHint,V)">ConfigurationNode</a></code></span></div>
 <div class="block">Set a representation hint on this node.
