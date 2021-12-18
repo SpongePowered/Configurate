@@ -4,6 +4,7 @@ import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission
 import java.util.Base64
 import java.util.Locale
+import org.spongepowered.configurate.build.SignJarTask
 
 plugins {
     id "net.kyori.indra.publishing"
@@ -37,12 +38,12 @@ if (project.hasProperty("spongeKeyStore")) {
         dest.parentFile.mkdirs()
         dest.createNewFile()
         try {
-            Files.setPosixFilePermissions(dest.toPath(), setOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE))
+            Files.setPosixFilePermissions(dest.toPath(), [PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE])
         } catch (IOException ignored) {
             // oh well
         }
 
-        dest.writeBytes(Base64.getDecoder().decode(keyStoreProp))
+        dest.bytes = Base64.getDecoder().decode(keyStoreProp)
         // Delete the temporary file when the runtime exits
         dest.deleteOnExit()
         keyStoreFile = dest

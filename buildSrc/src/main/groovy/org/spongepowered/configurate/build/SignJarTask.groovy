@@ -41,7 +41,7 @@ abstract class SignJarTask extends Jar {
                 alias: alias.get(),
                 storepass: storePassword.get(),
                 keystore: keyStore.get().asFile,
-                verbose: logger.isInfoEnabled,
+                verbose: logger.infoEnabled,
                 strict: strict.get()
             )
         }

@@ -31,9 +31,11 @@ tasks {
     }
 }
 
-java {
-    sourceCompatibility = '16'
-    targetCompatibility = '16'
+afterEvaluate {
+    java {
+        sourceCompatibility = '16'
+        targetCompatibility = '16'
+    }
 }
 
 sourceSets {
