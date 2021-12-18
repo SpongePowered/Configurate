@@ -131,6 +131,21 @@ tasks.withType(Pmd) {
     exclude("generated/**")
 }
 
+plugins.withId('eclipse') {
+    eclipse {
+        project {
+            resourceFilter {
+                appliesTo = 'FOLDERS'
+                type = 'EXCLUDE_ALL'
+                matcher {
+                    id = 'org.eclipse.ui.ide.multiFilter'
+                    arguments = '1.0-name-matches-true-false-generated'
+                }
+            }
+        }
+    }
+}
+
 // Forbidden API validation
 forbiddenApis {
     bundledSignatures = ["jdk-unsafe", "jdk-deprecated"]

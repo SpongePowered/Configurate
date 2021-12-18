@@ -3,6 +3,7 @@ import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 plugins {
     id 'jacoco'
     id 'org.spongepowered.configurate.build.component'
+    id 'eclipse'
 }
 
 description = """
@@ -31,10 +32,12 @@ tasks {
     }
 }
 
-afterEvaluate {
-    java {
-        sourceCompatibility = '16'
-        targetCompatibility = '16'
+plugins.withId('eclipse') {
+    eclipse {
+        jdt {
+            sourceCompatibility = 16
+            targetCompatibility = 16
+        }
     }
 }
 
