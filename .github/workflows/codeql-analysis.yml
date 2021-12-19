@@ -16,6 +16,10 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: recursive
+    - name: Set up committer info for patching
+      run: |
+        git config --global user.email "noreply@spongepowered.org"
+        git config --global user.name "github-actions"
     - name: Setup JDK 11
       uses: actions/setup-java@v2
       with:
