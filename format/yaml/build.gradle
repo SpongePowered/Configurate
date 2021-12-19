@@ -19,6 +19,7 @@ dependencies {
 
 tasks {
     shadowJar {
+        dependsOn ':core:jar' // why?
         configurations = [project.configurations.shaded]
         minimize()
         relocate("org.yaml.snakeyaml", "${project.group}.configurate.yaml.internal.snakeyaml")
@@ -36,6 +37,7 @@ tasks {
 if (project.hasProperty("spongeKeyStore")) {
     // Just update the input of the sign jar task
     tasks.shadowJar {
+        dependsOn ':core:signJar' // why?
         archiveClassifier = "unsigned-all"
     }
     tasks.jar {
