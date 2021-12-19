@@ -1,0 +1,3 @@
+[submodule "vendor/snakeyaml-upstream"]
+	path = vendor/snakeyaml-upstream
+	url = https://bitbucket.org/snakeyaml/snakeyaml.git
