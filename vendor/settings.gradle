@@ -1,0 +1,24 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+    repositories {
+       maven {
+           url = 'https://repo.spongepowered.org/repository/maven-public'
+           name = 'sponge'
+       }
+    }
+}
+
+rootProject.name = "configurate-vendor"
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        maven {
+            url = 'https://repo.spongepowered.org/repository/maven-public'
+            name = 'sponge'
+        }
+    }
+}
+
+include "snakeyaml"

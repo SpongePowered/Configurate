@@ -1,0 +1,118 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: zml <zml@stellardrift.ca>
+Date: Sat, 7 Aug 2021 19:58:26 -0700
+Subject: [PATCH] emitter: Force-enable prettyFlow when there are comments
+
+This seems to be the least nonsensical way to emit comments within flow
+sequences. It might be nice to capture the prettiness status of input
+data, but that seems extremely error-prone and probably not worth doing.
+
+diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
+index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715f31e0e6a 100644
+--- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
++++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
+@@ -151,7 +151,14 @@ public final class Emitter implements Emitable {
+     // Formatting details.
+     private final Boolean canonical;
+     // pretty print flow by adding extra line breaks
+-    private final Boolean prettyFlow;
++
++    // handle requested prettyFlow level
++    // when a comment is encountered within a flow collection,
++    private final boolean prettyFlowRequested;
++    private boolean prettyFlow;
++    // the level of required pretty-flow. incremented if in a
++    // flow collection and a comment is encountered
++    private int requiredPrettyFlowLevel;
+ 
+     private final boolean allowUnicode;
+     private int bestIndent;
+@@ -213,7 +220,7 @@ public final class Emitter implements Emitable {
+ 
+         // Formatting details.
+         this.canonical = opts.isCanonical();
+-        this.prettyFlow = opts.isPrettyFlow();
++        this.prettyFlowRequested = this.prettyFlow = opts.isPrettyFlow();
+         this.allowUnicode = opts.isAllowUnicode();
+         this.bestIndent = 2;
+         if ((opts.getIndent() > MIN_INDENT) && (opts.getIndent() < MAX_INDENT)) {
+@@ -494,6 +501,9 @@ public final class Emitter implements Emitable {
+     private void expectFlowSequence() throws IOException {
+         writeIndicator("[", true, true, false);
+         flowLevel++;
++        if (requiredPrettyFlowLevel > 0) {
++            requiredPrettyFlowLevel++;
++        }
+         increaseIndent(true, false);
+         if (prettyFlow) {
+             writeIndent();
+@@ -507,6 +517,11 @@ public final class Emitter implements Emitable {
+                 indent = indents.pop();
+                 flowLevel--;
+                 writeIndicator("]", false, false, false);
++                if (requiredPrettyFlowLevel > 0) {
++                    if (--requiredPrettyFlowLevel == 0) {
++                        prettyFlow = prettyFlowRequested;
++                    }
++                }
+                 inlineCommentsCollector.collectEvents();
+                 writeInlineComments();
+                 state = states.pop();
+@@ -537,6 +552,11 @@ public final class Emitter implements Emitable {
+                     writeIndent();
+                 }
+                 writeIndicator("]", false, false, false);
++                if (requiredPrettyFlowLevel > 0) {
++                    if (--requiredPrettyFlowLevel == 0) {
++                        prettyFlow = prettyFlowRequested;
++                    }
++                }
+                 inlineCommentsCollector.collectEvents();
+                 writeInlineComments();
+                 if (prettyFlow) {
+@@ -564,6 +584,9 @@ public final class Emitter implements Emitable {
+     private void expectFlowMapping() throws IOException {
+         writeIndicator("{", true, true, false);
+         flowLevel++;
++        if (requiredPrettyFlowLevel > 0) {
++            requiredPrettyFlowLevel++;
++        }
+         increaseIndent(true, false);
+         if (prettyFlow) {
+             writeIndent();
+@@ -579,6 +602,11 @@ public final class Emitter implements Emitable {
+                 indent = indents.pop();
+                 flowLevel--;
+                 writeIndicator("}", false, false, false);
++                if (requiredPrettyFlowLevel > 0) {
++                    if (--requiredPrettyFlowLevel == 0) {
++                        prettyFlow = prettyFlowRequested;
++                    }
++                }
+                 inlineCommentsCollector.collectEvents();
+                 writeInlineComments();
+                 state = states.pop();
+@@ -611,6 +639,11 @@ public final class Emitter implements Emitable {
+                     writeIndent();
+                 }
+                 writeIndicator("}", false, false, false);
++                if (requiredPrettyFlowLevel > 0) {
++                    if (--requiredPrettyFlowLevel == 0) {
++                        prettyFlow = prettyFlowRequested;
++                    }
++                }
+                 inlineCommentsCollector.collectEvents();
+                 writeInlineComments();
+                 state = states.pop();
+@@ -1475,6 +1508,11 @@ public final class Emitter implements Emitable {
+         if(!blockCommentsCollector.isEmpty()) {
+             writeIndent();
+             writeCommentLines(blockCommentsCollector.consume());
++            if (!prettyFlow && flowLevel > 0) {
++
++                prettyFlow = true;
++                requiredPrettyFlowLevel++;
++            }
+         }
+     }
+ 

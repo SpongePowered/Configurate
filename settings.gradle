@@ -42,3 +42,6 @@ rootProject.name = "$prefix-parent"
     include ":extra:$it"
     findProject(":extra:$it")?.name = "extra-$it"
 }
+
+includeBuild 'vendor'
+

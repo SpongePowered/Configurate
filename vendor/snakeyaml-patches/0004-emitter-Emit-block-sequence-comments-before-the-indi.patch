@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: zml <zml@stellardrift.ca>
+Date: Thu, 12 Aug 2021 20:13:30 -0700
+Subject: [PATCH] emitter: Emit block sequence comments before the indicator
+
+This does make comments on a sequence ambiguous with comments on the
+first element of the sequence. I don't think there's anything we can
+do about that though.... needs more thought i suppose
+
+diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
+index 886348cc41ad9cd359f4a37852a5a715f31e0e6a..a560345e276fbdc6215faaf3640b6bc49652cf6e 100644
+--- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
++++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
+@@ -718,9 +718,12 @@ public final class Emitter implements Emitable {
+             if (!this.first && event instanceof SequenceEndEvent) {
+                 indent = indents.pop();
+                 state = states.pop();
+-            } else if( event instanceof CommentEvent) {
++            } else if (event instanceof CommentEvent) {
+                 blockCommentsCollector.collectEvents(event);
+             } else {
++                if (!blockCommentsCollector.isEmpty()) {
++                    writeBlockComment();
++                }
+                 writeIndent();
+                 if (!indentWithIndicator || this.first) {
+                     writeWhitespace(indicatorIndent);
+@@ -729,17 +732,6 @@ public final class Emitter implements Emitable {
+                 if (indentWithIndicator && this.first) {
+                     indent += indicatorIndent;
+                 }
+-                if (!blockCommentsCollector.isEmpty()) {
+-                    increaseIndent(false, false);
+-                    writeBlockComment();
+-                    if(event instanceof ScalarEvent) {
+-                        analysis = analyzeScalar(((ScalarEvent)event).getValue());
+-                        if (!analysis.isEmpty()) {
+-                            writeIndent();
+-                        }
+-                    }
+-                    indent = indents.pop();
+-                }
+                 states.push(new ExpectBlockSequenceItem(false));
+                 expectNode(false, false, false);
+                 inlineCommentsCollector.collectEvents();
+diff --git a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
+index 46ac29e2648b7f05c5988d99e3332ae664355b72..d1c2b0a14a964f7d4c18b5e5aeee657eb83acf49 100644
+--- a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
++++ b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
+@@ -15,6 +15,8 @@
+  */
+ package org.yaml.snakeyaml.comment;
+ 
++import static org.junit.Assert.assertEquals;
++
+ import org.junit.Test;
+ import org.yaml.snakeyaml.DumperOptions;
+ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+@@ -45,8 +47,6 @@ import org.yaml.snakeyaml.serializer.Serializer;
+ import java.io.IOException;
+ import java.io.StringWriter;
+ 
+-import static org.junit.Assert.assertEquals;
+-
+ public class EmitterWithCommentEnabledTest {
+ 
+     private String runEmitterWithCommentsEnabled(String data) throws IOException {
+@@ -160,8 +160,8 @@ public class EmitterWithCommentEnabledTest {
+         String data = "" + //
+                 "# Comment\n" + //
+                 "list: # InlineComment1\n" + //
+-                "  - # Block Comment\n" + //
+-                "    item # InlineComment2\n" + //
++                "  # Block Comment\n" + //
++                "  - item # InlineComment2\n" + //
+                 "# Comment\n";
+ 
+         String result = runEmitterWithCommentsEnabled(data);
+@@ -181,8 +181,8 @@ public class EmitterWithCommentEnabledTest {
+                 "# Block Comment4\n" + //
+                 "list: # InlineComment3a\n" + //
+                 "      # InlineComment3b\n" + //
+-                "  - # Block Comment5\n" + //
+-                "    item1 # InlineComment4\n" + //
++                "  # Block Comment5\n" + //
++                "  - item1 # InlineComment4\n" + //
+                 "  - item2: [value2a, value2b] # InlineComment5\n" + //
+                 "  - item3: {key3a: [value3a1, value3a2], key3b: value3b} # InlineComment6\n" + //
+                 "# Block Comment6\n" + //
+@@ -214,17 +214,18 @@ public class EmitterWithCommentEnabledTest {
+                 "key:\n" +
+                 "  key:\n" +
+                 "    key:\n" +
+-                "    - # Block Comment1\n" +
+-                "      item1a\n" +
+-                "    - # Block Comment2\n" +
++                "    # Block Comment1\n" +
++                "    - item1a\n" +
++                "    # Block Comment2\n" +
++                "    -\n" +
+                 "    - item1b\n" +
+                 "    - # Block Comment3\n" +
+                 "      MapKey_1: MapValue1\n" +
+                 "      MapKey_2: MapValue2\n" +
+                 "key2:\n" +
+-                "- # Block Comment4\n" + //
+-                "  # Block Comment5\n" + //
+-                "  item1 # Inline Comment1a\n" + //
++                "# Block Comment4\n" + //
++                "# Block Comment5\n" + //
++                "- item1 # Inline Comment1a\n" + //
+                 "        # Inline Comment1b\n" + //
+                 "- # Block Comment6a\n" + //
+                 "  # Block Comment6b\n" + //

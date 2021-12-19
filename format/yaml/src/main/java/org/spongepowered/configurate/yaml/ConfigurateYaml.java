@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
+import org.yaml.snakeyaml.scanner.ScannerImpl;
 
 import java.io.Reader;
 
@@ -33,7 +34,9 @@ final class ConfigurateYaml extends Yaml {
     public Object loadConfigurate(final Reader yaml) {
         // Match the superclass implementation, except we substitute our own scanner implementation
         final StreamReader reader = new StreamReader(yaml);
-        final ParserImpl parser = new ParserImpl(new ConfigurateScanner(reader));
+        final ScannerImpl scanner = new ScannerImpl(reader);
+        scanner.setAcceptTabs(true);
+        final ParserImpl parser = new ParserImpl(scanner);
         final Composer compose = new Composer(parser, this.resolver, this.loadingConfig);
         this.constructor.setComposer(compose);
         return this.constructor.getSingleData(Object.class);

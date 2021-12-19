@@ -55,12 +55,20 @@ if (project.hasProperty("spongeKeyStore")) {
         it.archiveClassifier = "unsigned"
         def sign = tasks.register("signJar", SignJarTask) {
             dependsOn(jarTask)
-            from(zipTree(jarTask.outputs.files.singleFile))
             manifest = jarTask.manifest
             archiveClassifier.set("")
             keyStore.set(keyStoreFile)
             alias.set(project.spongeKeyStoreAlias)
             storePassword.set(project.spongeKeyStorePassword)
+        }
+        
+        afterEvaluate {
+            // allow subprojects to override the signed contents
+            sign.configure {
+                if (!mainSpec.sourcePaths) {
+                    from(zipTree(jarTask.outputs.files.singleFile))
+                }
+            }
         }
 
         forRelevantOutgoings {

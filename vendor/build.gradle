@@ -1,0 +1,74 @@
+import groovy.xml.XmlSlurper
+
+plugins {
+    id "net.minecraftforge.gitpatcher" version "0.10.+"
+}
+
+patches {
+    submodule = "snakeyaml-upstream"
+    target = file("snakeyaml")
+    patches = file("snakeyaml-patches")
+}
+
+subprojects {
+    apply plugin: 'java-library'
+
+    group = "configurate.thirdparty"
+    version = "version-from-submodule"
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
+    }
+}
+
+project(":snakeyaml") {
+    def mavenPom = project.file("../snakeyaml-upstream/pom.xml")
+    if (mavenPom.exists()) {
+        def document = new XmlSlurper().parse(mavenPom)
+        def scopes = [
+            test: 'testImplementation',
+            compile: 'implementation',
+            runtime: 'runtimeOnly',
+            provided: 'compileOnly'
+       ]
+        
+        dependencies {
+            def dependencies = document.dependencies.dependency
+            dependencies.each { dep -> 
+                def group = dep.groupId
+                def artifact = dep.artifactId
+                def version = dep.version
+                def configuration = scopes[dep.scope]
+                if (configuration != null) {
+                    add(configuration, "$group:$artifact:$version")
+                }
+            }
+        }
+    }
+
+    def applyPatches = rootProject.tasks.named("applyPatches")
+    tasks.withType(JavaCompile) {
+        options.release.set(7)
+        dependsOn ':applyPatches'
+    }
+    tasks.withType(ProcessResources) {
+        dependsOn ':applyPatches'
+    }
+
+    tasks.named("test", Test) {
+        environment(
+                "EnvironmentKey1": "EnvironmentValue1",
+                "environmentEmpty": ""
+        )
+        filter {
+            // needs classpath provided via expansions, doesn't seem to be easily doable with the maven-style property names
+            excludeTest("org.yaml.snakeyaml.issues.issue318.ContextClassLoaderTest", null)
+        }
+    }
+}
