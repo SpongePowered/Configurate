@@ -36,6 +36,6 @@ dependencies {
     api "net.ltgt.gradle:gradle-nullaway-plugin:1.2.0"
     api "me.champeau.gradle:japicmp-gradle-plugin:0.3.0"
     api "de.thetaphi:forbiddenapis:3.2"
-    api "com.diffplug.gradle:goomph:3.34.0"
+    api "com.diffplug.gradle:goomph:3.34.1"
     implementation "com.google.guava:guava:31.0.1-jre"
 }

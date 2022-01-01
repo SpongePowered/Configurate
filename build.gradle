@@ -3,14 +3,14 @@ import static org.spongepowered.configurate.build.Util.applyCommonAttributes
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.6.10" apply false
-    id "org.jetbrains.dokka" version "1.6.0" apply false
+    id "org.jetbrains.dokka" version "1.6.10" apply false
     id "io.gitlab.arturbosch.detekt" version "1.19.0" apply false
-    id "org.jlleitschuh.gradle.ktlint" version "10.2.0" apply false
+    id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply false
     id "io.freefair.aggregate-javadoc-jar" version "6.3.0"
     id "net.kyori.indra.publishing.sonatype"
     id "net.kyori.indra.git"
     id "org.ajoberstar.git-publish" version "3.0.0"
-    id "com.github.ben-manes.versions" version "0.39.0"
+    id "com.github.ben-manes.versions" version "0.40.0"
     id 'java-base'
 }
 
