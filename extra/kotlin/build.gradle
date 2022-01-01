@@ -62,5 +62,5 @@ dependencies {
     api projects.core
     implementation "org.jetbrains.kotlin:kotlin-reflect"
     // This version has to be kept in sync with the Kotlin plugin version
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 }
