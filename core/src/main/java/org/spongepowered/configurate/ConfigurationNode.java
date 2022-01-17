@@ -19,6 +19,7 @@ package org.spongepowered.configurate;
 import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.AbstractConfigurationNode.storeDefault;
 import static org.spongepowered.configurate.util.Types.makeListType;
+import static org.spongepowered.configurate.util.Types.makeSetType;
 
 import io.leangen.geantyref.TypeFactory;
 import io.leangen.geantyref.TypeToken;
@@ -756,6 +757,142 @@ public interface ConfigurationNode {
     }
 
     /**
+     * If this node has set values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a set
+     * with one value.</p>
+     *
+     * @param type the expected type
+     * @param <V> the expected type
+     * @return an immutable copy of the values contained
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    default <V> @Nullable Set<V> getSet(TypeToken<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+        return get(makeSetType(type));
+    }
+
+    /**
+     * If this node has set values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a set
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param def default value if no appropriate value is set
+     * @param <V> expected type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    default <V> Set<V> getSet(TypeToken<V> elementType, Set<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+        final TypeToken<Set<V>> type = makeSetType(elementType);
+        final Set<V> ret = get(type, def);
+        return ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;
+    }
+
+    /**
+     * If this node has set values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a set
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param defSupplier function that will be called to calculate a default
+     *                    value only if there is no existing value of the
+     *                    correct type
+     * @param <V> expected type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> Set<V> getSet(TypeToken<V> elementType, Supplier<Set<V>> defSupplier) throws SerializationException {
+        final TypeToken<Set<V>> type = makeSetType(elementType);
+        final Set<V> ret = get(type, defSupplier);
+        return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
+    }
+
+    /**
+     * If this node has set values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a set
+     * with one value.</p>
+     *
+     * @param type the expected type
+     * @param <V> the expected type
+     * @return an immutable copy of the values contained
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    default <V> @Nullable Set<V> getSet(Class<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+        return (Set<V>) get(TypeFactory.parameterizedClass(Set.class, type));
+    }
+
+    /**
+     * If this node has set values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a set
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param def default value if no appropriate value is set
+     * @param <V> expected type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    default <V> Set<V> getSet(Class<V> elementType, Set<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+        final Type type = TypeFactory.parameterizedClass(Set.class, elementType);
+        final Set<V> ret = (Set<V>) get(type, def);
+        return ret.isEmpty() ? storeDefault(this, type, def) : ret;
+    }
+
+    /**
+     * If this node has set values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a set
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param defSupplier function that will be called to calculate a default
+     *                    value only if there is no existing value of the
+     *                    correct type
+     * @param <V> expected type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    @SuppressWarnings({"unchecked", "checkstyle:NoGetSetPrefix"})
+    default <V> Set<V> getSet(Class<V> elementType, Supplier<Set<V>> defSupplier) throws SerializationException {
+        final Type type = TypeFactory.parameterizedClass(Set.class, elementType);
+        final Set<V> ret = (Set<V>) get(type, defSupplier);
+        return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;
+    }
+
+    /**
      * Gets the value typed using the appropriate type conversion from {@link Scalars}.
      *
      * @return the value coerced to a {@link String}, or null if no value
@@ -1067,6 +1204,48 @@ public interface ConfigurationNode {
     @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
     default <V> ConfigurationNode setList(TypeToken<V> elementType, @Nullable List<V> items) throws SerializationException {
         return set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);
+    }
+
+    /**
+     * Set the node's value to the provided set.
+     *
+     * <p>This method provides a helper for constructing the appropriate
+     * {@link Type} for serializing a {@link Set}</p>
+     *
+     * @param elementType the type of the set elements. This must not be
+     *         a raw type.
+     * @param items the set to serializer
+     * @param <V> set element type, the {@code T} in {@code Set<T>}
+     * @return this node
+     * @throws SerializationException if the value fails to be converted to the
+     *         requested type.
+     * @see #set(TypeToken, Object) for details on restrictions.
+     * @since 4.2.0
+     */
+    @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
+    default <V> ConfigurationNode setSet(Class<V> elementType, @Nullable Set<V> items) throws SerializationException {
+        return set(TypeFactory.parameterizedClass(Set.class, elementType), items);
+    }
+
+    /**
+     * Set the node's value to the provided set.
+     *
+     * <p>This method provides a helper for constructing the appropriate
+     * {@link Type} for serializing a {@link Set}</p>
+     *
+     * @param elementType the type of the set elements. This must not be
+     *         a raw type.
+     * @param items the set to serializer
+     * @param <V> set element type, the {@code T} in {@code Set<T>}
+     * @return this node
+     * @throws SerializationException if the value fails to be converted to the
+     *         requested type.
+     * @see #set(TypeToken, Object) for details on restrictions.
+     * @since 4.2.0
+     */
+    @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
+    default <V> ConfigurationNode setSet(TypeToken<V> elementType, @Nullable Set<V> items) throws SerializationException {
+        return set(TypeFactory.parameterizedClass(Set.class, elementType.getType()), items);
     }
 
     /**

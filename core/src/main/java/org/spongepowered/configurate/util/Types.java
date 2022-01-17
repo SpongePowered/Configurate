@@ -218,6 +218,22 @@ public final class Types {
     }
 
     /**
+     * Given an element type, create a new set type.
+     *
+     * <p>This has an outcome similar to constructing a {@link TypeToken}
+     * directly, but avoids generating an extra anonymous class.</p>
+     *
+     * @param elementType type token representing the element type
+     * @param <T> type of element
+     * @return new set type token
+     * @since 4.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> TypeToken<Set<T>> makeSetType(final TypeToken<T> elementType) {
+        return (TypeToken<Set<T>>) TypeToken.get(TypeFactory.parameterizedClass(Set.class, elementType.getType()));
+    }
+
+    /**
      * Given an element type, create a new {@link Map} type.
      *
      * <p>The provided key and value types must not be a <em>raw type</em></p>
