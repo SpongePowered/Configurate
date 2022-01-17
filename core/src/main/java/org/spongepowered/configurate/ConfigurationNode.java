@@ -32,6 +32,7 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
