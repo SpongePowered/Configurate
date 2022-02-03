@@ -781,7 +781,7 @@ public interface ConfigurationNode {
             return value;
         }
         if (options().shouldCopyDefaults()) {
-            Scalars.STRING.serialize(float.class, def, this);
+            Scalars.STRING.serialize(String.class, def, this);
         }
         return def;
     }
