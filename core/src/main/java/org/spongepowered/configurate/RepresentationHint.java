@@ -73,7 +73,7 @@ public abstract class RepresentationHint<V> {
      * @since 4.0.0
      */
     public static <V> Builder<V> builder() {
-        return new AutoValue_RepresentationHint.Builder<>();
+        return new AutoValue_RepresentationHint.Builder<V>().inheritable(true);
     }
 
     RepresentationHint() { }
@@ -121,7 +121,6 @@ public abstract class RepresentationHint<V> {
     public abstract static class Builder<V> {
 
         Builder() {
-            this.inheritable(true);
         }
 
         /**
@@ -143,7 +142,7 @@ public abstract class RepresentationHint<V> {
          * @since 4.0.0
          */
         public final Builder<V> valueType(final Class<V> valueType) {
-            return valueType(TypeToken.get(valueType));
+            return this.valueType(TypeToken.get(valueType));
         }
 
         /**
