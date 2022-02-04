@@ -14,7 +14,7 @@ provides a node-based data structure able to handle a wide variety of configurat
 configurate.useAutoValue()
 dependencies {
     api "io.leangen.geantyref:geantyref:1.3.13"
-    compileOnlyApi "org.checkerframework:checker-qual:3.21.0"
+    compileOnlyApi "org.checkerframework:checker-qual:3.21.2"
     testImplementation "com.google.guava:guava:$guavaVersion"
 }
 
