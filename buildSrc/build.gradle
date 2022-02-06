@@ -25,7 +25,7 @@ dependencies {
             because "Use a newer version than the japicmp gradle plugin provides"
         }
     }
-    def indraVersion = "2.1.0"
+    def indraVersion = "2.1.1"
 
     implementation gradleApi()
     api "net.kyori:indra-common:$indraVersion"
