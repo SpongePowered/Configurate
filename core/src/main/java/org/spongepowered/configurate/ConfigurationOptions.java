@@ -94,8 +94,8 @@ public abstract class ConfigurationOptions {
         if (this.mapFactory() == mapFactory) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(mapFactory, header(), serializers(), nativeTypes(),
-                shouldCopyDefaults(), implicitInitialization());
+        return new AutoValue_ConfigurationOptions(mapFactory, this.header(), this.serializers(), this.nativeTypes(),
+                this.shouldCopyDefaults(), this.implicitInitialization());
     }
 
     /**
@@ -119,8 +119,8 @@ public abstract class ConfigurationOptions {
         if (Objects.equals(this.header(), header)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(mapFactory(), header, serializers(), nativeTypes(),
-                shouldCopyDefaults(), implicitInitialization());
+        return new AutoValue_ConfigurationOptions(this.mapFactory(), header, this.serializers(), this.nativeTypes(),
+                this.shouldCopyDefaults(), this.implicitInitialization());
     }
 
     /**
@@ -144,8 +144,8 @@ public abstract class ConfigurationOptions {
         if (this.serializers().equals(serializers)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers, nativeTypes(),
-                shouldCopyDefaults(), implicitInitialization());
+        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), serializers, this.nativeTypes(),
+                this.shouldCopyDefaults(), this.implicitInitialization());
     }
 
     /**
@@ -163,7 +163,7 @@ public abstract class ConfigurationOptions {
         requireNonNull(serializerBuilder, "serializerBuilder");
         final TypeSerializerCollection.Builder builder = this.serializers().childBuilder();
         serializerBuilder.accept(builder);
-        return serializers(builder.build());
+        return this.serializers(builder.build());
     }
 
     @SuppressWarnings("AutoValueImmutableFields") // we don't use guava
@@ -187,8 +187,8 @@ public abstract class ConfigurationOptions {
         if (Objects.equals(this.nativeTypes(), nativeTypes)) {
             return this;
         }
-        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(),
-                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), shouldCopyDefaults(), implicitInitialization());
+        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), this.serializers(),
+                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), this.shouldCopyDefaults(), this.implicitInitialization());
     }
 
     /**
@@ -202,7 +202,7 @@ public abstract class ConfigurationOptions {
     public final boolean acceptsType(final Class<?> type) {
         requireNonNull(type, "type");
 
-        final @Nullable Set<Class<?>> nativeTypes = nativeTypes();
+        final @Nullable Set<Class<?>> nativeTypes = this.nativeTypes();
 
         if (nativeTypes == null) {
             return true;
@@ -221,7 +221,7 @@ public abstract class ConfigurationOptions {
             return true;
         }
 
-        for (Class<?> clazz : nativeTypes) {
+        for (final Class<?> clazz : nativeTypes) {
             if (clazz.isAssignableFrom(type)) {
                 return true;
             }
@@ -254,8 +254,8 @@ public abstract class ConfigurationOptions {
             return this;
         }
 
-        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(), nativeTypes(),
-                shouldCopyDefaults, implicitInitialization());
+        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), this.serializers(), this.nativeTypes(),
+                shouldCopyDefaults, this.implicitInitialization());
     }
 
     /**
@@ -265,7 +265,7 @@ public abstract class ConfigurationOptions {
      * rather than null. This extends through to fields loaded into
      * object-mapped classes.</p>
      *
-     * <p>This option is disabled by default</p>
+     * <p>This option is enabled by default.</p>
      *
      * @return if implicit initialization is enabled.
      * @since 4.0.0
@@ -286,8 +286,8 @@ public abstract class ConfigurationOptions {
             return this;
         }
 
-        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(), nativeTypes(),
-                shouldCopyDefaults(), implicitInitialization);
+        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), this.serializers(), this.nativeTypes(),
+                this.shouldCopyDefaults(), implicitInitialization);
     }
 
 }
