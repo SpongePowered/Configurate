@@ -103,8 +103,8 @@
 <span class="sourceLineNo">094</span><a id="line.94">        if (this.mapFactory() == mapFactory) {</a>
 <span class="sourceLineNo">095</span><a id="line.95">            return this;</a>
 <span class="sourceLineNo">096</span><a id="line.96">        }</a>
-<span class="sourceLineNo">097</span><a id="line.97">        return new AutoValue_ConfigurationOptions(mapFactory, header(), serializers(), nativeTypes(),</a>
-<span class="sourceLineNo">098</span><a id="line.98">                shouldCopyDefaults(), implicitInitialization());</a>
+<span class="sourceLineNo">097</span><a id="line.97">        return new AutoValue_ConfigurationOptions(mapFactory, this.header(), this.serializers(), this.nativeTypes(),</a>
+<span class="sourceLineNo">098</span><a id="line.98">                this.shouldCopyDefaults(), this.implicitInitialization());</a>
 <span class="sourceLineNo">099</span><a id="line.99">    }</a>
 <span class="sourceLineNo">100</span><a id="line.100"></a>
 <span class="sourceLineNo">101</span><a id="line.101">    /**</a>
@@ -128,8 +128,8 @@
 <span class="sourceLineNo">119</span><a id="line.119">        if (Objects.equals(this.header(), header)) {</a>
 <span class="sourceLineNo">120</span><a id="line.120">            return this;</a>
 <span class="sourceLineNo">121</span><a id="line.121">        }</a>
-<span class="sourceLineNo">122</span><a id="line.122">        return new AutoValue_ConfigurationOptions(mapFactory(), header, serializers(), nativeTypes(),</a>
-<span class="sourceLineNo">123</span><a id="line.123">                shouldCopyDefaults(), implicitInitialization());</a>
+<span class="sourceLineNo">122</span><a id="line.122">        return new AutoValue_ConfigurationOptions(this.mapFactory(), header, this.serializers(), this.nativeTypes(),</a>
+<span class="sourceLineNo">123</span><a id="line.123">                this.shouldCopyDefaults(), this.implicitInitialization());</a>
 <span class="sourceLineNo">124</span><a id="line.124">    }</a>
 <span class="sourceLineNo">125</span><a id="line.125"></a>
 <span class="sourceLineNo">126</span><a id="line.126">    /**</a>
@@ -153,8 +153,8 @@
 <span class="sourceLineNo">144</span><a id="line.144">        if (this.serializers().equals(serializers)) {</a>
 <span class="sourceLineNo">145</span><a id="line.145">            return this;</a>
 <span class="sourceLineNo">146</span><a id="line.146">        }</a>
-<span class="sourceLineNo">147</span><a id="line.147">        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers, nativeTypes(),</a>
-<span class="sourceLineNo">148</span><a id="line.148">                shouldCopyDefaults(), implicitInitialization());</a>
+<span class="sourceLineNo">147</span><a id="line.147">        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), serializers, this.nativeTypes(),</a>
+<span class="sourceLineNo">148</span><a id="line.148">                this.shouldCopyDefaults(), this.implicitInitialization());</a>
 <span class="sourceLineNo">149</span><a id="line.149">    }</a>
 <span class="sourceLineNo">150</span><a id="line.150"></a>
 <span class="sourceLineNo">151</span><a id="line.151">    /**</a>
@@ -172,7 +172,7 @@
 <span class="sourceLineNo">163</span><a id="line.163">        requireNonNull(serializerBuilder, "serializerBuilder");</a>
 <span class="sourceLineNo">164</span><a id="line.164">        final TypeSerializerCollection.Builder builder = this.serializers().childBuilder();</a>
 <span class="sourceLineNo">165</span><a id="line.165">        serializerBuilder.accept(builder);</a>
-<span class="sourceLineNo">166</span><a id="line.166">        return serializers(builder.build());</a>
+<span class="sourceLineNo">166</span><a id="line.166">        return this.serializers(builder.build());</a>
 <span class="sourceLineNo">167</span><a id="line.167">    }</a>
 <span class="sourceLineNo">168</span><a id="line.168"></a>
 <span class="sourceLineNo">169</span><a id="line.169">    @SuppressWarnings("AutoValueImmutableFields") // we don't use guava</a>
@@ -196,8 +196,8 @@
 <span class="sourceLineNo">187</span><a id="line.187">        if (Objects.equals(this.nativeTypes(), nativeTypes)) {</a>
 <span class="sourceLineNo">188</span><a id="line.188">            return this;</a>
 <span class="sourceLineNo">189</span><a id="line.189">        }</a>
-<span class="sourceLineNo">190</span><a id="line.190">        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(),</a>
-<span class="sourceLineNo">191</span><a id="line.191">                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), shouldCopyDefaults(), implicitInitialization());</a>
+<span class="sourceLineNo">190</span><a id="line.190">        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), this.serializers(),</a>
+<span class="sourceLineNo">191</span><a id="line.191">                nativeTypes == null ? null : UnmodifiableCollections.copyOf(nativeTypes), this.shouldCopyDefaults(), this.implicitInitialization());</a>
 <span class="sourceLineNo">192</span><a id="line.192">    }</a>
 <span class="sourceLineNo">193</span><a id="line.193"></a>
 <span class="sourceLineNo">194</span><a id="line.194">    /**</a>
@@ -211,7 +211,7 @@
 <span class="sourceLineNo">202</span><a id="line.202">    public final boolean acceptsType(final Class&lt;?&gt; type) {</a>
 <span class="sourceLineNo">203</span><a id="line.203">        requireNonNull(type, "type");</a>
 <span class="sourceLineNo">204</span><a id="line.204"></a>
-<span class="sourceLineNo">205</span><a id="line.205">        final @Nullable Set&lt;Class&lt;?&gt;&gt; nativeTypes = nativeTypes();</a>
+<span class="sourceLineNo">205</span><a id="line.205">        final @Nullable Set&lt;Class&lt;?&gt;&gt; nativeTypes = this.nativeTypes();</a>
 <span class="sourceLineNo">206</span><a id="line.206"></a>
 <span class="sourceLineNo">207</span><a id="line.207">        if (nativeTypes == null) {</a>
 <span class="sourceLineNo">208</span><a id="line.208">            return true;</a>
@@ -230,7 +230,7 @@
 <span class="sourceLineNo">221</span><a id="line.221">            return true;</a>
 <span class="sourceLineNo">222</span><a id="line.222">        }</a>
 <span class="sourceLineNo">223</span><a id="line.223"></a>
-<span class="sourceLineNo">224</span><a id="line.224">        for (Class&lt;?&gt; clazz : nativeTypes) {</a>
+<span class="sourceLineNo">224</span><a id="line.224">        for (final Class&lt;?&gt; clazz : nativeTypes) {</a>
 <span class="sourceLineNo">225</span><a id="line.225">            if (clazz.isAssignableFrom(type)) {</a>
 <span class="sourceLineNo">226</span><a id="line.226">                return true;</a>
 <span class="sourceLineNo">227</span><a id="line.227">            }</a>
@@ -263,8 +263,8 @@
 <span class="sourceLineNo">254</span><a id="line.254">            return this;</a>
 <span class="sourceLineNo">255</span><a id="line.255">        }</a>
 <span class="sourceLineNo">256</span><a id="line.256"></a>
-<span class="sourceLineNo">257</span><a id="line.257">        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(), nativeTypes(),</a>
-<span class="sourceLineNo">258</span><a id="line.258">                shouldCopyDefaults, implicitInitialization());</a>
+<span class="sourceLineNo">257</span><a id="line.257">        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), this.serializers(), this.nativeTypes(),</a>
+<span class="sourceLineNo">258</span><a id="line.258">                shouldCopyDefaults, this.implicitInitialization());</a>
 <span class="sourceLineNo">259</span><a id="line.259">    }</a>
 <span class="sourceLineNo">260</span><a id="line.260"></a>
 <span class="sourceLineNo">261</span><a id="line.261">    /**</a>
@@ -274,7 +274,7 @@
 <span class="sourceLineNo">265</span><a id="line.265">     * rather than null. This extends through to fields loaded into</a>
 <span class="sourceLineNo">266</span><a id="line.266">     * object-mapped classes.&lt;/p&gt;</a>
 <span class="sourceLineNo">267</span><a id="line.267">     *</a>
-<span class="sourceLineNo">268</span><a id="line.268">     * &lt;p&gt;This option is disabled by default&lt;/p&gt;</a>
+<span class="sourceLineNo">268</span><a id="line.268">     * &lt;p&gt;This option is enabled by default.&lt;/p&gt;</a>
 <span class="sourceLineNo">269</span><a id="line.269">     *</a>
 <span class="sourceLineNo">270</span><a id="line.270">     * @return if implicit initialization is enabled.</a>
 <span class="sourceLineNo">271</span><a id="line.271">     * @since 4.0.0</a>
@@ -295,8 +295,8 @@
 <span class="sourceLineNo">286</span><a id="line.286">            return this;</a>
 <span class="sourceLineNo">287</span><a id="line.287">        }</a>
 <span class="sourceLineNo">288</span><a id="line.288"></a>
-<span class="sourceLineNo">289</span><a id="line.289">        return new AutoValue_ConfigurationOptions(mapFactory(), header(), serializers(), nativeTypes(),</a>
-<span class="sourceLineNo">290</span><a id="line.290">                shouldCopyDefaults(), implicitInitialization);</a>
+<span class="sourceLineNo">289</span><a id="line.289">        return new AutoValue_ConfigurationOptions(this.mapFactory(), this.header(), this.serializers(), this.nativeTypes(),</a>
+<span class="sourceLineNo">290</span><a id="line.290">                this.shouldCopyDefaults(), implicitInitialization);</a>
 <span class="sourceLineNo">291</span><a id="line.291">    }</a>
 <span class="sourceLineNo">292</span><a id="line.292"></a>
 <span class="sourceLineNo">293</span><a id="line.293">}</a>
