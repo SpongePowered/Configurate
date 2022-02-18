@@ -9,7 +9,7 @@ plugins {
     id "io.freefair.aggregate-javadoc-jar" version "6.4.1"
     id "net.kyori.indra.publishing.sonatype"
     id "net.kyori.indra.git"
-    id "org.ajoberstar.git-publish" version "3.0.1"
+    id "org.ajoberstar.git-publish" version "4.0.0"
     id "com.github.ben-manes.versions" version "0.42.0"
     id 'java-base'
 }
