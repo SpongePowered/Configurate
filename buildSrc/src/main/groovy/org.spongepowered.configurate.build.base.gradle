@@ -1,0 +1,18 @@
+import org.spongepowered.configurate.build.ConfigurateExtension
+
+plugins {
+    id 'eclipse'
+}
+
+def projectName = "configurate"
+
+def configurateExt = project.extensions.create(projectName, ConfigurateExtension, dependencies)
+configurateExt.autoValueVersion = "$autoValueVersion"
+
+eclipse {
+    project {
+        if (!project.name.startsWith(projectName)) {
+            name = "${projectName}-${project.name}"
+        }
+    }
+}
