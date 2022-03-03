@@ -171,15 +171,6 @@ dependencies {
 
 indra.checkstyle().set(checkstyleVersion)
 
-// Allow checkstyle only to be resolved from mavenLocal if set to a snapshot
-if (checkstyleVersion.endsWith("-SNAPSHOT")) {
-    repositories.mavenLocal {
-        content {
-            includeGroup("com.puppycrawl.tools")
-        }
-    }
-}
-
 def objects = project.objects
 tasks.withType(Checkstyle) {
     classpath = objects.fileCollection()

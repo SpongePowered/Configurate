@@ -16,6 +16,14 @@ dependencyResolutionManagement {
             url = "https://repo.spongepowered.org/repository/maven-public/"
             mavenContent { releasesOnly() }
         }
+        // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot
+        if (checkstyleVersion.endsWith("-SNAPSHOT")) {
+            mavenLocal {
+                content {
+                    includeGroup("com.puppycrawl.tools")
+                }
+            }
+        }
     }
 }
 
