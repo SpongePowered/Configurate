@@ -34,8 +34,8 @@ dependencies {
     api "gradle.plugin.org.cadixdev.gradle:licenser:0.6.1"
     api "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
     api "net.ltgt.gradle:gradle-nullaway-plugin:1.3.0"
-    api "me.champeau.gradle:japicmp-gradle-plugin:0.3.0"
+    api "me.champeau.gradle:japicmp-gradle-plugin:0.3.1"
     api "de.thetaphi:forbiddenapis:3.2"
     api "com.diffplug.gradle:goomph:3.35.0"
-    implementation "com.google.guava:guava:31.0.1-jre"
+    implementation "com.google.guava:guava:31.1-jre"
 }
