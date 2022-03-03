@@ -52,4 +52,5 @@ rootProject.name = "$prefix-parent"
 }
 
 includeBuild 'vendor'
+includeBuild 'build-logic'
 

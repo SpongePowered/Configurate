@@ -1,0 +1,12 @@
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        maven {
+            name = "sponge"
+            url = "https://repo.spongepowered.org/repository/maven-public/"
+            mavenContent { releasesOnly() }
+        }
+    }
+}
+
+rootProject.name = 'configurate-build-logic'
