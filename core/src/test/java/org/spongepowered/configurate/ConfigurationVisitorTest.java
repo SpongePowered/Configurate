@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-public class ConfigurationVisitorTest {
+class ConfigurationVisitorTest {
 
     private static final TestVisitor VISITOR = new TestVisitor();
 
@@ -112,7 +112,7 @@ public class ConfigurationVisitorTest {
         public void enterNode(final ConfigurationNode node, final StringBuilder state) {
             state.append(NODE_ENTER);
             if (node.key() != null) {
-                state.append("-").append(node.key()).append("-");
+                state.append('-').append(node.key()).append('-');
             }
         }
 

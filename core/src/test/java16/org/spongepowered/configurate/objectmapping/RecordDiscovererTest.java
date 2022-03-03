@@ -32,7 +32,7 @@ import java.net.URL;
 import java.util.Set;
 
 @SuppressWarnings("UnusedVariable") // set by object mapper
-public class RecordDiscovererTest {
+class RecordDiscovererTest {
 
     @ConfigSerializable
     @SuppressWarnings("UnusedVariable")

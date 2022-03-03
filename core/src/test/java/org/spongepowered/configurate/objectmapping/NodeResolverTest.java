@@ -30,7 +30,7 @@ import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-public class NodeResolverTest {
+class NodeResolverTest {
 
     // node key
 

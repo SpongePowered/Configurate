@@ -36,7 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class AbstractConfigurationLoaderTest {
+class AbstractConfigurationLoaderTest {
 
     @Test
     void testLoadNonexistentPath(final @TempDir Path tempDir) throws ConfigurateException {

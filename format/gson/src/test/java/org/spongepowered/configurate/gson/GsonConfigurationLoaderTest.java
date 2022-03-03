@@ -49,11 +49,11 @@ import java.nio.file.Path;
 /**
  * Basic sanity checks for the loader.
  */
-public class GsonConfigurationLoaderTest {
+class GsonConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL url = getClass().getResource("/example.json");
+        final URL url = this.getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
@@ -95,7 +95,7 @@ public class GsonConfigurationLoaderTest {
 
     @Test
     void testLoadingFileWithEmptyObject(final @TempDir Path tempDir) throws ConfigurateException {
-        final URL url = getClass().getResource("/emptyObject.json");
+        final URL url = this.getClass().getResource("/emptyObject.json");
         final Path tempFile = tempDir.resolve("text4.txt");
         final ConfigurationLoader<BasicConfigurationNode> loader = GsonConfigurationLoader.builder()
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))

@@ -48,11 +48,11 @@ import java.nio.file.Path;
 /**
  * Basic sanity checks for the loader.
  */
-public class JacksonConfigurationLoaderTest {
+class JacksonConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL url = getClass().getResource("/example.json");
+        final URL url = this.getClass().getResource("/example.json");
         final Path tempFile = tempDir.resolve("text1.txt");
         final ConfigurationLoader<? extends ConfigurationNode> loader = JacksonConfigurationLoader.builder()
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
@@ -84,12 +84,12 @@ public class JacksonConfigurationLoaderTest {
 
     @Test
     void testRoundtrippingLong(final @TempDir Path tempDir) throws ConfigurateException {
-        testRoundtripValue(tempDir, TEST_LONG_VAL);
+        this.testRoundtripValue(tempDir, TEST_LONG_VAL);
     }
 
     @Test
     void testRoundtripDouble(final @TempDir Path tempDir) throws ConfigurateException {
-        testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
+        this.testRoundtripValue(tempDir, TEST_DOUBLE_VAL);
     }
 
     @Test

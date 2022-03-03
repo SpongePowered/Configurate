@@ -187,10 +187,10 @@ tasks.withType(Checkstyle) {
 
 pmd {
     consoleOutput = true
-    // incrementalAnalysis.set(true)
+    incrementalAnalysis = true
     ruleSetConfig = resources.text.fromFile(rootProject.file(".pmd/rules.xml"))
     ruleSets.clear() // Remove default rule sets
-    toolVersion = "6.29.0"
+    toolVersion = "6.43.0"
 }
 
 // configure ktlint

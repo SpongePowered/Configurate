@@ -51,11 +51,11 @@ import java.util.Map;
  * Basic sanity checks for the loader.
  */
 @SuppressWarnings("UnusedVariable")
-public class HoconConfigurationLoaderTest {
+class HoconConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
-        final URL url = requireResource("example.conf");
+        final URL url = this.requireResource("example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
@@ -68,7 +68,7 @@ public class HoconConfigurationLoaderTest {
         assertEquals("Test node", testNode.comment());
         assertEquals("dog park", node.node("other", "location").raw());
         loader.save(node);
-        assertEquals(Resources.readLines(requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
+        assertEquals(Resources.readLines(this.requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
                 .readAllLines(saveTest, StandardCharsets.UTF_8));
     }
 
@@ -77,12 +77,12 @@ public class HoconConfigurationLoaderTest {
         final Path saveTo = tempDir.resolve("text2.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo)
-                .url(requireResource("splitline-comment-input.conf"))
+                .url(this.requireResource("splitline-comment-input.conf"))
                 .build();
         final CommentedConfigurationNode node = loader.load();
         loader.save(node);
 
-        assertEquals(Resources.readLines(requireResource("splitline-comment-output.conf"), StandardCharsets.UTF_8),
+        assertEquals(Resources.readLines(this.requireResource("splitline-comment-output.conf"), StandardCharsets.UTF_8),
                 Files.readAllLines(saveTo, StandardCharsets.UTF_8));
     }
 
@@ -97,14 +97,14 @@ public class HoconConfigurationLoaderTest {
         node.node("node").comment("I have a comment").node("party").set("now");
 
         loader.save(node);
-        assertEquals(Resources.readLines(requireResource("header.conf"), StandardCharsets.UTF_8),
+        assertEquals(Resources.readLines(this.requireResource("header.conf"), StandardCharsets.UTF_8),
                 Files.readAllLines(saveTo, StandardCharsets.UTF_8));
 
     }
 
     @Test
     void testBooleansNotShared(final @TempDir Path tempDir) throws IOException {
-        final URL url = requireResource("comments-test.conf");
+        final URL url = this.requireResource("comments-test.conf");
         final Path saveTo = tempDir.resolve("text4.txt");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(saveTo).url(url).build();
@@ -134,7 +134,7 @@ public class HoconConfigurationLoaderTest {
     @Test
     void testRoundtripAndMergeEmpty(final @TempDir Path tempDir) throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/44
-        final URL rsrc = requireResource("empty-values.conf");
+        final URL rsrc = this.requireResource("empty-values.conf");
         final Path output = tempDir.resolve("load-merge-empty.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(output)
@@ -150,7 +150,7 @@ public class HoconConfigurationLoaderTest {
     }
 
     static class OuterConfig {
-        static Class<OuterConfig> TYPE = OuterConfig.class;
+        static final Class<OuterConfig> TYPE = OuterConfig.class;
         @Setting
         private Section section = new Section();
     }
@@ -164,7 +164,7 @@ public class HoconConfigurationLoaderTest {
     @Test
     void testCreateEmptyObjectMappingSection(final @TempDir Path tempDir) throws IOException {
         // https://github.com/SpongePowered/Configurate/issues/40
-        final URL rsrc = requireResource("empty-section.conf");
+        final URL rsrc = this.requireResource("empty-section.conf");
         final Path output = tempDir.resolve("empty-section.conf");
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .defaultOptions(o -> o.shouldCopyDefaults(true))
@@ -179,7 +179,7 @@ public class HoconConfigurationLoaderTest {
 
     @Test
     void testCommentAtBeginningStripped() throws ConfigurateException {
-        final URL resource = requireResource("comments-test.conf");
+        final URL resource = this.requireResource("comments-test.conf");
 
         final CommentedConfigurationNode root = HoconConfigurationLoader.builder()
             .url(resource)

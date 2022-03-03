@@ -54,7 +54,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class TypeSerializersTest {
+class TypeSerializersTest {
 
     private <T> TypeSerializer<T> serializer(final TypeToken<T> type) {
         final @Nullable TypeSerializer<T> ret = TypeSerializerCollection.defaults().get(type);
@@ -71,7 +71,7 @@ public class TypeSerializersTest {
     @Test
     void testStringSerializer() throws SerializationException {
         final TypeToken<String> stringType = TypeToken.get(String.class);
-        final TypeSerializer<String> stringSerializer = serializer(stringType);
+        final TypeSerializer<String> stringSerializer = this.serializer(stringType);
         final BasicConfigurationNode node = BasicConfigurationNode.root().set("foobar");
 
         assertEquals("foobar", stringSerializer.deserialize(stringType.getType(), node));
@@ -85,11 +85,11 @@ public class TypeSerializersTest {
         final String[] trueEvaluating = new String[] {"true", "yes", "1", "t", "y"};
         final String[] falseEvaluating = new String[] {"false", "no", "0", "f", "n"};
         assertEquals(actual, Scalars.BOOLEAN.deserialize(actual));
-        for (String val : trueEvaluating) {
+        for (final String val : trueEvaluating) {
             assertEquals(true, Scalars.BOOLEAN.deserialize(val));
         }
 
-        for (String val : falseEvaluating) {
+        for (final String val : falseEvaluating) {
             assertEquals(false, Scalars.BOOLEAN.deserialize(val));
         }
     }
@@ -98,7 +98,7 @@ public class TypeSerializersTest {
     void testBooleanSerializer() throws SerializationException {
         final TypeToken<Boolean> booleanType = TypeToken.get(Boolean.class);
 
-        final TypeSerializer<Boolean> booleanSerializer = serializer(booleanType);
+        final TypeSerializer<Boolean> booleanSerializer = this.serializer(booleanType);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("direct").set(true);
         node.node("fromstring").set("true");
@@ -118,7 +118,7 @@ public class TypeSerializersTest {
     void testEnumValueSerializer() throws SerializationException {
         final TypeToken<TestEnum> enumType = TypeToken.get(TestEnum.class);
 
-        final TypeSerializer<TestEnum> enumSerializer = serializer(enumType);
+        final TypeSerializer<TestEnum> enumSerializer = this.serializer(enumType);
 
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("present_val").set("first");
@@ -139,7 +139,7 @@ public class TypeSerializersTest {
     @Test
     void testListSerializer() throws SerializationException {
         final TypeToken<List<String>> stringListType = new TypeToken<List<String>>() {};
-        final TypeSerializer<List<String>> stringListSerializer = serializer(stringListType);
+        final TypeSerializer<List<String>> stringListSerializer = this.serializer(stringListType);
         final BasicConfigurationNode value = BasicConfigurationNode.root();
         value.appendListNode().set("hi");
         value.appendListNode().set("there");
@@ -159,7 +159,7 @@ public class TypeSerializersTest {
     @Test
     void testSetSerializer() throws SerializationException {
         final TypeToken<Set<String>> stringListType = new TypeToken<Set<String>>() {};
-        final TypeSerializer<Set<String>> stringListSerializer = serializer(stringListType);
+        final TypeSerializer<Set<String>> stringListSerializer = this.serializer(stringListType);
         final BasicConfigurationNode value = BasicConfigurationNode.root();
         value.appendListNode().set("hi");
         value.appendListNode().set("there");
@@ -175,7 +175,7 @@ public class TypeSerializersTest {
         final List<BasicConfigurationNode> children = value.childrenList();
         // Test equality without expecting a specific order
         assertEquals(testSet.size(), children.size());
-        for (BasicConfigurationNode child : children) {
+        for (final BasicConfigurationNode child : children) {
             assertTrue(testSet.contains(child.getString()));
         }
     }
@@ -184,7 +184,7 @@ public class TypeSerializersTest {
     void testListSerializerPreservesEmptyList() throws SerializationException {
         final TypeToken<List<String>> listStringType = new TypeToken<List<String>>() {};
         final TypeSerializer<List<String>> listStringSerializer =
-                serializer(listStringType);
+                this.serializer(listStringType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
@@ -197,7 +197,7 @@ public class TypeSerializersTest {
     @SuppressWarnings("rawtypes")
     void testListRawTypes() {
         final TypeToken<List> rawType = TypeToken.get(List.class);
-        final TypeSerializer<List> serial = serializer(rawType);
+        final TypeSerializer<List> serial = this.serializer(rawType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
@@ -214,7 +214,7 @@ public class TypeSerializersTest {
     void testMapSerializer() throws SerializationException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
-                serializer(mapStringIntType);
+                this.serializer(mapStringIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
         value.node("fish").set(5);
@@ -237,7 +237,7 @@ public class TypeSerializersTest {
     void testInvalidMapValueTypes() throws SerializationException {
         final TypeToken<Map<TestEnum, Integer>> mapTestEnumIntType = new TypeToken<Map<TestEnum, Integer>>() {};
         final TypeSerializer<Map<TestEnum, Integer>> mapTestEnumIntSerializer =
-                serializer(mapTestEnumIntType);
+                this.serializer(mapTestEnumIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
         value.node("FIRST").set(5);
@@ -254,7 +254,7 @@ public class TypeSerializersTest {
     @Test
     void testMapSerializerRemovesDeletedKeys() throws SerializationException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
-        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer = serializer(mapStringIntType);
+        final TypeSerializer<Map<String, Integer>> mapStringIntSerializer = this.serializer(mapStringIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
         value.node("fish").set(5);
@@ -274,7 +274,7 @@ public class TypeSerializersTest {
     void testMapSerializerPreservesEmptyMap() throws SerializationException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
-                serializer(mapStringIntType);
+                this.serializer(mapStringIntType);
 
         final BasicConfigurationNode value = BasicConfigurationNode.root();
 
@@ -287,7 +287,7 @@ public class TypeSerializersTest {
     void testMapSerializerPreservesChildComments() throws SerializationException {
         final TypeToken<Map<String, Integer>> mapStringIntType = new TypeToken<Map<String, Integer>>() {};
         final TypeSerializer<Map<String, Integer>> mapStringIntSerializer =
-                serializer(mapStringIntType);
+                this.serializer(mapStringIntType);
 
         final CommentedConfigurationNode commentNode = CommentedConfigurationNode.root();
 
@@ -309,7 +309,7 @@ public class TypeSerializersTest {
     @Test
     void testAnnotatedObjectSerializer() throws SerializationException {
         final TypeToken<TestObject> testNodeType = TypeToken.get(TestObject.class);
-        final TypeSerializer<TestObject> testObjectSerializer = serializer(testNodeType);
+        final TypeSerializer<TestObject> testObjectSerializer = this.serializer(testNodeType);
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("int").set("42");
         node.node("name").set("Bob");
@@ -322,7 +322,7 @@ public class TypeSerializersTest {
     @Test
     void testUriSerializer() throws SerializationException {
         final TypeToken<URI> uriType = TypeToken.get(URI.class);
-        final TypeSerializer<URI> uriSerializer = serializer(uriType);
+        final TypeSerializer<URI> uriSerializer = this.serializer(uriType);
 
         final String uriString = "http://google.com";
         final URI testUri = URI.create(uriString);
@@ -339,7 +339,7 @@ public class TypeSerializersTest {
     @Test
     void testUrlSerializer() throws SerializationException, MalformedURLException {
         final TypeToken<URL> urlType = TypeToken.get(URL.class);
-        final TypeSerializer<URL> urlSerializer = serializer(urlType);
+        final TypeSerializer<URL> urlSerializer = this.serializer(urlType);
 
         final String urlString = "http://google.com";
         final URL testUrl = new URL(urlString);
@@ -356,7 +356,7 @@ public class TypeSerializersTest {
     @Test
     void testUuidSerializer() throws SerializationException {
         final TypeToken<UUID> uuidType = TypeToken.get(UUID.class);
-        final TypeSerializer<UUID> uuidSerializer = serializer(uuidType);
+        final TypeSerializer<UUID> uuidSerializer = this.serializer(uuidType);
 
         final UUID testUuid = UUID.randomUUID();
 
@@ -372,7 +372,7 @@ public class TypeSerializersTest {
     @Test
     void testPatternSerializer() throws SerializationException {
         final TypeToken<Pattern> patternType = TypeToken.get(Pattern.class);
-        final TypeSerializer<Pattern> patternSerializer = serializer(patternType);
+        final TypeSerializer<Pattern> patternSerializer = this.serializer(patternType);
 
         final Pattern testPattern = Pattern.compile("(na )+batman");
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root(ConfigurationOptions.defaults()
@@ -385,7 +385,7 @@ public class TypeSerializersTest {
     @Test
     void testCharSerializer() throws SerializationException {
         final TypeToken<Character> charType = TypeToken.get(Character.class);
-        final TypeSerializer<Character> charSerializer = serializer(charType);
+        final TypeSerializer<Character> charSerializer = this.serializer(charType);
 
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
 
@@ -405,7 +405,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializer() throws SerializationException {
         final TypeToken<String[]> arrayType = TypeToken.get(String[].class);
-        final TypeSerializer<String[]> arraySerializer = serializer(arrayType);
+        final TypeSerializer<String[]> arraySerializer = this.serializer(arrayType);
 
         final String[] testArray = new String[] {"hello", "world"};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -417,7 +417,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerBooleanPrimitive() throws SerializationException {
         final TypeToken<boolean[]> booleanArrayType = TypeToken.get(boolean[].class);
-        final TypeSerializer<boolean[]> booleanArraySerializer = serializer(booleanArrayType);
+        final TypeSerializer<boolean[]> booleanArraySerializer = this.serializer(booleanArrayType);
 
         final boolean[] testArray = new boolean[] {true, false, true, true, false};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -429,7 +429,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerBytePrimitive() throws SerializationException {
         final TypeToken<byte[]> byteArrayType = TypeToken.get(byte[].class);
-        final TypeSerializer<byte[]> byteArraySerializer = serializer(byteArrayType);
+        final TypeSerializer<byte[]> byteArraySerializer = this.serializer(byteArrayType);
 
         final byte[] testArray = new byte[] {1, 5, 3, -7, 9, 0};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -441,7 +441,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerCharPrimitive() throws SerializationException {
         final Class<char[]> charArrayType = char[].class;
-        final TypeSerializer<char[]> charArraySerializer = serializer(charArrayType);
+        final TypeSerializer<char[]> charArraySerializer = this.serializer(charArrayType);
 
         final char[] testArray = new char[] {'s', 'l', 'e', 'e', 'p'};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -453,7 +453,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerShortPrimitive() throws SerializationException {
         final Class<short[]> shortArrayType = short[].class;
-        final TypeSerializer<short[]> shortArraySerializer = serializer(shortArrayType);
+        final TypeSerializer<short[]> shortArraySerializer = this.serializer(shortArrayType);
 
         final short[] testArray = new short[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -465,7 +465,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerIntPrimitive() throws SerializationException {
         final Class<int[]> intArrayType = int[].class;
-        final TypeSerializer<int[]> intArraySerializer = serializer(intArrayType);
+        final TypeSerializer<int[]> intArraySerializer = this.serializer(intArrayType);
 
         final int[] testArray = new int[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -477,7 +477,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerLongPrimitive() throws SerializationException {
         final Class<long[]> longArrayType = long[].class;
-        final TypeSerializer<long[]> longArraySerializer = serializer(longArrayType);
+        final TypeSerializer<long[]> longArraySerializer = this.serializer(longArrayType);
 
         final long[] testArray = new long[] {1, 5, 3, 7, 9};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -489,7 +489,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerFloatPrimitive() throws SerializationException {
         final Class<float[]> floatArrayType = float[].class;
-        final TypeSerializer<float[]> floatArraySerializer = serializer(floatArrayType);
+        final TypeSerializer<float[]> floatArraySerializer = this.serializer(floatArrayType);
 
         final float[] testArray = new float[] {1.02f, 5.66f, 3.2f, 7.9f, 9f};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -501,7 +501,7 @@ public class TypeSerializersTest {
     @Test
     void testArraySerializerDoublePrimitive() throws SerializationException {
         final Class<double[]> doubleArrayType = double[].class;
-        final TypeSerializer<double[]> doubleArraySerializer = serializer(doubleArrayType);
+        final TypeSerializer<double[]> doubleArraySerializer = this.serializer(doubleArrayType);
 
         final double[] testArray = new double[] {1.02d, 5.66d, 3.2d, 7.9d, 9d};
         final BasicConfigurationNode serializeTo = BasicConfigurationNode.root();
@@ -513,7 +513,7 @@ public class TypeSerializersTest {
     @Test
     void testConfigurationNodeSerializer() throws SerializationException {
         final Class<ConfigurationNode> nodeType = ConfigurationNode.class;
-        final TypeSerializer<ConfigurationNode> nodeSerializer = serializer(nodeType);
+        final TypeSerializer<ConfigurationNode> nodeSerializer = this.serializer(nodeType);
         assertNotNull(nodeSerializer);
 
         final BasicConfigurationNode sourceNode = BasicConfigurationNode.root(n -> {
@@ -535,7 +535,7 @@ public class TypeSerializersTest {
 
     @Test
     void testPathSerializer() throws SerializationException {
-        final TypeSerializer<Path> pathSerializer = serializer(Path.class);
+        final TypeSerializer<Path> pathSerializer = this.serializer(Path.class);
         assertNotNull(pathSerializer);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root().set("test" + FileSystems.getDefault().getSeparator() + "file.txt");
@@ -550,7 +550,7 @@ public class TypeSerializersTest {
 
     @Test
     void testPathSerializerFromList() throws SerializationException {
-        final TypeSerializer<Path> pathSerializer = serializer(Path.class);
+        final TypeSerializer<Path> pathSerializer = this.serializer(Path.class);
         assertNotNull(pathSerializer);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root(n -> {
@@ -563,7 +563,7 @@ public class TypeSerializersTest {
 
     @Test
     void testFileSerializer() throws SerializationException {
-        final TypeSerializer<File> fileSerializer = serializer(File.class);
+        final TypeSerializer<File> fileSerializer = this.serializer(File.class);
         assertNotNull(fileSerializer);
 
         final BasicConfigurationNode source = BasicConfigurationNode.root().set("hello/world.png");

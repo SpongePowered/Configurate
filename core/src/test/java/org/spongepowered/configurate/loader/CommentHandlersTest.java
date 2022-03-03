@@ -34,7 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
-public class CommentHandlersTest {
+class CommentHandlersTest {
 
     @Test
     void testExtractBlockCommentHeader() throws IOException {

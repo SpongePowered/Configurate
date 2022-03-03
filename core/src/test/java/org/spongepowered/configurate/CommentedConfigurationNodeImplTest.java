@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
-public class CommentedConfigurationNodeImplTest {
+class CommentedConfigurationNodeImplTest {
 
     @Test
     void testCommentsTransferred() {

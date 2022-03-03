@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Tests for application of defaults
  */
-public class DefaultsTest {
+class DefaultsTest {
 
     public static final ConfigurationOptions IMPLICIT_OPTS = ConfigurationOptions.defaults()
             .implicitInitialization(true);
@@ -64,9 +64,9 @@ public class DefaultsTest {
         final BasicConfigurationNode node = BasicConfigurationNode.root(IMPLICIT_OPTS.shouldCopyDefaults(true));
         node.get(ImplicitDefaultsOnly.class);
 
-        assertPresentAndEmpty(node.node("my-strings"));
-        assertPresentAndEmpty(node.node("fun-times"));
-        assertPresentAndEmpty(node.node("items"));
+        this.assertPresentAndEmpty(node.node("my-strings"));
+        this.assertPresentAndEmpty(node.node("fun-times"));
+        this.assertPresentAndEmpty(node.node("items"));
     }
 
     private void assertPresentAndEmpty(final ConfigurationNode node) {

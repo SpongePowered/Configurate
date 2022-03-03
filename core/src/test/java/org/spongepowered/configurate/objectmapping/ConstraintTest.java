@@ -36,7 +36,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("NotNullFieldNotInitialized") // object mapper does initialization
-public class ConstraintTest {
+class ConstraintTest {
 
     // required //
 

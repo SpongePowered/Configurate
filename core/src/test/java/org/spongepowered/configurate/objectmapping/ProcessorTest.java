@@ -27,7 +27,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class ProcessorTest {
+class ProcessorTest {
 
     // Comments
 

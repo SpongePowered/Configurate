@@ -59,7 +59,7 @@ import java.util.stream.StreamSupport;
 /**
  * Unit tests to validate ConfigurateOps functions properly.
  */
-public final class ConfigurateOpsTests {
+final class ConfigurateOpsTests {
 
     private static void compareToJson(final ConfigurationNode node, final JsonElement element) throws IOException, ConfigurateException {
         final StringWriter configurate = new StringWriter();

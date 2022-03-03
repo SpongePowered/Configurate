@@ -29,7 +29,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 @SuppressWarnings("UnnecessaryParentheses") // for casting negative number literals
-public class NumericSerializersTest {
+class NumericSerializersTest {
 
     private <T> TypeSerializer<T> serializer(final Class<T> type) {
         final @Nullable TypeSerializer<T> ret = TypeSerializerCollection.defaults().get(type);
@@ -73,7 +73,7 @@ public class NumericSerializersTest {
 
     @Test
     void testByte() throws SerializationException {
-        final TypeSerializer<Byte> serializer = serializer(Byte.class);
+        final TypeSerializer<Byte> serializer = this.serializer(Byte.class);
 
         final byte b = (byte) 65;
 
@@ -108,7 +108,7 @@ public class NumericSerializersTest {
 
     @Test
     void testShort() throws SerializationException {
-        final TypeSerializer<Short> serializer = serializer(Short.class);
+        final TypeSerializer<Short> serializer = this.serializer(Short.class);
 
         final short b = (short) 32486;
 
@@ -145,7 +145,7 @@ public class NumericSerializersTest {
 
     @Test
     void testInt() throws Exception {
-        final TypeSerializer<Integer> serializer = serializer(Integer.class);
+        final TypeSerializer<Integer> serializer = this.serializer(Integer.class);
 
         final int i = 48888333;
 
@@ -188,7 +188,7 @@ public class NumericSerializersTest {
 
     @Test
     void testLong() throws Exception {
-        final TypeSerializer<Long> serializer = serializer(Long.class);
+        final TypeSerializer<Long> serializer = this.serializer(Long.class);
 
         final long i = 48888333494404L;
 
@@ -219,7 +219,7 @@ public class NumericSerializersTest {
 
     @Test
     void testFloat() throws Exception {
-        final TypeSerializer<Float> serializer = serializer(Float.class);
+        final TypeSerializer<Float> serializer = this.serializer(Float.class);
 
         final float i = 3.1415f;
 
@@ -247,7 +247,7 @@ public class NumericSerializersTest {
     // https://github.com/SpongePowered/Configurate/issues/198
     @Test
     void testFloatPrecision() throws SerializationException {
-        final TypeSerializer<Float> serializer = serializer(Float.class);
+        final TypeSerializer<Float> serializer = this.serializer(Float.class);
 
         final float expected = -34.050217f;
         final double expectedAsFloatAsDouble = -34.050217f;
@@ -265,7 +265,7 @@ public class NumericSerializersTest {
 
     @Test
     void testDouble() throws Exception {
-        final TypeSerializer<Double> serializer = serializer(Double.class);
+        final TypeSerializer<Double> serializer = this.serializer(Double.class);
 
         final double i = 3.1415e180d;
 
@@ -288,7 +288,7 @@ public class NumericSerializersTest {
 
     @Test
     void testFloatFromDoubleZeroes() throws Exception {
-        final TypeSerializer<Float> serializer = serializer(Float.class);
+        final TypeSerializer<Float> serializer = this.serializer(Float.class);
 
         this.node.set(0d);
         assertEquals(0f, serializer.deserialize(Float.class, this.node));

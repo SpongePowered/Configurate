@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("UnusedVariable") // test object mapper objects are not always read
-public class ObjectMapperTest {
+class ObjectMapperTest {
 
     @ConfigSerializable
     private static class TestObject {

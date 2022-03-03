@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.gson;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,7 +33,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
-public class JsonElementSerializerTest {
+class JsonElementSerializerTest {
 
     ConfigurationNode node() {
         return BasicConfigurationNode.root(GsonConfigurationLoader.DEFAULT_OPTIONS);
@@ -44,7 +45,7 @@ public class JsonElementSerializerTest {
 
     @Test
     void testDeserializeArray() throws SerializationException {
-        final ConfigurationNode source = node(n -> {
+        final ConfigurationNode source = this.node(n -> {
             n.appendListNode().set("one");
             n.appendListNode().set(2);
             n.appendListNode().act(c -> {
@@ -69,7 +70,7 @@ public class JsonElementSerializerTest {
         child.addProperty("colour", 0xFEFEFE);
         source.add(child);
 
-        final ConfigurationNode dest = node().set(source);
+        final ConfigurationNode dest = this.node().set(source);
         assertTrue(dest.isList());
 
         assertEquals("one", dest.node(0).getString());
@@ -79,7 +80,7 @@ public class JsonElementSerializerTest {
 
     @Test
     void testDeserializeObject() throws SerializationException {
-        final ConfigurationNode source = node(n -> {
+        final ConfigurationNode source = this.node(n -> {
             n.node("yes").set("no");
             n.node("eee").set("ffff");
             n.node("a number").set(4.45f);
@@ -100,7 +101,7 @@ public class JsonElementSerializerTest {
         source.addProperty("eee", "ffff");
         source.addProperty("a number", 4.45f);
 
-        final ConfigurationNode result = node().set(source);
+        final ConfigurationNode result = this.node().set(source);
 
         assertEquals("no", result.node("yes").raw());
         assertEquals("ffff", result.node("eee").raw());
@@ -119,7 +120,7 @@ public class JsonElementSerializerTest {
 
     @Test
     void testDeserializeString() throws SerializationException {
-        final @Nullable JsonElement string = node().set("meow").get(JsonElement.class);
+        final @Nullable JsonElement string = this.node().set("meow").get(JsonElement.class);
 
         assertNotNull(string);
         assertEquals("meow", string.getAsString());
@@ -127,29 +128,29 @@ public class JsonElementSerializerTest {
 
     @Test
     void testSerializeString() throws SerializationException {
-        final ConfigurationNode node = node().set(new JsonPrimitive("meow"));
+        final ConfigurationNode node = this.node().set(new JsonPrimitive("meow"));
 
         assertEquals("meow", node.raw());
     }
 
     @Test
     void testDeserializeBoolean() throws SerializationException {
-        final @Nullable JsonElement bool = node().set(false).get(JsonElement.class);
+        final @Nullable JsonElement bool = this.node().set(false).get(JsonElement.class);
 
         assertNotNull(bool);
-        assertEquals(false, bool.getAsBoolean());
+        assertFalse(bool.getAsBoolean());
     }
 
     @Test
     void testSerializeBoolean() throws SerializationException {
-        final ConfigurationNode node = node().set(new JsonPrimitive(false));
+        final ConfigurationNode node = this.node().set(new JsonPrimitive(false));
 
         assertEquals(false, node.raw());
     }
 
     @Test
     void testDeserializeNumber() throws SerializationException {
-        final @Nullable JsonElement num = node().set(2.24d).get(JsonElement.class);
+        final @Nullable JsonElement num = this.node().set(2.24d).get(JsonElement.class);
 
         assertNotNull(num);
         assertEquals(2.24d, num.getAsNumber());
@@ -157,7 +158,7 @@ public class JsonElementSerializerTest {
 
     @Test
     void testSerializeNumber() throws SerializationException {
-        final ConfigurationNode node = node().set(new JsonPrimitive(2.24d));
+        final ConfigurationNode node = this.node().set(new JsonPrimitive(2.24d));
 
         assertEquals(2.24d, node.raw());
     }

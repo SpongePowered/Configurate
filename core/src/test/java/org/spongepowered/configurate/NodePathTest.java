@@ -21,7 +21,7 @@ import static org.spongepowered.configurate.NodePath.path;
 
 import org.junit.jupiter.api.Test;
 
-public class NodePathTest {
+class NodePathTest {
 
     @Test
     void testPlus() {

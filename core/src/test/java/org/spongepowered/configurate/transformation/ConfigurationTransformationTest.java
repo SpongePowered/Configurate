@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConfigurationTransformationTest {
+class ConfigurationTransformationTest {
 
     private static Object[] arr(final Object... path) {
         return path;
@@ -39,7 +39,7 @@ public class ConfigurationTransformationTest {
 
     @Test
     void testComparator() throws ConfigurateException {
-        doTestComparator(BasicConfigurationNode.root());
+        this.doTestComparator(BasicConfigurationNode.root());
     }
 
     private void doTestComparator(final ConfigurationNode node) throws ConfigurateException {
@@ -69,10 +69,10 @@ public class ConfigurationTransformationTest {
         };
 
         final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder();
-        for (NodePath path : unsortedKeys) {
+        for (final NodePath path : unsortedKeys) {
             build.addAction(path, action);
         }
-        for (NodePath path : unsortedKeys) {
+        for (final NodePath path : unsortedKeys) {
             final ConfigurationNode child = node.node(path);
             if (child.virtual()) {
                 child.raw("meaningless test value");
@@ -111,10 +111,10 @@ public class ConfigurationTransformationTest {
             return null;
         };
         final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder();
-        for (NodePath path : wildcardMatch) {
+        for (final NodePath path : wildcardMatch) {
             build.addAction(path, action);
         }
-        for (NodePath path : expectedResult) {
+        for (final NodePath path : expectedResult) {
             node.node(path).raw("lame");
         }
         build.build().apply(node);
@@ -141,7 +141,7 @@ public class ConfigurationTransformationTest {
         node.node("a").raw("something?");
         final List<String> actualOutput = new ArrayList<>();
         final List<String> expectedOutput = Arrays.asList("one", "two");
-        transformChained(actualOutput, node);
+        this.transformChained(actualOutput, node);
         assertEquals(expectedOutput, actualOutput);
     }
 
@@ -161,7 +161,7 @@ public class ConfigurationTransformationTest {
         final BasicConfigurationNode node = BasicConfigurationNode.root();
         node.node("sub", "key").raw("value");
         node.node("at-parent").raw("until-change");
-        transformMoveToBase(node);
+        this.transformMoveToBase(node);
         assertEquals("value", node.node("key").raw());
         assertNull(node.node("at-parent").raw());
     }
@@ -177,8 +177,8 @@ public class ConfigurationTransformationTest {
     void testMoveStrategy() throws ConfigurateException {
         final ConfigurationTransformation.Builder build = ConfigurationTransformation.builder()
                 .addAction(path("one"), (inputPath, valueAtPath) -> arr("two"));
-        final BasicConfigurationNode overwritten = createMoveNode();
-        final BasicConfigurationNode merged = createMoveNode();
+        final BasicConfigurationNode overwritten = this.createMoveNode();
+        final BasicConfigurationNode merged = this.createMoveNode();
         build.moveStrategy(MoveStrategy.OVERWRITE).build().apply(overwritten);
         build.moveStrategy(MoveStrategy.MERGE).build().apply(merged);
 
@@ -211,7 +211,7 @@ public class ConfigurationTransformationTest {
         final BasicConfigurationNode target = BasicConfigurationNode.root();
         target.node("dummy").raw("whatever");
         final List<Integer> updatedVersions = new ArrayList<>();
-        buildVersionedTransformation(updatedVersions).apply(target);
+        this.buildVersionedTransformation(updatedVersions).apply(target);
         assertEquals(2, target.node("version").getInt());
         assertEquals(Arrays.asList(0, 1, 2), updatedVersions);
     }

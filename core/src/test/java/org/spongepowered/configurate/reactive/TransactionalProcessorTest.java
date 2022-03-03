@@ -23,7 +23,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 
-public class TransactionalProcessorTest {
+class TransactionalProcessorTest {
 
     private <V> Processor.TransactionalIso<V> create() {
         return Processor.createTransactional(Runnable::run);
@@ -31,7 +31,7 @@ public class TransactionalProcessorTest {
 
     @Test
     void testTransaction() {
-        final Processor.TransactionalIso<String> proc = create();
+        final Processor.TransactionalIso<String> proc = this.create();
         final SubscriberTransactionalTest subject = new SubscriberTransactionalTest();
 
         proc.subscribe(subject);
@@ -42,7 +42,7 @@ public class TransactionalProcessorTest {
 
     @Test
     void testFailureRollsBack() {
-        final Processor.TransactionalIso<String> proc = create();
+        final Processor.TransactionalIso<String> proc = this.create();
         final SubscriberTransactionalTest subject = new SubscriberTransactionalTest();
 
         proc.subscribe(subject);
@@ -55,7 +55,7 @@ public class TransactionalProcessorTest {
 
     @Test
     void testFailurePreventsCommits() {
-        final Processor.TransactionalIso<String> proc = create();
+        final Processor.TransactionalIso<String> proc = this.create();
         final SubscriberTransactionalTest subject1 = new SubscriberTransactionalTest();
         final SubscriberTransactionalTest subject2 = new SubscriberTransactionalTest();
         proc.subscribe(subject1);

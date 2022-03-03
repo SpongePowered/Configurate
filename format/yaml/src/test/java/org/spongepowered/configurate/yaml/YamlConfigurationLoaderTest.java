@@ -42,11 +42,11 @@ import java.util.stream.Collectors;
 /**
  * Basic sanity checks for the loader.
  */
-public class YamlConfigurationLoaderTest {
+class YamlConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading() throws ConfigurateException {
-        final URL url = getClass().getResource("/example.yml");
+        final URL url = this.getClass().getResource("/example.yml");
         final ConfigurationLoader<CommentedConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
@@ -73,7 +73,7 @@ public class YamlConfigurationLoaderTest {
             });
         });
 
-        final URL url = getClass().getResource("/tab-example.yml");
+        final URL url = this.getClass().getResource("/tab-example.yml");
         final ConfigurationLoader<CommentedConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
@@ -102,7 +102,7 @@ public class YamlConfigurationLoaderTest {
 
         loader.save(node);
 
-        assertEquals(readLines(getClass().getResource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
+        assertEquals(readLines(this.getClass().getResource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
     }
 
     private static List<String> readLines(final URL source) throws IOException {

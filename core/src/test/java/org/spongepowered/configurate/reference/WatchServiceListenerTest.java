@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class WatchServiceListenerTest {
+class WatchServiceListenerTest {
 
     private static @MonotonicNonNull WatchServiceListener listener;
 

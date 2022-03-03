@@ -41,11 +41,11 @@ import java.util.Map;
 /**
  * Basic sanity checks for the loader.
  */
-public class XmlConfigurationLoaderTest {
+class XmlConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL url = getClass().getResource("/example.xml");
+        final URL url = this.getClass().getResource("/example.xml");
         final Path saveTest = tempDir.resolve("text1.txt");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
@@ -80,7 +80,7 @@ public class XmlConfigurationLoaderTest {
         assertTrue(secondNode.isList());
 
         final List<AttributedConfigurationNode> subNodes = secondNode.childrenList();
-        for (AttributedConfigurationNode subNode : subNodes) {
+        for (final AttributedConfigurationNode subNode : subNodes) {
             if (subNode.tagName().equals("heading")) {
                 assertEquals("true", subNode.attribute("bold"));
             }
@@ -93,7 +93,7 @@ public class XmlConfigurationLoaderTest {
 
     @Test
     void testExplicitTypes(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL url = getClass().getResource("/example2.xml");
+        final URL url = this.getClass().getResource("/example2.xml");
         final Path saveTest = tempDir.resolve("text2.txt");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
@@ -124,7 +124,7 @@ public class XmlConfigurationLoaderTest {
 
     @Test
     void testComments(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL url = getClass().getResource("/example3.xml");
+        final URL url = this.getClass().getResource("/example3.xml");
         final Path saveTest = tempDir.resolve("text3.txt");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()
@@ -147,7 +147,7 @@ public class XmlConfigurationLoaderTest {
 
     @Test
     void testCommentsRoundtrip(final @TempDir Path tempDir) throws IOException, ConfigurateException {
-        final URL original = getClass().getResource("/example3.xml");
+        final URL original = this.getClass().getResource("/example3.xml");
         final Path destination = tempDir.resolve("test3-roundtrip.xml");
 
         final XmlConfigurationLoader loader = XmlConfigurationLoader.builder()

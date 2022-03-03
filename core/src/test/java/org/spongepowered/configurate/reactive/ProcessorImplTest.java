@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class ProcessorImplTest {
+class ProcessorImplTest {
 
     /**
      * Create a single-threaded processor for testing purposes.
@@ -37,7 +37,7 @@ public class ProcessorImplTest {
     @Test
     void testSubmission() {
         final String[] result = new String[1];
-        final Processor.Iso<String> proc = create();
+        final Processor.Iso<String> proc = this.create();
         proc.subscribe(item -> {
             result[0] = item;
         });
@@ -49,7 +49,7 @@ public class ProcessorImplTest {
     void testUnsubscribe() {
         final String[] result = new String[1];
         final boolean[] closed = new boolean[1];
-        final Processor.Iso<String> proc = create();
+        final Processor.Iso<String> proc = this.create();
         final Disposable disp = proc.subscribe(new Subscriber<String>() {
             @Override
             public void submit(final String item) {
@@ -71,7 +71,7 @@ public class ProcessorImplTest {
     @Test
     void testClose() {
         final boolean[] result = new boolean[1];
-        final Processor.Iso<String> proc = create();
+        final Processor.Iso<String> proc = this.create();
         proc.subscribe(new Subscriber<String>() {
             @Override
             public void submit(final String item) {
@@ -91,7 +91,7 @@ public class ProcessorImplTest {
 
     @Test
     void testCloseIfUnsubscribed() {
-        final Processor.Iso<Boolean> proc = create();
+        final Processor.Iso<Boolean> proc = this.create();
 
         final Disposable disp = proc.subscribe(x -> {});
         assertFalse(proc.closeIfUnsubscribed());
@@ -105,7 +105,7 @@ public class ProcessorImplTest {
     @Test
     void testMap() {
         final String[] items = new String[2];
-        final Processor.Iso<String> orig = create();
+        final Processor.Iso<String> orig = this.create();
         final Publisher<String> mapped = orig.map(x -> "2" + x);
         orig.subscribe(item -> items[0] = item);
         mapped.subscribe(item -> items[1] = item);
@@ -118,7 +118,7 @@ public class ProcessorImplTest {
     @Test
     void testErrorCloses() {
         final int[] callCount = new int[1];
-        final Processor.Iso<String> subject = create();
+        final Processor.Iso<String> subject = this.create();
         final RuntimeException testExc = new RuntimeException();
 
         subject.subscribe(new Subscriber<String>() {
@@ -147,7 +147,7 @@ public class ProcessorImplTest {
     @Test
     void testMappedUnsubscribedOnEmpty() {
         final String[] items = new String[2];
-        final Processor.Iso<String> orig = create();
+        final Processor.Iso<String> orig = this.create();
         final Publisher<String> mapped = orig.map(x -> "2" + x);
 
         // initial state of unsubscribed
@@ -176,7 +176,7 @@ public class ProcessorImplTest {
 
     @Test
     void testFallbackHandler() {
-        final Processor.Iso<String> handler = create();
+        final Processor.Iso<String> handler = this.create();
         final String[] values = new String[2];
 
         handler.fallbackHandler(val -> values[0] = val);

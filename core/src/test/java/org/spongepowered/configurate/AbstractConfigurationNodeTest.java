@@ -44,7 +44,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-public class AbstractConfigurationNodeTest {
+class AbstractConfigurationNodeTest {
 
     @Test
     void testUnattachedNodesTemporary() {

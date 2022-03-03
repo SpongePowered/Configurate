@@ -29,12 +29,12 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-public class GuiceObjectMapperTest {
+class GuiceObjectMapperTest {
 
     private static class TestModule extends AbstractModule {
         @Override
         protected void configure() {
-            bind(String.class).toInstance("test value");
+            this.bind(String.class).toInstance("test value");
         }
     }
 

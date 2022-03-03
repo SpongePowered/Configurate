@@ -47,7 +47,7 @@ import java.util.Arrays;
 import java.util.PrimitiveIterator;
 import java.util.stream.IntStream;
 
-public class DfuSerializersTest {
+class DfuSerializersTest {
 
     private static final TypeToken<Vector3i> VEC3I_TYPE = TypeToken.get(Vector3i.class);
     private static final Codec<Vector3i> VEC3I_CODEC = Codec.INT_STREAM.xmap(stream -> {
@@ -107,7 +107,7 @@ public class DfuSerializersTest {
             Streams.write(out.result().orElseThrow(() -> new RuntimeException("No result present!")), writer);
         }
 
-        assertLinesMatch(Resources.readLines(getClass().getResource("test-serialize-codec.json"), StandardCharsets.UTF_8),
+        assertLinesMatch(Resources.readLines(this.getClass().getResource("test-serialize-codec.json"), StandardCharsets.UTF_8),
                 Arrays.asList(buffer.toString().split("\n")));
 
     }

@@ -28,7 +28,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import java.util.Arrays;
 import java.util.List;
 
-public class TypeSerializerCollectionTest {
+class TypeSerializerCollectionTest {
 
     @Test
     void testResolveWildcard() throws SerializationException {

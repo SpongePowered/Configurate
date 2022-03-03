@@ -88,7 +88,7 @@ public enum CommentHandlers implements CommentHandler {
     public static @Nullable String extractComment(final BufferedReader reader,
             final Iterable<CommentHandler> allowedHeaderTypes) throws IOException {
         reader.mark(READAHEAD_LEN);
-        for (CommentHandler handler : allowedHeaderTypes) {
+        for (final CommentHandler handler : allowedHeaderTypes) {
             final @Nullable String comment = handler.extractHeader(reader);
             if (comment == null) {
                 reader.reset();
@@ -122,15 +122,15 @@ public enum CommentHandlers implements CommentHandler {
             if (line == null) {
                 return null;
             }
-            if (handleSingleLine(build, line)) {
+            if (this.handleSingleLine(build, line)) {
                 for (line = reader.readLine(); line != null; line = reader.readLine()) {
-                    if (!handleSingleLine(build, line)) {
+                    if (!this.handleSingleLine(build, line)) {
                         break;
                     }
                 }
             }
             line = reader.readLine();
-            if (!(line == null || line.trim().isEmpty())) { // Require a blank line after a comment to make it a header
+            if (!(line == null || Strings.isBlank(line))) { // Require a blank line after a comment to make it a header
                 return null;
             }
 
@@ -173,7 +173,7 @@ public enum CommentHandlers implements CommentHandler {
         public Stream<String> toComment(final Stream<String> lines) {
             final Stream.Builder<String> build = Stream.builder();
             boolean first = true;
-            for (Iterator<String> it = lines.iterator(); it.hasNext();) {
+            for (final Iterator<String> it = lines.iterator(); it.hasNext();) {
                 final String next = it.next();
                 if (first) {
                     if (!it.hasNext()) {

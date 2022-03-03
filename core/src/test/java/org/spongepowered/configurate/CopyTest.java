@@ -27,7 +27,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Arrays;
 
-public class CopyTest {
+class CopyTest {
 
     @Test
     void testSimpleCopy() throws SerializationException {

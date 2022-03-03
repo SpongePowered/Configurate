@@ -37,7 +37,7 @@ import java.lang.reflect.TypeVariable;
 import java.util.AbstractCollection;
 import java.util.Collection;
 
-public class TypesTest {
+class TypesTest {
 
     @Test
     void testObjectNoSuperclasses() {
