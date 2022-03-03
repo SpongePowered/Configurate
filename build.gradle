@@ -10,7 +10,6 @@ plugins {
     id "net.kyori.indra.publishing.sonatype"
     id "net.kyori.indra.git"
     id "org.ajoberstar.git-publish" version "3.0.1"
-    id "com.github.ben-manes.versions" version "0.42.0"
     id 'java-base'
 }
 
@@ -70,9 +69,4 @@ gitPublish {
         include("**/") // include everything in directories
         exclude("/*.html")
     }
-}
-
-tasks.named('dependencyUpdates') {
-    gradleReleaseChannel = "current"
-    revision = "release"
 }
