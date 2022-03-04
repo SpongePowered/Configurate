@@ -299,7 +299,7 @@
 <span class="sourceLineNo">290</span><a id="line.290">        return Collector.of(() -&gt; this, (node, entry) -&gt; {</a>
 <span class="sourceLineNo">291</span><a id="line.291">            try {</a>
 <span class="sourceLineNo">292</span><a id="line.292">                node.node(entry.getKey()).set(valueType, entry.getValue());</a>
-<span class="sourceLineNo">293</span><a id="line.293">            } catch (SerializationException e) {</a>
+<span class="sourceLineNo">293</span><a id="line.293">            } catch (final SerializationException e) {</a>
 <span class="sourceLineNo">294</span><a id="line.294">                throw new IllegalArgumentException(e);</a>
 <span class="sourceLineNo">295</span><a id="line.295">            }</a>
 <span class="sourceLineNo">296</span><a id="line.296">        }, ConfigurationNode::mergeFrom);</a>
@@ -319,7 +319,7 @@
 <span class="sourceLineNo">310</span><a id="line.310">        return Collector.of(() -&gt; this, (node, entry) -&gt; {</a>
 <span class="sourceLineNo">311</span><a id="line.311">            try {</a>
 <span class="sourceLineNo">312</span><a id="line.312">                node.node(entry.getKey()).set(valueType, entry.getValue());</a>
-<span class="sourceLineNo">313</span><a id="line.313">            } catch (SerializationException e) {</a>
+<span class="sourceLineNo">313</span><a id="line.313">            } catch (final SerializationException e) {</a>
 <span class="sourceLineNo">314</span><a id="line.314">                throw new IllegalArgumentException(e);</a>
 <span class="sourceLineNo">315</span><a id="line.315">            }</a>
 <span class="sourceLineNo">316</span><a id="line.316">        }, ConfigurationNode::mergeFrom);</a>
@@ -339,7 +339,7 @@
 <span class="sourceLineNo">330</span><a id="line.330">        return Collector.of(() -&gt; this, (node, value) -&gt; {</a>
 <span class="sourceLineNo">331</span><a id="line.331">            try {</a>
 <span class="sourceLineNo">332</span><a id="line.332">                node.appendListNode().set(valueType, value);</a>
-<span class="sourceLineNo">333</span><a id="line.333">            } catch (SerializationException e) {</a>
+<span class="sourceLineNo">333</span><a id="line.333">            } catch (final SerializationException e) {</a>
 <span class="sourceLineNo">334</span><a id="line.334">                throw new IllegalArgumentException(e);</a>
 <span class="sourceLineNo">335</span><a id="line.335">            }</a>
 <span class="sourceLineNo">336</span><a id="line.336">        }, ConfigurationNode::mergeFrom);</a>
@@ -359,7 +359,7 @@
 <span class="sourceLineNo">350</span><a id="line.350">        return Collector.of(() -&gt; this, (node, value) -&gt; {</a>
 <span class="sourceLineNo">351</span><a id="line.351">            try {</a>
 <span class="sourceLineNo">352</span><a id="line.352">                node.appendListNode().set(valueType, value);</a>
-<span class="sourceLineNo">353</span><a id="line.353">            } catch (SerializationException e) {</a>
+<span class="sourceLineNo">353</span><a id="line.353">            } catch (final SerializationException e) {</a>
 <span class="sourceLineNo">354</span><a id="line.354">                throw new IllegalArgumentException(e);</a>
 <span class="sourceLineNo">355</span><a id="line.355">            }</a>
 <span class="sourceLineNo">356</span><a id="line.356">        }, ConfigurationNode::mergeFrom);</a>
@@ -463,8 +463,8 @@
 <span class="sourceLineNo">454</span><a id="line.454">     * @since 4.0.0</a>
 <span class="sourceLineNo">455</span><a id="line.455">     */</a>
 <span class="sourceLineNo">456</span><a id="line.456">    @SuppressWarnings("unchecked") // type token</a>
-<span class="sourceLineNo">457</span><a id="line.457">    default &lt;V&gt; @Nullable V get(TypeToken&lt;V&gt; type) throws SerializationException {</a>
-<span class="sourceLineNo">458</span><a id="line.458">        return (V) get(type.getType());</a>
+<span class="sourceLineNo">457</span><a id="line.457">    default &lt;V&gt; @Nullable V get(final TypeToken&lt;V&gt; type) throws SerializationException {</a>
+<span class="sourceLineNo">458</span><a id="line.458">        return (V) this.get(type.getType());</a>
 <span class="sourceLineNo">459</span><a id="line.459">    }</a>
 <span class="sourceLineNo">460</span><a id="line.460"></a>
 <span class="sourceLineNo">461</span><a id="line.461">    /**</a>
@@ -484,8 +484,8 @@
 <span class="sourceLineNo">475</span><a id="line.475">     * @since 4.0.0</a>
 <span class="sourceLineNo">476</span><a id="line.476">     */</a>
 <span class="sourceLineNo">477</span><a id="line.477">    @SuppressWarnings("unchecked") // type is verified by the token</a>
-<span class="sourceLineNo">478</span><a id="line.478">    default &lt;V&gt; V get(TypeToken&lt;V&gt; type, V def) throws SerializationException {</a>
-<span class="sourceLineNo">479</span><a id="line.479">        return (V) get(type.getType(), def);</a>
+<span class="sourceLineNo">478</span><a id="line.478">    default &lt;V&gt; V get(final TypeToken&lt;V&gt; type, final V def) throws SerializationException {</a>
+<span class="sourceLineNo">479</span><a id="line.479">        return (V) this.get(type.getType(), def);</a>
 <span class="sourceLineNo">480</span><a id="line.480">    }</a>
 <span class="sourceLineNo">481</span><a id="line.481"></a>
 <span class="sourceLineNo">482</span><a id="line.482">    /**</a>
@@ -506,8 +506,8 @@
 <span class="sourceLineNo">497</span><a id="line.497">     * @since 4.0.0</a>
 <span class="sourceLineNo">498</span><a id="line.498">     */</a>
 <span class="sourceLineNo">499</span><a id="line.499">    @SuppressWarnings("unchecked") // type is verified by the token</a>
-<span class="sourceLineNo">500</span><a id="line.500">    default &lt;V&gt; V get(TypeToken&lt;V&gt; type, Supplier&lt;V&gt; defSupplier) throws SerializationException {</a>
-<span class="sourceLineNo">501</span><a id="line.501">        return (V) get(type.getType(), defSupplier);</a>
+<span class="sourceLineNo">500</span><a id="line.500">    default &lt;V&gt; V get(final TypeToken&lt;V&gt; type, final Supplier&lt;V&gt; defSupplier) throws SerializationException {</a>
+<span class="sourceLineNo">501</span><a id="line.501">        return (V) this.get(type.getType(), defSupplier);</a>
 <span class="sourceLineNo">502</span><a id="line.502">    }</a>
 <span class="sourceLineNo">503</span><a id="line.503"></a>
 <span class="sourceLineNo">504</span><a id="line.504">    /**</a>
@@ -525,8 +525,8 @@
 <span class="sourceLineNo">516</span><a id="line.516">     * @since 4.0.0</a>
 <span class="sourceLineNo">517</span><a id="line.517">     */</a>
 <span class="sourceLineNo">518</span><a id="line.518">    @SuppressWarnings("unchecked") // type is verified by the class parameter</a>
-<span class="sourceLineNo">519</span><a id="line.519">    default &lt;V&gt; @Nullable V get(Class&lt;V&gt; type) throws SerializationException {</a>
-<span class="sourceLineNo">520</span><a id="line.520">        return (V) get((Type) type);</a>
+<span class="sourceLineNo">519</span><a id="line.519">    default &lt;V&gt; @Nullable V get(final Class&lt;V&gt; type) throws SerializationException {</a>
+<span class="sourceLineNo">520</span><a id="line.520">        return (V) this.get((Type) type);</a>
 <span class="sourceLineNo">521</span><a id="line.521">    }</a>
 <span class="sourceLineNo">522</span><a id="line.522"></a>
 <span class="sourceLineNo">523</span><a id="line.523">    /**</a>
@@ -546,8 +546,8 @@
 <span class="sourceLineNo">537</span><a id="line.537">     * @since 4.0.0</a>
 <span class="sourceLineNo">538</span><a id="line.538">     */</a>
 <span class="sourceLineNo">539</span><a id="line.539">    @SuppressWarnings("unchecked") // type is verified by the class parameter</a>
-<span class="sourceLineNo">540</span><a id="line.540">    default &lt;V&gt; V get(Class&lt;V&gt; type, V def) throws SerializationException {</a>
-<span class="sourceLineNo">541</span><a id="line.541">        return (V) get((Type) type, def);</a>
+<span class="sourceLineNo">540</span><a id="line.540">    default &lt;V&gt; V get(final Class&lt;V&gt; type, final V def) throws SerializationException {</a>
+<span class="sourceLineNo">541</span><a id="line.541">        return (V) this.get((Type) type, def);</a>
 <span class="sourceLineNo">542</span><a id="line.542">    }</a>
 <span class="sourceLineNo">543</span><a id="line.543"></a>
 <span class="sourceLineNo">544</span><a id="line.544">    /**</a>
@@ -568,8 +568,8 @@
 <span class="sourceLineNo">559</span><a id="line.559">     * @since 4.0.0</a>
 <span class="sourceLineNo">560</span><a id="line.560">     */</a>
 <span class="sourceLineNo">561</span><a id="line.561">    @SuppressWarnings("unchecked") // type is verified by the class parameter</a>
-<span class="sourceLineNo">562</span><a id="line.562">    default &lt;V&gt; V get(Class&lt;V&gt; type, Supplier&lt;V&gt; defSupplier) throws SerializationException {</a>
-<span class="sourceLineNo">563</span><a id="line.563">        return (V) get((Type) type, defSupplier);</a>
+<span class="sourceLineNo">562</span><a id="line.562">    default &lt;V&gt; V get(final Class&lt;V&gt; type, final Supplier&lt;V&gt; defSupplier) throws SerializationException {</a>
+<span class="sourceLineNo">563</span><a id="line.563">        return (V) this.get((Type) type, defSupplier);</a>
 <span class="sourceLineNo">564</span><a id="line.564">    }</a>
 <span class="sourceLineNo">565</span><a id="line.565"></a>
 <span class="sourceLineNo">566</span><a id="line.566">    /**</a>
@@ -602,139 +602,139 @@
 <span class="sourceLineNo">593</span><a id="line.593">     *                                requested type</a>
 <span class="sourceLineNo">594</span><a id="line.594">     * @since 4.0.0</a>
 <span class="sourceLineNo">595</span><a id="line.595">     */</a>
-<span class="sourceLineNo">596</span><a id="line.596">    default Object get(Type type, Object def) throws SerializationException {</a>
-<span class="sourceLineNo">597</span><a id="line.597">        final @Nullable Object value = get(type);</a>
-<span class="sourceLineNo">598</span><a id="line.598">        return value == null ? storeDefault(this, type, def) : value;</a>
-<span class="sourceLineNo">599</span><a id="line.599">    }</a>
-<span class="sourceLineNo">600</span><a id="line.600"></a>
-<span class="sourceLineNo">601</span><a id="line.601">    /**</a>
-<span class="sourceLineNo">602</span><a id="line.602">     * Get the current value associated with this node.</a>
-<span class="sourceLineNo">603</span><a id="line.603">     *</a>
-<span class="sourceLineNo">604</span><a id="line.604">     * &lt;p&gt;This method will attempt to deserialize the node's value to the</a>
-<span class="sourceLineNo">605</span><a id="line.605">     * provided {@link Type} using a configured {@link TypeSerializer} for</a>
-<span class="sourceLineNo">606</span><a id="line.606">     * the given type, or casting if no type serializer is found.&lt;/p&gt;</a>
-<span class="sourceLineNo">607</span><a id="line.607">     *</a>
-<span class="sourceLineNo">608</span><a id="line.608">     * @param type the type to deserialize to</a>
-<span class="sourceLineNo">609</span><a id="line.609">     * @param defSupplier the function that will be called to calculate a</a>
-<span class="sourceLineNo">610</span><a id="line.610">     *                    default value only if there is no existing value of</a>
-<span class="sourceLineNo">611</span><a id="line.611">     *                    the correct type</a>
-<span class="sourceLineNo">612</span><a id="line.612">     * @return the value if of the proper type, else {@code def}</a>
-<span class="sourceLineNo">613</span><a id="line.613">     * @throws SerializationException if the value fails to be converted to the</a>
-<span class="sourceLineNo">614</span><a id="line.614">     *                                requested type</a>
-<span class="sourceLineNo">615</span><a id="line.615">     * @since 4.0.0</a>
-<span class="sourceLineNo">616</span><a id="line.616">     */</a>
-<span class="sourceLineNo">617</span><a id="line.617">    default Object get(Type type, Supplier&lt;?&gt; defSupplier) throws SerializationException {</a>
-<span class="sourceLineNo">618</span><a id="line.618">        final @Nullable Object value = get(type);</a>
-<span class="sourceLineNo">619</span><a id="line.619">        return value == null ? storeDefault(this, type, defSupplier.get()) : value;</a>
-<span class="sourceLineNo">620</span><a id="line.620">    }</a>
-<span class="sourceLineNo">621</span><a id="line.621"></a>
-<span class="sourceLineNo">622</span><a id="line.622">    /**</a>
-<span class="sourceLineNo">623</span><a id="line.623">     * If this node has list values, this function unwraps them and converts</a>
-<span class="sourceLineNo">624</span><a id="line.624">     * them to an appropriate type based on the provided function.</a>
-<span class="sourceLineNo">625</span><a id="line.625">     *</a>
-<span class="sourceLineNo">626</span><a id="line.626">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
-<span class="sourceLineNo">627</span><a id="line.627">     * with one value.&lt;/p&gt;</a>
-<span class="sourceLineNo">628</span><a id="line.628">     *</a>
-<span class="sourceLineNo">629</span><a id="line.629">     * @param type the expected type</a>
-<span class="sourceLineNo">630</span><a id="line.630">     * @param &lt;V&gt; the expected type</a>
-<span class="sourceLineNo">631</span><a id="line.631">     * @return an immutable copy of the values contained</a>
-<span class="sourceLineNo">632</span><a id="line.632">     * @throws SerializationException if any value fails to be converted to the</a>
-<span class="sourceLineNo">633</span><a id="line.633">     *                                requested type</a>
-<span class="sourceLineNo">634</span><a id="line.634">     * @since 4.0.0</a>
-<span class="sourceLineNo">635</span><a id="line.635">     */</a>
-<span class="sourceLineNo">636</span><a id="line.636">    default &lt;V&gt; @Nullable List&lt;V&gt; getList(TypeToken&lt;V&gt; type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">637</span><a id="line.637">        return get(makeListType(type));</a>
-<span class="sourceLineNo">638</span><a id="line.638">    }</a>
-<span class="sourceLineNo">639</span><a id="line.639"></a>
-<span class="sourceLineNo">640</span><a id="line.640">    /**</a>
-<span class="sourceLineNo">641</span><a id="line.641">     * If this node has list values, this function unwraps them and converts</a>
-<span class="sourceLineNo">642</span><a id="line.642">     * them to an appropriate type based on the provided function.</a>
-<span class="sourceLineNo">643</span><a id="line.643">     *</a>
-<span class="sourceLineNo">644</span><a id="line.644">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
-<span class="sourceLineNo">645</span><a id="line.645">     * with one value.&lt;/p&gt;</a>
-<span class="sourceLineNo">646</span><a id="line.646">     *</a>
-<span class="sourceLineNo">647</span><a id="line.647">     * @param elementType expected type</a>
-<span class="sourceLineNo">648</span><a id="line.648">     * @param def default value if no appropriate value is set</a>
-<span class="sourceLineNo">649</span><a id="line.649">     * @param &lt;V&gt; expected type</a>
-<span class="sourceLineNo">650</span><a id="line.650">     * @return an immutable copy of the values contained that could be</a>
-<span class="sourceLineNo">651</span><a id="line.651">     *         successfully converted, or {@code def} if no values could be</a>
-<span class="sourceLineNo">652</span><a id="line.652">     *         converted.</a>
-<span class="sourceLineNo">653</span><a id="line.653">     * @throws SerializationException if any value fails to be converted to the</a>
-<span class="sourceLineNo">654</span><a id="line.654">     *                                requested type</a>
-<span class="sourceLineNo">655</span><a id="line.655">     * @since 4.0.0</a>
-<span class="sourceLineNo">656</span><a id="line.656">     */</a>
-<span class="sourceLineNo">657</span><a id="line.657">    default &lt;V&gt; List&lt;V&gt; getList(TypeToken&lt;V&gt; elementType, List&lt;V&gt; def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">658</span><a id="line.658">        final TypeToken&lt;List&lt;V&gt;&gt; type = makeListType(elementType);</a>
-<span class="sourceLineNo">659</span><a id="line.659">        final List&lt;V&gt; ret = get(type, def);</a>
-<span class="sourceLineNo">660</span><a id="line.660">        return ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;</a>
-<span class="sourceLineNo">661</span><a id="line.661">    }</a>
-<span class="sourceLineNo">662</span><a id="line.662"></a>
-<span class="sourceLineNo">663</span><a id="line.663">    /**</a>
-<span class="sourceLineNo">664</span><a id="line.664">     * If this node has list values, this function unwraps them and converts</a>
-<span class="sourceLineNo">665</span><a id="line.665">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">596</span><a id="line.596">    Object get(Type type, Object def) throws SerializationException;</a>
+<span class="sourceLineNo">597</span><a id="line.597"></a>
+<span class="sourceLineNo">598</span><a id="line.598">    /**</a>
+<span class="sourceLineNo">599</span><a id="line.599">     * Get the current value associated with this node.</a>
+<span class="sourceLineNo">600</span><a id="line.600">     *</a>
+<span class="sourceLineNo">601</span><a id="line.601">     * &lt;p&gt;This method will attempt to deserialize the node's value to the</a>
+<span class="sourceLineNo">602</span><a id="line.602">     * provided {@link Type} using a configured {@link TypeSerializer} for</a>
+<span class="sourceLineNo">603</span><a id="line.603">     * the given type, or casting if no type serializer is found.&lt;/p&gt;</a>
+<span class="sourceLineNo">604</span><a id="line.604">     *</a>
+<span class="sourceLineNo">605</span><a id="line.605">     * @param type the type to deserialize to</a>
+<span class="sourceLineNo">606</span><a id="line.606">     * @param defSupplier the function that will be called to calculate a</a>
+<span class="sourceLineNo">607</span><a id="line.607">     *                    default value only if there is no existing value of</a>
+<span class="sourceLineNo">608</span><a id="line.608">     *                    the correct type</a>
+<span class="sourceLineNo">609</span><a id="line.609">     * @return the value if of the proper type, else {@code def}</a>
+<span class="sourceLineNo">610</span><a id="line.610">     * @throws SerializationException if the value fails to be converted to the</a>
+<span class="sourceLineNo">611</span><a id="line.611">     *                                requested type</a>
+<span class="sourceLineNo">612</span><a id="line.612">     * @since 4.0.0</a>
+<span class="sourceLineNo">613</span><a id="line.613">     */</a>
+<span class="sourceLineNo">614</span><a id="line.614">    Object get(Type type, Supplier&lt;?&gt; defSupplier) throws SerializationException;</a>
+<span class="sourceLineNo">615</span><a id="line.615"></a>
+<span class="sourceLineNo">616</span><a id="line.616">    /**</a>
+<span class="sourceLineNo">617</span><a id="line.617">     * If this node has list values, this function unwraps them and converts</a>
+<span class="sourceLineNo">618</span><a id="line.618">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">619</span><a id="line.619">     *</a>
+<span class="sourceLineNo">620</span><a id="line.620">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
+<span class="sourceLineNo">621</span><a id="line.621">     * with one value.&lt;/p&gt;</a>
+<span class="sourceLineNo">622</span><a id="line.622">     *</a>
+<span class="sourceLineNo">623</span><a id="line.623">     * @param type the expected type</a>
+<span class="sourceLineNo">624</span><a id="line.624">     * @param &lt;V&gt; the expected type</a>
+<span class="sourceLineNo">625</span><a id="line.625">     * @return an immutable copy of the values contained</a>
+<span class="sourceLineNo">626</span><a id="line.626">     * @throws SerializationException if any value fails to be converted to the</a>
+<span class="sourceLineNo">627</span><a id="line.627">     *                                requested type</a>
+<span class="sourceLineNo">628</span><a id="line.628">     * @since 4.0.0</a>
+<span class="sourceLineNo">629</span><a id="line.629">     */</a>
+<span class="sourceLineNo">630</span><a id="line.630">    default &lt;V&gt; @Nullable List&lt;V&gt; getList(final TypeToken&lt;V&gt; type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">631</span><a id="line.631">        return this.get(makeListType(type));</a>
+<span class="sourceLineNo">632</span><a id="line.632">    }</a>
+<span class="sourceLineNo">633</span><a id="line.633"></a>
+<span class="sourceLineNo">634</span><a id="line.634">    /**</a>
+<span class="sourceLineNo">635</span><a id="line.635">     * If this node has list values, this function unwraps them and converts</a>
+<span class="sourceLineNo">636</span><a id="line.636">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">637</span><a id="line.637">     *</a>
+<span class="sourceLineNo">638</span><a id="line.638">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
+<span class="sourceLineNo">639</span><a id="line.639">     * with one value.&lt;/p&gt;</a>
+<span class="sourceLineNo">640</span><a id="line.640">     *</a>
+<span class="sourceLineNo">641</span><a id="line.641">     * @param elementType expected type</a>
+<span class="sourceLineNo">642</span><a id="line.642">     * @param def default value if no appropriate value is set</a>
+<span class="sourceLineNo">643</span><a id="line.643">     * @param &lt;V&gt; expected type</a>
+<span class="sourceLineNo">644</span><a id="line.644">     * @return an immutable copy of the values contained that could be</a>
+<span class="sourceLineNo">645</span><a id="line.645">     *         successfully converted, or {@code def} if no values could be</a>
+<span class="sourceLineNo">646</span><a id="line.646">     *         converted.</a>
+<span class="sourceLineNo">647</span><a id="line.647">     * @throws SerializationException if any value fails to be converted to the</a>
+<span class="sourceLineNo">648</span><a id="line.648">     *                                requested type</a>
+<span class="sourceLineNo">649</span><a id="line.649">     * @since 4.0.0</a>
+<span class="sourceLineNo">650</span><a id="line.650">     */</a>
+<span class="sourceLineNo">651</span><a id="line.651">    default &lt;V&gt; List&lt;V&gt; getList(// @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">652</span><a id="line.652">        final TypeToken&lt;V&gt; elementType,</a>
+<span class="sourceLineNo">653</span><a id="line.653">        final List&lt;V&gt; def</a>
+<span class="sourceLineNo">654</span><a id="line.654">    ) throws SerializationException {</a>
+<span class="sourceLineNo">655</span><a id="line.655">        final TypeToken&lt;List&lt;V&gt;&gt; type = makeListType(elementType);</a>
+<span class="sourceLineNo">656</span><a id="line.656">        final List&lt;V&gt; ret = this.get(type, def);</a>
+<span class="sourceLineNo">657</span><a id="line.657">        return ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;</a>
+<span class="sourceLineNo">658</span><a id="line.658">    }</a>
+<span class="sourceLineNo">659</span><a id="line.659"></a>
+<span class="sourceLineNo">660</span><a id="line.660">    /**</a>
+<span class="sourceLineNo">661</span><a id="line.661">     * If this node has list values, this function unwraps them and converts</a>
+<span class="sourceLineNo">662</span><a id="line.662">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">663</span><a id="line.663">     *</a>
+<span class="sourceLineNo">664</span><a id="line.664">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
+<span class="sourceLineNo">665</span><a id="line.665">     * with one value.&lt;/p&gt;</a>
 <span class="sourceLineNo">666</span><a id="line.666">     *</a>
-<span class="sourceLineNo">667</span><a id="line.667">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
-<span class="sourceLineNo">668</span><a id="line.668">     * with one value.&lt;/p&gt;</a>
-<span class="sourceLineNo">669</span><a id="line.669">     *</a>
-<span class="sourceLineNo">670</span><a id="line.670">     * @param elementType expected type</a>
-<span class="sourceLineNo">671</span><a id="line.671">     * @param defSupplier function that will be called to calculate a default</a>
-<span class="sourceLineNo">672</span><a id="line.672">     *                    value only if there is no existing value of the</a>
-<span class="sourceLineNo">673</span><a id="line.673">     *                    correct type</a>
-<span class="sourceLineNo">674</span><a id="line.674">     * @param &lt;V&gt; expected type</a>
-<span class="sourceLineNo">675</span><a id="line.675">     * @return an immutable copy of the values contained that could be</a>
-<span class="sourceLineNo">676</span><a id="line.676">     *         successfully converted, or {@code def} if no values could be</a>
-<span class="sourceLineNo">677</span><a id="line.677">     *         converted.</a>
-<span class="sourceLineNo">678</span><a id="line.678">     * @throws SerializationException if any value fails to be converted to the</a>
-<span class="sourceLineNo">679</span><a id="line.679">     *                                requested type</a>
-<span class="sourceLineNo">680</span><a id="line.680">     * @since 4.0.0</a>
-<span class="sourceLineNo">681</span><a id="line.681">     */</a>
-<span class="sourceLineNo">682</span><a id="line.682">    // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">683</span><a id="line.683">    default &lt;V&gt; List&lt;V&gt; getList(TypeToken&lt;V&gt; elementType, Supplier&lt;List&lt;V&gt;&gt; defSupplier) throws SerializationException {</a>
-<span class="sourceLineNo">684</span><a id="line.684">        final TypeToken&lt;List&lt;V&gt;&gt; type = makeListType(elementType);</a>
-<span class="sourceLineNo">685</span><a id="line.685">        final List&lt;V&gt; ret = get(type, defSupplier);</a>
-<span class="sourceLineNo">686</span><a id="line.686">        return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;</a>
-<span class="sourceLineNo">687</span><a id="line.687">    }</a>
-<span class="sourceLineNo">688</span><a id="line.688"></a>
-<span class="sourceLineNo">689</span><a id="line.689">    /**</a>
-<span class="sourceLineNo">690</span><a id="line.690">     * If this node has list values, this function unwraps them and converts</a>
-<span class="sourceLineNo">691</span><a id="line.691">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">667</span><a id="line.667">     * @param elementType expected type</a>
+<span class="sourceLineNo">668</span><a id="line.668">     * @param defSupplier function that will be called to calculate a default</a>
+<span class="sourceLineNo">669</span><a id="line.669">     *                    value only if there is no existing value of the</a>
+<span class="sourceLineNo">670</span><a id="line.670">     *                    correct type</a>
+<span class="sourceLineNo">671</span><a id="line.671">     * @param &lt;V&gt; expected type</a>
+<span class="sourceLineNo">672</span><a id="line.672">     * @return an immutable copy of the values contained that could be</a>
+<span class="sourceLineNo">673</span><a id="line.673">     *         successfully converted, or {@code def} if no values could be</a>
+<span class="sourceLineNo">674</span><a id="line.674">     *         converted.</a>
+<span class="sourceLineNo">675</span><a id="line.675">     * @throws SerializationException if any value fails to be converted to the</a>
+<span class="sourceLineNo">676</span><a id="line.676">     *                                requested type</a>
+<span class="sourceLineNo">677</span><a id="line.677">     * @since 4.0.0</a>
+<span class="sourceLineNo">678</span><a id="line.678">     */</a>
+<span class="sourceLineNo">679</span><a id="line.679">    // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">680</span><a id="line.680">    default &lt;V&gt; List&lt;V&gt; getList(final TypeToken&lt;V&gt; elementType, final Supplier&lt;List&lt;V&gt;&gt; defSupplier) throws SerializationException {</a>
+<span class="sourceLineNo">681</span><a id="line.681">        final TypeToken&lt;List&lt;V&gt;&gt; type = makeListType(elementType);</a>
+<span class="sourceLineNo">682</span><a id="line.682">        final List&lt;V&gt; ret = this.get(type, defSupplier);</a>
+<span class="sourceLineNo">683</span><a id="line.683">        return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;</a>
+<span class="sourceLineNo">684</span><a id="line.684">    }</a>
+<span class="sourceLineNo">685</span><a id="line.685"></a>
+<span class="sourceLineNo">686</span><a id="line.686">    /**</a>
+<span class="sourceLineNo">687</span><a id="line.687">     * If this node has list values, this function unwraps them and converts</a>
+<span class="sourceLineNo">688</span><a id="line.688">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">689</span><a id="line.689">     *</a>
+<span class="sourceLineNo">690</span><a id="line.690">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
+<span class="sourceLineNo">691</span><a id="line.691">     * with one value.&lt;/p&gt;</a>
 <span class="sourceLineNo">692</span><a id="line.692">     *</a>
-<span class="sourceLineNo">693</span><a id="line.693">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
-<span class="sourceLineNo">694</span><a id="line.694">     * with one value.&lt;/p&gt;</a>
-<span class="sourceLineNo">695</span><a id="line.695">     *</a>
-<span class="sourceLineNo">696</span><a id="line.696">     * @param type the expected type</a>
-<span class="sourceLineNo">697</span><a id="line.697">     * @param &lt;V&gt; the expected type</a>
-<span class="sourceLineNo">698</span><a id="line.698">     * @return an immutable copy of the values contained</a>
-<span class="sourceLineNo">699</span><a id="line.699">     * @throws SerializationException if any value fails to be converted to the</a>
-<span class="sourceLineNo">700</span><a id="line.700">     *                                requested type</a>
-<span class="sourceLineNo">701</span><a id="line.701">     * @since 4.0.0</a>
-<span class="sourceLineNo">702</span><a id="line.702">     */</a>
-<span class="sourceLineNo">703</span><a id="line.703">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">704</span><a id="line.704">    default &lt;V&gt; @Nullable List&lt;V&gt; getList(Class&lt;V&gt; type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">705</span><a id="line.705">        return (List&lt;V&gt;) get(TypeFactory.parameterizedClass(List.class, type));</a>
-<span class="sourceLineNo">706</span><a id="line.706">    }</a>
-<span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">    /**</a>
-<span class="sourceLineNo">709</span><a id="line.709">     * If this node has list values, this function unwraps them and converts</a>
-<span class="sourceLineNo">710</span><a id="line.710">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">693</span><a id="line.693">     * @param type the expected type</a>
+<span class="sourceLineNo">694</span><a id="line.694">     * @param &lt;V&gt; the expected type</a>
+<span class="sourceLineNo">695</span><a id="line.695">     * @return an immutable copy of the values contained</a>
+<span class="sourceLineNo">696</span><a id="line.696">     * @throws SerializationException if any value fails to be converted to the</a>
+<span class="sourceLineNo">697</span><a id="line.697">     *                                requested type</a>
+<span class="sourceLineNo">698</span><a id="line.698">     * @since 4.0.0</a>
+<span class="sourceLineNo">699</span><a id="line.699">     */</a>
+<span class="sourceLineNo">700</span><a id="line.700">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">701</span><a id="line.701">    default &lt;V&gt; @Nullable List&lt;V&gt; getList(final Class&lt;V&gt; type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">702</span><a id="line.702">        return (List&lt;V&gt;) this.get(TypeFactory.parameterizedClass(List.class, type));</a>
+<span class="sourceLineNo">703</span><a id="line.703">    }</a>
+<span class="sourceLineNo">704</span><a id="line.704"></a>
+<span class="sourceLineNo">705</span><a id="line.705">    /**</a>
+<span class="sourceLineNo">706</span><a id="line.706">     * If this node has list values, this function unwraps them and converts</a>
+<span class="sourceLineNo">707</span><a id="line.707">     * them to an appropriate type based on the provided function.</a>
+<span class="sourceLineNo">708</span><a id="line.708">     *</a>
+<span class="sourceLineNo">709</span><a id="line.709">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
+<span class="sourceLineNo">710</span><a id="line.710">     * with one value.&lt;/p&gt;</a>
 <span class="sourceLineNo">711</span><a id="line.711">     *</a>
-<span class="sourceLineNo">712</span><a id="line.712">     * &lt;p&gt;If this node has a scalar value, this function treats it as a list</a>
-<span class="sourceLineNo">713</span><a id="line.713">     * with one value.&lt;/p&gt;</a>
-<span class="sourceLineNo">714</span><a id="line.714">     *</a>
-<span class="sourceLineNo">715</span><a id="line.715">     * @param elementType expected type</a>
-<span class="sourceLineNo">716</span><a id="line.716">     * @param def default value if no appropriate value is set</a>
-<span class="sourceLineNo">717</span><a id="line.717">     * @param &lt;V&gt; expected type</a>
-<span class="sourceLineNo">718</span><a id="line.718">     * @return an immutable copy of the values contained that could be</a>
-<span class="sourceLineNo">719</span><a id="line.719">     *         successfully converted, or {@code def} if no values could be</a>
-<span class="sourceLineNo">720</span><a id="line.720">     *         converted.</a>
-<span class="sourceLineNo">721</span><a id="line.721">     * @throws SerializationException if any value fails to be converted to the</a>
-<span class="sourceLineNo">722</span><a id="line.722">     *                                requested type</a>
-<span class="sourceLineNo">723</span><a id="line.723">     * @since 4.0.0</a>
-<span class="sourceLineNo">724</span><a id="line.724">     */</a>
-<span class="sourceLineNo">725</span><a id="line.725">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">726</span><a id="line.726">    default &lt;V&gt; List&lt;V&gt; getList(Class&lt;V&gt; elementType, List&lt;V&gt; def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">712</span><a id="line.712">     * @param elementType expected type</a>
+<span class="sourceLineNo">713</span><a id="line.713">     * @param def default value if no appropriate value is set</a>
+<span class="sourceLineNo">714</span><a id="line.714">     * @param &lt;V&gt; expected type</a>
+<span class="sourceLineNo">715</span><a id="line.715">     * @return an immutable copy of the values contained that could be</a>
+<span class="sourceLineNo">716</span><a id="line.716">     *         successfully converted, or {@code def} if no values could be</a>
+<span class="sourceLineNo">717</span><a id="line.717">     *         converted.</a>
+<span class="sourceLineNo">718</span><a id="line.718">     * @throws SerializationException if any value fails to be converted to the</a>
+<span class="sourceLineNo">719</span><a id="line.719">     *                                requested type</a>
+<span class="sourceLineNo">720</span><a id="line.720">     * @since 4.0.0</a>
+<span class="sourceLineNo">721</span><a id="line.721">     */</a>
+<span class="sourceLineNo">722</span><a id="line.722">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">723</span><a id="line.723">    default &lt;V&gt; List&lt;V&gt; getList(// @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">724</span><a id="line.724">        final Class&lt;V&gt; elementType,</a>
+<span class="sourceLineNo">725</span><a id="line.725">        final List&lt;V&gt; def</a>
+<span class="sourceLineNo">726</span><a id="line.726">    ) throws SerializationException {</a>
 <span class="sourceLineNo">727</span><a id="line.727">        final Type type = TypeFactory.parameterizedClass(List.class, elementType);</a>
-<span class="sourceLineNo">728</span><a id="line.728">        final List&lt;V&gt; ret = (List&lt;V&gt;) get(type, def);</a>
+<span class="sourceLineNo">728</span><a id="line.728">        final List&lt;V&gt; ret = (List&lt;V&gt;) this.get(type, def);</a>
 <span class="sourceLineNo">729</span><a id="line.729">        return ret.isEmpty() ? storeDefault(this, type, def) : ret;</a>
 <span class="sourceLineNo">730</span><a id="line.730">    }</a>
 <span class="sourceLineNo">731</span><a id="line.731"></a>
@@ -758,9 +758,9 @@
 <span class="sourceLineNo">749</span><a id="line.749">     * @since 4.0.0</a>
 <span class="sourceLineNo">750</span><a id="line.750">     */</a>
 <span class="sourceLineNo">751</span><a id="line.751">    @SuppressWarnings({"unchecked", "checkstyle:NoGetSetPrefix"})</a>
-<span class="sourceLineNo">752</span><a id="line.752">    default &lt;V&gt; List&lt;V&gt; getList(Class&lt;V&gt; elementType, Supplier&lt;List&lt;V&gt;&gt; defSupplier) throws SerializationException {</a>
+<span class="sourceLineNo">752</span><a id="line.752">    default &lt;V&gt; List&lt;V&gt; getList(final Class&lt;V&gt; elementType, final Supplier&lt;List&lt;V&gt;&gt; defSupplier) throws SerializationException {</a>
 <span class="sourceLineNo">753</span><a id="line.753">        final Type type = TypeFactory.parameterizedClass(List.class, elementType);</a>
-<span class="sourceLineNo">754</span><a id="line.754">        final List&lt;V&gt; ret = (List&lt;V&gt;) get(type, defSupplier);</a>
+<span class="sourceLineNo">754</span><a id="line.754">        final List&lt;V&gt; ret = (List&lt;V&gt;) this.get(type, defSupplier);</a>
 <span class="sourceLineNo">755</span><a id="line.755">        return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;</a>
 <span class="sourceLineNo">756</span><a id="line.756">    }</a>
 <span class="sourceLineNo">757</span><a id="line.757"></a>
@@ -772,7 +772,7 @@
 <span class="sourceLineNo">763</span><a id="line.763">     * @since 4.0.0</a>
 <span class="sourceLineNo">764</span><a id="line.764">     */</a>
 <span class="sourceLineNo">765</span><a id="line.765">    default @Nullable String getString() { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">766</span><a id="line.766">        return Scalars.STRING.tryDeserialize(rawScalar());</a>
+<span class="sourceLineNo">766</span><a id="line.766">        return Scalars.STRING.tryDeserialize(this.rawScalar());</a>
 <span class="sourceLineNo">767</span><a id="line.767">    }</a>
 <span class="sourceLineNo">768</span><a id="line.768"></a>
 <span class="sourceLineNo">769</span><a id="line.769">    /**</a>
@@ -785,11 +785,11 @@
 <span class="sourceLineNo">776</span><a id="line.776">     */</a>
 <span class="sourceLineNo">777</span><a id="line.777">    default String getString(final String def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
 <span class="sourceLineNo">778</span><a id="line.778">        requireNonNull(def, "def");</a>
-<span class="sourceLineNo">779</span><a id="line.779">        final @Nullable String value = getString();</a>
+<span class="sourceLineNo">779</span><a id="line.779">        final @Nullable String value = this.getString();</a>
 <span class="sourceLineNo">780</span><a id="line.780">        if (value != null) {</a>
 <span class="sourceLineNo">781</span><a id="line.781">            return value;</a>
 <span class="sourceLineNo">782</span><a id="line.782">        }</a>
-<span class="sourceLineNo">783</span><a id="line.783">        if (options().shouldCopyDefaults()) {</a>
+<span class="sourceLineNo">783</span><a id="line.783">        if (this.options().shouldCopyDefaults()) {</a>
 <span class="sourceLineNo">784</span><a id="line.784">            Scalars.STRING.serialize(String.class, def, this);</a>
 <span class="sourceLineNo">785</span><a id="line.785">        }</a>
 <span class="sourceLineNo">786</span><a id="line.786">        return def;</a>
@@ -803,7 +803,7 @@
 <span class="sourceLineNo">794</span><a id="line.794">     * @since 4.0.0</a>
 <span class="sourceLineNo">795</span><a id="line.795">     */</a>
 <span class="sourceLineNo">796</span><a id="line.796">    default float getFloat() { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">797</span><a id="line.797">        return getFloat(NUMBER_DEF);</a>
+<span class="sourceLineNo">797</span><a id="line.797">        return this.getFloat(NUMBER_DEF);</a>
 <span class="sourceLineNo">798</span><a id="line.798">    }</a>
 <span class="sourceLineNo">799</span><a id="line.799"></a>
 <span class="sourceLineNo">800</span><a id="line.800">    /**</a>
@@ -814,12 +814,12 @@
 <span class="sourceLineNo">805</span><a id="line.805">     * @see #raw()</a>
 <span class="sourceLineNo">806</span><a id="line.806">     * @since 4.0.0</a>
 <span class="sourceLineNo">807</span><a id="line.807">     */</a>
-<span class="sourceLineNo">808</span><a id="line.808">    default float getFloat(float def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">809</span><a id="line.809">        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(rawScalar());</a>
+<span class="sourceLineNo">808</span><a id="line.808">    default float getFloat(final float def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">809</span><a id="line.809">        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(this.rawScalar());</a>
 <span class="sourceLineNo">810</span><a id="line.810">        if (val != null) {</a>
 <span class="sourceLineNo">811</span><a id="line.811">            return val;</a>
 <span class="sourceLineNo">812</span><a id="line.812">        }</a>
-<span class="sourceLineNo">813</span><a id="line.813">        if (options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
+<span class="sourceLineNo">813</span><a id="line.813">        if (this.options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
 <span class="sourceLineNo">814</span><a id="line.814">            Scalars.FLOAT.serialize(float.class, def, this);</a>
 <span class="sourceLineNo">815</span><a id="line.815">        }</a>
 <span class="sourceLineNo">816</span><a id="line.816">        return def;</a>
@@ -834,7 +834,7 @@
 <span class="sourceLineNo">825</span><a id="line.825">     * @since 4.0.0</a>
 <span class="sourceLineNo">826</span><a id="line.826">     */</a>
 <span class="sourceLineNo">827</span><a id="line.827">    default double getDouble() { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">828</span><a id="line.828">        return getDouble(NUMBER_DEF);</a>
+<span class="sourceLineNo">828</span><a id="line.828">        return this.getDouble(NUMBER_DEF);</a>
 <span class="sourceLineNo">829</span><a id="line.829">    }</a>
 <span class="sourceLineNo">830</span><a id="line.830"></a>
 <span class="sourceLineNo">831</span><a id="line.831">    /**</a>
@@ -845,12 +845,12 @@
 <span class="sourceLineNo">836</span><a id="line.836">     * @see #raw()</a>
 <span class="sourceLineNo">837</span><a id="line.837">     * @since 4.0.0</a>
 <span class="sourceLineNo">838</span><a id="line.838">     */</a>
-<span class="sourceLineNo">839</span><a id="line.839">    default double getDouble(double def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">840</span><a id="line.840">        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(rawScalar());</a>
+<span class="sourceLineNo">839</span><a id="line.839">    default double getDouble(final double def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">840</span><a id="line.840">        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(this.rawScalar());</a>
 <span class="sourceLineNo">841</span><a id="line.841">        if (val != null) {</a>
 <span class="sourceLineNo">842</span><a id="line.842">            return val;</a>
 <span class="sourceLineNo">843</span><a id="line.843">        }</a>
-<span class="sourceLineNo">844</span><a id="line.844">        if (options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
+<span class="sourceLineNo">844</span><a id="line.844">        if (this.options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
 <span class="sourceLineNo">845</span><a id="line.845">            Scalars.DOUBLE.serialize(double.class, def, this);</a>
 <span class="sourceLineNo">846</span><a id="line.846">        }</a>
 <span class="sourceLineNo">847</span><a id="line.847">        return def;</a>
@@ -864,7 +864,7 @@
 <span class="sourceLineNo">855</span><a id="line.855">     * @since 4.0.0</a>
 <span class="sourceLineNo">856</span><a id="line.856">     */</a>
 <span class="sourceLineNo">857</span><a id="line.857">    default int getInt() { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">858</span><a id="line.858">        return getInt(NUMBER_DEF);</a>
+<span class="sourceLineNo">858</span><a id="line.858">        return this.getInt(NUMBER_DEF);</a>
 <span class="sourceLineNo">859</span><a id="line.859">    }</a>
 <span class="sourceLineNo">860</span><a id="line.860"></a>
 <span class="sourceLineNo">861</span><a id="line.861">    /**</a>
@@ -875,12 +875,12 @@
 <span class="sourceLineNo">866</span><a id="line.866">     * @see #raw()</a>
 <span class="sourceLineNo">867</span><a id="line.867">     * @since 4.0.0</a>
 <span class="sourceLineNo">868</span><a id="line.868">     */</a>
-<span class="sourceLineNo">869</span><a id="line.869">    default int getInt(int def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">870</span><a id="line.870">        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(rawScalar());</a>
+<span class="sourceLineNo">869</span><a id="line.869">    default int getInt(final int def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">870</span><a id="line.870">        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(this.rawScalar());</a>
 <span class="sourceLineNo">871</span><a id="line.871">        if (val != null) {</a>
 <span class="sourceLineNo">872</span><a id="line.872">            return val;</a>
 <span class="sourceLineNo">873</span><a id="line.873">        }</a>
-<span class="sourceLineNo">874</span><a id="line.874">        if (options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
+<span class="sourceLineNo">874</span><a id="line.874">        if (this.options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
 <span class="sourceLineNo">875</span><a id="line.875">            Scalars.INTEGER.serialize(int.class, def, this);</a>
 <span class="sourceLineNo">876</span><a id="line.876">        }</a>
 <span class="sourceLineNo">877</span><a id="line.877">        return def;</a>
@@ -894,7 +894,7 @@
 <span class="sourceLineNo">885</span><a id="line.885">     * @since 4.0.0</a>
 <span class="sourceLineNo">886</span><a id="line.886">     */</a>
 <span class="sourceLineNo">887</span><a id="line.887">    default long getLong() { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">888</span><a id="line.888">        return getLong(NUMBER_DEF);</a>
+<span class="sourceLineNo">888</span><a id="line.888">        return this.getLong(NUMBER_DEF);</a>
 <span class="sourceLineNo">889</span><a id="line.889">    }</a>
 <span class="sourceLineNo">890</span><a id="line.890"></a>
 <span class="sourceLineNo">891</span><a id="line.891">    /**</a>
@@ -905,12 +905,12 @@
 <span class="sourceLineNo">896</span><a id="line.896">     * @see #raw()</a>
 <span class="sourceLineNo">897</span><a id="line.897">     * @since 4.0.0</a>
 <span class="sourceLineNo">898</span><a id="line.898">     */</a>
-<span class="sourceLineNo">899</span><a id="line.899">    default long getLong(long def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">900</span><a id="line.900">        final @Nullable Long val = Scalars.LONG.tryDeserialize(rawScalar());</a>
+<span class="sourceLineNo">899</span><a id="line.899">    default long getLong(final long def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">900</span><a id="line.900">        final @Nullable Long val = Scalars.LONG.tryDeserialize(this.rawScalar());</a>
 <span class="sourceLineNo">901</span><a id="line.901">        if (val != null) {</a>
 <span class="sourceLineNo">902</span><a id="line.902">            return val;</a>
 <span class="sourceLineNo">903</span><a id="line.903">        }</a>
-<span class="sourceLineNo">904</span><a id="line.904">        if (options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
+<span class="sourceLineNo">904</span><a id="line.904">        if (this.options().shouldCopyDefaults() &amp;&amp; def != NUMBER_DEF) {</a>
 <span class="sourceLineNo">905</span><a id="line.905">            Scalars.LONG.serialize(long.class, def, this);</a>
 <span class="sourceLineNo">906</span><a id="line.906">        }</a>
 <span class="sourceLineNo">907</span><a id="line.907">        return def;</a>
@@ -924,7 +924,7 @@
 <span class="sourceLineNo">915</span><a id="line.915">     * @since 4.0.0</a>
 <span class="sourceLineNo">916</span><a id="line.916">     */</a>
 <span class="sourceLineNo">917</span><a id="line.917">    default boolean getBoolean() { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">918</span><a id="line.918">        return getBoolean(false);</a>
+<span class="sourceLineNo">918</span><a id="line.918">        return this.getBoolean(false);</a>
 <span class="sourceLineNo">919</span><a id="line.919">    }</a>
 <span class="sourceLineNo">920</span><a id="line.920"></a>
 <span class="sourceLineNo">921</span><a id="line.921">    /**</a>
@@ -935,12 +935,12 @@
 <span class="sourceLineNo">926</span><a id="line.926">     * @see #raw()</a>
 <span class="sourceLineNo">927</span><a id="line.927">     * @since 4.0.0</a>
 <span class="sourceLineNo">928</span><a id="line.928">     */</a>
-<span class="sourceLineNo">929</span><a id="line.929">    default boolean getBoolean(boolean def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
-<span class="sourceLineNo">930</span><a id="line.930">        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(rawScalar());</a>
+<span class="sourceLineNo">929</span><a id="line.929">    default boolean getBoolean(final boolean def) { // @cs-: NoGetSetPrefix (not a bean method)</a>
+<span class="sourceLineNo">930</span><a id="line.930">        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(this.rawScalar());</a>
 <span class="sourceLineNo">931</span><a id="line.931">        if (val != null) {</a>
 <span class="sourceLineNo">932</span><a id="line.932">            return val;</a>
 <span class="sourceLineNo">933</span><a id="line.933">        }</a>
-<span class="sourceLineNo">934</span><a id="line.934">        if (options().shouldCopyDefaults()) {</a>
+<span class="sourceLineNo">934</span><a id="line.934">        if (this.options().shouldCopyDefaults()) {</a>
 <span class="sourceLineNo">935</span><a id="line.935">            Scalars.BOOLEAN.serialize(boolean.class, def, this);</a>
 <span class="sourceLineNo">936</span><a id="line.936">        }</a>
 <span class="sourceLineNo">937</span><a id="line.937">        return def;</a>
@@ -1053,8 +1053,8 @@
 <span class="sourceLineNo">1044</span><a id="line.1044">     * @since 4.0.0</a>
 <span class="sourceLineNo">1045</span><a id="line.1045">     */</a>
 <span class="sourceLineNo">1046</span><a id="line.1046">    @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes</a>
-<span class="sourceLineNo">1047</span><a id="line.1047">    default &lt;V&gt; ConfigurationNode setList(Class&lt;V&gt; elementType, @Nullable List&lt;V&gt; items) throws SerializationException {</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">        return set(TypeFactory.parameterizedClass(List.class, elementType), items);</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">    default &lt;V&gt; ConfigurationNode setList(final Class&lt;V&gt; elementType, @Nullable final List&lt;V&gt; items) throws SerializationException {</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">        return this.set(TypeFactory.parameterizedClass(List.class, elementType), items);</a>
 <span class="sourceLineNo">1049</span><a id="line.1049">    }</a>
 <span class="sourceLineNo">1050</span><a id="line.1050"></a>
 <span class="sourceLineNo">1051</span><a id="line.1051">    /**</a>
@@ -1074,8 +1074,8 @@
 <span class="sourceLineNo">1065</span><a id="line.1065">     * @since 4.0.0</a>
 <span class="sourceLineNo">1066</span><a id="line.1066">     */</a>
 <span class="sourceLineNo">1067</span><a id="line.1067">    @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">    default &lt;V&gt; ConfigurationNode setList(TypeToken&lt;V&gt; elementType, @Nullable List&lt;V&gt; items) throws SerializationException {</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">        return set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">    default &lt;V&gt; ConfigurationNode setList(final TypeToken&lt;V&gt; elementType, @Nullable final List&lt;V&gt; items) throws SerializationException {</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">        return this.set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);</a>
 <span class="sourceLineNo">1070</span><a id="line.1070">    }</a>
 <span class="sourceLineNo">1071</span><a id="line.1071"></a>
 <span class="sourceLineNo">1072</span><a id="line.1072">    /**</a>
@@ -1191,8 +1191,8 @@
 <span class="sourceLineNo">1182</span><a id="line.1182">     * @throws E when throw by visitor implementation</a>
 <span class="sourceLineNo">1183</span><a id="line.1183">     * @since 4.0.0</a>
 <span class="sourceLineNo">1184</span><a id="line.1184">     */</a>
-<span class="sourceLineNo">1185</span><a id="line.1185">    default &lt;S, T, E extends Exception&gt; T visit(ConfigurationVisitor&lt;S, T, E&gt; visitor) throws E {</a>
-<span class="sourceLineNo">1186</span><a id="line.1186">        return visit(visitor, visitor.newState());</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">    default &lt;S, T, E extends Exception&gt; T visit(final ConfigurationVisitor&lt;S, T, E&gt; visitor) throws E {</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">        return this.visit(visitor, visitor.newState());</a>
 <span class="sourceLineNo">1187</span><a id="line.1187">    }</a>
 <span class="sourceLineNo">1188</span><a id="line.1188"></a>
 <span class="sourceLineNo">1189</span><a id="line.1189">    /**</a>
@@ -1221,8 +1221,8 @@
 <span class="sourceLineNo">1212</span><a id="line.1212">     * @return the returned terminal from the visitor</a>
 <span class="sourceLineNo">1213</span><a id="line.1213">     * @since 4.0.0</a>
 <span class="sourceLineNo">1214</span><a id="line.1214">     */</a>
-<span class="sourceLineNo">1215</span><a id="line.1215">    default &lt;S, T&gt; T visit(ConfigurationVisitor.Safe&lt;S, T&gt; visitor) {</a>
-<span class="sourceLineNo">1216</span><a id="line.1216">        return visit(visitor, visitor.newState());</a>
+<span class="sourceLineNo">1215</span><a id="line.1215">    default &lt;S, T&gt; T visit(final ConfigurationVisitor.Safe&lt;S, T&gt; visitor) {</a>
+<span class="sourceLineNo">1216</span><a id="line.1216">        return this.visit(visitor, visitor.newState());</a>
 <span class="sourceLineNo">1217</span><a id="line.1217">    }</a>
 <span class="sourceLineNo">1218</span><a id="line.1218"></a>
 <span class="sourceLineNo">1219</span><a id="line.1219">    /**</a>
