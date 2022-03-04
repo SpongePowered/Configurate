@@ -112,7 +112,7 @@ tasks.jar {
 
 // Configure target versions
 indra {
-    javaVersions().testWith(8, 11, 16)
+    javaVersions().testWith(8, 11, 17)
 }
 
 // Don't compile AP-generated sources from within IDE
@@ -152,7 +152,7 @@ forbiddenApis {
 }
 
 tasks.withType(CheckForbiddenApis).configureEach {
-    targetCompatibility = Math.min(indra.javaVersions().actualVersion().get(), 15).toString() // todo: forbidden apis needs J16 sigs
+    targetCompatibility = Math.min(indra.javaVersions().actualVersion().get(), 17).toString() // todo: forbidden apis needs J16 sigs
 }
 
 // Checkstyle (based on Sponge config)
