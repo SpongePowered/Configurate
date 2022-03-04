@@ -290,7 +290,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (SerializationException e) {
+            } catch (final SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -310,7 +310,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (SerializationException e) {
+            } catch (final SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -330,7 +330,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (SerializationException e) {
+            } catch (final SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -350,7 +350,7 @@ public interface ConfigurationNode {
         return Collector.of(() -> this, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (SerializationException e) {
+            } catch (final SerializationException e) {
                 throw new IllegalArgumentException(e);
             }
         }, ConfigurationNode::mergeFrom);
@@ -454,8 +454,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked") // type token
-    default <V> @Nullable V get(TypeToken<V> type) throws SerializationException {
-        return (V) get(type.getType());
+    default <V> @Nullable V get(final TypeToken<V> type) throws SerializationException {
+        return (V) this.get(type.getType());
     }
 
     /**
@@ -475,8 +475,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V get(TypeToken<V> type, V def) throws SerializationException {
-        return (V) get(type.getType(), def);
+    default <V> V get(final TypeToken<V> type, final V def) throws SerializationException {
+        return (V) this.get(type.getType(), def);
     }
 
     /**
@@ -497,8 +497,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked") // type is verified by the token
-    default <V> V get(TypeToken<V> type, Supplier<V> defSupplier) throws SerializationException {
-        return (V) get(type.getType(), defSupplier);
+    default <V> V get(final TypeToken<V> type, final Supplier<V> defSupplier) throws SerializationException {
+        return (V) this.get(type.getType(), defSupplier);
     }
 
     /**
@@ -516,8 +516,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> @Nullable V get(Class<V> type) throws SerializationException {
-        return (V) get((Type) type);
+    default <V> @Nullable V get(final Class<V> type) throws SerializationException {
+        return (V) this.get((Type) type);
     }
 
     /**
@@ -537,8 +537,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V get(Class<V> type, V def) throws SerializationException {
-        return (V) get((Type) type, def);
+    default <V> V get(final Class<V> type, final V def) throws SerializationException {
+        return (V) this.get((Type) type, def);
     }
 
     /**
@@ -559,8 +559,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked") // type is verified by the class parameter
-    default <V> V get(Class<V> type, Supplier<V> defSupplier) throws SerializationException {
-        return (V) get((Type) type, defSupplier);
+    default <V> V get(final Class<V> type, final Supplier<V> defSupplier) throws SerializationException {
+        return (V) this.get((Type) type, defSupplier);
     }
 
     /**
@@ -593,8 +593,8 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.0.0
      */
-    default Object get(Type type, Object def) throws SerializationException {
-        final @Nullable Object value = get(type);
+    default Object get(final Type type, final Object def) throws SerializationException {
+        final @Nullable Object value = this.get(type);
         return value == null ? storeDefault(this, type, def) : value;
     }
 
@@ -614,8 +614,8 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.0.0
      */
-    default Object get(Type type, Supplier<?> defSupplier) throws SerializationException {
-        final @Nullable Object value = get(type);
+    default Object get(final Type type, final Supplier<?> defSupplier) throws SerializationException {
+        final @Nullable Object value = this.get(type);
         return value == null ? storeDefault(this, type, defSupplier.get()) : value;
     }
 
@@ -633,8 +633,8 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.0.0
      */
-    default <V> @Nullable List<V> getList(TypeToken<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
-        return get(makeListType(type));
+    default <V> @Nullable List<V> getList(final TypeToken<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+        return this.get(makeListType(type));
     }
 
     /**
@@ -654,9 +654,12 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.0.0
      */
-    default <V> List<V> getList(TypeToken<V> elementType, List<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> List<V> getList(// @cs-: NoGetSetPrefix (not a bean method)
+        final TypeToken<V> elementType,
+        final List<V> def
+    ) throws SerializationException {
         final TypeToken<List<V>> type = makeListType(elementType);
-        final List<V> ret = get(type, def);
+        final List<V> ret = this.get(type, def);
         return ret.isEmpty() ? storeDefault(this, type.getType(), def) : ret;
     }
 
@@ -680,9 +683,9 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     // @cs-: NoGetSetPrefix (not a bean method)
-    default <V> List<V> getList(TypeToken<V> elementType, Supplier<List<V>> defSupplier) throws SerializationException {
+    default <V> List<V> getList(final TypeToken<V> elementType, final Supplier<List<V>> defSupplier) throws SerializationException {
         final TypeToken<List<V>> type = makeListType(elementType);
-        final List<V> ret = get(type, defSupplier);
+        final List<V> ret = this.get(type, defSupplier);
         return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
     }
 
@@ -701,8 +704,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
-    default <V> @Nullable List<V> getList(Class<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
-        return (List<V>) get(TypeFactory.parameterizedClass(List.class, type));
+    default <V> @Nullable List<V> getList(final Class<V> type) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+        return (List<V>) this.get(TypeFactory.parameterizedClass(List.class, type));
     }
 
     /**
@@ -723,9 +726,12 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
-    default <V> List<V> getList(Class<V> elementType, List<V> def) throws SerializationException { // @cs-: NoGetSetPrefix (not a bean method)
+    default <V> List<V> getList(// @cs-: NoGetSetPrefix (not a bean method)
+        final Class<V> elementType,
+        final List<V> def
+    ) throws SerializationException {
         final Type type = TypeFactory.parameterizedClass(List.class, elementType);
-        final List<V> ret = (List<V>) get(type, def);
+        final List<V> ret = (List<V>) this.get(type, def);
         return ret.isEmpty() ? storeDefault(this, type, def) : ret;
     }
 
@@ -749,9 +755,9 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings({"unchecked", "checkstyle:NoGetSetPrefix"})
-    default <V> List<V> getList(Class<V> elementType, Supplier<List<V>> defSupplier) throws SerializationException {
+    default <V> List<V> getList(final Class<V> elementType, final Supplier<List<V>> defSupplier) throws SerializationException {
         final Type type = TypeFactory.parameterizedClass(List.class, elementType);
-        final List<V> ret = (List<V>) get(type, defSupplier);
+        final List<V> ret = (List<V>) this.get(type, defSupplier);
         return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;
     }
 
@@ -763,7 +769,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default @Nullable String getString() { // @cs-: NoGetSetPrefix (not a bean method)
-        return Scalars.STRING.tryDeserialize(rawScalar());
+        return Scalars.STRING.tryDeserialize(this.rawScalar());
     }
 
     /**
@@ -776,11 +782,11 @@ public interface ConfigurationNode {
      */
     default String getString(final String def) { // @cs-: NoGetSetPrefix (not a bean method)
         requireNonNull(def, "def");
-        final @Nullable String value = getString();
+        final @Nullable String value = this.getString();
         if (value != null) {
             return value;
         }
-        if (options().shouldCopyDefaults()) {
+        if (this.options().shouldCopyDefaults()) {
             Scalars.STRING.serialize(String.class, def, this);
         }
         return def;
@@ -794,7 +800,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default float getFloat() { // @cs-: NoGetSetPrefix (not a bean method)
-        return getFloat(NUMBER_DEF);
+        return this.getFloat(NUMBER_DEF);
     }
 
     /**
@@ -805,12 +811,12 @@ public interface ConfigurationNode {
      * @see #raw()
      * @since 4.0.0
      */
-    default float getFloat(float def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(rawScalar());
+    default float getFloat(final float def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.FLOAT.serialize(float.class, def, this);
         }
         return def;
@@ -825,7 +831,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default double getDouble() { // @cs-: NoGetSetPrefix (not a bean method)
-        return getDouble(NUMBER_DEF);
+        return this.getDouble(NUMBER_DEF);
     }
 
     /**
@@ -836,12 +842,12 @@ public interface ConfigurationNode {
      * @see #raw()
      * @since 4.0.0
      */
-    default double getDouble(double def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(rawScalar());
+    default double getDouble(final double def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.DOUBLE.serialize(double.class, def, this);
         }
         return def;
@@ -855,7 +861,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default int getInt() { // @cs-: NoGetSetPrefix (not a bean method)
-        return getInt(NUMBER_DEF);
+        return this.getInt(NUMBER_DEF);
     }
 
     /**
@@ -866,12 +872,12 @@ public interface ConfigurationNode {
      * @see #raw()
      * @since 4.0.0
      */
-    default int getInt(int def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(rawScalar());
+    default int getInt(final int def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.INTEGER.serialize(int.class, def, this);
         }
         return def;
@@ -885,7 +891,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default long getLong() { // @cs-: NoGetSetPrefix (not a bean method)
-        return getLong(NUMBER_DEF);
+        return this.getLong(NUMBER_DEF);
     }
 
     /**
@@ -896,12 +902,12 @@ public interface ConfigurationNode {
      * @see #raw()
      * @since 4.0.0
      */
-    default long getLong(long def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Long val = Scalars.LONG.tryDeserialize(rawScalar());
+    default long getLong(final long def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Long val = Scalars.LONG.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.LONG.serialize(long.class, def, this);
         }
         return def;
@@ -915,7 +921,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default boolean getBoolean() { // @cs-: NoGetSetPrefix (not a bean method)
-        return getBoolean(false);
+        return this.getBoolean(false);
     }
 
     /**
@@ -926,12 +932,12 @@ public interface ConfigurationNode {
      * @see #raw()
      * @since 4.0.0
      */
-    default boolean getBoolean(boolean def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(rawScalar());
+    default boolean getBoolean(final boolean def) { // @cs-: NoGetSetPrefix (not a bean method)
+        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults()) {
+        if (this.options().shouldCopyDefaults()) {
             Scalars.BOOLEAN.serialize(boolean.class, def, this);
         }
         return def;
@@ -1044,8 +1050,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
-    default <V> ConfigurationNode setList(Class<V> elementType, @Nullable List<V> items) throws SerializationException {
-        return set(TypeFactory.parameterizedClass(List.class, elementType), items);
+    default <V> ConfigurationNode setList(final Class<V> elementType, @Nullable final List<V> items) throws SerializationException {
+        return this.set(TypeFactory.parameterizedClass(List.class, elementType), items);
     }
 
     /**
@@ -1065,8 +1071,8 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
-    default <V> ConfigurationNode setList(TypeToken<V> elementType, @Nullable List<V> items) throws SerializationException {
-        return set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);
+    default <V> ConfigurationNode setList(final TypeToken<V> elementType, @Nullable final List<V> items) throws SerializationException {
+        return this.set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);
     }
 
     /**
@@ -1182,8 +1188,8 @@ public interface ConfigurationNode {
      * @throws E when throw by visitor implementation
      * @since 4.0.0
      */
-    default <S, T, E extends Exception> T visit(ConfigurationVisitor<S, T, E> visitor) throws E {
-        return visit(visitor, visitor.newState());
+    default <S, T, E extends Exception> T visit(final ConfigurationVisitor<S, T, E> visitor) throws E {
+        return this.visit(visitor, visitor.newState());
     }
 
     /**
@@ -1212,8 +1218,8 @@ public interface ConfigurationNode {
      * @return the returned terminal from the visitor
      * @since 4.0.0
      */
-    default <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor) {
-        return visit(visitor, visitor.newState());
+    default <S, T> T visit(final ConfigurationVisitor.Safe<S, T> visitor) {
+        return this.visit(visitor, visitor.newState());
     }
 
     /**
