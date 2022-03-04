@@ -97,7 +97,7 @@
 <span class="sourceLineNo">088</span><a id="line.88">    public static @Nullable String extractComment(final BufferedReader reader,</a>
 <span class="sourceLineNo">089</span><a id="line.89">            final Iterable&lt;CommentHandler&gt; allowedHeaderTypes) throws IOException {</a>
 <span class="sourceLineNo">090</span><a id="line.90">        reader.mark(READAHEAD_LEN);</a>
-<span class="sourceLineNo">091</span><a id="line.91">        for (CommentHandler handler : allowedHeaderTypes) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">        for (final CommentHandler handler : allowedHeaderTypes) {</a>
 <span class="sourceLineNo">092</span><a id="line.92">            final @Nullable String comment = handler.extractHeader(reader);</a>
 <span class="sourceLineNo">093</span><a id="line.93">            if (comment == null) {</a>
 <span class="sourceLineNo">094</span><a id="line.94">                reader.reset();</a>
@@ -131,15 +131,15 @@
 <span class="sourceLineNo">122</span><a id="line.122">            if (line == null) {</a>
 <span class="sourceLineNo">123</span><a id="line.123">                return null;</a>
 <span class="sourceLineNo">124</span><a id="line.124">            }</a>
-<span class="sourceLineNo">125</span><a id="line.125">            if (handleSingleLine(build, line)) {</a>
+<span class="sourceLineNo">125</span><a id="line.125">            if (this.handleSingleLine(build, line)) {</a>
 <span class="sourceLineNo">126</span><a id="line.126">                for (line = reader.readLine(); line != null; line = reader.readLine()) {</a>
-<span class="sourceLineNo">127</span><a id="line.127">                    if (!handleSingleLine(build, line)) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">                    if (!this.handleSingleLine(build, line)) {</a>
 <span class="sourceLineNo">128</span><a id="line.128">                        break;</a>
 <span class="sourceLineNo">129</span><a id="line.129">                    }</a>
 <span class="sourceLineNo">130</span><a id="line.130">                }</a>
 <span class="sourceLineNo">131</span><a id="line.131">            }</a>
 <span class="sourceLineNo">132</span><a id="line.132">            line = reader.readLine();</a>
-<span class="sourceLineNo">133</span><a id="line.133">            if (!(line == null || line.trim().isEmpty())) { // Require a blank line after a comment to make it a header</a>
+<span class="sourceLineNo">133</span><a id="line.133">            if (!(line == null || Strings.isBlank(line))) { // Require a blank line after a comment to make it a header</a>
 <span class="sourceLineNo">134</span><a id="line.134">                return null;</a>
 <span class="sourceLineNo">135</span><a id="line.135">            }</a>
 <span class="sourceLineNo">136</span><a id="line.136"></a>
@@ -182,7 +182,7 @@
 <span class="sourceLineNo">173</span><a id="line.173">        public Stream&lt;String&gt; toComment(final Stream&lt;String&gt; lines) {</a>
 <span class="sourceLineNo">174</span><a id="line.174">            final Stream.Builder&lt;String&gt; build = Stream.builder();</a>
 <span class="sourceLineNo">175</span><a id="line.175">            boolean first = true;</a>
-<span class="sourceLineNo">176</span><a id="line.176">            for (Iterator&lt;String&gt; it = lines.iterator(); it.hasNext();) {</a>
+<span class="sourceLineNo">176</span><a id="line.176">            for (final Iterator&lt;String&gt; it = lines.iterator(); it.hasNext();) {</a>
 <span class="sourceLineNo">177</span><a id="line.177">                final String next = it.next();</a>
 <span class="sourceLineNo">178</span><a id="line.178">                if (first) {</a>
 <span class="sourceLineNo">179</span><a id="line.179">                    if (!it.hasNext()) {</a>
