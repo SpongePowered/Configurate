@@ -496,4 +496,27 @@ class AbstractConfigurationNodeTest {
             .getMessage().contains("Got a value of unexpected type"));
     }
 
+    @ConfigSerializable
+    static class ImplicitInitTest {
+        private String name;
+
+        ImplicitInitTest() {
+        }
+
+        ImplicitInitTest(final String name) {
+            this.name = name;
+        }
+    }
+
+    // https://github.com/SpongePowered/Configurate/issues/243
+    @Test
+    void testNoImplicitInitWhenDefaultProvided() throws SerializationException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root();
+
+        final ImplicitInitTest check = node.get(ImplicitInitTest.class, new ImplicitInitTest("someone"));
+
+        assertEquals("someone", check.name);
+        assertEquals("someone", node.node("name").raw());
+    }
+
 }

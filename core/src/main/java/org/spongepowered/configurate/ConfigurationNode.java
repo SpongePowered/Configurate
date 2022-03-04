@@ -593,10 +593,7 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.0.0
      */
-    default Object get(final Type type, final Object def) throws SerializationException {
-        final @Nullable Object value = this.get(type);
-        return value == null ? storeDefault(this, type, def) : value;
-    }
+    Object get(Type type, Object def) throws SerializationException;
 
     /**
      * Get the current value associated with this node.
@@ -614,10 +611,7 @@ public interface ConfigurationNode {
      *                                requested type
      * @since 4.0.0
      */
-    default Object get(final Type type, final Supplier<?> defSupplier) throws SerializationException {
-        final @Nullable Object value = this.get(type);
-        return value == null ? storeDefault(this, type, defSupplier.get()) : value;
-    }
+    Object get(Type type, Supplier<?> defSupplier) throws SerializationException;
 
     /**
      * If this node has list values, this function unwraps them and converts

@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  * Simple implementation of {@link ConfigurationNode}.
@@ -122,6 +123,22 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
     @Override
     public final @Nullable Object get(final Type type) throws SerializationException {
+        return this.get0(type, true);
+    }
+
+    @Override
+    public final Object get(final Type type, final Object def) throws SerializationException {
+        final @Nullable Object value = this.get0(type, false);
+        return value == null ? storeDefault(this, type, def) : value;
+    }
+
+    @Override
+    public final Object get(final Type type, final Supplier<?> defSupplier) throws SerializationException {
+        final @Nullable Object value = this.get0(type, false);
+        return value == null ? storeDefault(this, type, defSupplier.get()) : value;
+    }
+
+    final @Nullable Object get0(final Type type, final boolean doImplicitInit) throws SerializationException {
         requireNonNull(type, "type");
         if (isMissingTypeParameters(type)) {
             throw new SerializationException(this, type, "Raw types are not supported");
@@ -129,7 +146,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
 
         final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
         if (this.value instanceof NullConfigValue) {
-            if (serial != null && this.options().implicitInitialization()) {
+            if (serial != null && doImplicitInit && this.options().implicitInitialization()) {
                 final @Nullable Object emptyValue = serial.emptyValue(type, this.options);
                 if (emptyValue != null) {
                     return storeDefault(this, type, emptyValue);
