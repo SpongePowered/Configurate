@@ -47,6 +47,9 @@ project(":snakeyaml") {
                 def configuration = scopes[dep.scope]
                 if (configuration != null) {
                     add(configuration, "$group:$artifact:$version")
+                    if (configuration == 'testImplementation') {
+                        add('testAnnotationProcessor', "$group:$artifact:$version")
+                    }
                 }
             }
         }

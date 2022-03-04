@@ -5,10 +5,10 @@ Subject: [PATCH] scanner: Initial implementation of tab acceptance
 
 
 diff --git a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
-index 31a51e5249a842f847082374387637f1ca251b74..640f85755bd1a479998b4244edc91318298eca55 100644
+index f501d453973d4417be0fa3915b9fa695fc81db88..74bdc9dd3491f638ddca73974d08729ae9fc8e59 100644
 --- a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
 +++ b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
-@@ -184,6 +184,8 @@ public final class ScannerImpl implements Scanner {
+@@ -183,6 +183,8 @@ public final class ScannerImpl implements Scanner {
      // A flag that indicates if comments should be parsed
      private boolean parseComments;
  
@@ -17,7 +17,7 @@ index 31a51e5249a842f847082374387637f1ca251b74..640f85755bd1a479998b4244edc91318
      // Variables related to simple keys treatment. See PyYAML.
  
      /**
-@@ -243,6 +245,27 @@ public final class ScannerImpl implements Scanner {
+@@ -242,6 +244,27 @@ public final class ScannerImpl implements Scanner {
          return parseComments;
      }
  
@@ -45,7 +45,7 @@ index 31a51e5249a842f847082374387637f1ca251b74..640f85755bd1a479998b4244edc91318
      /**
       * Check whether the next token is one of the given types.
       */
-@@ -1227,7 +1250,7 @@ public final class ScannerImpl implements Scanner {
+@@ -1232,7 +1255,7 @@ public final class ScannerImpl implements Scanner {
              int ff = 0;
              // Peek ahead until we find the first non-space character, then
              // move forward directly to that character.

@@ -8,10 +8,10 @@ sequences. It might be nice to capture the prettiness status of input
 data, but that seems extremely error-prone and probably not worth doing.
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715f31e0e6a 100644
+index 124723c8ededd847e0e3b6384c2eb70a5941b158..7912f00d92563eeea974f1ac18d3c936a64ddfe3 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-@@ -151,7 +151,14 @@ public final class Emitter implements Emitable {
+@@ -152,7 +152,14 @@ public final class Emitter implements Emitable {
      // Formatting details.
      private final Boolean canonical;
      // pretty print flow by adding extra line breaks
@@ -27,7 +27,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
  
      private final boolean allowUnicode;
      private int bestIndent;
-@@ -213,7 +220,7 @@ public final class Emitter implements Emitable {
+@@ -214,7 +221,7 @@ public final class Emitter implements Emitable {
  
          // Formatting details.
          this.canonical = opts.isCanonical();
@@ -36,7 +36,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
          this.allowUnicode = opts.isAllowUnicode();
          this.bestIndent = 2;
          if ((opts.getIndent() > MIN_INDENT) && (opts.getIndent() < MAX_INDENT)) {
-@@ -494,6 +501,9 @@ public final class Emitter implements Emitable {
+@@ -495,6 +502,9 @@ public final class Emitter implements Emitable {
      private void expectFlowSequence() throws IOException {
          writeIndicator("[", true, true, false);
          flowLevel++;
@@ -46,7 +46,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
          increaseIndent(true, false);
          if (prettyFlow) {
              writeIndent();
-@@ -507,6 +517,11 @@ public final class Emitter implements Emitable {
+@@ -508,6 +518,11 @@ public final class Emitter implements Emitable {
                  indent = indents.pop();
                  flowLevel--;
                  writeIndicator("]", false, false, false);
@@ -58,7 +58,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
                  inlineCommentsCollector.collectEvents();
                  writeInlineComments();
                  state = states.pop();
-@@ -537,6 +552,11 @@ public final class Emitter implements Emitable {
+@@ -538,6 +553,11 @@ public final class Emitter implements Emitable {
                      writeIndent();
                  }
                  writeIndicator("]", false, false, false);
@@ -70,7 +70,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
                  inlineCommentsCollector.collectEvents();
                  writeInlineComments();
                  if (prettyFlow) {
-@@ -564,6 +584,9 @@ public final class Emitter implements Emitable {
+@@ -565,6 +585,9 @@ public final class Emitter implements Emitable {
      private void expectFlowMapping() throws IOException {
          writeIndicator("{", true, true, false);
          flowLevel++;
@@ -80,7 +80,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
          increaseIndent(true, false);
          if (prettyFlow) {
              writeIndent();
-@@ -579,6 +602,11 @@ public final class Emitter implements Emitable {
+@@ -580,6 +603,11 @@ public final class Emitter implements Emitable {
                  indent = indents.pop();
                  flowLevel--;
                  writeIndicator("}", false, false, false);
@@ -92,7 +92,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
                  inlineCommentsCollector.collectEvents();
                  writeInlineComments();
                  state = states.pop();
-@@ -611,6 +639,11 @@ public final class Emitter implements Emitable {
+@@ -612,6 +640,11 @@ public final class Emitter implements Emitable {
                      writeIndent();
                  }
                  writeIndicator("}", false, false, false);
@@ -104,7 +104,7 @@ index 021cb0e706657dc86f67e5a30f9947e7a891f5df..886348cc41ad9cd359f4a37852a5a715
                  inlineCommentsCollector.collectEvents();
                  writeInlineComments();
                  state = states.pop();
-@@ -1475,6 +1508,11 @@ public final class Emitter implements Emitable {
+@@ -1476,6 +1509,11 @@ public final class Emitter implements Emitable {
          if(!blockCommentsCollector.isEmpty()) {
              writeIndent();
              writeCommentLines(blockCommentsCollector.consume());

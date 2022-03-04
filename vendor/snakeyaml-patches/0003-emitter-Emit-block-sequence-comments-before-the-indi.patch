@@ -8,10 +8,10 @@ first element of the sequence. I don't think there's anything we can
 do about that though.... needs more thought i suppose
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index 886348cc41ad9cd359f4a37852a5a715f31e0e6a..a560345e276fbdc6215faaf3640b6bc49652cf6e 100644
+index 7912f00d92563eeea974f1ac18d3c936a64ddfe3..1853c5b27dfeff99c8f5f4799daa93adb21919ce 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-@@ -718,9 +718,12 @@ public final class Emitter implements Emitable {
+@@ -719,9 +719,12 @@ public final class Emitter implements Emitable {
              if (!this.first && event instanceof SequenceEndEvent) {
                  indent = indents.pop();
                  state = states.pop();
@@ -25,7 +25,7 @@ index 886348cc41ad9cd359f4a37852a5a715f31e0e6a..a560345e276fbdc6215faaf3640b6bc4
                  writeIndent();
                  if (!indentWithIndicator || this.first) {
                      writeWhitespace(indicatorIndent);
-@@ -729,17 +732,6 @@ public final class Emitter implements Emitable {
+@@ -730,17 +733,6 @@ public final class Emitter implements Emitable {
                  if (indentWithIndicator && this.first) {
                      indent += indicatorIndent;
                  }
@@ -44,7 +44,7 @@ index 886348cc41ad9cd359f4a37852a5a715f31e0e6a..a560345e276fbdc6215faaf3640b6bc4
                  expectNode(false, false, false);
                  inlineCommentsCollector.collectEvents();
 diff --git a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
-index 46ac29e2648b7f05c5988d99e3332ae664355b72..d1c2b0a14a964f7d4c18b5e5aeee657eb83acf49 100644
+index 58393cd819871caedae9bd757837f62424f56f5b..9d70c585e7bb52bfb1b69e6ee474385b80c5be6c 100644
 --- a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
 +++ b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
 @@ -15,6 +15,8 @@
