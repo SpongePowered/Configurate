@@ -15,8 +15,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     constraints {
-        implementation("com.github.siom79.japicmp:japicmp") {
-            version { require "0.15.+" }
+        implementation(libs.build.japicmp) {
             because "Use a newer version than the japicmp gradle plugin provides"
         }
     }
@@ -25,7 +24,7 @@ dependencies {
     api libs.build.licenser
     api libs.build.errorprone
     api libs.build.nullaway
-    api libs.build.japicmp
+    api libs.build.japicmp.plugin
     api libs.build.forbiddenApis
     api libs.build.goomph
     implementation libs.guava

@@ -50,7 +50,7 @@ sourceSets {
             configureVariants {
                 tasks.named(variant().getTaskName("forbiddenApis", null), CheckForbiddenApis) {
                     enabled = false // fails to load records classes
-                    targetCompatibility = "15" // todo: update when J16 signatures added
+                    targetCompatibility = "16"
                 }
             }
         }
