@@ -4,21 +4,21 @@
 /*/bin/
 /*/.factorypath
 /*/.apt_generated/
-buildSrc/build/
-buildSrc/out/
-buildSrc/*/bin/
+/*/.checkstyle
+build-logic/*/bin/
 /build/
-buildSrc/build/
 /format/*/bin/
 /format/*/build/
 /format/*/out/
 /format/*/.factorypath
 /format/*/.apt_generated/
+/format/*/.checkstyle
 /extra/*/build/
 /extra/*/out/
 /extra/*/bin/
 /extra/*/.factorypath
 /extra/*/.apt_generated/
+/extra/*/.checkstyle
 
 # gitpatcher local data
 /vendor/snakeyaml

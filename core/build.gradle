@@ -13,9 +13,10 @@ provides a node-based data structure able to handle a wide variety of configurat
 
 configurate.useAutoValue()
 dependencies {
-    api "io.leangen.geantyref:geantyref:1.3.13"
-    testImplementation compileOnlyApi("org.checkerframework:checker-qual:3.21.3") // needs to be on runtime classpath on Java 8 for object mapper
-    testImplementation "com.google.guava:guava:$guavaVersion"
+    api libs.geantyref
+    testImplementation libs.checkerQual // needs to be on runtime classpath on Java 8 for object mapper
+    compileOnlyApi libs.checkerQual
+    testImplementation libs.guava
 }
 
 tasks.jar {

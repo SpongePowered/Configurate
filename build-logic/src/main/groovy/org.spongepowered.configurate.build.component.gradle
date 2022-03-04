@@ -1,11 +1,16 @@
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
-import org.cadixdev.gradle.licenser.tasks.LicenseCheck
 import org.eclipse.jgit.lib.Repository
-import org.gradle.api.internal.artifacts.configurations.ResolutionStrategyInternal
+import org.gradle.api.artifacts.CacheableRule
+import org.gradle.api.artifacts.ComponentMetadataContext
+import org.gradle.api.artifacts.ComponentMetadataRule
+import org.gradle.api.attributes.Bundling
+import org.gradle.api.attributes.Usage
+import org.gradle.api.attributes.java.TargetJvmVersion
+import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.tasks.compile.JavaCompile
-import org.spongepowered.configurate.build.ConfigurateExtension
+import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
 plugins {
     id "org.spongepowered.configurate.build.base"
@@ -14,11 +19,10 @@ plugins {
     id "net.kyori.indra.checkstyle"
     id "net.kyori.indra.license-header"
     id "net.ltgt.errorprone"
-    // id("net.ltgt.nullaway")
     id "me.champeau.gradle.japicmp"
     id "de.thetaphi.forbiddenapis"
-    id 'pmd'
     id 'com.diffplug.eclipse.apt'
+    id 'pmd'
 }
 
 configurations.configureEach {
@@ -82,21 +86,13 @@ tasks.withType(Javadoc).configureEach {
 
 dependencies {
     // error-prone compiler
-    compileOnlyApi("com.google.errorprone:error_prone_annotations:$errorProneVersion")
-    errorprone("com.google.errorprone:error_prone_core:$errorProneVersion")
+    compileOnlyApi(libs.errorprone.annotations)
+    errorprone(libs.errorprone)
     // errorprone("com.uber.nullaway:nullaway:0.8.0")
 
     // Testing
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion") {
-        attributes {
-            attribute(Attribute.of("org.gradle.status", String), "release")
-        }
-    }
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion") {
-        attributes {
-            attribute(Attribute.of("org.gradle.status", String), "release")
-        }
-    }
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
 }
 
 configurations {
@@ -163,11 +159,14 @@ tasks.withType(CheckForbiddenApis).configureEach {
 // We have the checkstyle version exposed as a property for use in checkstyle's own CI
 // do not modify the checkstyle configuration without an understanding of how they test against Configurate
 dependencies {
-    checkstyle("com.puppycrawl.tools:checkstyle:$checkstyleVersion")
-    checkstyle("ca.stellardrift:stylecheck:0.1")
+    checkstyle(libs.stylecheck)
 }
 
-indra.checkstyle().set(checkstyleVersion)
+if (hasProperty('checkstyleVersion')) {
+    indra.checkstyle().set("$checkstyleVersion")
+} else {
+    indra.checkstyle().set(libs.versions.checkstyle.get())
+}
 
 def objects = project.objects
 tasks.withType(Checkstyle) {
@@ -179,13 +178,13 @@ pmd {
     incrementalAnalysis = true
     ruleSetConfig = resources.text.fromFile(rootProject.file(".pmd/rules.xml"))
     ruleSets.clear() // Remove default rule sets
-    toolVersion = "6.43.0"
+    toolVersion = libs.versions.pmd.get()
 }
 
 // configure ktlint
 plugins.withId('org.jlleitschuh.gradle.ktlint') {
     ktlint {
-        version = "$ktlintVersion"
+        version = libs.versions.ktlint.get()
     }
 }
 

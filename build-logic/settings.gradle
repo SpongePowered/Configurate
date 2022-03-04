@@ -7,6 +7,11 @@ dependencyResolutionManagement {
             mavenContent { releasesOnly() }
         }
     }
+    versionCatalogs {
+        libs {
+            from(files("../gradle/libs.versions.toml")) // include from parent project
+        }
+    }
 }
 
 rootProject.name = 'configurate-build-logic'

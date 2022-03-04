@@ -1,0 +1,71 @@
+[versions]
+autoValue="1.9"
+checkstyle="9.3"
+errorprone="2.11.0"
+indra = "2.1.1"
+junit="5.8.2"
+ktlint="0.43.2"
+pmd = "6.43.0"
+
+[libraries]
+# Shared
+autoValue = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
+autoValue-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
+errorprone = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
+errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorprone" }
+guava = "com.google.guava:guava:31.1-jre"
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+stylecheck = "ca.stellardrift:stylecheck:0.1"
+
+# Kotlin
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
+kotlin-reflect = {module = "org.jetbrains.kotlin:kotlin-reflect"} # version from Kotlin BOM
+
+# Core
+checkerQual = "org.checkerframework:checker-qual:3.21.3"
+geantyref = "io.leangen.geantyref:geantyref:1.3.13"
+
+# DFU
+dfu-v2 = "com.mojang:datafixerupper:2.0.24"
+dfu-v3 = "com.mojang:datafixerupper:3.0.25"
+dfu-v4 = "com.mojang:datafixerupper:4.0.26"
+math = "org.spongepowered:math:2.0.1"
+
+# Guice
+guice-compile = "com.google.inject:guice:4.1.0"
+guice-runtime = "com.google.inject:guice:5.0.1"
+
+# Formats
+gson = "com.google.code.gson:gson:2.8.0" # Fixed version, to avoid using API not present in older MC
+hocon = "com.typesafe:config:1.4.2"
+jackson = "com.fasterxml.jackson.core:jackson-core:2.13.1"
+
+# Tool
+clikt = "com.github.ajalt:clikt:2.8.0"
+jansi = "org.fusesource.jansi:jansi:2.4.0"
+
+# Build
+build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
+build-forbiddenApis = "de.thetaphi:forbiddenapis:3.2"
+build-goomph = "com.diffplug.gradle:goomph:3.35.0"
+build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
+build-japicmp = "me.champeau.gradle:japicmp-gradle-plugin:0.3.1"
+build-licenser = "gradle.plugin.org.cadixdev.gradle:licenser:0.6.1"
+build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:1.3.0"
+
+# For Renovate -- shouldn't need to use these directly
+zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
+zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
+
+[plugins]
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.4.1"
+detekt = "io.gitlab.arturbosch.detekt:1.19.0"
+dokka = "org.jetbrains.dokka:1.6.10"
+gitPublish = "org.ajoberstar.git-publish:3.0.1"
+indra-common = { id = "net.kyori.indra", version.ref = "indra" }
+indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
+indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
+kotlin = "org.jetbrains.kotlin.jvm:1.6.10"
+ktlint = "org.jlleitschuh.gradle.ktlint:10.2.1"
+shadow = "com.github.johnrengelman.shadow:7.1.2"

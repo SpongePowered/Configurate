@@ -17,7 +17,7 @@ dependencyResolutionManagement {
             mavenContent { releasesOnly() }
         }
         // Allow checkstyle only to be resolved from mavenLocal if set to a snapshot
-        if (checkstyleVersion.endsWith("-SNAPSHOT")) {
+        if (settings.hasProperty('checkstyleVersion') && checkstyleVersion.endsWith("-SNAPSHOT")) {
             mavenLocal {
                 content {
                     includeGroup("com.puppycrawl.tools")

@@ -6,7 +6,7 @@ description = "Integration between Configurate and Mojang's DataFixerUpper v2 li
 
 dependencies {
     api projects.core
-    api "com.mojang:datafixerupper:2.0.24"
+    api libs.dfu.v2
     testImplementation(projects.format.gson)
 }
 

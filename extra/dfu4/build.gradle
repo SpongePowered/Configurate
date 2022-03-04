@@ -6,9 +6,9 @@ description = "Integration between Configurate and Mojang's DataFixerUpper v4 li
 
 dependencies {
     api projects.core
-    api "com.mojang:datafixerupper:4.0.26"
+    api libs.dfu.v4
     testImplementation projects.format.gson
-    testImplementation "org.spongepowered:math:2.0.1"
+    testImplementation libs.math
 }
 
 tasks.withType(Javadoc) {

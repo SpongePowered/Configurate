@@ -20,17 +20,13 @@ dependencies {
             because "Use a newer version than the japicmp gradle plugin provides"
         }
     }
-    def indraVersion = "2.1.1"
-
     implementation gradleApi()
-    api "net.kyori:indra-common:$indraVersion"
-    api "net.kyori:indra-publishing-sonatype:$indraVersion"
-    api "net.kyori:indra-git:$indraVersion"
-    api "gradle.plugin.org.cadixdev.gradle:licenser:0.6.1"
-    api "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
-    api "net.ltgt.gradle:gradle-nullaway-plugin:1.3.0"
-    api "me.champeau.gradle:japicmp-gradle-plugin:0.3.1"
-    api "de.thetaphi:forbiddenapis:3.2"
-    api "com.diffplug.gradle:goomph:3.35.0"
-    implementation "com.google.guava:guava:31.1-jre"
+    api libs.build.indra
+    api libs.build.licenser
+    api libs.build.errorprone
+    api libs.build.nullaway
+    api libs.build.japicmp
+    api libs.build.forbiddenApis
+    api libs.build.goomph
+    implementation libs.guava
 }

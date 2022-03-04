@@ -1,6 +1,6 @@
 plugins {
     id 'org.spongepowered.configurate.build.component'
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    alias(libs.plugins.shadow)
 }
 
 description = "YAML format loader for Configurate"

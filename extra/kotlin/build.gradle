@@ -2,11 +2,11 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.dokka'
-    id 'io.gitlab.arturbosch.detekt'
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.detekt)
     id 'org.spongepowered.configurate.build.component'
-    id 'org.jlleitschuh.gradle.ktlint'
+    alias(libs.plugins.ktlint)
 }
 
 description = "Kotlin API support for Configurate"
@@ -60,7 +60,7 @@ tasks.withType(Detekt).configureEach {
 
 dependencies {
     api projects.core
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation libs.kotlin.reflect
     // This version has to be kept in sync with the Kotlin plugin version
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation libs.kotlin.coroutines
 }

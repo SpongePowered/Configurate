@@ -1,20 +1,17 @@
 import static org.eclipse.jgit.lib.Repository.shortenRefName
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.6.10" apply false
-    id "org.jetbrains.dokka" version "1.6.10" apply false
-    id "io.gitlab.arturbosch.detekt" version "1.19.0" apply false
-    id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply false
-    id "io.freefair.aggregate-javadoc-jar" version "6.4.1"
-    id "net.kyori.indra.publishing.sonatype" version "2.1.1"
-    id "net.kyori.indra.git" version "2.1.1"
-    id "org.ajoberstar.git-publish" version "3.0.1"
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.aggregateJavadoc)
+    alias(libs.plugins.indra.sonatype)
+    alias(libs.plugins.indra.git)
+    alias(libs.plugins.gitPublish)
     id 'java-base'
     id 'org.spongepowered.configurate.build.base'
 }
-
-group = "org.spongepowered"
-version = "4.2.0-SNAPSHOT"
 
 tasks.named('aggregateJavadoc').configure {
     def gradleJdk = JavaVersion.current()

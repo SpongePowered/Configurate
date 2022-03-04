@@ -1,13 +1,14 @@
-import java.io.IOException
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-import java.nio.file.attribute.PosixFilePermission
-import java.util.Base64
-import java.util.Locale
+import org.gradle.api.attributes.Usage
+import org.gradle.api.plugins.JavaPlugin
+import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.signatory.pgp.PgpSignatoryProvider
 import org.spongepowered.configurate.build.SignJarTask
 
+import java.nio.file.Files
+import java.nio.file.attribute.PosixFilePermission
+
 plugins {
+    id 'org.spongepowered.configurate.build.base'
     id "net.kyori.indra.publishing"
 }
 
@@ -21,7 +22,7 @@ tasks.withType(Jar).configureEach {
 if (project.hasProperty("spongeKeyStore")) {
     // We have to replace the default artifact which is a bit ugly
     // https://github.com/gradle/gradle/pull/13650 should make it easier
-    def forRelevantOutgoings = { action -> 
+    def forRelevantOutgoings = { action ->
         action.resolveStrategy = Closure.DELEGATE_FIRST
         action.delegate = configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing
         action()
@@ -61,7 +62,7 @@ if (project.hasProperty("spongeKeyStore")) {
             alias.set(project.spongeKeyStoreAlias)
             storePassword.set(project.spongeKeyStorePassword)
         }
-        
+
         afterEvaluate {
             // allow subprojects to override the signed contents
             sign.configure {
