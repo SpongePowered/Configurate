@@ -19,7 +19,7 @@ junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref 
 stylecheck = "ca.stellardrift:stylecheck:0.1"
 
 # Kotlin
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 kotlin-reflect = {module = "org.jetbrains.kotlin:kotlin-reflect"} # version from Kotlin BOM
 
 # Core
