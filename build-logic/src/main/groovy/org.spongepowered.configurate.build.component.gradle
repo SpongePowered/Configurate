@@ -220,15 +220,15 @@ tasks.register("apiDiff", me.champeau.gradle.japicmp.JapicmpTask) {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
     description = "Generate an API diff between the current source and the last tagged version."
     // Old artifact: output of old japicmp
-    oldClasspath = apiDiffPrevious.get()
-    oldArchives = apiDiffPreviousArchive.get()
+    oldClasspath.from(apiDiffPrevious)
+    oldArchives.from(apiDiffPreviousArchive)
     // New: Current compile classpath and api output
-    newClasspath = configurations.compileClasspath
-    newArchives = configurations.apiElements.outgoing.artifacts.files
+    newClasspath.from(configurations.compileClasspath)
+    newArchives.from(configurations.apiElements.outgoing.artifacts.files)
     ignoreMissingClasses = true // TODO: Doesn't seem to respect the classpath parameters
 
     onlyModified = true
-    htmlOutputFile = layout.buildDirectory.file("reports/api-diff-long.html").get().asFile
+    htmlOutputFile = layout.buildDirectory.file("reports/api-diff-long.html")
 
     richReport {
         title = "${rootProject.name} API difference report for ${project.name}"
