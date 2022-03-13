@@ -90,14 +90,13 @@ The following steps will ensure your project is cloned properly.
 2. `cd Configurate`
 
 #### Building
-**Note:** If you do not have [Gradle](https://www.gradle.org/) 6.8+ installed then use ./gradlew for Unix systems or Git Bash and gradlew.bat for
+**Note:** If you do not have [Gradle](https://www.gradle.org/) 7.0+ installed then use ./gradlew for Unix systems or Git Bash and gradlew.bat for
  Windows systems in place of any 'gradle' command.
 
 In order to build Configurate you simply need to run the `gradle build` command. You can find the compiled JAR files in `./build/libs`  (found in
  each subproject) labeled similarly to '<subproject>-x.x.x-SNAPSHOT.jar'.
  
- While the entire project can run on Java 8, the project requires Java 11 to build, and some tests require at least Java 15 to run. 
- Our CI will run these for you if you don't have the latest JDK set up locally.
+ While the entire project can run on Java 8, the project requires Java 11 to build, and for multi-release JAR contents and some tests requires at least Java 16. Gradle will automatically download necessary JDK versions -- see [their documentation](https://docs.gradle.org/current/userguide/toolchains.html) for details on this feature, and how to point it at existing local installations.
 
 #### Pull Requests
 We love PRs! However, when contributing, here are some things to keep in mind:

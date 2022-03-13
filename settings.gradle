@@ -29,6 +29,15 @@ dependencyResolutionManagement {
 
 enableFeaturePreview "TYPESAFE_PROJECT_ACCESSORS"
 
+if (!JavaVersion.current().java11Compatible) {
+    throw new GradleException("""\
+Configurate requires at least Java 11 to build, but you are running ${JavaVersion.current()}.
+
+Your JAVA_HOME is currently: ${System.getenv("JAVA_HOME")}
+Is this correct?
+""")
+}
+
 def prefix = "configurate"
 
 rootProject.name = "$prefix-parent"

@@ -1,6 +1,6 @@
 [versions]
 autoValue="1.9"
-checkstyle="9.3"
+checkstyle="10.0"
 errorprone="2.11.0"
 indra = "2.1.1"
 junit="5.8.2"
@@ -63,7 +63,7 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.4.1"
 detekt = "io.gitlab.arturbosch.detekt:1.19.0"
 dokka = "org.jetbrains.dokka:1.6.10"
-gitPublish = "org.ajoberstar.git-publish:3.0.1"
+gitPublish = "org.ajoberstar.git-publish:4.1.0"
 indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
