@@ -50,7 +50,7 @@ build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
 build-forbiddenApis = "de.thetaphi:forbiddenapis:3.2"
 build-goomph = "com.diffplug.gradle:goomph:3.35.0"
 build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
-build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.3.1"
+build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.0"
 build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.15.+" }
 build-licenser = "gradle.plugin.org.cadixdev.gradle:licenser:0.6.1"
 build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:1.3.0"
