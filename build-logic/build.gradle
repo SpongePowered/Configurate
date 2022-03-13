@@ -30,5 +30,4 @@ dependencies {
     api libs.build.japicmp.plugin
     api libs.build.forbiddenApis
     api libs.build.goomph
-    implementation libs.guava
 }
