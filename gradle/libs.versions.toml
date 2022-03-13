@@ -1,6 +1,6 @@
 [versions]
 autoValue="1.9"
-checkstyle="9.3"
+checkstyle="10.0"
 errorprone="2.11.0"
 indra = "2.1.1"
 junit="5.8.2"
