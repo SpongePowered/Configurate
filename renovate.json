@@ -4,7 +4,8 @@
   ],
   "ignoreDeps": [
     "com.google.code.gson:gson",
-    "com.google.inject:guice"
+    "com.google.inject:guice",
+    "org.ajoberstar.git-publish"
   ],
   "labels": [
     "dependencies"
