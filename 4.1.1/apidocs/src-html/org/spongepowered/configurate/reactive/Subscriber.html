@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Configurate</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * Copyright (C) zml and Configurate contributors</a>
+<span class="sourceLineNo">004</span><a id="line.4"> *</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *    http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">010</span><a id="line.10"> *</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * limitations under the License.</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">package org.spongepowered.configurate.reactive;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">/**</a>
+<span class="sourceLineNo">020</span><a id="line.20"> * A listener to events that may be called by an {@link Publisher}.</a>
+<span class="sourceLineNo">021</span><a id="line.21"> *</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * &lt;p&gt;For every publisher this subscriber is subscribed to, the subscriber will</a>
+<span class="sourceLineNo">023</span><a id="line.23"> * only process one event at a time -- effectively, within a single publisher</a>
+<span class="sourceLineNo">024</span><a id="line.24"> * this subscriber does not have to be aware of concurrent effects.</a>
+<span class="sourceLineNo">025</span><a id="line.25"> *</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * @param &lt;V&gt; the value that will be received</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * @since 4.0.0</a>
+<span class="sourceLineNo">028</span><a id="line.28"> */</a>
+<span class="sourceLineNo">029</span><a id="line.29">@FunctionalInterface</a>
+<span class="sourceLineNo">030</span><a id="line.30">public interface Subscriber&lt;V&gt; {</a>
+<span class="sourceLineNo">031</span><a id="line.31"></a>
+<span class="sourceLineNo">032</span><a id="line.32">    /**</a>
+<span class="sourceLineNo">033</span><a id="line.33">     * Called to submit a new item.</a>
+<span class="sourceLineNo">034</span><a id="line.34">     *</a>
+<span class="sourceLineNo">035</span><a id="line.35">     * @param item the item available</a>
+<span class="sourceLineNo">036</span><a id="line.36">     * @since 4.0.0</a>
+<span class="sourceLineNo">037</span><a id="line.37">     */</a>
+<span class="sourceLineNo">038</span><a id="line.38">    void submit(V item);</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">    /**</a>
+<span class="sourceLineNo">041</span><a id="line.41">     * When an error occurs while subscribing to an {@link Publisher}, or is</a>
+<span class="sourceLineNo">042</span><a id="line.42">     * thrown during the execution of {@link #submit(Object)} that is not</a>
+<span class="sourceLineNo">043</span><a id="line.43">     * otherwise handled, this method will be called with the error. The</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * associated {@link Publisher} will not send further update signals after</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * an error is thrown.</a>
+<span class="sourceLineNo">046</span><a id="line.46">     *</a>
+<span class="sourceLineNo">047</span><a id="line.47">     * @param thrown the exception thrown</a>
+<span class="sourceLineNo">048</span><a id="line.48">     * @since 4.0.0</a>
+<span class="sourceLineNo">049</span><a id="line.49">     */</a>
+<span class="sourceLineNo">050</span><a id="line.50">    default void onError(Throwable thrown) {</a>
+<span class="sourceLineNo">051</span><a id="line.51">        final Thread t = Thread.currentThread();</a>
+<span class="sourceLineNo">052</span><a id="line.52">        t.getUncaughtExceptionHandler().uncaughtException(t, thrown);</a>
+<span class="sourceLineNo">053</span><a id="line.53">    }</a>
+<span class="sourceLineNo">054</span><a id="line.54"></a>
+<span class="sourceLineNo">055</span><a id="line.55">    /**</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * When the {@link Publisher} this is subscribed to closes without error,</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * this method will be called.</a>
+<span class="sourceLineNo">058</span><a id="line.58">     *</a>
+<span class="sourceLineNo">059</span><a id="line.59">     * @since 4.0.0</a>
+<span class="sourceLineNo">060</span><a id="line.60">     */</a>
+<span class="sourceLineNo">061</span><a id="line.61">    default void onClose() {</a>
+<span class="sourceLineNo">062</span><a id="line.62">        // no-op</a>
+<span class="sourceLineNo">063</span><a id="line.63">    }</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
