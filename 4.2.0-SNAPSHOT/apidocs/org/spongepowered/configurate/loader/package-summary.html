@@ -127,10 +127,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colFirst" scope="row"><a href="ConfigurationFormat.html" title="interface in org.spongepowered.configurate.loader">ConfigurationFormat</a></th>
+<td class="colLast">
+<div class="block">A service provider interface declaring a specific configuration format.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N extends <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&gt;</th>
 <td class="colLast">
 <div class="block">Represents an object which can load and save <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> objects in a specific
  configuration format.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a></th>
+<td class="colLast">
+<div class="block">A provider for <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationLoader</code></a> options.</div>
 </td>
 </tr>
 </tbody>
@@ -145,18 +157,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="AbstractConfigurationFormat.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationFormat</a>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;,&#8203;L extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;N&gt;,&#8203;B extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;B,&#8203;L&gt;&gt;</th>
+<td class="colLast">
+<div class="block">An implementation of <a href="ConfigurationFormat.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationFormat</code></a> designed to work
+ with <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;</th>
 <td class="colLast">
 <div class="block">Base class for many stream-based configuration loaders.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;T extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;T,&#8203;L&gt;,&#8203;L extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;&gt;</th>
 <td class="colLast">
 <div class="block">An abstract builder implementation for <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="AtomicFiles.html" title="class in org.spongepowered.configurate.loader">AtomicFiles</a></th>
 <td class="colLast">
 <div class="block">A utility for creating "atomic" file writers.</div>

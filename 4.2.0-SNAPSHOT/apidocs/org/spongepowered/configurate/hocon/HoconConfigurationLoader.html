@@ -139,7 +139,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&gt;</code>, <code><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.61">HoconConfigurationLoader</a>
+<pre>public final class <a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.62">HoconConfigurationLoader</a>
 extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&gt;</pre>
 <div class="block">A loader for HOCON (Hodor)-formatted configurations, using the
  <a href="https://github.com/lightbend/config">lightbend config</a> library
@@ -298,7 +298,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.84">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.85">builder</a>()</pre>
 <div class="block">Creates a new <a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon"><code>HoconConfigurationLoader</code></a> builder.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -314,7 +314,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>checkCanWrite</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.161">checkCanWrite</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.181">checkCanWrite</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                       throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">AbstractConfigurationLoader</a></code></span></div>
 <div class="block">Perform format-specific validation of a node.
@@ -338,7 +338,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>loadInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.168">loadInternal</a>&#8203;(<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.188">loadInternal</a>&#8203;(<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;node,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&nbsp;reader)
                      throws <a href="../loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">AbstractConfigurationLoader</a></code></span></div>
@@ -362,7 +362,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockList">
 <li class="blockList">
 <h4>saveInternal</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.226">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.246">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)
                      throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
@@ -384,7 +384,7 @@ extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org
 <ul class="blockListLast">
 <li class="blockList">
 <h4>createNode</h4>
-<pre class="methodSignature">public&nbsp;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.286">createNode</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../CommentedConfigurationNode.html" title="interface in org.spongepowered.configurate">CommentedConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.306">createNode</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationNodeFactory</a></code></span></div>
 <div class="block">Create an empty node with the provided options.
 

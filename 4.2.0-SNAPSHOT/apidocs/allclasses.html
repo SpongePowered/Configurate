@@ -20,6 +20,7 @@
 <h1 class="bar">All&nbsp;Classes</h1>
 <main role="main" class="indexContainer">
 <ul>
+<li><a href="org/spongepowered/configurate/loader/AbstractConfigurationFormat.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationFormat</a></li>
 <li><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a></li>
 <li><a href="org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></li>
 <li><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></li>
@@ -44,6 +45,7 @@
 <li><a href="org/spongepowered/configurate/extra/dfu/v4/ConfigurateOps.Protection.html" title="enum in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOps.Protection</a></li>
 <li><a href="org/spongepowered/configurate/extra/dfu/v3/ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v3">ConfigurateOpsBuilder</a></li>
 <li><a href="org/spongepowered/configurate/extra/dfu/v4/ConfigurateOpsBuilder.html" title="class in org.spongepowered.configurate.extra.dfu.v4">ConfigurateOpsBuilder</a></li>
+<li><a href="org/spongepowered/configurate/loader/ConfigurationFormat.html" title="interface in org.spongepowered.configurate.loader"><span class="interfaceName">ConfigurationFormat</span></a></li>
 <li><a href="org/spongepowered/configurate/loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader"><span class="interfaceName">ConfigurationLoader</span></a></li>
 <li><a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate"><span class="interfaceName">ConfigurationNode</span></a></li>
 <li><a href="org/spongepowered/configurate/ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate"><span class="interfaceName">ConfigurationNodeFactory</span></a></li>
@@ -74,14 +76,18 @@
 <li><a href="org/spongepowered/configurate/objectmapping/FieldDiscoverer.InstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="interfaceName">FieldDiscoverer.InstanceFactory</span></a></li>
 <li><a href="org/spongepowered/configurate/objectmapping/FieldDiscoverer.MutableInstanceFactory.html" title="interface in org.spongepowered.configurate.objectmapping"><span class="interfaceName">FieldDiscoverer.MutableInstanceFactory</span></a></li>
 <li><a href="org/spongepowered/configurate/jackson/FieldValueSeparatorStyle.html" title="enum in org.spongepowered.configurate.jackson">FieldValueSeparatorStyle</a></li>
+<li><a href="org/spongepowered/configurate/gson/GsonConfigurationFormat.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationFormat</a></li>
 <li><a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></li>
 <li><a href="org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a></li>
 <li><a href="org/spongepowered/configurate/objectmapping/guice/GuiceObjectMapperProvider.html" title="class in org.spongepowered.configurate.objectmapping.guice">GuiceObjectMapperProvider</a></li>
 <li><a href="org/spongepowered/configurate/loader/HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></li>
+<li><a href="org/spongepowered/configurate/hocon/HoconConfigurationFormat.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationFormat</a></li>
 <li><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></li>
 <li><a href="org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></li>
+<li><a href="org/spongepowered/configurate/jackson/JacksonConfigurationFormat.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationFormat</a></li>
 <li><a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader</a></li>
 <li><a href="org/spongepowered/configurate/jackson/JacksonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.jackson">JacksonConfigurationLoader.Builder</a></li>
+<li><a href="org/spongepowered/configurate/loader/LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader"><span class="interfaceName">LoaderOptionSource</span></a></li>
 <li><a href="org/spongepowered/configurate/util/MapFactories.html" title="class in org.spongepowered.configurate.util">MapFactories</a></li>
 <li><a href="org/spongepowered/configurate/util/MapFactory.html" title="interface in org.spongepowered.configurate.util"><span class="interfaceName">MapFactory</span></a></li>
 <li><a href="org/spongepowered/configurate/objectmapping/meta/Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a></li>
@@ -127,8 +133,10 @@
 <li><a href="org/spongepowered/configurate/reference/ValueReference.html" title="interface in org.spongepowered.configurate.reference"><span class="interfaceName">ValueReference</span></a></li>
 <li><a href="org/spongepowered/configurate/reference/WatchServiceListener.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener</a></li>
 <li><a href="org/spongepowered/configurate/reference/WatchServiceListener.Builder.html" title="class in org.spongepowered.configurate.reference">WatchServiceListener.Builder</a></li>
+<li><a href="org/spongepowered/configurate/xml/XmlConfigurationFormat.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationFormat</a></li>
 <li><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader</a></li>
 <li><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></li>
+<li><a href="org/spongepowered/configurate/yaml/YamlConfigurationFormat.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationFormat</a></li>
 <li><a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader</a></li>
 <li><a href="org/spongepowered/configurate/yaml/YamlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.yaml">YamlConfigurationLoader.Builder</a></li>
 </ul>

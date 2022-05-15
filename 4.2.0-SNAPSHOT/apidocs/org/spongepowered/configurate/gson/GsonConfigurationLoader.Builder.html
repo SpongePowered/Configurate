@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -139,9 +139,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line.100">GsonConfigurationLoader.Builder</a>
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line.109">GsonConfigurationLoader.Builder</a>
 extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a>,&#8203;<a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a>&gt;</pre>
-<div class="block">Builds a <a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson"><code>GsonConfigurationLoader</code></a>.</div>
+<div class="block">Builds a <a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson"><code>GsonConfigurationLoader</code></a>.
+
+ <p>This builder supports the following options:</p>
+ <dl>
+     <dt>&lt;prefix&gt;.gson.lenient</dt>
+     <dd>Equivalent to <a href="#lenient(boolean)"><code>lenient(boolean)</code></a></dd>
+     <dt>&lt;prefix&gt;.gson.indent</dt>
+     <dd>Equivalent to <a href="#indent(int)"><code>indent(int)</code></a></dd>
+ </dl></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
@@ -164,7 +172,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <!--   -->
 </a>
 <h3>Fields inherited from class&nbsp;org.spongepowered.configurate.loader.<a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></h3>
-<code><a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source">source</a></code></li>
+<code><a href="../loader/AbstractConfigurationLoader.Builder.html#DEFAULT_OPTIONS_SOURCE">DEFAULT_OPTIONS_SOURCE</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source">source</a></code></li>
 </ul>
 </li>
 </ul>
@@ -218,13 +226,20 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <div class="block">Sets if the resultant loader should parse leniently.</div>
 </td>
 </tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>protected void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populate(org.spongepowered.configurate.loader.LoaderOptionSource)">populate</a></span>&#8203;(<a href="../loader/LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</code></th>
+<td class="colLast">
+<div class="block">Populate options from the provided source.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.loader.AbstractConfigurationLoader.Builder">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.spongepowered.configurate.loader.<a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a></h3>
-<code><a href="../loader/AbstractConfigurationLoader.Builder.html#buildAndLoadString(java.lang.String)">buildAndLoadString</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#buildAndSaveString(org.spongepowered.configurate.ConfigurationNode)">buildAndSaveString</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions()">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions(java.util.function.UnaryOperator)">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions(org.spongepowered.configurate.ConfigurationOptions)">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#file(java.io.File)">file</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode()">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode(org.spongepowered.configurate.loader.HeaderMode)">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#path(java.nio.file.Path)">path</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink()">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink(java.util.concurrent.Callable)">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source()">source</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source(java.util.concurrent.Callable)">source</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#url(java.net.URL)">url</a></code></li>
+<code><a href="../loader/AbstractConfigurationLoader.Builder.html#buildAndLoadString(java.lang.String)">buildAndLoadString</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#buildAndSaveString(org.spongepowered.configurate.ConfigurationNode)">buildAndSaveString</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions()">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions(java.util.function.UnaryOperator)">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#defaultOptions(org.spongepowered.configurate.ConfigurationOptions)">defaultOptions</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#file(java.io.File)">file</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#from(org.spongepowered.configurate.loader.LoaderOptionSource)">from</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode()">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#headerMode(org.spongepowered.configurate.loader.HeaderMode)">headerMode</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#path(java.nio.file.Path)">path</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink()">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#sink(java.util.concurrent.Callable)">sink</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source()">source</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#source(java.util.concurrent.Callable)">source</a>, <a href="../loader/AbstractConfigurationLoader.Builder.html#url(java.net.URL)">url</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -249,13 +264,32 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="populate(org.spongepowered.configurate.loader.LoaderOptionSource)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>populate</h4>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.118">populate</a>&#8203;(<a href="../loader/LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html#populate(org.spongepowered.configurate.loader.LoaderOptionSource)">AbstractConfigurationLoader.Builder</a></code></span></div>
+<div class="block">Populate options from the provided source.
+
+ <p>The source will have already been validated for nullness.</p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../loader/AbstractConfigurationLoader.Builder.html#populate(org.spongepowered.configurate.loader.LoaderOptionSource)">populate</a></code>&nbsp;in class&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a>,&#8203;<a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>options</code> - the options to read</dd>
+</dl>
+</li>
+</ul>
 <a id="indent(int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>indent</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.115">indent</a>&#8203;(int&nbsp;indent)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.131">indent</a>&#8203;(int&nbsp;indent)</pre>
 <div class="block">Sets the level of indentation the resultant loader should use.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -273,7 +307,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>indent</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.127">indent</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.143">indent</a>()</pre>
 <div class="block">Gets the level of indentation to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -289,7 +323,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>lenient</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.139">lenient</a>&#8203;(boolean&nbsp;lenient)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.155">lenient</a>&#8203;(boolean&nbsp;lenient)</pre>
 <div class="block">Sets if the resultant loader should parse leniently.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -309,7 +343,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>lenient</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.151">lenient</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.167">lenient</a>()</pre>
 <div class="block">Gets if the resultant loader should parse leniently.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -325,7 +359,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.155">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/NonNull.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@NonNull</a> <a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.Builder.html#line.171">build</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html#build()">AbstractConfigurationLoader.Builder</a></code></span></div>
 <div class="block">Builds the loader.</div>
 <dl>

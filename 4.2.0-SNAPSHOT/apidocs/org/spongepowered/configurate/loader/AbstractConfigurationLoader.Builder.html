@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
+var data = {"i0":6,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -170,21 +170,26 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected static <a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#DEFAULT_OPTIONS_SOURCE">DEFAULT_OPTIONS_SOURCE</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#defaultOptions">defaultOptions</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headerMode">headerMode</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sink">sink</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#source">source</a></span></code></th>
 <td class="colLast">&nbsp;</td>
@@ -286,55 +291,69 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(org.spongepowered.configurate.loader.LoaderOptionSource)">from</a></span>&#8203;(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;source)</code></th>
+<td class="colLast">
+<div class="block">Populate this builder by reading options from the provided source.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headerMode()">headerMode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the header mode to be used by the resultant loader.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headerMode(org.spongepowered.configurate.loader.HeaderMode)">headerMode</a></span>&#8203;(<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Sets the header mode of the resultant loader.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#path(java.nio.file.Path)">path</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Sets the sink and source of the resultant loader to the given path.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>protected void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populate(org.spongepowered.configurate.loader.LoaderOptionSource)">populate</a></span>&#8203;(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</code></th>
+<td class="colLast">
+<div class="block">Populate options from the provided source.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sink()">sink</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the sink to be used by the resultant loader.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sink(java.util.concurrent.Callable)">sink</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</code></th>
 <td class="colLast">
 <div class="block">Sets the sink of the resultant loader.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#source()">source</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the source to be used by the resultant loader.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#source(java.util.concurrent.Callable)">source</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</code></th>
 <td class="colLast">
 <div class="block">Sets the source of the resultant loader.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#url(java.net.URL)">url</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</code></th>
 <td class="colLast">
@@ -365,13 +384,22 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Field Detail</h3>
+<a id="DEFAULT_OPTIONS_SOURCE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DEFAULT_OPTIONS_SOURCE</h4>
+<pre>protected static final&nbsp;<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.267">DEFAULT_OPTIONS_SOURCE</a></pre>
+</li>
+</ul>
 <a id="headerMode">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>headerMode</h4>
-<pre>protected&nbsp;<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.266">headerMode</a></pre>
+<pre>protected&nbsp;<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.272">headerMode</a></pre>
 </li>
 </ul>
 <a id="source">
@@ -380,7 +408,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre>protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.267">source</a></pre>
+<pre>protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.273">source</a></pre>
 </li>
 </ul>
 <a id="sink">
@@ -389,7 +417,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sink</h4>
-<pre>protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.268">sink</a></pre>
+<pre>protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.274">sink</a></pre>
 </li>
 </ul>
 <a id="defaultOptions">
@@ -398,7 +426,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>defaultOptions</h4>
-<pre>protected&nbsp;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.269">defaultOptions</a></pre>
+<pre>protected&nbsp;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a> <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.275">defaultOptions</a></pre>
 </li>
 </ul>
 </li>
@@ -417,10 +445,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.278">Builder</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.288">Builder</a>()</pre>
 <div class="block">Create a new builder.
 
- <p>This is where any custom default options can be applied.</p></div>
+ <p>This is where any custom default options can be applied.</p>
+
+ <p>At the end of this constructor, <a href="#from(org.spongepowered.configurate.loader.LoaderOptionSource)"><code>from(LoaderOptionSource)</code></a>
+ should be called with <a href="#DEFAULT_OPTIONS_SOURCE"><code>DEFAULT_OPTIONS_SOURCE</code></a> to read any supported
+ options from environment variables and system properties.</p></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
@@ -437,13 +469,57 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="from(org.spongepowered.configurate.loader.LoaderOptionSource)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>from</h4>
+<pre class="methodSignature">public final&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.304">from</a>&#8203;(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;source)</pre>
+<div class="block">Populate this builder by reading options from the provided source.
+
+ <p>These options should control all options for the reading and
+ representation of nodes produced by this loader, specifically
+ excluding the <a href="#source()"><code>source()</code></a> and <a href="#sink()"><code>sink()</code></a> of the loader,
+ and the <a href="#defaultOptions()"><code>defaultOptions()</code></a>.</p>
+
+ <p>The options read from the provided source are format-defined.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>source</code> - the source to read</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder (for chaining)</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
+<a id="populate(org.spongepowered.configurate.loader.LoaderOptionSource)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>populate</h4>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
+protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.322">populate</a>&#8203;(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</pre>
+<div class="block">Populate options from the provided source.
+
+ <p>The source will have already been validated for nullness.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>options</code> - the options to read</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="file(java.io.File)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>file</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.298">file</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.344">file</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</pre>
 <div class="block">Sets the sink and source of the resultant loader to the given file.
 
  <p>The <a href="#source()"><code>source</code></a> is defined using
@@ -467,7 +543,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>path</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.315">path</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.361">path</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;path)</pre>
 <div class="block">Sets the sink and source of the resultant loader to the given path.
 
  <p>The <a href="#source()"><code>source</code></a> is defined using
@@ -491,7 +567,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>url</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.329">url</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.375">url</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</pre>
 <div class="block">Sets the source of the resultant loader to the given URL.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -509,7 +585,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.344">source</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.390">source</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;source)</pre>
 <div class="block">Sets the source of the resultant loader.
 
  <p>The "source" is used by the loader to load the configuration.</p></div>
@@ -529,7 +605,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.355">source</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.401">source</a>()</pre>
 <div class="block">Gets the source to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -545,7 +621,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sink</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.368">sink</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.414">sink</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;sink)</pre>
 <div class="block">Sets the sink of the resultant loader.
 
  <p>The "sink" is used by the loader to save the configuration.</p></div>
@@ -565,7 +641,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sink</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.379">sink</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.425">sink</a>()</pre>
 <div class="block">Gets the sink to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -581,7 +657,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>headerMode</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.390">headerMode</a>&#8203;(<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.436">headerMode</a>&#8203;(<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</pre>
 <div class="block">Sets the header mode of the resultant loader.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -599,7 +675,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>headerMode</h4>
-<pre class="methodSignature">public&nbsp;<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.401">headerMode</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.447">headerMode</a>()</pre>
 <div class="block">Gets the header mode to be used by the resultant loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -615,7 +691,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>defaultOptions</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.413">defaultOptions</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.459">defaultOptions</a>&#8203;(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</pre>
 <div class="block">Sets the default configuration options to be used by the
  resultant loader.</div>
 <dl>
@@ -634,7 +710,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>defaultOptions</h4>
-<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.427">defaultOptions</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</pre>
+<pre class="methodSignature">public&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.473">defaultOptions</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</pre>
 <div class="block">Sets the default configuration options to be used by the resultant
  loader by providing a function which takes the current default
  options and applies any desired changes.</div>
@@ -654,7 +730,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>defaultOptions</h4>
-<pre class="methodSignature">public&nbsp;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.439">defaultOptions</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.485">defaultOptions</a>()</pre>
 <div class="block">Gets the default configuration options to be used by the resultant
  loader.</div>
 <dl>
@@ -671,7 +747,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.449">build</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.495">build</a>()</pre>
 <div class="block">Builds the loader.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -687,7 +763,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>buildAndLoadString</h4>
-<pre class="methodSignature">public&nbsp;<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.458">buildAndLoadString</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;input)
+<pre class="methodSignature">public&nbsp;<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.504">buildAndLoadString</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;input)
                                      throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Configure to read from a string, build, and load in one step.</div>
 <dl>
@@ -708,7 +784,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>buildAndSaveString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.471">buildAndSaveString</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;output)
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line.517">buildAndSaveString</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;output)
                           throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Configure to write to a string, build, and save in one step.</div>
 <dl>
