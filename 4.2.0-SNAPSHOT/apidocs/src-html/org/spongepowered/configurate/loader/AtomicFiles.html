@@ -134,7 +134,7 @@
 <span class="sourceLineNo">125</span><a id="line.125">                for (int tries = 0; tries &lt; MAX_TRIES; ++tries) {</a>
 <span class="sourceLineNo">126</span><a id="line.126">                    // Pause for a bit</a>
 <span class="sourceLineNo">127</span><a id="line.127">                    try {</a>
-<span class="sourceLineNo">128</span><a id="line.128">                        Thread.sleep(5 * (tries + 1));</a>
+<span class="sourceLineNo">128</span><a id="line.128">                        Thread.sleep(5L * (tries + 1));</a>
 <span class="sourceLineNo">129</span><a id="line.129">                        Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);</a>
 <span class="sourceLineNo">130</span><a id="line.130">                        return;</a>
 <span class="sourceLineNo">131</span><a id="line.131">                    } catch (final AccessDeniedException ex2) {</a>
