@@ -22,8 +22,6 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -38,7 +36,7 @@ import java.lang.reflect.Type;
  */
 final class CodecSerializer<V> implements TypeSerializer<V> {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final LogWrapper LOGGER = LogWrapper.logger(CodecSerializer.class);
     private static final ConfigurateOps DEFAULT_OPS = ConfigurateOps.builder().readWriteProtection(ConfigurateOps.Protection.NONE).build();
 
     static DynamicOps<ConfigurationNode> opsFor(final ConfigurationNode node) {
