@@ -111,6 +111,12 @@ spotless {
         licenseHeader(licenseText)
         targetExclude 'generated/**'
     }
+
+    format 'configs', {
+        target '**/*.yaml', '**/*.yml', '**/*.xml', '**/*.json'
+        endWithNewline()
+        trimTrailingWhitespace()
+    }
 }
 
 // Set up automatic module name

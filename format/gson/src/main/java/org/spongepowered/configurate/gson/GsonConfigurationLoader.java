@@ -35,6 +35,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.Strings;
@@ -95,6 +96,14 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
     /**
      * Builds a {@link GsonConfigurationLoader}.
      *
+     * <p>This builder supports the following options:</p>
+     * <dl>
+     *     <dt>&lt;prefix&gt;.gson.lenient</dt>
+     *     <dd>Equivalent to {@link #lenient(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.gson.indent</dt>
+     *     <dd>Equivalent to {@link #indent(int)}</dd>
+     * </dl>
+     *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, GsonConfigurationLoader> {
@@ -103,6 +112,13 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
 
         Builder() {
             this.defaultOptions(DEFAULT_OPTIONS);
+            this.from(DEFAULT_OPTIONS_SOURCE);
+        }
+
+        @Override
+        protected void populate(final LoaderOptionSource options) {
+            this.indent = options.getInt(this.indent, "gson", "indent");
+            this.lenient = options.getBoolean(this.lenient, "gson", "lenient");
         }
 
         /**

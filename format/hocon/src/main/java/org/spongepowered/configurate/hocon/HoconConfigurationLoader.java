@@ -35,6 +35,7 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
+import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -88,12 +89,31 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
     /**
      * Builds a {@link HoconConfigurationLoader}.
      *
+     * <p>This builder supports the following options:</p>
+     * <dl>
+     *     <dt>&lt;prefix&gt;.hocon.pretty-printing</dt>
+     *     <dd>Equivalent to {@link #prettyPrinting(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.hocon.emit-comments</dt>
+     *     <dd>Equivalent to {@link #emitComments(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.hocon.json-compatible</dt>
+     *     <dd>Equivalent to {@link #emitJsonCompatible(boolean)}</dd>
+     * </dl>
+     *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, HoconConfigurationLoader> {
         private ConfigRenderOptions render = DEFAULT_RENDER_OPTIONS;
 
         Builder() {
+            this.from(DEFAULT_OPTIONS_SOURCE);
+        }
+
+        @Override
+        protected void populate(final LoaderOptionSource options) {
+            this.render = this.render
+                .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))
+                .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))
+                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));
         }
 
         /**
