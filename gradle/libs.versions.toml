@@ -53,8 +53,8 @@ build-goomph = "com.diffplug.gradle:goomph:3.36.2"
 build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.0"
 build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.15.+" }
-build-licenser = "gradle.plugin.org.cadixdev.gradle:licenser:0.6.1"
 build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:1.3.0"
+build-spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.6.1"
 
 # For Renovate -- shouldn't need to use these directly
 zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }

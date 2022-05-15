@@ -24,7 +24,7 @@ dependencies {
     }
     implementation gradleApi()
     api libs.build.indra
-    api libs.build.licenser
+    api libs.build.spotless
     api libs.build.errorprone
     api libs.build.nullaway
     api libs.build.japicmp.plugin

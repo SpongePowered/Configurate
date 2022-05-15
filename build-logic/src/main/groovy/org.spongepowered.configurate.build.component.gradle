@@ -17,11 +17,11 @@ plugins {
     id "org.spongepowered.configurate.build.publishing"
     id "net.kyori.indra"
     id "net.kyori.indra.checkstyle"
-    id "net.kyori.indra.license-header"
     id "net.ltgt.errorprone"
     id "me.champeau.gradle.japicmp"
     id "de.thetaphi.forbiddenapis"
     id 'com.diffplug.eclipse.apt'
+    id 'com.diffplug.spotless'
     id 'pmd'
 }
 
@@ -100,9 +100,17 @@ configurations {
 }
 
 // Apply a license header
-license {
-    header rootProject.file("LICENSE_HEADER")
-    exclude "generated/**"
+spotless {
+    java {
+        def lineSep = System.lineSeparator()
+        File contents = rootProject.file('LICENSE_HEADER')
+        def licenseText = "/*" + lineSep + contents.readLines('utf-8')
+          .collect { (" * " + it).stripTrailing() }
+          .join(lineSep) + lineSep + " */"
+
+        licenseHeader(licenseText)
+        targetExclude 'generated/**'
+    }
 }
 
 // Set up automatic module name
