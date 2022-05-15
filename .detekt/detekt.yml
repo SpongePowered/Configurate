@@ -229,5 +229,8 @@ exceptions:
      - RuntimeException
 
 # We use ktlint to check formatting
-formatting:
+style:
+  active: false
+
+naming:
   active: false
