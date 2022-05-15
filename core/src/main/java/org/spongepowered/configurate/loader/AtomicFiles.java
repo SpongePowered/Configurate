@@ -125,7 +125,7 @@ public final class AtomicFiles {
                 for (int tries = 0; tries < MAX_TRIES; ++tries) {
                     // Pause for a bit
                     try {
-                        Thread.sleep(5 * (tries + 1));
+                        Thread.sleep(5L * (tries + 1));
                         Files.move(this.writePath, this.targetPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
                         return;
                     } catch (final AccessDeniedException ex2) {
