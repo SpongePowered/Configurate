@@ -60,13 +60,15 @@ jobs:
 
       # Then deploy, but only on the main branch
       - name: Determine status
-        if: "${{ runner.os == 'Linux' }}"
+        shell: bash
         run: |
-          if [ "$(./gradlew properties | awk '/^version:/ { print $2; }' | grep '\-SNAPSHOT')" ]; then
+          VERSION="$(./gradlew properties | awk '/^version:/ { print $2; }')"
+          if [ "$(echo $VERSION | grep '\-SNAPSHOT')" ]; then
             echo "STATUS=snapshot" >> $GITHUB_ENV
           else
             echo "STATUS=release" >> $GITHUB_ENV
           fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Publish with Gradle
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')))) }}"
         run: ./gradlew publish gitPublishCopy closeSonatypeStagingRepository
@@ -90,3 +92,10 @@ jobs:
         with:
           branch: gh-pages
           folder: build/gitPublish
+      - name: Publish configurate-tool as release artifact
+        if: "${{ runner.os == 'Linux' && env.STATUS == 'release' && github.event_name == 'release' }}"
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            tool/build/distributions/tool-${{ env.VERSION }}.tar.gz
+            tool/build/distributions/tool-${{ env.VERSION }}.zip
