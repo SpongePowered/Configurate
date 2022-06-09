@@ -39,10 +39,12 @@
 
     <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html -->
     <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass"/>
+    <rule ref="category/java/codestyle.xml/EmptyControlStatement"/>
     <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop"/>
     <rule ref="category/java/codestyle.xml/IdenticalCatchBranches"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
+    <rule ref="category/java/codestyle.xml/UnnecessarySemicolon"/>
     <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
 
     <!-- https://pmd.github.io/latest/pmd_rules_java_design.html -->
@@ -80,12 +82,6 @@
     <rule ref="category/java/errorprone.xml/DoNotTerminateVM"/>
     <rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally"/>
     <rule ref="category/java/errorprone.xml/DontImportSun"/>
-    <rule ref="category/java/errorprone.xml/EmptyIfStmt"/>
-    <rule ref="category/java/errorprone.xml/EmptyInitializer"/>
-    <rule ref="category/java/errorprone.xml/EmptySwitchStatements"/>
-    <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock"/>
-    <rule ref="category/java/errorprone.xml/EmptyTryBlock"/>
-    <rule ref="category/java/errorprone.xml/EmptyWhileStmt"/>
     <rule ref="category/java/errorprone.xml/EqualsNull"/>
     <rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize"/>
     <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize"/>

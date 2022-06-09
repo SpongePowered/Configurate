@@ -4,6 +4,7 @@
 /*/bin/
 /*/.factorypath
 /*/.apt_generated/
+/*/.apt_generated_tests/
 /*/.checkstyle
 build-logic/*/bin/
 /build/
@@ -12,12 +13,14 @@ build-logic/*/bin/
 /format/*/out/
 /format/*/.factorypath
 /format/*/.apt_generated/
+/format/*/.apt_generated_tests/
 /format/*/.checkstyle
 /extra/*/build/
 /extra/*/out/
 /extra/*/bin/
 /extra/*/.factorypath
 /extra/*/.apt_generated/
+/format/*/.apt_generated_tests/
 /extra/*/.checkstyle
 
 # gitpatcher local data

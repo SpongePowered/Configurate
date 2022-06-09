@@ -16,9 +16,6 @@
  */
 package org.spongepowered.configurate.reactive;
 
-import com.google.errorprone.annotations.concurrent.LockMethod;
-import com.google.errorprone.annotations.concurrent.UnlockMethod;
-
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -40,11 +37,11 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
     }
 
     @Override
-    default void submit(V value) {
+    default void submit(final V value) {
         try {
             beginTransaction(value);
             commit();
-        } catch (TransactionFailedException ex) {
+        } catch (final TransactionFailedException ex) {
             rollback();
         }
     }
@@ -131,14 +128,12 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
         }
 
         @Override
-        @LockMethod("lock")
         public void beginTransaction(final V value) throws TransactionFailedException {
             this.lock.lock();
             this.sub.beginTransaction(value);
         }
 
         @Override
-        @UnlockMethod("lock")
         public void commit() {
             try {
                 this.sub.commit();
@@ -152,7 +147,6 @@ interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V>
         }
 
         @Override
-        @UnlockMethod("lock")
         public void rollback() {
             try {
                 this.sub.rollback();
