@@ -1,7 +1,7 @@
 [versions]
 autoValue="1.9"
 checkstyle="10.2"
-errorprone="2.13.1"
+errorprone="2.14.0"
 indra = "2.1.1"
 junit="5.8.2"
 ktlint="0.43.2"
