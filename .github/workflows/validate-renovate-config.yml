@@ -1,0 +1,20 @@
+name: "Validate Renovate Configuration"
+
+on:
+  push:
+    paths:
+    - "renovate.json"
+  pull_request:
+    paths:
+    - "renovate.json"
+
+jobs:
+  validate:
+    # Only run on PRs if the source branch is on someone else's repo
+    if: "${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
+      with:
+        config_file_path: renovate.json
