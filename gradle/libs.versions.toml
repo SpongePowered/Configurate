@@ -61,13 +61,13 @@ zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
 zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.4.3"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.4.3.1"
 detekt = "io.gitlab.arturbosch.detekt:1.20.0"
 dokka = "org.jetbrains.dokka:1.6.21"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
 indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
-kotlin = "org.jetbrains.kotlin.jvm:1.6.21"
+kotlin = "org.jetbrains.kotlin.jvm:1.7.0"
 ktlint = "org.jlleitschuh.gradle.ktlint:10.3.0"
 shadow = "com.github.johnrengelman.shadow:7.1.2"
