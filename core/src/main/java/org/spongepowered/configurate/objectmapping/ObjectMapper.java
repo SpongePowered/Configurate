@@ -20,6 +20,7 @@ import io.leangen.geantyref.TypeToken;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
+import org.spongepowered.configurate.objectmapping.meta.PostProcessor;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
@@ -193,7 +194,7 @@ public interface ObjectMapper<V> {
          * @since 4.0.0
          */
         @SuppressWarnings("unchecked")
-        default <V> ObjectMapper<V> get(TypeToken<V> type) throws SerializationException {
+        default <V> ObjectMapper<V> get(final TypeToken<V> type) throws SerializationException {
             return (ObjectMapper<V>) get(type.getType());
         }
 
@@ -210,7 +211,7 @@ public interface ObjectMapper<V> {
          * @since 4.0.0
          */
         @SuppressWarnings("unchecked")
-        default <V> ObjectMapper<V> get(Class<V> clazz) throws SerializationException {
+        default <V> ObjectMapper<V> get(final Class<V> clazz) throws SerializationException {
             return (ObjectMapper<V>) get((Type) clazz);
         }
 
@@ -295,7 +296,7 @@ public interface ObjectMapper<V> {
              * @return this builder
              * @since 4.0.0
              */
-            default <A extends Annotation> Builder addProcessor(Class<A> definition, Processor.Factory<A, Object> factory) {
+            default <A extends Annotation> Builder addProcessor(final Class<A> definition, final Processor.Factory<A, Object> factory) {
                 return addProcessor(definition, Object.class, factory);
             }
 
@@ -327,7 +328,7 @@ public interface ObjectMapper<V> {
              * @return this builder
              * @since 4.0.0
              */
-            default <A extends Annotation> Builder addConstraint(Class<A> definition, Constraint.Factory<A, Object> factory) {
+            default <A extends Annotation> Builder addConstraint(final Class<A> definition, final Constraint.Factory<A, Object> factory) {
                 return addConstraint(definition, Object.class, factory);
             }
 
@@ -346,6 +347,19 @@ public interface ObjectMapper<V> {
              * @since 4.0.0
              */
             <A extends Annotation, T> Builder addConstraint(Class<A> definition, Class<T> valueType, Constraint.Factory<A, T> factory);
+
+            /**
+             * Register an object post-processor with this object mapper.
+             *
+             * <p>All post-processors will be called, even if one
+             * throws an exception.</p>
+             *
+             * @param factory the factory optionally producing a
+             *     post processor function
+             * @return this builder
+             * @since 4.2.0
+             */
+            Builder addPostProcessor(PostProcessor.Factory factory);
 
             /**
              * Create a new factory using the current configuration.
