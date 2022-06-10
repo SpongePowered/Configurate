@@ -78,7 +78,7 @@
 <span class="sourceLineNo">069</span><a id="line.69">     * @since 4.0.0</a>
 <span class="sourceLineNo">070</span><a id="line.70">     */</a>
 <span class="sourceLineNo">071</span><a id="line.71">    static FieldDiscoverer&lt;?&gt; object(final CheckedFunction&lt;AnnotatedType, @Nullable Supplier&lt;Object&gt;, SerializationException&gt; instanceFactory) {</a>
-<span class="sourceLineNo">072</span><a id="line.72">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null);</a>
+<span class="sourceLineNo">072</span><a id="line.72">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null, false);</a>
 <span class="sourceLineNo">073</span><a id="line.73">    }</a>
 <span class="sourceLineNo">074</span><a id="line.74"></a>
 <span class="sourceLineNo">075</span><a id="line.75">    /**</a>
@@ -98,123 +98,144 @@
 <span class="sourceLineNo">089</span><a id="line.89">    static FieldDiscoverer&lt;?&gt; object(final CheckedFunction&lt;AnnotatedType, @Nullable Supplier&lt;Object&gt;, SerializationException&gt; instanceFactory,</a>
 <span class="sourceLineNo">090</span><a id="line.90">            final String instanceUnavailableErrorMessage) {</a>
 <span class="sourceLineNo">091</span><a id="line.91">        requireNonNull(instanceUnavailableErrorMessage, "instanceUnavailableErrorMessage");</a>
-<span class="sourceLineNo">092</span><a id="line.92">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), instanceUnavailableErrorMessage);</a>
+<span class="sourceLineNo">092</span><a id="line.92">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), instanceUnavailableErrorMessage, false);</a>
 <span class="sourceLineNo">093</span><a id="line.93">    }</a>
 <span class="sourceLineNo">094</span><a id="line.94"></a>
 <span class="sourceLineNo">095</span><a id="line.95">    /**</a>
 <span class="sourceLineNo">096</span><a id="line.96">     * Create a new discoverer for object instance fields.</a>
 <span class="sourceLineNo">097</span><a id="line.97">     *</a>
-<span class="sourceLineNo">098</span><a id="line.98">     * &lt;p&gt;Only objects with empty constructors can be created.&lt;/p&gt;</a>
-<span class="sourceLineNo">099</span><a id="line.99">     *</a>
-<span class="sourceLineNo">100</span><a id="line.100">     * @return new discoverer</a>
-<span class="sourceLineNo">101</span><a id="line.101">     * @see #object(CheckedFunction) for more details on which fields will</a>
-<span class="sourceLineNo">102</span><a id="line.102">     *      be discovered.</a>
-<span class="sourceLineNo">103</span><a id="line.103">     * @since 4.0.0</a>
-<span class="sourceLineNo">104</span><a id="line.104">     */</a>
-<span class="sourceLineNo">105</span><a id="line.105">    static FieldDiscoverer&lt;?&gt; emptyConstructorObject() {</a>
-<span class="sourceLineNo">106</span><a id="line.106">        return ObjectFieldDiscoverer.EMPTY_CONSTRUCTOR_INSTANCE;</a>
-<span class="sourceLineNo">107</span><a id="line.107">    }</a>
-<span class="sourceLineNo">108</span><a id="line.108"></a>
-<span class="sourceLineNo">109</span><a id="line.109">    /**</a>
-<span class="sourceLineNo">110</span><a id="line.110">     * Inspect the {@code target} type for fields to be supplied to</a>
-<span class="sourceLineNo">111</span><a id="line.111">     * the {@code collector}.</a>
-<span class="sourceLineNo">112</span><a id="line.112">     *</a>
-<span class="sourceLineNo">113</span><a id="line.113">     * &lt;p&gt;If the target type is handleable, a non-null value must be returned.</a>
-<span class="sourceLineNo">114</span><a id="line.114">     * Fields can only be collected from one source at the moment, so if the</a>
-<span class="sourceLineNo">115</span><a id="line.115">     * instance factory is null any discovered fields will be discarded.&lt;/p&gt;</a>
-<span class="sourceLineNo">116</span><a id="line.116">     *</a>
-<span class="sourceLineNo">117</span><a id="line.117">     * @param target type to inspect</a>
-<span class="sourceLineNo">118</span><a id="line.118">     * @param collector collector for discovered fields.</a>
-<span class="sourceLineNo">119</span><a id="line.119">     * @param &lt;V&gt; object type</a>
-<span class="sourceLineNo">120</span><a id="line.120">     * @return a factory for handling the construction of object instances, or</a>
-<span class="sourceLineNo">121</span><a id="line.121">     *      {@code null} if {@code target} is not of a handleable type.</a>
-<span class="sourceLineNo">122</span><a id="line.122">     * @throws SerializationException if any fields have invalid data</a>
-<span class="sourceLineNo">123</span><a id="line.123">     * @since 4.0.0</a>
-<span class="sourceLineNo">124</span><a id="line.124">     */</a>
-<span class="sourceLineNo">125</span><a id="line.125">    &lt;V&gt; @Nullable InstanceFactory&lt;I&gt; discover(AnnotatedType target, FieldCollector&lt;I, V&gt; collector) throws SerializationException;</a>
-<span class="sourceLineNo">126</span><a id="line.126"></a>
-<span class="sourceLineNo">127</span><a id="line.127">    /**</a>
-<span class="sourceLineNo">128</span><a id="line.128">     * A handler that controls the deserialization process for an object.</a>
-<span class="sourceLineNo">129</span><a id="line.129">     *</a>
-<span class="sourceLineNo">130</span><a id="line.130">     * @param &lt;I&gt; intermediate type</a>
-<span class="sourceLineNo">131</span><a id="line.131">     * @since 4.0.0</a>
-<span class="sourceLineNo">132</span><a id="line.132">     */</a>
-<span class="sourceLineNo">133</span><a id="line.133">    interface InstanceFactory&lt;I&gt; {</a>
-<span class="sourceLineNo">134</span><a id="line.134"></a>
-<span class="sourceLineNo">135</span><a id="line.135">        /**</a>
-<span class="sourceLineNo">136</span><a id="line.136">         * Return a new instance of the intermediary type to be populated.</a>
-<span class="sourceLineNo">137</span><a id="line.137">         *</a>
-<span class="sourceLineNo">138</span><a id="line.138">         * @return new intermediate container</a>
-<span class="sourceLineNo">139</span><a id="line.139">         * @since 4.0.0</a>
-<span class="sourceLineNo">140</span><a id="line.140">         */</a>
-<span class="sourceLineNo">141</span><a id="line.141">        I begin();</a>
-<span class="sourceLineNo">142</span><a id="line.142"></a>
-<span class="sourceLineNo">143</span><a id="line.143">        /**</a>
-<span class="sourceLineNo">144</span><a id="line.144">         * Return a finalized object based on the provided intermediate.</a>
-<span class="sourceLineNo">145</span><a id="line.145">         *</a>
-<span class="sourceLineNo">146</span><a id="line.146">         * @param intermediate intermediate container to hold values</a>
-<span class="sourceLineNo">147</span><a id="line.147">         * @return final value</a>
-<span class="sourceLineNo">148</span><a id="line.148">         * @throws SerializationException if unable to construct a</a>
-<span class="sourceLineNo">149</span><a id="line.149">         * @since 4.0.0</a>
-<span class="sourceLineNo">150</span><a id="line.150">         */</a>
-<span class="sourceLineNo">151</span><a id="line.151">        Object complete(I intermediate) throws SerializationException;</a>
-<span class="sourceLineNo">152</span><a id="line.152"></a>
-<span class="sourceLineNo">153</span><a id="line.153">        /**</a>
-<span class="sourceLineNo">154</span><a id="line.154">         * Get whether or not new object instances can be created.</a>
-<span class="sourceLineNo">155</span><a id="line.155">         *</a>
-<span class="sourceLineNo">156</span><a id="line.156">         * @return new instance creation</a>
-<span class="sourceLineNo">157</span><a id="line.157">         * @since 4.0.0</a>
-<span class="sourceLineNo">158</span><a id="line.158">         */</a>
-<span class="sourceLineNo">159</span><a id="line.159">        boolean canCreateInstances();</a>
-<span class="sourceLineNo">160</span><a id="line.160">    }</a>
-<span class="sourceLineNo">161</span><a id="line.161"></a>
-<span class="sourceLineNo">162</span><a id="line.162">    /**</a>
-<span class="sourceLineNo">163</span><a id="line.163">     * A handler for working with mutable objects in the object mapper.</a>
-<span class="sourceLineNo">164</span><a id="line.164">     *</a>
-<span class="sourceLineNo">165</span><a id="line.165">     * @param &lt;I&gt; intermediate type</a>
-<span class="sourceLineNo">166</span><a id="line.166">     * @since 4.0.0</a>
-<span class="sourceLineNo">167</span><a id="line.167">     */</a>
-<span class="sourceLineNo">168</span><a id="line.168">    interface MutableInstanceFactory&lt;I&gt; extends InstanceFactory&lt;I&gt; {</a>
-<span class="sourceLineNo">169</span><a id="line.169"></a>
-<span class="sourceLineNo">170</span><a id="line.170">        /**</a>
-<span class="sourceLineNo">171</span><a id="line.171">         * Apply the intermediate data to an existing object.</a>
-<span class="sourceLineNo">172</span><a id="line.172">         *</a>
-<span class="sourceLineNo">173</span><a id="line.173">         * @param instance instance to write to</a>
-<span class="sourceLineNo">174</span><a id="line.174">         * @param intermediate intermediate container</a>
-<span class="sourceLineNo">175</span><a id="line.175">         * @throws SerializationException if unable to apply info</a>
-<span class="sourceLineNo">176</span><a id="line.176">         * @since 4.0.0</a>
-<span class="sourceLineNo">177</span><a id="line.177">         */</a>
-<span class="sourceLineNo">178</span><a id="line.178">        void complete(Object instance, I intermediate) throws SerializationException;</a>
-<span class="sourceLineNo">179</span><a id="line.179">    }</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">    /**</a>
-<span class="sourceLineNo">182</span><a id="line.182">     * A collector for the necessary metadata for fields.</a>
-<span class="sourceLineNo">183</span><a id="line.183">     *</a>
-<span class="sourceLineNo">184</span><a id="line.184">     * @param &lt;I&gt; intermediate type</a>
-<span class="sourceLineNo">185</span><a id="line.185">     * @param &lt;V&gt; container type</a>
-<span class="sourceLineNo">186</span><a id="line.186">     * @since 4.0.0</a>
-<span class="sourceLineNo">187</span><a id="line.187">     */</a>
-<span class="sourceLineNo">188</span><a id="line.188">    @FunctionalInterface</a>
-<span class="sourceLineNo">189</span><a id="line.189">    interface FieldCollector&lt;I, V&gt; {</a>
+<span class="sourceLineNo">098</span><a id="line.98">     * &lt;p&gt;This discoverer will process any non-static and non-transient field</a>
+<span class="sourceLineNo">099</span><a id="line.99">     * in the object. Modifying {@code final} fields is unsupported and may stop</a>
+<span class="sourceLineNo">100</span><a id="line.100">     * working with newer Java versions.&lt;/p&gt;</a>
+<span class="sourceLineNo">101</span><a id="line.101">     *</a>
+<span class="sourceLineNo">102</span><a id="line.102">     * &lt;p&gt;This discoverer will only match objects that it can create an instance</a>
+<span class="sourceLineNo">103</span><a id="line.103">     * of (i. e. where {@code instanceFactory} returns a</a>
+<span class="sourceLineNo">104</span><a id="line.104">     * non-{@code null} supplier).&lt;/p&gt;</a>
+<span class="sourceLineNo">105</span><a id="line.105">     *</a>
+<span class="sourceLineNo">106</span><a id="line.106">     * @param instanceFactory a factory for instance providers</a>
+<span class="sourceLineNo">107</span><a id="line.107">     * @return new discoverer</a>
+<span class="sourceLineNo">108</span><a id="line.108">     * @since 4.2.0</a>
+<span class="sourceLineNo">109</span><a id="line.109">     */</a>
+<span class="sourceLineNo">110</span><a id="line.110">    static FieldDiscoverer&lt;?&gt; instantiableObject(</a>
+<span class="sourceLineNo">111</span><a id="line.111">        final CheckedFunction&lt;AnnotatedType, @Nullable Supplier&lt;Object&gt;, SerializationException&gt; instanceFactory</a>
+<span class="sourceLineNo">112</span><a id="line.112">    ) {</a>
+<span class="sourceLineNo">113</span><a id="line.113">        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null, true);</a>
+<span class="sourceLineNo">114</span><a id="line.114">    }</a>
+<span class="sourceLineNo">115</span><a id="line.115"></a>
+<span class="sourceLineNo">116</span><a id="line.116">    /**</a>
+<span class="sourceLineNo">117</span><a id="line.117">     * Create a new discoverer for object instance fields.</a>
+<span class="sourceLineNo">118</span><a id="line.118">     *</a>
+<span class="sourceLineNo">119</span><a id="line.119">     * &lt;p&gt;Only objects with empty constructors can be created.&lt;/p&gt;</a>
+<span class="sourceLineNo">120</span><a id="line.120">     *</a>
+<span class="sourceLineNo">121</span><a id="line.121">     * @return new discoverer</a>
+<span class="sourceLineNo">122</span><a id="line.122">     * @see #object(CheckedFunction) for more details on which fields will</a>
+<span class="sourceLineNo">123</span><a id="line.123">     *      be discovered.</a>
+<span class="sourceLineNo">124</span><a id="line.124">     * @since 4.0.0</a>
+<span class="sourceLineNo">125</span><a id="line.125">     */</a>
+<span class="sourceLineNo">126</span><a id="line.126">    static FieldDiscoverer&lt;?&gt; emptyConstructorObject() {</a>
+<span class="sourceLineNo">127</span><a id="line.127">        return ObjectFieldDiscoverer.EMPTY_CONSTRUCTOR_INSTANCE;</a>
+<span class="sourceLineNo">128</span><a id="line.128">    }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">    /**</a>
+<span class="sourceLineNo">131</span><a id="line.131">     * Inspect the {@code target} type for fields to be supplied to</a>
+<span class="sourceLineNo">132</span><a id="line.132">     * the {@code collector}.</a>
+<span class="sourceLineNo">133</span><a id="line.133">     *</a>
+<span class="sourceLineNo">134</span><a id="line.134">     * &lt;p&gt;If the target type is handleable, a non-null value must be returned.</a>
+<span class="sourceLineNo">135</span><a id="line.135">     * Fields can only be collected from one source at the moment, so if the</a>
+<span class="sourceLineNo">136</span><a id="line.136">     * instance factory is null any discovered fields will be discarded.&lt;/p&gt;</a>
+<span class="sourceLineNo">137</span><a id="line.137">     *</a>
+<span class="sourceLineNo">138</span><a id="line.138">     * @param target type to inspect</a>
+<span class="sourceLineNo">139</span><a id="line.139">     * @param collector collector for discovered fields.</a>
+<span class="sourceLineNo">140</span><a id="line.140">     * @param &lt;V&gt; object type</a>
+<span class="sourceLineNo">141</span><a id="line.141">     * @return a factory for handling the construction of object instances, or</a>
+<span class="sourceLineNo">142</span><a id="line.142">     *      {@code null} if {@code target} is not of a handleable type.</a>
+<span class="sourceLineNo">143</span><a id="line.143">     * @throws SerializationException if any fields have invalid data</a>
+<span class="sourceLineNo">144</span><a id="line.144">     * @since 4.0.0</a>
+<span class="sourceLineNo">145</span><a id="line.145">     */</a>
+<span class="sourceLineNo">146</span><a id="line.146">    &lt;V&gt; @Nullable InstanceFactory&lt;I&gt; discover(AnnotatedType target, FieldCollector&lt;I, V&gt; collector) throws SerializationException;</a>
+<span class="sourceLineNo">147</span><a id="line.147"></a>
+<span class="sourceLineNo">148</span><a id="line.148">    /**</a>
+<span class="sourceLineNo">149</span><a id="line.149">     * A handler that controls the deserialization process for an object.</a>
+<span class="sourceLineNo">150</span><a id="line.150">     *</a>
+<span class="sourceLineNo">151</span><a id="line.151">     * @param &lt;I&gt; intermediate type</a>
+<span class="sourceLineNo">152</span><a id="line.152">     * @since 4.0.0</a>
+<span class="sourceLineNo">153</span><a id="line.153">     */</a>
+<span class="sourceLineNo">154</span><a id="line.154">    interface InstanceFactory&lt;I&gt; {</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">        /**</a>
+<span class="sourceLineNo">157</span><a id="line.157">         * Return a new instance of the intermediary type to be populated.</a>
+<span class="sourceLineNo">158</span><a id="line.158">         *</a>
+<span class="sourceLineNo">159</span><a id="line.159">         * @return new intermediate container</a>
+<span class="sourceLineNo">160</span><a id="line.160">         * @since 4.0.0</a>
+<span class="sourceLineNo">161</span><a id="line.161">         */</a>
+<span class="sourceLineNo">162</span><a id="line.162">        I begin();</a>
+<span class="sourceLineNo">163</span><a id="line.163"></a>
+<span class="sourceLineNo">164</span><a id="line.164">        /**</a>
+<span class="sourceLineNo">165</span><a id="line.165">         * Return a finalized object based on the provided intermediate.</a>
+<span class="sourceLineNo">166</span><a id="line.166">         *</a>
+<span class="sourceLineNo">167</span><a id="line.167">         * @param intermediate intermediate container to hold values</a>
+<span class="sourceLineNo">168</span><a id="line.168">         * @return final value</a>
+<span class="sourceLineNo">169</span><a id="line.169">         * @throws SerializationException if unable to construct a</a>
+<span class="sourceLineNo">170</span><a id="line.170">         * @since 4.0.0</a>
+<span class="sourceLineNo">171</span><a id="line.171">         */</a>
+<span class="sourceLineNo">172</span><a id="line.172">        Object complete(I intermediate) throws SerializationException;</a>
+<span class="sourceLineNo">173</span><a id="line.173"></a>
+<span class="sourceLineNo">174</span><a id="line.174">        /**</a>
+<span class="sourceLineNo">175</span><a id="line.175">         * Get whether or not new object instances can be created.</a>
+<span class="sourceLineNo">176</span><a id="line.176">         *</a>
+<span class="sourceLineNo">177</span><a id="line.177">         * @return new instance creation</a>
+<span class="sourceLineNo">178</span><a id="line.178">         * @since 4.0.0</a>
+<span class="sourceLineNo">179</span><a id="line.179">         */</a>
+<span class="sourceLineNo">180</span><a id="line.180">        boolean canCreateInstances();</a>
+<span class="sourceLineNo">181</span><a id="line.181">    }</a>
+<span class="sourceLineNo">182</span><a id="line.182"></a>
+<span class="sourceLineNo">183</span><a id="line.183">    /**</a>
+<span class="sourceLineNo">184</span><a id="line.184">     * A handler for working with mutable objects in the object mapper.</a>
+<span class="sourceLineNo">185</span><a id="line.185">     *</a>
+<span class="sourceLineNo">186</span><a id="line.186">     * @param &lt;I&gt; intermediate type</a>
+<span class="sourceLineNo">187</span><a id="line.187">     * @since 4.0.0</a>
+<span class="sourceLineNo">188</span><a id="line.188">     */</a>
+<span class="sourceLineNo">189</span><a id="line.189">    interface MutableInstanceFactory&lt;I&gt; extends InstanceFactory&lt;I&gt; {</a>
 <span class="sourceLineNo">190</span><a id="line.190"></a>
 <span class="sourceLineNo">191</span><a id="line.191">        /**</a>
-<span class="sourceLineNo">192</span><a id="line.192">         * Accept metadata that defines a specific field.</a>
+<span class="sourceLineNo">192</span><a id="line.192">         * Apply the intermediate data to an existing object.</a>
 <span class="sourceLineNo">193</span><a id="line.193">         *</a>
-<span class="sourceLineNo">194</span><a id="line.194">         * @param name name</a>
-<span class="sourceLineNo">195</span><a id="line.195">         * @param type declared field type, as resolved as possible</a>
-<span class="sourceLineNo">196</span><a id="line.196">         * @param annotations combined element containing all annotations</a>
-<span class="sourceLineNo">197</span><a id="line.197">         *                    applicable to the field</a>
-<span class="sourceLineNo">198</span><a id="line.198">         * @param deserializer a function to populate the intermediate state</a>
-<span class="sourceLineNo">199</span><a id="line.199">         *                     with a single deserialized field value.</a>
-<span class="sourceLineNo">200</span><a id="line.200">         * @param serializer a function to extract a value from a completed</a>
-<span class="sourceLineNo">201</span><a id="line.201">         *                   object instance.</a>
-<span class="sourceLineNo">202</span><a id="line.202">         * @since 4.0.0</a>
-<span class="sourceLineNo">203</span><a id="line.203">         */</a>
-<span class="sourceLineNo">204</span><a id="line.204">        void accept(String name, AnnotatedType type, AnnotatedElement annotations, FieldData.Deserializer&lt;I&gt; deserializer,</a>
-<span class="sourceLineNo">205</span><a id="line.205">                CheckedFunction&lt;V, @Nullable Object, Exception&gt; serializer);</a>
-<span class="sourceLineNo">206</span><a id="line.206">    }</a>
-<span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">}</a>
+<span class="sourceLineNo">194</span><a id="line.194">         * @param instance instance to write to</a>
+<span class="sourceLineNo">195</span><a id="line.195">         * @param intermediate intermediate container</a>
+<span class="sourceLineNo">196</span><a id="line.196">         * @throws SerializationException if unable to apply info</a>
+<span class="sourceLineNo">197</span><a id="line.197">         * @since 4.0.0</a>
+<span class="sourceLineNo">198</span><a id="line.198">         */</a>
+<span class="sourceLineNo">199</span><a id="line.199">        void complete(Object instance, I intermediate) throws SerializationException;</a>
+<span class="sourceLineNo">200</span><a id="line.200">    }</a>
+<span class="sourceLineNo">201</span><a id="line.201"></a>
+<span class="sourceLineNo">202</span><a id="line.202">    /**</a>
+<span class="sourceLineNo">203</span><a id="line.203">     * A collector for the necessary metadata for fields.</a>
+<span class="sourceLineNo">204</span><a id="line.204">     *</a>
+<span class="sourceLineNo">205</span><a id="line.205">     * @param &lt;I&gt; intermediate type</a>
+<span class="sourceLineNo">206</span><a id="line.206">     * @param &lt;V&gt; container type</a>
+<span class="sourceLineNo">207</span><a id="line.207">     * @since 4.0.0</a>
+<span class="sourceLineNo">208</span><a id="line.208">     */</a>
+<span class="sourceLineNo">209</span><a id="line.209">    @FunctionalInterface</a>
+<span class="sourceLineNo">210</span><a id="line.210">    interface FieldCollector&lt;I, V&gt; {</a>
+<span class="sourceLineNo">211</span><a id="line.211"></a>
+<span class="sourceLineNo">212</span><a id="line.212">        /**</a>
+<span class="sourceLineNo">213</span><a id="line.213">         * Accept metadata that defines a specific field.</a>
+<span class="sourceLineNo">214</span><a id="line.214">         *</a>
+<span class="sourceLineNo">215</span><a id="line.215">         * @param name name</a>
+<span class="sourceLineNo">216</span><a id="line.216">         * @param type declared field type, as resolved as possible</a>
+<span class="sourceLineNo">217</span><a id="line.217">         * @param annotations combined element containing all annotations</a>
+<span class="sourceLineNo">218</span><a id="line.218">         *                    applicable to the field</a>
+<span class="sourceLineNo">219</span><a id="line.219">         * @param deserializer a function to populate the intermediate state</a>
+<span class="sourceLineNo">220</span><a id="line.220">         *                     with a single deserialized field value.</a>
+<span class="sourceLineNo">221</span><a id="line.221">         * @param serializer a function to extract a value from a completed</a>
+<span class="sourceLineNo">222</span><a id="line.222">         *                   object instance.</a>
+<span class="sourceLineNo">223</span><a id="line.223">         * @since 4.0.0</a>
+<span class="sourceLineNo">224</span><a id="line.224">         */</a>
+<span class="sourceLineNo">225</span><a id="line.225">        void accept(String name, AnnotatedType type, AnnotatedElement annotations, FieldData.Deserializer&lt;I&gt; deserializer,</a>
+<span class="sourceLineNo">226</span><a id="line.226">                CheckedFunction&lt;V, @Nullable Object, Exception&gt; serializer);</a>
+<span class="sourceLineNo">227</span><a id="line.227">    }</a>
+<span class="sourceLineNo">228</span><a id="line.228"></a>
+<span class="sourceLineNo">229</span><a id="line.229">}</a>
 
 
 

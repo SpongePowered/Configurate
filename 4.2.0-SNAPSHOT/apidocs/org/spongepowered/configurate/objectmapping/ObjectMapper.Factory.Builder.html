@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":18,"i2":6,"i3":6,"i4":6,"i5":18,"i6":6,"i7":6};
+var data = {"i0":6,"i1":18,"i2":6,"i3":6,"i4":6,"i5":6,"i6":18,"i7":6,"i8":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -126,7 +126,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a></dd>
 </dl>
 <hr>
-<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.251">ObjectMapper.Factory.Builder</a></pre>
+<pre>public static interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.html#line.252">ObjectMapper.Factory.Builder</a></pre>
 <div class="block">A builder for a configured factory producing object mappers.
 
  <p>In general, with multiple applicable resolvers, the one registered
@@ -187,6 +187,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addPostProcessor(org.spongepowered.configurate.objectmapping.meta.PostProcessor.Factory)">addPostProcessor</a></span>&#8203;(<a href="meta/PostProcessor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor.Factory</a>&nbsp;factory)</code></th>
+<td class="colLast">
+<div class="block">Register an object post-processor with this object mapper.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;<br><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addProcessor(java.lang.Class,java.lang.Class,org.spongepowered.configurate.objectmapping.meta.Processor.Factory)">addProcessor</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;valueType,
@@ -195,7 +202,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Register a <a href="meta/Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Processor</code></a> that will process fields after write.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>default &lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;<br><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addProcessor(java.lang.Class,org.spongepowered.configurate.objectmapping.meta.Processor.Factory)">addProcessor</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
             <a href="meta/Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;A,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;factory)</code></th>
@@ -203,14 +210,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Register a <a href="meta/Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Processor</code></a> that will process fields after write.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Create a new factory using the current configuration.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#defaultNamingScheme(org.spongepowered.configurate.util.NamingScheme)">defaultNamingScheme</a></span>&#8203;(<a href="../util/NamingScheme.html" title="interface in org.spongepowered.configurate.util">NamingScheme</a>&nbsp;scheme)</code></th>
 <td class="colLast">
@@ -240,7 +247,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>defaultNamingScheme</h4>
-<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.263">defaultNamingScheme</a>&#8203;(<a href="../util/NamingScheme.html" title="interface in org.spongepowered.configurate.util">NamingScheme</a>&nbsp;scheme)</pre>
+<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.264">defaultNamingScheme</a>&#8203;(<a href="../util/NamingScheme.html" title="interface in org.spongepowered.configurate.util">NamingScheme</a>&nbsp;scheme)</pre>
 <div class="block">Set the naming scheme to use as a default for field names.
 
  <p>This can be overridden by other
@@ -261,7 +268,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>addNodeResolver</h4>
-<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.272">addNodeResolver</a>&#8203;(<a href="meta/NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;resolver)</pre>
+<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.273">addNodeResolver</a>&#8203;(<a href="meta/NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a>&nbsp;resolver)</pre>
 <div class="block">Add a resolver that will locate a node for a field.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -279,7 +286,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>addDiscoverer</h4>
-<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.284">addDiscoverer</a>&#8203;(<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;discoverer)</pre>
+<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.285">addDiscoverer</a>&#8203;(<a href="FieldDiscoverer.html" title="interface in org.spongepowered.configurate.objectmapping">FieldDiscoverer</a>&lt;?&gt;&nbsp;discoverer)</pre>
 <div class="block">Add a discoverer for a type of object.
 
  <p>Field discoverers will be tried in order until one can
@@ -300,7 +307,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>addProcessor</h4>
-<pre class="methodSignature">default&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.298">addProcessor</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
+<pre class="methodSignature">default&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.299">addProcessor</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
                                                                          <a href="meta/Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;A,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;factory)</pre>
 <div class="block">Register a <a href="meta/Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Processor</code></a> that will process fields after write.
 
@@ -325,7 +332,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>addProcessor</h4>
-<pre class="methodSignature">&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.316">addProcessor</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
+<pre class="methodSignature">&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.317">addProcessor</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
                                                                          <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;valueType,
                                                                          <a href="meta/Processor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Processor.Factory</a>&lt;A,&#8203;T&gt;&nbsp;factory)</pre>
 <div class="block">Register a <a href="meta/Processor.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Processor</code></a> that will process fields after write.
@@ -353,7 +360,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>addConstraint</h4>
-<pre class="methodSignature">default&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.330">addConstraint</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
+<pre class="methodSignature">default&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.331">addConstraint</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
                                                                           <a href="meta/Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;A,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;factory)</pre>
 <div class="block">Register a <a href="meta/Constraint.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Constraint</code></a> that will be used to validate fields.
 
@@ -378,7 +385,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>addConstraint</h4>
-<pre class="methodSignature">&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.348">addConstraint</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
+<pre class="methodSignature">&lt;A extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>,&#8203;T&gt;&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.349">addConstraint</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;definition,
                                                                           <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;valueType,
                                                                           <a href="meta/Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;A,&#8203;T&gt;&nbsp;factory)</pre>
 <div class="block">Register a <a href="meta/Constraint.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>Constraint</code></a> that will be used to validate fields.
@@ -400,13 +407,35 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 </li>
 </ul>
+<a id="addPostProcessor(org.spongepowered.configurate.objectmapping.meta.PostProcessor.Factory)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addPostProcessor</h4>
+<pre class="methodSignature"><a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.362">addPostProcessor</a>&#8203;(<a href="meta/PostProcessor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor.Factory</a>&nbsp;factory)</pre>
+<div class="block">Register an object post-processor with this object mapper.
+
+ <p>All post-processors will be called, even if one
+ throws an exception.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>factory</code> - the factory optionally producing a
+     post processor function</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="build()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature"><a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.356">build</a>()</pre>
+<pre class="methodSignature"><a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.Factory.Builder.html#line.370">build</a>()</pre>
 <div class="block">Create a new factory using the current configuration.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>

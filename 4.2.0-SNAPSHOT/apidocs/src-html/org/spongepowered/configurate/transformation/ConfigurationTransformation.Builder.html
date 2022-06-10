@@ -167,7 +167,7 @@
 <span class="sourceLineNo">158</span><a id="line.158">         */</a>
 <span class="sourceLineNo">159</span><a id="line.159">        public ConfigurationTransformation build() {</a>
 <span class="sourceLineNo">160</span><a id="line.160">            if (this.actions.isEmpty()) {</a>
-<span class="sourceLineNo">161</span><a id="line.161">                throw new IllegalArgumentException("At least one action must be specified to build a transformation");</a>
+<span class="sourceLineNo">161</span><a id="line.161">                return ConfigurationTransformation.empty();</a>
 <span class="sourceLineNo">162</span><a id="line.162">            }</a>
 <span class="sourceLineNo">163</span><a id="line.163">            return new SingleConfigurationTransformation(this.actions, this.strategy);</a>
 <span class="sourceLineNo">164</span><a id="line.164">        }</a>
@@ -313,7 +313,7 @@
 <span class="sourceLineNo">304</span><a id="line.304">         * @since 4.0.0</a>
 <span class="sourceLineNo">305</span><a id="line.305">         */</a>
 <span class="sourceLineNo">306</span><a id="line.306">        default int version(final ConfigurationNode node) {</a>
-<span class="sourceLineNo">307</span><a id="line.307">            return node.node(this.versionKey()).getInt(VERSION_UNKNOWN);</a>
+<span class="sourceLineNo">307</span><a id="line.307">            return node.node(versionKey()).getInt(VERSION_UNKNOWN);</a>
 <span class="sourceLineNo">308</span><a id="line.308">        }</a>
 <span class="sourceLineNo">309</span><a id="line.309">    }</a>
 <span class="sourceLineNo">310</span><a id="line.310"></a>

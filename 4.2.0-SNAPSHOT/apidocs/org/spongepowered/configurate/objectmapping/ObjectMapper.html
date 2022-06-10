@@ -130,7 +130,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="ObjectMapper.Mutable.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Mutable</a>&lt;V&gt;</code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.50">ObjectMapper</a>&lt;V&gt;</pre>
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.51">ObjectMapper</a>&lt;V&gt;</pre>
 <div class="block">A mapper that converts between configuration nodes and Java objects.
 
  <p>Object mappers are created through a <a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping"><code>ObjectMapper.Factory</code></a>, either the default
@@ -280,7 +280,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>factory</h4>
-<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.74">factory</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.75">factory</a>()</pre>
 <div class="block">Get the default object mapper factory instance.
 
  <p>This factory has the following characteristics:</p>
@@ -312,7 +312,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>emptyFactoryBuilder</h4>
-<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.88">emptyFactoryBuilder</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.89">emptyFactoryBuilder</a>()</pre>
 <div class="block">Create an empty builder.
 
  <p>This applies none of the standard formats, processors, constraints or
@@ -332,7 +332,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>factoryBuilder</h4>
-<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.102">factoryBuilder</a>()</pre>
+<pre class="methodSignature">static&nbsp;<a href="ObjectMapper.Factory.Builder.html" title="interface in org.spongepowered.configurate.objectmapping">ObjectMapper.Factory.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.103">factoryBuilder</a>()</pre>
 <div class="block">Create a builder populated with default settings.
 
  <p>This builder is prepared to allow overriding any of the default
@@ -353,7 +353,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre class="methodSignature"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.116">load</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source)
+<pre class="methodSignature"><a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.117">load</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;source)
 throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Create a new object instance.</div>
 <dl>
@@ -378,7 +378,7 @@ throws <a href="../serialize/SerializationException.html" title="class in org.sp
 <ul class="blockList">
 <li class="blockList">
 <h4>save</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.126">save</a>&#8203;(<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;value,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.127">save</a>&#8203;(<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&nbsp;value,
           <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;target)
    throws <a href="../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Write data from the provided object to the target.</div>
@@ -399,7 +399,7 @@ throws <a href="../serialize/SerializationException.html" title="class in org.sp
 <ul class="blockList">
 <li class="blockList">
 <h4>fields</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="FieldData.html" title="class in org.spongepowered.configurate.objectmapping">FieldData</a>&lt;?,&#8203;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.134">fields</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="FieldData.html" title="class in org.spongepowered.configurate.objectmapping">FieldData</a>&lt;?,&#8203;<a href="ObjectMapper.html" title="type parameter in ObjectMapper">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.135">fields</a>()</pre>
 <div class="block">Get the parameters that will be handled by this mapper.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -415,7 +415,7 @@ throws <a href="../serialize/SerializationException.html" title="class in org.sp
 <ul class="blockList">
 <li class="blockList">
 <h4>mappedType</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.142">mappedType</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.143">mappedType</a>()</pre>
 <div class="block">The generic type of object that this mapper instance handles.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -431,7 +431,7 @@ throws <a href="../serialize/SerializationException.html" title="class in org.sp
 <ul class="blockListLast">
 <li class="blockList">
 <h4>canCreateInstances</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.154">canCreateInstances</a>()</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/objectmapping/ObjectMapper.html#line.155">canCreateInstances</a>()</pre>
 <div class="block">Get whether or not this mapper is capable of creating new instances of
  its mapped type.
 

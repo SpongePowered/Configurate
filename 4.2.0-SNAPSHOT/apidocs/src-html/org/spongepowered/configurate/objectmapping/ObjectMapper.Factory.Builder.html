@@ -29,346 +29,360 @@
 <span class="sourceLineNo">020</span><a id="line.20">import org.spongepowered.configurate.ConfigurationNode;</a>
 <span class="sourceLineNo">021</span><a id="line.21">import org.spongepowered.configurate.objectmapping.meta.Constraint;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import org.spongepowered.configurate.objectmapping.meta.NodeResolver;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import org.spongepowered.configurate.objectmapping.meta.Processor;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import org.spongepowered.configurate.serialize.SerializationException;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import org.spongepowered.configurate.serialize.TypeSerializer;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import org.spongepowered.configurate.serialize.TypeSerializerCollection;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import org.spongepowered.configurate.util.NamingScheme;</a>
-<span class="sourceLineNo">028</span><a id="line.28"></a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.lang.annotation.Annotation;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.lang.reflect.Type;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.List;</a>
-<span class="sourceLineNo">032</span><a id="line.32"></a>
-<span class="sourceLineNo">033</span><a id="line.33">/**</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * A mapper that converts between configuration nodes and Java objects.</a>
-<span class="sourceLineNo">035</span><a id="line.35"> *</a>
-<span class="sourceLineNo">036</span><a id="line.36"> * &lt;p&gt;Object mappers are created through a {@link Factory}, either the default</a>
-<span class="sourceLineNo">037</span><a id="line.37"> * one or one created with additional options. See that class's</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * documentation for details.&lt;/p&gt;</a>
-<span class="sourceLineNo">039</span><a id="line.39"> *</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * &lt;p&gt;The object mapper can be accessed directly, through its {@link #factory()},</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * or through a {@link ConfigurationNode}'s</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * {@link ConfigurationNode#get(TypeToken)} method. To use a custom factory</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * instance through a node, a custom TypeSerializer has to be registered to the</a>
-<span class="sourceLineNo">044</span><a id="line.44"> * {@link TypeSerializerCollection} used</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * by the node.&lt;/p&gt;</a>
-<span class="sourceLineNo">046</span><a id="line.46"> *</a>
-<span class="sourceLineNo">047</span><a id="line.47"> * @param &lt;V&gt; mapped type</a>
-<span class="sourceLineNo">048</span><a id="line.48"> * @since 4.0.0</a>
-<span class="sourceLineNo">049</span><a id="line.49"> */</a>
-<span class="sourceLineNo">050</span><a id="line.50">public interface ObjectMapper&lt;V&gt; {</a>
-<span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">    /**</a>
-<span class="sourceLineNo">053</span><a id="line.53">     * Get the default object mapper factory instance.</a>
-<span class="sourceLineNo">054</span><a id="line.54">     *</a>
-<span class="sourceLineNo">055</span><a id="line.55">     * &lt;p&gt;This factory has the following characteristics:&lt;/p&gt;</a>
-<span class="sourceLineNo">056</span><a id="line.56">     * &lt;ul&gt;</a>
-<span class="sourceLineNo">057</span><a id="line.57">     *     &lt;li&gt;can resolve fields in empty-constructor objects and Records&lt;/li&gt;</a>
-<span class="sourceLineNo">058</span><a id="line.58">     *     &lt;li&gt;will try to resolve any field in objects&lt;/li&gt;</a>
-<span class="sourceLineNo">059</span><a id="line.59">     *     &lt;li&gt;supports {@link org.spongepowered.configurate.objectmapping.meta.NodeKey} and</a>
-<span class="sourceLineNo">060</span><a id="line.60">     *     {@link org.spongepowered.configurate.objectmapping.meta.Setting} annotations</a>
-<span class="sourceLineNo">061</span><a id="line.61">     *     for customizing node resolution&lt;/li&gt;</a>
-<span class="sourceLineNo">062</span><a id="line.62">     *     &lt;li&gt;uses the {@link org.spongepowered.configurate.util.NamingSchemes#LOWER_CASE_DASHED}</a>
-<span class="sourceLineNo">063</span><a id="line.63">     *     naming scheme for other nodes&lt;/li&gt;</a>
-<span class="sourceLineNo">064</span><a id="line.64">     *     &lt;li&gt;supports unlocalized {@link org.spongepowered.configurate.objectmapping.meta.Matches},</a>
-<span class="sourceLineNo">065</span><a id="line.65">     *     and {@link org.spongepowered.configurate.objectmapping.meta.Required}</a>
-<span class="sourceLineNo">066</span><a id="line.66">     *     constraints&lt;/li&gt;</a>
-<span class="sourceLineNo">067</span><a id="line.67">     *     &lt;li&gt;processes {@link org.spongepowered.configurate.objectmapping.meta.Comment}</a>
-<span class="sourceLineNo">068</span><a id="line.68">     *     annotations&lt;/li&gt;</a>
-<span class="sourceLineNo">069</span><a id="line.69">     * &lt;/ul&gt;</a>
-<span class="sourceLineNo">070</span><a id="line.70">     *</a>
-<span class="sourceLineNo">071</span><a id="line.71">     * @return default factory</a>
-<span class="sourceLineNo">072</span><a id="line.72">     * @since 4.0.0</a>
-<span class="sourceLineNo">073</span><a id="line.73">     */</a>
-<span class="sourceLineNo">074</span><a id="line.74">    static Factory factory() {</a>
-<span class="sourceLineNo">075</span><a id="line.75">        return ObjectMapperFactoryImpl.INSTANCE;</a>
-<span class="sourceLineNo">076</span><a id="line.76">    }</a>
-<span class="sourceLineNo">077</span><a id="line.77"></a>
-<span class="sourceLineNo">078</span><a id="line.78">    /**</a>
-<span class="sourceLineNo">079</span><a id="line.79">     * Create an empty builder.</a>
-<span class="sourceLineNo">080</span><a id="line.80">     *</a>
-<span class="sourceLineNo">081</span><a id="line.81">     * &lt;p&gt;This applies none of the standard formats, processors, constraints or</a>
-<span class="sourceLineNo">082</span><a id="line.82">     * resolvers. Unless you want to do something particularly specialized,</a>
-<span class="sourceLineNo">083</span><a id="line.83">     * you should probably be using {@link #factoryBuilder()}.&lt;/p&gt;</a>
-<span class="sourceLineNo">084</span><a id="line.84">     *</a>
-<span class="sourceLineNo">085</span><a id="line.85">     * @return new empty builder</a>
-<span class="sourceLineNo">086</span><a id="line.86">     * @since 4.0.0</a>
-<span class="sourceLineNo">087</span><a id="line.87">     */</a>
-<span class="sourceLineNo">088</span><a id="line.88">    static Factory.Builder emptyFactoryBuilder() {</a>
-<span class="sourceLineNo">089</span><a id="line.89">        return new ObjectMapperFactoryImpl.Builder();</a>
-<span class="sourceLineNo">090</span><a id="line.90">    }</a>
-<span class="sourceLineNo">091</span><a id="line.91"></a>
-<span class="sourceLineNo">092</span><a id="line.92">    /**</a>
-<span class="sourceLineNo">093</span><a id="line.93">     * Create a builder populated with default settings.</a>
-<span class="sourceLineNo">094</span><a id="line.94">     *</a>
-<span class="sourceLineNo">095</span><a id="line.95">     * &lt;p&gt;This builder is prepared to allow overriding any of the default</a>
-<span class="sourceLineNo">096</span><a id="line.96">     * object mapper features.&lt;/p&gt;</a>
-<span class="sourceLineNo">097</span><a id="line.97">     *</a>
-<span class="sourceLineNo">098</span><a id="line.98">     * @return new builder</a>
-<span class="sourceLineNo">099</span><a id="line.99">     * @see #factory() for a description of the default settings</a>
-<span class="sourceLineNo">100</span><a id="line.100">     * @since 4.0.0</a>
-<span class="sourceLineNo">101</span><a id="line.101">     */</a>
-<span class="sourceLineNo">102</span><a id="line.102">    static Factory.Builder factoryBuilder() {</a>
-<span class="sourceLineNo">103</span><a id="line.103">        return ObjectMapperFactoryImpl.defaultBuilder();</a>
-<span class="sourceLineNo">104</span><a id="line.104">    }</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">    /**</a>
-<span class="sourceLineNo">107</span><a id="line.107">     * Create a new object instance.</a>
-<span class="sourceLineNo">108</span><a id="line.108">     *</a>
-<span class="sourceLineNo">109</span><a id="line.109">     * @param source object source</a>
-<span class="sourceLineNo">110</span><a id="line.110">     * @return new instance</a>
-<span class="sourceLineNo">111</span><a id="line.111">     * @throws SerializationException if any invalid data is present. Loading is</a>
-<span class="sourceLineNo">112</span><a id="line.112">     *      done in stages, so any deserialization errors will occur before</a>
-<span class="sourceLineNo">113</span><a id="line.113">     *      anything is written to objects.</a>
-<span class="sourceLineNo">114</span><a id="line.114">     * @since 4.0.0</a>
-<span class="sourceLineNo">115</span><a id="line.115">     */</a>
-<span class="sourceLineNo">116</span><a id="line.116">    V load(ConfigurationNode source) throws SerializationException;</a>
-<span class="sourceLineNo">117</span><a id="line.117"></a>
-<span class="sourceLineNo">118</span><a id="line.118">    /**</a>
-<span class="sourceLineNo">119</span><a id="line.119">     * Write data from the provided object to the target.</a>
-<span class="sourceLineNo">120</span><a id="line.120">     *</a>
-<span class="sourceLineNo">121</span><a id="line.121">     * @param value value type</a>
-<span class="sourceLineNo">122</span><a id="line.122">     * @param target destination</a>
-<span class="sourceLineNo">123</span><a id="line.123">     * @throws SerializationException if unable to fully save</a>
-<span class="sourceLineNo">124</span><a id="line.124">     * @since 4.0.0</a>
-<span class="sourceLineNo">125</span><a id="line.125">     */</a>
-<span class="sourceLineNo">126</span><a id="line.126">    void save(V value, ConfigurationNode target) throws SerializationException;</a>
-<span class="sourceLineNo">127</span><a id="line.127"></a>
-<span class="sourceLineNo">128</span><a id="line.128">    /**</a>
-<span class="sourceLineNo">129</span><a id="line.129">     * Get the parameters that will be handled by this mapper.</a>
-<span class="sourceLineNo">130</span><a id="line.130">     *</a>
-<span class="sourceLineNo">131</span><a id="line.131">     * @return immutable list of fields</a>
-<span class="sourceLineNo">132</span><a id="line.132">     * @since 4.0.0</a>
-<span class="sourceLineNo">133</span><a id="line.133">     */</a>
-<span class="sourceLineNo">134</span><a id="line.134">    List&lt;? extends FieldData&lt;?, V&gt;&gt; fields();</a>
-<span class="sourceLineNo">135</span><a id="line.135"></a>
-<span class="sourceLineNo">136</span><a id="line.136">    /**</a>
-<span class="sourceLineNo">137</span><a id="line.137">     * The generic type of object that this mapper instance handles.</a>
-<span class="sourceLineNo">138</span><a id="line.138">     *</a>
-<span class="sourceLineNo">139</span><a id="line.139">     * @return object type</a>
-<span class="sourceLineNo">140</span><a id="line.140">     * @since 4.0.0</a>
-<span class="sourceLineNo">141</span><a id="line.141">     */</a>
-<span class="sourceLineNo">142</span><a id="line.142">    Type mappedType();</a>
-<span class="sourceLineNo">143</span><a id="line.143"></a>
-<span class="sourceLineNo">144</span><a id="line.144">    /**</a>
-<span class="sourceLineNo">145</span><a id="line.145">     * Get whether or not this mapper is capable of creating new instances of</a>
-<span class="sourceLineNo">146</span><a id="line.146">     * its mapped type.</a>
-<span class="sourceLineNo">147</span><a id="line.147">     *</a>
-<span class="sourceLineNo">148</span><a id="line.148">     * &lt;p&gt;If this returns {@code false}, {@link #load(ConfigurationNode)} will</a>
-<span class="sourceLineNo">149</span><a id="line.149">     * always fail.&lt;/p&gt;</a>
-<span class="sourceLineNo">150</span><a id="line.150">     *</a>
-<span class="sourceLineNo">151</span><a id="line.151">     * @return if the mapped type can be instantiated.</a>
-<span class="sourceLineNo">152</span><a id="line.152">     * @since 4.0.0</a>
-<span class="sourceLineNo">153</span><a id="line.153">     */</a>
-<span class="sourceLineNo">154</span><a id="line.154">    boolean canCreateInstances();</a>
-<span class="sourceLineNo">155</span><a id="line.155"></a>
-<span class="sourceLineNo">156</span><a id="line.156">    /**</a>
-<span class="sourceLineNo">157</span><a id="line.157">     * An object mapper capable of loading data into an existing object.</a>
-<span class="sourceLineNo">158</span><a id="line.158">     *</a>
-<span class="sourceLineNo">159</span><a id="line.159">     * @param &lt;V&gt; value type</a>
-<span class="sourceLineNo">160</span><a id="line.160">     * @since 4.0.0</a>
-<span class="sourceLineNo">161</span><a id="line.161">     */</a>
-<span class="sourceLineNo">162</span><a id="line.162">    interface Mutable&lt;V&gt; extends ObjectMapper&lt;V&gt; {</a>
-<span class="sourceLineNo">163</span><a id="line.163"></a>
-<span class="sourceLineNo">164</span><a id="line.164">        /**</a>
-<span class="sourceLineNo">165</span><a id="line.165">         * Load data from {@code node} into an existing instance.</a>
-<span class="sourceLineNo">166</span><a id="line.166">         *</a>
-<span class="sourceLineNo">167</span><a id="line.167">         * @param value existing instance</a>
-<span class="sourceLineNo">168</span><a id="line.168">         * @param node node to load from</a>
-<span class="sourceLineNo">169</span><a id="line.169">         * @throws SerializationException if unable to deserialize data</a>
-<span class="sourceLineNo">170</span><a id="line.170">         * @since 4.0.0</a>
-<span class="sourceLineNo">171</span><a id="line.171">         */</a>
-<span class="sourceLineNo">172</span><a id="line.172">        void load(V value, ConfigurationNode node) throws SerializationException;</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    }</a>
-<span class="sourceLineNo">175</span><a id="line.175"></a>
-<span class="sourceLineNo">176</span><a id="line.176">    /**</a>
-<span class="sourceLineNo">177</span><a id="line.177">     * Provider for object mappers.</a>
-<span class="sourceLineNo">178</span><a id="line.178">     *</a>
-<span class="sourceLineNo">179</span><a id="line.179">     * @since 4.0.0</a>
-<span class="sourceLineNo">180</span><a id="line.180">     */</a>
-<span class="sourceLineNo">181</span><a id="line.181">    interface Factory {</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">        /**</a>
-<span class="sourceLineNo">184</span><a id="line.184">         * Get an object mapper for the provided type.</a>
-<span class="sourceLineNo">185</span><a id="line.185">         *</a>
-<span class="sourceLineNo">186</span><a id="line.186">         * &lt;p&gt;The provided type cannot be a &lt;em&gt;raw type&lt;/em&gt;.&lt;/p&gt;</a>
-<span class="sourceLineNo">187</span><a id="line.187">         *</a>
-<span class="sourceLineNo">188</span><a id="line.188">         * @param type token holding the mapped type</a>
-<span class="sourceLineNo">189</span><a id="line.189">         * @param &lt;V&gt; mapped type</a>
-<span class="sourceLineNo">190</span><a id="line.190">         * @return a mapper for the provided type</a>
-<span class="sourceLineNo">191</span><a id="line.191">         * @throws SerializationException if the type does not correspond to a</a>
-<span class="sourceLineNo">192</span><a id="line.192">         *     mappable object</a>
-<span class="sourceLineNo">193</span><a id="line.193">         * @since 4.0.0</a>
-<span class="sourceLineNo">194</span><a id="line.194">         */</a>
-<span class="sourceLineNo">195</span><a id="line.195">        @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">196</span><a id="line.196">        default &lt;V&gt; ObjectMapper&lt;V&gt; get(TypeToken&lt;V&gt; type) throws SerializationException {</a>
-<span class="sourceLineNo">197</span><a id="line.197">            return (ObjectMapper&lt;V&gt;) get(type.getType());</a>
-<span class="sourceLineNo">198</span><a id="line.198">        }</a>
-<span class="sourceLineNo">199</span><a id="line.199"></a>
-<span class="sourceLineNo">200</span><a id="line.200">        /**</a>
-<span class="sourceLineNo">201</span><a id="line.201">         * Get an object mapper for the unparameterized type {@code clazz}.</a>
-<span class="sourceLineNo">202</span><a id="line.202">         *</a>
-<span class="sourceLineNo">203</span><a id="line.203">         * &lt;p&gt;The provided type cannot be a &lt;em&gt;raw type&lt;/em&gt;.&lt;/p&gt;</a>
-<span class="sourceLineNo">204</span><a id="line.204">         *</a>
-<span class="sourceLineNo">205</span><a id="line.205">         * @param clazz class of the mapped type</a>
-<span class="sourceLineNo">206</span><a id="line.206">         * @param &lt;V&gt; mapped type</a>
-<span class="sourceLineNo">207</span><a id="line.207">         * @return a mapper for the provided type</a>
-<span class="sourceLineNo">208</span><a id="line.208">         * @throws SerializationException if the type does not correspond to a</a>
-<span class="sourceLineNo">209</span><a id="line.209">         *     mappable object</a>
-<span class="sourceLineNo">210</span><a id="line.210">         * @since 4.0.0</a>
-<span class="sourceLineNo">211</span><a id="line.211">         */</a>
-<span class="sourceLineNo">212</span><a id="line.212">        @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">213</span><a id="line.213">        default &lt;V&gt; ObjectMapper&lt;V&gt; get(Class&lt;V&gt; clazz) throws SerializationException {</a>
-<span class="sourceLineNo">214</span><a id="line.214">            return (ObjectMapper&lt;V&gt;) get((Type) clazz);</a>
-<span class="sourceLineNo">215</span><a id="line.215">        }</a>
-<span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">        /**</a>
-<span class="sourceLineNo">218</span><a id="line.218">         * Get the object mapper for the provided type.</a>
-<span class="sourceLineNo">219</span><a id="line.219">         *</a>
-<span class="sourceLineNo">220</span><a id="line.220">         * &lt;p&gt;The provided type cannot be a &lt;em&gt;raw type&lt;/em&gt;.&lt;/p&gt;</a>
-<span class="sourceLineNo">221</span><a id="line.221">         *</a>
-<span class="sourceLineNo">222</span><a id="line.222">         * @param type object type.</a>
-<span class="sourceLineNo">223</span><a id="line.223">         * @return a mapper for the provided type</a>
-<span class="sourceLineNo">224</span><a id="line.224">         * @throws SerializationException if the type does not correspond to a</a>
-<span class="sourceLineNo">225</span><a id="line.225">         *     mappable object</a>
-<span class="sourceLineNo">226</span><a id="line.226">         * @since 4.0.0</a>
-<span class="sourceLineNo">227</span><a id="line.227">         */</a>
-<span class="sourceLineNo">228</span><a id="line.228">        ObjectMapper&lt;?&gt; get(Type type) throws SerializationException;</a>
-<span class="sourceLineNo">229</span><a id="line.229"></a>
-<span class="sourceLineNo">230</span><a id="line.230">        /**</a>
-<span class="sourceLineNo">231</span><a id="line.231">         * Creates a {@link TypeSerializer} that uses this factory.</a>
-<span class="sourceLineNo">232</span><a id="line.232">         *</a>
-<span class="sourceLineNo">233</span><a id="line.233">         * &lt;p&gt;The serializer will accept any object type that could otherwise be</a>
-<span class="sourceLineNo">234</span><a id="line.234">         * handled by this factory. To match a standard configuration,</a>
-<span class="sourceLineNo">235</span><a id="line.235">         * register this serializer with {@link TypeSerializerCollection.Builder#registerAnnotatedObjects(Factory)}</a>
-<span class="sourceLineNo">236</span><a id="line.236">         * to enforce the presence of {@link ConfigSerializable} annotations.&lt;/p&gt;</a>
-<span class="sourceLineNo">237</span><a id="line.237">         *</a>
-<span class="sourceLineNo">238</span><a id="line.238">         * @return a type serializer</a>
-<span class="sourceLineNo">239</span><a id="line.239">         * @since 4.0.0</a>
-<span class="sourceLineNo">240</span><a id="line.240">         */</a>
-<span class="sourceLineNo">241</span><a id="line.241">        TypeSerializer&lt;Object&gt; asTypeSerializer();</a>
-<span class="sourceLineNo">242</span><a id="line.242"></a>
-<span class="sourceLineNo">243</span><a id="line.243">        /**</a>
-<span class="sourceLineNo">244</span><a id="line.244">         * A builder for a configured factory producing object mappers.</a>
-<span class="sourceLineNo">245</span><a id="line.245">         *</a>
-<span class="sourceLineNo">246</span><a id="line.246">         * &lt;p&gt;In general, with multiple applicable resolvers, the one registered</a>
-<span class="sourceLineNo">247</span><a id="line.247">         * last will take priority.&lt;/p&gt;</a>
-<span class="sourceLineNo">248</span><a id="line.248">         *</a>
-<span class="sourceLineNo">249</span><a id="line.249">         * @since 4.0.0</a>
-<span class="sourceLineNo">250</span><a id="line.250">         */</a>
-<span class="sourceLineNo">251</span><a id="line.251">        interface Builder {</a>
-<span class="sourceLineNo">252</span><a id="line.252"></a>
-<span class="sourceLineNo">253</span><a id="line.253">            /**</a>
-<span class="sourceLineNo">254</span><a id="line.254">             * Set the naming scheme to use as a default for field names.</a>
-<span class="sourceLineNo">255</span><a id="line.255">             *</a>
-<span class="sourceLineNo">256</span><a id="line.256">             * &lt;p&gt;This can be overridden by other</a>
-<span class="sourceLineNo">257</span><a id="line.257">             * {@link NodeResolver NodeResolvers} for specific nodes.&lt;/p&gt;</a>
-<span class="sourceLineNo">258</span><a id="line.258">             *</a>
-<span class="sourceLineNo">259</span><a id="line.259">             * @param scheme naming scheme</a>
-<span class="sourceLineNo">260</span><a id="line.260">             * @return this builder</a>
-<span class="sourceLineNo">261</span><a id="line.261">             * @since 4.0.0</a>
-<span class="sourceLineNo">262</span><a id="line.262">             */</a>
-<span class="sourceLineNo">263</span><a id="line.263">            Builder defaultNamingScheme(NamingScheme scheme);</a>
-<span class="sourceLineNo">264</span><a id="line.264"></a>
-<span class="sourceLineNo">265</span><a id="line.265">            /**</a>
-<span class="sourceLineNo">266</span><a id="line.266">             * Add a resolver that will locate a node for a field.</a>
-<span class="sourceLineNo">267</span><a id="line.267">             *</a>
-<span class="sourceLineNo">268</span><a id="line.268">             * @param resolver the resolver</a>
-<span class="sourceLineNo">269</span><a id="line.269">             * @return this builder</a>
-<span class="sourceLineNo">270</span><a id="line.270">             * @since 4.0.0</a>
-<span class="sourceLineNo">271</span><a id="line.271">             */</a>
-<span class="sourceLineNo">272</span><a id="line.272">            Builder addNodeResolver(NodeResolver.Factory resolver);</a>
-<span class="sourceLineNo">273</span><a id="line.273"></a>
-<span class="sourceLineNo">274</span><a id="line.274">            /**</a>
-<span class="sourceLineNo">275</span><a id="line.275">             * Add a discoverer for a type of object.</a>
-<span class="sourceLineNo">276</span><a id="line.276">             *</a>
-<span class="sourceLineNo">277</span><a id="line.277">             * &lt;p&gt;Field discoverers will be tried in order until one can</a>
-<span class="sourceLineNo">278</span><a id="line.278">             * produce the appropriate metadata.&lt;/p&gt;</a>
-<span class="sourceLineNo">279</span><a id="line.279">             *</a>
-<span class="sourceLineNo">280</span><a id="line.280">             * @param discoverer field discoverer</a>
-<span class="sourceLineNo">281</span><a id="line.281">             * @return this builder</a>
-<span class="sourceLineNo">282</span><a id="line.282">             * @since 4.0.0</a>
-<span class="sourceLineNo">283</span><a id="line.283">             */</a>
-<span class="sourceLineNo">284</span><a id="line.284">            Builder addDiscoverer(FieldDiscoverer&lt;?&gt; discoverer);</a>
-<span class="sourceLineNo">285</span><a id="line.285"></a>
-<span class="sourceLineNo">286</span><a id="line.286">            /**</a>
-<span class="sourceLineNo">287</span><a id="line.287">             * Register a {@link Processor} that will process fields after write.</a>
-<span class="sourceLineNo">288</span><a id="line.288">             *</a>
-<span class="sourceLineNo">289</span><a id="line.289">             * &lt;p&gt;Processors registered without a specific data type should be</a>
-<span class="sourceLineNo">290</span><a id="line.290">             * able to operate on any value type.&lt;/p&gt;</a>
-<span class="sourceLineNo">291</span><a id="line.291">             *</a>
-<span class="sourceLineNo">292</span><a id="line.292">             * @param definition annotation providing data</a>
-<span class="sourceLineNo">293</span><a id="line.293">             * @param factory factory for callback function</a>
-<span class="sourceLineNo">294</span><a id="line.294">             * @param &lt;A&gt; annotation type</a>
-<span class="sourceLineNo">295</span><a id="line.295">             * @return this builder</a>
-<span class="sourceLineNo">296</span><a id="line.296">             * @since 4.0.0</a>
-<span class="sourceLineNo">297</span><a id="line.297">             */</a>
-<span class="sourceLineNo">298</span><a id="line.298">            default &lt;A extends Annotation&gt; Builder addProcessor(Class&lt;A&gt; definition, Processor.Factory&lt;A, Object&gt; factory) {</a>
-<span class="sourceLineNo">299</span><a id="line.299">                return addProcessor(definition, Object.class, factory);</a>
-<span class="sourceLineNo">300</span><a id="line.300">            }</a>
-<span class="sourceLineNo">301</span><a id="line.301"></a>
-<span class="sourceLineNo">302</span><a id="line.302">            /**</a>
-<span class="sourceLineNo">303</span><a id="line.303">             * Register a {@link Processor} that will process fields after write.</a>
-<span class="sourceLineNo">304</span><a id="line.304">             *</a>
-<span class="sourceLineNo">305</span><a id="line.305">             * &lt;p&gt;All value types will be tested against types normalized to</a>
-<span class="sourceLineNo">306</span><a id="line.306">             * their boxed variants.&lt;/p&gt;</a>
-<span class="sourceLineNo">307</span><a id="line.307">             *</a>
-<span class="sourceLineNo">308</span><a id="line.308">             * @param definition annotation providing data</a>
-<span class="sourceLineNo">309</span><a id="line.309">             * @param valueType value types the processor will handle</a>
-<span class="sourceLineNo">310</span><a id="line.310">             * @param factory factory for callback function</a>
-<span class="sourceLineNo">311</span><a id="line.311">             * @param &lt;A&gt; annotation type</a>
-<span class="sourceLineNo">312</span><a id="line.312">             * @param &lt;T&gt; data type</a>
-<span class="sourceLineNo">313</span><a id="line.313">             * @return this builder</a>
-<span class="sourceLineNo">314</span><a id="line.314">             * @since 4.0.0</a>
-<span class="sourceLineNo">315</span><a id="line.315">             */</a>
-<span class="sourceLineNo">316</span><a id="line.316">            &lt;A extends Annotation, T&gt; Builder addProcessor(Class&lt;A&gt; definition, Class&lt;T&gt; valueType, Processor.Factory&lt;A, T&gt; factory);</a>
-<span class="sourceLineNo">317</span><a id="line.317"></a>
-<span class="sourceLineNo">318</span><a id="line.318">            /**</a>
-<span class="sourceLineNo">319</span><a id="line.319">             * Register a {@link Constraint} that will be used to validate fields.</a>
-<span class="sourceLineNo">320</span><a id="line.320">             *</a>
-<span class="sourceLineNo">321</span><a id="line.321">             * &lt;p&gt;Constraints registered without a specific data type will be</a>
-<span class="sourceLineNo">322</span><a id="line.322">             * able to operate on any value type.&lt;/p&gt;</a>
-<span class="sourceLineNo">323</span><a id="line.323">             *</a>
-<span class="sourceLineNo">324</span><a id="line.324">             * @param definition annotations providing data</a>
-<span class="sourceLineNo">325</span><a id="line.325">             * @param factory factory for callback function</a>
-<span class="sourceLineNo">326</span><a id="line.326">             * @param &lt;A&gt; annotation type</a>
-<span class="sourceLineNo">327</span><a id="line.327">             * @return this builder</a>
-<span class="sourceLineNo">328</span><a id="line.328">             * @since 4.0.0</a>
-<span class="sourceLineNo">329</span><a id="line.329">             */</a>
-<span class="sourceLineNo">330</span><a id="line.330">            default &lt;A extends Annotation&gt; Builder addConstraint(Class&lt;A&gt; definition, Constraint.Factory&lt;A, Object&gt; factory) {</a>
-<span class="sourceLineNo">331</span><a id="line.331">                return addConstraint(definition, Object.class, factory);</a>
-<span class="sourceLineNo">332</span><a id="line.332">            }</a>
-<span class="sourceLineNo">333</span><a id="line.333"></a>
-<span class="sourceLineNo">334</span><a id="line.334">            /**</a>
-<span class="sourceLineNo">335</span><a id="line.335">             * Register a {@link Constraint} that will be used to validate fields.</a>
-<span class="sourceLineNo">336</span><a id="line.336">             *</a>
-<span class="sourceLineNo">337</span><a id="line.337">             * &lt;p&gt;All value types will be tested against types normalized to</a>
-<span class="sourceLineNo">338</span><a id="line.338">             * their boxed variants.&lt;/p&gt;</a>
-<span class="sourceLineNo">339</span><a id="line.339">             *</a>
-<span class="sourceLineNo">340</span><a id="line.340">             * @param definition annotations providing data</a>
-<span class="sourceLineNo">341</span><a id="line.341">             * @param valueType value types the processor will handle</a>
-<span class="sourceLineNo">342</span><a id="line.342">             * @param factory factory for callback function</a>
-<span class="sourceLineNo">343</span><a id="line.343">             * @param &lt;A&gt; annotation type</a>
-<span class="sourceLineNo">344</span><a id="line.344">             * @param &lt;T&gt; data type</a>
-<span class="sourceLineNo">345</span><a id="line.345">             * @return this builder</a>
-<span class="sourceLineNo">346</span><a id="line.346">             * @since 4.0.0</a>
-<span class="sourceLineNo">347</span><a id="line.347">             */</a>
-<span class="sourceLineNo">348</span><a id="line.348">            &lt;A extends Annotation, T&gt; Builder addConstraint(Class&lt;A&gt; definition, Class&lt;T&gt; valueType, Constraint.Factory&lt;A, T&gt; factory);</a>
-<span class="sourceLineNo">349</span><a id="line.349"></a>
-<span class="sourceLineNo">350</span><a id="line.350">            /**</a>
-<span class="sourceLineNo">351</span><a id="line.351">             * Create a new factory using the current configuration.</a>
-<span class="sourceLineNo">352</span><a id="line.352">             *</a>
-<span class="sourceLineNo">353</span><a id="line.353">             * @return new factory instance</a>
-<span class="sourceLineNo">354</span><a id="line.354">             * @since 4.0.0</a>
-<span class="sourceLineNo">355</span><a id="line.355">             */</a>
-<span class="sourceLineNo">356</span><a id="line.356">            Factory build();</a>
-<span class="sourceLineNo">357</span><a id="line.357"></a>
-<span class="sourceLineNo">358</span><a id="line.358">        }</a>
-<span class="sourceLineNo">359</span><a id="line.359"></a>
-<span class="sourceLineNo">360</span><a id="line.360">    }</a>
-<span class="sourceLineNo">361</span><a id="line.361"></a>
-<span class="sourceLineNo">362</span><a id="line.362">}</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.spongepowered.configurate.objectmapping.meta.PostProcessor;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.spongepowered.configurate.objectmapping.meta.Processor;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.spongepowered.configurate.serialize.SerializationException;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.spongepowered.configurate.serialize.TypeSerializer;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import org.spongepowered.configurate.serialize.TypeSerializerCollection;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.spongepowered.configurate.util.NamingScheme;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.lang.annotation.Annotation;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.lang.reflect.Type;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.List;</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">/**</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * A mapper that converts between configuration nodes and Java objects.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;Object mappers are created through a {@link Factory}, either the default</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * one or one created with additional options. See that class's</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * documentation for details.&lt;/p&gt;</a>
+<span class="sourceLineNo">040</span><a id="line.40"> *</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * &lt;p&gt;The object mapper can be accessed directly, through its {@link #factory()},</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * or through a {@link ConfigurationNode}'s</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * {@link ConfigurationNode#get(TypeToken)} method. To use a custom factory</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * instance through a node, a custom TypeSerializer has to be registered to the</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * {@link TypeSerializerCollection} used</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * by the node.&lt;/p&gt;</a>
+<span class="sourceLineNo">047</span><a id="line.47"> *</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * @param &lt;V&gt; mapped type</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * @since 4.0.0</a>
+<span class="sourceLineNo">050</span><a id="line.50"> */</a>
+<span class="sourceLineNo">051</span><a id="line.51">public interface ObjectMapper&lt;V&gt; {</a>
+<span class="sourceLineNo">052</span><a id="line.52"></a>
+<span class="sourceLineNo">053</span><a id="line.53">    /**</a>
+<span class="sourceLineNo">054</span><a id="line.54">     * Get the default object mapper factory instance.</a>
+<span class="sourceLineNo">055</span><a id="line.55">     *</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * &lt;p&gt;This factory has the following characteristics:&lt;/p&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">058</span><a id="line.58">     *     &lt;li&gt;can resolve fields in empty-constructor objects and Records&lt;/li&gt;</a>
+<span class="sourceLineNo">059</span><a id="line.59">     *     &lt;li&gt;will try to resolve any field in objects&lt;/li&gt;</a>
+<span class="sourceLineNo">060</span><a id="line.60">     *     &lt;li&gt;supports {@link org.spongepowered.configurate.objectmapping.meta.NodeKey} and</a>
+<span class="sourceLineNo">061</span><a id="line.61">     *     {@link org.spongepowered.configurate.objectmapping.meta.Setting} annotations</a>
+<span class="sourceLineNo">062</span><a id="line.62">     *     for customizing node resolution&lt;/li&gt;</a>
+<span class="sourceLineNo">063</span><a id="line.63">     *     &lt;li&gt;uses the {@link org.spongepowered.configurate.util.NamingSchemes#LOWER_CASE_DASHED}</a>
+<span class="sourceLineNo">064</span><a id="line.64">     *     naming scheme for other nodes&lt;/li&gt;</a>
+<span class="sourceLineNo">065</span><a id="line.65">     *     &lt;li&gt;supports unlocalized {@link org.spongepowered.configurate.objectmapping.meta.Matches},</a>
+<span class="sourceLineNo">066</span><a id="line.66">     *     and {@link org.spongepowered.configurate.objectmapping.meta.Required}</a>
+<span class="sourceLineNo">067</span><a id="line.67">     *     constraints&lt;/li&gt;</a>
+<span class="sourceLineNo">068</span><a id="line.68">     *     &lt;li&gt;processes {@link org.spongepowered.configurate.objectmapping.meta.Comment}</a>
+<span class="sourceLineNo">069</span><a id="line.69">     *     annotations&lt;/li&gt;</a>
+<span class="sourceLineNo">070</span><a id="line.70">     * &lt;/ul&gt;</a>
+<span class="sourceLineNo">071</span><a id="line.71">     *</a>
+<span class="sourceLineNo">072</span><a id="line.72">     * @return default factory</a>
+<span class="sourceLineNo">073</span><a id="line.73">     * @since 4.0.0</a>
+<span class="sourceLineNo">074</span><a id="line.74">     */</a>
+<span class="sourceLineNo">075</span><a id="line.75">    static Factory factory() {</a>
+<span class="sourceLineNo">076</span><a id="line.76">        return ObjectMapperFactoryImpl.INSTANCE;</a>
+<span class="sourceLineNo">077</span><a id="line.77">    }</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">    /**</a>
+<span class="sourceLineNo">080</span><a id="line.80">     * Create an empty builder.</a>
+<span class="sourceLineNo">081</span><a id="line.81">     *</a>
+<span class="sourceLineNo">082</span><a id="line.82">     * &lt;p&gt;This applies none of the standard formats, processors, constraints or</a>
+<span class="sourceLineNo">083</span><a id="line.83">     * resolvers. Unless you want to do something particularly specialized,</a>
+<span class="sourceLineNo">084</span><a id="line.84">     * you should probably be using {@link #factoryBuilder()}.&lt;/p&gt;</a>
+<span class="sourceLineNo">085</span><a id="line.85">     *</a>
+<span class="sourceLineNo">086</span><a id="line.86">     * @return new empty builder</a>
+<span class="sourceLineNo">087</span><a id="line.87">     * @since 4.0.0</a>
+<span class="sourceLineNo">088</span><a id="line.88">     */</a>
+<span class="sourceLineNo">089</span><a id="line.89">    static Factory.Builder emptyFactoryBuilder() {</a>
+<span class="sourceLineNo">090</span><a id="line.90">        return new ObjectMapperFactoryImpl.Builder();</a>
+<span class="sourceLineNo">091</span><a id="line.91">    }</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">    /**</a>
+<span class="sourceLineNo">094</span><a id="line.94">     * Create a builder populated with default settings.</a>
+<span class="sourceLineNo">095</span><a id="line.95">     *</a>
+<span class="sourceLineNo">096</span><a id="line.96">     * &lt;p&gt;This builder is prepared to allow overriding any of the default</a>
+<span class="sourceLineNo">097</span><a id="line.97">     * object mapper features.&lt;/p&gt;</a>
+<span class="sourceLineNo">098</span><a id="line.98">     *</a>
+<span class="sourceLineNo">099</span><a id="line.99">     * @return new builder</a>
+<span class="sourceLineNo">100</span><a id="line.100">     * @see #factory() for a description of the default settings</a>
+<span class="sourceLineNo">101</span><a id="line.101">     * @since 4.0.0</a>
+<span class="sourceLineNo">102</span><a id="line.102">     */</a>
+<span class="sourceLineNo">103</span><a id="line.103">    static Factory.Builder factoryBuilder() {</a>
+<span class="sourceLineNo">104</span><a id="line.104">        return ObjectMapperFactoryImpl.defaultBuilder();</a>
+<span class="sourceLineNo">105</span><a id="line.105">    }</a>
+<span class="sourceLineNo">106</span><a id="line.106"></a>
+<span class="sourceLineNo">107</span><a id="line.107">    /**</a>
+<span class="sourceLineNo">108</span><a id="line.108">     * Create a new object instance.</a>
+<span class="sourceLineNo">109</span><a id="line.109">     *</a>
+<span class="sourceLineNo">110</span><a id="line.110">     * @param source object source</a>
+<span class="sourceLineNo">111</span><a id="line.111">     * @return new instance</a>
+<span class="sourceLineNo">112</span><a id="line.112">     * @throws SerializationException if any invalid data is present. Loading is</a>
+<span class="sourceLineNo">113</span><a id="line.113">     *      done in stages, so any deserialization errors will occur before</a>
+<span class="sourceLineNo">114</span><a id="line.114">     *      anything is written to objects.</a>
+<span class="sourceLineNo">115</span><a id="line.115">     * @since 4.0.0</a>
+<span class="sourceLineNo">116</span><a id="line.116">     */</a>
+<span class="sourceLineNo">117</span><a id="line.117">    V load(ConfigurationNode source) throws SerializationException;</a>
+<span class="sourceLineNo">118</span><a id="line.118"></a>
+<span class="sourceLineNo">119</span><a id="line.119">    /**</a>
+<span class="sourceLineNo">120</span><a id="line.120">     * Write data from the provided object to the target.</a>
+<span class="sourceLineNo">121</span><a id="line.121">     *</a>
+<span class="sourceLineNo">122</span><a id="line.122">     * @param value value type</a>
+<span class="sourceLineNo">123</span><a id="line.123">     * @param target destination</a>
+<span class="sourceLineNo">124</span><a id="line.124">     * @throws SerializationException if unable to fully save</a>
+<span class="sourceLineNo">125</span><a id="line.125">     * @since 4.0.0</a>
+<span class="sourceLineNo">126</span><a id="line.126">     */</a>
+<span class="sourceLineNo">127</span><a id="line.127">    void save(V value, ConfigurationNode target) throws SerializationException;</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">    /**</a>
+<span class="sourceLineNo">130</span><a id="line.130">     * Get the parameters that will be handled by this mapper.</a>
+<span class="sourceLineNo">131</span><a id="line.131">     *</a>
+<span class="sourceLineNo">132</span><a id="line.132">     * @return immutable list of fields</a>
+<span class="sourceLineNo">133</span><a id="line.133">     * @since 4.0.0</a>
+<span class="sourceLineNo">134</span><a id="line.134">     */</a>
+<span class="sourceLineNo">135</span><a id="line.135">    List&lt;? extends FieldData&lt;?, V&gt;&gt; fields();</a>
+<span class="sourceLineNo">136</span><a id="line.136"></a>
+<span class="sourceLineNo">137</span><a id="line.137">    /**</a>
+<span class="sourceLineNo">138</span><a id="line.138">     * The generic type of object that this mapper instance handles.</a>
+<span class="sourceLineNo">139</span><a id="line.139">     *</a>
+<span class="sourceLineNo">140</span><a id="line.140">     * @return object type</a>
+<span class="sourceLineNo">141</span><a id="line.141">     * @since 4.0.0</a>
+<span class="sourceLineNo">142</span><a id="line.142">     */</a>
+<span class="sourceLineNo">143</span><a id="line.143">    Type mappedType();</a>
+<span class="sourceLineNo">144</span><a id="line.144"></a>
+<span class="sourceLineNo">145</span><a id="line.145">    /**</a>
+<span class="sourceLineNo">146</span><a id="line.146">     * Get whether or not this mapper is capable of creating new instances of</a>
+<span class="sourceLineNo">147</span><a id="line.147">     * its mapped type.</a>
+<span class="sourceLineNo">148</span><a id="line.148">     *</a>
+<span class="sourceLineNo">149</span><a id="line.149">     * &lt;p&gt;If this returns {@code false}, {@link #load(ConfigurationNode)} will</a>
+<span class="sourceLineNo">150</span><a id="line.150">     * always fail.&lt;/p&gt;</a>
+<span class="sourceLineNo">151</span><a id="line.151">     *</a>
+<span class="sourceLineNo">152</span><a id="line.152">     * @return if the mapped type can be instantiated.</a>
+<span class="sourceLineNo">153</span><a id="line.153">     * @since 4.0.0</a>
+<span class="sourceLineNo">154</span><a id="line.154">     */</a>
+<span class="sourceLineNo">155</span><a id="line.155">    boolean canCreateInstances();</a>
+<span class="sourceLineNo">156</span><a id="line.156"></a>
+<span class="sourceLineNo">157</span><a id="line.157">    /**</a>
+<span class="sourceLineNo">158</span><a id="line.158">     * An object mapper capable of loading data into an existing object.</a>
+<span class="sourceLineNo">159</span><a id="line.159">     *</a>
+<span class="sourceLineNo">160</span><a id="line.160">     * @param &lt;V&gt; value type</a>
+<span class="sourceLineNo">161</span><a id="line.161">     * @since 4.0.0</a>
+<span class="sourceLineNo">162</span><a id="line.162">     */</a>
+<span class="sourceLineNo">163</span><a id="line.163">    interface Mutable&lt;V&gt; extends ObjectMapper&lt;V&gt; {</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">        /**</a>
+<span class="sourceLineNo">166</span><a id="line.166">         * Load data from {@code node} into an existing instance.</a>
+<span class="sourceLineNo">167</span><a id="line.167">         *</a>
+<span class="sourceLineNo">168</span><a id="line.168">         * @param value existing instance</a>
+<span class="sourceLineNo">169</span><a id="line.169">         * @param node node to load from</a>
+<span class="sourceLineNo">170</span><a id="line.170">         * @throws SerializationException if unable to deserialize data</a>
+<span class="sourceLineNo">171</span><a id="line.171">         * @since 4.0.0</a>
+<span class="sourceLineNo">172</span><a id="line.172">         */</a>
+<span class="sourceLineNo">173</span><a id="line.173">        void load(V value, ConfigurationNode node) throws SerializationException;</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">    }</a>
+<span class="sourceLineNo">176</span><a id="line.176"></a>
+<span class="sourceLineNo">177</span><a id="line.177">    /**</a>
+<span class="sourceLineNo">178</span><a id="line.178">     * Provider for object mappers.</a>
+<span class="sourceLineNo">179</span><a id="line.179">     *</a>
+<span class="sourceLineNo">180</span><a id="line.180">     * @since 4.0.0</a>
+<span class="sourceLineNo">181</span><a id="line.181">     */</a>
+<span class="sourceLineNo">182</span><a id="line.182">    interface Factory {</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">        /**</a>
+<span class="sourceLineNo">185</span><a id="line.185">         * Get an object mapper for the provided type.</a>
+<span class="sourceLineNo">186</span><a id="line.186">         *</a>
+<span class="sourceLineNo">187</span><a id="line.187">         * &lt;p&gt;The provided type cannot be a &lt;em&gt;raw type&lt;/em&gt;.&lt;/p&gt;</a>
+<span class="sourceLineNo">188</span><a id="line.188">         *</a>
+<span class="sourceLineNo">189</span><a id="line.189">         * @param type token holding the mapped type</a>
+<span class="sourceLineNo">190</span><a id="line.190">         * @param &lt;V&gt; mapped type</a>
+<span class="sourceLineNo">191</span><a id="line.191">         * @return a mapper for the provided type</a>
+<span class="sourceLineNo">192</span><a id="line.192">         * @throws SerializationException if the type does not correspond to a</a>
+<span class="sourceLineNo">193</span><a id="line.193">         *     mappable object</a>
+<span class="sourceLineNo">194</span><a id="line.194">         * @since 4.0.0</a>
+<span class="sourceLineNo">195</span><a id="line.195">         */</a>
+<span class="sourceLineNo">196</span><a id="line.196">        @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">197</span><a id="line.197">        default &lt;V&gt; ObjectMapper&lt;V&gt; get(final TypeToken&lt;V&gt; type) throws SerializationException {</a>
+<span class="sourceLineNo">198</span><a id="line.198">            return (ObjectMapper&lt;V&gt;) get(type.getType());</a>
+<span class="sourceLineNo">199</span><a id="line.199">        }</a>
+<span class="sourceLineNo">200</span><a id="line.200"></a>
+<span class="sourceLineNo">201</span><a id="line.201">        /**</a>
+<span class="sourceLineNo">202</span><a id="line.202">         * Get an object mapper for the unparameterized type {@code clazz}.</a>
+<span class="sourceLineNo">203</span><a id="line.203">         *</a>
+<span class="sourceLineNo">204</span><a id="line.204">         * &lt;p&gt;The provided type cannot be a &lt;em&gt;raw type&lt;/em&gt;.&lt;/p&gt;</a>
+<span class="sourceLineNo">205</span><a id="line.205">         *</a>
+<span class="sourceLineNo">206</span><a id="line.206">         * @param clazz class of the mapped type</a>
+<span class="sourceLineNo">207</span><a id="line.207">         * @param &lt;V&gt; mapped type</a>
+<span class="sourceLineNo">208</span><a id="line.208">         * @return a mapper for the provided type</a>
+<span class="sourceLineNo">209</span><a id="line.209">         * @throws SerializationException if the type does not correspond to a</a>
+<span class="sourceLineNo">210</span><a id="line.210">         *     mappable object</a>
+<span class="sourceLineNo">211</span><a id="line.211">         * @since 4.0.0</a>
+<span class="sourceLineNo">212</span><a id="line.212">         */</a>
+<span class="sourceLineNo">213</span><a id="line.213">        @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">214</span><a id="line.214">        default &lt;V&gt; ObjectMapper&lt;V&gt; get(final Class&lt;V&gt; clazz) throws SerializationException {</a>
+<span class="sourceLineNo">215</span><a id="line.215">            return (ObjectMapper&lt;V&gt;) get((Type) clazz);</a>
+<span class="sourceLineNo">216</span><a id="line.216">        }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">        /**</a>
+<span class="sourceLineNo">219</span><a id="line.219">         * Get the object mapper for the provided type.</a>
+<span class="sourceLineNo">220</span><a id="line.220">         *</a>
+<span class="sourceLineNo">221</span><a id="line.221">         * &lt;p&gt;The provided type cannot be a &lt;em&gt;raw type&lt;/em&gt;.&lt;/p&gt;</a>
+<span class="sourceLineNo">222</span><a id="line.222">         *</a>
+<span class="sourceLineNo">223</span><a id="line.223">         * @param type object type.</a>
+<span class="sourceLineNo">224</span><a id="line.224">         * @return a mapper for the provided type</a>
+<span class="sourceLineNo">225</span><a id="line.225">         * @throws SerializationException if the type does not correspond to a</a>
+<span class="sourceLineNo">226</span><a id="line.226">         *     mappable object</a>
+<span class="sourceLineNo">227</span><a id="line.227">         * @since 4.0.0</a>
+<span class="sourceLineNo">228</span><a id="line.228">         */</a>
+<span class="sourceLineNo">229</span><a id="line.229">        ObjectMapper&lt;?&gt; get(Type type) throws SerializationException;</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">        /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">         * Creates a {@link TypeSerializer} that uses this factory.</a>
+<span class="sourceLineNo">233</span><a id="line.233">         *</a>
+<span class="sourceLineNo">234</span><a id="line.234">         * &lt;p&gt;The serializer will accept any object type that could otherwise be</a>
+<span class="sourceLineNo">235</span><a id="line.235">         * handled by this factory. To match a standard configuration,</a>
+<span class="sourceLineNo">236</span><a id="line.236">         * register this serializer with {@link TypeSerializerCollection.Builder#registerAnnotatedObjects(Factory)}</a>
+<span class="sourceLineNo">237</span><a id="line.237">         * to enforce the presence of {@link ConfigSerializable} annotations.&lt;/p&gt;</a>
+<span class="sourceLineNo">238</span><a id="line.238">         *</a>
+<span class="sourceLineNo">239</span><a id="line.239">         * @return a type serializer</a>
+<span class="sourceLineNo">240</span><a id="line.240">         * @since 4.0.0</a>
+<span class="sourceLineNo">241</span><a id="line.241">         */</a>
+<span class="sourceLineNo">242</span><a id="line.242">        TypeSerializer&lt;Object&gt; asTypeSerializer();</a>
+<span class="sourceLineNo">243</span><a id="line.243"></a>
+<span class="sourceLineNo">244</span><a id="line.244">        /**</a>
+<span class="sourceLineNo">245</span><a id="line.245">         * A builder for a configured factory producing object mappers.</a>
+<span class="sourceLineNo">246</span><a id="line.246">         *</a>
+<span class="sourceLineNo">247</span><a id="line.247">         * &lt;p&gt;In general, with multiple applicable resolvers, the one registered</a>
+<span class="sourceLineNo">248</span><a id="line.248">         * last will take priority.&lt;/p&gt;</a>
+<span class="sourceLineNo">249</span><a id="line.249">         *</a>
+<span class="sourceLineNo">250</span><a id="line.250">         * @since 4.0.0</a>
+<span class="sourceLineNo">251</span><a id="line.251">         */</a>
+<span class="sourceLineNo">252</span><a id="line.252">        interface Builder {</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">            /**</a>
+<span class="sourceLineNo">255</span><a id="line.255">             * Set the naming scheme to use as a default for field names.</a>
+<span class="sourceLineNo">256</span><a id="line.256">             *</a>
+<span class="sourceLineNo">257</span><a id="line.257">             * &lt;p&gt;This can be overridden by other</a>
+<span class="sourceLineNo">258</span><a id="line.258">             * {@link NodeResolver NodeResolvers} for specific nodes.&lt;/p&gt;</a>
+<span class="sourceLineNo">259</span><a id="line.259">             *</a>
+<span class="sourceLineNo">260</span><a id="line.260">             * @param scheme naming scheme</a>
+<span class="sourceLineNo">261</span><a id="line.261">             * @return this builder</a>
+<span class="sourceLineNo">262</span><a id="line.262">             * @since 4.0.0</a>
+<span class="sourceLineNo">263</span><a id="line.263">             */</a>
+<span class="sourceLineNo">264</span><a id="line.264">            Builder defaultNamingScheme(NamingScheme scheme);</a>
+<span class="sourceLineNo">265</span><a id="line.265"></a>
+<span class="sourceLineNo">266</span><a id="line.266">            /**</a>
+<span class="sourceLineNo">267</span><a id="line.267">             * Add a resolver that will locate a node for a field.</a>
+<span class="sourceLineNo">268</span><a id="line.268">             *</a>
+<span class="sourceLineNo">269</span><a id="line.269">             * @param resolver the resolver</a>
+<span class="sourceLineNo">270</span><a id="line.270">             * @return this builder</a>
+<span class="sourceLineNo">271</span><a id="line.271">             * @since 4.0.0</a>
+<span class="sourceLineNo">272</span><a id="line.272">             */</a>
+<span class="sourceLineNo">273</span><a id="line.273">            Builder addNodeResolver(NodeResolver.Factory resolver);</a>
+<span class="sourceLineNo">274</span><a id="line.274"></a>
+<span class="sourceLineNo">275</span><a id="line.275">            /**</a>
+<span class="sourceLineNo">276</span><a id="line.276">             * Add a discoverer for a type of object.</a>
+<span class="sourceLineNo">277</span><a id="line.277">             *</a>
+<span class="sourceLineNo">278</span><a id="line.278">             * &lt;p&gt;Field discoverers will be tried in order until one can</a>
+<span class="sourceLineNo">279</span><a id="line.279">             * produce the appropriate metadata.&lt;/p&gt;</a>
+<span class="sourceLineNo">280</span><a id="line.280">             *</a>
+<span class="sourceLineNo">281</span><a id="line.281">             * @param discoverer field discoverer</a>
+<span class="sourceLineNo">282</span><a id="line.282">             * @return this builder</a>
+<span class="sourceLineNo">283</span><a id="line.283">             * @since 4.0.0</a>
+<span class="sourceLineNo">284</span><a id="line.284">             */</a>
+<span class="sourceLineNo">285</span><a id="line.285">            Builder addDiscoverer(FieldDiscoverer&lt;?&gt; discoverer);</a>
+<span class="sourceLineNo">286</span><a id="line.286"></a>
+<span class="sourceLineNo">287</span><a id="line.287">            /**</a>
+<span class="sourceLineNo">288</span><a id="line.288">             * Register a {@link Processor} that will process fields after write.</a>
+<span class="sourceLineNo">289</span><a id="line.289">             *</a>
+<span class="sourceLineNo">290</span><a id="line.290">             * &lt;p&gt;Processors registered without a specific data type should be</a>
+<span class="sourceLineNo">291</span><a id="line.291">             * able to operate on any value type.&lt;/p&gt;</a>
+<span class="sourceLineNo">292</span><a id="line.292">             *</a>
+<span class="sourceLineNo">293</span><a id="line.293">             * @param definition annotation providing data</a>
+<span class="sourceLineNo">294</span><a id="line.294">             * @param factory factory for callback function</a>
+<span class="sourceLineNo">295</span><a id="line.295">             * @param &lt;A&gt; annotation type</a>
+<span class="sourceLineNo">296</span><a id="line.296">             * @return this builder</a>
+<span class="sourceLineNo">297</span><a id="line.297">             * @since 4.0.0</a>
+<span class="sourceLineNo">298</span><a id="line.298">             */</a>
+<span class="sourceLineNo">299</span><a id="line.299">            default &lt;A extends Annotation&gt; Builder addProcessor(final Class&lt;A&gt; definition, final Processor.Factory&lt;A, Object&gt; factory) {</a>
+<span class="sourceLineNo">300</span><a id="line.300">                return addProcessor(definition, Object.class, factory);</a>
+<span class="sourceLineNo">301</span><a id="line.301">            }</a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">            /**</a>
+<span class="sourceLineNo">304</span><a id="line.304">             * Register a {@link Processor} that will process fields after write.</a>
+<span class="sourceLineNo">305</span><a id="line.305">             *</a>
+<span class="sourceLineNo">306</span><a id="line.306">             * &lt;p&gt;All value types will be tested against types normalized to</a>
+<span class="sourceLineNo">307</span><a id="line.307">             * their boxed variants.&lt;/p&gt;</a>
+<span class="sourceLineNo">308</span><a id="line.308">             *</a>
+<span class="sourceLineNo">309</span><a id="line.309">             * @param definition annotation providing data</a>
+<span class="sourceLineNo">310</span><a id="line.310">             * @param valueType value types the processor will handle</a>
+<span class="sourceLineNo">311</span><a id="line.311">             * @param factory factory for callback function</a>
+<span class="sourceLineNo">312</span><a id="line.312">             * @param &lt;A&gt; annotation type</a>
+<span class="sourceLineNo">313</span><a id="line.313">             * @param &lt;T&gt; data type</a>
+<span class="sourceLineNo">314</span><a id="line.314">             * @return this builder</a>
+<span class="sourceLineNo">315</span><a id="line.315">             * @since 4.0.0</a>
+<span class="sourceLineNo">316</span><a id="line.316">             */</a>
+<span class="sourceLineNo">317</span><a id="line.317">            &lt;A extends Annotation, T&gt; Builder addProcessor(Class&lt;A&gt; definition, Class&lt;T&gt; valueType, Processor.Factory&lt;A, T&gt; factory);</a>
+<span class="sourceLineNo">318</span><a id="line.318"></a>
+<span class="sourceLineNo">319</span><a id="line.319">            /**</a>
+<span class="sourceLineNo">320</span><a id="line.320">             * Register a {@link Constraint} that will be used to validate fields.</a>
+<span class="sourceLineNo">321</span><a id="line.321">             *</a>
+<span class="sourceLineNo">322</span><a id="line.322">             * &lt;p&gt;Constraints registered without a specific data type will be</a>
+<span class="sourceLineNo">323</span><a id="line.323">             * able to operate on any value type.&lt;/p&gt;</a>
+<span class="sourceLineNo">324</span><a id="line.324">             *</a>
+<span class="sourceLineNo">325</span><a id="line.325">             * @param definition annotations providing data</a>
+<span class="sourceLineNo">326</span><a id="line.326">             * @param factory factory for callback function</a>
+<span class="sourceLineNo">327</span><a id="line.327">             * @param &lt;A&gt; annotation type</a>
+<span class="sourceLineNo">328</span><a id="line.328">             * @return this builder</a>
+<span class="sourceLineNo">329</span><a id="line.329">             * @since 4.0.0</a>
+<span class="sourceLineNo">330</span><a id="line.330">             */</a>
+<span class="sourceLineNo">331</span><a id="line.331">            default &lt;A extends Annotation&gt; Builder addConstraint(final Class&lt;A&gt; definition, final Constraint.Factory&lt;A, Object&gt; factory) {</a>
+<span class="sourceLineNo">332</span><a id="line.332">                return addConstraint(definition, Object.class, factory);</a>
+<span class="sourceLineNo">333</span><a id="line.333">            }</a>
+<span class="sourceLineNo">334</span><a id="line.334"></a>
+<span class="sourceLineNo">335</span><a id="line.335">            /**</a>
+<span class="sourceLineNo">336</span><a id="line.336">             * Register a {@link Constraint} that will be used to validate fields.</a>
+<span class="sourceLineNo">337</span><a id="line.337">             *</a>
+<span class="sourceLineNo">338</span><a id="line.338">             * &lt;p&gt;All value types will be tested against types normalized to</a>
+<span class="sourceLineNo">339</span><a id="line.339">             * their boxed variants.&lt;/p&gt;</a>
+<span class="sourceLineNo">340</span><a id="line.340">             *</a>
+<span class="sourceLineNo">341</span><a id="line.341">             * @param definition annotations providing data</a>
+<span class="sourceLineNo">342</span><a id="line.342">             * @param valueType value types the processor will handle</a>
+<span class="sourceLineNo">343</span><a id="line.343">             * @param factory factory for callback function</a>
+<span class="sourceLineNo">344</span><a id="line.344">             * @param &lt;A&gt; annotation type</a>
+<span class="sourceLineNo">345</span><a id="line.345">             * @param &lt;T&gt; data type</a>
+<span class="sourceLineNo">346</span><a id="line.346">             * @return this builder</a>
+<span class="sourceLineNo">347</span><a id="line.347">             * @since 4.0.0</a>
+<span class="sourceLineNo">348</span><a id="line.348">             */</a>
+<span class="sourceLineNo">349</span><a id="line.349">            &lt;A extends Annotation, T&gt; Builder addConstraint(Class&lt;A&gt; definition, Class&lt;T&gt; valueType, Constraint.Factory&lt;A, T&gt; factory);</a>
+<span class="sourceLineNo">350</span><a id="line.350"></a>
+<span class="sourceLineNo">351</span><a id="line.351">            /**</a>
+<span class="sourceLineNo">352</span><a id="line.352">             * Register an object post-processor with this object mapper.</a>
+<span class="sourceLineNo">353</span><a id="line.353">             *</a>
+<span class="sourceLineNo">354</span><a id="line.354">             * &lt;p&gt;All post-processors will be called, even if one</a>
+<span class="sourceLineNo">355</span><a id="line.355">             * throws an exception.&lt;/p&gt;</a>
+<span class="sourceLineNo">356</span><a id="line.356">             *</a>
+<span class="sourceLineNo">357</span><a id="line.357">             * @param factory the factory optionally producing a</a>
+<span class="sourceLineNo">358</span><a id="line.358">             *     post processor function</a>
+<span class="sourceLineNo">359</span><a id="line.359">             * @return this builder</a>
+<span class="sourceLineNo">360</span><a id="line.360">             * @since 4.2.0</a>
+<span class="sourceLineNo">361</span><a id="line.361">             */</a>
+<span class="sourceLineNo">362</span><a id="line.362">            Builder addPostProcessor(PostProcessor.Factory factory);</a>
+<span class="sourceLineNo">363</span><a id="line.363"></a>
+<span class="sourceLineNo">364</span><a id="line.364">            /**</a>
+<span class="sourceLineNo">365</span><a id="line.365">             * Create a new factory using the current configuration.</a>
+<span class="sourceLineNo">366</span><a id="line.366">             *</a>
+<span class="sourceLineNo">367</span><a id="line.367">             * @return new factory instance</a>
+<span class="sourceLineNo">368</span><a id="line.368">             * @since 4.0.0</a>
+<span class="sourceLineNo">369</span><a id="line.369">             */</a>
+<span class="sourceLineNo">370</span><a id="line.370">            Factory build();</a>
+<span class="sourceLineNo">371</span><a id="line.371"></a>
+<span class="sourceLineNo">372</span><a id="line.372">        }</a>
+<span class="sourceLineNo">373</span><a id="line.373"></a>
+<span class="sourceLineNo">374</span><a id="line.374">    }</a>
+<span class="sourceLineNo">375</span><a id="line.375"></a>
+<span class="sourceLineNo">376</span><a id="line.376">}</a>
 
 
 
