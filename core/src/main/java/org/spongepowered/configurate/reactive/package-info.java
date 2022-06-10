@@ -49,4 +49,3 @@ package org.spongepowered.configurate.reactive;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
-

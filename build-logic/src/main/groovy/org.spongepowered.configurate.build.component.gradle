@@ -110,6 +110,9 @@ spotless {
 
         licenseHeader(licenseText)
         targetExclude 'generated/**'
+        importOrderFile rootProject.file('.spotless/configurate.importorder')
+        endWithNewline()
+        trimTrailingWhitespace()
     }
 
     format 'configs', {
