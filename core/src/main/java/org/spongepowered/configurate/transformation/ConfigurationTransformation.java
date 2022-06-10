@@ -158,7 +158,7 @@ public interface ConfigurationTransformation {
          */
         public ConfigurationTransformation build() {
             if (this.actions.isEmpty()) {
-                throw new IllegalArgumentException("At least one action must be specified to build a transformation");
+                return ConfigurationTransformation.empty();
             }
             return new SingleConfigurationTransformation(this.actions, this.strategy);
         }
@@ -304,7 +304,7 @@ public interface ConfigurationTransformation {
          * @since 4.0.0
          */
         default int version(final ConfigurationNode node) {
-            return node.node(this.versionKey()).getInt(VERSION_UNKNOWN);
+            return node.node(versionKey()).getInt(VERSION_UNKNOWN);
         }
     }
 
