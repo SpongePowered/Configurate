@@ -32,6 +32,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.Matches;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
+import org.spongepowered.configurate.objectmapping.meta.PostProcessor;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.objectmapping.meta.Required;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -60,15 +61,18 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     private static final int MAXIMUM_MAPPERS_SIZE = 64;
 
     private final Map<Type, ObjectMapper<?>> mappers = new LinkedHashMap<Type, ObjectMapper<?>>() {
+        private static final long serialVersionUID = 1838651306004330732L;
+
         @Override
         protected boolean removeEldestEntry(final Map.Entry<Type, ObjectMapper<?>> eldest) {
-            return this.size() > MAXIMUM_MAPPERS_SIZE;
+            return size() > MAXIMUM_MAPPERS_SIZE;
         }
     };
     private final List<NodeResolver.Factory> resolverFactories;
     private final List<FieldDiscoverer<?>> fieldDiscoverers;
     private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>>> constraints;
     private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Processor.Factory<?, ?>>>> processors;
+    private final List<PostProcessor.Factory> postProcessors;
 
     ObjectMapperFactoryImpl(final Builder builder) {
         this.resolverFactories = new ArrayList<>(builder.resolvers);
@@ -86,16 +90,19 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         this.fieldDiscoverers = new ArrayList<>(builder.discoverer);
         Collections.reverse(this.fieldDiscoverers);
         this.constraints = new HashMap<>();
-        for (Definition<?, ?, ? extends Constraint.Factory<?, ?>> def : builder.constraints) {
+        for (final Definition<?, ?, ? extends Constraint.Factory<?, ?>> def : builder.constraints) {
             this.constraints.computeIfAbsent(def.annotation(), k -> new ArrayList<>()).add(def);
         }
         this.constraints.values().forEach(Collections::reverse);
 
         this.processors = new HashMap<>();
-        for (Definition<?, ?, ? extends Processor.Factory<?, ?>> def : builder.processors) {
+        for (final Definition<?, ?, ? extends Processor.Factory<?, ?>> def : builder.processors) {
             this.processors.computeIfAbsent(def.annotation(), k -> new ArrayList<>()).add(def);
         }
         this.processors.values().forEach(Collections::reverse);
+
+        this.postProcessors = new ArrayList<>(builder.postProcessors);
+        Collections.reverse(this.postProcessors);
     }
 
     @Override
@@ -116,7 +123,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     }
 
     private ObjectMapper<?> computeMapper(final Type type) throws SerializationException {
-        for (FieldDiscoverer<?> discoverer : this.fieldDiscoverers) {
+        for (final FieldDiscoverer<?> discoverer : this.fieldDiscoverers) {
             final @Nullable ObjectMapper<?> result = newMapper(type, discoverer);
             if (result != null) {
                 return result;
@@ -135,11 +142,28 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
             return null;
         }
 
+        final List<PostProcessor> postProcessors = computePostProcessors(type);
         if (candidate instanceof FieldDiscoverer.MutableInstanceFactory<?>) {
-            return new ObjectMapperImpl.Mutable<>(type, fields, (FieldDiscoverer.MutableInstanceFactory<I>) candidate);
+            return new ObjectMapperImpl.Mutable<>(type, fields, (FieldDiscoverer.MutableInstanceFactory<I>) candidate, postProcessors);
         } else {
-            return new ObjectMapperImpl<>(type, fields, candidate);
+            return new ObjectMapperImpl<>(type, fields, candidate, postProcessors);
         }
+    }
+
+    private List<PostProcessor> computePostProcessors(final Type type) throws SerializationException {
+        if (this.postProcessors.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        final List<PostProcessor> createdProcessors = new ArrayList<>();
+        for (final PostProcessor.Factory factory : this.postProcessors) {
+            final @Nullable PostProcessor candidate = factory.createProcessor(type);
+            if (candidate != null) {
+                createdProcessors.add(candidate);
+            }
+        }
+
+        return Collections.unmodifiableList(createdProcessors);
     }
 
     /**
@@ -154,7 +178,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
             final AnnotatedElement container, final FieldData.Deserializer<I> deserializer,
             final CheckedFunction<O, @Nullable Object, Exception> serializer) {
         @Nullable NodeResolver resolver = null;
-        for (NodeResolver.Factory factory : this.resolverFactories) {
+        for (final NodeResolver.Factory factory : this.resolverFactories) {
             final @Nullable NodeResolver next = factory.make(name, container);
             if (next != null) {
                 if (next != NodeResolver.SKIP_FIELD) {
@@ -171,7 +195,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         final Type normalizedType = box(type.getType());
         final List<Constraint<?>> constraints = new ArrayList<>();
         final List<Processor<?>> processors = new ArrayList<>();
-        for (Annotation annotation : container.getAnnotations()) {
+        for (final Annotation annotation : container.getAnnotations()) {
             final List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>> definitions = this.constraints.get(annotation.annotationType());
             if (definitions != null) {
                 for (final Definition<?, ?, ? extends Constraint.Factory<?, ?>> def : definitions) {
@@ -312,6 +336,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
                 .addProcessor(Comment.class, Processor.comments())
                 .addConstraint(Matches.class, String.class, Constraint.pattern())
                 .addConstraint(Required.class, Constraint.required())
+                // Post-processors //
+                .addPostProcessor(PostProcessor.methodsAnnotatedPostProcess())
                 // Field discovers //
                 .addDiscoverer(FieldDiscoverer.emptyConstructorObject())
                 .addDiscoverer(FieldDiscoverer.record());
@@ -329,6 +355,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         private final List<FieldDiscoverer<?>> discoverer = new ArrayList<>();
         private final List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>> constraints = new ArrayList<>();
         private final List<Definition<?, ?, ? extends Processor.Factory<?, ?>>> processors = new ArrayList<>();
+        private final List<PostProcessor.Factory> postProcessors = new ArrayList<>();
 
         @Override
         public ObjectMapper.Factory.Builder defaultNamingScheme(final NamingScheme scheme) {
@@ -359,6 +386,12 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         public <A extends Annotation, T> Builder addConstraint(final Class<A> definition, final Class<T> valueType,
                 final Constraint.Factory<A, T> factory) {
             this.constraints.add(Definition.of(definition, valueType, factory));
+            return this;
+        }
+
+        @Override
+        public Builder addPostProcessor(final PostProcessor.Factory factory) {
+            this.postProcessors.add(requireNonNull(factory, "factory"));
             return this;
         }
 

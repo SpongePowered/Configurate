@@ -19,6 +19,7 @@ package org.spongepowered.configurate.objectmapping;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.objectmapping.meta.PostProcessor;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
@@ -35,11 +36,18 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
     private final Type type;
     private final List<FieldData<I, V>> fields;
     final FieldDiscoverer.InstanceFactory<I> instanceFactory;
+    private final List<PostProcessor> postProcessors;
 
-    ObjectMapperImpl(final Type type, final List<FieldData<I, V>> fields, final FieldDiscoverer.InstanceFactory<I> instanceFactory) {
+    ObjectMapperImpl(
+        final Type type,
+        final List<FieldData<I, V>> fields,
+        final FieldDiscoverer.InstanceFactory<I> instanceFactory,
+        final List<PostProcessor> postProcessors
+    ) {
         this.type = type;
         this.fields = Collections.unmodifiableList(fields);
         this.instanceFactory = instanceFactory;
+        this.postProcessors = postProcessors;
     }
 
     @SuppressWarnings("unchecked")
@@ -53,7 +61,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
         @MonotonicNonNull List<FieldData<I, V>> unseenFields = null;
 
         @Nullable SerializationException failure = null;
-        for (FieldData<I, V> field : this.fields) {
+        for (final FieldData<I, V> field : this.fields) {
             final @Nullable ConfigurationNode node = field.resolveNode(source);
             if (node == null) {
                 continue;
@@ -100,8 +108,25 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
         }
 
         final V complete = completer.apply(intermediate);
+
+        for (final PostProcessor postProcessor : this.postProcessors) {
+            try {
+                postProcessor.postProcess(complete);
+            } catch (final SerializationException ex) {
+                if (failure == null) {
+                    failure = ex;
+                } else {
+                    failure.addSuppressed(ex);
+                }
+            }
+        }
+
+        if (failure != null) {
+            throw failure;
+        }
+
         if (unseenFields != null) {
-            for (FieldData<I, V> field : unseenFields) {
+            for (final FieldData<I, V> field : unseenFields) {
                 saveSingle(field, complete, source);
             }
         }
@@ -110,7 +135,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
     @Override
     public void save(final V value, final ConfigurationNode target) throws SerializationException {
-        for (FieldData<I, V> field : this.fields) {
+        for (final FieldData<I, V> field : this.fields) {
             saveSingle(field, value, target);
         }
 
@@ -141,7 +166,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
             } else {
                 final TypeSerializer<Object> serial = (TypeSerializer<Object>) field.serializerFrom(node);
                 serial.serialize(field.resolvedType().getType(), fieldVal, node);
-                for (Processor<?> processor : field.processors()) {
+                for (final Processor<?> processor : field.processors()) {
                     ((Processor<Object>) processor).process(fieldVal, node);
                 }
             }
@@ -169,13 +194,18 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
     static final class Mutable<I, V> extends ObjectMapperImpl<I, V> implements ObjectMapper.Mutable<V> {
 
-        Mutable(final Type type, final List<FieldData<I, V>> fields, final FieldDiscoverer.MutableInstanceFactory<I> instanceFactory) {
-            super(type, fields, instanceFactory);
+        Mutable(
+            final Type type,
+            final List<FieldData<I, V>> fields,
+            final FieldDiscoverer.MutableInstanceFactory<I> instanceFactory,
+            final List<PostProcessor> postProcessors
+        ) {
+            super(type, fields, instanceFactory, postProcessors);
         }
 
         @Override
         public void load(final V value, final ConfigurationNode node) throws SerializationException {
-            this.load0(node, intermediate -> {
+            load0(node, intermediate -> {
                 ((FieldDiscoverer.MutableInstanceFactory<I>) this.instanceFactory).complete(value, intermediate);
                 return value;
             });

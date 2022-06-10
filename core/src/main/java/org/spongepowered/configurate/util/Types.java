@@ -29,6 +29,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -36,6 +37,7 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -388,7 +390,7 @@ public final class Types {
                     componentType = ((GenericArrayType) head).getGenericComponentType();
                 }
 
-                this.addSuperClassAndInterface(componentType, erase(componentType), TypeFactory::arrayOf);
+                addSuperClassAndInterface(componentType, erase(componentType), TypeFactory::arrayOf);
             } else if (head instanceof Class<?> || head instanceof ParameterizedType) {
                 final Class<?> clazz;
                 if (head instanceof ParameterizedType) {
@@ -397,16 +399,16 @@ public final class Types {
                 } else {
                     clazz = (Class<?>) head;
                 }
-                this.addSuperClassAndInterface(head, clazz, null);
+                addSuperClassAndInterface(head, clazz, null);
             } else if (head instanceof TypeVariable<?>) {
-                this.addAllIfUnseen(head, ((TypeVariable<?>) head).getBounds());
+                addAllIfUnseen(head, ((TypeVariable<?>) head).getBounds());
             } else if (head instanceof WildcardType) {
                 final Type[] upperBounds = ((WildcardType) head).getUpperBounds();
                 if (upperBounds.length == 1) { // single type
                     final Type upperBound = upperBounds[0];
-                    this.addSuperClassAndInterface(head, erase(upperBound), TypeFactory::wildcardExtends);
+                    addSuperClassAndInterface(head, erase(upperBound), TypeFactory::wildcardExtends);
                 } else { // for each bound, add as a single supertype
-                    this.addAllIfUnseen(head, ((WildcardType) head).getUpperBounds());
+                    addAllIfUnseen(head, ((WildcardType) head).getUpperBounds());
                 }
             }
             return head;
@@ -414,7 +416,7 @@ public final class Types {
 
         private void addAllIfUnseen(final Type base, final Type... types) {
             for (final Type type : types) {
-                this.addIfUnseen(resolveType(type, base));
+                addIfUnseen(resolveType(type, base));
             }
         }
 
@@ -428,16 +430,16 @@ public final class Types {
             if (this.includeInterfaces) {
                 for (final Type itf : actualClass.getGenericInterfaces()) {
                     if (postProcess != null) {
-                        this.addIfUnseen(postProcess.apply(resolveType(itf, base)));
+                        addIfUnseen(postProcess.apply(resolveType(itf, base)));
                     } else {
-                        this.addIfUnseen(resolveType(itf, base));
+                        addIfUnseen(resolveType(itf, base));
                     }
                 }
             }
 
             if (actualClass.getSuperclass() != null) {
                 final Type resolved = resolveType(actualClass.getGenericSuperclass(), base);
-                this.addIfUnseen(postProcess == null ? resolved : postProcess.apply(resolved));
+                addIfUnseen(postProcess == null ? resolved : postProcess.apply(resolved));
             }
         }
     }
@@ -534,6 +536,56 @@ public final class Types {
             }
             return annotations.toArray(EMPTY_ANNOTATION_ARRAY);
         }
+    }
+
+    /**
+     * Get all declared methods in the provided class and its superclasses and
+     * superinterfaces, up to but not including {@link Object}.
+     *
+     * <p>Overridden methods will be skipped when encountered in
+     * parent types.</p>
+     *
+     * @param clazz the class to visit
+     * @return a list of methods that may not be modifiable
+     * @since 4.2.0
+     */
+    public static List<Method> allDeclaredMethods(final Class<?> clazz) {
+        final List<Method> seenMethods = new ArrayList<>();
+        final Set<String> seenSignatures = new HashSet<>();
+        final Deque<Class<?>> typesToVisit = new ArrayDeque<>();
+        typesToVisit.add(clazz);
+
+        Class<?> pointer;
+        while ((pointer = typesToVisit.poll()) != null) {
+            // Visit all methods
+            for (final Method method : pointer.getDeclaredMethods()) {
+                final StringBuilder descBuilder = new StringBuilder(method.getName());
+                descBuilder.append('(');
+                for (final Class<?> param : method.getParameterTypes()) {
+                    // this is wrong but it's close enough for our purposes
+                    descBuilder.append(param.getName()).append(';');
+                }
+                descBuilder.append(')')
+                    .append(method.getReturnType().getName());
+
+                final String desc = descBuilder.toString();
+
+                if (seenSignatures.add(desc)) {
+                    seenMethods.add(method);
+                }
+            }
+
+            // Push supertypes
+            final Class<?> superclass = pointer.getSuperclass();
+            if (superclass != null && !Object.class.equals(superclass)) {
+                typesToVisit.add(superclass);
+            }
+
+            // Push superinterfaces (only including default methods)
+            Collections.addAll(typesToVisit, pointer.getInterfaces());
+        }
+
+        return seenMethods;
     }
 
 }
