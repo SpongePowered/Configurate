@@ -51,20 +51,24 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
         } catch (final NoSuchMethodException e) {
             return null;
         }
-    }, "Objects must have a zero-argument constructor to be able to create new instances");
+    }, "Objects must have a zero-argument constructor to be able to create new instances", false);
 
     private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory;
     private final String instanceUnavailableErrorMessage;
+    private final boolean requiresInstanceCreation;
 
     ObjectFieldDiscoverer(
-            final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
-            final @Nullable String instanceUnavailableErrorMessage) {
+        final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
+        final @Nullable String instanceUnavailableErrorMessage,
+        final boolean requiresInstanceCreation
+    ) {
         this.instanceFactory = instanceFactory;
         if (instanceUnavailableErrorMessage == null) {
             this.instanceUnavailableErrorMessage = "Unable to create instances for this type!";
         } else {
             this.instanceUnavailableErrorMessage = instanceUnavailableErrorMessage;
         }
+        this.requiresInstanceCreation = requiresInstanceCreation;
     }
 
     @Override
@@ -76,6 +80,9 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
         }
 
         final @Nullable Supplier<Object> maker = this.instanceFactory.apply(target);
+        if (maker == null && this.requiresInstanceCreation) {
+            return null;
+        }
 
         AnnotatedType collectType = target;
         Class<?> collectClass = clazz;
@@ -97,7 +104,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
             @Override
             public void complete(final Object instance, final Map<Field, Object> intermediate) throws SerializationException {
-                for (Map.Entry<Field, Object> entry : intermediate.entrySet()) {
+                for (final Map.Entry<Field, Object> entry : intermediate.entrySet()) {
                     try {
                         // Handle implicit field initialization by detecting any existing information in the object
                         if (entry.getValue() instanceof ImplicitProvider) {
@@ -135,7 +142,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
     }
 
     private void collectFields(final AnnotatedType clazz, final FieldCollector<Map<Field, Object>, ?> fieldMaker) {
-        for (Field field : erase(clazz.getType()).getDeclaredFields()) {
+        for (final Field field : erase(clazz.getType()).getDeclaredFields()) {
             if ((field.getModifiers() & (Modifier.STATIC | Modifier.TRANSIENT)) != 0) {
                 continue;
             }

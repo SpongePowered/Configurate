@@ -69,7 +69,7 @@ public interface FieldDiscoverer<I> {
      * @since 4.0.0
      */
     static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory) {
-        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null);
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null, false);
     }
 
     /**
@@ -89,7 +89,28 @@ public interface FieldDiscoverer<I> {
     static FieldDiscoverer<?> object(final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
             final String instanceUnavailableErrorMessage) {
         requireNonNull(instanceUnavailableErrorMessage, "instanceUnavailableErrorMessage");
-        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), instanceUnavailableErrorMessage);
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), instanceUnavailableErrorMessage, false);
+    }
+
+    /**
+     * Create a new discoverer for object instance fields.
+     *
+     * <p>This discoverer will process any non-static and non-transient field
+     * in the object. Modifying {@code final} fields is unsupported and may stop
+     * working with newer Java versions.</p>
+     *
+     * <p>This discoverer will only match objects that it can create an instance
+     * of (i. e. where {@code instanceFactory} returns a
+     * non-{@code null} supplier).</p>
+     *
+     * @param instanceFactory a factory for instance providers
+     * @return new discoverer
+     * @since 4.2.0
+     */
+    static FieldDiscoverer<?> instantiableObject(
+        final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory
+    ) {
+        return new ObjectFieldDiscoverer(requireNonNull(instanceFactory, "instanceFactory"), null, true);
     }
 
     /**

@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
@@ -33,6 +34,8 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -326,6 +329,74 @@ class ObjectMapperTest {
 
         final HandleNonVirtualNulls deserialized = value.require(HandleNonVirtualNulls.class);
         assertNull(deserialized.hello);
+    }
+
+    @Test
+    void testRequiresNewObjectCreation() throws SerializationException {
+        // We register two object field discoverers, one that only matches constructors
+        // with an int param, one which matches constructors with a boolean param.
+        // Then we ensure that two test instances can be constructed
+
+        final ObjectMapper.Factory factory = ObjectMapper.factoryBuilder()
+            .addDiscoverer(FieldDiscoverer.instantiableObject(type -> {
+                try {
+                    final Constructor<?> constructor;
+                    constructor = GenericTypeReflector.erase(type.getType()).getDeclaredConstructor(int.class);
+                    constructor.setAccessible(true);
+                    return () -> {
+                        try {
+                            return constructor.newInstance(42);
+                        } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
+                } catch (final NoSuchMethodException e) {
+                    return null;
+                }
+            }))
+            .addDiscoverer(FieldDiscoverer.instantiableObject(type -> {
+                try {
+                    final Constructor<?> constructor;
+                    constructor = GenericTypeReflector.erase(type.getType()).getDeclaredConstructor(boolean.class);
+                    constructor.setAccessible(true);
+                    return () -> {
+                        try {
+                            return constructor.newInstance(true);
+                        } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
+                } catch (final NoSuchMethodException e) {
+                    return null;
+                }
+            }))
+            .build();
+
+        assertTrue(factory.get(ConstructorTestA.class).canCreateInstances());
+        assertTrue(factory.get(ConstructorTestB.class).canCreateInstances());
+
+    }
+
+    @ConfigSerializable
+    static class ConstructorTestA {
+
+        private final transient int one;
+
+        ConstructorTestA(final int one) {
+            this.one = one;
+        }
+
+    }
+
+    @ConfigSerializable
+    static class ConstructorTestB {
+
+        private final transient boolean two;
+
+        ConstructorTestB(final boolean two) {
+            this.two = two;
+        }
+
     }
 
 }
