@@ -28,6 +28,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public final class TypeSerializerCollection {
     private final @Nullable TypeSerializerCollection parent;
     final List<RegisteredSerializer> serializers;
     private final Map<Type, TypeSerializer<?>> typeMatches = new ConcurrentHashMap<>();
+    private final Map<AnnotatedType, TypeSerializer<?>> annotatedTypeMatches = new ConcurrentHashMap<>();
 
     private TypeSerializerCollection(final @Nullable TypeSerializerCollection parent, final List<RegisteredSerializer> serializers) {
         this.parent = parent;
@@ -106,7 +108,7 @@ public final class TypeSerializerCollection {
     @SuppressWarnings("unchecked")
     public <T> @Nullable TypeSerializer<T> get(final TypeToken<T> token) {
         requireNonNull(token, "type");
-        return (TypeSerializer<T>) get0(token.getType());
+        return (TypeSerializer<T>) get0(token.getAnnotatedType());
     }
 
     /**
@@ -144,14 +146,52 @@ public final class TypeSerializerCollection {
      * @since 4.0.0
      */
     public @Nullable TypeSerializer<?> get(final Type type) {
-        return this.get0(GenericTypeReflector.box(type));
+        return get0(GenericTypeReflector.box(type));
+    }
+
+    /**
+     * Resolve a type serializer with annotation information.
+     *
+     * <p>First, all registered serializers from this collection are queried
+     * then if a parent collection is set, that collection is queried.</p>
+     *
+     * <p>The returned serializer may not necessarily use the provided
+     * annotation information.</p>
+     *
+     * @param type the type a serializer is required for
+     * @return a serializer if any is present, or null if no applicable
+     *          serializer is found
+     * @since 4.2.0
+     */
+    public @Nullable TypeSerializer<?> get(final AnnotatedType type) {
+        return this.get0(GenericTypeReflector.toCanonicalBoxed(type));
+    }
+
+    private @Nullable TypeSerializer<?> get0(final AnnotatedType canonical) {
+        @Nullable TypeSerializer<?> serial = this.annotatedTypeMatches.computeIfAbsent(canonical, param -> {
+            for (final RegisteredSerializer ent : this.serializers) {
+                if (ent.matches(param)) {
+                    return ent.serializer();
+                }
+            }
+            return NoOp.INSTANCE;
+        });
+
+        if (serial == NoOp.INSTANCE) {
+            serial = null;
+        }
+
+        if (serial == null && this.parent != null) {
+            serial = this.parent.get0(canonical);
+        }
+        return serial;
     }
 
     private @Nullable TypeSerializer<?> get0(final Type canonical) {
         @Nullable TypeSerializer<?> serial = this.typeMatches.computeIfAbsent(canonical, param -> {
-            for (RegisteredSerializer ent : this.serializers) {
-                if (ent.predicate.test(param)) {
-                    return ent.serializer;
+            for (final RegisteredSerializer ent : this.serializers) {
+                if (ent.matches(param)) {
+                    return ent.serializer();
                 }
             }
             return NoOp.INSTANCE;
@@ -290,7 +330,7 @@ public final class TypeSerializerCollection {
         public <T> Builder register(final Predicate<Type> test, final TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
             requireNonNull(serializer, "serializer");
-            this.serializers.add(new RegisteredSerializer(test, serializer));
+            this.serializers.add(new TypeRegistration(test, serializer));
             return this;
         }
 
@@ -310,10 +350,27 @@ public final class TypeSerializerCollection {
             return register(serializer.type(), serializer);
         }
 
+        /**
+         * Register a type serializer matching against a given predicate,
+         * with type annotation information.
+         *
+         * @param test the predicate to match annotated types against
+         * @param serializer the serializer to serialize matching types with
+         * @param <T> the type parameter
+         * @return this builder
+         * @since 4.2.0
+         */
+        public <T> Builder registerAnnotated(final Predicate<AnnotatedType> test, final TypeSerializer.Annotated<? super T> serializer) {
+            requireNonNull(test, "test");
+            requireNonNull(serializer, "serializer");
+            this.serializers.add(new AnnotatedTypeRegistration(test, serializer));
+            return this;
+        }
+
         private Builder register0(final Type type, final TypeSerializer<?> serializer) {
             requireNonNull(type, "type");
             requireNonNull(serializer, "serializer");
-            this.serializers.add(new RegisteredSerializer(test -> {
+            this.serializers.add(new TypeRegistration(test -> {
                 // Test direct type
                 if (GenericTypeReflector.isSuperType(type, test)) {
                     return true;
@@ -385,7 +442,7 @@ public final class TypeSerializerCollection {
         private Builder registerExact0(final Type type, final TypeSerializer<?> serializer) {
             requireNonNull(type, "type");
             requireNonNull(serializer, "serializer");
-            this.serializers.add(new RegisteredSerializer(test -> test.equals(type), serializer));
+            this.serializers.add(new TypeRegistration(test -> test.equals(type), serializer));
             return this;
         }
 
@@ -439,14 +496,66 @@ public final class TypeSerializerCollection {
         }
     }
 
-    static final class RegisteredSerializer {
+    interface RegisteredSerializer {
 
-        final Predicate<Type> predicate;
-        final TypeSerializer<?> serializer;
+        boolean matches(Type test);
 
-        private RegisteredSerializer(final Predicate<Type> predicate, final TypeSerializer<?> serializer) {
+        boolean matches(AnnotatedType annotated);
+
+        TypeSerializer<?> serializer();
+
+    }
+
+    static final class TypeRegistration implements RegisteredSerializer {
+
+        private final Predicate<Type> predicate;
+        private final TypeSerializer<?> serializer;
+
+        TypeRegistration(final Predicate<Type> predicate, final TypeSerializer<?> serializer) {
             this.predicate = predicate;
             this.serializer = serializer;
+        }
+
+        @Override
+        public boolean matches(final Type test) {
+            return this.predicate.test(test);
+        }
+
+        @Override
+        public boolean matches(final AnnotatedType annotated) {
+            return this.predicate.test(annotated.getType());
+        }
+
+        @Override
+        public TypeSerializer<?> serializer() {
+            return this.serializer;
+        }
+
+    }
+
+    static final class AnnotatedTypeRegistration implements RegisteredSerializer {
+
+        private final Predicate<AnnotatedType> predicate;
+        private final TypeSerializer<?> serializer;
+
+        AnnotatedTypeRegistration(final Predicate<AnnotatedType> predicate, final TypeSerializer<?> serializer) {
+            this.predicate = predicate;
+            this.serializer = serializer;
+        }
+
+        @Override
+        public boolean matches(final Type test) {
+            return this.predicate.test(GenericTypeReflector.annotate(test));
+        }
+
+        @Override
+        public boolean matches(final AnnotatedType annotated) {
+            return this.predicate.test(annotated);
+        }
+
+        @Override
+        public TypeSerializer<?> serializer() {
+            return this.serializer;
         }
 
     }

@@ -127,13 +127,13 @@ public abstract class FieldData<I, O> {
             throw new SerializationException("Object " + instance + " is not of expected type " + resolvedType().getType());
         }
 
-        for (Constraint<?> constraint : constraints()) {
+        for (final Constraint<?> constraint : constraints()) {
             ((Constraint<Object>) constraint).validate(instance);
         }
     }
 
     TypeSerializer<?> serializerFrom(final ConfigurationNode node) throws SerializationException {
-        final @Nullable TypeSerializer<?> serial = node.options().serializers().get(resolvedType().getType());
+        final @Nullable TypeSerializer<?> serial = node.options().serializers().get(resolvedType());
         if (serial == null) {
             throw new SerializationException("No TypeSerializer found for field " + name() + " of type " + resolvedType().getType());
         }

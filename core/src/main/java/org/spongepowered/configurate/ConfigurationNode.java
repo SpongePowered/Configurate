@@ -28,6 +28,7 @@ import org.spongepowered.configurate.serialize.Scalars;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -455,7 +456,7 @@ public interface ConfigurationNode {
      */
     @SuppressWarnings("unchecked") // type token
     default <V> @Nullable V get(final TypeToken<V> type) throws SerializationException {
-        return (V) this.get(type.getType());
+        return (V) this.get(type.getAnnotatedType());
     }
 
     /**
@@ -476,7 +477,7 @@ public interface ConfigurationNode {
      */
     @SuppressWarnings("unchecked") // type is verified by the token
     default <V> V get(final TypeToken<V> type, final V def) throws SerializationException {
-        return (V) this.get(type.getType(), def);
+        return (V) this.get(type.getAnnotatedType(), def);
     }
 
     /**
@@ -498,7 +499,7 @@ public interface ConfigurationNode {
      */
     @SuppressWarnings("unchecked") // type is verified by the token
     default <V> V get(final TypeToken<V> type, final Supplier<V> defSupplier) throws SerializationException {
-        return (V) this.get(type.getType(), defSupplier);
+        return (V) this.get(type.getAnnotatedType(), defSupplier);
     }
 
     /**
@@ -562,6 +563,59 @@ public interface ConfigurationNode {
     default <V> V get(final Class<V> type, final Supplier<V> defSupplier) throws SerializationException {
         return (V) this.get((Type) type, defSupplier);
     }
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link AnnotatedType} using a configured
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * @param type the type to deserialize to
+     * @return the value if present and of the proper type, else null
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    @Nullable Object get(AnnotatedType type) throws SerializationException;
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link AnnotatedType} using a configured
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * @param type the type to deserialize as
+     * @param def value to return if {@link #virtual()} or value is not of
+     *            appropriate type
+     * @return the value if of the proper type, else {@code def}
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    Object get(AnnotatedType type, Object def) throws SerializationException;
+
+    /**
+     * Get the current value associated with this node.
+     *
+     * <p>This method will attempt to deserialize the node's value to the
+     * provided {@link AnnotatedType} using a configured
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * @param type the type to deserialize to
+     * @param defSupplier the function that will be called to calculate a
+     *                    default value only if there is no existing value of
+     *                    the correct type
+     * @return the value if of the proper type, else {@code def}
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type
+     * @since 4.2.0
+     */
+    Object get(AnnotatedType type, Supplier<?> defSupplier) throws SerializationException;
 
     /**
      * Get the current value associated with this node.
@@ -763,7 +817,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default @Nullable String getString() { // @cs-: NoGetSetPrefix (not a bean method)
-        return Scalars.STRING.tryDeserialize(this.rawScalar());
+        return Scalars.STRING.tryDeserialize(rawScalar());
     }
 
     /**
@@ -780,7 +834,7 @@ public interface ConfigurationNode {
         if (value != null) {
             return value;
         }
-        if (this.options().shouldCopyDefaults()) {
+        if (options().shouldCopyDefaults()) {
             Scalars.STRING.serialize(String.class, def, this);
         }
         return def;
@@ -806,11 +860,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default float getFloat(final float def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(this.rawScalar());
+        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
-        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.FLOAT.serialize(float.class, def, this);
         }
         return def;
@@ -837,11 +891,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default double getDouble(final double def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(this.rawScalar());
+        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
-        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.DOUBLE.serialize(double.class, def, this);
         }
         return def;
@@ -867,11 +921,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default int getInt(final int def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(this.rawScalar());
+        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
-        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.INTEGER.serialize(int.class, def, this);
         }
         return def;
@@ -897,11 +951,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default long getLong(final long def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Long val = Scalars.LONG.tryDeserialize(this.rawScalar());
+        final @Nullable Long val = Scalars.LONG.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
-        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.LONG.serialize(long.class, def, this);
         }
         return def;
@@ -927,11 +981,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default boolean getBoolean(final boolean def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(this.rawScalar());
+        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(rawScalar());
         if (val != null) {
             return val;
         }
-        if (this.options().shouldCopyDefaults()) {
+        if (options().shouldCopyDefaults()) {
             Scalars.BOOLEAN.serialize(boolean.class, def, this);
         }
         return def;
@@ -1026,6 +1080,37 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     ConfigurationNode set(Type type, @Nullable Object value) throws SerializationException;
+
+    /**
+     * Set this node's value to the given value.
+     *
+     * <p>If the provided value is a {@link Collection} or a {@link Map}, it will be unwrapped into
+     * the appropriate configuration node structure.</p>
+     *
+     * <p>This method will also perform serialization using the appropriate
+     * {@link TypeSerializer} for the given type, or casting if no type
+     * serializer is found.</p>
+     *
+     * <p>This method will fail if a raw type
+     * (i.e. a parameterized type without its type parameters) is passed.</p>
+     *
+     * <p>Because this method accepts a non-parameterized {@link Type} parameter,
+     * it has no compile-time type checking. The variants that take
+     * {@link #set(TypeToken, Object) TypeToken} and
+     * {@link #set(Class, Object)} should be preferred where possible.</p>
+     *
+     * @param type the annotated type to use for serialization type information
+     * @param value the value to set
+     * @return this node
+     * @throws IllegalArgumentException if a raw type is passed
+     * @throws IllegalArgumentException if {@code value} is not either
+     *                                  {@code null} or of type {@code type}
+     * @throws SerializationException if the value fails to be converted to the
+     *                                requested type. No change will be made to
+     *                                the node.
+     * @since 4.2.0
+     */
+    ConfigurationNode set(AnnotatedType type, @Nullable Object value) throws SerializationException;
 
     /**
      * Set the node's value to the provided list.

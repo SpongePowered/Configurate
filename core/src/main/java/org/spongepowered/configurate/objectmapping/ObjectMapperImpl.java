@@ -69,7 +69,14 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
             try {
                 final TypeSerializer<?> serial = field.serializerFrom(node);
-                final @Nullable Object newVal = node.isNull() ? null : serial.deserialize(field.resolvedType().getType(), node);
+                final @Nullable Object newVal;
+                if (node.isNull()) {
+                    newVal = null;
+                } else if (serial instanceof TypeSerializer.Annotated<?>) {
+                    newVal = ((TypeSerializer.Annotated<?>) serial).deserialize(field.resolvedType().getType(), node);
+                } else {
+                    newVal = serial.deserialize(field.resolvedType().getType(), node);
+                }
                 field.validate(newVal);
 
                 // set up an implicit initializer
@@ -77,7 +84,11 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 // so we have to pass both implicit and explicit options along to it.
                 final Supplier<@Nullable Object> implicitInitializer;
                 if (newVal == null && node.options().implicitInitialization()) {
-                    implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.options());
+                    if (serial instanceof TypeSerializer.Annotated<?>) {
+                        implicitInitializer = () -> ((TypeSerializer.Annotated<?>) serial).emptyValue(field.resolvedType(), node.options());
+                    } else {
+                        implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.options());
+                    }
                 } else {
                     implicitInitializer = () -> null;
                 }
@@ -165,7 +176,11 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 node.set(null);
             } else {
                 final TypeSerializer<Object> serial = (TypeSerializer<Object>) field.serializerFrom(node);
-                serial.serialize(field.resolvedType().getType(), fieldVal, node);
+                if (serial instanceof TypeSerializer.Annotated<?>) {
+                    ((TypeSerializer.Annotated<Object>) serial).serialize(field.resolvedType(), fieldVal, node);
+                } else {
+                    serial.serialize(field.resolvedType().getType(), fieldVal, node);
+                }
                 for (final Processor<?> processor : field.processors()) {
                     ((Processor<Object>) processor).process(fieldVal, node);
                 }

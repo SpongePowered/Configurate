@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -603,6 +604,21 @@ class TypeSerializersTest {
 
         // Then with specifically an enum set
         assertNotNull(TypeSerializerCollection.defaults().get(new TypeToken<EnumSet<TestEnum>>() {}));
+    }
+
+    @Test
+    void testAnnotatedSerializers() throws SerializationException {
+        final TypeSerializerCollection collection = TypeSerializerCollection.defaults().childBuilder()
+            .registerAnnotated(UppercaseStringTypeSerializer::applicable, UppercaseStringTypeSerializer.INSTANCE)
+            .build();
+        final TypeToken<@UpperCase String> type = new TypeToken<@UpperCase String>() {};
+        final TypeSerializer<@UpperCase String> serializer = collection.get(type);
+        assertNotNull(serializer);
+        assertInstanceOf(TypeSerializer.Annotated.class, serializer);
+
+        final ConfigurationNode contents = BasicConfigurationNode.root().set("hello");
+
+        assertEquals("HELLO", ((TypeSerializer.Annotated<?>) serializer).deserialize(type.getAnnotatedType(), contents));
     }
 
 }

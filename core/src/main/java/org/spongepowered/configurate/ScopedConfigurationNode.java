@@ -23,6 +23,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -111,13 +112,43 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
                 + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
         }
 
-        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
+        final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
         if (serial != null) {
             ((TypeSerializer) serial).serialize(type, value, this.self());
-        } else if (this.options().acceptsType(value.getClass())) {
+        } else if (options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
         } else {
             throw new SerializationException(this, type, "No serializer available for type " + type);
+        }
+        return this.self();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize
+    default N set(final AnnotatedType type, final @Nullable Object value) throws SerializationException {
+        if (value == null) {
+            return this.set(null);
+        }
+        final Class<?> erasedType = GenericTypeReflector.erase(type.getType());
+        if (!erasedType.isInstance(value)) {
+            throw new SerializationException(this, type.getType(), "Got a value of unexpected type "
+                + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
+        }
+
+        final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
+        if (serial != null) {
+            if (serial instanceof TypeSerializer.Annotated<?>) {
+                ((TypeSerializer.Annotated) serial).serialize(type, value, this);
+            } else {
+                ((TypeSerializer) serial).serialize(type.getType(), value, this);
+            }
+        } else if (options().acceptsType(value.getClass())) {
+            this.raw(value); // Just write if no applicable serializer exists?
+        } else {
+            throw new SerializationException(this, type.getType(), "No serializer available for type " + type);
         }
         return this.self();
     }
