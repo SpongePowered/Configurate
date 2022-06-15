@@ -20,8 +20,8 @@ import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,22 +33,22 @@ final class ListSerializer extends AbstractListChildSerializer<List<?>> {
     }
 
     @Override
-    protected Type elementType(final Type containerType) throws SerializationException {
-        if (!(containerType instanceof ParameterizedType)) {
+    protected AnnotatedType elementType(final AnnotatedType containerType) throws SerializationException {
+        if (!(containerType instanceof AnnotatedParameterizedType)) {
             throw new SerializationException(containerType, "Raw types are not supported for collections");
         }
-        return ((ParameterizedType) containerType).getActualTypeArguments()[0];
+        return ((AnnotatedParameterizedType) containerType).getAnnotatedActualTypeArguments()[0];
     }
 
     @Override
-    protected List<?> createNew(final int length, final Type elementType) {
+    protected List<?> createNew(final int length, final AnnotatedType elementType) {
         return new ArrayList<>(length);
     }
 
     @Override
     protected void forEachElement(final List<?> collection,
             final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-        for (Object el: collection) {
+        for (final Object el: collection) {
             action.accept(el);
         }
     }

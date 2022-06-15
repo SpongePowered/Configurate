@@ -16,11 +16,14 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import com.google.errorprone.annotations.ForOverride;
+import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +35,7 @@ import java.util.List;
  * @param <T> the type of collection to serialize
  * @since 4.1.0
  */
-public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T> {
+public abstract class AbstractListChildSerializer<T> implements TypeSerializer.Annotated<T> {
 
     /**
      * Create a new serializer, only for use by subclasses.
@@ -43,8 +46,8 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
     }
 
     @Override
-    public final T deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
-        final Type entryType = elementType(type);
+    public final T deserialize(final AnnotatedType type, final ConfigurationNode node) throws SerializationException {
+        final AnnotatedType entryType = this.elementType(type);
         final @Nullable TypeSerializer<?> entrySerial = node.options().serializers().get(entryType);
         if (entrySerial == null) {
             throw new SerializationException(node, entryType, "No applicable type serializer for type");
@@ -52,10 +55,10 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
 
         if (node.isList()) {
             final List<? extends ConfigurationNode> values = node.childrenList();
-            final T ret = createNew(values.size(), entryType);
+            final T ret = this.createNew(values.size(), entryType);
             for (int i = 0; i < values.size(); ++i) {
                 try {
-                    deserializeSingle(i, ret, entrySerial.deserialize(entryType, values.get(i)));
+                    this.deserializeSingle(i, ret, entrySerial.deserialize(entryType, values.get(i)));
                 } catch (final SerializationException ex) {
                     ex.initPath(values.get(i)::path);
                     throw ex;
@@ -65,18 +68,18 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
         } else {
             final @Nullable Object unwrappedVal = node.raw();
             if (unwrappedVal != null) {
-                final T ret = createNew(1, entryType);
-                deserializeSingle(0, ret, entrySerial.deserialize(entryType, node));
+                final T ret = this.createNew(1, entryType);
+                this.deserializeSingle(0, ret, entrySerial.deserialize(entryType, node));
                 return ret;
             }
         }
-        return createNew(0, entryType);
+        return this.createNew(0, entryType);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
-        final Type entryType = elementType(type);
+    public final void serialize(final AnnotatedType type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
+        final AnnotatedType entryType = this.elementType(type);
         final @Nullable TypeSerializer entrySerial = node.options().serializers().get(entryType);
         if (entrySerial == null) {
             throw new SerializationException(node, entryType, "No applicable type serializer for type");
@@ -84,7 +87,7 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
 
         node.raw(Collections.emptyList());
         if (obj != null) {
-            forEachElement(obj, el -> {
+            this.forEachElement(obj, el -> {
                 final ConfigurationNode child = node.appendListNode();
                 try {
                     entrySerial.serialize(entryType, el, child);
@@ -97,9 +100,9 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
     }
 
     @Override
-    public @Nullable T emptyValue(final Type specificType, final ConfigurationOptions options) {
+    public @Nullable T emptyValue(final AnnotatedType specificType, final ConfigurationOptions options) {
         try {
-            return this.createNew(0, elementType(specificType));
+            return this.createNew(0, this.elementType(specificType));
         } catch (final SerializationException ex) {
             return null;
         }
@@ -113,9 +116,46 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
      *                      to the extent possible.
      * @return the element type
      * @throws SerializationException if the element type could not be detected
-     * @since 4.1.0
+     * @since 4.2.0
      */
-    protected abstract Type elementType(Type containerType) throws SerializationException;
+    @ForOverride
+    protected AnnotatedType elementType(final AnnotatedType containerType) throws SerializationException {
+        return GenericTypeReflector.annotate(this.elementType(containerType.getType()));
+    }
+
+    /**
+     * Given the type of container, provide the expected type of an element. If
+     * the element type is not available, an exception must be thrown.
+     *
+     * @param containerType the type of container with type parameters resolved
+     *                      to the extent possible.
+     * @return the element type
+     * @throws SerializationException if the element type could not be detected
+     * @since 4.1.0
+     * @deprecated for removal since 4.2.0, override {@link #elementType(AnnotatedType)} instead
+     *     to pass through annotation information
+     */
+    @Deprecated
+    protected Type elementType(final Type containerType) throws SerializationException {
+        throw new IllegalStateException("AbstractListChildSerializer implementations should override elementType(AnnotatedType)");
+    }
+
+    /**
+     * Create a new instance of the collection. The returned instance must be
+     * mutable, but may have a fixed length.
+     *
+     * @param length the necessary collection length
+     * @param elementType the type of element contained within the collection,
+     *                    as provided by {@link #elementType(Type)}
+     * @return a newly created collection
+     * @throws SerializationException when an error occurs during the creation
+     *                                of the collection
+     * @since 4.2.0
+     */
+    @ForOverride
+    protected T createNew(final int length, final AnnotatedType elementType) throws SerializationException {
+        return this.createNew(length, elementType.getType());
+    }
 
     /**
      * Create a new instance of the collection. The returned instance must be
@@ -128,8 +168,14 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
      * @throws SerializationException when an error occurs during the creation
      *                                of the collection
      * @since 4.1.0
+     * @deprecated for removal since 4.2.0, override {@link #createNew(int, AnnotatedType)} instead
+     *     to pass through annotation information
      */
-    protected abstract T createNew(int length, Type elementType) throws SerializationException;
+    @ForOverride
+    @Deprecated
+    protected T createNew(final int length, final Type elementType) throws SerializationException {
+        throw new IllegalStateException("AbstractListChildSerializer implementations should override createNew(int, AnnotatedType)");
+    }
 
     /**
      * Perform the provided action on each element of the provided collection.
@@ -141,6 +187,7 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
      * @throws SerializationException when thrown by the underlying action
      * @since 4.1.0
      */
+    @ForOverride
     protected abstract void forEachElement(T collection, CheckedConsumer<Object, SerializationException> action) throws SerializationException;
 
     /**
@@ -153,6 +200,7 @@ public abstract class AbstractListChildSerializer<T> implements TypeSerializer<T
      *         appropriate type.
      * @since 4.1.0
      */
+    @ForOverride
     protected abstract void deserializeSingle(int index, T collection, @Nullable Object deserialized) throws SerializationException;
 
 }

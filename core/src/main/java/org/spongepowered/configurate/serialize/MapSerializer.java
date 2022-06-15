@@ -24,15 +24,15 @@ import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-final class MapSerializer implements TypeSerializer<Map<?, ?>> {
+final class MapSerializer implements TypeSerializer.Annotated<Map<?, ?>> {
 
     static final TypeToken<Map<?, ?>> TYPE = new TypeToken<Map<?, ?>>() {};
 
@@ -40,18 +40,19 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
     }
 
     @Override
-    public Map<?, ?> deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
+    public Map<?, ?> deserialize(final AnnotatedType type, final ConfigurationNode node) throws SerializationException {
         final Map<Object, Object> ret = new LinkedHashMap<>();
         if (node.isMap()) {
-            if (!(type instanceof ParameterizedType)) {
+            if (!(type instanceof AnnotatedParameterizedType)) {
                 throw new SerializationException(type, "Raw types are not supported for collections");
             }
-            final ParameterizedType param = (ParameterizedType) type;
-            if (param.getActualTypeArguments().length != 2) {
+            final AnnotatedParameterizedType param = (AnnotatedParameterizedType) type;
+            final AnnotatedType[] typeArgs = param.getAnnotatedActualTypeArguments();
+            if (typeArgs.length != 2) {
                 throw new SerializationException(type, "Map expected two type arguments!");
             }
-            final Type key = param.getActualTypeArguments()[0];
-            final Type value = param.getActualTypeArguments()[1];
+            final AnnotatedType key = typeArgs[0];
+            final AnnotatedType value = typeArgs[1];
             final @Nullable TypeSerializer<?> keySerial = node.options().serializers().get(key);
             final @Nullable TypeSerializer<?> valueSerial = node.options().serializers().get(value);
 
@@ -65,7 +66,7 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
 
-            for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
+            for (final Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
                 ret.put(requireNonNull(keySerial.deserialize(key, keyNode.set(ent.getKey())), "key"),
                     requireNonNull(valueSerial.deserialize(value, ent.getValue()), "value"));
             }
@@ -75,16 +76,17 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void serialize(final Type type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws SerializationException {
-        if (!(type instanceof ParameterizedType)) {
+    public void serialize(final AnnotatedType type, final @Nullable Map<?, ?> obj, final ConfigurationNode node) throws SerializationException {
+        if (!(type instanceof AnnotatedParameterizedType)) {
             throw new SerializationException(type, "Raw types are not supported for collections");
         }
-        final ParameterizedType param = (ParameterizedType) type;
-        if (param.getActualTypeArguments().length != 2) {
+        final AnnotatedParameterizedType param = (AnnotatedParameterizedType) type;
+        final AnnotatedType[] typeArgs = param.getAnnotatedActualTypeArguments();
+        if (typeArgs.length != 2) {
             throw new SerializationException(type, "Map expected two type arguments!");
         }
-        final Type key = param.getActualTypeArguments()[0];
-        final Type value = param.getActualTypeArguments()[1];
+        final AnnotatedType key = typeArgs[0];
+        final AnnotatedType value = typeArgs[1];
         final @Nullable TypeSerializer keySerial = node.options().serializers().get(key);
         final @Nullable TypeSerializer valueSerial = node.options().serializers().get(value);
 
@@ -107,7 +109,7 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
                 unvisitedKeys = new HashSet<>(node.childrenMap().keySet());
             }
             final BasicConfigurationNode keyNode = BasicConfigurationNode.root(node.options());
-            for (Map.Entry<?, ?> ent : obj.entrySet()) {
+            for (final Map.Entry<?, ?> ent : obj.entrySet()) {
                 keySerial.serialize(key, ent.getKey(), keyNode);
                 final Object keyObj = requireNonNull(keyNode.raw(), "Key must not be null!");
                 final ConfigurationNode child = node.node(keyObj);
@@ -120,14 +122,14 @@ final class MapSerializer implements TypeSerializer<Map<?, ?>> {
                 }
             }
 
-            for (Object unusedChild : unvisitedKeys) {
+            for (final Object unusedChild : unvisitedKeys) {
                 node.removeChild(unusedChild);
             }
         }
     }
 
     @Override
-    public Map<?, ?> emptyValue(final Type specificType, final ConfigurationOptions options) {
+    public Map<?, ?> emptyValue(final AnnotatedType specificType, final ConfigurationOptions options) {
         return new LinkedHashMap<>();
     }
 

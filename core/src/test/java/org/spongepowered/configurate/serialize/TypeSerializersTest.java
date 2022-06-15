@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import io.leangen.geantyref.TypeToken;
@@ -619,6 +620,49 @@ class TypeSerializersTest {
         final ConfigurationNode contents = BasicConfigurationNode.root().set("hello");
 
         assertEquals("HELLO", serializer.deserialize(type.getAnnotatedType(), contents));
+    }
+
+    @Test
+    void testAnnotatedSerializersInMap() throws SerializationException {
+        final TypeSerializerCollection collection = TypeSerializerCollection.defaults().childBuilder()
+            .registerAnnotated(UppercaseStringTypeSerializer::applicable, UppercaseStringTypeSerializer.INSTANCE)
+            .build();
+        final TypeToken<Map<String, @UpperCase String>> type = new TypeToken<Map<String, @UpperCase String>>() {};
+        final TypeSerializer<Map<String, @UpperCase String>> serializer = collection.get(type);
+        assertNotNull(serializer);
+
+        final ConfigurationNode contents = BasicConfigurationNode.root(
+            ConfigurationOptions.defaults().serializers(collection),
+            n -> {
+                n.node("hello").set("world");
+                n.node("one").set("two");
+            }
+        );
+
+        final Map<String, String> value = serializer.deserialize(type.getAnnotatedType(), contents);
+        assertEquals("WORLD", value.get("hello"));
+        assertEquals("TWO", value.get("one"));
+    }
+
+    @Test
+    void testAnnotatedSerializersInList() throws SerializationException {
+        final TypeSerializerCollection collection = TypeSerializerCollection.defaults().childBuilder()
+            .registerAnnotated(UppercaseStringTypeSerializer::applicable, UppercaseStringTypeSerializer.INSTANCE)
+            .build();
+        final TypeToken<List<@UpperCase String>> type = new TypeToken<List<@UpperCase String>>() {};
+        final TypeSerializer<List<@UpperCase String>> serializer = collection.get(type);
+        assertNotNull(serializer);
+
+        final ConfigurationNode contents = BasicConfigurationNode.root(
+            ConfigurationOptions.defaults().serializers(collection),
+            n -> {
+                n.appendListNode().set("one");
+                n.appendListNode().set("two");
+            }
+        );
+
+        final List<String> value = serializer.deserialize(type.getAnnotatedType(), contents);
+        assertEquals(ImmutableList.of("ONE", "TWO"), value);
     }
 
 }
