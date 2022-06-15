@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.serialize;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 
 /**
@@ -47,6 +48,18 @@ public class CoercionFailedException extends SerializationException {
      * @since 4.0.0
      */
     public CoercionFailedException(final Type target, final Object inputValue, final String typeDescription) {
+        super(target, "Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
+    }
+
+    /**
+     * Indicate that a value transformation has failed.
+     *
+     * @param target expected type
+     * @param inputValue original value
+     * @param typeDescription description of the expected type
+     * @since 4.2.0
+     */
+    public CoercionFailedException(final AnnotatedType target, final Object inputValue, final String typeDescription) {
         super(target, "Failed to coerce input value of type " + inputValue.getClass() + " to " + typeDescription);
     }
 

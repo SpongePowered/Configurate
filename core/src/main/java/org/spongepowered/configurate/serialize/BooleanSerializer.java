@@ -30,7 +30,7 @@ import java.util.function.Predicate;
  *     returns true</li>
  *     <li>If {@code value.toString()} is false, f, no, n, or 0,
  *     returns false</li>
- *     <li>Otherwise returns null</li>
+ *     <li>Otherwise throws a {@link CoercionFailedException}</li>
  * </ul>
  */
 final class BooleanSerializer extends ScalarSerializer<Boolean> {
