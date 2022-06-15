@@ -211,7 +211,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
     final @Nullable Object get0(final AnnotatedType type, final boolean doImplicitInit) throws SerializationException {
         requireNonNull(type, "type");
         if (isMissingTypeParameters(type.getType())) {
-            throw new SerializationException(this, type.getType(), "Raw types are not supported");
+            throw new SerializationException(this, type, "Raw types are not supported");
         }
 
         final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
