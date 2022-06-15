@@ -21,6 +21,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedConsumer;
 import org.spongepowered.configurate.util.Types;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 
@@ -36,8 +37,8 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
     }
 
     @Override
-    protected Type elementType(final Type containerType) throws SerializationException {
-        final Type componentType = GenericTypeReflector.getArrayComponentType(containerType);
+    protected AnnotatedType elementType(final AnnotatedType containerType) throws SerializationException {
+        final AnnotatedType componentType = GenericTypeReflector.getArrayComponentType(containerType);
         if (componentType == null) {
             throw new SerializationException(containerType, "Must be array type");
         }
@@ -58,14 +59,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         }
 
         @Override
-        protected Object[] createNew(final int length, final Type elementType) {
-            return (Object[]) Array.newInstance(GenericTypeReflector.erase(elementType), length);
+        protected Object[] createNew(final int length, final AnnotatedType elementType) {
+            return (Object[]) Array.newInstance(GenericTypeReflector.erase(elementType.getType()), length);
         }
 
         @Override
         protected void forEachElement(final Object[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (Object o : collection) {
+            for (final Object o : collection) {
                 action.accept(o);
             }
         }
@@ -82,14 +83,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<boolean[]> TYPE = boolean[].class;
 
         @Override
-        protected boolean[] createNew(final int length, final Type elementType) {
+        protected boolean[] createNew(final int length, final AnnotatedType elementType) {
             return new boolean[length];
         }
 
         @Override
         protected void forEachElement(final boolean[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (boolean b : collection) {
+            for (final boolean b : collection) {
                 action.accept(b);
             }
         }
@@ -107,14 +108,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<byte[]> TYPE = byte[].class;
 
         @Override
-        protected byte[] createNew(final int length, final Type elementType) {
+        protected byte[] createNew(final int length, final AnnotatedType elementType) {
             return new byte[length];
         }
 
         @Override
         protected void forEachElement(final byte[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (byte b : collection) {
+            for (final byte b : collection) {
                 action.accept(b);
             }
         }
@@ -132,14 +133,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<char[]> TYPE = char[].class;
 
         @Override
-        protected char[] createNew(final int length, final Type elementType) {
+        protected char[] createNew(final int length, final AnnotatedType elementType) {
             return new char[length];
         }
 
         @Override
         protected void forEachElement(final char[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (char b : collection) {
+            for (final char b : collection) {
                 action.accept(b);
             }
         }
@@ -157,14 +158,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<short[]> TYPE = short[].class;
 
         @Override
-        protected short[] createNew(final int length, final Type elementType) {
+        protected short[] createNew(final int length, final AnnotatedType elementType) {
             return new short[length];
         }
 
         @Override
         protected void forEachElement(final short[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (short b : collection) {
+            for (final short b : collection) {
                 action.accept(b);
             }
         }
@@ -182,14 +183,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<int[]> TYPE = int[].class;
 
         @Override
-        protected int[] createNew(final int length, final Type elementType) {
+        protected int[] createNew(final int length, final AnnotatedType elementType) {
             return new int[length];
         }
 
         @Override
         protected void forEachElement(final int[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (int b : collection) {
+            for (final int b : collection) {
                 action.accept(b);
             }
         }
@@ -207,14 +208,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<long[]> TYPE = long[].class;
 
         @Override
-        protected long[] createNew(final int length, final Type elementType) {
+        protected long[] createNew(final int length, final AnnotatedType elementType) {
             return new long[length];
         }
 
         @Override
         protected void forEachElement(final long[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (long b : collection) {
+            for (final long b : collection) {
                 action.accept(b);
             }
         }
@@ -232,14 +233,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<float[]> TYPE = float[].class;
 
         @Override
-        protected float[] createNew(final int length, final Type elementType) {
+        protected float[] createNew(final int length, final AnnotatedType elementType) {
             return new float[length];
         }
 
         @Override
         protected void forEachElement(final float[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (float b : collection) {
+            for (final float b : collection) {
                 action.accept(b);
             }
         }
@@ -257,14 +258,14 @@ abstract class ArraySerializer<T> extends AbstractListChildSerializer<T> {
         static final Class<double[]> TYPE = double[].class;
 
         @Override
-        protected double[] createNew(final int length, final Type elementType) {
+        protected double[] createNew(final int length, final AnnotatedType elementType) {
             return new double[length];
         }
 
         @Override
         protected void forEachElement(final double[] collection,
                 final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-            for (double b : collection) {
+            for (final double b : collection) {
                 action.accept(b);
             }
         }

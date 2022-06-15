@@ -25,6 +25,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -121,6 +122,40 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         return defValue;
     }
 
+    /**
+     * Handles the copying of applied defaults, if enabled.
+     *
+     * @param node destination node
+     * @param type value type
+     * @param defValue the default value
+     * @param <V> the value type
+     * @return the same value
+     */
+    static <V> V storeDefault(final ConfigurationNode node, final AnnotatedType type, final V defValue) throws SerializationException {
+        requireNonNull(defValue, "defValue");
+        if (node.options().shouldCopyDefaults()) {
+            node.set(type, defValue);
+        }
+        return defValue;
+    }
+
+    @Override
+    public final @Nullable Object get(final AnnotatedType type) throws SerializationException {
+        return this.get0(type, true);
+    }
+
+    @Override
+    public final Object get(final AnnotatedType type, final Object def) throws SerializationException {
+        final @Nullable Object value = this.get0(type, false);
+        return value == null ? storeDefault(this, type, def) : value;
+    }
+
+    @Override
+    public final Object get(final AnnotatedType type, final Supplier<?> defSupplier) throws SerializationException {
+        final @Nullable Object value = this.get0(type, false);
+        return value == null ? storeDefault(this, type, defSupplier.get()) : value;
+    }
+
     @Override
     public final @Nullable Object get(final Type type) throws SerializationException {
         return this.get0(type, true);
@@ -166,6 +201,41 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
         try {
             return serial.deserialize(type, this.self());
+        } catch (final SerializationException ex) {
+            ex.initPath(this::path);
+            ex.initType(type);
+            throw ex;
+        }
+    }
+
+    final @Nullable Object get0(final AnnotatedType type, final boolean doImplicitInit) throws SerializationException {
+        requireNonNull(type, "type");
+        if (isMissingTypeParameters(type.getType())) {
+            throw new SerializationException(this, type, "Raw types are not supported");
+        }
+
+        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
+        if (this.value instanceof NullConfigValue) {
+            if (serial != null && doImplicitInit && this.options().implicitInitialization()) {
+                final @Nullable Object emptyValue = serial.emptyValue(type, this.options);
+                if (emptyValue != null) {
+                    return storeDefault(this, type, emptyValue);
+                }
+            }
+            return null;
+        }
+
+        if (serial == null) {
+            final @Nullable Object value = this.raw();
+            final Class<?> erasure = erase(type.getType());
+            if (erasure.isInstance(value)) {
+                return value;
+            } else {
+                return null;
+            }
+        }
+        try {
+            return serial.deserialize(type, this);
         } catch (final SerializationException ex) {
             ex.initPath(this::path);
             ex.initType(type);

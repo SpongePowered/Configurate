@@ -20,7 +20,8 @@ import io.leangen.geantyref.GenericTypeReflector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.util.CheckedConsumer;
 
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
@@ -38,17 +39,17 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     }
 
     @Override
-    protected Type elementType(final Type containerType) throws SerializationException {
-        if (!(containerType instanceof ParameterizedType)) {
+    protected AnnotatedType elementType(final AnnotatedType containerType) throws SerializationException {
+        if (!(containerType instanceof AnnotatedParameterizedType)) {
             throw new SerializationException("Raw types are not supported for collections");
         }
-        return ((ParameterizedType) containerType).getActualTypeArguments()[0];
+        return ((AnnotatedParameterizedType) containerType).getAnnotatedActualTypeArguments()[0];
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected Set<?> createNew(final int length, final Type elementType) {
-        final Class<?> erased = GenericTypeReflector.erase(elementType);
+    protected Set<?> createNew(final int length, final AnnotatedType elementType) {
+        final Class<?> erased = GenericTypeReflector.erase(elementType.getType());
         if (erased.isEnum()) {
             return EnumSet.noneOf(erased.asSubclass(Enum.class));
         }
@@ -58,7 +59,7 @@ final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
     @Override
     protected void forEachElement(final Set<?> collection,
             final CheckedConsumer<Object, SerializationException> action) throws SerializationException {
-        for (Object el: collection) {
+        for (final Object el: collection) {
             action.accept(el);
         }
     }

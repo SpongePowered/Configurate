@@ -33,6 +33,9 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.configurate.serialize.UpperCase;
+import org.spongepowered.configurate.serialize.UppercaseStringTypeSerializer;
+import org.spongepowered.configurate.util.UnmodifiableCollections;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -397,6 +400,31 @@ class ObjectMapperTest {
             this.two = two;
         }
 
+    }
+
+    @ConfigSerializable
+    static class TestAnnotatedTypes {
+        @UpperCase String one;
+        String two;
+    }
+
+    @Test
+    void testAnnotatedTypes() throws SerializationException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root(
+            ConfigurationOptions.defaults()
+                .serializers(builder -> builder.registerAnnotated(UppercaseStringTypeSerializer::applicable, UppercaseStringTypeSerializer.INSTANCE))
+                .nativeTypes(UnmodifiableCollections.toSet(String.class))
+        );
+
+        node.act(n -> {
+            n.node("one").set("hello");
+            n.node("two").set("world");
+        });
+
+        final TestAnnotatedTypes instance = node.require(TestAnnotatedTypes.class);
+
+        assertEquals("HELLO", instance.one);
+        assertEquals("world", instance.two);
     }
 
 }
