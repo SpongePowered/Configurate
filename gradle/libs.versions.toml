@@ -1,4 +1,5 @@
 [versions]
+assertj="3.23.1"
 autoValue="1.9"
 checkstyle="10.2"
 errorprone="2.14.0"
@@ -9,6 +10,7 @@ pmd = "6.46.0"
 
 [libraries]
 # Shared
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 autoValue = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
 autoValue-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
 errorprone = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }

@@ -91,6 +91,7 @@ dependencies {
     // errorprone("com.uber.nullaway:nullaway:0.8.0")
 
     // Testing
+    testImplementation(libs.assertj.core)
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
 }
