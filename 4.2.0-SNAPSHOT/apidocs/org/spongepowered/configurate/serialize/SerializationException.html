@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -158,7 +158,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="CoercionFailedException.html" title="class in org.spongepowered.configurate.serialize">CoercionFailedException</a></code></dd>
 </dl>
 <hr>
-<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.31">SerializationException</a>
+<pre>public class <a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.32">SerializationException</a>
 extends <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Exception thrown on errors encountered while using type serializers.</div>
 <dl>
@@ -216,14 +216,14 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.Type,java.lang.String)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.AnnotatedType,java.lang.String)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
 <td class="colLast">
 <div class="block">Create an exception without a cause.</div>
 </td>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.Type,java.lang.String,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.AnnotatedType,java.lang.String,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
 <td class="colLast">
@@ -231,22 +231,69 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.Type,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.AnnotatedType,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
 <td class="colLast">
 <div class="block">Create an exception with a cause and no additional information.</div>
 </td>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.Type,java.lang.String)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
 <td class="colLast">
 <div class="block">Create an exception without a cause.</div>
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.Type,java.lang.String,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
+<td class="colLast">
+<div class="block">Create an exception with message and wrapped cause.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.reflect.Type,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
+<td class="colLast">
+<div class="block">Create an exception with a cause and no additional information.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
+<td class="colLast">
+<div class="block">Create an exception without a cause.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
 <td class="colLast">
 <div class="block">Create an exception with a cause and no additional information.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.AnnotatedType,java.lang.String,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
+                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
+<td class="colLast">
+<div class="block">Create an exception with message and wrapped cause.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.AnnotatedType,java.lang.String)">SerializationException</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
+<td class="colLast">
+<div class="block">Create an exception with a message and unknown cause.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.AnnotatedType,java.lang.Throwable)">SerializationException</a></span>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
+<td class="colLast">
+<div class="block">Create an exception with wrapped cause.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -275,6 +322,14 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </td>
 </tr>
 <tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.NodePath,java.lang.reflect.AnnotatedType,java.lang.String)">SerializationException</a></span>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
+<td class="colLast">
+<div class="block">Create an exception with message and wrapped cause.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.spongepowered.configurate.NodePath,java.lang.reflect.Type,java.lang.String)">SerializationException</a></span>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</code></th>
@@ -315,6 +370,13 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initType(java.lang.reflect.AnnotatedType)">initType</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type)</code></th>
+<td class="colLast">
+<div class="block">Initialize the expected type.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initType(java.lang.reflect.Type)">initType</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</code></th>
 <td class="colLast">
@@ -365,7 +427,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockListLast">
 <li class="blockList">
 <h4>serialVersionUID</h4>
-<pre>public static final&nbsp;long <a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.33">serialVersionUID</a></pre>
+<pre>public static final&nbsp;long <a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.34">serialVersionUID</a></pre>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#org.spongepowered.configurate.serialize.SerializationException.serialVersionUID">Constant Field Values</a></dd>
@@ -388,7 +450,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.41">SerializationException</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.42">SerializationException</a>()</pre>
 <div class="block">Create an exception with unknown message and cause.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -402,7 +464,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.50">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.51">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
 <div class="block">Create an exception without a cause.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -418,7 +480,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.60">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.61">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create an exception with a cause and no additional information.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -434,7 +496,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.71">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.72">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
 <div class="block">Create an exception without a cause.</div>
 <dl>
@@ -446,13 +508,31 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;(java.lang.reflect.AnnotatedType,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.84">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
+<div class="block">Create an exception without a cause.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dd><code>message</code> - message with information about the exception</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="&lt;init&gt;(java.lang.reflect.Type,java.lang.Throwable)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.83">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.96">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create an exception with a cause and no additional information.</div>
 <dl>
@@ -464,13 +544,31 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;(java.lang.reflect.AnnotatedType,java.lang.Throwable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.108">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<div class="block">Create an exception with a cause and no additional information.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dd><code>cause</code> - wrapped causing throwable</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="&lt;init&gt;(java.lang.reflect.Type,java.lang.String,java.lang.Throwable)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.96">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.121">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create an exception with message and wrapped cause.</div>
@@ -484,13 +582,33 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;(java.lang.reflect.AnnotatedType,java.lang.String,java.lang.Throwable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.134">SerializationException</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<div class="block">Create an exception with message and wrapped cause.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dd><code>message</code> - informational message</dd>
+<dd><code>cause</code> - cause to be wrapped</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="&lt;init&gt;(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.Type,java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.109">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.147">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
 <div class="block">Create an exception with a message and unknown cause.</div>
@@ -504,13 +622,33 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.AnnotatedType,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.159">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
+<div class="block">Create an exception with a message and unknown cause.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - node being processed</dd>
+<dd><code>message</code> - informational message</dd>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="&lt;init&gt;(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.Type,java.lang.Throwable)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.121">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.171">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Create an exception with wrapped cause.</div>
@@ -524,13 +662,33 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.AnnotatedType,java.lang.Throwable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.183">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<div class="block">Create an exception with wrapped cause.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - node being processed</dd>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dd><code>cause</code> - cause to be wrapped</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="&lt;init&gt;(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.Type,java.lang.String,java.lang.Throwable)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.134">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.196">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
                               <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
@@ -546,13 +704,35 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;(org.spongepowered.configurate.ConfigurationNode,java.lang.reflect.AnnotatedType,java.lang.String,java.lang.Throwable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.211">SerializationException</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message,
+                              <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<div class="block">Create an exception with message and wrapped cause.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - node being processed</dd>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dd><code>message</code> - informational message</dd>
+<dd><code>cause</code> - cause to be wrapped</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="&lt;init&gt;(org.spongepowered.configurate.NodePath,java.lang.reflect.Type,java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>SerializationException</h4>
-<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.148">SerializationException</a>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.225">SerializationException</a>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;expectedType,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
 <div class="block">Create an exception with message and wrapped cause.</div>
@@ -563,6 +743,26 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <dd><code>message</code> - informational message</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
+<a id="&lt;init&gt;(org.spongepowered.configurate.NodePath,java.lang.reflect.AnnotatedType,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>SerializationException</h4>
+<pre>public&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.239">SerializationException</a>&#8203;(<a href="../NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a>&nbsp;path,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;expectedType,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;message)</pre>
+<div class="block">Create an exception with message and wrapped cause.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - path to node being processed</dd>
+<dd><code>expectedType</code> - declared type being processed</dd>
+<dd><code>message</code> - informational message</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
 </dl>
 </li>
 </ul>
@@ -582,7 +782,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedType</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.160">expectedType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.250">expectedType</a>()</pre>
 <div class="block">Get the desired type associated with the failed object mapping operation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -598,7 +798,7 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <ul class="blockList">
 <li class="blockList">
 <h4>getMessage</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.164">getMessage</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.254">getMessage</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../ConfigurateException.html#getMessage()">ConfigurateException</a></code></span></div>
 <div class="block">Get a description of the location of this error, with path included.</div>
 <dl>
@@ -612,10 +812,10 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <a id="initType(java.lang.reflect.Type)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>initType</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.181">initType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.271">initType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
 <div class="block">Initialize the expected type.
 
  <p>If a type has already been set, it will not be overridden.</p></div>
@@ -624,6 +824,24 @@ extends <a href="../ConfigurateException.html" title="class in org.spongepowered
 <dd><code>type</code> - expected type</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
+<a id="initType(java.lang.reflect.AnnotatedType)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>initType</h4>
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/SerializationException.html#line.285">initType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type)</pre>
+<div class="block">Initialize the expected type.
+
+ <p>If a type has already been set, it will not be overridden.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - expected type</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
 </dl>
 </li>
 </ul>

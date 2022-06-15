@@ -136,13 +136,13 @@
 <span class="sourceLineNo">127</span><a id="line.127">            throw new SerializationException("Object " + instance + " is not of expected type " + resolvedType().getType());</a>
 <span class="sourceLineNo">128</span><a id="line.128">        }</a>
 <span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">        for (Constraint&lt;?&gt; constraint : constraints()) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">        for (final Constraint&lt;?&gt; constraint : constraints()) {</a>
 <span class="sourceLineNo">131</span><a id="line.131">            ((Constraint&lt;Object&gt;) constraint).validate(instance);</a>
 <span class="sourceLineNo">132</span><a id="line.132">        }</a>
 <span class="sourceLineNo">133</span><a id="line.133">    }</a>
 <span class="sourceLineNo">134</span><a id="line.134"></a>
 <span class="sourceLineNo">135</span><a id="line.135">    TypeSerializer&lt;?&gt; serializerFrom(final ConfigurationNode node) throws SerializationException {</a>
-<span class="sourceLineNo">136</span><a id="line.136">        final @Nullable TypeSerializer&lt;?&gt; serial = node.options().serializers().get(resolvedType().getType());</a>
+<span class="sourceLineNo">136</span><a id="line.136">        final @Nullable TypeSerializer&lt;?&gt; serial = node.options().serializers().get(resolvedType());</a>
 <span class="sourceLineNo">137</span><a id="line.137">        if (serial == null) {</a>
 <span class="sourceLineNo">138</span><a id="line.138">            throw new SerializationException("No TypeSerializer found for field " + name() + " of type " + resolvedType().getType());</a>
 <span class="sourceLineNo">139</span><a id="line.139">        }</a>

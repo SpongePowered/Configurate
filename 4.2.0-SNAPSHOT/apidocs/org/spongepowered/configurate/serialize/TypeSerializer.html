@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":18,"i2":1,"i3":1,"i4":6};
+var data = {"i0":18,"i1":6,"i2":18,"i3":18,"i4":1,"i5":1,"i6":18,"i7":6};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -126,13 +126,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code>T</code> - the type</dd>
 </dl>
 <dl>
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="TypeSerializer.Annotated.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer.Annotated</a>&lt;V&gt;</code></dd>
+</dl>
+<dl>
 <dt>All Known Implementing Classes:</dt>
 <dd><code><a href="AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></code>, <code><a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></code></dd>
 </dl>
 <hr>
-<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.35">TypeSerializer</a>&lt;T&gt;</pre>
+<pre>public interface <a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.42">TypeSerializer</a>&lt;T&gt;</pre>
 <div class="block">Represents an object which can serialize and deserialize objects of a
- given type.</div>
+ given type.
+
+ <p>The type serializer interface has methods both for working with
+ annotated types, and discarding annotated type information. If annotation
+ information is desired, the <a href="TypeSerializer.Annotated.html" title="interface in org.spongepowered.configurate.serialize"><code>TypeSerializer.Annotated</code></a> interface overrides the
+ standard TypeSerializer interface to prefer annotated type information.</p></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
@@ -143,6 +152,32 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Interface</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="TypeSerializer.Annotated.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer.Annotated</a>&lt;<a href="TypeSerializer.Annotated.html" title="type parameter in TypeSerializer.Annotated">V</a>&gt;</span></code></th>
+<td class="colLast">
+<div class="block">A type serializer that prefers type use annotation metadata to
+ deserialize the type.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
 <!-- ========== METHOD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -158,6 +193,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>default <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+           <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
+<td class="colLast">
+<div class="block">Deserialize an object (of the correct type) from the given
+ configuration node.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">deserialize</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
            <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
@@ -166,7 +210,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  node.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>default <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emptyValue(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationOptions)">emptyValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;specificType,
+          <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
+<td class="colLast">
+<div class="block">Create an empty value of the appropriate type.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>default <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emptyValue(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationOptions)">emptyValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;specificType,
           <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
@@ -174,7 +226,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Create an empty value of the appropriate type.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.Class,java.util.function.BiFunction,org.spongepowered.configurate.util.CheckedFunction)">of</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
   <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;T,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;serializer,
@@ -183,7 +235,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Given the provided functions, create a new serializer for a scalar value.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.reflect.Type,java.util.function.BiFunction,org.spongepowered.configurate.util.CheckedFunction)">of</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
   <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;T,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;serializer,
@@ -192,7 +244,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Given the provided functions, create a new serializer for a scalar value.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>default void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;obj,
+         <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
+<td class="colLast">
+<div class="block">Serialize an object to the given configuration node.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;obj,
@@ -224,7 +285,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">static&nbsp;&lt;T&gt;&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.49">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">static&nbsp;&lt;T&gt;&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.56">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                                   <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;T,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;serializer,
                                   <a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T,&#8203;<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;deserializer)</pre>
 <div class="block">Given the provided functions, create a new serializer for a scalar value.
@@ -250,7 +311,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">static&nbsp;&lt;T&gt;&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.69">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+<pre class="methodSignature">static&nbsp;&lt;T&gt;&nbsp;<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.76">of</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                                   <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;T,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&gt;,&#8203;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;serializer,
                                   <a href="../util/CheckedFunction.html" title="interface in org.spongepowered.configurate.util">CheckedFunction</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T,&#8203;<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;deserializer)</pre>
 <div class="block">Given the provided functions, create a new serializer for a scalar value.
@@ -274,13 +335,37 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 </li>
 </ul>
+<a id="deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>deserialize</h4>
+<pre class="methodSignature">default&nbsp;<a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.95">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+                      <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+               throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Deserialize an object (of the correct type) from the given
+ configuration node.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - the annotated type of return value required</dd>
+<dd><code>node</code> - the node containing serialized data</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an object</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the presented data is invalid</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>deserialize</h4>
-<pre class="methodSignature"><a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.88">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature"><a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.109">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
               <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
        throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Deserialize an object (of the correct type) from the given configuration
@@ -298,6 +383,31 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 </li>
 </ul>
+<a id="serialize(java.lang.reflect.AnnotatedType,java.lang.Object,org.spongepowered.configurate.ConfigurationNode)">
+<!--   -->
+</a><a id="serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>serialize</h4>
+<pre class="methodSignature">default&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.120">serialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;obj,
+                       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
+                throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<div class="block">Serialize an object to the given configuration node.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - the annotated type of the input object</dd>
+<dd><code>obj</code> - the object to be serialized</dd>
+<dd><code>node</code> - the node to write to</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the object cannot be serialized</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="serialize(java.lang.reflect.Type,java.lang.Object,org.spongepowered.configurate.ConfigurationNode)">
 <!--   -->
 </a><a id="serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">
@@ -306,7 +416,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>serialize</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.99">serialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.133">serialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type,
                <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;obj,
                <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
         throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
@@ -326,10 +436,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <a id="emptyValue(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationOptions)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>emptyValue</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.112">emptyValue</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;specificType,
+<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.146">emptyValue</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;specificType,
                                <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block">Create an empty value of the appropriate type.
 
@@ -343,6 +453,31 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>new empty value</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0.0</dd>
+</dl>
+</li>
+</ul>
+<a id="emptyValue(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationOptions)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>emptyValue</h4>
+<pre class="methodSignature">default&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="TypeSerializer.html" title="type parameter in TypeSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/TypeSerializer.html#line.163">emptyValue</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;specificType,
+                               <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
+<div class="block">Create an empty value of the appropriate type.
+
+ <p>This method is for the most part designed to create empty
+ collection types, though it may be useful for scalars
+ in limited cases.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>specificType</code> - specific annotated subtype to create an empty
+     value of</dd>
+<dd><code>options</code> - options used from the loading node</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>new empty value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
 </dl>
 </li>
 </ul>
@@ -397,7 +532,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
