@@ -31,6 +31,11 @@ import java.util.function.Predicate;
  * Represents an object which can serialize and deserialize objects of a
  * given type.
  *
+ * <p>The type serializer interface has methods both for working with
+ * annotated types, and discarding annotated type information. If annotation
+ * information is desired, the {@link Annotated} interface overrides the
+ * standard TypeSerializer interface to prefer annotated type information.</p>
+ *
  * @param <T> the type
  * @since 4.0.0
  */
@@ -78,6 +83,20 @@ public interface TypeSerializer<T> {
     }
 
     /**
+     * Deserialize an object (of the correct type) from the given
+     * configuration node.
+     *
+     * @param type the annotated type of return value required
+     * @param node the node containing serialized data
+     * @return an object
+     * @throws SerializationException if the presented data is invalid
+     * @since 4.2.0
+     */
+    default T deserialize(final AnnotatedType type, final ConfigurationNode node) throws SerializationException {
+        return this.deserialize(type.getType(), node);
+    }
+
+    /**
      * Deserialize an object (of the correct type) from the given configuration
      * node.
      *
@@ -88,6 +107,19 @@ public interface TypeSerializer<T> {
      * @since 4.0.0
      */
     T deserialize(Type type, ConfigurationNode node) throws SerializationException;
+
+    /**
+     * Serialize an object to the given configuration node.
+     *
+     * @param type the annotated type of the input object
+     * @param obj the object to be serialized
+     * @param node the node to write to
+     * @throws SerializationException if the object cannot be serialized
+     * @since 4.2.0
+     */
+    default void serialize(final AnnotatedType type, @Nullable final T obj, final ConfigurationNode node) throws SerializationException {
+        this.serialize(type.getType(), obj, node);
+    }
 
     /**
      * Serialize an object to the given configuration node.
@@ -116,7 +148,24 @@ public interface TypeSerializer<T> {
     }
 
     /**
-     * A type serializer that requires type use annotation metadata to
+     * Create an empty value of the appropriate type.
+     *
+     * <p>This method is for the most part designed to create empty
+     * collection types, though it may be useful for scalars
+     * in limited cases.</p>
+     *
+     * @param specificType specific annotated subtype to create an empty
+     *     value of
+     * @param options options used from the loading node
+     * @return new empty value
+     * @since 4.2.0
+     */
+    default @Nullable T emptyValue(final AnnotatedType specificType, final ConfigurationOptions options) {
+        return this.emptyValue(specificType.getType(), options);
+    }
+
+    /**
+     * A type serializer that prefers type use annotation metadata to
      * deserialize the type.
      *
      *
@@ -125,16 +174,7 @@ public interface TypeSerializer<T> {
      */
     interface Annotated<V> extends TypeSerializer<V> {
 
-        /**
-         * Deserialize an object (of the correct type) from the given
-         * configuration node.
-         *
-         * @param type the annotated type of return value required
-         * @param node the node containing serialized data
-         * @return an object
-         * @throws SerializationException if the presented data is invalid
-         * @since 4.2.0
-         */
+        @Override
         V deserialize(AnnotatedType type, ConfigurationNode node) throws SerializationException;
 
         @Override
@@ -142,15 +182,7 @@ public interface TypeSerializer<T> {
             return this.deserialize(GenericTypeReflector.annotate(type), node);
         }
 
-        /**
-         * Serialize an object to the given configuration node.
-         *
-         * @param type the annotated type of the input object
-         * @param obj the object to be serialized
-         * @param node the node to write to
-         * @throws SerializationException if the object cannot be serialized
-         * @since 4.2.0
-         */
+        @Override
         void serialize(AnnotatedType type, @Nullable V obj, ConfigurationNode node) throws SerializationException;
 
         @Override
@@ -158,19 +190,7 @@ public interface TypeSerializer<T> {
             this.serialize(GenericTypeReflector.annotate(type), obj, node);
         }
 
-        /**
-         * Create an empty value of the appropriate type.
-         *
-         * <p>This method is for the most part designed to create empty
-         * collection types, though it may be useful for scalars
-         * in limited cases.</p>
-         *
-         * @param specificType specific annotated subtype to create an empty
-         *     value of
-         * @param options options used from the loading node
-         * @return new empty value
-         * @since 4.2.0
-         */
+        @Override
         default @Nullable V emptyValue(final AnnotatedType specificType, final ConfigurationOptions options) {
             return null;
         }

@@ -112,10 +112,10 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
                 + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
         }
 
-        final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
+        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
         if (serial != null) {
             ((TypeSerializer) serial).serialize(type, value, this.self());
-        } else if (options().acceptsType(value.getClass())) {
+        } else if (this.options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
         } else {
             throw new SerializationException(this, type, "No serializer available for type " + type);
@@ -138,14 +138,10 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
                 + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
         }
 
-        final @Nullable TypeSerializer<?> serial = options().serializers().get(type);
+        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
         if (serial != null) {
-            if (serial instanceof TypeSerializer.Annotated<?>) {
-                ((TypeSerializer.Annotated) serial).serialize(type, value, this);
-            } else {
-                ((TypeSerializer) serial).serialize(type.getType(), value, this);
-            }
-        } else if (options().acceptsType(value.getClass())) {
+            ((TypeSerializer) serial).serialize(type, value, this);
+        } else if (this.options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
         } else {
             throw new SerializationException(this, type.getType(), "No serializer available for type " + type);

@@ -108,7 +108,7 @@ public final class TypeSerializerCollection {
     @SuppressWarnings("unchecked")
     public <T> @Nullable TypeSerializer<T> get(final TypeToken<T> token) {
         requireNonNull(token, "type");
-        return (TypeSerializer<T>) get0(token.getAnnotatedType());
+        return (TypeSerializer<T>) this.get0(token.getAnnotatedType());
     }
 
     /**
@@ -131,7 +131,7 @@ public final class TypeSerializerCollection {
         requireNonNull(token, "type");
         requireCompleteParameters(token);
 
-        return (TypeSerializer<T>) get((Type) token);
+        return (TypeSerializer<T>) this.get((Type) token);
     }
 
     /**
@@ -146,7 +146,7 @@ public final class TypeSerializerCollection {
      * @since 4.0.0
      */
     public @Nullable TypeSerializer<?> get(final Type type) {
-        return get0(GenericTypeReflector.box(type));
+        return this.get0(GenericTypeReflector.box(type));
     }
 
     /**
@@ -299,7 +299,7 @@ public final class TypeSerializerCollection {
          * @since 4.0.0
          */
         public <T> Builder register(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
-            return register0(type.getType(), serializer);
+            return this.register0(type.getType(), serializer);
         }
 
         /**
@@ -315,7 +315,7 @@ public final class TypeSerializerCollection {
          * @since 4.0.0
          */
         public <T> Builder register(final Class<T> type, final TypeSerializer<? super T> serializer) {
-            return register0(type, serializer);
+            return this.register0(type, serializer);
         }
 
         /**
@@ -347,7 +347,7 @@ public final class TypeSerializerCollection {
          */
         public <T> Builder register(final ScalarSerializer<T> serializer) {
             requireNonNull(serializer, "serializer");
-            return register(serializer.type(), serializer);
+            return this.register(serializer.type(), serializer);
         }
 
         /**
@@ -358,9 +358,10 @@ public final class TypeSerializerCollection {
          * @param serializer the serializer to serialize matching types with
          * @param <T> the type parameter
          * @return this builder
+         * @see TypeSerializer.Annotated
          * @since 4.2.0
          */
-        public <T> Builder registerAnnotated(final Predicate<AnnotatedType> test, final TypeSerializer.Annotated<? super T> serializer) {
+        public <T> Builder registerAnnotated(final Predicate<AnnotatedType> test, final TypeSerializer<? super T> serializer) {
             requireNonNull(test, "test");
             requireNonNull(serializer, "serializer");
             this.serializers.add(new AnnotatedTypeRegistration(test, serializer));
@@ -402,7 +403,7 @@ public final class TypeSerializerCollection {
          * @since 4.0.0
          */
         public <T> Builder registerExact(final TypeToken<T> type, final TypeSerializer<? super T> serializer) {
-            return registerExact0(type.getType(), serializer);
+            return this.registerExact0(type.getType(), serializer);
         }
 
         /**
@@ -419,7 +420,7 @@ public final class TypeSerializerCollection {
          * @since 4.0.0
          */
         public <T> Builder registerExact(final Class<T> type, final TypeSerializer<? super T> serializer) {
-            return registerExact0(type, serializer);
+            return this.registerExact0(type, serializer);
         }
 
         /**
@@ -436,7 +437,7 @@ public final class TypeSerializerCollection {
          */
         public <T> Builder registerExact(final ScalarSerializer<T> serializer) {
             requireNonNull(serializer, "serializer");
-            return registerExact(serializer.type(), serializer);
+            return this.registerExact(serializer.type(), serializer);
         }
 
         private Builder registerExact0(final Type type, final TypeSerializer<?> serializer) {
@@ -471,7 +472,7 @@ public final class TypeSerializerCollection {
          * @since 4.0.0
          */
         public Builder registerAnnotatedObjects(final ObjectMapper.Factory factory) {
-            return register(Builder::isAnnotatedTarget, factory.asTypeSerializer());
+            return this.register(Builder::isAnnotatedTarget, factory.asTypeSerializer());
         }
 
         /**

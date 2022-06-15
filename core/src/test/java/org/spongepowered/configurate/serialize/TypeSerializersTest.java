@@ -614,11 +614,11 @@ class TypeSerializersTest {
         final TypeToken<@UpperCase String> type = new TypeToken<@UpperCase String>() {};
         final TypeSerializer<@UpperCase String> serializer = collection.get(type);
         assertNotNull(serializer);
-        assertInstanceOf(TypeSerializer.Annotated.class, serializer);
+        assertInstanceOf(UppercaseStringTypeSerializer.class, serializer);
 
         final ConfigurationNode contents = BasicConfigurationNode.root().set("hello");
 
-        assertEquals("HELLO", ((TypeSerializer.Annotated<?>) serializer).deserialize(type.getAnnotatedType(), contents));
+        assertEquals("HELLO", serializer.deserialize(type.getAnnotatedType(), contents));
     }
 
 }

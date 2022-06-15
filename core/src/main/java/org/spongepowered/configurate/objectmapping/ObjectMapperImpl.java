@@ -72,10 +72,8 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 final @Nullable Object newVal;
                 if (node.isNull()) {
                     newVal = null;
-                } else if (serial instanceof TypeSerializer.Annotated<?>) {
-                    newVal = ((TypeSerializer.Annotated<?>) serial).deserialize(field.resolvedType().getType(), node);
                 } else {
-                    newVal = serial.deserialize(field.resolvedType().getType(), node);
+                    newVal = serial.deserialize(field.resolvedType(), node);
                 }
                 field.validate(newVal);
 
@@ -84,11 +82,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 // so we have to pass both implicit and explicit options along to it.
                 final Supplier<@Nullable Object> implicitInitializer;
                 if (newVal == null && node.options().implicitInitialization()) {
-                    if (serial instanceof TypeSerializer.Annotated<?>) {
-                        implicitInitializer = () -> ((TypeSerializer.Annotated<?>) serial).emptyValue(field.resolvedType(), node.options());
-                    } else {
-                        implicitInitializer = () -> serial.emptyValue(field.resolvedType().getType(), node.options());
-                    }
+                    implicitInitializer = () -> serial.emptyValue(field.resolvedType(), node.options());
                 } else {
                     implicitInitializer = () -> null;
                 }
@@ -138,7 +132,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
         if (unseenFields != null) {
             for (final FieldData<I, V> field : unseenFields) {
-                saveSingle(field, complete, source);
+                this.saveSingle(field, complete, source);
             }
         }
         return complete;
@@ -147,7 +141,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
     @Override
     public void save(final V value, final ConfigurationNode target) throws SerializationException {
         for (final FieldData<I, V> field : this.fields) {
-            saveSingle(field, value, target);
+            this.saveSingle(field, value, target);
         }
 
         if (target.virtual()) { // we didn't save anything
@@ -176,11 +170,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 node.set(null);
             } else {
                 final TypeSerializer<Object> serial = (TypeSerializer<Object>) field.serializerFrom(node);
-                if (serial instanceof TypeSerializer.Annotated<?>) {
-                    ((TypeSerializer.Annotated<Object>) serial).serialize(field.resolvedType(), fieldVal, node);
-                } else {
-                    serial.serialize(field.resolvedType().getType(), fieldVal, node);
-                }
+                serial.serialize(field.resolvedType(), fieldVal, node);
                 for (final Processor<?> processor : field.processors()) {
                     ((Processor<Object>) processor).process(fieldVal, node);
                 }
@@ -220,7 +210,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
 
         @Override
         public void load(final V value, final ConfigurationNode node) throws SerializationException {
-            load0(node, intermediate -> {
+            this.load0(node, intermediate -> {
                 ((FieldDiscoverer.MutableInstanceFactory<I>) this.instanceFactory).complete(value, intermediate);
                 return value;
             });

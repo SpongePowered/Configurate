@@ -20,9 +20,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Type;
 import java.util.Locale;
 
-public final class UppercaseStringTypeSerializer implements TypeSerializer.Annotated<@UpperCase String> {
+public final class UppercaseStringTypeSerializer implements TypeSerializer<@UpperCase String> {
 
     public static final UppercaseStringTypeSerializer INSTANCE = new UppercaseStringTypeSerializer();
 
@@ -34,14 +35,14 @@ public final class UppercaseStringTypeSerializer implements TypeSerializer.Annot
     }
 
     @Override
-    public @UpperCase String deserialize(final AnnotatedType type, final ConfigurationNode node) throws SerializationException {
+    public @UpperCase String deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
         final String string = node.getString();
         return string.toUpperCase(Locale.ROOT);
     }
 
     @Override
     public void serialize(
-        final AnnotatedType type,
+        final Type type,
         final @Nullable @UpperCase String obj,
         final ConfigurationNode node
     ) throws SerializationException {
