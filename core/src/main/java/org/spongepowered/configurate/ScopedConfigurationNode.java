@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedConsumer;
+import org.spongepowered.configurate.util.Types;
 
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
@@ -106,16 +107,17 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         if (value == null) {
             return this.set(null);
         }
-        final Class<?> erasedType = GenericTypeReflector.erase(type);
+        final Type boxed = Types.box(type);
+        final Class<?> erasedType = GenericTypeReflector.erase(boxed);
         if (!erasedType.isInstance(value)) {
             throw new SerializationException(this, type, "Got a value of unexpected type "
                 + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
         }
 
-        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
+        final @Nullable TypeSerializer<?> serial = this.options().serializers().get(boxed);
         if (serial != null) {
             try {
-                ((TypeSerializer) serial).serialize(type, value, this.self());
+                ((TypeSerializer) serial).serialize(boxed, value, this.self());
             } catch (final SerializationException ex) {
                 ex.initPath(this::path);
                 ex.initType(type);

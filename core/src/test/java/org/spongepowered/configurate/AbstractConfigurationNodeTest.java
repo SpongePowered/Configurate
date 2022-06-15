@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -517,6 +518,23 @@ class AbstractConfigurationNodeTest {
 
         assertEquals("someone", check.name);
         assertEquals("someone", node.node("name").raw());
+    }
+
+    @Test
+    void testSetPrimitive() throws SerializationException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root();
+
+        node.set(int.class, 2);
+
+        assertThat(node.raw()).isEqualTo(2);
+    }
+
+    @Test
+    void testGetPrimitive() throws SerializationException {
+        final BasicConfigurationNode node = BasicConfigurationNode.root();
+        node.raw(42.2d);
+
+        assertThat(node.get(double.class)).isEqualTo(42.2d);
     }
 
 }
