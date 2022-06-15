@@ -21,6 +21,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.NodePath;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 
 /**
@@ -74,6 +75,18 @@ public class SerializationException extends ConfigurateException {
     }
 
     /**
+     * Create an exception without a cause.
+     *
+     * @param expectedType declared type being processed
+     * @param message message with information about the exception
+     * @since 4.2.0
+     */
+    public SerializationException(final AnnotatedType expectedType, final String message) {
+        super(message);
+        this.expectedType = expectedType.getType();
+    }
+
+    /**
      * Create an exception with a cause and no additional information.
      *
      * @param expectedType declared type being processed
@@ -83,6 +96,18 @@ public class SerializationException extends ConfigurateException {
     public SerializationException(final Type expectedType, final Throwable cause) {
         super(cause);
         this.expectedType = expectedType;
+    }
+
+    /**
+     * Create an exception with a cause and no additional information.
+     *
+     * @param expectedType declared type being processed
+     * @param cause wrapped causing throwable
+     * @since 4.2.0
+     */
+    public SerializationException(final AnnotatedType expectedType, final Throwable cause) {
+        super(cause);
+        this.expectedType = expectedType.getType();
     }
 
     /**
@@ -99,6 +124,19 @@ public class SerializationException extends ConfigurateException {
     }
 
     /**
+     * Create an exception with message and wrapped cause.
+     *
+     * @param expectedType declared type being processed
+     * @param message informational message
+     * @param cause cause to be wrapped
+     * @since 4.2.0
+     */
+    public SerializationException(final AnnotatedType expectedType, final String message, final Throwable cause) {
+        super(message, cause);
+        this.expectedType = expectedType.getType();
+    }
+
+    /**
      * Create an exception with a message and unknown cause.
      *
      * @param node node being processed
@@ -111,6 +149,18 @@ public class SerializationException extends ConfigurateException {
     }
 
     /**
+     * Create an exception with a message and unknown cause.
+     *
+     * @param node node being processed
+     * @param message informational message
+     * @param expectedType declared type being processed
+     * @since 4.2.0
+     */
+    public SerializationException(final ConfigurationNode node, final AnnotatedType expectedType, final String message) {
+        this(node, expectedType, message, null);
+    }
+
+    /**
      * Create an exception with wrapped cause.
      *
      * @param node node being processed
@@ -119,6 +169,18 @@ public class SerializationException extends ConfigurateException {
      * @since 4.0.0
      */
     public SerializationException(final ConfigurationNode node, final Type expectedType, final Throwable cause) {
+        this(node, expectedType, null, cause);
+    }
+
+    /**
+     * Create an exception with wrapped cause.
+     *
+     * @param node node being processed
+     * @param expectedType declared type being processed
+     * @param cause cause to be wrapped
+     * @since 4.2.0
+     */
+    public SerializationException(final ConfigurationNode node, final AnnotatedType expectedType, final Throwable cause) {
         this(node, expectedType, null, cause);
     }
 
@@ -140,6 +202,21 @@ public class SerializationException extends ConfigurateException {
     /**
      * Create an exception with message and wrapped cause.
      *
+     * @param node node being processed
+     * @param expectedType declared type being processed
+     * @param message informational message
+     * @param cause cause to be wrapped
+     * @since 4.2.0
+     */
+    public SerializationException(final ConfigurationNode node, final AnnotatedType expectedType,
+            final @Nullable String message, final @Nullable Throwable cause) {
+        super(node, message, cause);
+        this.expectedType = expectedType.getType();
+    }
+
+    /**
+     * Create an exception with message and wrapped cause.
+     *
      * @param path path to node being processed
      * @param expectedType declared type being processed
      * @param message informational message
@@ -149,6 +226,19 @@ public class SerializationException extends ConfigurateException {
         super(path, message, null);
 
         this.expectedType = expectedType;
+    }
+
+    /**
+     * Create an exception with message and wrapped cause.
+     *
+     * @param path path to node being processed
+     * @param expectedType declared type being processed
+     * @param message informational message
+     * @since 4.2.0
+     */
+    public SerializationException(final NodePath path, final AnnotatedType expectedType, final String message) {
+        super(path, message, null);
+        this.expectedType = expectedType.getType();
     }
 
     /**
@@ -166,7 +256,7 @@ public class SerializationException extends ConfigurateException {
         if (this.expectedType == null) {
             return super.getMessage();
         } else {
-            return path() + " of type " + this.expectedType.getTypeName() + ": " + rawMessage();
+            return this.path() + " of type " + this.expectedType.getTypeName() + ": " + this.rawMessage();
         }
     }
 
@@ -181,6 +271,20 @@ public class SerializationException extends ConfigurateException {
     public void initType(final Type type) {
         if (this.expectedType == null) {
             this.expectedType = type;
+        }
+    }
+
+    /**
+     * Initialize the expected type.
+     *
+     * <p>If a type has already been set, it will not be overridden.</p>
+     *
+     * @param type expected type
+     * @since 4.2.0
+     */
+    public final void initType(final AnnotatedType type) {
+        if (this.expectedType == null) {
+            this.expectedType = type.getType();
         }
     }
 

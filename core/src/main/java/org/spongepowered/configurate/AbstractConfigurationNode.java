@@ -238,7 +238,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
             return serial.deserialize(type, this);
         } catch (final SerializationException ex) {
             ex.initPath(this::path);
-            ex.initType(type.getType());
+            ex.initType(type);
             throw ex;
         }
     }

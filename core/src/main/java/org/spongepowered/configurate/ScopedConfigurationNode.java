@@ -114,7 +114,12 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
 
         final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
         if (serial != null) {
-            ((TypeSerializer) serial).serialize(type, value, this.self());
+            try {
+                ((TypeSerializer) serial).serialize(type, value, this.self());
+            } catch (final SerializationException ex) {
+                ex.initPath(this::path);
+                ex.initType(type);
+            }
         } else if (this.options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
         } else {
@@ -134,17 +139,22 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
         }
         final Class<?> erasedType = GenericTypeReflector.erase(type.getType());
         if (!erasedType.isInstance(value)) {
-            throw new SerializationException(this, type.getType(), "Got a value of unexpected type "
+            throw new SerializationException(this, type, "Got a value of unexpected type "
                 + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());
         }
 
         final @Nullable TypeSerializer<?> serial = this.options().serializers().get(type);
         if (serial != null) {
-            ((TypeSerializer) serial).serialize(type, value, this);
+            try {
+                ((TypeSerializer) serial).serialize(type, value, this);
+            } catch (final SerializationException ex) {
+                ex.initPath(this::path);
+                ex.initType(type);
+            }
         } else if (this.options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
         } else {
-            throw new SerializationException(this, type.getType(), "No serializer available for type " + type);
+            throw new SerializationException(this, type, "No serializer available for type " + type);
         }
         return this.self();
     }

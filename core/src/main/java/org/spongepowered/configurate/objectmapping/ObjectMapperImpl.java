@@ -98,7 +98,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
                 }
             } catch (final SerializationException ex) {
                 ex.initPath(node::path);
-                ex.initType(field.resolvedType().getType());
+                ex.initType(field.resolvedType());
 
                 if (failure == null) {
                     failure = ex;
@@ -163,7 +163,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
             } catch (final SerializationException ex) {
                 throw ex;
             } catch (final Exception ex) {
-                throw new SerializationException(node, field.resolvedType().getType(), ex);
+                throw new SerializationException(node, field.resolvedType(), ex);
             }
 
             if (fieldVal == null) {
@@ -177,7 +177,7 @@ class ObjectMapperImpl<I, V> implements ObjectMapper<V> {
             }
         } catch (final SerializationException ex) {
             ex.initPath(node::path);
-            ex.initType(field.resolvedType().getType());
+            ex.initType(field.resolvedType());
             throw ex;
         }
     }
