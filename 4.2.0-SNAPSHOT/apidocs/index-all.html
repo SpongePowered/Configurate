@@ -1121,7 +1121,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Attempt to deserialize the provided object using an unspecialized type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#deserialize(java.lang.reflect.AnnotatedType,java.lang.Object)">deserialize(AnnotatedType, Object)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
+<dd>
+<div class="block">Given an object of unknown type, attempt to convert it into the given
+ type.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize(AnnotatedType, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize(AnnotatedType, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializer.Annotated.html#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize(AnnotatedType, ConfigurationNode)</a></span> - Method in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializer.Annotated.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer.Annotated</a></dt>
 <dd>&nbsp;</dd>
@@ -2840,6 +2847,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Serializer for <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>Pattern</code></a> values.</div>
 </dd>
+<dt><a href="org/spongepowered/configurate/serialize/PatternFlags.html" title="annotation in org.spongepowered.configurate.serialize"><span class="typeNameLink">PatternFlags</span></a> - Annotation Type in <a href="org/spongepowered/configurate/serialize/package-summary.html">org.spongepowered.configurate.serialize</a></dt>
+<dd>
+<div class="block">Indicates that serializable fields of type <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink"><code>Pattern</code></a>
+ should have certain pattern flags applied upon creation.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/NodePath.html#plus(org.spongepowered.configurate.NodePath)">plus(NodePath)</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/NodePath.html" title="interface in org.spongepowered.configurate">NodePath</a></dt>
 <dd>
 <div class="block">Create a new path from the combination of <code>this</code> and <code>other</code>.</div>
@@ -3341,6 +3353,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Create an exception with message and wrapped cause.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize(AnnotatedType, T, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/AbstractListChildSerializer.html" title="class in org.spongepowered.configurate.serialize">AbstractListChildSerializer</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize(AnnotatedType, T, ConfigurationNode)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/TypeSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize(AnnotatedType, T, ConfigurationNode)</a></span> - Method in interface org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/TypeSerializer.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer</a></dt>
 <dd>
@@ -3906,6 +3920,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/objectmapping/meta/Setting.html#value()">value()</a></span> - Method in annotation type org.spongepowered.configurate.objectmapping.meta.<a href="org/spongepowered/configurate/objectmapping/meta/Setting.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Setting</a></dt>
 <dd>
 <div class="block">The path this setting is located at.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/PatternFlags.html#value()">value()</a></span> - Method in annotation type org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/PatternFlags.html" title="annotation in org.spongepowered.configurate.serialize">PatternFlags</a></dt>
+<dd>
+<div class="block">The flags to apply.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html#VALUE">VALUE</a></span> - org.spongepowered.configurate.reference.<a href="org/spongepowered/configurate/reference/ConfigurationReference.ErrorPhase.html" title="enum in org.spongepowered.configurate.reference">ConfigurationReference.ErrorPhase</a></dt>
 <dd>
