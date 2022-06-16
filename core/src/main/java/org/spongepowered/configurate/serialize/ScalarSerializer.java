@@ -21,6 +21,7 @@ import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Predicate;
@@ -40,7 +41,7 @@ import java.util.function.Predicate;
  * @param <T> the object type to serialize
  * @since 4.0.0
  */
-public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
+public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T> {
 
     private final TypeToken<T> type;
 
@@ -88,7 +89,12 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     }
 
     @Override
-    public final T deserialize(Type type, final ConfigurationNode node) throws SerializationException {
+    public final T deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
+        return TypeSerializer.Annotated.super.deserialize(type, node);
+    }
+
+    @Override
+    public final T deserialize(AnnotatedType type, final ConfigurationNode node) throws SerializationException {
         ConfigurationNode deserializeFrom = node;
         if (node.isList()) {
             final List<? extends ConfigurationNode> children = node.childrenList();
@@ -106,13 +112,13 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             throw new SerializationException(type, "No scalar value present");
         }
 
-        type = GenericTypeReflector.box(type); // every primitive type should be boxed (cuz generics!)
-        final @Nullable T possible = cast(value);
+        type = GenericTypeReflector.toCanonicalBoxed(type); // every primitive type should be boxed (cuz generics!)
+        final @Nullable T possible = this.cast(value);
         if (possible != null) {
             return possible;
         }
 
-        return deserialize(type, value);
+        return this.deserialize(type, value);
     }
 
     /**
@@ -127,12 +133,27 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
      * @since 4.0.0
      */
     public final T deserialize(final Object value) throws SerializationException {
-        final @Nullable T possible = cast(value);
+        final @Nullable T possible = this.cast(value);
         if (possible != null) {
             return possible;
         }
 
-        return this.deserialize(this.type().getType(), value);
+        return this.deserialize(this.type().getAnnotatedType(), value);
+    }
+
+    /**
+     * Given an object of unknown type, attempt to convert it into the given
+     * type.
+     *
+     * @param type the specific type of the type's usage
+     * @param obj the object to convert
+     * @return a converted object
+     * @throws SerializationException if the object could not be converted for
+     *                                any reason
+     * @since 4.2.0
+     */
+    public T deserialize(final AnnotatedType type, final Object obj) throws SerializationException {
+        return this.deserialize(type.getType(), obj);
     }
 
     /**
@@ -149,6 +170,11 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
     public abstract T deserialize(Type type, Object obj) throws SerializationException;
 
     @Override
+    public final void serialize(final AnnotatedType type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
+        this.serialize(type.getType(), obj, node);
+    }
+
+    @Override
     public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
         if (obj == null) {
             node.raw(null);
@@ -160,7 +186,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             return;
         }
 
-        node.raw(serialize(obj, node.options()::acceptsType));
+        node.raw(this.serialize(obj, node.options()::acceptsType));
     }
 
     /**
@@ -199,7 +225,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
         }
 
         try {
-            return deserialize(obj);
+            return this.deserialize(obj);
         } catch (final SerializationException ex) {
             return null;
         }
@@ -218,7 +244,39 @@ public abstract class ScalarSerializer<T> implements TypeSerializer<T> {
             return item.toString();
         }
         // Otherwise, use the serializer
-        return (String) serialize(item, clazz -> clazz.isAssignableFrom(String.class));
+        return (String) this.serialize(item, clazz -> clazz.isAssignableFrom(String.class));
+    }
+
+    /**
+     * A specialization of the scalar serializer that favors
+     * annotated type methods over unannotated methods.
+     *
+     * @param <V> the value to deserialize
+     */
+    abstract static class Annotated<V> extends ScalarSerializer<V> {
+
+        protected Annotated(final Class<V> type) {
+            super(type);
+        }
+
+        protected Annotated(final TypeToken<V> type) {
+            super(type);
+        }
+
+        @Override
+        public abstract V deserialize(
+            AnnotatedType type,
+            Object obj
+        ) throws SerializationException;
+
+        @Override
+        public V deserialize(
+            final Type type,
+            final Object obj
+        ) throws SerializationException {
+            return this.deserialize(GenericTypeReflector.annotate(type), obj);
+        }
+
     }
 
 }

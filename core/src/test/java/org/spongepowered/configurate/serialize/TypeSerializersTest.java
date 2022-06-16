@@ -17,6 +17,7 @@
 package org.spongepowered.configurate.serialize;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -663,6 +664,18 @@ class TypeSerializersTest {
 
         final List<String> value = serializer.deserialize(type.getAnnotatedType(), contents);
         assertEquals(ImmutableList.of("ONE", "TWO"), value);
+    }
+
+    @Test
+    void testPatternFlags() throws SerializationException {
+        final TypeToken<Pattern> type = new TypeToken<@PatternFlags(Pattern.CASE_INSENSITIVE) Pattern>() {};
+        final TypeSerializer<Pattern> serializer = this.serializer(type);
+
+        final Pattern pattern = serializer.deserialize(type.getAnnotatedType(), BasicConfigurationNode.root(n -> n.set("test")));
+
+        assertThat(pattern.flags())
+            .inBinary()
+            .isEqualTo(Pattern.CASE_INSENSITIVE);
     }
 
 }

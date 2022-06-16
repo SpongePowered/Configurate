@@ -16,21 +16,28 @@
  */
 package org.spongepowered.configurate.serialize;
 
-import java.lang.reflect.Type;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.lang.reflect.AnnotatedType;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-final class PatternSerializer extends ScalarSerializer<Pattern> {
+final class PatternSerializer extends ScalarSerializer.Annotated<Pattern> {
 
     PatternSerializer() {
         super(Pattern.class);
     }
 
     @Override
-    public Pattern deserialize(final Type type, final Object obj) throws SerializationException {
+    public Pattern deserialize(final AnnotatedType type, final Object obj) throws SerializationException {
         try {
-            return Pattern.compile(obj.toString());
+            final @Nullable PatternFlags flags = type.getAnnotation(PatternFlags.class);
+            if (flags != null) {
+                return Pattern.compile(obj.toString(), flags.value());
+            } else {
+                return Pattern.compile(obj.toString());
+            }
         } catch (final PatternSyntaxException ex) {
             throw new SerializationException(ex);
         }
