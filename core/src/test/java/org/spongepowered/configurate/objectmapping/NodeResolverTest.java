@@ -16,9 +16,11 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.Test;
@@ -27,8 +29,12 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.objectmapping.meta.NodeKey;
 import org.spongepowered.configurate.objectmapping.meta.NodeResolver;
+import org.spongepowered.configurate.objectmapping.meta.PropertyKey;
+import org.spongepowered.configurate.objectmapping.meta.Required;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 import org.spongepowered.configurate.serialize.SerializationException;
+
+import java.util.HashSet;
 
 class NodeResolverTest {
 
@@ -136,6 +142,95 @@ class NodeResolverTest {
 
         assertEquals("eek", root.node("hello").raw());
         assertEquals("spooky | scary", root.node("skeletons").raw());
+    }
+
+    // property key
+
+    static class TestPropertyKey {
+        @PropertyKey("realKey")
+        String fieldKey;
+
+        @PropertyKey("requiredKey")
+        @Required
+        String requiredField;
+
+        @PropertyKey("keyWithDefault")
+        String fieldWithDefault = "default-str";
+    }
+
+    @Test
+    void testPropertyKeyAllKeyPresent() throws SerializationException {
+        // Verify that 'fieldKey' receives the value stored under 'realKey'.
+        // Verify that 'requiredField' receives the value stored under 'requiredKey'.
+        // Verify that 'fieldWithDefault' receives the value stored under 'keyWithDefault'.
+
+        final ObjectMapper<TestPropertyKey> mapper = ObjectMapper.factory().get(TestPropertyKey.class);
+        final BasicConfigurationNode source = BasicConfigurationNode.root().node("test");
+        source.node("field-key").set("shouldBeIgnored");
+        source.node("required-field").set("shouldBeIgnored");
+        source.node("field-with-default").set("shouldBeIgnored");
+
+        source.node("realKey").set("realKeyValue");
+        source.node("requiredKey").set("requiredKeyValue");
+        source.node("keyWithDefault").set("keyWithDefaultValue");
+
+        final TestPropertyKey object = mapper.load(source);
+
+        assertEquals("realKeyValue", object.fieldKey);
+        assertEquals("requiredKeyValue", object.requiredField);
+        assertEquals("keyWithDefaultValue", object.fieldWithDefault);
+    }
+
+    @Test
+    void testPropertyKeyMissingKeys() throws SerializationException {
+        // Verify that 'fieldKey' ignores the value at 'field-key' even if 'realKey' is missing.
+        // Verify that 'fieldWithDefault' receives its default value.
+
+        final ObjectMapper<TestPropertyKey> mapper = ObjectMapper.factory().get(TestPropertyKey.class);
+        final BasicConfigurationNode source = BasicConfigurationNode.root().node("test");
+        source.node("field-key").set("shouldBeIgnored");
+        source.node("field-with-default").set("shouldBeIgnored");
+
+        source.node("requiredKey").set("mustBePresent");
+
+        final TestPropertyKey object = mapper.load(source);
+
+        assertNull(object.fieldKey);
+        assertEquals("default-str", object.fieldWithDefault);
+    }
+
+    @Test
+    void testPropertyKeyMissingRequiredThrowsCorrectPath() throws SerializationException {
+        // Verify that the exception path contains 'requiredKey' instead of 'required-field', when 'requiredKey' is missing.
+
+        final ObjectMapper<TestPropertyKey> mapper = ObjectMapper.factory().get(TestPropertyKey.class);
+        final BasicConfigurationNode source = BasicConfigurationNode.root().node("test");
+        source.node("required-field").set("shouldBeIgnored");
+
+        final SerializationException exception = assertThrows(SerializationException.class, () -> mapper.load(source));
+        assertArrayEquals(new Object[]{"test", "requiredKey"}, exception.path().array());
+    }
+
+    @Test
+    void testPropertyKeySavesCorrectKey() throws SerializationException {
+        // Verify that object -> node serialization uses the annotation-specified keys
+        // Verify that object -> node serialization does not use 'field-key', 'required-field' or 'field-with-default'
+
+        final ObjectMapper<TestPropertyKey> mapper = ObjectMapper.factory().get(TestPropertyKey.class);
+        final TestPropertyKey object = new TestPropertyKey();
+        object.fieldKey = "fieldValue";
+        object.requiredField = "requiredValue";
+        object.fieldWithDefault = "nonDefaultValue";
+
+        final BasicConfigurationNode target = BasicConfigurationNode.root();
+
+        mapper.save(object, target);
+
+        final HashSet<Object> expectedKeySet = new HashSet<>(); // Set.of is not available under Java 1.8 :(
+        expectedKeySet.add("realKey");
+        expectedKeySet.add("requiredKey");
+        expectedKeySet.add("keyWithDefault");
+        assertEquals(expectedKeySet, target.childrenMap().keySet());
     }
 
 }

@@ -332,6 +332,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
                 .addNodeResolver(NodeResolver.nodeKey())
                 .addNodeResolver(NodeResolver.keyFromSetting())
                 .addNodeResolver(NodeResolver.nodeFromParent())
+                .addNodeResolver(NodeResolver.propertyKey())
                 // Constraints and processors //
                 .addProcessor(Comment.class, Processor.comments())
                 .addConstraint(Matches.class, String.class, Constraint.pattern())

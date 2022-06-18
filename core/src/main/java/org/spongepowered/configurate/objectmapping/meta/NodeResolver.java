@@ -151,4 +151,20 @@ public interface NodeResolver {
         };
     }
 
+    /**
+     * A resolver for the {@link org.spongepowered.configurate.objectmapping.meta.PropertyKey} annotation.
+     *
+     * @return resolver using specified key
+     * @since 4.2.0
+     */
+    static NodeResolver.Factory propertyKey() {
+        return (name, element) -> {
+            final @Nullable PropertyKey propertyKey = element.getAnnotation(PropertyKey.class);
+            if (propertyKey != null) {
+                return containerNode -> containerNode.node(propertyKey.value());
+            }
+            return null;
+        };
+    }
+
 }
