@@ -121,6 +121,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
             } catch (final SerializationException ex) {
                 ex.initPath(this::path);
                 ex.initType(type);
+                throw ex;
             }
         } else if (this.options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
@@ -152,6 +153,7 @@ public interface ScopedConfigurationNode<N extends ScopedConfigurationNode<N>> e
             } catch (final SerializationException ex) {
                 ex.initPath(this::path);
                 ex.initType(type);
+                throw ex;
             }
         } else if (this.options().acceptsType(value.getClass())) {
             this.raw(value); // Just write if no applicable serializer exists?
