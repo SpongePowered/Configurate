@@ -48,12 +48,13 @@ class ScopedConfigurationNodeTest {
         @Setting
         private final String test;
 
-        public NonRegisteredClass(String test) {
+        NonRegisteredClass(final String test) {
             this.test = test;
         }
 
-        public NonRegisteredClass() {
+        NonRegisteredClass() {
             this("test");
         }
     }
+
 }
