@@ -4,7 +4,7 @@ autoValue="1.9"
 checkstyle="10.2"
 errorprone="2.14.0"
 indra = "2.1.1"
-junit="5.8.2"
+junit="5.9.0"
 ktlint="0.43.2"
 pmd = "6.48.0"
 
