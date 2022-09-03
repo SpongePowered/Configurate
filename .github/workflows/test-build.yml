@@ -10,6 +10,13 @@ on:
   release:
     types: [released]
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.event.number || github.ref }}"
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: 11
+
 jobs:
   build:
     # Only run on PRs if the source branch is on someone else's repo
@@ -30,26 +37,21 @@ jobs:
         run: |
           git config --global user.email "noreply@spongepowered.org"
           git config --global user.name "github-actions"
-      - name: Setup JDK 11
+      - name: "Setup JDK ${{ env.JAVA_VERSION }}"
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 11
+          java-version: "${{ env.JAVA_VERSION }}"
       - uses: gradle/wrapper-validation-action@v1
-      - name: Cache Gradle data
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}"
-          restore-keys: "${{ runner.os }}-gradle-"
 
       # Actually build
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Run Gradle Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: "${{ !(github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')) || github.event_name == 'pull_request' }}"
+          arguments: build
       - name: Archive test results
-        uses: actions/upload-artifact@v3.1.0 # https://github.com/actions/upload-artifact/issues/281 :( :( :( :(
+        uses: actions/upload-artifact@v3
         with:
           name: "test-results-${{ runner.os }}"
           path: |
@@ -91,6 +93,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           branch: gh-pages
+          force: false
           folder: build/gitPublish
       - name: Publish configurate-tool as release artifact
         if: "${{ runner.os == 'Linux' && env.STATUS == 'release' && github.event_name == 'release' }}"
