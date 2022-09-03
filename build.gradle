@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.detekt) apply false
-    alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.aggregateJavadoc)
     alias(libs.plugins.indra.sonatype)
     alias(libs.plugins.indra.git)

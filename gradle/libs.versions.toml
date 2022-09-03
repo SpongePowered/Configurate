@@ -5,7 +5,7 @@ checkstyle="10.2"
 errorprone="2.15.0"
 indra = "2.1.1"
 junit="5.9.0"
-ktlint="0.43.2"
+ktlint="0.46.0"
 pmd = "6.49.0"
 
 [libraries]
@@ -61,6 +61,7 @@ build-spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.10.0"
 # For Renovate -- shouldn't need to use these directly
 zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
 zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
+zKtlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
 
 [plugins]
 aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.5.1"
@@ -71,5 +72,4 @@ indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
 kotlin = "org.jetbrains.kotlin.jvm:1.7.10"
-ktlint = "org.jlleitschuh.gradle.ktlint:10.3.0"
 shadow = "com.github.johnrengelman.shadow:7.1.2"

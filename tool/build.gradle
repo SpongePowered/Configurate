@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.kotlin)
     id 'org.spongepowered.configurate.build.component'
     alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
 }
 
 description = "CLI tool to inspect Configurate's view of files"

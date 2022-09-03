@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.detekt)
     id 'org.spongepowered.configurate.build.component'
-    alias(libs.plugins.ktlint)
 }
 
 description = "Kotlin API support for Configurate"

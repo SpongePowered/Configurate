@@ -124,6 +124,27 @@ spotless {
     }
 }
 
+// configure ktlint
+plugins.withId('org.jetbrains.kotlin.jvm') {
+    spotless {
+        kotlin {
+            targetExclude 'generated/**'
+
+            def lineSep = System.lineSeparator()
+            File contents = rootProject.file('LICENSE_HEADER')
+            def licenseText = "/*" + lineSep + contents.readLines('utf-8')
+              .collect { (" * " + it).stripTrailing() }
+              .join(lineSep) + lineSep + " */"
+            licenseHeader(licenseText)
+            endWithNewline()
+            trimTrailingWhitespace()
+
+            ktlint(libs.versions.ktlint.get())
+              .editorConfigOverride([disabled_rules: 'filename'])
+        }
+    }
+}
+
 // Set up automatic module name
 tasks.jar {
     manifest.attributes["Automatic-Module-Name"] = "${project.group}.configurate.${project.name.replace('-', '.')}"
@@ -200,12 +221,6 @@ pmd {
     toolVersion = libs.versions.pmd.get()
 }
 
-// configure ktlint
-plugins.withId('org.jlleitschuh.gradle.ktlint') {
-    ktlint {
-        version = libs.versions.ktlint.get()
-    }
-}
 
 // API diff viewer
 
