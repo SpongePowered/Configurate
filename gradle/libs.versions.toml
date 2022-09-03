@@ -71,5 +71,5 @@ indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
 kotlin = "org.jetbrains.kotlin.jvm:1.7.10"
-ktlint = "org.jlleitschuh.gradle.ktlint:10.3.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
 shadow = "com.github.johnrengelman.shadow:7.1.2"
