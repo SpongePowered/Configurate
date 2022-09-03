@@ -60,6 +60,7 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
     options.errorprone {
         enabled.set(javaCompiler.map { it.metadata.languageVersion.asInt() >= 9 }.orElse(JavaVersion.current().java9Compatible))
+        disable('CanIgnoreReturnValueSuggester')
         /* if (!name.toLowerCase().contains("test")) {
             nullaway {
                 severity.set(CheckSeverity.ERROR)
