@@ -3,6 +3,7 @@ import org.spongepowered.configurate.build.ConfigurateExtension
 
 plugins {
     id 'eclipse'
+    id 'com.diffplug.spotless'
 }
 
 def projectName = "configurate"
@@ -12,6 +13,21 @@ def configurateExt = project.extensions.create(projectName, ConfigurateExtension
 pluginManager.withPlugin('java') {
     def catalogs = extensions.getByType(VersionCatalogsExtension)
     configurateExt.libs = catalogs.named('libs')
+}
+
+spotless {
+    format 'configs', {
+        target '**/*.yaml', '**/*.yml', '**/*.xml', '**/*.json'
+
+        def excludedTargets = ['.idea/**', 'vendor/**', 'build/**', '.gradle/**']
+        project.subprojects { sub ->
+            excludedTargets << sub.rootDir.relativePath(sub.projectDir) + '/**'
+        }
+        targetExclude excludedTargets
+
+        endWithNewline()
+        trimTrailingWhitespace()
+    }
 }
 
 eclipse {

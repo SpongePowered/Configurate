@@ -116,12 +116,6 @@ spotless {
         endWithNewline()
         trimTrailingWhitespace()
     }
-
-    format 'configs', {
-        target '**/*.yaml', '**/*.yml', '**/*.xml', '**/*.json'
-        endWithNewline()
-        trimTrailingWhitespace()
-    }
 }
 
 // configure ktlint

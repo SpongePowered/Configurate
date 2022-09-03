@@ -5,7 +5,7 @@ on:
   pull_request:
   schedule:
     - cron: '12 10 * * 4'
-    
+
 env:
   JAVA_VERSION: 11
 
