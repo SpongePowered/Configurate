@@ -95,7 +95,7 @@ class Tool : CliktCommand(
     help =
     """
     This tool displays the Configurate data structures read from a config file
-    
+
     This helps to understand the internal structure of Configurate's nodes
     """.trimIndent()
 ) {
@@ -195,7 +195,8 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             else -> {
                 val value = node.rawScalar()
                 write(
-                    heading("Value"), SPLIT,
+                    heading("Value"),
+                    SPLIT,
                     "@|green ${value.toString().replace(NEWLINE, "$1$prefix    ")}|@",
                     if (value != null) "@|black,bold (a ${value::class.qualifiedName}) |@" else ""
                 )
