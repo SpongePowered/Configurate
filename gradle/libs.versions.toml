@@ -63,7 +63,7 @@ zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
 zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.5.0.3"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.5.1"
 detekt = "io.gitlab.arturbosch.detekt:1.21.0"
 dokka = "org.jetbrains.dokka:1.7.10"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
