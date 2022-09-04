@@ -43,7 +43,7 @@ public final class UppercaseStringTypeSerializer implements TypeSerializer<@Uppe
     @Override
     public void serialize(
         final Type type,
-        final @Nullable @UpperCase String obj,
+        final @UpperCase @Nullable String obj,
         final ConfigurationNode node
     ) throws SerializationException {
         if (obj == null) {

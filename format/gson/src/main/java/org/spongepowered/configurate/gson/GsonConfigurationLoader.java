@@ -72,8 +72,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
      * @return a new builder
      * @since 4.0.0
      */
-    @NonNull
-    public static Builder builder() {
+    public static @NonNull Builder builder() {
         return new Builder();
     }
 
@@ -128,8 +127,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @return this builder (for chaining)
          * @since 4.0.0
          */
-        @NonNull
-        public Builder indent(final int indent) {
+        public @NonNull Builder indent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -152,8 +150,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @see JsonReader#setLenient(boolean)
          * @since 4.0.0
          */
-        @NonNull
-        public Builder lenient(final boolean lenient) {
+        public @NonNull Builder lenient(final boolean lenient) {
             this.lenient = lenient;
             return this;
         }

@@ -1,7 +1,7 @@
 [versions]
 assertj="3.23.1"
 autoValue="1.9"
-checkstyle="10.2"
+checkstyle="10.3.3"
 errorprone="2.15.0"
 indra = "2.1.1"
 junit="5.9.0"
@@ -18,7 +18,7 @@ errorprone-annotations = { module = "com.google.errorprone:error_prone_annotatio
 guava = "com.google.guava:guava:31.1-jre"
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-stylecheck = "ca.stellardrift:stylecheck:0.1"
+stylecheck = "ca.stellardrift:stylecheck:0.2.0"
 
 # Kotlin
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"

@@ -99,15 +99,13 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     private static final String FEATURE_LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
 
-
     /**
      * Creates a new {@link XmlConfigurationLoader} builder.
      *
      * @return a new builder
      * @since 4.0.0
      */
-    @NonNull
-    public static Builder builder() {
+    public static @NonNull Builder builder() {
         return new Builder();
     }
 
@@ -158,8 +156,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @return this builder (for chaining)
          * @since 4.0.0
          */
-        @NonNull
-        public Builder indent(final int indent) {
+        public @NonNull Builder indent(final int indent) {
             this.indent = indent;
             return this;
         }
@@ -214,8 +211,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @return the default tag name
          * @since 4.0.0
          */
-        @NonNull
-        public String defaultTagName() {
+        public @NonNull String defaultTagName() {
             return this.defaultTagName;
         }
 
@@ -310,7 +306,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         @Override
         public XmlConfigurationLoader build() {
-            defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
+            this.defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
             return new XmlConfigurationLoader(this);
         }
     }
@@ -381,11 +377,11 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     @Override
     public @NonNull AttributedConfigurationNode load(@NonNull ConfigurationOptions options) throws ParsingException {
-        if (source == null) {
+        if (this.source == null) {
             throw new ParsingException(-1, -1, "", "No source present to read from!", null);
         }
-        try (BufferedReader reader = source.call()) {
-            final DocumentBuilder documentBuilder = newDocumentBuilder();
+        try (BufferedReader reader = this.source.call()) {
+            final DocumentBuilder documentBuilder = this.newDocumentBuilder();
 
             final Document document;
             try {
@@ -400,10 +396,10 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             for (int i = 0; i < children.getLength(); ++i) {
                 final Node child = children.item(i);
                 if (child.getNodeType() == Node.COMMENT_NODE) {
-                    options = options.header(unwrapHeader(child.getTextContent().trim()));
+                    options = options.header(this.unwrapHeader(child.getTextContent().trim()));
                 } else if (child.getNodeType() == Node.ELEMENT_NODE) {
-                    final AttributedConfigurationNode node = createNode(options);
-                    readElement(child, node);
+                    final AttributedConfigurationNode node = this.createNode(options);
+                    this.readElement(child, node);
                     return node;
                 }
             }
@@ -415,7 +411,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         } catch (final Exception e) {
             throw new ParsingException(-1, -1, "", null, e);
         }
-        return createNode(options);
+        return this.createNode(options);
     }
 
     /**
@@ -522,7 +518,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
             // if there are no duplicate keys, we can infer that it is a map
             // otherwise, assume it's a list
             type = NodeType.MAP;
-            for (Collection<Node> child : children.values()) {
+            for (final Collection<Node> child : children.values()) {
                 if (child.size() > 1) {
                     type = NodeType.LIST;
                     break;
@@ -537,15 +533,15 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         }
 
         // read out the elements
-        for (Map.Entry<String, Collection<Node>> entry : children.entrySet()) {
+        for (final Map.Entry<String, Collection<Node>> entry : children.entrySet()) {
             AttributedConfigurationNode child;
             if (type == NodeType.MAP) {
                 child = to.node(entry.getKey());
-                readElement(entry.getValue().iterator().next(), child);
+                this.readElement(entry.getValue().iterator().next(), child);
             } else {
-                for (Node element : entry.getValue()) {
+                for (final Node element : entry.getValue()) {
                     child = to.appendListNode();
-                    readElement(element, child);
+                    this.readElement(element, child);
                 }
             }
         }
@@ -561,17 +557,17 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {
-        final DocumentBuilder documentBuilder = newDocumentBuilder();
+        final DocumentBuilder documentBuilder = this.newDocumentBuilder();
         final Document document = documentBuilder.newDocument();
 
-        final @Nullable Node comment = createCommentNode(document, node);
+        final @Nullable Node comment = this.createCommentNode(document, node);
         if (comment != null) {
             document.appendChild(comment);
         }
 
-        document.appendChild(writeNode(document, node, null));
+        document.appendChild(this.writeNode(document, node, null));
 
-        final Transformer transformer = newTransformer();
+        final Transformer transformer = this.newTransformer();
         final DOMSource source = new DOMSource(document);
         try {
             transformer.transform(source, new StreamResult(writer));
@@ -581,7 +577,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
     }
 
     private void appendCommentIfNecessary(final Element parent, final ConfigurationNode node) {
-        final @Nullable Node possibleComment = createCommentNode(parent.getOwnerDocument(), node);
+        final @Nullable Node possibleComment = this.createCommentNode(parent.getOwnerDocument(), node);
         if (possibleComment != null) {
             parent.appendChild(possibleComment);
         }
@@ -614,16 +610,16 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
 
         if (node.isMap()) {
             for (final Map.Entry<Object, ? extends ConfigurationNode> child : node.childrenMap().entrySet()) {
-                appendCommentIfNecessary(element, child.getValue());
-                element.appendChild(writeNode(document, child.getValue(), child.getKey().toString()));
+                this.appendCommentIfNecessary(element, child.getValue());
+                element.appendChild(this.writeNode(document, child.getValue(), child.getKey().toString()));
             }
         } else if (node.isList()) {
             if (this.writeExplicitType) {
                 element.setAttribute(ATTRIBUTE_TYPE, "list");
             }
             for (final ConfigurationNode child : node.childrenList()) {
-                appendCommentIfNecessary(element, child);
-                element.appendChild(writeNode(document, child, null));
+                this.appendCommentIfNecessary(element, child);
+                element.appendChild(this.writeNode(document, child, null));
             }
         } else {
             element.appendChild(document.createTextNode(Objects.toString(node.rawScalar())));

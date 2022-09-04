@@ -574,7 +574,7 @@ public final class TypeSerializerCollection {
         }
 
         @Override
-        public void serialize(final Type type, @Nullable final Void obj, final ConfigurationNode node) throws SerializationException {
+        public void serialize(final Type type, final @Nullable Void obj, final ConfigurationNode node) throws SerializationException {
             throw new UnsupportedOperationException("this is a placeholder for null, should not be called directly");
         }
     }

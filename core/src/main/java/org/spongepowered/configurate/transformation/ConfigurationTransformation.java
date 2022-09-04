@@ -197,8 +197,7 @@ public interface ConfigurationTransformation {
          * @return this builder (for chaining)
          * @since 4.0.0
          */
-        @NonNull
-        public VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation transformation) {
+        public @NonNull VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation transformation) {
             if (version < 0) {
                 throw new IllegalArgumentException("Version must be at least 0");
             }
@@ -304,7 +303,7 @@ public interface ConfigurationTransformation {
          * @since 4.0.0
          */
         default int version(final ConfigurationNode node) {
-            return node.node(versionKey()).getInt(VERSION_UNKNOWN);
+            return node.node(this.versionKey()).getInt(VERSION_UNKNOWN);
         }
     }
 

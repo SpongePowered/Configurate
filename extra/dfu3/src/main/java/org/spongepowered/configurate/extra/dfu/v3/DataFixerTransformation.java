@@ -68,7 +68,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
     }
 
     @Override
-    public void apply(@NonNull final ConfigurationNode node) throws ConfigurateException {
+    public void apply(final @NonNull ConfigurationNode node) throws ConfigurateException {
         final ConfigurationNode versionNode = node.node(this.versionPath);
         final int currentVersion = versionNode.getInt(-1);
         if (currentVersion < this.targetVersion) {
@@ -90,7 +90,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
      */
     @Override
     public int version(final ConfigurationNode root) {
-        return requireNonNull(root, "root").node(versionKey()).getInt(-1);
+        return requireNonNull(root, "root").node(this.versionKey()).getInt(-1);
     }
 
     @Override
@@ -174,7 +174,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
          * @since 4.0.0
          */
         public Builder addType(final DSL.TypeReference type, final Object... path) {
-            return addType(type, NodePath.of(path));
+            return this.addType(type, NodePath.of(path));
         }
 
         /**
@@ -204,7 +204,7 @@ public final class DataFixerTransformation implements ConfigurationTransformatio
             }
             final ConfigurationTransformation.Builder wrappedBuilder = ConfigurationTransformation.builder();
             final ThreadLocal<Integer> versionHolder = new ThreadLocal<>();
-            for (Pair<DSL.TypeReference, NodePath> fix : this.dataFixes) {
+            for (final Pair<DSL.TypeReference, NodePath> fix : this.dataFixes) {
                 wrappedBuilder.addAction(fix.getSecond(), (path, valueAtPath) -> {
                     valueAtPath.from(this.fixer.update(fix.getFirst(), ConfigurateOps.wrap(valueAtPath),
                             versionHolder.get(), this.targetVersion).getValue());

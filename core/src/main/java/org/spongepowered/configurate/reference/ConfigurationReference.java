@@ -175,9 +175,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      *
      * @param path the path to get the child at
      * @param value the value to set the child node to
+     * @throws SerializationException when unable to write the provided value
      * @since 4.0.0
      */
-    default void set(final Object[] path, @Nullable final Object value) throws SerializationException {
+    default void set(final Object[] path, final @Nullable Object value) throws SerializationException {
         this.node().node(path).set(value);
     }
 
@@ -197,7 +198,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws SerializationException if thrown by the serialization mechanism
      * @since 4.0.0
      */
-    default <T> void set(final Object[] path, final Class<T> type, @Nullable final T value) throws SerializationException {
+    default <T> void set(final Object[] path, final Class<T> type, final @Nullable T value) throws SerializationException {
         this.node().node(path).set(type, value);
     }
 
@@ -216,7 +217,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws SerializationException if thrown by the serialization mechanism
      * @since 4.0.0
      */
-    default <T> void set(final Object[] path, final TypeToken<T> type, @Nullable final T value) throws SerializationException {
+    default <T> void set(final Object[] path, final TypeToken<T> type, final @Nullable T value) throws SerializationException {
         this.node().node(path).set(type, value);
     }
 
@@ -228,7 +229,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @param value the value to set the child node to
      * @since 4.0.0
      */
-    default void set(final NodePath path, @Nullable final Object value) throws SerializationException {
+    default void set(final NodePath path, final @Nullable Object value) throws SerializationException {
         this.node().node(path).set(value);
     }
 
@@ -247,7 +248,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws SerializationException if thrown by the serialization mechanism
      * @since 4.0.0
      */
-    default <T> void set(final NodePath path, final Class<T> type, @Nullable final T value) throws SerializationException {
+    default <T> void set(final NodePath path, final Class<T> type, final @Nullable T value) throws SerializationException {
         this.node().node(path).set(type, value);
     }
 
@@ -266,7 +267,7 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      * @throws SerializationException if thrown by the serialization mechanism
      * @since 4.0.0
      */
-    default <T> void set(final NodePath path, final TypeToken<T> type, @Nullable final T value) throws SerializationException {
+    default <T> void set(final NodePath path, final TypeToken<T> type, final @Nullable T value) throws SerializationException {
         this.node().node(path).set(type, value);
     }
 

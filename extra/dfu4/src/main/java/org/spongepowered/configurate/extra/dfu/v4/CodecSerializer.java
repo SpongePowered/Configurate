@@ -57,7 +57,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public V deserialize(@NonNull final Type type, @NonNull final ConfigurationNode value) throws SerializationException {
+    public V deserialize(final @NonNull Type type, final @NonNull ConfigurationNode value) throws SerializationException {
         final DataResult<Pair<V, ConfigurationNode>> result = this.codec.decode(opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<Pair<V, ConfigurationNode>> error = result.error().orElse(null);
         if (error != null) {
@@ -68,7 +68,7 @@ final class CodecSerializer<V> implements TypeSerializer<V> {
     }
 
     @Override
-    public void serialize(@NonNull final Type type, @Nullable final V obj, @NonNull final ConfigurationNode value)
+    public void serialize(final @NonNull Type type, final @Nullable V obj, final @NonNull ConfigurationNode value)
             throws SerializationException {
         final DataResult<ConfigurationNode> result = this.codec.encode(obj, opsFor(value), value);
         final DataResult./* @Nullable */ PartialResult<ConfigurationNode> error = result.error().orElse(null);

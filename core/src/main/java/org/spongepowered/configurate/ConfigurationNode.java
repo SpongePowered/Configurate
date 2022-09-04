@@ -817,7 +817,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default @Nullable String getString() { // @cs-: NoGetSetPrefix (not a bean method)
-        return Scalars.STRING.tryDeserialize(rawScalar());
+        return Scalars.STRING.tryDeserialize(this.rawScalar());
     }
 
     /**
@@ -834,7 +834,7 @@ public interface ConfigurationNode {
         if (value != null) {
             return value;
         }
-        if (options().shouldCopyDefaults()) {
+        if (this.options().shouldCopyDefaults()) {
             Scalars.STRING.serialize(String.class, def, this);
         }
         return def;
@@ -860,11 +860,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default float getFloat(final float def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(rawScalar());
+        final @Nullable Float val = Scalars.FLOAT.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.FLOAT.serialize(float.class, def, this);
         }
         return def;
@@ -891,11 +891,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default double getDouble(final double def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(rawScalar());
+        final @Nullable Double val = Scalars.DOUBLE.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.DOUBLE.serialize(double.class, def, this);
         }
         return def;
@@ -921,11 +921,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default int getInt(final int def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(rawScalar());
+        final @Nullable Integer val = Scalars.INTEGER.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.INTEGER.serialize(int.class, def, this);
         }
         return def;
@@ -951,11 +951,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default long getLong(final long def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Long val = Scalars.LONG.tryDeserialize(rawScalar());
+        final @Nullable Long val = Scalars.LONG.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults() && def != NUMBER_DEF) {
+        if (this.options().shouldCopyDefaults() && def != NUMBER_DEF) {
             Scalars.LONG.serialize(long.class, def, this);
         }
         return def;
@@ -981,11 +981,11 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     default boolean getBoolean(final boolean def) { // @cs-: NoGetSetPrefix (not a bean method)
-        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(rawScalar());
+        final @Nullable Boolean val = Scalars.BOOLEAN.tryDeserialize(this.rawScalar());
         if (val != null) {
             return val;
         }
-        if (options().shouldCopyDefaults()) {
+        if (this.options().shouldCopyDefaults()) {
             Scalars.BOOLEAN.serialize(boolean.class, def, this);
         }
         return def;
@@ -1129,7 +1129,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
-    default <V> ConfigurationNode setList(final Class<V> elementType, @Nullable final List<V> items) throws SerializationException {
+    default <V> ConfigurationNode setList(final Class<V> elementType, final @Nullable List<V> items) throws SerializationException {
         return this.set(TypeFactory.parameterizedClass(List.class, elementType), items);
     }
 
@@ -1150,7 +1150,7 @@ public interface ConfigurationNode {
      * @since 4.0.0
      */
     @SuppressWarnings("checkstyle:NoGetSetPrefix") // set prefix for type alias purposes
-    default <V> ConfigurationNode setList(final TypeToken<V> elementType, @Nullable final List<V> items) throws SerializationException {
+    default <V> ConfigurationNode setList(final TypeToken<V> elementType, final @Nullable List<V> items) throws SerializationException {
         return this.set(TypeFactory.parameterizedClass(List.class, elementType.getType()), items);
     }
 

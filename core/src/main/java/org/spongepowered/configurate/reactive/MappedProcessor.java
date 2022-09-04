@@ -47,7 +47,7 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
             }
             return () -> {
                 ret.dispose();
-                if (!hasSubscribers()) {
+                if (!this.hasSubscribers()) {
                     final Disposable disposable = this.disposable.getAndSet(null);
                     disposable.dispose();
                 }
@@ -101,7 +101,7 @@ class MappedProcessor<I, O> implements Processor.Transactional<I, O> {
     }
 
     @Override
-    public void fallbackHandler(@Nullable final Subscriber<O> subscriber) {
+    public void fallbackHandler(final @Nullable Subscriber<O> subscriber) {
         this.processor.fallbackHandler(subscriber);
     }
 

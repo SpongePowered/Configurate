@@ -117,7 +117,7 @@ public interface TypeSerializer<T> {
      * @throws SerializationException if the object cannot be serialized
      * @since 4.2.0
      */
-    default void serialize(final AnnotatedType type, @Nullable final T obj, final ConfigurationNode node) throws SerializationException {
+    default void serialize(final AnnotatedType type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
         this.serialize(type.getType(), obj, node);
     }
 
@@ -186,7 +186,7 @@ public interface TypeSerializer<T> {
         void serialize(AnnotatedType type, @Nullable V obj, ConfigurationNode node) throws SerializationException;
 
         @Override
-        default void serialize(final Type type, @Nullable final V obj, final ConfigurationNode node) throws SerializationException {
+        default void serialize(final Type type, final @Nullable V obj, final ConfigurationNode node) throws SerializationException {
             this.serialize(GenericTypeReflector.annotate(type), obj, node);
         }
 

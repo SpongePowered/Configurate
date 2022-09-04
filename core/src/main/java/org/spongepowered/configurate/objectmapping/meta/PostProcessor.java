@@ -62,8 +62,7 @@ public interface PostProcessor {
          *     handled by this factory with an invalid type
          * @since 4.2.0
          */
-        @Nullable
-        PostProcessor createProcessor(Type type) throws SerializationException;
+        @Nullable PostProcessor createProcessor(Type type) throws SerializationException;
 
     }
 

@@ -97,7 +97,10 @@
             <property name="validateOnlyOverlapping" value="false" />
         </module>
 
-         <!-- Configurate-specific changes -->
+        <!-- Configurate-specific changes -->
+
+        <!-- https://gitlab.com/stellardrift/stylecheck/-/blob/trunk/src/main/java/ca/stellardrift/stylecheck/AnnotationsCloseToType.java -->
+        <module name="AnnotationsCloseToType"/>
 
         <!-- https://checkstyle.org/config_coding.html#AvoidDoubleBraceInitialization -->
         <module name="AvoidDoubleBraceInitialization"/>
