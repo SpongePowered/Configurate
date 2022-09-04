@@ -126,7 +126,7 @@
 <span class="sourceLineNo">117</span><a id="line.117">     * @throws SerializationException if the object cannot be serialized</a>
 <span class="sourceLineNo">118</span><a id="line.118">     * @since 4.2.0</a>
 <span class="sourceLineNo">119</span><a id="line.119">     */</a>
-<span class="sourceLineNo">120</span><a id="line.120">    default void serialize(final AnnotatedType type, @Nullable final T obj, final ConfigurationNode node) throws SerializationException {</a>
+<span class="sourceLineNo">120</span><a id="line.120">    default void serialize(final AnnotatedType type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {</a>
 <span class="sourceLineNo">121</span><a id="line.121">        this.serialize(type.getType(), obj, node);</a>
 <span class="sourceLineNo">122</span><a id="line.122">    }</a>
 <span class="sourceLineNo">123</span><a id="line.123"></a>
@@ -195,7 +195,7 @@
 <span class="sourceLineNo">186</span><a id="line.186">        void serialize(AnnotatedType type, @Nullable V obj, ConfigurationNode node) throws SerializationException;</a>
 <span class="sourceLineNo">187</span><a id="line.187"></a>
 <span class="sourceLineNo">188</span><a id="line.188">        @Override</a>
-<span class="sourceLineNo">189</span><a id="line.189">        default void serialize(final Type type, @Nullable final V obj, final ConfigurationNode node) throws SerializationException {</a>
+<span class="sourceLineNo">189</span><a id="line.189">        default void serialize(final Type type, final @Nullable V obj, final ConfigurationNode node) throws SerializationException {</a>
 <span class="sourceLineNo">190</span><a id="line.190">            this.serialize(GenericTypeReflector.annotate(type), obj, node);</a>
 <span class="sourceLineNo">191</span><a id="line.191">        }</a>
 <span class="sourceLineNo">192</span><a id="line.192"></a>

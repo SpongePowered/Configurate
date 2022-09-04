@@ -77,7 +77,7 @@
 <span class="sourceLineNo">068</span><a id="line.68">    }</a>
 <span class="sourceLineNo">069</span><a id="line.69"></a>
 <span class="sourceLineNo">070</span><a id="line.70">    @Override</a>
-<span class="sourceLineNo">071</span><a id="line.71">    public void apply(@NonNull final ConfigurationNode node) throws ConfigurateException {</a>
+<span class="sourceLineNo">071</span><a id="line.71">    public void apply(final @NonNull ConfigurationNode node) throws ConfigurateException {</a>
 <span class="sourceLineNo">072</span><a id="line.72">        final ConfigurationNode versionNode = node.node(this.versionPath);</a>
 <span class="sourceLineNo">073</span><a id="line.73">        final int currentVersion = versionNode.getInt(-1);</a>
 <span class="sourceLineNo">074</span><a id="line.74">        if (currentVersion &lt; this.targetVersion) {</a>
@@ -99,7 +99,7 @@
 <span class="sourceLineNo">090</span><a id="line.90">     */</a>
 <span class="sourceLineNo">091</span><a id="line.91">    @Override</a>
 <span class="sourceLineNo">092</span><a id="line.92">    public int version(final ConfigurationNode root) {</a>
-<span class="sourceLineNo">093</span><a id="line.93">        return requireNonNull(root, "root").node(versionKey()).getInt(-1);</a>
+<span class="sourceLineNo">093</span><a id="line.93">        return requireNonNull(root, "root").node(this.versionKey()).getInt(-1);</a>
 <span class="sourceLineNo">094</span><a id="line.94">    }</a>
 <span class="sourceLineNo">095</span><a id="line.95"></a>
 <span class="sourceLineNo">096</span><a id="line.96">    @Override</a>
@@ -183,7 +183,7 @@
 <span class="sourceLineNo">174</span><a id="line.174">         * @since 4.0.0</a>
 <span class="sourceLineNo">175</span><a id="line.175">         */</a>
 <span class="sourceLineNo">176</span><a id="line.176">        public Builder addType(final DSL.TypeReference type, final Object... path) {</a>
-<span class="sourceLineNo">177</span><a id="line.177">            return addType(type, NodePath.of(path));</a>
+<span class="sourceLineNo">177</span><a id="line.177">            return this.addType(type, NodePath.of(path));</a>
 <span class="sourceLineNo">178</span><a id="line.178">        }</a>
 <span class="sourceLineNo">179</span><a id="line.179"></a>
 <span class="sourceLineNo">180</span><a id="line.180">        /**</a>
@@ -213,7 +213,7 @@
 <span class="sourceLineNo">204</span><a id="line.204">            }</a>
 <span class="sourceLineNo">205</span><a id="line.205">            final ConfigurationTransformation.Builder wrappedBuilder = ConfigurationTransformation.builder();</a>
 <span class="sourceLineNo">206</span><a id="line.206">            final ThreadLocal&lt;Integer&gt; versionHolder = new ThreadLocal&lt;&gt;();</a>
-<span class="sourceLineNo">207</span><a id="line.207">            for (Pair&lt;DSL.TypeReference, NodePath&gt; fix : this.dataFixes) {</a>
+<span class="sourceLineNo">207</span><a id="line.207">            for (final Pair&lt;DSL.TypeReference, NodePath&gt; fix : this.dataFixes) {</a>
 <span class="sourceLineNo">208</span><a id="line.208">                wrappedBuilder.addAction(fix.getSecond(), (path, valueAtPath) -&gt; {</a>
 <span class="sourceLineNo">209</span><a id="line.209">                    valueAtPath.from(this.fixer.update(fix.getFirst(), ConfigurateOps.wrap(valueAtPath),</a>
 <span class="sourceLineNo">210</span><a id="line.210">                            versionHolder.get(), this.targetVersion).getValue());</a>

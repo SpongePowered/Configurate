@@ -206,118 +206,117 @@
 <span class="sourceLineNo">197</span><a id="line.197">         * @return this builder (for chaining)</a>
 <span class="sourceLineNo">198</span><a id="line.198">         * @since 4.0.0</a>
 <span class="sourceLineNo">199</span><a id="line.199">         */</a>
-<span class="sourceLineNo">200</span><a id="line.200">        @NonNull</a>
-<span class="sourceLineNo">201</span><a id="line.201">        public VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation transformation) {</a>
-<span class="sourceLineNo">202</span><a id="line.202">            if (version &lt; 0) {</a>
-<span class="sourceLineNo">203</span><a id="line.203">                throw new IllegalArgumentException("Version must be at least 0");</a>
-<span class="sourceLineNo">204</span><a id="line.204">            }</a>
-<span class="sourceLineNo">205</span><a id="line.205">            if (this.versions.putIfAbsent(version, requireNonNull(transformation, "transformation")) != null) {</a>
-<span class="sourceLineNo">206</span><a id="line.206">                throw new IllegalArgumentException("Version '" + version + "' has been specified multiple times.");</a>
-<span class="sourceLineNo">207</span><a id="line.207">            }</a>
-<span class="sourceLineNo">208</span><a id="line.208">            return this;</a>
-<span class="sourceLineNo">209</span><a id="line.209">        }</a>
-<span class="sourceLineNo">210</span><a id="line.210"></a>
-<span class="sourceLineNo">211</span><a id="line.211">        /**</a>
-<span class="sourceLineNo">212</span><a id="line.212">         * Adds a new series of transformations for a version.</a>
-<span class="sourceLineNo">213</span><a id="line.213">         *</a>
-<span class="sourceLineNo">214</span><a id="line.214">         * &lt;p&gt;The version must be between 0 and {@link Integer#MAX_VALUE}.</a>
-<span class="sourceLineNo">215</span><a id="line.215">         *</a>
-<span class="sourceLineNo">216</span><a id="line.216">         * @param version the version</a>
-<span class="sourceLineNo">217</span><a id="line.217">         * @param transformations the transformations. To perform a version</a>
-<span class="sourceLineNo">218</span><a id="line.218">         *                        upgrade, these transformations will be</a>
-<span class="sourceLineNo">219</span><a id="line.219">         *                        executed in order.</a>
-<span class="sourceLineNo">220</span><a id="line.220">         * @return this builder</a>
-<span class="sourceLineNo">221</span><a id="line.221">         * @since 4.0.0</a>
-<span class="sourceLineNo">222</span><a id="line.222">         */</a>
-<span class="sourceLineNo">223</span><a id="line.223">        public @NonNull VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation... transformations) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">            return this.addVersion(version, chain(transformations));</a>
-<span class="sourceLineNo">225</span><a id="line.225">        }</a>
-<span class="sourceLineNo">226</span><a id="line.226"></a>
-<span class="sourceLineNo">227</span><a id="line.227">        /**</a>
-<span class="sourceLineNo">228</span><a id="line.228">         * Create and add a new transformation to this builder.</a>
-<span class="sourceLineNo">229</span><a id="line.229">         *</a>
-<span class="sourceLineNo">230</span><a id="line.230">         * &lt;p&gt;The transformation will be created from the builder passed to</a>
-<span class="sourceLineNo">231</span><a id="line.231">         * the callback function&lt;/p&gt;</a>
-<span class="sourceLineNo">232</span><a id="line.232">         *</a>
-<span class="sourceLineNo">233</span><a id="line.233">         * &lt;p&gt;The version must be between 0 and {@link Integer#MAX_VALUE}</a>
-<span class="sourceLineNo">234</span><a id="line.234">         *</a>
-<span class="sourceLineNo">235</span><a id="line.235">         * @param version the version</a>
-<span class="sourceLineNo">236</span><a id="line.236">         * @param maker the transformation</a>
-<span class="sourceLineNo">237</span><a id="line.237">         * @return this builder</a>
-<span class="sourceLineNo">238</span><a id="line.238">         * @since 4.0.0</a>
-<span class="sourceLineNo">239</span><a id="line.239">         */</a>
-<span class="sourceLineNo">240</span><a id="line.240">        public @NonNull VersionedBuilder makeVersion(final int version, final @NonNull Consumer&lt;? super Builder&gt; maker) {</a>
-<span class="sourceLineNo">241</span><a id="line.241">            final Builder builder = builder();</a>
-<span class="sourceLineNo">242</span><a id="line.242">            maker.accept(builder);</a>
-<span class="sourceLineNo">243</span><a id="line.243">            return this.addVersion(version, builder.build());</a>
-<span class="sourceLineNo">244</span><a id="line.244">        }</a>
-<span class="sourceLineNo">245</span><a id="line.245"></a>
-<span class="sourceLineNo">246</span><a id="line.246">        /**</a>
-<span class="sourceLineNo">247</span><a id="line.247">         * Builds the transformation.</a>
-<span class="sourceLineNo">248</span><a id="line.248">         *</a>
-<span class="sourceLineNo">249</span><a id="line.249">         * @return the transformation</a>
-<span class="sourceLineNo">250</span><a id="line.250">         * @since 4.0.0</a>
-<span class="sourceLineNo">251</span><a id="line.251">         */</a>
-<span class="sourceLineNo">252</span><a id="line.252">        public ConfigurationTransformation.@NonNull Versioned build() {</a>
-<span class="sourceLineNo">253</span><a id="line.253">            if (this.versions.isEmpty()) {</a>
-<span class="sourceLineNo">254</span><a id="line.254">                throw new IllegalArgumentException("At least one version must be specified to build a transformation");</a>
-<span class="sourceLineNo">255</span><a id="line.255">            }</a>
-<span class="sourceLineNo">256</span><a id="line.256">            return new VersionedTransformation(this.versionKey, this.versions);</a>
-<span class="sourceLineNo">257</span><a id="line.257">        }</a>
-<span class="sourceLineNo">258</span><a id="line.258">    }</a>
-<span class="sourceLineNo">259</span><a id="line.259"></a>
-<span class="sourceLineNo">260</span><a id="line.260">    /**</a>
-<span class="sourceLineNo">261</span><a id="line.261">     * A transformation that is aware of node versions.</a>
-<span class="sourceLineNo">262</span><a id="line.262">     *</a>
-<span class="sourceLineNo">263</span><a id="line.263">     * @since 4.0.0</a>
-<span class="sourceLineNo">264</span><a id="line.264">     */</a>
-<span class="sourceLineNo">265</span><a id="line.265">    interface Versioned extends ConfigurationTransformation {</a>
-<span class="sourceLineNo">266</span><a id="line.266"></a>
-<span class="sourceLineNo">267</span><a id="line.267">        /**</a>
-<span class="sourceLineNo">268</span><a id="line.268">         * Indicates a node with an unknown version.</a>
-<span class="sourceLineNo">269</span><a id="line.269">         *</a>
-<span class="sourceLineNo">270</span><a id="line.270">         * &lt;p&gt;This can be returned as the latest version.&lt;/p&gt;</a>
-<span class="sourceLineNo">271</span><a id="line.271">         *</a>
-<span class="sourceLineNo">272</span><a id="line.272">         * @since 4.0.0</a>
-<span class="sourceLineNo">273</span><a id="line.273">         */</a>
-<span class="sourceLineNo">274</span><a id="line.274">        int VERSION_UNKNOWN = -1;</a>
-<span class="sourceLineNo">275</span><a id="line.275"></a>
-<span class="sourceLineNo">276</span><a id="line.276">        /**</a>
-<span class="sourceLineNo">277</span><a id="line.277">         * Get the path the node's current version is located at.</a>
-<span class="sourceLineNo">278</span><a id="line.278">         *</a>
-<span class="sourceLineNo">279</span><a id="line.279">         * @return version path</a>
-<span class="sourceLineNo">280</span><a id="line.280">         * @since 4.0.0</a>
-<span class="sourceLineNo">281</span><a id="line.281">         */</a>
-<span class="sourceLineNo">282</span><a id="line.282">        NodePath versionKey();</a>
-<span class="sourceLineNo">283</span><a id="line.283"></a>
-<span class="sourceLineNo">284</span><a id="line.284">        /**</a>
-<span class="sourceLineNo">285</span><a id="line.285">         * Get the latest version that nodes can be updated to.</a>
-<span class="sourceLineNo">286</span><a id="line.286">         *</a>
-<span class="sourceLineNo">287</span><a id="line.287">         * @return the most recent version</a>
-<span class="sourceLineNo">288</span><a id="line.288">         * @since 4.0.0</a>
-<span class="sourceLineNo">289</span><a id="line.289">         */</a>
-<span class="sourceLineNo">290</span><a id="line.290">        int latestVersion();</a>
-<span class="sourceLineNo">291</span><a id="line.291"></a>
-<span class="sourceLineNo">292</span><a id="line.292">        /**</a>
-<span class="sourceLineNo">293</span><a id="line.293">         * Get the version of a node hierarchy.</a>
-<span class="sourceLineNo">294</span><a id="line.294">         *</a>
-<span class="sourceLineNo">295</span><a id="line.295">         * &lt;p&gt;Note that the node checked here must be the same node passed to</a>
-<span class="sourceLineNo">296</span><a id="line.296">         * {@link #apply(ConfigurationNode)}, not any node in a hierarchy.</a>
-<span class="sourceLineNo">297</span><a id="line.297">         *</a>
-<span class="sourceLineNo">298</span><a id="line.298">         * &lt;p&gt;If the node value is not present or not coercible to an integer,</a>
-<span class="sourceLineNo">299</span><a id="line.299">         * {@link #VERSION_UNKNOWN} will be returned. When the transformation is</a>
-<span class="sourceLineNo">300</span><a id="line.300">         * executed, every version transformation will be applied.</a>
-<span class="sourceLineNo">301</span><a id="line.301">         *</a>
-<span class="sourceLineNo">302</span><a id="line.302">         * @param node node to check</a>
-<span class="sourceLineNo">303</span><a id="line.303">         * @return version, or {@link #VERSION_UNKNOWN} if no value is present</a>
-<span class="sourceLineNo">304</span><a id="line.304">         * @since 4.0.0</a>
-<span class="sourceLineNo">305</span><a id="line.305">         */</a>
-<span class="sourceLineNo">306</span><a id="line.306">        default int version(final ConfigurationNode node) {</a>
-<span class="sourceLineNo">307</span><a id="line.307">            return node.node(versionKey()).getInt(VERSION_UNKNOWN);</a>
-<span class="sourceLineNo">308</span><a id="line.308">        }</a>
-<span class="sourceLineNo">309</span><a id="line.309">    }</a>
-<span class="sourceLineNo">310</span><a id="line.310"></a>
-<span class="sourceLineNo">311</span><a id="line.311">}</a>
+<span class="sourceLineNo">200</span><a id="line.200">        public @NonNull VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation transformation) {</a>
+<span class="sourceLineNo">201</span><a id="line.201">            if (version &lt; 0) {</a>
+<span class="sourceLineNo">202</span><a id="line.202">                throw new IllegalArgumentException("Version must be at least 0");</a>
+<span class="sourceLineNo">203</span><a id="line.203">            }</a>
+<span class="sourceLineNo">204</span><a id="line.204">            if (this.versions.putIfAbsent(version, requireNonNull(transformation, "transformation")) != null) {</a>
+<span class="sourceLineNo">205</span><a id="line.205">                throw new IllegalArgumentException("Version '" + version + "' has been specified multiple times.");</a>
+<span class="sourceLineNo">206</span><a id="line.206">            }</a>
+<span class="sourceLineNo">207</span><a id="line.207">            return this;</a>
+<span class="sourceLineNo">208</span><a id="line.208">        }</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">        /**</a>
+<span class="sourceLineNo">211</span><a id="line.211">         * Adds a new series of transformations for a version.</a>
+<span class="sourceLineNo">212</span><a id="line.212">         *</a>
+<span class="sourceLineNo">213</span><a id="line.213">         * &lt;p&gt;The version must be between 0 and {@link Integer#MAX_VALUE}.</a>
+<span class="sourceLineNo">214</span><a id="line.214">         *</a>
+<span class="sourceLineNo">215</span><a id="line.215">         * @param version the version</a>
+<span class="sourceLineNo">216</span><a id="line.216">         * @param transformations the transformations. To perform a version</a>
+<span class="sourceLineNo">217</span><a id="line.217">         *                        upgrade, these transformations will be</a>
+<span class="sourceLineNo">218</span><a id="line.218">         *                        executed in order.</a>
+<span class="sourceLineNo">219</span><a id="line.219">         * @return this builder</a>
+<span class="sourceLineNo">220</span><a id="line.220">         * @since 4.0.0</a>
+<span class="sourceLineNo">221</span><a id="line.221">         */</a>
+<span class="sourceLineNo">222</span><a id="line.222">        public @NonNull VersionedBuilder addVersion(final int version, final @NonNull ConfigurationTransformation... transformations) {</a>
+<span class="sourceLineNo">223</span><a id="line.223">            return this.addVersion(version, chain(transformations));</a>
+<span class="sourceLineNo">224</span><a id="line.224">        }</a>
+<span class="sourceLineNo">225</span><a id="line.225"></a>
+<span class="sourceLineNo">226</span><a id="line.226">        /**</a>
+<span class="sourceLineNo">227</span><a id="line.227">         * Create and add a new transformation to this builder.</a>
+<span class="sourceLineNo">228</span><a id="line.228">         *</a>
+<span class="sourceLineNo">229</span><a id="line.229">         * &lt;p&gt;The transformation will be created from the builder passed to</a>
+<span class="sourceLineNo">230</span><a id="line.230">         * the callback function&lt;/p&gt;</a>
+<span class="sourceLineNo">231</span><a id="line.231">         *</a>
+<span class="sourceLineNo">232</span><a id="line.232">         * &lt;p&gt;The version must be between 0 and {@link Integer#MAX_VALUE}</a>
+<span class="sourceLineNo">233</span><a id="line.233">         *</a>
+<span class="sourceLineNo">234</span><a id="line.234">         * @param version the version</a>
+<span class="sourceLineNo">235</span><a id="line.235">         * @param maker the transformation</a>
+<span class="sourceLineNo">236</span><a id="line.236">         * @return this builder</a>
+<span class="sourceLineNo">237</span><a id="line.237">         * @since 4.0.0</a>
+<span class="sourceLineNo">238</span><a id="line.238">         */</a>
+<span class="sourceLineNo">239</span><a id="line.239">        public @NonNull VersionedBuilder makeVersion(final int version, final @NonNull Consumer&lt;? super Builder&gt; maker) {</a>
+<span class="sourceLineNo">240</span><a id="line.240">            final Builder builder = builder();</a>
+<span class="sourceLineNo">241</span><a id="line.241">            maker.accept(builder);</a>
+<span class="sourceLineNo">242</span><a id="line.242">            return this.addVersion(version, builder.build());</a>
+<span class="sourceLineNo">243</span><a id="line.243">        }</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">        /**</a>
+<span class="sourceLineNo">246</span><a id="line.246">         * Builds the transformation.</a>
+<span class="sourceLineNo">247</span><a id="line.247">         *</a>
+<span class="sourceLineNo">248</span><a id="line.248">         * @return the transformation</a>
+<span class="sourceLineNo">249</span><a id="line.249">         * @since 4.0.0</a>
+<span class="sourceLineNo">250</span><a id="line.250">         */</a>
+<span class="sourceLineNo">251</span><a id="line.251">        public ConfigurationTransformation.@NonNull Versioned build() {</a>
+<span class="sourceLineNo">252</span><a id="line.252">            if (this.versions.isEmpty()) {</a>
+<span class="sourceLineNo">253</span><a id="line.253">                throw new IllegalArgumentException("At least one version must be specified to build a transformation");</a>
+<span class="sourceLineNo">254</span><a id="line.254">            }</a>
+<span class="sourceLineNo">255</span><a id="line.255">            return new VersionedTransformation(this.versionKey, this.versions);</a>
+<span class="sourceLineNo">256</span><a id="line.256">        }</a>
+<span class="sourceLineNo">257</span><a id="line.257">    }</a>
+<span class="sourceLineNo">258</span><a id="line.258"></a>
+<span class="sourceLineNo">259</span><a id="line.259">    /**</a>
+<span class="sourceLineNo">260</span><a id="line.260">     * A transformation that is aware of node versions.</a>
+<span class="sourceLineNo">261</span><a id="line.261">     *</a>
+<span class="sourceLineNo">262</span><a id="line.262">     * @since 4.0.0</a>
+<span class="sourceLineNo">263</span><a id="line.263">     */</a>
+<span class="sourceLineNo">264</span><a id="line.264">    interface Versioned extends ConfigurationTransformation {</a>
+<span class="sourceLineNo">265</span><a id="line.265"></a>
+<span class="sourceLineNo">266</span><a id="line.266">        /**</a>
+<span class="sourceLineNo">267</span><a id="line.267">         * Indicates a node with an unknown version.</a>
+<span class="sourceLineNo">268</span><a id="line.268">         *</a>
+<span class="sourceLineNo">269</span><a id="line.269">         * &lt;p&gt;This can be returned as the latest version.&lt;/p&gt;</a>
+<span class="sourceLineNo">270</span><a id="line.270">         *</a>
+<span class="sourceLineNo">271</span><a id="line.271">         * @since 4.0.0</a>
+<span class="sourceLineNo">272</span><a id="line.272">         */</a>
+<span class="sourceLineNo">273</span><a id="line.273">        int VERSION_UNKNOWN = -1;</a>
+<span class="sourceLineNo">274</span><a id="line.274"></a>
+<span class="sourceLineNo">275</span><a id="line.275">        /**</a>
+<span class="sourceLineNo">276</span><a id="line.276">         * Get the path the node's current version is located at.</a>
+<span class="sourceLineNo">277</span><a id="line.277">         *</a>
+<span class="sourceLineNo">278</span><a id="line.278">         * @return version path</a>
+<span class="sourceLineNo">279</span><a id="line.279">         * @since 4.0.0</a>
+<span class="sourceLineNo">280</span><a id="line.280">         */</a>
+<span class="sourceLineNo">281</span><a id="line.281">        NodePath versionKey();</a>
+<span class="sourceLineNo">282</span><a id="line.282"></a>
+<span class="sourceLineNo">283</span><a id="line.283">        /**</a>
+<span class="sourceLineNo">284</span><a id="line.284">         * Get the latest version that nodes can be updated to.</a>
+<span class="sourceLineNo">285</span><a id="line.285">         *</a>
+<span class="sourceLineNo">286</span><a id="line.286">         * @return the most recent version</a>
+<span class="sourceLineNo">287</span><a id="line.287">         * @since 4.0.0</a>
+<span class="sourceLineNo">288</span><a id="line.288">         */</a>
+<span class="sourceLineNo">289</span><a id="line.289">        int latestVersion();</a>
+<span class="sourceLineNo">290</span><a id="line.290"></a>
+<span class="sourceLineNo">291</span><a id="line.291">        /**</a>
+<span class="sourceLineNo">292</span><a id="line.292">         * Get the version of a node hierarchy.</a>
+<span class="sourceLineNo">293</span><a id="line.293">         *</a>
+<span class="sourceLineNo">294</span><a id="line.294">         * &lt;p&gt;Note that the node checked here must be the same node passed to</a>
+<span class="sourceLineNo">295</span><a id="line.295">         * {@link #apply(ConfigurationNode)}, not any node in a hierarchy.</a>
+<span class="sourceLineNo">296</span><a id="line.296">         *</a>
+<span class="sourceLineNo">297</span><a id="line.297">         * &lt;p&gt;If the node value is not present or not coercible to an integer,</a>
+<span class="sourceLineNo">298</span><a id="line.298">         * {@link #VERSION_UNKNOWN} will be returned. When the transformation is</a>
+<span class="sourceLineNo">299</span><a id="line.299">         * executed, every version transformation will be applied.</a>
+<span class="sourceLineNo">300</span><a id="line.300">         *</a>
+<span class="sourceLineNo">301</span><a id="line.301">         * @param node node to check</a>
+<span class="sourceLineNo">302</span><a id="line.302">         * @return version, or {@link #VERSION_UNKNOWN} if no value is present</a>
+<span class="sourceLineNo">303</span><a id="line.303">         * @since 4.0.0</a>
+<span class="sourceLineNo">304</span><a id="line.304">         */</a>
+<span class="sourceLineNo">305</span><a id="line.305">        default int version(final ConfigurationNode node) {</a>
+<span class="sourceLineNo">306</span><a id="line.306">            return node.node(this.versionKey()).getInt(VERSION_UNKNOWN);</a>
+<span class="sourceLineNo">307</span><a id="line.307">        }</a>
+<span class="sourceLineNo">308</span><a id="line.308">    }</a>
+<span class="sourceLineNo">309</span><a id="line.309"></a>
+<span class="sourceLineNo">310</span><a id="line.310">}</a>
 
 
 
