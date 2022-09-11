@@ -74,8 +74,8 @@ jobs:
       - name: Publish with Gradle
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')))) }}"
         run: |
-          mkdir -p build/publish-jd
-          ./gradlew publish gitPublishCopy copyJavadoc --output build/publish-jd closeSonatypeStagingRepository
+          mkdir -p build/publish-jd/configurate
+          ./gradlew publish gitPublishCopy copyJavadoc --output build/publish-jd/configurate closeSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: "${{ github.actor }}"
           ORG_GRADLE_PROJECT_githubPackagesPassword: "${{ secrets.GITHUB_TOKEN }}"
