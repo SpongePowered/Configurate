@@ -17,6 +17,7 @@ plugins {
     id "org.spongepowered.configurate.build.publishing"
     id "net.kyori.indra"
     id "net.kyori.indra.checkstyle"
+    id "net.kyori.indra.crossdoc"
     id "net.ltgt.errorprone"
     id "me.champeau.gradle.japicmp"
     id "de.thetaphi.forbiddenapis"
@@ -85,6 +86,13 @@ tasks.withType(Javadoc).configureEach {
     // applyCommonAttributes()
 }
 
+indraCrossdoc {
+    baseUrl().set(providers.gradleProperty("javadocPublishRoot"))
+    nameBasedDocumentationUrlProvider {
+        projectNamePrefix = "configurate-"
+    }
+}
+
 dependencies {
     // error-prone compiler
     compileOnlyApi(libs.errorprone.annotations)
@@ -136,6 +144,10 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
             ktlint(libs.versions.ktlint.get())
               .editorConfigOverride([disabled_rules: 'filename'])
         }
+    }
+
+    tasks.named('copyJavadoc') {
+        enabled = false
     }
 }
 

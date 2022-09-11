@@ -73,7 +73,9 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Publish with Gradle
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')))) }}"
-        run: ./gradlew publish gitPublishCopy closeSonatypeStagingRepository
+        run: |
+          mkdir -p build/publish-jd
+          ./gradlew publish gitPublishCopy copyJavadoc --output build/publish-jd closeSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: "${{ github.actor }}"
           ORG_GRADLE_PROJECT_githubPackagesPassword: "${{ secrets.GITHUB_TOKEN }}"
@@ -95,6 +97,19 @@ jobs:
           branch: gh-pages
           force: false
           folder: build/gitPublish
+      - name: Publish Javadoc to Sponge index
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          folder: build/publish-jd
+          ssh-key: "${{ secrets.SPONGE_JD_DEPLOY_KEY }}"
+          repository-name: SpongePowered/APIJavadocs
+          branch: data
+          git-config-name: Spongie
+          git-config-email: staff@spongepowered.org
+          clean: false
+          force: false
+          commit-message: "Publishing javadoc for ${{ github.repository }} ${{ env.VERSION }}"
       - name: Publish configurate-tool as release artifact
         if: "${{ runner.os == 'Linux' && env.STATUS == 'release' && github.event_name == 'release' }}"
         uses: softprops/action-gh-release@v1

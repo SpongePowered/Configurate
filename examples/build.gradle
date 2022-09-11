@@ -20,3 +20,7 @@ tasks.withType(AbstractPublishToMaven).configureEach {
 tasks.withType(Javadoc).configureEach {
     options.addBooleanOption("Xdoclint:-missing", true)
 }
+
+tasks.named('copyJavadoc') {
+    enabled = false
+}

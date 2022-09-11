@@ -24,6 +24,7 @@ dependencies {
     }
     implementation gradleApi()
     api libs.build.indra
+    api libs.build.indra.crossdoc
     api libs.build.spotless
     api libs.build.errorprone
     api libs.build.nullaway
