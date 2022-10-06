@@ -119,7 +119,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>org.spongepowered.configurate.loader.AbstractConfigurationFormat&lt;N,&#8203;L,&#8203;B&gt;</li>
@@ -145,7 +145,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.44">AbstractConfigurationFormat</a>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;,&#8203;L extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;N&gt;,&#8203;B extends <a href="AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;B,&#8203;L&gt;&gt;
-extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
+extends java.lang.Object
 implements <a href="ConfigurationFormat.html" title="interface in org.spongepowered.configurate.loader">ConfigurationFormat</a></pre>
 <div class="block">An implementation of <a href="ConfigurationFormat.html" title="interface in org.spongepowered.configurate.loader"><code>ConfigurationFormat</code></a> designed to work
  with <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>.
@@ -178,9 +178,9 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,java.util.function.Supplier,java.util.Set)">AbstractConfigurationFormat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;id,
-                           <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="AbstractConfigurationFormat.html" title="type parameter in AbstractConfigurationFormat">B</a>&gt;&nbsp;builderMaker,
-                           <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;supportedExtensions)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,java.util.function.Supplier,java.util.Set)">AbstractConfigurationFormat</a></span>&#8203;(java.lang.String&nbsp;id,
+                           java.util.function.Supplier&lt;<a href="AbstractConfigurationFormat.html" title="type parameter in AbstractConfigurationFormat">B</a>&gt;&nbsp;builderMaker,
+                           java.util.Set&lt;java.lang.String&gt;&nbsp;supportedExtensions)</code></th>
 <td class="colLast">
 <div class="block">Create a new configuration format.</div>
 </td>
@@ -205,7 +205,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL)">create</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL)">create</a></span>&#8203;(java.net.URL&nbsp;url)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided URL,
  with default style options.</div>
@@ -213,7 +213,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(java.net.URL&nbsp;url,
       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided URL.</div>
@@ -221,7 +221,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path)">create</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path)">create</a></span>&#8203;(java.nio.file.Path&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided file,
  with default style options.</div>
@@ -229,21 +229,21 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(java.nio.file.Path&nbsp;file,
       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided file.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#id()">id</a></span>()</code></th>
 <td class="colLast">
 <div class="block">An identifier describing this loader.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Set&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#supportedExtensions()">supportedExtensions</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the file extensions known to be supported by this format.</div>
@@ -254,8 +254,8 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -279,13 +279,13 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractConfigurationFormat</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.65">AbstractConfigurationFormat</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;id,
-                                      <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="AbstractConfigurationFormat.html" title="type parameter in AbstractConfigurationFormat">B</a>&gt;&nbsp;builderMaker,
-                                      <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;supportedExtensions)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.65">AbstractConfigurationFormat</a>&#8203;(java.lang.String&nbsp;id,
+                                      java.util.function.Supplier&lt;<a href="AbstractConfigurationFormat.html" title="type parameter in AbstractConfigurationFormat">B</a>&gt;&nbsp;builderMaker,
+                                      java.util.Set&lt;java.lang.String&gt;&nbsp;supportedExtensions)</pre>
 <div class="block">Create a new configuration format.
 
  <p>Subclasses should have a zero-argument constructor to fulfil the
- requirements of <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>ServiceLoader</code></a>.</p></div>
+ requirements of <code>ServiceLoader</code>.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>builderMaker</code> - a factory creating a new builder</dd>
@@ -312,7 +312,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>id</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.71">id</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.71">id</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#id()">ConfigurationFormat</a></code></span></div>
 <div class="block">An identifier describing this loader.
 
@@ -332,7 +332,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>supportedExtensions</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.76">supportedExtensions</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.76">supportedExtensions</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#supportedExtensions()">ConfigurationFormat</a></code></span></div>
 <div class="block">Get the file extensions known to be supported by this format.</div>
 <dl>
@@ -349,7 +349,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.81">create</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.81">create</a>&#8203;(java.nio.file.Path&nbsp;file)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.nio.file.Path)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided file,
  with default style options.</div>
@@ -369,7 +369,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.88">create</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file" class="externalLink">Path</a>&nbsp;file,
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.88">create</a>&#8203;(java.nio.file.Path&nbsp;file,
                                      <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.nio.file.Path,org.spongepowered.configurate.ConfigurationNode)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided file.</div>
@@ -390,7 +390,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.96">create</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.96">create</a>&#8203;(java.net.URL&nbsp;url)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.net.URL)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided URL,
  with default style options.
@@ -412,7 +412,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.103">create</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net" class="externalLink">URL</a>&nbsp;url,
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.103">create</a>&#8203;(java.net.URL&nbsp;url,
                                      <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.net.URL,org.spongepowered.configurate.ConfigurationNode)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided URL.

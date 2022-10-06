@@ -119,7 +119,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>org.spongepowered.configurate.serialize.AbstractListChildSerializer&lt;T&gt;</li>
@@ -139,7 +139,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre>public abstract class <a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.38">AbstractListChildSerializer</a>&lt;T&gt;
-extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
+extends java.lang.Object
 implements <a href="TypeSerializer.Annotated.html" title="interface in org.spongepowered.configurate.serialize">TypeSerializer.Annotated</a>&lt;T&gt;</pre>
 <div class="block">A serializer for nodes that are 'list-like' (i.e may be stored in nodes where <a href="../ConfigurationNode.html#isList()"><code>ConfigurationNode.isList()</code></a> is
  true.</div>
@@ -212,7 +212,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>protected <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createNew(int,java.lang.reflect.AnnotatedType)">createNew</a></span>&#8203;(int&nbsp;length,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;elementType)</code></th>
+         java.lang.reflect.AnnotatedType&nbsp;elementType)</code></th>
 <td class="colLast">
 <div class="block">Create a new instance of the collection.</div>
 </td>
@@ -220,7 +220,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createNew(int,java.lang.reflect.Type)">createNew</a></span>&#8203;(int&nbsp;length,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;elementType)</code></th>
+         java.lang.reflect.Type&nbsp;elementType)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">for removal since 4.2.0, override <a href="#createNew(int,java.lang.reflect.AnnotatedType)"><code>createNew(int, AnnotatedType)</code></a> instead
@@ -230,7 +230,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize</a></span>&#8203;(java.lang.reflect.AnnotatedType&nbsp;type,
            <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Deserialize an object (of the correct type) from the given
@@ -241,21 +241,21 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deserializeSingle(int,T,java.lang.Object)">deserializeSingle</a></span>&#8203;(int&nbsp;index,
                  <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;collection,
-                 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;deserialized)</code></th>
+                 <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&nbsp;deserialized)</code></th>
 <td class="colLast">
 <div class="block">Place a single deserialized value into the collection being deserialized.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementType(java.lang.reflect.AnnotatedType)">elementType</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;containerType)</code></th>
+<td class="colFirst"><code>protected java.lang.reflect.AnnotatedType</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementType(java.lang.reflect.AnnotatedType)">elementType</a></span>&#8203;(java.lang.reflect.AnnotatedType&nbsp;containerType)</code></th>
 <td class="colLast">
 <div class="block">Given the type of container, provide the expected type of an element.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementType(java.lang.reflect.Type)">elementType</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;containerType)</code></th>
+<td class="colFirst"><code>protected java.lang.reflect.Type</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementType(java.lang.reflect.Type)">elementType</a></span>&#8203;(java.lang.reflect.Type&nbsp;containerType)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">for removal since 4.2.0, override <a href="#elementType(java.lang.reflect.AnnotatedType)"><code>elementType(AnnotatedType)</code></a> instead
@@ -265,7 +265,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emptyValue(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationOptions)">emptyValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;specificType,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emptyValue(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationOptions)">emptyValue</a></span>&#8203;(java.lang.reflect.AnnotatedType&nbsp;specificType,
           <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Create an empty value of the appropriate type.</div>
@@ -274,14 +274,14 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forEachElement(T,org.spongepowered.configurate.util.CheckedConsumer)">forEachElement</a></span>&#8203;(<a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;collection,
-              <a href="../util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;action)</code></th>
+              <a href="../util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;java.lang.Object,&#8203;<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;action)</code></th>
 <td class="colLast">
 <div class="block">Perform the provided action on each element of the provided collection.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a></span>&#8203;(java.lang.reflect.AnnotatedType&nbsp;type,
          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;obj,
          <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></th>
 <td class="colLast">
@@ -293,8 +293,8 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.spongepowered.configurate.serialize.TypeSerializer.Annotated">
@@ -349,7 +349,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>deserialize</h4>
-<pre class="methodSignature">public final&nbsp;<a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.48">deserialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+<pre class="methodSignature">public final&nbsp;<a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.48">deserialize</a>&#8203;(java.lang.reflect.AnnotatedType&nbsp;type,
                            <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                     throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeSerializer.html#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">TypeSerializer</a></code></span></div>
@@ -378,7 +378,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>serialize</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.79">serialize</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;type,
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.79">serialize</a>&#8203;(java.lang.reflect.AnnotatedType&nbsp;type,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;obj,
                             <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                      throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
@@ -404,7 +404,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <ul class="blockList">
 <li class="blockList">
 <h4>emptyValue</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.102">emptyValue</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;specificType,
+<pre class="methodSignature">public&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.102">emptyValue</a>&#8203;(java.lang.reflect.AnnotatedType&nbsp;specificType,
                               <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeSerializer.html#emptyValue(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationOptions)">TypeSerializer</a></code></span></div>
 <div class="block">Create an empty value of the appropriate type.
@@ -433,8 +433,8 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <li class="blockList">
 <h4>elementType</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
-protected&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.121">elementType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;containerType)
-                             throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+protected&nbsp;java.lang.reflect.AnnotatedType&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.121">elementType</a>&#8203;(java.lang.reflect.AnnotatedType&nbsp;containerType)
+                                               throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Given the type of container, provide the expected type of an element. If
  the element type is not available, an exception must be thrown.</div>
 <dl>
@@ -456,9 +456,9 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/refl
 <ul class="blockList">
 <li class="blockList">
 <h4>elementType</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-protected&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.138">elementType</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;containerType)
-                    throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
+<pre class="methodSignature">@Deprecated
+protected&nbsp;java.lang.reflect.Type&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.138">elementType</a>&#8203;(java.lang.reflect.Type&nbsp;containerType)
+                                      throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">for removal since 4.2.0, override <a href="#elementType(java.lang.reflect.AnnotatedType)"><code>elementType(AnnotatedType)</code></a> instead
      to pass through annotation information</div>
@@ -486,7 +486,7 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/refl
 <h4>createNew</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
 protected&nbsp;<a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.155">createNew</a>&#8203;(int&nbsp;length,
-                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedType</a>&nbsp;elementType)
+                      java.lang.reflect.AnnotatedType&nbsp;elementType)
                throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Create a new instance of the collection. The returned instance must be
  mutable, but may have a fixed length.</div>
@@ -512,9 +512,9 @@ protected&nbsp;<a href="AbstractListChildSerializer.html" title="type parameter 
 <li class="blockList">
 <h4>createNew</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
-<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 protected&nbsp;<a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.174">createNew</a>&#8203;(int&nbsp;length,
-                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;elementType)
+                      java.lang.reflect.Type&nbsp;elementType)
                throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">for removal since 4.2.0, override <a href="#createNew(int,java.lang.reflect.AnnotatedType)"><code>createNew(int, AnnotatedType)</code></a> instead
@@ -547,7 +547,7 @@ protected&nbsp;<a href="AbstractListChildSerializer.html" title="type parameter 
 <h4>forEachElement</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
 protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.190">forEachElement</a>&#8203;(<a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;collection,
-                                       <a href="../util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;action)
+                                       <a href="../util/CheckedConsumer.html" title="interface in org.spongepowered.configurate.util">CheckedConsumer</a>&lt;java.lang.Object,&#8203;<a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a>&gt;&nbsp;action)
                                 throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Perform the provided action on each element of the provided collection.
 
@@ -574,7 +574,7 @@ protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowere
 <pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
 protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/serialize/AbstractListChildSerializer.html#line.203">deserializeSingle</a>&#8203;(int&nbsp;index,
                                           <a href="AbstractListChildSerializer.html" title="type parameter in AbstractListChildSerializer">T</a>&nbsp;collection,
-                                          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;deserialized)
+                                          <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&nbsp;deserialized)
                                    throws <a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></pre>
 <div class="block">Place a single deserialized value into the collection being deserialized.</div>
 <dl>

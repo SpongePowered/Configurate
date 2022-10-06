@@ -170,14 +170,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#environmentVariables(java.lang.String)">environmentVariables</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;prefix)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#environmentVariables(java.lang.String)">environmentVariables</a></span>&#8203;(java.lang.String&nbsp;prefix)</code></th>
 <td class="colLast">
 <div class="block">Retrieve loader options from environment variables.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.String...)">get</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.String...)">get</a></span>&#8203;(java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path.</div>
 </td>
@@ -185,7 +185,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>default boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBoolean(boolean,java.lang.String...)">getBoolean</a></span>&#8203;(boolean&nbsp;defaultValue,
-          <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+          java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path as a boolean.</div>
 </td>
@@ -193,24 +193,24 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>default double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDouble(double,java.lang.String...)">getDouble</a></span>&#8203;(double&nbsp;defaultValue,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+         java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path as a double.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>default &lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;T&gt;&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEnum(java.lang.Class,java.lang.String...)">getEnum</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;enumClazz,
-       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+<td class="colFirst"><code>default &lt;T extends java.lang.Enum&lt;T&gt;&gt;<br><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEnum(java.lang.Class,java.lang.String...)">getEnum</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClazz,
+       java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path as an enum constant.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>default &lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;T&gt;&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEnum(java.lang.Class,T,java.lang.String...)">getEnum</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;enumClazz,
+<td class="colFirst"><code>default &lt;T extends java.lang.Enum&lt;T&gt;&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEnum(java.lang.Class,T,java.lang.String...)">getEnum</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClazz,
        T&nbsp;defaultValue,
-       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+       java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path as an enum constant.</div>
 </td>
@@ -218,15 +218,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>default int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInt(int,java.lang.String...)">getInt</a></span>&#8203;(int&nbsp;defaultValue,
-      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+      java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path as an integer.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>default <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOr(java.lang.String,java.lang.String...)">getOr</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;defaultValue,
-     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</code></th>
+<td class="colFirst"><code>default java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOr(java.lang.String,java.lang.String...)">getOr</a></span>&#8203;(java.lang.String&nbsp;defaultValue,
+     java.lang.String...&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Get the value at the provided path.</div>
 </td>
@@ -248,7 +248,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#systemProperties(java.lang.String)">systemProperties</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;prefix)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#systemProperties(java.lang.String)">systemProperties</a></span>&#8203;(java.lang.String&nbsp;prefix)</code></th>
 <td class="colLast">
 <div class="block">Retrieve loader options from system properties.</div>
 </td>
@@ -297,7 +297,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>environmentVariables</h4>
-<pre class="methodSignature">static&nbsp;<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.67">environmentVariables</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;prefix)</pre>
+<pre class="methodSignature">static&nbsp;<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.67">environmentVariables</a>&#8203;(java.lang.String&nbsp;prefix)</pre>
 <div class="block">Retrieve loader options from environment variables.
 
  <p>When reading environment variables, property keys will be converted to
@@ -339,7 +339,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>systemProperties</h4>
-<pre class="methodSignature">static&nbsp;<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.96">systemProperties</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;prefix)</pre>
+<pre class="methodSignature">static&nbsp;<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.96">systemProperties</a>&#8203;(java.lang.String&nbsp;prefix)</pre>
 <div class="block">Retrieve loader options from system properties.
 
  <p>When reading system properties, property keys will be joined by
@@ -401,7 +401,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.135">get</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.String&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.135">get</a>&#8203;(java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -409,7 +409,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a value, or <code>null</code> if none is present</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
@@ -421,8 +421,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getOr</h4>
-<pre class="methodSignature">default&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.148">getOr</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;defaultValue,
-                     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+<pre class="methodSignature">default&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.148">getOr</a>&#8203;(java.lang.String&nbsp;defaultValue,
+                               java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path.
 
  <p>If no value is present, <code>defaultValue</code> will be returned.</p></div>
@@ -433,7 +433,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a value, or <code>defaultValue</code> if none is present</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
@@ -445,8 +445,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getEnum</h4>
-<pre class="methodSignature">default&nbsp;&lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;T&gt;&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.164">getEnum</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;enumClazz,
-                                                <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+<pre class="methodSignature">default&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.164">getEnum</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClazz,
+                                                          java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path as an enum constant.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -458,7 +458,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>a value, or <code>null</code> if none is present or the provided value
      is not a member of the enum</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
@@ -472,9 +472,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>getEnum</h4>
-<pre class="methodSignature">default&nbsp;&lt;T extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;T&gt;&gt;&nbsp;T&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.188">getEnum</a>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;enumClazz,
-                                      T&nbsp;defaultValue,
-                                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+<pre class="methodSignature">default&nbsp;&lt;T extends java.lang.Enum&lt;T&gt;&gt;&nbsp;T&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.188">getEnum</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClazz,
+                                                T&nbsp;defaultValue,
+                                                java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path as an enum constant.
 
  <p>If no value is present or the provided value is not a known enum
@@ -489,7 +489,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a value, or <code>defaultValue</code> if none is present</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
@@ -502,7 +502,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>getInt</h4>
 <pre class="methodSignature">default&nbsp;int&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.207">getInt</a>&#8203;(int&nbsp;defaultValue,
-                   <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+                   java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path as an integer.
 
  <p>If no value is present or the value is not a valid integer,
@@ -514,7 +514,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a value, or <code>defaultValue</code> if none is present</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
@@ -527,7 +527,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>getDouble</h4>
 <pre class="methodSignature">default&nbsp;double&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.228">getDouble</a>&#8203;(double&nbsp;defaultValue,
-                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+                         java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path as a double.
 
  <p>If no value is present or the value is not a valid double,
@@ -539,7 +539,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a value, or <code>defaultValue</code> if none is present</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
@@ -552,7 +552,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>getBoolean</h4>
 <pre class="methodSignature">default&nbsp;boolean&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/LoaderOptionSource.html#line.249">getBoolean</a>&#8203;(boolean&nbsp;defaultValue,
-                           <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>...&nbsp;path)</pre>
+                           java.lang.String...&nbsp;path)</pre>
 <div class="block">Get the value at the provided path as a boolean.
 
  <p>If no value is present or the value is not a valid boolean,
@@ -564,7 +564,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a value, or <code>defaultValue</code> if none is present</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the provided path is an empty array</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the provided path is an empty array</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.2.0</dd>
 </dl>
