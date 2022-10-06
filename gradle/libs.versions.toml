@@ -6,7 +6,7 @@ errorprone="2.15.0"
 indra = "2.2.0"
 junit="5.9.0"
 ktlint="0.46.0"
-pmd = "6.49.0"
+pmd = "6.50.0"
 
 [libraries]
 # Shared
