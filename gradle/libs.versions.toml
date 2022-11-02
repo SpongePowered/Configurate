@@ -2,7 +2,7 @@
 assertj="3.23.1"
 autoValue="1.10"
 checkstyle="10.4"
-errorprone="2.15.0"
+errorprone="2.16"
 indra = "3.0.1"
 junit="5.9.1"
 ktlint="0.46.0"
