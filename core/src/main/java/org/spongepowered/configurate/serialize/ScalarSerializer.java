@@ -252,13 +252,30 @@ public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T>
      * annotated type methods over unannotated methods.
      *
      * @param <V> the value to deserialize
+     * @since 4.2.0
      */
-    abstract static class Annotated<V> extends ScalarSerializer<V> {
+    public abstract static class Annotated<V> extends ScalarSerializer<V> {
 
+        /**
+         * Create a new annotated scalar serializer
+         * that handles the provided type.
+         *
+         * <p>{@code type} must not be a raw parameterized type.</p>
+         *
+         * @param type type to handle
+         * @since 4.2.0
+         */
         protected Annotated(final Class<V> type) {
             super(type);
         }
 
+        /**
+         * Create a new annotated scalar serializer
+         * that handles the provided type.
+         *
+         * @param type type to handle
+         * @since 4.2.0
+         */
         protected Annotated(final TypeToken<V> type) {
             super(type);
         }
