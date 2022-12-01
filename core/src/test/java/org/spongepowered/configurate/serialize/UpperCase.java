@@ -25,4 +25,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE_USE)
 public @interface UpperCase {
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.FIELD)
+    @interface Field {
+    }
+
 }

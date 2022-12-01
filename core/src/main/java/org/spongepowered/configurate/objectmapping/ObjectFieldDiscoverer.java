@@ -19,6 +19,7 @@ package org.spongepowered.configurate.objectmapping;
 import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.getExactSuperType;
 import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
+import static io.leangen.geantyref.GenericTypeReflector.updateAnnotations;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -149,7 +150,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
             field.setAccessible(true);
             final AnnotatedType fieldType = getFieldType(field, clazz);
-            fieldMaker.accept(field.getName(), fieldType, Types.combinedAnnotations(fieldType, field),
+            fieldMaker.accept(field.getName(), updateAnnotations(fieldType, field.getAnnotations()), Types.combinedAnnotations(fieldType, field),
                               (intermediate, val, implicitProvider) -> {
                     if (val != null) {
                         intermediate.put(field, val);
