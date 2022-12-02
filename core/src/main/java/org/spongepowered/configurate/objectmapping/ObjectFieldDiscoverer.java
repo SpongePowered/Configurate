@@ -150,7 +150,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<Field, Object>> {
 
             field.setAccessible(true);
             final AnnotatedType fieldType = getFieldType(field, clazz);
-            fieldMaker.accept(field.getName(), updateAnnotations(fieldType, field.getAnnotations()), Types.combinedAnnotations(fieldType, field),
+            fieldMaker.accept(field.getName(), fieldType, Types.combinedAnnotations(fieldType, field),
                               (intermediate, val, implicitProvider) -> {
                     if (val != null) {
                         intermediate.put(field, val);
