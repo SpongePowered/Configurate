@@ -6,15 +6,16 @@
 <title>Index (Configurate 4.2.0-SNAPSHOT (all modules))</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
 <script type="text/javascript" src="jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -220,6 +221,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/util/Types.html#allSuperTypesAndInterfaces(java.lang.reflect.Type)">allSuperTypesAndInterfaces(Type)</a></span> - Static method in class org.spongepowered.configurate.util.<a href="org/spongepowered/configurate/util/Types.html" title="class in org.spongepowered.configurate.util">Types</a></dt>
 <dd>
 <div class="block">Get all supertypes and interfaces of the provided type.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html#%3Cinit%3E(io.leangen.geantyref.TypeToken)">Annotated(TypeToken&lt;V&gt;)</a></span> - Constructor for class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer.Annotated</a></dt>
+<dd>
+<div class="block">Create a new annotated scalar serializer
+ that handles the provided type.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html#%3Cinit%3E(java.lang.Class)">Annotated(Class&lt;V&gt;)</a></span> - Constructor for class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer.Annotated</a></dt>
+<dd>
+<div class="block">Create a new annotated scalar serializer
+ that handles the provided type.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/ConfigurationNode.html#appendListNode()">appendListNode()</a></span> - Method in interface org.spongepowered.configurate.<a href="org/spongepowered/configurate/ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></dt>
 <dd>
@@ -1121,6 +1132,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Attempt to deserialize the provided object using an unspecialized type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html#deserialize(java.lang.reflect.AnnotatedType,java.lang.Object)">deserialize(AnnotatedType, Object)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer.Annotated</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#deserialize(java.lang.reflect.AnnotatedType,java.lang.Object)">deserialize(AnnotatedType, Object)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>
 <div class="block">Given an object of unknown type, attempt to convert it into the given
@@ -1137,6 +1150,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Deserialize an object (of the correct type) from the given
  configuration node.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html#deserialize(java.lang.reflect.Type,java.lang.Object)">deserialize(Type, Object)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer.Annotated</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#deserialize(java.lang.reflect.Type,java.lang.Object)">deserialize(Type, Object)</a></span> - Method in class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>
 <div class="block">Given an object of unknown type, attempt to convert it into the given
@@ -3263,6 +3278,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/serialize/ScalarSerializer.html#%3Cinit%3E(java.lang.Class)">ScalarSerializer(Class&lt;T&gt;)</a></span> - Constructor for class org.spongepowered.configurate.serialize.<a href="org/spongepowered/configurate/serialize/ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></dt>
 <dd>
 <div class="block">Create a new scalar serializer that handles the provided type.</div>
+</dd>
+<dt><a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html" title="class in org.spongepowered.configurate.serialize"><span class="typeNameLink">ScalarSerializer.Annotated</span></a>&lt;<a href="org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&gt; - Class in <a href="org/spongepowered/configurate/serialize/package-summary.html">org.spongepowered.configurate.serialize</a></dt>
+<dd>
+<div class="block">A specialization of the scalar serializer that favors
+ annotated type methods over unannotated methods.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html#schema()">schema()</a></span> - Method in class org.spongepowered.configurate.xml.<a href="org/spongepowered/configurate/xml/XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></dt>
 <dd>
