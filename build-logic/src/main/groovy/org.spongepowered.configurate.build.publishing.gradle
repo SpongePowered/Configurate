@@ -20,71 +20,72 @@ tasks.withType(Jar).configureEach {
 }
 
 if (project.hasProperty("spongeKeyStore")) {
-    // We have to replace the default artifact which is a bit ugly
-    // https://github.com/gradle/gradle/pull/13650 should make it easier
-    def forRelevantOutgoings = { action ->
-        action.resolveStrategy = Closure.DELEGATE_FIRST
-        action.delegate = configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing
-        action()
-        action.delegate = configurations[JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME].outgoing
-        action()
-    }
-    def keyStoreProp = (String) project.spongeKeyStore
-    def fileTemp = new File(keyStoreProp)
-    def keyStoreFile
-    if (fileTemp.exists()) {
-        keyStoreFile = fileTemp
-    } else {
-        // Write keystore to a temporary file
-        def dest = layout.projectDirectory.file(".gradle/signing-key").asFile
-        dest.parentFile.mkdirs()
-        dest.createNewFile()
-        try {
-            Files.setPosixFilePermissions(dest.toPath(), [PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE].toSet())
-        } catch (IOException ignored) {
-            // oh well
+    plugins.withId('java-library') { plugin ->
+        // We have to replace the default artifact which is a bit ugly
+        // https://github.com/gradle/gradle/pull/13650 should make it easier
+        def forRelevantOutgoings = {action ->
+            action.resolveStrategy = Closure.DELEGATE_FIRST
+            action.delegate = configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing
+            action()
+            action.delegate = configurations[JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME].outgoing
+            action()
+        }
+        def keyStoreProp = (String) project.spongeKeyStore
+        def fileTemp = new File(keyStoreProp)
+        def keyStoreFile
+        if (fileTemp.exists()) {
+            keyStoreFile = fileTemp
+        } else {
+            // Write keystore to a temporary file
+            def dest = layout.projectDirectory.file(".gradle/signing-key").asFile
+            dest.parentFile.mkdirs()
+            dest.createNewFile()
+            try {
+                Files.setPosixFilePermissions(dest.toPath(), [PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE].toSet())
+            } catch (IOException ignored) {
+                // oh well
+            }
+
+            dest.bytes = Base64.getDecoder().decode(keyStoreProp)
+            // Delete the temporary file when the runtime exits
+            dest.deleteOnExit()
+            keyStoreFile = dest
         }
 
-        dest.bytes = Base64.getDecoder().decode(keyStoreProp)
-        // Delete the temporary file when the runtime exits
-        dest.deleteOnExit()
-        keyStoreFile = dest
-    }
+        tasks.jar { jarTask ->
+            jarTask.archiveClassifier = "unsigned"
+            def sign = tasks.register("signJar", SignJarTask) {
+                dependsOn(jarTask)
+                manifest = jarTask.manifest
+                archiveClassifier.set("")
+                keyStore.set(keyStoreFile)
+                alias.set(project.spongeKeyStoreAlias)
+                storePassword.set(project.spongeKeyStorePassword)
+            }
 
-    tasks.matching { it.name == "jar" && it instanceof Jar }.whenTaskAdded {
-        def jarTask = (Jar) it
-        it.archiveClassifier = "unsigned"
-        def sign = tasks.register("signJar", SignJarTask) {
-            dependsOn(jarTask)
-            manifest = jarTask.manifest
-            archiveClassifier.set("")
-            keyStore.set(keyStoreFile)
-            alias.set(project.spongeKeyStoreAlias)
-            storePassword.set(project.spongeKeyStorePassword)
-        }
-
-        afterEvaluate {
-            // allow subprojects to override the signed contents
-            sign.configure {
-                if (!mainSpec.sourcePaths) {
-                    from(zipTree(jarTask.outputs.files.singleFile))
+            afterEvaluate {
+                // allow subprojects to override the signed contents
+                sign.configure {
+                    if (!mainSpec.sourcePaths) {
+                        from(zipTree(jarTask.outputs.files.singleFile))
+                    }
                 }
+            }
+
+            forRelevantOutgoings {
+                artifact(sign)
+            }
+
+            tasks.assemble {
+                dependsOn(sign)
             }
         }
 
-        forRelevantOutgoings {
-            artifact(sign)
-        }
-
-        tasks.assemble {
-            dependsOn(sign)
-        }
-    }
-
-    afterEvaluate {
-        // Remove the unsigned artifact from publications
-        forRelevantOutgoings {
-            artifacts.removeIf { it.classifier == "unsigned" }
+        afterEvaluate {
+            // Remove the unsigned artifact from publications
+            forRelevantOutgoings {
+                artifacts.removeIf {it.classifier == "unsigned"}
+            }
         }
     }
 }
