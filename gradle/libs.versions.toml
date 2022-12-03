@@ -65,13 +65,13 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.5.1"
-detekt = "io.gitlab.arturbosch.detekt:1.21.0"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.6"
+detekt = "io.gitlab.arturbosch.detekt:1.22.0"
 dokka = "org.jetbrains.dokka:1.7.20"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
 indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-crossdoc = { id = "net.kyori.indra.crossdoc", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
-kotlin = "org.jetbrains.kotlin.jvm:1.7.20"
+kotlin = "org.jetbrains.kotlin.jvm:1.7.22"
 shadow = "com.github.johnrengelman.shadow:7.1.2"
