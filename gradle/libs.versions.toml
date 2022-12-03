@@ -1,6 +1,6 @@
 [versions]
 assertj="3.23.1"
-autoValue="1.10"
+autoValue="1.10.1"
 checkstyle="10.4"
 errorprone="2.16"
 indra = "3.0.1"
