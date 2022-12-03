@@ -1,5 +1,4 @@
-dependencyResolutionManagement {
-    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+pluginManagement {
     repositories {
         maven {
             name = "sponge"
@@ -7,6 +6,11 @@ dependencyResolutionManagement {
             mavenContent { releasesOnly() }
         }
     }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    pluginManagement.repositories.each(repositories.&add)
     versionCatalogs {
         libs {
             from(files("../gradle/libs.versions.toml")) // include from parent project

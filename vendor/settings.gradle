@@ -13,12 +13,7 @@ rootProject.name = "configurate-vendor"
 
 dependencyResolutionManagement {
     repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
-    repositories {
-        maven {
-            url = 'https://repo.spongepowered.org/repository/maven-public'
-            name = 'sponge'
-        }
-    }
+    pluginManagement.repositories.each(repositories.&add)
 }
 
 include "snakeyaml"

@@ -16,7 +16,7 @@ subprojects {
     group = "configurate.thirdparty"
     version = "version-from-submodule"
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
     }
 
@@ -56,11 +56,11 @@ project(":snakeyaml") {
     }
 
     def applyPatches = rootProject.tasks.named("applyPatches")
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.release.set(7)
         dependsOn ':applyPatches'
     }
-    tasks.withType(ProcessResources) {
+    tasks.withType(ProcessResources).configureEach {
         dependsOn ':applyPatches'
     }
 
