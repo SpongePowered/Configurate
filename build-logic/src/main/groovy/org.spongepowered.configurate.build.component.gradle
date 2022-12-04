@@ -142,7 +142,7 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
             trimTrailingWhitespace()
 
             ktlint(libs.versions.ktlint.get())
-              .editorConfigOverride([disabled_rules: 'filename'])
+              .editorConfigOverride([ktlint_disabled_rules: 'filename'])
         }
     }
 
