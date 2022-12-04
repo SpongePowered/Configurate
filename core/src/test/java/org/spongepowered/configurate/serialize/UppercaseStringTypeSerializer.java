@@ -28,7 +28,7 @@ public final class UppercaseStringTypeSerializer implements TypeSerializer<@Uppe
     public static final UppercaseStringTypeSerializer INSTANCE = new UppercaseStringTypeSerializer();
 
     public static boolean applicable(final AnnotatedType type) {
-        return type.isAnnotationPresent(UpperCase.class) && String.class.equals(type.getType());
+        return (type.isAnnotationPresent(UpperCase.class) || type.isAnnotationPresent(UpperCase.Field.class)) && String.class.equals(type.getType());
     }
 
     private UppercaseStringTypeSerializer() {

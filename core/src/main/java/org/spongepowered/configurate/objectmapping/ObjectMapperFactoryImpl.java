@@ -21,6 +21,7 @@ import static io.leangen.geantyref.GenericTypeReflector.box;
 import static io.leangen.geantyref.GenericTypeReflector.erase;
 import static io.leangen.geantyref.GenericTypeReflector.isMissingTypeParameters;
 import static io.leangen.geantyref.GenericTypeReflector.isSuperType;
+import static io.leangen.geantyref.GenericTypeReflector.updateAnnotations;
 import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.GenericTypeReflector;
@@ -215,7 +216,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
             }
         }
 
-        fields.add(FieldData.of(name, type, constraints, processors, deserializer, serializer, resolver));
+        final AnnotatedType combinedType = updateAnnotations(type, container.getAnnotations());
+        fields.add(FieldData.of(name, combinedType, constraints, processors, deserializer, serializer, resolver));
     }
 
     // TypeSerializer //

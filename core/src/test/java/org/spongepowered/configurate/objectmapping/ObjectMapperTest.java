@@ -406,6 +406,8 @@ class ObjectMapperTest {
     static class TestAnnotatedTypes {
         @UpperCase String one;
         String two;
+        @UpperCase.Field
+        String three;
     }
 
     @Test
@@ -419,12 +421,14 @@ class ObjectMapperTest {
         node.act(n -> {
             n.node("one").set("hello");
             n.node("two").set("world");
+            n.node("three").set("three");
         });
 
         final TestAnnotatedTypes instance = node.require(TestAnnotatedTypes.class);
 
         assertEquals("HELLO", instance.one);
         assertEquals("world", instance.two);
+        assertEquals("THREE", instance.three);
     }
 
 }
