@@ -300,7 +300,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         }
 
         @Override
-        public synchronized Throwable fillInStackTrace() {
+        public Throwable fillInStackTrace() {
             // no-op
             return this;
         }

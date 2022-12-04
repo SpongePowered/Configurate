@@ -5,8 +5,6 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
     <description>Rules to be applied to Configurate</description>
 
-    <exclude-pattern>.*/configurate/yaml/(ConfigurateScanner|SimpleKey).java</exclude-pattern>
-
     <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html -->
     <rule ref="category/java/bestpractices.xml">
         <!-- Most rules are fine, so let's only exclude the annoying ones here -->
@@ -29,11 +27,6 @@
     <rule ref="category/java/bestpractices.xml/ForLoopVariableCount">
         <properties>
             <property name="maximumVariables" value="2"/>
-        </properties>
-    </rule>
-    <rule ref="category/java/bestpractices.xml/UnusedPrivateField">
-        <properties>
-            <property name="ignoredAnnotations" value="java.lang.Deprecated|org.spongepowered.configurate.objectmapping.meta.Setting"/>
         </properties>
     </rule>
 
@@ -107,7 +100,6 @@
     <rule ref="category/java/errorprone.xml/SuspiciousEqualsMethodName"/>
     <rule ref="category/java/errorprone.xml/SuspiciousHashcodeMethodName"/>
     <rule ref="category/java/errorprone.xml/SuspiciousOctalEscape"/>
-    <rule ref="category/java/errorprone.xml/TestClassWithoutTestCases"/>
     <rule ref="category/java/errorprone.xml/UnconditionalIfStatement"/>
     <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion"/>
     <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary"/>
