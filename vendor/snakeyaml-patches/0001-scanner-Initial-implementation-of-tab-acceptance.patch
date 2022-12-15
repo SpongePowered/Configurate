@@ -5,7 +5,7 @@ Subject: [PATCH] scanner: Initial implementation of tab acceptance
 
 
 diff --git a/src/main/java/org/yaml/snakeyaml/LoaderOptions.java b/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
-index 432730bee858cfaa9e638b87272265826d6270a6..464a52b7e7bfea3cd64b39a4c06420a3c9be76aa 100644
+index 432730bee858cfaa9e638b87272265826d6270a6..03bcf0d12e35768cee5cc6e179d7150cc5857dee 100644
 --- a/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
 +++ b/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
 @@ -28,6 +28,7 @@ public class LoaderOptions {
@@ -16,18 +16,21 @@ index 432730bee858cfaa9e638b87272265826d6270a6..464a52b7e7bfea3cd64b39a4c06420a3
    private boolean enumCaseSensitive = true;
    private int nestingDepthLimit = 50;
    private int codePointLimit = 3 * 1024 * 1024; // 3 MB
-@@ -148,6 +149,27 @@ public class LoaderOptions {
+@@ -148,6 +149,30 @@ public class LoaderOptions {
      return processComments;
    }
  
 +  /**
 +   * Set the scanner to accept tabs.
 +   *
-+   * <p>This mode is disabled by default, since tabs are not valid in a YAML
-+   * document. However, when working with user-generated input it can be
-+   * beneficial to attempt to process tabs.</p>
++   * <p>
++   * This mode is disabled by default, since tabs are not valid in a YAML document. However, when
++   * working with user-generated input it can be beneficial to attempt to process tabs.
++   * </p>
 +   *
-+   * <p>When tabs are accepted, each tab is treated as <em>one space.</em></p>
++   * <p>
++   * When tabs are accepted, each tab is treated as <em>one space.</em>
++   * </p>
 +   *
 +   * @param acceptTabs whether tabs should be accepted
 +   * @return this
@@ -75,26 +78,20 @@ index c9ae314ce57c268e169b99b77d050ac02a143ce2..373e4c1845b0f739b2f805612887b8d8
        }
        if (ff > 0) {
 diff --git a/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java b/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java
-index 68b73d5747a4277a988fa0d4421cfcfd897086f8..5909ed7fb7af276f482e5d115b3795452c038ad8 100644
+index 68b73d5747a4277a988fa0d4421cfcfd897086f8..b1418eff4ea526dbcc4047d87804599e1dc2f0ba 100644
 --- a/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java
 +++ b/src/test/java/org/yaml/snakeyaml/scanner/ScannerImplTest.java
-@@ -63,4 +63,23 @@ public class ScannerImplTest extends TestCase {
+@@ -63,4 +63,17 @@ public class ScannerImplTest extends TestCase {
            + " in 'string', line 1, column 1:\n" + "    \t  data: 1\n" + "    ^\n", e.getMessage());
      }
    }
 +
 +  public void testTabsAllowed() {
 +    // TODO: Test mixed tabs and spaces once those are properly handled
-+    final Scanner scanner = new ScannerImpl(new StreamReader("\tdata: 1"), new LoaderOptions().setAcceptTabs(true));
-+    final Token.ID[] expectedTokens = {
-+      Token.ID.StreamStart,
-+      Token.ID.BlockMappingStart,
-+      Token.ID.Key,
-+      Token.ID.Scalar,
-+      Token.ID.Value,
-+      Token.ID.Scalar,
-+      Token.ID.BlockEnd,
-+      };
++    final Scanner scanner =
++        new ScannerImpl(new StreamReader("\tdata: 1"), new LoaderOptions().setAcceptTabs(true));
++    final Token.ID[] expectedTokens = {Token.ID.StreamStart, Token.ID.BlockMappingStart,
++        Token.ID.Key, Token.ID.Scalar, Token.ID.Value, Token.ID.Scalar, Token.ID.BlockEnd,};
 +
 +    int expected = 0;
 +    do {

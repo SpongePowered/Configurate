@@ -1,7 +1,8 @@
 import groovy.xml.XmlSlurper
 
 plugins {
-    id "net.minecraftforge.gitpatcher" version "0.10.+"
+    alias libs.plugins.gitpatcher
+    alias libs.plugins.spotless apply false
 }
 
 patches {
@@ -12,6 +13,7 @@ patches {
 
 subprojects {
     apply plugin: 'java-library'
+    apply plugin: 'com.diffplug.spotless'
 
     group = "configurate.thirdparty"
     version = "version-from-submodule"
@@ -52,6 +54,13 @@ project(":snakeyaml") {
                     }
                 }
             }
+        }
+    }
+
+    spotless {
+        java {
+            eclipse()
+                .configFile('src/etc/eclipse-java-google-style.xml')
         }
     }
 

@@ -7,6 +7,7 @@ indra = "3.0.1"
 junit="5.9.1"
 ktlint="0.47.1"
 pmd = "6.52.0"
+spotless = "6.12.0"
 
 [libraries]
 # Shared
@@ -57,7 +58,7 @@ build-indra-crossdoc = { module = "net.kyori:indra-crossdoc", version.ref = "ind
 build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.1"
 build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.15.+" }
 build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:1.5.0"
-build-spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.12.0"
+build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
 # For Renovate -- shouldn't need to use these directly
 zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
@@ -69,9 +70,11 @@ aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.6"
 detekt = "io.gitlab.arturbosch.detekt:1.22.0"
 dokka = "org.jetbrains.dokka:1.7.20"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
+gitpatcher = { id = "net.minecraftforge.gitpatcher", version = "0.10.+" }
 indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-crossdoc = { id = "net.kyori.indra.crossdoc", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
 kotlin = "org.jetbrains.kotlin.jvm:1.7.22"
 shadow = "com.github.johnrengelman.shadow:7.1.2"
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
