@@ -26,6 +26,10 @@ import org.spongepowered.configurate.loader.CommentHandlers;
 import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.BufferedReader;
 import java.io.Writer;
@@ -45,7 +49,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
     /**
      * YAML native types from <a href="https://yaml.org/type/">YAML 1.1 Global tags</a>.
      *
-     * <p>using SnakeYaml representation: https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
+     * <p>using SnakeYaml representation: https://bitbucket.org/snakeyaml/snakeyaml/wiki/Documentation#markdown-header-yaml-tags-and-java-types
      */
     private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
             Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
@@ -160,18 +164,23 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         }
     }
 
-    private final ThreadLocal<ConfigurateYaml> yaml;
+    private final ThreadLocal<Yaml> yaml;
 
     private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
+        final LoaderOptions loaderOpts = new LoaderOptions()
+            .setAcceptTabs(true)
+            .setProcessComments(false);
+        loaderOpts.setCodePointLimit(Integer.MAX_VALUE);
+
         final DumperOptions opts = builder.options;
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
-        this.yaml = ThreadLocal.withInitial(() -> new ConfigurateYaml(opts));
+        this.yaml = ThreadLocal.withInitial(() -> new Yaml(new Constructor(loaderOpts), new Representer(opts), opts, loaderOpts));
     }
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
-        node.raw(this.yaml.get().loadConfigurate(reader));
+        node.raw(this.yaml.get().load(reader));
     }
 
     @Override

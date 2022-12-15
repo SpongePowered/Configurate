@@ -8,107 +8,78 @@ first element of the sequence. I don't think there's anything we can
 do about that though.... needs more thought i suppose
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index 7912f00d92563eeea974f1ac18d3c936a64ddfe3..1853c5b27dfeff99c8f5f4799daa93adb21919ce 100644
+index 81a0a14835931a6b0f201d102b5e9b66d9888bb5..c30d3fb69004d63e752d6207f2df376d079da172 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-@@ -719,9 +719,12 @@ public final class Emitter implements Emitable {
-             if (!this.first && event instanceof SequenceEndEvent) {
-                 indent = indents.pop();
-                 state = states.pop();
--            } else if( event instanceof CommentEvent) {
-+            } else if (event instanceof CommentEvent) {
-                 blockCommentsCollector.collectEvents(event);
-             } else {
-+                if (!blockCommentsCollector.isEmpty()) {
-+                    writeBlockComment();
-+                }
-                 writeIndent();
-                 if (!indentWithIndicator || this.first) {
-                     writeWhitespace(indicatorIndent);
-@@ -730,17 +733,6 @@ public final class Emitter implements Emitable {
-                 if (indentWithIndicator && this.first) {
-                     indent += indicatorIndent;
-                 }
--                if (!blockCommentsCollector.isEmpty()) {
--                    increaseIndent(false, false);
--                    writeBlockComment();
--                    if(event instanceof ScalarEvent) {
--                        analysis = analyzeScalar(((ScalarEvent)event).getValue());
--                        if (!analysis.isEmpty()) {
--                            writeIndent();
--                        }
--                    }
--                    indent = indents.pop();
--                }
-                 states.push(new ExpectBlockSequenceItem(false));
-                 expectNode(false, false, false);
-                 inlineCommentsCollector.collectEvents();
+@@ -753,6 +753,9 @@ public final class Emitter implements Emitable {
+       } else if (event instanceof CommentEvent) {
+         blockCommentsCollector.collectEvents(event);
+       } else {
++        if (!blockCommentsCollector.isEmpty()) {
++          writeBlockComment();
++        }
+         writeIndent();
+         if (!indentWithIndicator || this.first) {
+           writeWhitespace(indicatorIndent);
+@@ -761,17 +764,6 @@ public final class Emitter implements Emitable {
+         if (indentWithIndicator && this.first) {
+           indent += indicatorIndent;
+         }
+-        if (!blockCommentsCollector.isEmpty()) {
+-          increaseIndent(false, false);
+-          writeBlockComment();
+-          if (event instanceof ScalarEvent) {
+-            analysis = analyzeScalar(((ScalarEvent) event).getValue());
+-            if (!analysis.isEmpty()) {
+-              writeIndent();
+-            }
+-          }
+-          indent = indents.pop();
+-        }
+         states.push(new ExpectBlockSequenceItem(false));
+         expectNode(false, false, false);
+         inlineCommentsCollector.collectEvents();
 diff --git a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
-index 58393cd819871caedae9bd757837f62424f56f5b..9d70c585e7bb52bfb1b69e6ee474385b80c5be6c 100644
+index 52f7e7b1f71c2132de07ebe86356d35db56a9628..17815881b0a2693ebf62e8023425bcf7a0be2d1d 100644
 --- a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
 +++ b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
-@@ -15,6 +15,8 @@
-  */
- package org.yaml.snakeyaml.comment;
- 
-+import static org.junit.Assert.assertEquals;
-+
- import org.junit.Test;
- import org.yaml.snakeyaml.DumperOptions;
- import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-@@ -45,8 +47,6 @@ import org.yaml.snakeyaml.serializer.Serializer;
- import java.io.IOException;
- import java.io.StringWriter;
- 
--import static org.junit.Assert.assertEquals;
--
- public class EmitterWithCommentEnabledTest {
- 
-     private String runEmitterWithCommentsEnabled(String data) throws IOException {
 @@ -160,8 +160,8 @@ public class EmitterWithCommentEnabledTest {
-         String data = "" + //
-                 "# Comment\n" + //
-                 "list: # InlineComment1\n" + //
--                "  - # Block Comment\n" + //
--                "    item # InlineComment2\n" + //
-+                "  # Block Comment\n" + //
-+                "  - item # InlineComment2\n" + //
-                 "# Comment\n";
+     String data = "" + //
+         "# Comment\n" + //
+         "list: # InlineComment1\n" + //
+-        "  - # Block Comment\n" + //
+-        "    item # InlineComment2\n" + //
++        "  # Block Comment\n" + //
++        "  - item # InlineComment2\n" + //
+         "# Comment\n";
  
-         String result = runEmitterWithCommentsEnabled(data);
+     String result = runEmitterWithCommentsEnabled(data);
 @@ -181,8 +181,8 @@ public class EmitterWithCommentEnabledTest {
-                 "# Block Comment4\n" + //
-                 "list: # InlineComment3a\n" + //
-                 "      # InlineComment3b\n" + //
--                "  - # Block Comment5\n" + //
--                "    item1 # InlineComment4\n" + //
-+                "  # Block Comment5\n" + //
-+                "  - item1 # InlineComment4\n" + //
-                 "  - item2: [value2a, value2b] # InlineComment5\n" + //
-                 "  - item3: {key3a: [value3a1, value3a2], key3b: value3b} # InlineComment6\n" + //
-                 "# Block Comment6\n" + //
-@@ -214,17 +214,18 @@ public class EmitterWithCommentEnabledTest {
-                 "key:\n" +
-                 "  key:\n" +
-                 "    key:\n" +
--                "    - # Block Comment1\n" +
--                "      item1a\n" +
--                "    - # Block Comment2\n" +
-+                "    # Block Comment1\n" +
-+                "    - item1a\n" +
-+                "    # Block Comment2\n" +
-+                "    -\n" +
-                 "    - item1b\n" +
-                 "    - # Block Comment3\n" +
-                 "      MapKey_1: MapValue1\n" +
-                 "      MapKey_2: MapValue2\n" +
-                 "key2:\n" +
--                "- # Block Comment4\n" + //
--                "  # Block Comment5\n" + //
--                "  item1 # Inline Comment1a\n" + //
-+                "# Block Comment4\n" + //
-+                "# Block Comment5\n" + //
-+                "- item1 # Inline Comment1a\n" + //
-                 "        # Inline Comment1b\n" + //
-                 "- # Block Comment6a\n" + //
-                 "  # Block Comment6b\n" + //
+         "# Block Comment4\n" + //
+         "list: # InlineComment3a\n" + //
+         "      # InlineComment3b\n" + //
+-        "  - # Block Comment5\n" + //
+-        "    item1 # InlineComment4\n" + //
++        "  # Block Comment5\n" + //
++        "  - item1 # InlineComment4\n" + //
+         "  - item2: [value2a, value2b] # InlineComment5\n" + //
+         "  - item3: {key3a: [value3a1, value3a2], key3b: value3b} # InlineComment6\n" + //
+         "# Block Comment6\n" + //
+@@ -211,12 +211,12 @@ public class EmitterWithCommentEnabledTest {
+   @Test
+   public void testAllComments2() throws Exception {
+     String data = "" + //
+-        "key:\n" + "  key:\n" + "    key:\n" + "    - # Block Comment1\n" + "      item1a\n"
+-        + "    - # Block Comment2\n" + "    - item1b\n" + "    - # Block Comment3\n"
++        "key:\n" + "  key:\n" + "    key:\n" + "    # Block Comment1\n" + "    - item1a\n"
++        + "    # Block Comment2\n" + "    -\n" + "    - item1b\n" + "    - # Block Comment3\n"
+         + "      MapKey_1: MapValue1\n" + "      MapKey_2: MapValue2\n" + "key2:\n"
+-        + "- # Block Comment4\n" + //
+-        "  # Block Comment5\n" + //
+-        "  item1 # Inline Comment1a\n" + //
++        + "# Block Comment4\n" + //
++        "# Block Comment5\n" + //
++        "- item1 # Inline Comment1a\n" + //
+         "        # Inline Comment1b\n" + //
+         "- # Block Comment6a\n" + //
+         "  # Block Comment6b\n" + //

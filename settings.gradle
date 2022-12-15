@@ -60,6 +60,8 @@ rootProject.name = "$prefix-parent"
     findProject(":extra:$it")?.name = "extra-$it"
 }
 
-includeBuild 'vendor'
+includeBuild 'vendor', {
+  name = "configurate-vendor"
+}
 includeBuild 'build-logic'
 
