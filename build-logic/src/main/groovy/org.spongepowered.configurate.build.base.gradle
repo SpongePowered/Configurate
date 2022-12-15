@@ -10,10 +10,8 @@ def projectName = "configurate"
 
 def configurateExt = project.extensions.create(projectName, ConfigurateExtension, dependencies)
 
-pluginManager.withPlugin('java') {
-    def catalogs = extensions.getByType(VersionCatalogsExtension)
-    configurateExt.libs = catalogs.named('libs')
-}
+def catalogs = extensions.findByType(VersionCatalogsExtension)
+configurateExt.libs = catalogs?.named('libs')
 
 spotless {
     format 'configs', {

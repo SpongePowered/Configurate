@@ -79,7 +79,8 @@ tasks.withType(Javadoc).configureEach {
         options.links(
             "https://lightbend.github.io/config/latest/api/",
             "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
-            "https://checkerframework.org/api/"
+            "https://www.javadoc.io/doc/org.checkerframework/checker-qual/${libs.versions.checkerQual}/",
+            "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/${libs.versions.geantyref}/"
         )
         options.linkSource()
     }

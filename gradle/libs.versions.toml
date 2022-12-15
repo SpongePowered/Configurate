@@ -1,7 +1,9 @@
 [versions]
 assertj="3.23.1"
 autoValue="1.10.1"
+checkerQual="3.28.0"
 checkstyle="10.5.0"
+geantyref = "1.3.13"
 errorprone="2.16"
 indra = "3.0.1"
 junit="5.9.1"
@@ -26,8 +28,8 @@ kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
 kotlin-reflect = {module = "org.jetbrains.kotlin:kotlin-reflect"} # version from Kotlin BOM
 
 # Core
-checkerQual = "org.checkerframework:checker-qual:3.28.0"
-geantyref = "io.leangen.geantyref:geantyref:1.3.13"
+checkerQual = { module = "org.checkerframework:checker-qual", version.ref = "checkerQual" }
+geantyref = {module = "io.leangen.geantyref:geantyref", version.ref = "geantyref" }
 
 # DFU
 dfu-v2 = "com.mojang:datafixerupper:2.0.24"
