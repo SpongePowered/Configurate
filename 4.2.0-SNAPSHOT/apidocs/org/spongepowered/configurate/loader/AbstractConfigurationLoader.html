@@ -217,14 +217,14 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedWriter&gt;</code></td>
+<td class="colFirst"><code>protected <a href="https://www.javadoc.io/doc/org.checkerframework/checker-qual/3.28.0/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedWriter&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sink">sink</a></span></code></th>
 <td class="colLast">
 <div class="block">The writer sink for this loader.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedReader&gt;</code></td>
+<td class="colFirst"><code>protected <a href="https://www.javadoc.io/doc/org.checkerframework/checker-qual/3.28.0/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedReader&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#source">source</a></span></code></th>
 <td class="colLast">
 <div class="block">The reader source for this loader.</div>
@@ -442,7 +442,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre>protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedReader&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.87">source</a></pre>
+<pre>protected final&nbsp;<a href="https://www.javadoc.io/doc/org.checkerframework/checker-qual/3.28.0/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedReader&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.87">source</a></pre>
 <div class="block">The reader source for this loader.
 
  <p>Can be null (for loaders which don't support loading!)</p></div>
@@ -454,7 +454,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>sink</h4>
-<pre>protected final&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedWriter&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.94">sink</a></pre>
+<pre>protected final&nbsp;<a href="https://www.javadoc.io/doc/org.checkerframework/checker-qual/3.28.0/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.util.concurrent.Callable&lt;java.io.BufferedWriter&gt; <a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.94">sink</a></pre>
 <div class="block">The writer sink for this loader.
 
  <p>Can be null (for loaders which don't support saving!)</p></div>
@@ -572,7 +572,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>loadInternal</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
+<pre class="methodSignature">@ForOverride
 protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.179">loadInternal</a>&#8203;(<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;node,
                                      java.io.BufferedReader&nbsp;reader)
                               throws <a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></pre>
@@ -617,7 +617,7 @@ protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowere
 <ul class="blockList">
 <li class="blockList">
 <h4>checkCanWrite</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
+<pre class="methodSignature">@ForOverride
 protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.220">checkCanWrite</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)
                       throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
 <div class="block">Perform format-specific validation of a node.
@@ -641,7 +641,7 @@ protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configu
 <ul class="blockList">
 <li class="blockList">
 <h4>writeHeaderInternal</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
+<pre class="methodSignature">@ForOverride
 protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.230">writeHeaderInternal</a>&#8203;(java.io.Writer&nbsp;writer)
                             throws java.io.IOException</pre>
 <div class="block">Write out any implementation-specific file header.</div>
@@ -661,7 +661,7 @@ protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configu
 <ul class="blockList">
 <li class="blockList">
 <h4>saveInternal</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
+<pre class="methodSignature">@ForOverride
 protected abstract&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line.241">saveInternal</a>&#8203;(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
                                      java.io.Writer&nbsp;writer)
                               throws <a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></pre>
