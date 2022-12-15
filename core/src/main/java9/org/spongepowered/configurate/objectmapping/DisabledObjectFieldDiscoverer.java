@@ -22,71 +22,97 @@ import static io.leangen.geantyref.GenericTypeReflector.getFieldType;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.configurate.util.CheckedBiFunction;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.Types;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-class ObjectFieldDiscoverer implements FieldDiscoverer<Map<VarHandle, Object>> {
+class DisabledObjectFieldDiscoverer implements FieldDiscoverer<Map<VarHandle, Object>> {
 
     private static final MethodHandles.Lookup OWN_LOOKUP = MethodHandles.lookup();
 
-    static final ObjectFieldDiscoverer EMPTY_CONSTRUCTOR_INSTANCE = new ObjectFieldDiscoverer(type -> {
+    static final ObjectFieldDiscoverer EMPTY_CONSTRUCTOR_INSTANCE = new ObjectFieldDiscoverer((type, lookup) -> {
         try {
-            final Constructor<?> constructor;
-            constructor = erase(type.getType()).getDeclaredConstructor();
-            constructor.setAccessible(true);
+            final MethodHandle constructor;
+            final Class<?> erased = erase(type.getType());
+            constructor = MethodHandles.privateLookupIn(erased, lookup == null ? OWN_LOOKUP : lookup)
+                .findConstructor(erased, MethodType.methodType(void.class));
             return () -> {
                 try {
-                    return constructor.newInstance();
-                } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
+                    return constructor.invoke();
+                } catch (final RuntimeException ex) {
+                    throw ex;
+                } catch (final Throwable thr) {
+                    throw new RuntimeException(thr);
                 }
             };
-        } catch (final NoSuchMethodException e) {
+        } catch (final NoSuchMethodException | IllegalAccessException e) {
             return null;
         }
-    }, "Objects must have a zero-argument constructor to be able to create new instances");
+    }, "Objects must have a zero-argument constructor to be able to create new instances", false);
 
-    private final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory;
+    private final CheckedBiFunction<
+        AnnotatedType,
+        MethodHandles.@Nullable Lookup,
+        @Nullable Supplier<Object>,
+        SerializationException
+        > instanceFactory;
     private final String instanceUnavailableErrorMessage;
+    private final boolean requiresInstanceCreation;
 
-    ObjectFieldDiscoverer(
+    DisabledObjectFieldDiscoverer(
         final CheckedFunction<AnnotatedType, @Nullable Supplier<Object>, SerializationException> instanceFactory,
-        final @Nullable String instanceUnavailableErrorMessage
+        final @Nullable String instanceUnavailableErrorMessage,
+        final boolean requiresInstanceCreation
+    ) {
+        this((type, lookup) -> instanceFactory.apply(type), instanceUnavailableErrorMessage, requiresInstanceCreation);
+    }
+
+    DisabledObjectFieldDiscoverer(
+        final CheckedBiFunction<AnnotatedType, MethodHandles.@Nullable Lookup, @Nullable Supplier<Object>, SerializationException> instanceFactory,
+        final @Nullable String instanceUnavailableErrorMessage,
+        final boolean requiresInstanceCreation
     ) {
         this.instanceFactory = instanceFactory;
         this.instanceUnavailableErrorMessage = Objects.requireNonNullElse(
             instanceUnavailableErrorMessage,
             "Unable to create instances for this type!"
         );
+        this.requiresInstanceCreation = requiresInstanceCreation;
     }
 
     @Override
-    public <V> @Nullable InstanceFactory<Map<VarHandle, Object>> discover(final AnnotatedType target,
-            final FieldCollector<Map<VarHandle, Object>, V> collector) throws SerializationException {
+    public <V> @Nullable InstanceFactory<Map<VarHandle, Object>> discover(
+        final AnnotatedType target,
+        final FieldCollector<Map<VarHandle, Object>, V> collector,
+        final MethodHandles.@Nullable Lookup lookup
+    ) throws SerializationException {
         final Class<?> clazz = erase(target.getType());
         if (clazz.isInterface()) {
             throw new SerializationException(target.getType(), "ObjectMapper can only work with concrete types");
         }
 
-        final @Nullable Supplier<Object> maker = this.instanceFactory.apply(target);
+        final @Nullable Supplier<Object> maker = this.instanceFactory.apply(target, lookup);
+        if (maker == null && this.requiresInstanceCreation) {
+            return null;
+        }
 
         AnnotatedType collectType = target;
         Class<?> collectClass = clazz;
         while (true) {
             try {
-                collectFields(collectType, collector);
+                collectFields(collectType, collector, lookup);
             } catch (final IllegalAccessException ex) {
                 throw new SerializationException(collectType.getType(), "Unable to access field in type", ex);
             }
@@ -107,7 +133,7 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<VarHandle, Object>> {
 
             @Override
             public void complete(final Object instance, final Map<VarHandle, Object> intermediate) {
-                for (Map.Entry<VarHandle, Object> entry : intermediate.entrySet()) {
+                for (final Map.Entry<VarHandle, Object> entry : intermediate.entrySet()) {
                     // Handle implicit field initialization by detecting any existing information in the object
                     if (entry.getValue() instanceof ImplicitProvider) {
                         final @Nullable Object implicit = ((ImplicitProvider) entry.getValue()).provider.get();
@@ -124,9 +150,9 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<VarHandle, Object>> {
 
             @Override
             public Object complete(final Map<VarHandle, Object> intermediate) throws SerializationException {
-                final Object instance = maker == null ? null : maker.get();
+                final @Nullable Object instance = maker == null ? null : maker.get();
                 if (instance == null) {
-                    throw new SerializationException(target.getType(), ObjectFieldDiscoverer.this.instanceUnavailableErrorMessage);
+                    throw new SerializationException(target.getType(), DisabledObjectFieldDiscoverer.this.instanceUnavailableErrorMessage);
                 }
                 complete(instance, intermediate);
                 return instance;
@@ -140,10 +166,14 @@ class ObjectFieldDiscoverer implements FieldDiscoverer<Map<VarHandle, Object>> {
         };
     }
 
-    private void collectFields(final AnnotatedType clazz, final FieldCollector<Map<VarHandle, Object>, ?> fieldMaker) throws IllegalAccessException {
+    private void collectFields(
+        final AnnotatedType clazz,
+        final FieldCollector<Map<VarHandle, Object>, ?> fieldMaker,
+        final MethodHandles.@Nullable Lookup source
+    ) throws IllegalAccessException {
         final Class<?> erased = erase(clazz.getType());
-        final MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(erased, OWN_LOOKUP);
-        for (Field field : erased.getDeclaredFields()) {
+        final MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(erased, source == null ? OWN_LOOKUP : source);
+        for (final Field field : erased.getDeclaredFields()) {
             if ((field.getModifiers() & (Modifier.STATIC | Modifier.TRANSIENT)) != 0) {
                 continue;
             }

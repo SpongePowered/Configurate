@@ -25,6 +25,7 @@ import org.spongepowered.configurate.objectmapping.FieldDiscoverer
 import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.objectmapping.ObjectMapper.Factory
 import org.spongepowered.configurate.util.Types.combinedAnnotations
+import java.lang.invoke.MethodHandles
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.AnnotatedType
 import kotlin.reflect.KAnnotatedElement
@@ -88,6 +89,7 @@ private object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter,
     override fun <V> discover(
         target: AnnotatedType,
         collector: FieldDiscoverer.FieldCollector<MutableMap<KParameter, Any?>, V>,
+        lookup: MethodHandles.Lookup?, // include the argument here, even though Kotlin doesn't really support module access control yet
     ): FieldDiscoverer.InstanceFactory<MutableMap<KParameter, Any?>>? {
         val klass = erase(target.type).kotlin
         if (!klass.isData) {

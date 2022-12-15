@@ -23,11 +23,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.Types;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.RecordComponent;
 
@@ -51,8 +53,11 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
      * @return an instance factory if this class is a record
      */
     @Override
-    public <V> @Nullable InstanceFactory<@Nullable Object[]> discover(final AnnotatedType target,
-            final FieldCollector<@Nullable Object[], V> collector) throws SerializationException {
+    public <V> @Nullable InstanceFactory<@Nullable Object[]> discover(
+        final AnnotatedType target,
+        final FieldCollector<@Nullable Object[], V> collector,
+        final MethodHandles.@Nullable Lookup lookup
+    ) throws SerializationException {
         final Class<?> clazz = erase(target.getType());
         if (!clazz.isRecord()) {
             return null;
@@ -64,14 +69,19 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
                 // each component is itself annotatable, plus attached backing field and accessor method, so we have to get them all
                 final RecordComponent component = recordComponents[i];
                 final Method accessor = component.getAccessor();
-                accessor.setAccessible(true);
+                final MethodHandle accessorHandle;
+                if (lookup != null) {
+                    accessorHandle = lookup.unreflect(accessor);
+                } else {
+                    accessor.setAccessible(true);
+                    accessorHandle = MethodHandles.publicLookup().unreflect(accessor);
+                }
 
                 final String name = component.getName();
                 final AnnotatedType genericType = component.getAnnotatedType();
                 constructorParams[i] = erase(genericType.getType()); // to add to the canonical constructor
 
                 final Field backingField = clazz.getDeclaredField(name);
-                backingField.setAccessible(true);
 
                 // Then we put everything together: resolve the type, calculate annotations, and submit a field
                 final AnnotatedType resolvedType = resolveExactType(genericType, target);
@@ -84,13 +94,27 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
                         } else {
                             intermediate[targetIdx] = implicitSupplier.get();
                         }
-                    }, accessor::invoke
+                    }, instance -> {
+                        try {
+                            return accessorHandle.invoke(instance);
+                        } catch (final Exception ex) {
+                            throw ex;
+                        } catch (final Throwable thr) {
+                            throw new Exception(thr);
+                        }
+                    }
                 );
             }
 
             // canonical constructor, which we'll use to make new instances
-            final Constructor<?> clazzConstructor = clazz.getDeclaredConstructor(constructorParams);
-            clazzConstructor.setAccessible(true);
+            final MethodHandle clazzConstructor;
+            if (lookup != null) {
+                clazzConstructor = lookup.findConstructor(clazz, MethodType.methodType(void.class, constructorParams));
+            } else {
+                final Constructor<?> temp = clazz.getDeclaredConstructor(constructorParams);
+                temp.setAccessible(true);
+                clazzConstructor = MethodHandles.publicLookup().unreflectConstructor(temp);
+            }
 
             return new InstanceFactory<>() {
                 @Override
@@ -108,8 +132,8 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
                     }
 
                     try {
-                        return clazzConstructor.newInstance(intermediate);
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                        return clazzConstructor.invokeWithArguments(intermediate);
+                    } catch (final Throwable e) {
                         throw new SerializationException(target.getType(), e);
                     }
                 }
@@ -121,6 +145,9 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
             };
         } catch (final NoSuchFieldException | NoSuchMethodException ex) {
             throw new SerializationException(target.getType(), "Record class did not have fields and accessors aligning specification", ex);
+        } catch (final IllegalAccessException ex) {
+            throw new SerializationException(target.getType(), "Record class was not accessible! Try passing a MethodHandles.Lookup instance in "
+                + "the appropriate module to set the value", ex);
         }
     }
 

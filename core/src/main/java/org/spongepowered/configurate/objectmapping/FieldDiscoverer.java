@@ -22,6 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.util.CheckedFunction;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
 import java.util.function.Supplier;
@@ -137,13 +138,46 @@ public interface FieldDiscoverer<I> {
      *
      * @param target type to inspect
      * @param collector collector for discovered fields.
+     * @param lookup a lookup for reflective access to access-controlled members
+     * @param <V> object type
+     * @return a factory for handling the construction of object instances, or
+     *      {@code null} if {@code target} is not of a handleable type.
+     * @throws SerializationException if any fields have invalid data
+     * @since 4.2.0
+     */
+    default <V> @Nullable InstanceFactory<I> discover(
+        final AnnotatedType target,
+        final FieldCollector<I, V> collector,
+        final MethodHandles.@Nullable Lookup lookup
+    ) throws SerializationException {
+        return this.discover(target, collector);
+    }
+
+    /**
+     * Inspect the {@code target} type for fields to be supplied to
+     * the {@code collector}.
+     *
+     * <p>If the target type is handleable, a non-null value must be returned.
+     * Fields can only be collected from one source at the moment, so if the
+     * instance factory is null any discovered fields will be discarded.</p>
+     *
+     * @param target type to inspect
+     * @param collector collector for discovered fields.
      * @param <V> object type
      * @return a factory for handling the construction of object instances, or
      *      {@code null} if {@code target} is not of a handleable type.
      * @throws SerializationException if any fields have invalid data
      * @since 4.0.0
+     * @deprecated for removal since 4.2.0, use the module-aware
+     *     {@link #discover(AnnotatedType, FieldCollector, MethodHandles.Lookup)} instead
      */
-    <V> @Nullable InstanceFactory<I> discover(AnnotatedType target, FieldCollector<I, V> collector) throws SerializationException;
+    @Deprecated
+    default <V> @Nullable InstanceFactory<I> discover(
+        final AnnotatedType target,
+        final FieldCollector<I, V> collector
+    ) throws SerializationException {
+        return null;
+    }
 
     /**
      * A handler that controls the deserialization process for an object.

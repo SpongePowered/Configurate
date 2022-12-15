@@ -88,8 +88,11 @@ final class RecordFieldDiscoverer implements FieldDiscoverer<@Nullable Object[]>
      * @return an instance factory if this class is a record
      */
     @Override
-    public <V> @Nullable InstanceFactory<@Nullable Object[]> discover(final AnnotatedType target,
-            final FieldCollector<@Nullable Object[], V> collector) throws SerializationException {
+    public <V> @Nullable InstanceFactory<@Nullable Object[]> discover(
+        final AnnotatedType target,
+        final FieldCollector<@Nullable Object[], V> collector,
+        final MethodHandles.@Nullable Lookup lookup // see J16 source set for this
+    ) throws SerializationException {
         if (CLASS_IS_RECORD != null && CLASS_GET_RECORD_COMPONENTS != null && RECORD_COMPONENT_GET_ANNOTATED_TYPE != null
                 && RECORD_COMPONENT_GET_NAME != null && RECORD_COMPONENT_GET_ACCESSOR != null) {
             final Class<?> clazz = erase(target.getType());

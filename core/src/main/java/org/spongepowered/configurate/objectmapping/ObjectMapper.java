@@ -28,6 +28,7 @@ import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.NamingScheme;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -360,6 +361,18 @@ public interface ObjectMapper<V> {
              * @since 4.2.0
              */
             Builder addPostProcessor(PostProcessor.Factory factory);
+
+            /**
+             * Set a custom lookup to access fields.
+             *
+             * <p>This allows Configurate to reflectively modify classes
+             * without opening them for reflective access.</p>
+             *
+             * @param lookup the lookup to use
+             * @return this builder
+             * @since 4.2.0
+             */
+            Builder lookup(MethodHandles.Lookup lookup);
 
             /**
              * Create a new factory using the current configuration.
