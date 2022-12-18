@@ -53,10 +53,15 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("checkstyle:IllegalType") // for Optional
 class TypeSerializersTest {
 
     private <T> TypeSerializer<T> serializer(final TypeToken<T> type) {
@@ -676,6 +681,63 @@ class TypeSerializersTest {
         assertThat(pattern.flags())
             .inBinary()
             .isEqualTo(Pattern.CASE_INSENSITIVE);
+    }
+
+    @Test
+    void testOptional() throws SerializationException {
+        final TypeToken<Optional<String>> type = new TypeToken<Optional<String>>() {};
+        final TypeSerializer<Optional<String>> serializer = this.serializer(type);
+
+        final Optional<String> shouldBeEmpty = serializer.deserialize(type.getAnnotatedType(), BasicConfigurationNode.root());
+        assertThat(shouldBeEmpty)
+            .isEmpty();
+
+        final Optional<String> present = serializer.deserialize(type.getAnnotatedType(), BasicConfigurationNode.root().raw("hello world"));
+        assertThat(present)
+            .isNotEmpty()
+            .hasValue("hello world");
+    }
+
+    @Test
+    void testOptionalInt() throws SerializationException {
+        final TypeSerializer<OptionalInt> serializer = this.serializer(OptionalInt.class);
+
+        final OptionalInt shouldBeEmpty = serializer.deserialize(OptionalInt.class, BasicConfigurationNode.root());
+        assertThat(shouldBeEmpty)
+            .isEmpty();
+
+        final OptionalInt present = serializer.deserialize(OptionalInt.class, BasicConfigurationNode.root().raw(13));
+        assertThat(present)
+            .isNotEmpty()
+            .hasValue(13);
+    }
+
+    @Test
+    void testOptionalLong() throws SerializationException {
+        final TypeSerializer<OptionalLong> serializer = this.serializer(OptionalLong.class);
+
+        final OptionalLong shouldBeEmpty = serializer.deserialize(OptionalLong.class, BasicConfigurationNode.root());
+        assertThat(shouldBeEmpty)
+            .isEmpty();
+
+        final OptionalLong present = serializer.deserialize(OptionalLong.class, BasicConfigurationNode.root().raw(450000));
+        assertThat(present)
+            .isNotEmpty()
+            .hasValue(450000L);
+    }
+
+    @Test
+    void testOptionalDouble() throws SerializationException {
+        final TypeSerializer<OptionalDouble> serializer = this.serializer(OptionalDouble.class);
+
+        final OptionalDouble shouldBeEmpty = serializer.deserialize(OptionalDouble.class, BasicConfigurationNode.root());
+        assertThat(shouldBeEmpty)
+            .isEmpty();
+
+        final OptionalDouble present = serializer.deserialize(OptionalDouble.class, BasicConfigurationNode.root().raw(5.83e10));
+        assertThat(present)
+            .isNotEmpty()
+            .hasValue(5.83e10d);
     }
 
 }

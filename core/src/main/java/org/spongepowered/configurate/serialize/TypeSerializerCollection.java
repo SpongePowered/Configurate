@@ -79,6 +79,10 @@ public final class TypeSerializerCollection {
                 .register(ConfigurationNodeSerializer.TYPE, new ConfigurationNodeSerializer())
                 .register(PathSerializer.TYPE, PathSerializer.INSTANCE)
                 .registerExact(FileSerializer.TYPE, FileSerializer.INSTANCE)
+                .register(OptionalSerializer.TYPE, OptionalSerializer.INSTANCE)
+                .registerExact(OptionalSerializer.OfInt.TYPE, OptionalSerializer.OfInt.INSTANCE)
+                .registerExact(OptionalSerializer.OfLong.TYPE, OptionalSerializer.OfLong.INSTANCE)
+                .registerExact(OptionalSerializer.OfDouble.TYPE, OptionalSerializer.OfDouble.INSTANCE)
                 .build();
     }
 
