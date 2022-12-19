@@ -1,0 +1,4 @@
+moduleName=Configurate Extensions for YAML Tests
+moduleVersion=test
+extensionClasses=
+staticExtensionClasses=org.spongepowered.configurate.yaml.ConfigurationNodeStaticExtensions

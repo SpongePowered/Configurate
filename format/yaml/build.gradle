@@ -1,6 +1,7 @@
 plugins {
     id 'org.spongepowered.configurate.build.component'
     alias(libs.plugins.shadow)
+    id 'groovy' // for tests
 }
 
 description = "YAML format loader for Configurate"
@@ -12,9 +13,19 @@ configurations {
     testImplementation { extendsFrom shaded }
 }
 
+configurate.useAutoValue()
 dependencies {
     api projects.core
     shaded "configurate.thirdparty:snakeyaml:version-from-submodule"
+
+    [
+        libs.groovy,
+        libs.groovy.nio,
+        libs.groovy.test.junit5,
+        libs.groovy.templates
+    ].each {
+        testImplementation it
+    }
 }
 
 tasks {

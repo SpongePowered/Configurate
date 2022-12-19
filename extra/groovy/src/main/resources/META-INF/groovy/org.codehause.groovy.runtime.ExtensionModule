@@ -1,0 +1,4 @@
+moduleName=Extensions to configurate for compatibility with the Groovy environment
+moduleVersion=${version}
+extensionClasses=org.spongepowered.configurate.extra.groovy.ConfigurationNodeExtensions
+staticExtensionClasses=
