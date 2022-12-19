@@ -17,6 +17,7 @@
 package org.spongepowered.configurate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -535,6 +536,14 @@ class AbstractConfigurationNodeTest {
         node.raw(42.2d);
 
         assertThat(node.get(double.class)).isEqualTo(42.2d);
+    }
+
+    // https://github.com/SpongePowered/Configurate/issues/300
+    @Test
+    void testIntKeysInVirtualMaps() {
+        assertThatNoException()
+            .as("attaching configuration node with an integer key")
+            .isThrownBy(() -> BasicConfigurationNode.root().node("hello", 3).set("abc"));
     }
 
 }

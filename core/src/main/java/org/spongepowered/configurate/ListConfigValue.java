@@ -56,7 +56,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
      * @return if the key is likely to be a list index
      */
     static boolean likelyListKey(final @Nullable Object key) {
-        return key instanceof Integer || key == UNALLOCATED_IDX;
+        return (key instanceof Integer && ((Integer) key).intValue() == 0) || key == UNALLOCATED_IDX;
     }
 
     private final A holder;
