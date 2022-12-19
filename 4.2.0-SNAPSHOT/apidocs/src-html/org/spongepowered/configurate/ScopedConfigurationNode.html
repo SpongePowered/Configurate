@@ -130,142 +130,144 @@
 <span class="sourceLineNo">121</span><a id="line.121">            } catch (final SerializationException ex) {</a>
 <span class="sourceLineNo">122</span><a id="line.122">                ex.initPath(this::path);</a>
 <span class="sourceLineNo">123</span><a id="line.123">                ex.initType(type);</a>
-<span class="sourceLineNo">124</span><a id="line.124">            }</a>
-<span class="sourceLineNo">125</span><a id="line.125">        } else if (this.options().acceptsType(value.getClass())) {</a>
-<span class="sourceLineNo">126</span><a id="line.126">            this.raw(value); // Just write if no applicable serializer exists?</a>
-<span class="sourceLineNo">127</span><a id="line.127">        } else {</a>
-<span class="sourceLineNo">128</span><a id="line.128">            throw new SerializationException(this, type, "No serializer available for type " + type);</a>
-<span class="sourceLineNo">129</span><a id="line.129">        }</a>
-<span class="sourceLineNo">130</span><a id="line.130">        return this.self();</a>
-<span class="sourceLineNo">131</span><a id="line.131">    }</a>
-<span class="sourceLineNo">132</span><a id="line.132"></a>
-<span class="sourceLineNo">133</span><a id="line.133">    /**</a>
-<span class="sourceLineNo">134</span><a id="line.134">     * {@inheritDoc}</a>
-<span class="sourceLineNo">135</span><a id="line.135">     */</a>
-<span class="sourceLineNo">136</span><a id="line.136">    @Override</a>
-<span class="sourceLineNo">137</span><a id="line.137">    @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize</a>
-<span class="sourceLineNo">138</span><a id="line.138">    default N set(final AnnotatedType type, final @Nullable Object value) throws SerializationException {</a>
-<span class="sourceLineNo">139</span><a id="line.139">        if (value == null) {</a>
-<span class="sourceLineNo">140</span><a id="line.140">            return this.set(null);</a>
-<span class="sourceLineNo">141</span><a id="line.141">        }</a>
-<span class="sourceLineNo">142</span><a id="line.142">        final Class&lt;?&gt; erasedType = GenericTypeReflector.erase(type.getType());</a>
-<span class="sourceLineNo">143</span><a id="line.143">        if (!erasedType.isInstance(value)) {</a>
-<span class="sourceLineNo">144</span><a id="line.144">            throw new SerializationException(this, type, "Got a value of unexpected type "</a>
-<span class="sourceLineNo">145</span><a id="line.145">                + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());</a>
-<span class="sourceLineNo">146</span><a id="line.146">        }</a>
-<span class="sourceLineNo">147</span><a id="line.147"></a>
-<span class="sourceLineNo">148</span><a id="line.148">        final @Nullable TypeSerializer&lt;?&gt; serial = this.options().serializers().get(type);</a>
-<span class="sourceLineNo">149</span><a id="line.149">        if (serial != null) {</a>
-<span class="sourceLineNo">150</span><a id="line.150">            try {</a>
-<span class="sourceLineNo">151</span><a id="line.151">                ((TypeSerializer) serial).serialize(type, value, this);</a>
-<span class="sourceLineNo">152</span><a id="line.152">            } catch (final SerializationException ex) {</a>
-<span class="sourceLineNo">153</span><a id="line.153">                ex.initPath(this::path);</a>
-<span class="sourceLineNo">154</span><a id="line.154">                ex.initType(type);</a>
-<span class="sourceLineNo">155</span><a id="line.155">            }</a>
-<span class="sourceLineNo">156</span><a id="line.156">        } else if (this.options().acceptsType(value.getClass())) {</a>
-<span class="sourceLineNo">157</span><a id="line.157">            this.raw(value); // Just write if no applicable serializer exists?</a>
-<span class="sourceLineNo">158</span><a id="line.158">        } else {</a>
-<span class="sourceLineNo">159</span><a id="line.159">            throw new SerializationException(this, type, "No serializer available for type " + type);</a>
-<span class="sourceLineNo">160</span><a id="line.160">        }</a>
-<span class="sourceLineNo">161</span><a id="line.161">        return this.self();</a>
-<span class="sourceLineNo">162</span><a id="line.162">    }</a>
-<span class="sourceLineNo">163</span><a id="line.163"></a>
-<span class="sourceLineNo">164</span><a id="line.164">    @Override</a>
-<span class="sourceLineNo">165</span><a id="line.165">    default &lt;V&gt; N set(final Class&lt;V&gt; type, final @Nullable V value) throws SerializationException {</a>
-<span class="sourceLineNo">166</span><a id="line.166">        return this.set((Type) type, value);</a>
-<span class="sourceLineNo">167</span><a id="line.167">    }</a>
-<span class="sourceLineNo">168</span><a id="line.168"></a>
-<span class="sourceLineNo">169</span><a id="line.169">    @Override</a>
-<span class="sourceLineNo">170</span><a id="line.170">    default &lt;V&gt; N set(final TypeToken&lt;V&gt; type, final @Nullable V value) throws SerializationException {</a>
-<span class="sourceLineNo">171</span><a id="line.171">        return this.set(type.getType(), value);</a>
-<span class="sourceLineNo">172</span><a id="line.172">    }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    @Override</a>
-<span class="sourceLineNo">175</span><a id="line.175">    default &lt;V&gt; N setList(final Class&lt;V&gt; elementType, final @Nullable List&lt;V&gt; items) throws SerializationException {</a>
-<span class="sourceLineNo">176</span><a id="line.176">        ConfigurationNode.super.setList(elementType, items);</a>
-<span class="sourceLineNo">177</span><a id="line.177">        return this.self();</a>
-<span class="sourceLineNo">178</span><a id="line.178">    }</a>
-<span class="sourceLineNo">179</span><a id="line.179"></a>
-<span class="sourceLineNo">180</span><a id="line.180">    @Override</a>
-<span class="sourceLineNo">181</span><a id="line.181">    default &lt;V&gt; N setList(final TypeToken&lt;V&gt; elementType, final @Nullable List&lt;V&gt; items) throws SerializationException {</a>
-<span class="sourceLineNo">182</span><a id="line.182">        ConfigurationNode.super.setList(elementType, items);</a>
-<span class="sourceLineNo">183</span><a id="line.183">        return this.self();</a>
-<span class="sourceLineNo">184</span><a id="line.184">    }</a>
-<span class="sourceLineNo">185</span><a id="line.185"></a>
-<span class="sourceLineNo">186</span><a id="line.186">    /**</a>
-<span class="sourceLineNo">187</span><a id="line.187">     * {@inheritDoc}</a>
-<span class="sourceLineNo">188</span><a id="line.188">     */</a>
-<span class="sourceLineNo">189</span><a id="line.189">    @Override</a>
-<span class="sourceLineNo">190</span><a id="line.190">    N raw(@Nullable Object value);</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">    /**</a>
-<span class="sourceLineNo">193</span><a id="line.193">     * {@inheritDoc}</a>
-<span class="sourceLineNo">194</span><a id="line.194">     */</a>
-<span class="sourceLineNo">195</span><a id="line.195">    @Override</a>
-<span class="sourceLineNo">196</span><a id="line.196">    List&lt;N&gt; childrenList();</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">    /**</a>
-<span class="sourceLineNo">199</span><a id="line.199">     * {@inheritDoc}</a>
-<span class="sourceLineNo">200</span><a id="line.200">     */</a>
-<span class="sourceLineNo">201</span><a id="line.201">    @Override</a>
-<span class="sourceLineNo">202</span><a id="line.202">    Map&lt;Object, N&gt; childrenMap();</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">    /**</a>
-<span class="sourceLineNo">205</span><a id="line.205">     * {@inheritDoc}</a>
-<span class="sourceLineNo">206</span><a id="line.206">     */</a>
-<span class="sourceLineNo">207</span><a id="line.207">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">208</span><a id="line.208">    @Override</a>
-<span class="sourceLineNo">209</span><a id="line.209">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final TypeToken&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">210</span><a id="line.210">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
-<span class="sourceLineNo">211</span><a id="line.211">    }</a>
-<span class="sourceLineNo">212</span><a id="line.212"></a>
-<span class="sourceLineNo">213</span><a id="line.213">    /**</a>
-<span class="sourceLineNo">214</span><a id="line.214">     * {@inheritDoc}</a>
-<span class="sourceLineNo">215</span><a id="line.215">     */</a>
-<span class="sourceLineNo">216</span><a id="line.216">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">217</span><a id="line.217">    @Override</a>
-<span class="sourceLineNo">218</span><a id="line.218">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final Class&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">219</span><a id="line.219">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
-<span class="sourceLineNo">220</span><a id="line.220">    }</a>
-<span class="sourceLineNo">221</span><a id="line.221"></a>
-<span class="sourceLineNo">222</span><a id="line.222">    /**</a>
-<span class="sourceLineNo">223</span><a id="line.223">     * {@inheritDoc}</a>
-<span class="sourceLineNo">224</span><a id="line.224">     */</a>
-<span class="sourceLineNo">225</span><a id="line.225">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">226</span><a id="line.226">    @Override</a>
-<span class="sourceLineNo">227</span><a id="line.227">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final TypeToken&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">228</span><a id="line.228">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
-<span class="sourceLineNo">229</span><a id="line.229">    }</a>
-<span class="sourceLineNo">230</span><a id="line.230"></a>
-<span class="sourceLineNo">231</span><a id="line.231">    /**</a>
-<span class="sourceLineNo">232</span><a id="line.232">     * {@inheritDoc}</a>
-<span class="sourceLineNo">233</span><a id="line.233">     */</a>
-<span class="sourceLineNo">234</span><a id="line.234">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
-<span class="sourceLineNo">235</span><a id="line.235">    @Override</a>
-<span class="sourceLineNo">236</span><a id="line.236">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final Class&lt;V&gt; valueType) {</a>
-<span class="sourceLineNo">237</span><a id="line.237">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
-<span class="sourceLineNo">238</span><a id="line.238">    }</a>
-<span class="sourceLineNo">239</span><a id="line.239"></a>
-<span class="sourceLineNo">240</span><a id="line.240">    /**</a>
-<span class="sourceLineNo">241</span><a id="line.241">     * Execute an action on this node. This allows performing multiple</a>
-<span class="sourceLineNo">242</span><a id="line.242">     * operations on a single node without having to clutter up the surrounding</a>
-<span class="sourceLineNo">243</span><a id="line.243">     * scope.</a>
-<span class="sourceLineNo">244</span><a id="line.244">     *</a>
-<span class="sourceLineNo">245</span><a id="line.245">     * @param &lt;E&gt; thrown type</a>
-<span class="sourceLineNo">246</span><a id="line.246">     * @param action the action to perform on this node</a>
-<span class="sourceLineNo">247</span><a id="line.247">     * @return this node</a>
-<span class="sourceLineNo">248</span><a id="line.248">     * @throws E when thrown by callback {@code action}</a>
-<span class="sourceLineNo">249</span><a id="line.249">     * @since 4.0.0</a>
-<span class="sourceLineNo">250</span><a id="line.250">     */</a>
-<span class="sourceLineNo">251</span><a id="line.251">    default &lt;E extends Exception&gt; N act(final CheckedConsumer&lt;? super N, E&gt; action) throws E {</a>
-<span class="sourceLineNo">252</span><a id="line.252">        action.accept(this.self());</a>
-<span class="sourceLineNo">253</span><a id="line.253">        return this.self();</a>
-<span class="sourceLineNo">254</span><a id="line.254">    }</a>
-<span class="sourceLineNo">255</span><a id="line.255"></a>
-<span class="sourceLineNo">256</span><a id="line.256">    @Override</a>
-<span class="sourceLineNo">257</span><a id="line.257">    &lt;V&gt; N hint(RepresentationHint&lt;V&gt; hint, @Nullable V value);</a>
-<span class="sourceLineNo">258</span><a id="line.258"></a>
-<span class="sourceLineNo">259</span><a id="line.259">}</a>
+<span class="sourceLineNo">124</span><a id="line.124">                throw ex;</a>
+<span class="sourceLineNo">125</span><a id="line.125">            }</a>
+<span class="sourceLineNo">126</span><a id="line.126">        } else if (this.options().acceptsType(value.getClass())) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">            this.raw(value); // Just write if no applicable serializer exists?</a>
+<span class="sourceLineNo">128</span><a id="line.128">        } else {</a>
+<span class="sourceLineNo">129</span><a id="line.129">            throw new SerializationException(this, type, "No serializer available for type " + type);</a>
+<span class="sourceLineNo">130</span><a id="line.130">        }</a>
+<span class="sourceLineNo">131</span><a id="line.131">        return this.self();</a>
+<span class="sourceLineNo">132</span><a id="line.132">    }</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">    /**</a>
+<span class="sourceLineNo">135</span><a id="line.135">     * {@inheritDoc}</a>
+<span class="sourceLineNo">136</span><a id="line.136">     */</a>
+<span class="sourceLineNo">137</span><a id="line.137">    @Override</a>
+<span class="sourceLineNo">138</span><a id="line.138">    @SuppressWarnings({"unchecked", "rawtypes"}) // for TypeSerializer.serialize</a>
+<span class="sourceLineNo">139</span><a id="line.139">    default N set(final AnnotatedType type, final @Nullable Object value) throws SerializationException {</a>
+<span class="sourceLineNo">140</span><a id="line.140">        if (value == null) {</a>
+<span class="sourceLineNo">141</span><a id="line.141">            return this.set(null);</a>
+<span class="sourceLineNo">142</span><a id="line.142">        }</a>
+<span class="sourceLineNo">143</span><a id="line.143">        final Class&lt;?&gt; erasedType = GenericTypeReflector.erase(type.getType());</a>
+<span class="sourceLineNo">144</span><a id="line.144">        if (!erasedType.isInstance(value)) {</a>
+<span class="sourceLineNo">145</span><a id="line.145">            throw new SerializationException(this, type, "Got a value of unexpected type "</a>
+<span class="sourceLineNo">146</span><a id="line.146">                + value.getClass().getName() + ", when the value should be an instance of " + erasedType.getSimpleName());</a>
+<span class="sourceLineNo">147</span><a id="line.147">        }</a>
+<span class="sourceLineNo">148</span><a id="line.148"></a>
+<span class="sourceLineNo">149</span><a id="line.149">        final @Nullable TypeSerializer&lt;?&gt; serial = this.options().serializers().get(type);</a>
+<span class="sourceLineNo">150</span><a id="line.150">        if (serial != null) {</a>
+<span class="sourceLineNo">151</span><a id="line.151">            try {</a>
+<span class="sourceLineNo">152</span><a id="line.152">                ((TypeSerializer) serial).serialize(type, value, this);</a>
+<span class="sourceLineNo">153</span><a id="line.153">            } catch (final SerializationException ex) {</a>
+<span class="sourceLineNo">154</span><a id="line.154">                ex.initPath(this::path);</a>
+<span class="sourceLineNo">155</span><a id="line.155">                ex.initType(type);</a>
+<span class="sourceLineNo">156</span><a id="line.156">                throw ex;</a>
+<span class="sourceLineNo">157</span><a id="line.157">            }</a>
+<span class="sourceLineNo">158</span><a id="line.158">        } else if (this.options().acceptsType(value.getClass())) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">            this.raw(value); // Just write if no applicable serializer exists?</a>
+<span class="sourceLineNo">160</span><a id="line.160">        } else {</a>
+<span class="sourceLineNo">161</span><a id="line.161">            throw new SerializationException(this, type, "No serializer available for type " + type);</a>
+<span class="sourceLineNo">162</span><a id="line.162">        }</a>
+<span class="sourceLineNo">163</span><a id="line.163">        return this.self();</a>
+<span class="sourceLineNo">164</span><a id="line.164">    }</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">    @Override</a>
+<span class="sourceLineNo">167</span><a id="line.167">    default &lt;V&gt; N set(final Class&lt;V&gt; type, final @Nullable V value) throws SerializationException {</a>
+<span class="sourceLineNo">168</span><a id="line.168">        return this.set((Type) type, value);</a>
+<span class="sourceLineNo">169</span><a id="line.169">    }</a>
+<span class="sourceLineNo">170</span><a id="line.170"></a>
+<span class="sourceLineNo">171</span><a id="line.171">    @Override</a>
+<span class="sourceLineNo">172</span><a id="line.172">    default &lt;V&gt; N set(final TypeToken&lt;V&gt; type, final @Nullable V value) throws SerializationException {</a>
+<span class="sourceLineNo">173</span><a id="line.173">        return this.set(type.getType(), value);</a>
+<span class="sourceLineNo">174</span><a id="line.174">    }</a>
+<span class="sourceLineNo">175</span><a id="line.175"></a>
+<span class="sourceLineNo">176</span><a id="line.176">    @Override</a>
+<span class="sourceLineNo">177</span><a id="line.177">    default &lt;V&gt; N setList(final Class&lt;V&gt; elementType, final @Nullable List&lt;V&gt; items) throws SerializationException {</a>
+<span class="sourceLineNo">178</span><a id="line.178">        ConfigurationNode.super.setList(elementType, items);</a>
+<span class="sourceLineNo">179</span><a id="line.179">        return this.self();</a>
+<span class="sourceLineNo">180</span><a id="line.180">    }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">    @Override</a>
+<span class="sourceLineNo">183</span><a id="line.183">    default &lt;V&gt; N setList(final TypeToken&lt;V&gt; elementType, final @Nullable List&lt;V&gt; items) throws SerializationException {</a>
+<span class="sourceLineNo">184</span><a id="line.184">        ConfigurationNode.super.setList(elementType, items);</a>
+<span class="sourceLineNo">185</span><a id="line.185">        return this.self();</a>
+<span class="sourceLineNo">186</span><a id="line.186">    }</a>
+<span class="sourceLineNo">187</span><a id="line.187"></a>
+<span class="sourceLineNo">188</span><a id="line.188">    /**</a>
+<span class="sourceLineNo">189</span><a id="line.189">     * {@inheritDoc}</a>
+<span class="sourceLineNo">190</span><a id="line.190">     */</a>
+<span class="sourceLineNo">191</span><a id="line.191">    @Override</a>
+<span class="sourceLineNo">192</span><a id="line.192">    N raw(@Nullable Object value);</a>
+<span class="sourceLineNo">193</span><a id="line.193"></a>
+<span class="sourceLineNo">194</span><a id="line.194">    /**</a>
+<span class="sourceLineNo">195</span><a id="line.195">     * {@inheritDoc}</a>
+<span class="sourceLineNo">196</span><a id="line.196">     */</a>
+<span class="sourceLineNo">197</span><a id="line.197">    @Override</a>
+<span class="sourceLineNo">198</span><a id="line.198">    List&lt;N&gt; childrenList();</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">    /**</a>
+<span class="sourceLineNo">201</span><a id="line.201">     * {@inheritDoc}</a>
+<span class="sourceLineNo">202</span><a id="line.202">     */</a>
+<span class="sourceLineNo">203</span><a id="line.203">    @Override</a>
+<span class="sourceLineNo">204</span><a id="line.204">    Map&lt;Object, N&gt; childrenMap();</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">    /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">     * {@inheritDoc}</a>
+<span class="sourceLineNo">208</span><a id="line.208">     */</a>
+<span class="sourceLineNo">209</span><a id="line.209">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">210</span><a id="line.210">    @Override</a>
+<span class="sourceLineNo">211</span><a id="line.211">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final TypeToken&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">212</span><a id="line.212">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
+<span class="sourceLineNo">213</span><a id="line.213">    }</a>
+<span class="sourceLineNo">214</span><a id="line.214"></a>
+<span class="sourceLineNo">215</span><a id="line.215">    /**</a>
+<span class="sourceLineNo">216</span><a id="line.216">     * {@inheritDoc}</a>
+<span class="sourceLineNo">217</span><a id="line.217">     */</a>
+<span class="sourceLineNo">218</span><a id="line.218">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">219</span><a id="line.219">    @Override</a>
+<span class="sourceLineNo">220</span><a id="line.220">    default &lt;V&gt; Collector&lt;Map.Entry&lt;?, V&gt;, N, N&gt; toMapCollector(final Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">221</span><a id="line.221">        return (Collector) ConfigurationNode.super.toMapCollector(valueType);</a>
+<span class="sourceLineNo">222</span><a id="line.222">    }</a>
+<span class="sourceLineNo">223</span><a id="line.223"></a>
+<span class="sourceLineNo">224</span><a id="line.224">    /**</a>
+<span class="sourceLineNo">225</span><a id="line.225">     * {@inheritDoc}</a>
+<span class="sourceLineNo">226</span><a id="line.226">     */</a>
+<span class="sourceLineNo">227</span><a id="line.227">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">228</span><a id="line.228">    @Override</a>
+<span class="sourceLineNo">229</span><a id="line.229">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final TypeToken&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">230</span><a id="line.230">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
+<span class="sourceLineNo">231</span><a id="line.231">    }</a>
+<span class="sourceLineNo">232</span><a id="line.232"></a>
+<span class="sourceLineNo">233</span><a id="line.233">    /**</a>
+<span class="sourceLineNo">234</span><a id="line.234">     * {@inheritDoc}</a>
+<span class="sourceLineNo">235</span><a id="line.235">     */</a>
+<span class="sourceLineNo">236</span><a id="line.236">    @SuppressWarnings({"unchecked", "rawtypes"})</a>
+<span class="sourceLineNo">237</span><a id="line.237">    @Override</a>
+<span class="sourceLineNo">238</span><a id="line.238">    default &lt;V&gt; Collector&lt;V, N, N&gt; toListCollector(final Class&lt;V&gt; valueType) {</a>
+<span class="sourceLineNo">239</span><a id="line.239">        return (Collector) ConfigurationNode.super.toListCollector(valueType);</a>
+<span class="sourceLineNo">240</span><a id="line.240">    }</a>
+<span class="sourceLineNo">241</span><a id="line.241"></a>
+<span class="sourceLineNo">242</span><a id="line.242">    /**</a>
+<span class="sourceLineNo">243</span><a id="line.243">     * Execute an action on this node. This allows performing multiple</a>
+<span class="sourceLineNo">244</span><a id="line.244">     * operations on a single node without having to clutter up the surrounding</a>
+<span class="sourceLineNo">245</span><a id="line.245">     * scope.</a>
+<span class="sourceLineNo">246</span><a id="line.246">     *</a>
+<span class="sourceLineNo">247</span><a id="line.247">     * @param &lt;E&gt; thrown type</a>
+<span class="sourceLineNo">248</span><a id="line.248">     * @param action the action to perform on this node</a>
+<span class="sourceLineNo">249</span><a id="line.249">     * @return this node</a>
+<span class="sourceLineNo">250</span><a id="line.250">     * @throws E when thrown by callback {@code action}</a>
+<span class="sourceLineNo">251</span><a id="line.251">     * @since 4.0.0</a>
+<span class="sourceLineNo">252</span><a id="line.252">     */</a>
+<span class="sourceLineNo">253</span><a id="line.253">    default &lt;E extends Exception&gt; N act(final CheckedConsumer&lt;? super N, E&gt; action) throws E {</a>
+<span class="sourceLineNo">254</span><a id="line.254">        action.accept(this.self());</a>
+<span class="sourceLineNo">255</span><a id="line.255">        return this.self();</a>
+<span class="sourceLineNo">256</span><a id="line.256">    }</a>
+<span class="sourceLineNo">257</span><a id="line.257"></a>
+<span class="sourceLineNo">258</span><a id="line.258">    @Override</a>
+<span class="sourceLineNo">259</span><a id="line.259">    &lt;V&gt; N hint(RepresentationHint&lt;V&gt; hint, @Nullable V value);</a>
+<span class="sourceLineNo">260</span><a id="line.260"></a>
+<span class="sourceLineNo">261</span><a id="line.261">}</a>
 
 
 
