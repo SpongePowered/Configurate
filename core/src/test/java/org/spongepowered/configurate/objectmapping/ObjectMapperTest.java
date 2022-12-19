@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.errorprone.annotations.Keep;
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -133,6 +134,7 @@ class ObjectMapperTest {
         @Setting private long key;
         private final String value;
 
+        @Keep
         protected NonZeroArgConstructorObject(final String value) {
             this.value = value;
         }

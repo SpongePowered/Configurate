@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.objectmapping;
 
+import com.google.errorprone.annotations.Keep;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,6 +35,7 @@ import java.lang.annotation.Target;
  *
  * @since 4.0.0
  */
+@Keep
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
