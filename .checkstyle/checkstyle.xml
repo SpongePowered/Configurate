@@ -172,9 +172,6 @@
             <property name="influenceFormat" value="1"/>
         </module>
 
-        <!-- https://checkstyle.org/config_coding.html#UnnecessaryParentheses -->
-        <module name="UnnecessaryParentheses"/>
-
         <!-- https://checkstyle.org/config_coding.html#UnnecessarySemicolonAfterOuterTypeDeclaration -->
         <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
 
