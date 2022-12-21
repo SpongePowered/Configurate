@@ -73,15 +73,16 @@ final class Yaml11Tags {
      *
      * @implNote Canonically, these are y|n in YAML 1.1, but because YAML 1.2
      *     will only support true|false, we will treat those as the default
-     *     output format.
+     *     output format. We also modify the regex to only automatically match
+     *     true/false and on/off in order to avoid cases of confusion (such as
+     *     the classic Norway problem).
      * @see <a href="https://yaml.org/type/bool.html">tag:yaml.org,2002:bool</a>
      * @since 4.2.0
      */
     public static final Tag.Scalar<Boolean> BOOL = new Tag.Scalar<Boolean>(
         yamlOrg("bool"),
         UnmodifiableCollections.toSet(Boolean.class),
-        Pattern.compile("y|Y|yes|Yes|YES|n|N|no|No|NO"
-            + "|true|True|TRUE|false|False|FALSE"
+        Pattern.compile("true|True|TRUE|false|False|FALSE"
             + "|on|On|ON|off|Off|OFF")
     ) {
         private final Set<String> trues = UnmodifiableCollections.toSet(
@@ -189,13 +190,13 @@ final class Yaml11Tags {
         // used as map key, where the next node will be a reference that should be merged in to this node
 
         @Override
-        public Object fromString(final String input) throws ParsingException {
-            throw new ParsingException(ParsingException.UNKNOWN_POS, ParsingException.UNKNOWN_POS, null, "Merge keys are not yet implemented", null);
+        public Object fromString(final String input) {
+            return MergeTag.INSTANCE;
         }
 
         @Override
-        public String toString(final Object own) {
-            return own.toString();
+        public String toString(final Object own) throws ParsingException {
+            throw new ParsingException(ParsingException.UNKNOWN_POS, ParsingException.UNKNOWN_POS, null, "Merge keys cannot be serialized", null);
         }
     };
 

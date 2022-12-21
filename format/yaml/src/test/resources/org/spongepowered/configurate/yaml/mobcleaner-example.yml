@@ -31,6 +31,7 @@ worlds:
     - SQUID
     - WOLF
     - ZOMBIE
+
     # Should only entities with a specific spawn reason be removed?
     # Setting this to false will check for any spawn reason
     spawn-reason:
@@ -66,12 +67,15 @@ nearby-entities:
   # This is useful to only remove large groups of entities while leaving smaller entity groups alone
   # Using this would prevent every entity from being removed then just respawning again naturally
   enabled: true
+
   # Only apply to worlds with the mob spawning gamerule enabled?
   gamerule-enabled-only: false
+
   # The distance in blocks that the plugin should check for extra entities
   x: 3
   y: 3
   z: 3
+
   # How many additional entities must be around the first entity to be removed?
   count: 4
 
@@ -84,6 +88,7 @@ remove-named: false
 messages:
   # Should there be action bar messages?
   actionbar: true
+
   # Should there be chat messages?
   chat: false
   actionbar-message: "&6&lCommon entities will be removed in &e&l{SECONDS} &6&lsecond{S}!"
@@ -111,12 +116,15 @@ commands:
 low-tps:
   # Should the entity removal task be triggered when the TPS is low?
   enabled: false
+
   # Below what TPS should the plugin remove the entities?
   threshold: 17
+
   # Should the plugin remove the entities instantly or trigger the countdown?
   # Warning: If the TPS is too low and remove-instantly is false, the plugin may
   # not be able to remove the entities before the server crashes
   remove-instantly: true
+
   # Should there be a chat message sent to players with the `entityclearer.lowtps`
   # permission stating that the TPS is low?
   chat: true

@@ -66,7 +66,6 @@ final class YamlParserComposer extends ParserImpl {
     private static final int FRAME_STACK_INCREMENT = 8;
 
     private @Nullable StringBuilder commentCollector;
-    private final boolean processComments;
     private final boolean stripLeadingCommentWhitespace = true;
     final Map<String, ConfigurationNode> aliases = new HashMap<>();
     final TagRepository tags;
@@ -75,9 +74,8 @@ final class YamlParserComposer extends ParserImpl {
     private Frame[] frames = new Frame[INITIAL_STACK_SIZE];
     private int framePointer = -1;
 
-    YamlParserComposer(final StreamReader reader, final LoaderOptions opts, final TagRepository tags, final boolean enableComments) {
+    YamlParserComposer(final StreamReader reader, final LoaderOptions opts, final TagRepository tags) {
         super(new ScannerImpl(reader, opts));
-        this.processComments = enableComments;
         this.tags = tags;
     }
 
@@ -226,6 +224,9 @@ final class YamlParserComposer extends ParserImpl {
 
         static final int SUPPRESS_COMMENTS = 1; // whether to associate comment events with this node
         static final int SAVE_NODE = 1 << 1; // don't clear node when popping
+        static final int MERGE_REFERENCE_VALUE = 1 << 2; // when values have an anchor
+
+        static final int UNINHERITABLE_FLAGS = MERGE_REFERENCE_VALUE;
 
         @MonotonicNonNull ComposerState state;
 
@@ -236,13 +237,13 @@ final class YamlParserComposer extends ParserImpl {
          * tag resolution.</p>
          */
         @Nullable Tag resolvedTag;
-        ConfigurationNode node;
+        @MonotonicNonNull ConfigurationNode node;
         int flags;
 
         void init(final ComposerState state, final Frame parent) {
             this.state = state;
             this.node = parent.node;
-            this.flags = parent.flags;
+            this.flags = parent.flags & ~UNINHERITABLE_FLAGS;
             this.resolvedTag = null;
         }
 
@@ -323,10 +324,6 @@ final class YamlParserComposer extends ParserImpl {
     }
 
     void collectComments() {
-        if (!this.processComments) {
-            return;
-        }
-
         while (this.peekEvent().is(Event.ID.Comment)) {
             final CommentEvent event = (CommentEvent) this.getEvent();
             if (event.getCommentType() != CommentType.BLANK_LINE) {
@@ -342,6 +339,10 @@ final class YamlParserComposer extends ParserImpl {
                 } else {
                     commentCollector.append(event.getValue());
                 }
+            } else if (this.commentCollector != null
+                && this.commentCollector.length() > 0
+                && this.peekEvent().is(Event.ID.Comment)) { // mid-comment blank line
+                this.commentCollector.append("\n");
             }
         }
     }
@@ -607,6 +608,11 @@ final class YamlParserComposer extends ParserImpl {
             if (keyHolder == null) {
                 throw new IllegalStateException("null keyHolder");
             }
+            // if merge key, set a flag on the next value state
+            if (keyHolder.ownHint(YamlConfigurationLoader.TAG) == Yaml11Tags.MERGE) {
+                head.addFlag(Frame.MERGE_REFERENCE_VALUE);
+            }
+
             final @Nullable Object key = keyHolder.raw();
             if (key == null) {
                 throw head.makeError(self.scanner.peekToken().getStartMark(), "'null' is not permitted as a mapping key", null);
@@ -683,8 +689,14 @@ final class YamlParserComposer extends ParserImpl {
             if (target == null) {
                 throw head.makeError(event.getStartMark(), "Unknown anchor '" + event.getAnchor() + "'", null);
             }
-            head.node.from(target); // TODO: Reference node types
-            head.node.hint(YamlConfigurationLoader.ANCHOR_ID, null); // don't duplicate alias
+            final ConfigurationNode into;
+            if (head.hasFlag(Frame.MERGE_REFERENCE_VALUE)) {
+                into = head.node.parent();
+            } else {
+                into = head.node;
+            }
+            into.from(target); // TODO: Reference node types
+            into.hint(YamlConfigurationLoader.ANCHOR_ID, null); // don't duplicate alias
             return null;
         }
 

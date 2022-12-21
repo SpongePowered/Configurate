@@ -191,8 +191,6 @@ class YamlParserComposerTest implements YamlTest {
         # - def
         """
 
-        println dump(result)
-
         assertThat(result.node('hello').comment())
             .isEqualTo("the greetings")
     }
@@ -200,13 +198,12 @@ class YamlParserComposerTest implements YamlTest {
     // Test that implicit tags are resolved properly
 
     @Test
-    @Disabled("not yet implemented")
     void testMergeKey() {
         def result = parseString """\
         src: &ref 
            old: merged
         dest: 
-          >>: *ref
+          <<: *ref
           new: added
         """.stripIndent(true)
 
@@ -219,7 +216,7 @@ class YamlParserComposerTest implements YamlTest {
     }
 
     @Test
-    void testYIsBooleanForSomeReason() {
+    void testYIsNotBoolean() {
         def result = parseString """\
         asVal: y
         y: asKey
@@ -229,9 +226,9 @@ class YamlParserComposerTest implements YamlTest {
             extracting { it.virtual() }
                 .is(false)
             extracting { it.raw() }
-                .isEqualTo(true)
+                .isEqualTo("y")
         }
-        assertThat(result.node(true)).with {
+        assertThat(result.node("y")).with {
             extracting { it.virtual() }
                     .is(false)
             extracting { it.raw() }

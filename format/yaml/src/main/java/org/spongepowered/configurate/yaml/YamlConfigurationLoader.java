@@ -30,8 +30,8 @@ import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
+import org.yaml.snakeyaml.reader.StreamReader;
 
 import java.io.BufferedReader;
 import java.io.Writer;
@@ -210,6 +210,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
             if (declared != null) {
                 this.style = declared;
             }
+
+            this.enableComments = options.getBoolean(false, "yaml", "comments-enabled");
         }
 
         /**
@@ -317,7 +319,6 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
     private final DumperOptions options;
     private final YamlVisitor visitor;
     private final @Nullable NodeStyle defaultNodeStyle;
-    private final boolean enableComments;
 
     private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
@@ -326,19 +327,18 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.nodeStyle()));
         opts.setProcessComments(builder.commentsEnabled());
         this.defaultNodeStyle = builder.nodeStyle();
-        this.enableComments = builder.commentsEnabled();
         this.options = opts;
         this.loader = new LoaderOptions()
             .setAcceptTabs(true)
             .setProcessComments(builder.commentsEnabled());
         this.loader.setCodePointLimit(Integer.MAX_VALUE);
-        this.visitor = new YamlVisitor(this.enableComments, true, Yaml11Tags.REPOSITORY);
+        this.visitor = new YamlVisitor(true, Yaml11Tags.REPOSITORY);
     }
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {
         // Match the superclass implementation, except we substitute our own scanner implementation
-        final YamlParserComposer parser = new YamlParserComposer(new StreamReader(reader), this.loader, Yaml11Tags.REPOSITORY, this.enableComments);
+        final YamlParserComposer parser = new YamlParserComposer(new StreamReader(reader), this.loader, Yaml11Tags.REPOSITORY);
         parser.singleDocumentStream(node);
     }
 

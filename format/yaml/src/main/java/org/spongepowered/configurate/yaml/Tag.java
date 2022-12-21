@@ -69,7 +69,12 @@ class Tag {
             this(tagUri, supportedTypes, pattern, null);
         }
 
-        Scalar(final URI tagUri, final Set<Class<? extends V>> supportedTypes, final @Nullable Pattern pattern, final @Nullable ScalarStyle preferredScalarStyle) {
+        Scalar(
+            final URI tagUri,
+            final Set<Class<? extends V>> supportedTypes,
+            final @Nullable Pattern pattern,
+            final @Nullable ScalarStyle preferredScalarStyle
+        ) {
             super(tagUri, supportedTypes);
             this.pattern = pattern;
             this.preferredScalarStyle = preferredScalarStyle;
@@ -89,7 +94,8 @@ class Tag {
         }
 
         /**
-         * Get the preferred scalar style to use for this type, when none is specifically used.
+         * Get the preferred scalar style to use for this type, when none is
+         * specifically used.
          *
          * @return the preferred scalar style
          * @since 4.2.0

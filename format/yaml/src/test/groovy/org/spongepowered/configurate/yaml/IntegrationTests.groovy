@@ -28,7 +28,7 @@ class IntegrationTests implements YamlTest {
 
     @Test
     void testEssentialsXDefault() {
-        def input = this.class.getResourceAsStream("essx-example.yml").text
+        def input = this.class.getResourceAsStream("essx-example.yml").getText('utf-8')
         def node = parseString(input)
 
         def serialized = dump(node)
@@ -38,7 +38,7 @@ class IntegrationTests implements YamlTest {
 
     @Test
     void testEssentialsXLegacy() {
-        def input = this.class.getResourceAsStream("essx-legacy.yml").text
+        def input = this.class.getResourceAsStream("essx-legacy.yml").getText('utf-8')
         def node = parseString(input)
 
         def serialized = dump(node)
@@ -48,7 +48,7 @@ class IntegrationTests implements YamlTest {
 
     @Test
     void testMobCleaner() {
-        def input = this.class.getResourceAsStream("mobcleaner-example.yml").text
+        def input = this.class.getResourceAsStream("mobcleaner-example.yml").getText('utf-8')
         def node = parseString(input)
 
         def serialized = dump(node)

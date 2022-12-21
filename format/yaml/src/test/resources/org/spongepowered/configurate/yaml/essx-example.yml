@@ -51,23 +51,23 @@ change-displayname: true
 
 # When this option is enabled, the (tab) player list will be updated with the displayname.
 # The value of change-displayname (above) has to be true.
-#change-playerlist: true
+# change-playerlist: true
 
 # When EssentialsChat.jar isn't used, force essentials to add the prefix and suffix from permission plugins to displayname.
 # This setting is ignored if EssentialsChat.jar is used, and defaults to 'true'.
 # The value of change-displayname (above) has to be true.
 # Do not edit this setting unless you know what you are doing!
-#add-prefix-suffix: false
+# add-prefix-suffix: false
 
 # When this option is enabled, player prefixes will be shown in the playerlist.
 # This feature only works for Minecraft version 1.8 and higher.
 # This value of change-playerlist has to be true
-#add-prefix-in-playerlist: true
+# add-prefix-in-playerlist: true
 
 # When this option is enabled, player suffixes will be shown in the playerlist.
-# This feature only works for Minecraft version 1.8 and higher. 
+# This feature only works for Minecraft version 1.8 and higher.
 # This value of change-playerlist has to be true
-#add-suffix-in-playerlist: true
+# add-suffix-in-playerlist: true
 
 # If the teleport destination is unsafe, should players be teleported to the nearest safe location?
 # If this is set to true, Essentials will attempt to teleport players close to the intended destination.
@@ -350,30 +350,30 @@ use-nbt-serialization-in-createkit: false
 # Color is not an actual sign, it's for enabling using color codes on signs, when the correct permissions are given.
 
 enabledSigns:
-  #- color
-  #- balance
-  #- buy
-  #- sell
-  #- trade
-  #- free
-  #- warp
-  #- kit
-  #- mail
-  #- enchant
-  #- gamemode
-  #- heal
-  #- info
-  #- spawnmob
-  #- repair
-  #- time
-  #- weather
-  #- anvil
-  #- cartography
-  #- disposal
-  #- grindstone
-  #- loom
-  #- smithing
-  #- workbench
+  # - color
+  # - balance
+  # - buy
+  # - sell
+  # - trade
+  # - free
+  # - warp
+  # - kit
+  # - mail
+  # - enchant
+  # - gamemode
+  # - heal
+  # - info
+  # - spawnmob
+  # - repair
+  # - time
+  # - weather
+  # - anvil
+  # - cartography
+  # - disposal
+  # - grindstone
+  # - loom
+  # - smithing
+  # - workbench
 
 # How many times per second can Essentials signs be interacted with per player.
 # Values should be between 1-20, 20 being virtually no lag protection.
@@ -392,7 +392,7 @@ allow-old-id-signs: false
 #
 # See https://github.com/drtshock/Essentials/pull/699 for more information.
 unprotected-sign-names:
-  #- kit
+  # - kit
 
 # Backup runs a custom batch/bash command at a specified interval.
 # The server will save the world before executing the backup command, and disable
@@ -406,7 +406,7 @@ backup:
   # Unless you add a valid backup command or script here, this feature will be useless.
   # Use 'save-all' to simply force regular world saving without backup.
   # The example command below utilizes rdiff-backup: https://rdiff-backup.net/
-  #command: 'rdiff-backup World1 backups/World1'
+  # command: 'rdiff-backup World1 backups/World1'
 
 # Set this true to enable permission per warp.
 per-warp-permission: false
@@ -416,14 +416,14 @@ per-warp-permission: false
 # Detailed instructions and examples can be found on the wiki: http://wiki.ess3.net/wiki/List
 list:
     # To merge groups, list the groups you wish to merge
-    #Staff: owner admin moderator
+    # Staff: owner admin moderator
     Admins: owner admin
     # To limit groups, set a max user limit
-    #builder: 20
+    # builder: 20
     # To hide groups, set the group as hidden
-    #default: hidden
+    # default: hidden
     # Uncomment the line below to simply list all players with no grouping
-    #Players: '*'
+    # Players: '*'
 
 # Displays real names in /list next to players who are using a nickname.
 real-names-on-list: false
@@ -436,7 +436,7 @@ debug: false
 # For example, to set language to English, set locale to en, to use the file "messages_en.properties".
 # Don't forget to remove the # in front of the line.
 # For more information, visit http://wiki.ess3.net/wiki/Locale
-#locale: en
+# locale: en
 
 # Turn off god mode when people leave the server.
 remove-god-on-disconnect: false
@@ -485,7 +485,7 @@ sleep-ignores-afk-players: true
 # Users with the permission node essentials.sleepingignored will always be ignored.
 sleep-ignores-vanished-player: true
 
-# Set the player's list name when they are AFK. This is none by default which specifies that Essentials 
+# Set the player's list name when they are AFK. This is none by default which specifies that Essentials
 # should not interfere with the AFK player's list name.
 # You may use color codes, use {USERNAME} the player's name or {PLAYER} for the player's displayname.
 afk-list-name: "none"
@@ -522,7 +522,7 @@ allow-silent-join-quit: false
 # or set this to "" to hide the message entirely.
 
 # Available placeholders:
-# {PLAYER} - The player's displayname. 
+# {PLAYER} - The player's displayname.
 # {USERNAME} - The player's username.
 # {PREFIX} - The player's prefix.
 # {SUFFIX} - The player's suffix.
@@ -538,7 +538,7 @@ custom-quit-message: "none"
 # Set this to "none" to use the the "custom-join-message" above for every join.
 
 # Available placeholders:
-# {PLAYER} - The player's displayname. 
+# {PLAYER} - The player's displayname.
 # {USERNAME} - The player's username.
 # {OLDUSERNAME} - The player's old username.
 # {PREFIX} - The player's prefix.
@@ -586,20 +586,20 @@ repair-enchanted: true
 # Warning: Mixing and overleveling some enchantments can cause issues with clients, servers and plugins.
 unsafe-enchantments: false
 
-#Do you want Essentials to keep track of previous location for /back in the teleport listener?
-#If you set this to true any plugin that uses teleport will have the previous location registered.
+# Do you want Essentials to keep track of previous location for /back in the teleport listener?
+# If you set this to true any plugin that uses teleport will have the previous location registered.
 register-back-in-listener: false
 
-#Delay to wait before people can cause attack damage after logging in.
+# Delay to wait before people can cause attack damage after logging in.
 login-attack-delay: 5
 
-#Set the max fly speed, values range from 0.1 to 1.0
+# Set the max fly speed, values range from 0.1 to 1.0
 max-fly-speed: 0.8
 
-#Set the max walk speed, values range from 0.1 to 1.0
+# Set the max walk speed, values range from 0.1 to 1.0
 max-walk-speed: 0.8
 
-#Set the maximum amount of mail that can be sent within a minute.
+# Set the maximum amount of mail that can be sent within a minute.
 mails-per-minute: 1000
 
 # Set the maximum time /mute can be used for in seconds.
@@ -674,8 +674,8 @@ delay-motd: 0
 # A list of commands that should have their complementary confirm commands enabled by default.
 # This is empty by default, for the latest list of valid commands see the latest source config.yml.
 default-enabled-confirm-commands:
-#- pay
-#- clearinventory
+# - pay
+# - clearinventory
 
 # Where should Essentials teleport players when they are freed from jail?
 # You can set to "back" to have them teleported to where they were before they were jailed, "spawn" to have them
@@ -780,12 +780,12 @@ starting-balance: 0
 # Some commands like /repair have sub-costs, check the wiki for more information.
 command-costs:
   # /example costs $1000 PER USE
-  #example: 1000
+  # example: 1000
   # /kit tools costs $1500 PER USE
-  #kit-tools: 1500
+  # kit-tools: 1500
 
 # Set this to a currency symbol you want to use.
-# Remember, if you want to use special characters in this document, 
+# Remember, if you want to use special characters in this document,
 # such as accented letters, you MUST save the file as UTF-8, not ANSI.
 currency-symbol: '$'
 
@@ -822,7 +822,7 @@ show-zero-baltop: true
 # The format of currency, excluding symbols. See currency-symbol-format-locale for symbol configuration.
 #
 # "#,##0.00" is how the majority of countries display currency.
-#currency-format: "#,##0.00"
+# currency-format: "#,##0.00"
 
 # Format currency symbols. Some locales use , and . interchangeably.
 # Some formats do not display properly in-game due to faulty Minecraft font rendering.
@@ -830,7 +830,7 @@ show-zero-baltop: true
 # For 1.234,50 use de-DE
 # For 1,234.50 use en-US
 # For 1'234,50 use fr-ch
-#currency-symbol-format-locale: en-US
+# currency-symbol-format-locale: en-US
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -895,7 +895,7 @@ chat:
 
   # If you are using group formats make sure to remove the '#' to allow the setting to be read.
   # Note: Group names are case-sensitive so you must match them up with your permission plugin.
-  
+
   # You can use permissions to control whether players can use formatting codes in their chat messages.
   # See https://essentialsx.net/wiki/Color-Permissions.html for more information.
 
@@ -1112,7 +1112,7 @@ newbies:
   # Should we announce to the server when someone logs in for the first time?
   # If so, use this format, replacing {DISPLAYNAME} with the player name.
   # If not, set to ''
-  #announce-format: ''
+  # announce-format: ''
   announce-format: '&dWelcome {DISPLAYNAME}&d to the server!'
 
   # When we spawn for the first time, which spawnpoint do we use?
@@ -1121,7 +1121,7 @@ newbies:
 
   # Do we want to give users anything on first join? Set to '' to disable
   # This kit will be given regardless of cost and permissions, and will not trigger the kit delay.
-  #kit: ''
+  # kit: ''
   kit: tools
 
 # What priority should we use for handling respawns?
@@ -1152,7 +1152,7 @@ respawn-at-anchor: false
 spawn-on-join: false
 # The following value of `guests` states that all players in group `guests` will be teleported to spawn when joining.
 #spawn-on-join: guests
-# The following list value states that all players in group `guests` and `admin` are to be teleported to spawn when joining. 
+# The following list value states that all players in group `guests` and `admin` are to be teleported to spawn when joining.
 #spawn-on-join:
 #- guests
 #- admin

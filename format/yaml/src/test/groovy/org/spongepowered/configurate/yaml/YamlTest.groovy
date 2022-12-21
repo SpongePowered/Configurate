@@ -19,6 +19,9 @@ package org.spongepowered.configurate.yaml
 import static org.junit.jupiter.api.Assertions.assertNotNull
 
 import org.spongepowered.configurate.CommentedConfigurationNode
+import org.yaml.snakeyaml.LoaderOptions
+import org.yaml.snakeyaml.events.CollectionEndEvent
+import org.yaml.snakeyaml.events.CollectionStartEvent
 import org.yaml.snakeyaml.parser.ParserImpl
 import org.yaml.snakeyaml.reader.StreamReader
 import org.yaml.snakeyaml.scanner.ScannerImpl
@@ -27,17 +30,13 @@ trait YamlTest {
 
     CommentedConfigurationNode parseString(final String input) {
         // Print events
-        def scanner = new ScannerImpl(new StreamReader(input))
-        scanner.parseComments = true
-        scanner.acceptTabs = true
-        def parser = new ParserImpl(scanner)
-
-        while (true) {
-            println parser.getEvent()
-            if (!parser.peekEvent()) break
+        def loaderOpts = new LoaderOptions().tap {
+            processComments = true
+            acceptTabs = true
         }
+        this.dumpEvents(new StreamReader(input), loaderOpts)
 
-        final YamlParserComposer loader = new YamlParserComposer(new StreamReader(input), Yaml11Tags.REPOSITORY, true)
+        final YamlParserComposer loader = new YamlParserComposer(new StreamReader(input), loaderOpts, Yaml11Tags.REPOSITORY)
         final CommentedConfigurationNode result = CommentedConfigurationNode.root()
         loader.singleDocumentStream(result)
         return result
@@ -45,23 +44,40 @@ trait YamlTest {
 
     CommentedConfigurationNode parseResource(final URL url) {
         // Print events
+        def loaderOpts = new LoaderOptions().tap {
+            processComments = true
+            acceptTabs = true
+        }
         url.openStream().withReader('UTF-8') {reader ->
-            def scanner = new ScannerImpl(new StreamReader(reader))
-            scanner.parseComments = true
-            scanner.acceptTabs = true
-            def parser = new ParserImpl(scanner)
-            while (true) {
-                println parser.getEvent()
-                if (!parser.peekEvent()) break
-            }
+            this.dumpEvents(new StreamReader(reader), loaderOpts)
         }
 
         assertNotNull(url, "Expected resource is missing")
         url.openStream().withReader('UTF-8') { reader ->
-            final YamlParserComposer loader = new YamlParserComposer(new StreamReader(reader), Yaml11Tags.REPOSITORY, true)
+            final YamlParserComposer loader = new YamlParserComposer(new StreamReader(reader), loaderOpts, Yaml11Tags.REPOSITORY)
             final CommentedConfigurationNode result = CommentedConfigurationNode.root()
             loader.singleDocumentStream(result)
             return result
+        }
+    }
+
+    private void dumpEvents(StreamReader reader, LoaderOptions loaderOpts) {
+        def scanner = new ScannerImpl(reader, loaderOpts)
+        def parser = new ParserImpl(scanner)
+        int indentLevel = 0
+        while (true) {
+            if (parser.peekEvent() instanceof CollectionEndEvent) {
+                indentLevel--
+            }
+            indentLevel.times {
+                print "    "
+            }
+            if (parser.peekEvent() instanceof CollectionStartEvent) {
+                indentLevel++
+            }
+
+            println parser.getEvent()
+            if (!parser.peekEvent()) break
         }
     }
 

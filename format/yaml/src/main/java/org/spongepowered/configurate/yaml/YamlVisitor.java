@@ -52,7 +52,7 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
         null,
         null
     );
-    private static final CommentEvent COMMENT_BLANK_LINE = new CommentEvent(CommentType.BLOCK, "", null, null);
+    private static final CommentEvent COMMENT_BLANK_LINE = new CommentEvent(CommentType.BLANK_LINE, "", null, null);
     static final StreamStartEvent STREAM_START = new StreamStartEvent(null, null);
     static final StreamEndEvent STREAM_END = new StreamEndEvent(null, null);
     static final DocumentEndEvent DOCUMENT_END = new DocumentEndEvent(null, null, false);
@@ -60,11 +60,9 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
     private static final MappingEndEvent MAPPING_END = new MappingEndEvent(null, null);
 
     private final boolean shouldPadComments;
-    private final boolean enableComments;
     private final TagRepository tags;
 
-    YamlVisitor(final boolean enableComments, final boolean shouldPadComments, final TagRepository tags) {
-        this.enableComments = enableComments;
+    YamlVisitor(final boolean shouldPadComments, final TagRepository tags) {
         this.shouldPadComments = shouldPadComments;
         this.tags = tags;
     }
@@ -81,12 +79,17 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
 
     @Override
     public void enterNode(final ConfigurationNode node, final State state) throws ConfigurateException {
-        if (node instanceof CommentedConfigurationNodeIntermediary<@NonNull ?> && this.enableComments) {
+        if (node instanceof CommentedConfigurationNodeIntermediary<@NonNull ?> && state.options.isProcessComments()) {
             final @Nullable String comment = ((CommentedConfigurationNodeIntermediary<@NonNull ?>) node).comment();
             if (comment != null) {
-                if (this.shouldPadComments && node != state.start && !node.parent().isList()) {
-                    // todo: try and avoid emitting a blank line when we're the first element of a mapping?
-                    state.emit(WHITESPACE);
+                if (this.shouldPadComments && node != state.start) {
+                    if (!state.first) {
+                        if (!node.parent().isList()) {
+                            state.emit(WHITESPACE);
+                        }
+                    } else {
+                        state.first = false;
+                    }
                 }
                 for (final String line : COMMENT_SPLIT.split(comment, -1)) {
                     if (line.isEmpty()) {
@@ -111,13 +114,14 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
     @Override
     public void enterMappingNode(final ConfigurationNode node, final State state) throws ConfigurateException {
         final TagRepository.AnalyzedTag analysis = this.tags.analyze(node);
+        state.first = true;
         state.emit(new MappingStartEvent(
             this.anchor(node),
             analysis.actual().tagUri().toString(),
             analysis.implicit(),
             null,
             null,
-            NodeStyle.asSnakeYaml(this.determineStyle(node, state))
+            NodeStyle.asSnakeYaml(state.determineStyle(node))
         ));
     }
 
@@ -130,7 +134,7 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
             analysis.implicit(),
             null,
             null,
-            NodeStyle.asSnakeYaml(this.determineStyle(node, state))
+            NodeStyle.asSnakeYaml(state.determineStyle(node))
         ));
     }
 
@@ -168,6 +172,7 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
 
     @Override
     public void exitMappingNode(final ConfigurationNode node, final State state) throws ConfigurateException {
+        state.first = false; // only true if empty map
         state.emit(MAPPING_END);
     }
 
@@ -181,27 +186,30 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
         return null;
     }
 
-    private @Nullable NodeStyle determineStyle(final ConfigurationNode node, final State state) {
-        // todo: some basic rules:
-        // - if a node has any children with comments, convert it to block style
-        // - when the default style is `AUTO` and `flowLevel` == 0,
-        final @Nullable NodeStyle style = node.hint(YamlConfigurationLoader.NODE_STYLE);
-        return style == null ? state.defaultStyle : style;
-    }
-
     private @Nullable String anchor(final ConfigurationNode node) {
         return node.hint(YamlConfigurationLoader.ANCHOR_ID);
     }
 
-    static class State {
+    static final class State {
         private final Emitter emit;
+        final DumperOptions options;
         @Nullable ConfigurationNode start;
         final @Nullable NodeStyle defaultStyle;
         ConfigurationNode mapKeyHolder;
+        boolean first; // reset to true at the beginning of each mapping node
 
         State(final DumperOptions options, final Writer writer, final @Nullable NodeStyle defaultStyle) {
             this.emit = new Emitter(writer, options);
+            this.options = options;
             this.defaultStyle = defaultStyle;
+        }
+
+        @Nullable NodeStyle determineStyle(final ConfigurationNode node) {
+            // todo: some basic rules:
+            // - if a node has any children with comments, convert it to block style
+            // - when the default style is `AUTO` and `flowLevel` == 0,
+            final @Nullable NodeStyle style = node.hint(YamlConfigurationLoader.NODE_STYLE);
+            return style == null ? this.defaultStyle : style;
         }
 
         public void emit(final Event event) throws ConfigurateException {

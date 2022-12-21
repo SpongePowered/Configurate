@@ -113,7 +113,7 @@ public enum ScalarStyle {
     }
 
     static {
-        for (ScalarStyle style : values()) {
+        for (final ScalarStyle style : values()) {
             BY_SNAKE.put(style.snake, style);
         }
     }
