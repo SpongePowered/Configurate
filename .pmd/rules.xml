@@ -43,7 +43,11 @@
     <!-- https://pmd.github.io/latest/pmd_rules_java_design.html -->
     <rule ref="category/java/design.xml/AvoidThrowingNullPointerException"/>
     <rule ref="category/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal"/>
-    <rule ref="category/java/design.xml/ExcessiveMethodLength"/>
+    <rule ref="category/java/design.xml/NcssCount">
+        <properties>
+            <property name="methodReportLevel" value="65" />
+        </properties>
+    </rule>
     <rule ref="category/java/design.xml/FinalFieldCouldBeStatic"/>
     <rule ref="category/java/design.xml/LogicInversion"/>
     <rule ref="category/java/design.xml/MutableStaticState" />
