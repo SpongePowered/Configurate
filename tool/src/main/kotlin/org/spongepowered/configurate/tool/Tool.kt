@@ -73,7 +73,7 @@ class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
                 System.err
             } else {
                 System.out
-            }
+            },
         )
     }
 
@@ -97,7 +97,7 @@ class Tool : CliktCommand(
     This tool displays the Configurate data structures read from a config file
 
     This helps to understand the internal structure of Configurate's nodes
-    """.trimIndent()
+    """.trimIndent(),
 ) {
     init {
         AnsiConsole.systemInstall()
@@ -198,7 +198,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                     heading("Value"),
                     SPLIT,
                     "@|green ${value.toString().replace(NEWLINE, "$1$prefix    ")}|@",
-                    if (value != null) "@|black,bold (a ${value::class.qualifiedName}) |@" else ""
+                    if (value != null) "@|black,bold (a ${value::class.qualifiedName}) |@" else "",
                 )
             }
         }

@@ -82,7 +82,7 @@ fun AttributedConfigurationNode.child(
     key: String,
     value: Any? = NO_VALUE,
     vararg attributes: Pair<String, String>,
-    init: AttributedConfigurationNode.() -> Unit
+    init: AttributedConfigurationNode.() -> Unit,
 ): AttributedConfigurationNode {
     val node = this.node(key)
     tagName(key)

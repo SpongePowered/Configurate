@@ -87,7 +87,7 @@ internal inline fun <reified T> typeTokenOf() = object : TypeToken<T>() {}
 private object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter, Any?>> {
     override fun <V> discover(
         target: AnnotatedType,
-        collector: FieldDiscoverer.FieldCollector<MutableMap<KParameter, Any?>, V>
+        collector: FieldDiscoverer.FieldCollector<MutableMap<KParameter, Any?>, V>,
     ): FieldDiscoverer.InstanceFactory<MutableMap<KParameter, Any?>>? {
         val klass = erase(target.type).kotlin
         if (!klass.isData) {
@@ -117,7 +117,7 @@ private object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter,
                     }
                 },
                 // serializer
-                { (field as KProperty1<V, *>).get(it) }
+                { (field as KProperty1<V, *>).get(it) },
             )
         }
 

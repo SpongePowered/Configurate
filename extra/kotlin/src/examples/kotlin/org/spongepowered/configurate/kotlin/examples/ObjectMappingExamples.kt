@@ -32,7 +32,7 @@ fun createLoader(source: Path): ConfigurationLoader<*> {
                 s.registerAnnotatedObjects(
                     ObjectMapper.factoryBuilder()
                         .addDiscoverer(dataClassFieldDiscoverer())
-                        .build()
+                        .build(),
                 )
             }
         }
