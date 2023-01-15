@@ -43,7 +43,7 @@ fun attributed(
     nodeName: String = "root",
     vararg attributes: Pair<String, String>,
     options: ConfigurationOptions = ConfigurationOptions.defaults(),
-    init: AttributedConfigurationNode.() -> Unit
+    init: AttributedConfigurationNode.() -> Unit,
 ): AttributedConfigurationNode {
     val node = AttributedConfigurationNode.root(nodeName, options)
     node.attributes(mapOf(*attributes))

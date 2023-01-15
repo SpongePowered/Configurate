@@ -32,7 +32,7 @@ operator fun NodePath.plus(other: NodePath): NodePath {
             } else {
                 other[it - size()]
             }
-        }
+        },
     )
 }
 
