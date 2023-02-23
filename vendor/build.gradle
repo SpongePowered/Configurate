@@ -60,7 +60,7 @@ project(":snakeyaml") {
     spotless {
         java {
             eclipse()
-                .configFile('src/etc/eclipse-java-google-style.xml')
+                .configFile('../snakeyaml-upstream/src/etc/eclipse-java-google-style.xml')
         }
     }
 
