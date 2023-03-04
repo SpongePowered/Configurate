@@ -218,7 +218,6 @@ pmd {
     consoleOutput = true
     incrementalAnalysis = true
     ruleSetConfig = resources.text.fromFile(rootProject.file(".pmd/rules.xml"))
-    ruleSets.clear() // Remove default rule sets
     toolVersion = libs.versions.pmd.get()
 }
 
