@@ -78,5 +78,5 @@ indra-crossdoc = { id = "net.kyori.indra.crossdoc", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
 kotlin = "org.jetbrains.kotlin.jvm:1.8.10"
-shadow = "com.github.johnrengelman.shadow:7.1.2"
+shadow = "com.github.johnrengelman.shadow:8.1.0"
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
