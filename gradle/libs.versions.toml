@@ -68,7 +68,7 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:6.6.3"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.0.1"
 detekt = "io.gitlab.arturbosch.detekt:1.23.0"
 dokka = "org.jetbrains.dokka:1.8.10"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
