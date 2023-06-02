@@ -18,7 +18,7 @@ autoValue = { module = "com.google.auto.value:auto-value", version.ref = "autoVa
 autoValue-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
 errorprone = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
 errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorprone" }
-guava = "com.google.guava:guava:31.1-jre"
+guava = "com.google.guava:guava:32.0.0-jre"
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 stylecheck = "ca.stellardrift:stylecheck:0.2.1"
