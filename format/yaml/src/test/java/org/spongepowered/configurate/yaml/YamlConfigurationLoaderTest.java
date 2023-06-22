@@ -109,12 +109,16 @@ class YamlConfigurationLoaderTest {
     void testWriteComments(final @TempDir Path tempDir) throws IOException {
         final Path target = tempDir.resolve("comments-actual.yml");
         final ConfigurationNode node = CommentedConfigurationNode.root(n ->
-            n.node("pizza")
-                .comment("john's")
+            n.node("waffles-with-syrup")
+                .comment("hello world")
                 .act(p ->
-                    p.node("pineapple")
-                        .set(true)
-                        .comment("who doesn't love a good pineapple\non a pizza??")));
+                    p.node("ingredients")
+                        .comment("multi-line\ncomments")
+                        .act(i -> {
+                            i.appendListNode().set("waffles").comment("would you've guessed the ingredients?");
+                            i.appendListNode().set("syrup").comment("I certainly didn't");
+                        })
+                ));
 
         final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .path(target)

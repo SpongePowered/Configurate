@@ -56,7 +56,7 @@ final class YamlRepresenter extends Representer {
             if (node.isMap()) {
                 final List<NodeTuple> children = new ArrayList<>();
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
-                    // SnakeYAML supports both key as value comments. Add the comments on the key
+                    // SnakeYAML supports both key and value comments. Add the comments on the key
                     final Node value = represent(ent.getValue());
                     final Node key = represent(String.valueOf(ent.getKey()));
                     key.setBlockComments(value.getBlockComments());
@@ -70,7 +70,7 @@ final class YamlRepresenter extends Representer {
                 for (ConfigurationNode ent : node.childrenList()) {
                     children.add(represent(ent));
                 }
-                yamlNode = new SequenceNode(Tag.SET, children, FlowStyle.AUTO);
+                yamlNode = new SequenceNode(Tag.SEQ, children, FlowStyle.AUTO);
             } else {
                 yamlNode = represent(node.rawScalar());
             }
