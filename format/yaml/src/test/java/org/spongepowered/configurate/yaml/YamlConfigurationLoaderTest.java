@@ -105,6 +105,30 @@ class YamlConfigurationLoaderTest {
         assertEquals(readLines(this.getClass().getResource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
     }
 
+    @Test
+    void testWriteComments(final @TempDir Path tempDir) throws IOException {
+        final Path target = tempDir.resolve("comments-actual.yml");
+        final ConfigurationNode node = CommentedConfigurationNode.root(n ->
+            n.node("pizza")
+                .comment("john's")
+                .act(p ->
+                    p.node("pineapple")
+                        .set(true)
+                        .comment("who doesn't love a good pineapple\non a pizza??")));
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(target)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        loader.save(node);
+
+        assertEquals(
+            readLines(this.getClass().getResource("comments-expected.yml")),
+            Files.readAllLines(target, StandardCharsets.UTF_8)
+        );
+    }
+
     private static List<String> readLines(final URL source) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(source.openStream(), StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.toList());

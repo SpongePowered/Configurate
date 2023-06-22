@@ -29,7 +29,6 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.BufferedReader;
 import java.io.Writer;
@@ -175,7 +174,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
         final DumperOptions opts = builder.options;
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
-        this.yaml = ThreadLocal.withInitial(() -> new Yaml(new Constructor(loaderOpts), new Representer(opts), opts, loaderOpts));
+        opts.setProcessComments(true);
+        this.yaml = ThreadLocal.withInitial(() -> new Yaml(new Constructor(loaderOpts), new YamlRepresenter(opts), opts, loaderOpts));
     }
 
     @Override
@@ -185,7 +185,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        this.yaml.get().dump(node.raw(), writer);
+        this.yaml.get().dump(node, writer);
     }
 
     @Override
