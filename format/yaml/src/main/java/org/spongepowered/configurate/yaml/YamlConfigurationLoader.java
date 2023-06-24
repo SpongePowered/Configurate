@@ -28,7 +28,6 @@ import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.BufferedReader;
 import java.io.Writer;
@@ -163,24 +162,30 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         }
     }
 
+    private final ThreadLocal<YamlConstructor> constructor;
     private final ThreadLocal<Yaml> yaml;
 
     private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
         final LoaderOptions loaderOpts = new LoaderOptions()
             .setAcceptTabs(true)
-            .setProcessComments(false);
+            .setProcessComments(true);
         loaderOpts.setCodePointLimit(Integer.MAX_VALUE);
 
         final DumperOptions opts = builder.options;
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
         opts.setProcessComments(true);
-        this.yaml = ThreadLocal.withInitial(() -> new Yaml(new Constructor(loaderOpts), new YamlRepresenter(opts), opts, loaderOpts));
+        // the constructor needs ConfigurationOptions, which is only available when called (loadInternal)
+        this.constructor = ThreadLocal.withInitial(() -> new YamlConstructor(loaderOpts));
+        this.yaml = ThreadLocal.withInitial(() -> new Yaml(this.constructor.get(), new YamlRepresenter(opts), opts, loaderOpts));
     }
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
-        node.raw(this.yaml.get().load(reader));
+        // the constructor needs ConfigurationOptions for the to be created nodes
+        // and since it's a thread-local, this won't cause any issues
+        this.constructor.get().options = node.options();
+        node.from(this.yaml.get().load(reader));
     }
 
     @Override
