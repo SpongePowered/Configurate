@@ -26,13 +26,12 @@ import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeTuple;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.ScalarNode;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 class YamlConstructor extends Constructor {
@@ -54,26 +53,29 @@ class YamlConstructor extends Constructor {
 
     @Override
     protected Object constructObjectNoCheck(final Node yamlNode) {
-        final Object raw = super.constructObjectNoCheck(yamlNode);
         //noinspection DataFlowIssue guarenteed NonNull by getSingleData, which load(Reader) uses
         final CommentedConfigurationNode node = CommentedConfigurationNode.root(this.options);
 
-        // SnakeYAML uses a LinkedHashMap to preserve key order
-        if (raw instanceof LinkedHashMap<?, ?>) {
+        if (yamlNode.getNodeId() == NodeId.mapping) {
             // make sure to mark it as a map type, even if the map itself is empty
             node.raw(Collections.emptyMap());
 
-            // Map is always a MappingNode
-            final List<NodeTuple> tuples = ((MappingNode) yamlNode).getValue();
+            ((MappingNode) yamlNode).getValue().forEach(tuple -> {
+                // I don't think it's possible to have a non-scalar node as key
+                final ScalarNode keyNode = (ScalarNode) tuple.getKeyNode();
+                final Node valueNode = tuple.getValueNode();
 
-            // comments are on the key, but SnakeYAML uses strings as key, so we have to be a bit creative
-            final AtomicInteger index = new AtomicInteger();
-            ((LinkedHashMap<?, ?>) raw).forEach((key, value) -> {
-                node.node(key)
-                    .from((ConfigurationNode) value)
-                    .comment(commentFor(tuples.get(index.getAndIncrement()).getKeyNode().getBlockComments()));
+                // comments are on the key, not the value
+                node.node(keyNode.getValue())
+                    .from((ConfigurationNode) constructObject(valueNode))
+                    .comment(commentFor(keyNode.getBlockComments()));
             });
-        } else if (raw instanceof Collection<?>) {
+
+            return node.comment(commentFor(yamlNode.getBlockComments()));
+        }
+
+        final Object raw = super.constructObjectNoCheck(yamlNode);
+        if (raw instanceof Collection<?>) {
             // make sure to mark it as a list type, even if the collection itself is empty
             node.raw(Collections.emptyList());
 
@@ -84,11 +86,7 @@ class YamlConstructor extends Constructor {
             node.raw(raw);
         }
 
-        if (yamlNode.getBlockComments() != null) {
-            node.comment(commentFor(yamlNode.getBlockComments()));
-        }
-
-        return node;
+        return node.comment(commentFor(yamlNode.getBlockComments()));
     }
 
     private static @Nullable String commentFor(final @Nullable List<CommentLine> commentLines) {
