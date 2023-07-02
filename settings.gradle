@@ -55,10 +55,12 @@ rootProject.name = "$prefix-parent"
 }
 
 // extras
-["kotlin", "guice", "dfu2", "dfu3", "dfu4"].each {
+["kotlin", "guice", "dfu2", "dfu3", "dfu4", "interface"].each {
     include ":extra:$it"
     findProject(":extra:$it")?.name = "extra-$it"
 }
+include ":extra:extra-interface:ap"
+findProject(":extra:extra-interface:ap")?.name = "extra-interface-ap"
 
 includeBuild 'vendor', {
   name = "configurate-vendor"

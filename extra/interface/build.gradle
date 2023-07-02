@@ -1,0 +1,10 @@
+plugins {
+    id "org.spongepowered.configurate.build.component"
+}
+
+description = "Utility classes for generated config interface implementations"
+
+dependencies {
+    compileOnly projects.core
+    testImplementation projects.core
+}

@@ -1,15 +1,18 @@
 [versions]
-assertj="3.24.2"
-autoValue="1.10.1"
-checkerQual="3.35.0"
-checkstyle="10.12.0"
+assertj = "3.24.2"
+autoValue = "1.10.1"
+checkerQual = "3.35.0"
+checkstyle = "10.12.0"
 geantyref = "1.3.14"
-errorprone="2.19.1"
+errorprone = "2.19.1"
 indra = "3.1.1"
-junit="5.9.3"
-ktlint="0.49.1"
+junit = "5.9.3"
+ktlint = "0.49.1"
 pmd = "6.55.0"
 spotless = "6.19.0"
+javapoet = "1.10.0"
+auto-service = "1.1.1"
+compile-testing = "0.21.0"
 
 [libraries]
 # Shared
@@ -25,11 +28,16 @@ stylecheck = "ca.stellardrift:stylecheck:0.2.1"
 
 # Kotlin
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-kotlin-reflect = {module = "org.jetbrains.kotlin:kotlin-reflect"} # version from Kotlin BOM
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" } # version from Kotlin BOM
 
 # Core
 checkerQual = { module = "org.checkerframework:checker-qual", version.ref = "checkerQual" }
-geantyref = {module = "io.leangen.geantyref:geantyref", version.ref = "geantyref" }
+geantyref = { module = "io.leangen.geantyref:geantyref", version.ref = "geantyref" }
+
+# Interface
+auto-service = { module = "com.google.auto.service:auto-service", version.ref = "auto-service" }
+javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
+compile-testing = { module = "com.google.testing.compile:compile-testing", version.ref = "compile-testing" }
 
 # DFU
 dfu-v2 = "com.mojang:datafixerupper:2.0.24"

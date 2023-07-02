@@ -1,0 +1,24 @@
+plugins {
+    id "org.spongepowered.configurate.build.component"
+}
+
+description = "Annotation processor for Configurate to generate an implementation for config interfaces"
+
+dependencies {
+    implementation projects.core
+    implementation projects.extra.extraInterface
+    implementation libs.javapoet
+    implementation libs.auto.service
+
+    testImplementation libs.compile.testing
+}
+
+// there is no javadoc
+tasks.withType(Javadoc).configureEach { enabled = false }
+
+test {
+    // See: https://github.com/google/compile-testing/issues/222
+    jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED'
+    jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED'
+    jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED'
+}
