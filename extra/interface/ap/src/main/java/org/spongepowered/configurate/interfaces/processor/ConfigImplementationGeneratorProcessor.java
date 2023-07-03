@@ -108,18 +108,6 @@ class ConfigImplementationGeneratorProcessor extends AbstractProcessor {
         return false;
     }
 
-    private void writeMappings() {
-        final FileObject resource;
-        try {
-            resource = this.filer.createResource(StandardLocation.SOURCE_OUTPUT, "", Constants.MAPPING_FILE);
-            try (Writer writer = resource.openWriter()) {
-                this.mappings.store(writer, null);
-            }
-        } catch (final IOException exception) {
-            throw new RuntimeException("Failed to write interface mappings!", exception);
-        }
-    }
-
     /**
      * Generate a class for the given interface and
      * returns the name of the generated class.
@@ -239,13 +227,21 @@ class ConfigImplementationGeneratorProcessor extends AbstractProcessor {
         return SourceVersion.latest();
     }
 
+    private void writeMappings() {
+        final FileObject resource;
+        try {
+            resource = this.filer.createResource(StandardLocation.SOURCE_OUTPUT, "", Constants.MAPPING_FILE);
+            try (Writer writer = resource.openWriter()) {
+                this.mappings.store(writer, null);
+            }
+        } catch (final IOException exception) {
+            throw new RuntimeException("Failed to write interface mappings!", exception);
+        }
+    }
+
     private boolean hasAnnotation(final AnnotatedConstruct element, final Class<? extends Annotation> annotation) {
         //noinspection ConstantValue not everything is nonnull by default
         return element.getAnnotation(annotation) != null;
-    }
-
-    private void info(final String message, final Object... arguments) {
-        this.messager.printMessage(Kind.NOTE, String.format(Locale.ROOT, message, arguments));
     }
 
     private boolean isNestedConfig(final TypeElement type) {
@@ -258,6 +254,10 @@ class ConfigImplementationGeneratorProcessor extends AbstractProcessor {
             current = current.getEnclosingElement();
         }
         return current.getKind() == ElementKind.PACKAGE;
+    }
+
+    private void info(final String message, final Object... arguments) {
+        this.messager.printMessage(Kind.NOTE, String.format(Locale.ROOT, message, arguments));
     }
 
 }
