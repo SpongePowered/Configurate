@@ -54,7 +54,7 @@ jansi = "org.fusesource.jansi:jansi:2.4.0"
 # Build
 build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:3.1.0"
 build-forbiddenApis = "de.thetaphi:forbiddenapis:3.5.1"
-build-goomph = "com.diffplug.gradle:goomph:3.41.1"
+build-goomph = "com.diffplug.gradle:goomph:3.42.1"
 build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 build-indra-crossdoc = { module = "net.kyori:indra-crossdoc", version.ref = "indra" }
 build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.1"
