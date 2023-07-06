@@ -43,6 +43,7 @@ import org.spongepowered.configurate.util.NamingScheme;
 import org.spongepowered.configurate.util.NamingSchemes;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Modifier;
@@ -74,6 +75,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>>> constraints;
     private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Processor.Factory<?, ?>>>> processors;
     private final List<PostProcessor.Factory> postProcessors;
+    private final MethodHandles.@Nullable Lookup lookup;
 
     ObjectMapperFactoryImpl(final Builder builder) {
         this.resolverFactories = new ArrayList<>(builder.resolvers);
@@ -104,6 +106,8 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
 
         this.postProcessors = new ArrayList<>(builder.postProcessors);
         Collections.reverse(this.postProcessors);
+
+        this.lookup = builder.lookup;
     }
 
     @Override
@@ -136,8 +140,16 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
 
     private <I, V> @Nullable ObjectMapper<V> newMapper(final Type type, final FieldDiscoverer<I> discoverer) throws SerializationException {
         final List<FieldData<I, V>> fields = new ArrayList<>();
-        final FieldDiscoverer.@Nullable InstanceFactory<I> candidate = discoverer.<V>discover(annotate(type),
-            (name, fieldType, container, deserializer, serializer) -> makeData(fields, name, fieldType, container, deserializer, serializer));
+        final FieldDiscoverer.@Nullable InstanceFactory<I> candidate;
+        try {
+            candidate = discoverer.<V>discover(
+                annotate(type),
+                (name, fieldType, container, deserializer, serializer) -> makeData(fields, name, fieldType, container, deserializer, serializer),
+                this.lookup == null ? null : LookupShim.privateLookupIn(erase(type), this.lookup)
+            );
+        } catch (final IllegalAccessException ex) {
+            throw new SerializationException(type, "Could not create lookup in target class", ex);
+        }
 
         if (candidate == null) {
             return null;
@@ -358,6 +370,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         private final List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>> constraints = new ArrayList<>();
         private final List<Definition<?, ?, ? extends Processor.Factory<?, ?>>> processors = new ArrayList<>();
         private final List<PostProcessor.Factory> postProcessors = new ArrayList<>();
+        private MethodHandles.@Nullable Lookup lookup;
 
         @Override
         public ObjectMapper.Factory.Builder defaultNamingScheme(final NamingScheme scheme) {
@@ -394,6 +407,12 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         @Override
         public Builder addPostProcessor(final PostProcessor.Factory factory) {
             this.postProcessors.add(requireNonNull(factory, "factory"));
+            return this;
+        }
+
+        @Override
+        public ObjectMapper.Factory.Builder lookup(final MethodHandles.Lookup lookup) {
+            this.lookup = requireNonNull(lookup, "lookup");
             return this;
         }
 
