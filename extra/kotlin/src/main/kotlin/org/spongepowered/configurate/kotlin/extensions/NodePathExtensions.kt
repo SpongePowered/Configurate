@@ -18,12 +18,13 @@ package org.spongepowered.configurate.kotlin.extensions
 
 import org.spongepowered.configurate.NodePath
 
-/**
- * Concatenate [this] with another [NodePath].
- */
+/** Concatenate [this] with another [NodePath]. */
 @Suppress("EXTENSION_SHADOWED_BY_MEMBER")
 // TODO: Deprecated due to being added directly to class, make HIDDEN for 4.2.0
-@Deprecated(message = "This method has been added directly to NodePath", replaceWith = ReplaceWith("this.plus(other)"))
+@Deprecated(
+    message = "This method has been added directly to NodePath",
+    replaceWith = ReplaceWith("this.plus(other)")
+)
 operator fun NodePath.plus(other: NodePath): NodePath {
     return NodePath.of(
         Array(this.size() + other.size()) {
@@ -36,7 +37,5 @@ operator fun NodePath.plus(other: NodePath): NodePath {
     )
 }
 
-/**
- * Concatenate [this] with a single child path element.
- */
+/** Concatenate [this] with a single child path element. */
 operator fun NodePath.plus(child: Any): NodePath = withAppendedChild(child)

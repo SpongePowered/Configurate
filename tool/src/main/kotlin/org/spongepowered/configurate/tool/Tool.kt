@@ -29,6 +29,10 @@ import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
+import java.io.Console
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
+import java.nio.file.FileSystems
 import org.fusesource.jansi.AnsiConsole
 import org.fusesource.jansi.AnsiRenderer
 import org.spongepowered.configurate.AttributedConfigurationNode
@@ -44,10 +48,6 @@ import org.spongepowered.configurate.loader.HeaderMode
 import org.spongepowered.configurate.xml.XmlConfigurationLoader
 import org.spongepowered.configurate.yaml.NodeStyle
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
-import java.io.Console
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.nio.file.FileSystems
 
 const val DEFAULT_INDENT = 4
 val HAS_UTF8 = Charset.defaultCharset() == StandardCharsets.UTF_8
@@ -91,14 +91,16 @@ class JAnsiConsole(val console: Console? = System.console()) : CliktConsole {
     }
 }
 
-class Tool : CliktCommand(
-    help =
-    """
+class Tool :
+    CliktCommand(
+        help =
+            """
     This tool displays the Configurate data structures read from a config file
 
     This helps to understand the internal structure of Configurate's nodes
-    """.trimIndent(),
-) {
+    """
+                .trimIndent(),
+    ) {
     init {
         AnsiConsole.systemInstall()
         versionOption(this::class.java.`package`.implementationVersion)
@@ -114,12 +116,14 @@ class Tool : CliktCommand(
 
 sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String) :
     CliktCommand(help = "Display files that are in $formatName format") {
-    val path by argument(help = "Location of the file to read").path(mustExist = true, canBeDir = false)
-    val header by option("--header-mode", help = "How to read a header from this file").enum<HeaderMode>().default(HeaderMode.PRESERVE)
+    val path by
+        argument(help = "Location of the file to read").path(mustExist = true, canBeDir = false)
+    val header by
+        option("--header-mode", help = "How to read a header from this file")
+            .enum<HeaderMode>()
+            .default(HeaderMode.PRESERVE)
 
-    /**
-     * Create a new loader instance based on provided arguments
-     */
+    /** Create a new loader instance based on provided arguments */
     abstract fun createLoader(): ConfigurationLoader<N>
 
     override fun run() {
@@ -135,9 +139,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             }
             dumpTree(node, "")
         } catch (e: ConfigurateException) {
-            e.cause?.apply {
-                echo("Error while loading: $message")
-            }
+            e.cause?.apply { echo("Error while loading: $message") }
             throw CliktError("Unable to load configuration", e)
         }
     }
@@ -167,31 +169,37 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
             write(heading("Tag name"), SPLIT, node.tagName())
             val attributes = node.attributes()
             if (!attributes.isEmpty()) {
-                write(heading("Attributes"), SPLIT, attributes.map { (k, v) -> "@|green \"$k\"|@=@|green \"$v\"|@" }.joinToString(", "))
+                write(
+                    heading("Attributes"),
+                    SPLIT,
+                    attributes
+                        .map { (k, v) -> "@|green \"$k\"|@=@|green \"$v\"|@" }
+                        .joinToString(", ")
+                )
             }
         }
         if (node is CommentedConfigurationNodeIntermediary<*>) {
-            node.comment()?.also {
-                write(heading("Comment"), SPLIT, it)
-            }
+            node.comment()?.also { write(heading("Comment"), SPLIT, it) }
         }
 
         when {
-            node.isList -> node.childrenList().iterator().also {
-                while (it.hasNext()) {
-                    val child = it.next()
-                    val nextPrefix = enterChild(it, child)
-                    dumpTree(child, nextPrefix)
+            node.isList ->
+                node.childrenList().iterator().also {
+                    while (it.hasNext()) {
+                        val child = it.next()
+                        val nextPrefix = enterChild(it, child)
+                        dumpTree(child, nextPrefix)
+                    }
                 }
-            }
-            node.isMap -> node.childrenMap().iterator().also {
-                while (it.hasNext()) {
-                    val (_, value) = it.next()
-                    val nextPrefix = enterChild(it, value)
+            node.isMap ->
+                node.childrenMap().iterator().also {
+                    while (it.hasNext()) {
+                        val (_, value) = it.next()
+                        val nextPrefix = enterChild(it, value)
 
-                    dumpTree(value, nextPrefix)
+                        dumpTree(value, nextPrefix)
+                    }
                 }
-            }
             else -> {
                 val value = node.rawScalar()
                 write(
@@ -206,9 +214,14 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
 }
 
 class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
-    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(2)
-    private val includeXmlDeclaration by option("-x", "--xml-declaration", help = "Whether to include the XML declaration").flag("-X", default = true)
-    private val writeExplicitType by option("-t", "--explicit-type", help = "Include explicit type information").flag("-T", default = false)
+    private val indent by
+        option("-i", "--indent", help = "How much to indent when outputting").int().default(2)
+    private val includeXmlDeclaration by
+        option("-x", "--xml-declaration", help = "Whether to include the XML declaration")
+            .flag("-X", default = true)
+    private val writeExplicitType by
+        option("-t", "--explicit-type", help = "Include explicit type information")
+            .flag("-T", default = false)
 
     // TODO: Schemas
 
@@ -224,8 +237,13 @@ class Xml : FormatSubcommand<AttributedConfigurationNode>("XML") {
 }
 
 class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
-    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(DEFAULT_INDENT)
-    private val flowStyle by option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
+    private val indent by
+        option("-i", "--indent", help = "How much to indent when outputting")
+            .int()
+            .default(DEFAULT_INDENT)
+    private val flowStyle by
+        option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
+
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return YamlConfigurationLoader.builder()
             .path(path)
@@ -237,8 +255,14 @@ class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
 }
 
 class Json : FormatSubcommand<BasicConfigurationNode>("JSON") {
-    private val lenient by option("-l", "--lenient", help = "Parse JSON leniently").flag("-L", "--strict", default = true)
-    private val indent by option("-i", "--indent", help = "How much to indent when outputting").int().default(DEFAULT_INDENT)
+    private val lenient by
+        option("-l", "--lenient", help = "Parse JSON leniently")
+            .flag("-L", "--strict", default = true)
+    private val indent by
+        option("-i", "--indent", help = "How much to indent when outputting")
+            .int()
+            .default(DEFAULT_INDENT)
+
     override fun createLoader(): ConfigurationLoader<BasicConfigurationNode> {
         return GsonConfigurationLoader.builder()
             .path(path)
@@ -252,12 +276,8 @@ class Json : FormatSubcommand<BasicConfigurationNode>("JSON") {
 class Hocon : FormatSubcommand<CommentedConfigurationNode>("HOCON") {
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
-        return HoconConfigurationLoader.builder()
-            .headerMode(header)
-            .path(path)
-            .build()
+        return HoconConfigurationLoader.builder().headerMode(header).path(path).build()
     }
 }
 
-fun main(args: Array<String>) = Tool()
-    .main(args)
+fun main(args: Array<String>) = Tool().main(args)

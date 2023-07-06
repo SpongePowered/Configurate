@@ -16,12 +16,12 @@
  */
 package org.spongepowered.configurate.kotlin.extensions
 
+import kotlin.reflect.KClass
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.NodePath
 import org.spongepowered.configurate.ScopedConfigurationNode
 import org.spongepowered.configurate.kotlin.typeTokenOf
 import org.spongepowered.configurate.serialize.SerializationException
-import kotlin.reflect.KClass
 
 /**
  * An implementation of `contains` that can traverse multiple levels in [path].

@@ -142,7 +142,7 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
             endWithNewline()
             trimTrailingWhitespace()
 
-            ktlint(libs.versions.ktlint.get())
+            ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
         }
     }
 

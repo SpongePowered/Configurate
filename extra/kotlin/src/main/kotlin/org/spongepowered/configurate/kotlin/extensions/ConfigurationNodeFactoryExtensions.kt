@@ -20,17 +20,19 @@ import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.ConfigurationNodeFactory
 import org.spongepowered.configurate.ConfigurationOptions
 
-/**
- * Use the receiver factory to create a new node.
- */
-operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(options: ConfigurationOptions = defaultOptions()): N =
-    createNode(options)
+/** Use the receiver factory to create a new node. */
+operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(
+    options: ConfigurationOptions = defaultOptions()
+): N = createNode(options)
 
 /**
- * Given a node factory, create and configure an empty node. [Options][options]
- * may be provided, but otherwise the factory's defaults will be used.
+ * Given a node factory, create and configure an empty node. [Options][options] may be provided, but
+ * otherwise the factory's defaults will be used.
  */
-fun <T : ConfigurationNode> ConfigurationNodeFactory<T>.node(options: ConfigurationOptions = this.defaultOptions(), init: T.() -> Unit): T {
+fun <T : ConfigurationNode> ConfigurationNodeFactory<T>.node(
+    options: ConfigurationOptions = this.defaultOptions(),
+    init: T.() -> Unit
+): T {
     val ret = createNode(options)
     ret.init()
     return ret
