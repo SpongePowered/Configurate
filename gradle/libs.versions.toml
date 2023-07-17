@@ -73,7 +73,7 @@ aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.1.0"
 detekt = "io.gitlab.arturbosch.detekt:1.23.0"
 dokka = "org.jetbrains.dokka:1.8.20"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
-gitpatcher = { id = "net.minecraftforge.gitpatcher", version = "0.10.+" }
+gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.0.0" }
 indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-crossdoc = { id = "net.kyori.indra.crossdoc", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
