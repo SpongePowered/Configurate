@@ -23,12 +23,12 @@ dependencies {
 }
 
 kotlin {
-    coreLibrariesVersion = "1.4.20"
+    coreLibrariesVersion = "1.8.20"
     target {
         compilations.configureEach {
             kotlinOptions {
                 jvmTarget = "1.8"
-                languageVersion = "1.4"
+                languageVersion = "1.8"
                 freeCompilerArgs += ["-opt-in=kotlin.RequiresOptIn", "-Xemit-jvm-type-annotations"]
             }
         }

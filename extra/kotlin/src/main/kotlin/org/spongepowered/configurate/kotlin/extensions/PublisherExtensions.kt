@@ -16,21 +16,19 @@
  */
 package org.spongepowered.configurate.kotlin.extensions
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.runBlocking
 import org.spongepowered.configurate.reactive.Publisher
 import org.spongepowered.configurate.reactive.Subscriber
 
 /** Given an [Publisher] instance, return a new [Flow] emitting values from the Flow */
-@OptIn(ExperimentalCoroutinesApi::class)
 fun <V : Any> Publisher<V>.asFlow(): Flow<V> = callbackFlow {
     val observer =
         object : Subscriber<V> {
             override fun submit(item: V) {
-                sendBlocking(item)
+                runBlocking { send(item) }
             }
 
             override fun onError(thrown: Throwable) {
