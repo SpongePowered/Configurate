@@ -272,6 +272,21 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
         this.node().node(path).set(type, value);
     }
 
+    /**
+     * Create a reference to the node at the provided path. The value will be
+     * deserialized according to the provided {@link Type}.
+     *
+     * <p>The returned reference will update with reloads of and changes to the
+     * value of the provided configuration. Any serialization errors encountered
+     * will be submitted to the {@link #errors()} stream.
+     *
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @return a deserializing reference to the node at the given path
+     * @throws SerializationException if a type serializer could not be found
+     *         for the provided type
+     * @since TODO: version
+     */
     default ValueReference<?, N> referenceTo(final Type type, final Object... path) throws SerializationException {
         return this.referenceTo(type, NodePath.of(path));
     }
