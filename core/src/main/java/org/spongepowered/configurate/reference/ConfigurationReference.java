@@ -27,6 +27,7 @@ import org.spongepowered.configurate.reactive.Publisher;
 import org.spongepowered.configurate.reactive.TransactionalSubscriber;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
@@ -271,6 +272,10 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
         this.node().node(path).set(type, value);
     }
 
+    default ValueReference<?, N> referenceTo(final Type type, final Object... path) throws SerializationException {
+        return this.referenceTo(type, NodePath.of(path));
+    }
+    
     /**
      * Create a reference to the node at the provided path. The value will be
      * deserialized according to the provided TypeToken.
@@ -309,6 +314,25 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
      */
     default <T> ValueReference<T, N> referenceTo(final Class<T> type, final Object... path) throws SerializationException {
         return this.referenceTo(type, NodePath.of(path));
+    }
+    
+    /**
+     * Create a reference to the node at the provided path. The value will be
+     * deserialized according to the provided {@link Type}.
+     *
+     * <p>The returned reference will update with reloads of and changes to the
+     * value of the provided configuration. Any serialization errors encountered
+     * will be submitted to the {@link #errors()} stream.
+     *
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @return a deserializing reference to the node at the given path
+     * @throws SerializationException if a type serializer could not be found
+     *         for the provided type
+     * @since TODO: version
+     */
+    default ValueReference<?, N> referenceTo(final Type type, final NodePath path) throws SerializationException {
+        return this.referenceTo(type, path, null);
     }
 
     /**
@@ -350,6 +374,23 @@ public interface ConfigurationReference<N extends ConfigurationNode> extends Aut
     default <T> ValueReference<T, N> referenceTo(final Class<T> type, final NodePath path) throws SerializationException {
         return this.referenceTo(type, path, null);
     }
+
+    /**
+     * Create a reference to the node at the provided path. The value will be
+     * deserialized according to the provided {@link Type}.
+     *
+     * <p>The returned reference will update with reloads of and changes to the
+     * value of the provided configuration. Any serialization errors encountered
+     * will be submitted to the {@link #errors()} stream.
+     *
+     * @param type the value's type
+     * @param path the path from the root node to the node containing the value
+     * @return a deserializing reference to the node at the given path
+     * @throws SerializationException if a type serializer could not be found
+     *          for the provided type
+     * @since TODO: version
+     */
+    ValueReference<?, N> referenceTo(Type type, NodePath path, @Nullable Object defaultValue) throws SerializationException;
 
     /**
      * Create a reference to the node at the provided path. The value will be

@@ -30,6 +30,7 @@ import org.spongepowered.configurate.reactive.Processor;
 import org.spongepowered.configurate.reactive.Publisher;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
@@ -125,8 +126,13 @@ class ManualConfigurationReference<N extends ScopedConfigurationNode<N>> impleme
     }
 
     @Override
-    public final <T> ValueReference<T, N> referenceTo(final TypeToken<T> type,
-            final NodePath path, final @Nullable T def) throws SerializationException {
+    public final ValueReference<?, N> referenceTo(final Type type,
+            final NodePath path, final @Nullable Object def) throws SerializationException {
+        return new ValueReferenceImpl<>(this, path, type, def);
+    }
+
+    @Override
+    public final <T> ValueReference<T, N> referenceTo(final TypeToken<T> type, final NodePath path, final @Nullable T def) throws SerializationException {
         return new ValueReferenceImpl<>(this, path, type, def);
     }
 

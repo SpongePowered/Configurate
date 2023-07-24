@@ -30,6 +30,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
+import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
 
@@ -38,18 +39,19 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     // Information about the reference
     private final ManualConfigurationReference<N> root;
     private final NodePath path;
-    private final TypeToken<T> type;
+    private final Type type;
     private final TypeSerializer<T> serializer;
     private final Publisher.Cached<@Nullable T> deserialized;
 
-    ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final TypeToken<T> type,
+    @SuppressWarnings("unchecked")
+    ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final Type type,
                        final @Nullable T def) throws SerializationException {
         this.root = root;
         this.path = path;
         this.type = type;
-        final @Nullable TypeSerializer<T> serializer = root.node().options().serializers().get(type);
+        final @Nullable TypeSerializer<T> serializer = (TypeSerializer<T>) root.node().options().serializers().get(type);
         if (serializer == null) {
-            throw new SerializationException(this.path, type.getType(), "Unsupported type" + type);
+            throw new SerializationException(this.path, type, "Unsupported type" + type);
         }
         this.serializer = serializer;
 
@@ -63,19 +65,24 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         }).cache(deserializedValueFrom(root.node(), def));
     }
 
+    ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final TypeToken<T> type,
+                       final @Nullable T def) throws SerializationException {
+        this(root, path, type.getType(), def);
+    }
+    
     ValueReferenceImpl(final ManualConfigurationReference<N> root, final NodePath path, final Class<T> type,
                        final @Nullable T def) throws SerializationException {
-        this(root, path, TypeToken.get(type), def);
+        this(root, path, (Type) type, def);
     }
 
     private @Nullable T deserializedValueFrom(final N parent, final @Nullable T defaultVal) throws SerializationException {
         final N node = parent.node(this.path);
         if (!node.virtual()) {
-            return this.serializer.deserialize(this.type.getType(), node);
+            return this.serializer.deserialize(this.type, node);
         }
-        final @Nullable T defaultOrEmpty = defaultVal == null ? this.serializer.emptyValue(this.type.getType(), node.options()) : defaultVal;
+        final @Nullable T defaultOrEmpty = defaultVal == null ? this.serializer.emptyValue(this.type, node.options()) : defaultVal;
         if (node.options().shouldCopyDefaults()) {
-            this.serializer.serialize(this.type.getType(), defaultOrEmpty, node);
+            this.serializer.serialize(this.type, defaultOrEmpty, node);
         }
         return defaultOrEmpty;
     }
@@ -88,7 +95,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     @Override
     public boolean set(final @Nullable T value) {
         try {
-            this.serializer.serialize(this.type.getType(), value, node());
+            this.serializer.serialize(this.type, value, node());
             this.deserialized.submit(value);
             return true;
         } catch (final SerializationException e) {
@@ -113,7 +120,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
     @Override
     public Publisher<Boolean> setAndSaveAsync(final @Nullable T value) {
         return Publisher.execute(() -> {
-            this.serializer.serialize(this.type.getType(), value, node());
+            this.serializer.serialize(this.type, value, node());
             this.deserialized.submit(value);
             this.root.save();
             return true;
@@ -135,7 +142,7 @@ class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> impl
         return Publisher.execute(() -> {
             final @Nullable T orig = get();
             final T updated = action.apply(orig);
-            this.serializer.serialize(this.type.getType(), updated, node());
+            this.serializer.serialize(this.type, updated, node());
             this.deserialized.submit(updated);
             this.root.save();
             return true;
