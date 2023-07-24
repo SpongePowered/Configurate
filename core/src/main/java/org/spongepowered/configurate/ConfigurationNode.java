@@ -30,10 +30,7 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
@@ -735,6 +732,69 @@ public interface ConfigurationNode {
         final TypeToken<List<V>> type = makeListType(elementType);
         final List<V> ret = this.get(type, defSupplier);
         return ret.isEmpty() ? storeDefault(this, type.getType(), defSupplier.get()) : ret;
+    }
+
+    /**
+     * If this node has list values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list
+     * with one value.</p>
+     *
+     * @param elementType the expected type
+     * @return an immutable copy of the values contained
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since TODO: version
+     */
+    default @Nullable List<?> getList(Type elementType) throws SerializationException {
+        return (List<?>) this.get(TypeFactory.parameterizedClass(List.class, elementType));
+    }
+
+    /**
+     * If this node has list values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param def default value if no appropriate value is set
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since TODO: version
+     */
+    default List<?> getList(Type elementType, List<?> def) throws SerializationException {
+        final Type type = TypeFactory.parameterizedClass(List.class, elementType);
+        final List<?> ret = (List<?>) this.get(type, def);
+        return ret.isEmpty() ? storeDefault(this, type, def) : ret;
+    }
+
+    /**
+     * If this node has list values, this function unwraps them and converts
+     * them to an appropriate type based on the provided function.
+     *
+     * <p>If this node has a scalar value, this function treats it as a list
+     * with one value.</p>
+     *
+     * @param elementType expected type
+     * @param defSupplier function that will be called to calculate a default
+     *                    value only if there is no existing value of the
+     *                    correct type
+     * @return an immutable copy of the values contained that could be
+     *         successfully converted, or {@code def} if no values could be
+     *         converted.
+     * @throws SerializationException if any value fails to be converted to the
+     *                                requested type
+     * @since TODO: version
+     */
+    default List<?> getList(Type elementType, Supplier<List<?>> defSupplier) throws SerializationException {
+        final Type type = TypeFactory.parameterizedClass(List.class, elementType);
+        final List<?> ret = (List<?>) this.get(type, defSupplier);
+        return ret.isEmpty() ? storeDefault(this, type, defSupplier.get()) : ret;
     }
 
     /**
