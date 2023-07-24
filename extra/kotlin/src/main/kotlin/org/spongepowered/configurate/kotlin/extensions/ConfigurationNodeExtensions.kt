@@ -16,12 +16,14 @@
  */
 package org.spongepowered.configurate.kotlin.extensions
 
-import kotlin.reflect.KClass
 import org.spongepowered.configurate.ConfigurationNode
 import org.spongepowered.configurate.NodePath
 import org.spongepowered.configurate.ScopedConfigurationNode
-import org.spongepowered.configurate.kotlin.typeTokenOf
 import org.spongepowered.configurate.serialize.SerializationException
+import kotlin.reflect.KClass
+import kotlin.reflect.KType
+import kotlin.reflect.jvm.javaType
+import kotlin.reflect.typeOf
 
 /**
  * An implementation of `contains` that can traverse multiple levels in [path].
@@ -58,7 +60,7 @@ operator fun ConfigurationNode.contains(path: Any): Boolean {
  */
 @Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.get(): V? {
-    return get(typeTokenOf<V>())
+    return get(typeOf<V>().javaType) as V?
 }
 
 /**
@@ -68,7 +70,7 @@ inline fun <reified V> ConfigurationNode.get(): V? {
  */
 @Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.get(default: V): V {
-    return get(typeTokenOf(), default)
+    return get(typeOf<V>().javaType, default) as V
 }
 
 /**
@@ -103,9 +105,36 @@ fun <T : Any> ConfigurationNode.get(type: KClass<T>, default: () -> T): T {
  *
  * @see ConfigurationNode.get
  */
+fun ConfigurationNode.get(type: KType): Any? {
+    return get(type.javaType)
+}
+
+/**
+ * Get a value from the receiver using the type parameter.
+ *
+ * @see ConfigurationNode.get
+ */
+fun ConfigurationNode.get(type: KType, default: Any): Any {
+    return get(type.javaType, default)
+}
+
+/**
+ * Get a value from the receiver using the type parameter.
+ *
+ * @see ConfigurationNode.get
+ */
+fun ConfigurationNode.get(type: KType, default: () -> Any): Any {
+    return get(type.javaType, default)
+}
+
+/**
+ * Get a value from the receiver using the type parameter.
+ *
+ * @see ConfigurationNode.get
+ */
 @Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.get(noinline default: () -> V): V {
-    return get(typeTokenOf<V>(), default)
+    return get(typeOf<V>().javaType, default) as V
 }
 
 /**
@@ -115,7 +144,7 @@ inline fun <reified V> ConfigurationNode.get(noinline default: () -> V): V {
  */
 @Throws(SerializationException::class)
 inline fun <reified V> ConfigurationNode.typedSet(value: V?) {
-    set(typeTokenOf(), value)
+    set(typeOf<V>().javaType, value)
 }
 
 /**
@@ -137,6 +166,34 @@ fun <T : Any> ConfigurationNode.getList(type: KClass<T>, default: List<T>): List
 }
 
 /**
+ * Get a list value from the receiver using a Kotlin type.
+ *
+ * @see ConfigurationNode.getList
+ */
+fun ConfigurationNode.getList(type: KType): List<*>? {
+    return getList(type.javaType)
+}
+
+/**
+ * Get a list value from the receiver using a Kotlin type.
+ *
+ * @see ConfigurationNode.getList
+ */
+fun ConfigurationNode.getList(type: KType, default: List<*>): List<*> {
+    return getList(type.javaType, default)
+}
+
+/**
+ * Get a list value with element type [T] from the receiver.
+ *
+ * @see ConfigurationNode.getList
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> ConfigurationNode.getList(default: List<T>): List<T> {
+    return getList(typeOf<T>().javaType, default) as List<T>
+}
+
+/**
  * Set a value on the receiver described by a kotlin class.
  *
  * @see ConfigurationNode.set
@@ -150,6 +207,24 @@ fun <T : Any> ConfigurationNode.set(type: KClass<T>, value: T?): ConfigurationNo
  *
  * @see ConfigurationNode.set
  */
+fun ConfigurationNode.set(type: KType, value: Any?): ConfigurationNode {
+    return set(type.javaType, value)
+}
+
+/**
+ * Set a value on the receiver described by a kotlin class.
+ *
+ * @see ConfigurationNode.set
+ */
 fun <T : Any, N : ScopedConfigurationNode<N>> N.set(type: KClass<T>, value: T?): N {
     return set(type.java, value)
+}
+
+/**
+ * Set a value on the receiver described by a kotlin class.
+ *
+ * @see ConfigurationNode.set
+ */
+fun <T : Any, N : ScopedConfigurationNode<N>> N.set(type: KType, value: T?): N {
+    return set(type.javaType, value)
 }

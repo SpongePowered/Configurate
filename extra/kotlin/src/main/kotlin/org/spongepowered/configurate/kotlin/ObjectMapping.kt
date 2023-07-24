@@ -38,6 +38,8 @@ import org.spongepowered.configurate.objectmapping.FieldDiscoverer
 import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.objectmapping.ObjectMapper.Factory
 import org.spongepowered.configurate.util.Types.combinedAnnotations
+import kotlin.reflect.jvm.javaType
+import kotlin.reflect.typeOf
 
 private val dataClassMapperFactory =
     ObjectMapper.factoryBuilder().addDiscoverer(DataClassFieldDiscoverer).build()
@@ -60,16 +62,15 @@ fun dataClassFieldDiscoverer(): FieldDiscoverer<*> {
 }
 
 /** Get an object mapper for the type [T] using the default object mapper factory */
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T> objectMapper(): ObjectMapper<T> {
-    return objectMapperFactory()[typeTokenOf()]
+    return objectMapperFactory()[typeOf<T>().javaType] as ObjectMapper<T>
 }
 
 /** Get an object mapper bound to the instance of [T], resolving type parameters */
 inline fun <reified T> T.toNode(target: ConfigurationNode) {
     return objectMapperFactory().get<T>().save(this, target)
 }
-
-@PublishedApi internal inline fun <reified T> typeTokenOf() = object : TypeToken<T>() {}
 
 /**
  * A field discoverer that gathers definitions from kotlin `data` classes.

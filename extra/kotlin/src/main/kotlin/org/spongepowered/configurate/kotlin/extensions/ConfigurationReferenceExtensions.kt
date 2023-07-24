@@ -18,20 +18,23 @@ package org.spongepowered.configurate.kotlin.extensions
 
 import kotlinx.coroutines.flow.Flow
 import org.spongepowered.configurate.ScopedConfigurationNode
-import org.spongepowered.configurate.kotlin.typeTokenOf
 import org.spongepowered.configurate.reference.ConfigurationReference
 import org.spongepowered.configurate.reference.ValueReference
+import kotlin.reflect.jvm.javaType
+import kotlin.reflect.typeOf
 
 /** Create a flow with events for every refresh of a value backing this reference */
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.flowOf(
     vararg path: Any
 ): Flow<T> {
-    return this.referenceTo<T>(typeTokenOf(), *path).asFlow()
+    return (this.referenceTo(typeOf<T>().javaType, *path) as ValueReference<T, N>).asFlow()
 }
 
 /** Get a reference to the value of type [T] at [path]. */
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.referenceTo(
     vararg path: Any
 ): ValueReference<T, N> {
-    return this.referenceTo(typeTokenOf(), *path)
+    return this.referenceTo(typeOf<T>().javaType, *path) as ValueReference<T, N>
 }
