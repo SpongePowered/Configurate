@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 class YamlConstructor extends Constructor {
 
-    private static final Pattern LINE_BREAK_PATTERN;
+    private static final Pattern LINE_BREAK_PATTERN = Pattern.compile("\\R");
 
     @Nullable ConfigurationOptions options;
 
@@ -106,10 +106,6 @@ class YamlConstructor extends Constructor {
                 }
             })
             .collect(Collectors.joining("\n"));
-    }
-
-    static {
-        LINE_BREAK_PATTERN = Pattern.compile("\\R");
     }
 
     private static String removeLineBreaksForLine(final String line) {
