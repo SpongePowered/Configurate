@@ -32,9 +32,12 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 class YamlConstructor extends Constructor {
+
+    private static final Pattern LINE_BREAK_PATTERN;
 
     @Nullable ConfigurationOptions options;
 
@@ -95,7 +98,7 @@ class YamlConstructor extends Constructor {
         }
         return commentLines.stream()
             .map(input -> {
-                final String lineStripped = input.getValue().replace("\r", "");
+                final String lineStripped = removeLineBreaksForLine(input.getValue());
                 if (!lineStripped.isEmpty() && lineStripped.charAt(0) == ' ') {
                     return lineStripped.substring(1);
                 } else {
@@ -103,6 +106,14 @@ class YamlConstructor extends Constructor {
                 }
             })
             .collect(Collectors.joining("\n"));
+    }
+
+    static {
+        LINE_BREAK_PATTERN = Pattern.compile("\\R");
+    }
+
+    private static String removeLineBreaksForLine(final String line) {
+        return LINE_BREAK_PATTERN.matcher(line).replaceAll("");
     }
 
 }

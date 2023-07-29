@@ -106,7 +106,7 @@ class YamlConfigurationLoaderTest {
     }
 
     @Test
-    void testReadComments(final @TempDir Path tempDir) throws IOException {
+    void testReadComments() throws IOException {
         final ConfigurationNode expected = CommentedConfigurationNode.root(n ->
             n.node("waffles-with-syrup")
                 .comment("hello world")
