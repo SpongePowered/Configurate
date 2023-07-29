@@ -70,6 +70,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * <dl>
      *     <dt>&lt;prefix&gt;.yaml.node-style</dt>
      *     <dd>Equivalent to {@link #nodeStyle(NodeStyle)}</dd>
+     *     <dt>&lt;prefix&gt;.yaml.comments-enabled</dt>
+     *     <dd>Equivalent to {@link #commentsEnabled(boolean)}</dd>
      * </dl>
      *
      * @since 4.0.0
@@ -77,6 +79,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
         private final DumperOptions options = new DumperOptions();
         private @Nullable NodeStyle style;
+        private boolean enableComments;
 
         Builder() {
             this.indent(4);
@@ -90,6 +93,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
             if (declared != null) {
                 this.style = declared;
             }
+            this.enableComments = options.getBoolean(true, "yaml", "comments-enabled");
         }
 
         /**
@@ -156,6 +160,34 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
             return this.style;
         }
 
+        /**
+         * Set whether comment handling is enabled on this loader.
+         *
+         * <p>When comment handling is enabled, comments will be read from files
+         * and written back to files where possible.</p>
+         *
+         * <p>The default value is {@code true}</p>
+         *
+         * @param enableComments whether comment handling should be enabled
+         * @return this builder (for chaining)
+         * @since 4.2.0
+         */
+        public Builder commentsEnabled(final boolean enableComments) {
+            this.enableComments = enableComments;
+            return this;
+        }
+
+        /**
+         * Get whether comment handling is enabled.
+         *
+         * @return whether comment handling is enabled
+         * @see #commentsEnabled(boolean) for details on comment handling
+         * @since 4.2.0
+         */
+        public boolean commentsEnabled() {
+            return this.enableComments;
+        }
+
         @Override
         public YamlConfigurationLoader build() {
             return new YamlConfigurationLoader(this);
@@ -169,12 +201,12 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
         final LoaderOptions loaderOpts = new LoaderOptions()
             .setAcceptTabs(true)
-            .setProcessComments(true);
+            .setProcessComments(builder.commentsEnabled());
         loaderOpts.setCodePointLimit(Integer.MAX_VALUE);
 
         final DumperOptions opts = builder.options;
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
-        opts.setProcessComments(true);
+        opts.setProcessComments(builder.commentsEnabled());
         // the constructor needs ConfigurationOptions, which is only available when called (loadInternal)
         this.constructor = ThreadLocal.withInitial(() -> new YamlConstructor(loaderOpts));
         this.yaml = ThreadLocal.withInitial(() -> new Yaml(this.constructor.get(), new YamlRepresenter(opts), opts, loaderOpts));
