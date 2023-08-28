@@ -10,7 +10,7 @@ junit="5.9.3"
 ktlint="0.49.1"
 ktfmt="0.44"
 pmd = "6.55.0"
-spotless = "6.19.0"
+spotless = "6.20.0"
 
 [libraries]
 # Shared
@@ -69,8 +69,8 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.1.0"
-detekt = "io.gitlab.arturbosch.detekt:1.23.0"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.3"
+detekt = "io.gitlab.arturbosch.detekt:1.23.1"
 dokka = "org.jetbrains.dokka:1.8.20"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
 gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.0.0" }
@@ -78,6 +78,6 @@ indra-common = { id = "net.kyori.indra", version.ref = "indra" }
 indra-crossdoc = { id = "net.kyori.indra.crossdoc", version.ref = "indra" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
-kotlin = "org.jetbrains.kotlin.jvm:1.8.22"
+kotlin = "org.jetbrains.kotlin.jvm:1.9.10"
 shadow = "com.github.johnrengelman.shadow:8.1.1"
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
