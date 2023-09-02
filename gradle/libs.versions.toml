@@ -1,7 +1,7 @@
 [versions]
 assertj="3.24.2"
 autoValue="1.10.2"
-checkerQual="3.37.0"
+checkerQual="3.38.0"
 checkstyle="10.12.1"
 geantyref = "1.3.14"
 errorprone="2.21.1"
