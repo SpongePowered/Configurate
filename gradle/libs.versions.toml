@@ -10,7 +10,7 @@ junit="5.10.0"
 ktlint="0.49.1"
 ktfmt="0.44"
 pmd = "6.55.0"
-spotless = "6.21.0"
+spotless = "6.22.0"
 
 [libraries]
 # Shared
@@ -69,7 +69,7 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.3"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.4"
 detekt = "io.gitlab.arturbosch.detekt:1.23.1"
 dokka = "org.jetbrains.dokka:1.9.0"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
