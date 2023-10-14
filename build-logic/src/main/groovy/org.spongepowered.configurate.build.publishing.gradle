@@ -1,7 +1,3 @@
-import org.gradle.api.attributes.Usage
-import org.gradle.api.plugins.JavaPlugin
-import org.gradle.plugins.signing.Sign
-import org.gradle.plugins.signing.signatory.pgp.PgpSignatoryProvider
 import org.spongepowered.configurate.build.SignJarTask
 
 import java.nio.file.Files

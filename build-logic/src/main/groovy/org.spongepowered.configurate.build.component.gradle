@@ -2,17 +2,7 @@ import com.diffplug.gradle.spotless.FormatExtension
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import net.kyori.indra.util.Versioning
 import org.eclipse.jgit.lib.Repository
-import org.gradle.api.artifacts.CacheableRule
-import org.gradle.api.artifacts.ComponentMetadataContext
-import org.gradle.api.artifacts.ComponentMetadataRule
-import org.gradle.api.attributes.Bundling
-import org.gradle.api.attributes.Usage
 import org.gradle.api.attributes.java.TargetJvmVersion
-import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.quality.Checkstyle
-import org.gradle.api.plugins.quality.Pmd
-import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
 plugins {
     id "org.spongepowered.configurate.build.base"
