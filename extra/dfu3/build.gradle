@@ -11,10 +11,8 @@ dependencies {
     testImplementation libs.math
 }
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     if (options instanceof StandardJavadocDocletOptions) {
-        options.links(
-            "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/"
-        )
+        options.links("https://kvverti.github.io/Documented-DataFixerUpper/snapshot/")
     }
 }

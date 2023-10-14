@@ -46,14 +46,14 @@ if (project.hasProperty("spongeKeyStore")) {
 
     tasks.named("signJar", org.spongepowered.configurate.build.SignJarTask) {
         dependsOn(tasks.shadowJar)
-        
+
         from(zipTree(tasks.shadowJar.outputs.files.singleFile))
     }
 } else {
     // Replace the default artifact
     // We have to replace the default artifact which is a bit ugly
     // https://github.com/gradle/gradle/pull/13650 should make it easier
-    def forRelevantOutgoings = { action -> 
+    def forRelevantOutgoings = { action ->
         action.resolveStrategy = Closure.DELEGATE_FIRST
         action.delegate = configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing
         action()
