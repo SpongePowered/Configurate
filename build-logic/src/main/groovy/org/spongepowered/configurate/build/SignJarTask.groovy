@@ -46,4 +46,5 @@ abstract class SignJarTask extends Jar {
             )
         }
     }
+
 }

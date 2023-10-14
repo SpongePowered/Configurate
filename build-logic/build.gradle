@@ -3,6 +3,7 @@ import com.diffplug.gradle.spotless.FormatExtension
 plugins {
     id 'groovy-gradle-plugin'
     alias(libs.plugins.spotless)
+    id 'codenarc'
 }
 
 java {
@@ -32,6 +33,9 @@ dependencies {
     api libs.build.japicmp.plugin
     api libs.build.forbiddenApis
     api libs.build.goomph
+
+    codenarc libs.build.codenarc
+    codenarc libs.build.codenarcGroovy
 }
 
 spotless {
@@ -45,10 +49,16 @@ spotless {
         "$it"() { f ->
             common(f)
             f.importOrderFile(rootProject.file('../.spotless/configurate.importorder'))
-            f.greclipse().configFile(
-                rootProject.file('../.spotless/eclipse-java.xml'),
-                rootProject.file('../.spotless/greclipse.properties')
-            )
         }
+    }
+}
+
+codenarc {
+    config = resources.text.fromFile(rootProject.file('../.codenarc/codenarc.groovy'))
+}
+
+sourceSets.configureEach {
+    tasks.named(getTaskName('codenarc', null), CodeNarc).configure { narc ->
+        narc.compilationClasspath += compileClasspath
     }
 }
