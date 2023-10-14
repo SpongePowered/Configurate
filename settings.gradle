@@ -63,5 +63,7 @@ rootProject.name = "$prefix-parent"
 includeBuild 'vendor', {
   name = "configurate-vendor"
 }
-includeBuild 'build-logic'
+includeBuild 'build-logic', {
+    name = "configurate-build-logic"
+}
 
