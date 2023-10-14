@@ -5,9 +5,10 @@ plugins {
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.aggregateJavadoc)
-    alias(libs.plugins.indra.sonatype)
-    alias(libs.plugins.indra.git)
     alias(libs.plugins.gitPublish)
+    alias(libs.plugins.indra.git)
+    alias(libs.plugins.indra.sonatype)
+    alias(libs.plugins.nexusPublish)
     id 'java-base'
     id 'org.spongepowered.configurate.build.base'
 }

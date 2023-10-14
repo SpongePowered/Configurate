@@ -1,17 +1,8 @@
+import com.diffplug.gradle.spotless.FormatExtension
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
 import net.kyori.indra.util.Versioning
 import org.eclipse.jgit.lib.Repository
-import org.gradle.api.artifacts.CacheableRule
-import org.gradle.api.artifacts.ComponentMetadataContext
-import org.gradle.api.artifacts.ComponentMetadataRule
-import org.gradle.api.attributes.Bundling
-import org.gradle.api.attributes.Usage
 import org.gradle.api.attributes.java.TargetJvmVersion
-import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.quality.Checkstyle
-import org.gradle.api.plugins.quality.Pmd
-import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
 plugins {
     id "org.spongepowered.configurate.build.base"
@@ -103,8 +94,10 @@ dependencies {
 
     // Testing
     testImplementation(libs.assertj.core)
+    testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
+    testRuntimeOnly(libs.junit.launcher)
 }
 
 configurations {
@@ -112,6 +105,13 @@ configurations {
 }
 
 // Apply a license header
+def spotlessCommon = { FormatExtension f ->
+    f.toggleOffOn("@formatter:off", "@formatter:on")
+    f.indentWithSpaces()
+    f.endWithNewline()
+    f.trimTrailingWhitespace()
+}
+
 spotless {
     java {
         def lineSep = System.lineSeparator()
@@ -123,8 +123,11 @@ spotless {
         licenseHeader(licenseText)
         targetExclude 'generated/**'
         importOrderFile rootProject.file('.spotless/configurate.importorder')
-        endWithNewline()
-        trimTrailingWhitespace()
+        spotlessCommon(it)
+    }
+    groovyGradle {
+        importOrderFile rootProject.file('.spotless/configurate.importorder')
+        spotlessCommon(it)
     }
 }
 
@@ -140,10 +143,9 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
               .collect { (" * " + it).stripTrailing() }
               .join(lineSep) + lineSep + " */"
             licenseHeader(licenseText)
-            endWithNewline()
-            trimTrailingWhitespace()
 
             ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
+            spotlessCommon(it)
         }
         plugins.withId("io.gitlab.arturbosch.detekt") {
             tasks.named("detekt").configure {

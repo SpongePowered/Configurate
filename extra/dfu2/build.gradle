@@ -10,10 +10,8 @@ dependencies {
     testImplementation(projects.format.gson)
 }
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     if (options instanceof StandardJavadocDocletOptions) {
-        options.links(
-            "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/"
-        )
+        options.links("https://kvverti.github.io/Documented-DataFixerUpper/snapshot/")
     }
 }
