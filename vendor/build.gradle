@@ -59,6 +59,7 @@ project(":snakeyaml") {
 
     spotless {
         java {
+            targetExclude 'src/main/java9/**' // upstream doesn't format this for some reason
             eclipse()
                 .configFile('../snakeyaml-upstream/src/etc/eclipse-java-google-style.xml')
         }
@@ -72,6 +73,9 @@ project(":snakeyaml") {
     tasks.withType(ProcessResources).configureEach {
         dependsOn ':applyPatches'
     }
+    spotlessJava {
+        dependsOn ':applyPatches'
+    }
 
     tasks.named("test", Test) {
         environment(
@@ -82,5 +86,33 @@ project(":snakeyaml") {
             // needs classpath provided via expansions, doesn't seem to be easily doable with the maven-style property names
             excludeTest("org.yaml.snakeyaml.issues.issue318.ContextClassLoaderTest", null)
         }
+    }
+
+    // Set up multi-release jar
+    sourceSets {
+        java9 { SourceSet set ->
+            set.compileClasspath += main.compileClasspath
+            set.runtimeClasspath += main.runtimeClasspath
+            set.java.setSrcDirs(['src/main/java9'])
+        }
+    }
+
+    dependencies {
+        java9Implementation sourceSets.main.output
+    }
+
+    jar {
+        from(sourceSets.java9.output) {
+            into 'META-INF/versions/9/'
+            exclude 'module-info.class' // not used for our purposes
+        }
+        manifest {
+            attributes 'Multi-Release': 'true'
+        }
+    }
+
+    compileJava9Java {
+        options.release = 9
+        options.compilerArgs += "--patch-module=org.yaml.snakeyaml=${sourceSets.main.output.classesDirs.asPath}"
     }
 }

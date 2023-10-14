@@ -5,19 +5,20 @@ Subject: [PATCH] scanner: Initial implementation of tab acceptance
 
 
 diff --git a/src/main/java/org/yaml/snakeyaml/LoaderOptions.java b/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
-index 432730bee858cfaa9e638b87272265826d6270a6..03bcf0d12e35768cee5cc6e179d7150cc5857dee 100644
+index 12038cbbab7d0263739b8738a309412157be71c5..772c8819aab4b39d702d89d0508dc79d2126c13f 100644
 --- a/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
 +++ b/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
-@@ -28,6 +28,7 @@ public class LoaderOptions {
-   // https://en.wikipedia.org/wiki/Billion_laughs_attack
-   private boolean allowRecursiveKeys = false;
+@@ -32,6 +32,8 @@ public class LoaderOptions {
+ 
    private boolean processComments = false;
+ 
 +  private boolean acceptTabs = false;
++
    private boolean enumCaseSensitive = true;
+ 
    private int nestingDepthLimit = 50;
-   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
-@@ -148,6 +149,30 @@ public class LoaderOptions {
-     return processComments;
+@@ -149,6 +151,30 @@ public class LoaderOptions {
+     return this;
    }
  
 +  /**
@@ -48,19 +49,17 @@ index 432730bee858cfaa9e638b87272265826d6270a6..03bcf0d12e35768cee5cc6e179d7150c
     * getter
     *
 diff --git a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
-index c9ae314ce57c268e169b99b77d050ac02a143ce2..373e4c1845b0f739b2f805612887b8d84d057700 100644
+index ca2343c2d223abee59c219aa58629efd46429fdf..e566816b2cf7719a14c601f2551aa7f6f0c13cd6 100644
 --- a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
 +++ b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
-@@ -216,6 +216,8 @@ public final class ScannerImpl implements Scanner {
+@@ -216,11 +216,14 @@ public final class ScannerImpl implements Scanner {
     */
    private final Map<Integer, SimpleKey> possibleSimpleKeys;
  
 +  private final boolean acceptTabs;
 +
-   /**
-    * Create
-    *
-@@ -232,6 +234,7 @@ public final class ScannerImpl implements Scanner {
+   public ScannerImpl(StreamReader reader, LoaderOptions options) {
+     if (options == null) {
        throw new NullPointerException("LoaderOptions must be provided.");
      }
      this.parseComments = options.isProcessComments();
@@ -68,7 +67,7 @@ index c9ae314ce57c268e169b99b77d050ac02a143ce2..373e4c1845b0f739b2f805612887b8d8
      this.reader = reader;
      this.tokens = new ArrayList<Token>(100);
      this.indents = new ArrayStack<Integer>(10);
-@@ -1241,7 +1244,7 @@ public final class ScannerImpl implements Scanner {
+@@ -1213,7 +1216,7 @@ public final class ScannerImpl implements Scanner {
        int ff = 0;
        // Peek ahead until we find the first non-space character, then
        // move forward directly to that character.
