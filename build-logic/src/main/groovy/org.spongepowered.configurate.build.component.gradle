@@ -1,4 +1,5 @@
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApis
+import net.kyori.indra.util.Versioning
 import org.eclipse.jgit.lib.Repository
 import org.gradle.api.artifacts.CacheableRule
 import org.gradle.api.artifacts.ComponentMetadataContext
@@ -143,6 +144,11 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
             trimTrailingWhitespace()
 
             ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
+        }
+        plugins.withId("io.gitlab.arturbosch.detekt") {
+            tasks.named("detekt").configure {
+                jvmTarget = Versioning.versionString(indra.javaVersions().target().get())
+            }
         }
     }
 
