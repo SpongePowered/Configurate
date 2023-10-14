@@ -6,16 +6,18 @@ plugins {
     id 'codenarc'
 }
 
+def javaTarget = 11
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-    if (!JavaVersion.current().java11Compatible) {
-        toolchain.languageVersion = JavaLanguageVersion.of(11)
+    def javaVersion = JavaVersion.toVersion(javaTarget)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(javaTarget)
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.release = 11
+    options.release = javaTarget
 }
 
 dependencies {
