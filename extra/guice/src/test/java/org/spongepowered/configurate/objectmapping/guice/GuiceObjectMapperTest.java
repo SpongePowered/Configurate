@@ -31,7 +31,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 class GuiceObjectMapperTest {
 
-    private static class TestModule extends AbstractModule {
+    private static final class TestModule extends AbstractModule {
         @Override
         protected void configure() {
             this.bind(String.class).toInstance("test value");

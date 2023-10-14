@@ -47,7 +47,7 @@ class NumericSerializersTest {
         assertNull(serializer, "Type serializer for custom number class should be null!");
     }
 
-    private static class CustomNumber extends Number {
+    private static final class CustomNumber extends Number {
         public static final long serialVersionUID = 4647727438607023527L;
 
         @Override

@@ -109,7 +109,7 @@ class ObjectMapperTest {
     }
 
     @ConfigSerializable
-    private static class CommentedObject {
+    private static final class CommentedObject {
         @Setting("commented-key")
         @Comment("You look nice today")
         private String color;
@@ -150,7 +150,7 @@ class ObjectMapperTest {
     }
 
     @ConfigSerializable
-    private static class TestObjectChild extends TestObject {
+    private static final class TestObjectChild extends TestObject {
         @Setting("child-setting") private boolean childSetting;
     }
 
@@ -167,7 +167,7 @@ class ObjectMapperTest {
     }
 
     @ConfigSerializable
-    private static class FieldNameObject {
+    private static final class FieldNameObject {
         @Setting private boolean loads;
     }
 
@@ -181,12 +181,12 @@ class ObjectMapperTest {
         assertTrue(obj.loads);
     }
 
-    private static class ParentObject {
+    private static final class ParentObject {
         @Comment("Comment on parent") private InnerObject inner = new InnerObject();
     }
 
     @ConfigSerializable
-    private static class InnerObject {
+    private static final class InnerObject {
         @Comment("Something") private String test = "Default value";
     }
 
@@ -206,7 +206,7 @@ class ObjectMapperTest {
         String test();
     }
 
-    private static class ChildObject implements ParentInterface {
+    private static final class ChildObject implements ParentInterface {
         @Comment("Something") private String test = "Default value";
 
         @Override public String test() {
@@ -215,7 +215,7 @@ class ObjectMapperTest {
     }
 
     @ConfigSerializable
-    private static class ContainingObject {
+    private static final class ContainingObject {
         @Setting ParentInterface inner = new ChildObject();
         @Setting List<ParentInterface> list = new ArrayList<>();
     }
