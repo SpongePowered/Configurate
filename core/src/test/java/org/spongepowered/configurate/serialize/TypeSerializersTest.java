@@ -309,7 +309,7 @@ class TypeSerializersTest {
     }
 
     @ConfigSerializable
-    private static class TestObject {
+    private static final class TestObject {
         @Setting("int") private int value;
         @Setting private String name;
     }
