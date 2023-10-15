@@ -1,19 +1,23 @@
-import org.gradle.jvm.toolchain.JavaLanguageVersion
+import com.diffplug.gradle.spotless.FormatExtension
 
 plugins {
     id 'groovy-gradle-plugin'
+    alias(libs.plugins.spotless)
+    id 'codenarc'
 }
 
+def javaTarget = 11
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-    if (!JavaVersion.current().java11Compatible) {
-        toolchain.languageVersion = JavaLanguageVersion.of(11)
+    def javaVersion = JavaVersion.toVersion(javaTarget)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(javaTarget)
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.release = 11
+    options.release = javaTarget
 }
 
 dependencies {
@@ -31,4 +35,32 @@ dependencies {
     api libs.build.japicmp.plugin
     api libs.build.forbiddenApis
     api libs.build.goomph
+
+    codenarc libs.build.codenarc
+    codenarc libs.build.codenarcGroovy
+}
+
+spotless {
+    def common = { FormatExtension conf ->
+        conf.endWithNewline()
+        conf.indentWithSpaces(4)
+        conf.trimTrailingWhitespace()
+        conf.toggleOffOn('@formatter:off', '@formatter:on')
+    }
+    ["groovy", "groovyGradle"].each {
+        "$it"() { f ->
+            common(f)
+            f.importOrderFile(rootProject.file('../.spotless/configurate.importorder'))
+        }
+    }
+}
+
+codenarc {
+    config = resources.text.fromFile(rootProject.file('../.codenarc/codenarc.groovy'))
+}
+
+sourceSets.configureEach {
+    tasks.named(getTaskName('codenarc', null), CodeNarc).configure { narc ->
+        narc.compilationClasspath += compileClasspath
+    }
 }

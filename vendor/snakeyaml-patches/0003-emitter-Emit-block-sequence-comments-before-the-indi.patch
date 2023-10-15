@@ -8,7 +8,7 @@ first element of the sequence. I don't think there's anything we can
 do about that though.... needs more thought i suppose
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index 81a0a14835931a6b0f201d102b5e9b66d9888bb5..c30d3fb69004d63e752d6207f2df376d079da172 100644
+index 1cdf6658139bb08939a830ce1dbf1d762d0f8fda..b2f9e9486fd43570b831cf2409e1321aeedcb38b 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 @@ -753,6 +753,9 @@ public final class Emitter implements Emitable {

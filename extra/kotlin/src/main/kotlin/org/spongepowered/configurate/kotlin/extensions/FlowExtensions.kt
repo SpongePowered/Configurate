@@ -24,8 +24,8 @@ import org.spongepowered.configurate.reactive.Publisher
 /**
  * Given a pre-existing flow, expose it as a [Publisher].
  *
- * This will not change the semantics of the Flow -- i.e. if it is "hot" it
- * will stay hot, and vice versa.
+ * This will not change the semantics of the Flow -- i.e. if it is "hot" it will stay hot, and vice
+ * versa.
  */
 suspend fun <V : Any> Flow<V>.asPublisher(): Publisher<V> = coroutineScope {
     FlowPublisher(this@asPublisher, this)
