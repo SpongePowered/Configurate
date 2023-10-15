@@ -90,6 +90,9 @@ final class YamlRepresenter extends Representer {
         }
 
         private CommentLine commentLineFor(final String comment) {
+            if (comment.isEmpty()) {
+                return new CommentLine(null, null, "", CommentType.BLANK_LINE);
+            }
             // prepend a space before the comment:
             // before: #hello
             // after:  # hello

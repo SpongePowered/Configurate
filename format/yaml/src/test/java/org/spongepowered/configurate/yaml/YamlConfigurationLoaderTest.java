@@ -210,6 +210,7 @@ class YamlConfigurationLoaderTest {
             .path(destination)
             .url(source)
             .nodeStyle(NodeStyle.BLOCK)
+            .indent(2)
             .build();
 
         final ConfigurationNode sourceNode = loader.load();
