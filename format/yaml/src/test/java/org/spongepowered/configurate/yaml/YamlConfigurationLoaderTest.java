@@ -105,7 +105,7 @@ class YamlConfigurationLoaderTest {
 
         loader.save(node);
 
-        assertEquals(readLines(this.resource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
+        assertContentsSame(this.resource("write-expected.yml"), target);
     }
 
     @Test
@@ -152,10 +152,7 @@ class YamlConfigurationLoaderTest {
 
         loader.save(node);
 
-        assertEquals(
-            readLines(this.resource("comments-test.yml")),
-            Files.readAllLines(target, StandardCharsets.UTF_8)
-        );
+        assertContentsSame(this.resource("comments-test.yml"), target);
     }
 
     @Test
@@ -172,10 +169,7 @@ class YamlConfigurationLoaderTest {
         final ConfigurationNode sourceNode = loader.load();
         loader.save(sourceNode);
 
-        assertEquals(
-            readLines(source),
-            Files.readAllLines(destination, StandardCharsets.UTF_8)
-        );
+        assertContentsSame(source, destination);
     }
 
     @Test
@@ -190,6 +184,57 @@ class YamlConfigurationLoaderTest {
         assertEquals("cat", node.node("mapping", Collections.singletonMap("name", "Meow")).getString());
     }
 
+    @Test
+    void testRoundtripEssX(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("essx-example.yml");
+        final Path destination = tempDir.resolve("essx-example-roundtrip.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
+    @Test
+    void testRoundtripEssXLegacy(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("essx-legacy.yml");
+        final Path destination = tempDir.resolve("essx-legacy-roundtrip.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
+    @Test
+    void testRoundtripMobCleaner(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("mobcleaner-example.yml");
+        final Path destination = tempDir.resolve("mobcleaner-example-roundtrip.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
     private URL resource(final String path) {
         final @Nullable URL res = this.getClass().getResource(path);
         if (res == null) {
@@ -198,9 +243,16 @@ class YamlConfigurationLoaderTest {
         return res;
     }
 
-    private static List<String> readLines(final URL source) throws IOException {
+    private static void assertContentsSame(final URL expected, final Path actual) throws IOException {
+        assertEquals(
+            readLines(expected),
+            String.join("\n", Files.readAllLines(actual, StandardCharsets.UTF_8))
+        );
+    }
+
+    private static String readLines(final URL source) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(source.openStream(), StandardCharsets.UTF_8))) {
-            return reader.lines().collect(Collectors.toList());
+            return reader.lines().collect(Collectors.joining("\n"));
         }
     }
 

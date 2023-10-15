@@ -1,0 +1,138 @@
+# This config was generated for version 1.9.0
+# Find the latest config at https://github.com/JasonHorkles/EntityClearer/blob/main/config.yml
+
+# This plugin uses bStats metrics
+# https://bstats.org/plugin/bukkit/EntityClearer/10915
+# Metrics can be disabled in the bStats config.yml
+
+# Interval in minutes the clear task should run
+interval: 15
+
+# The sound to play when showing the warnings
+# See https://minecraft.fandom.com/wiki/Sounds.json#Java_Edition_values for all sounds
+# Set to '' for no sound
+sound: 'ui.button.click'
+
+# The worlds to check and remove entities from
+# Make sure to add your world(s) if they're not already there
+# See https://papermc.io/javadocs/paper/1.16/org/bukkit/entity/EntityType.html for all entities
+worlds:
+  world:
+    # The entities to be removed from the world
+    entities:
+    - BEE
+    - CAVE_SPIDER
+    - CHICKEN
+    - CREEPER
+    - SHEEP
+    - SKELETON
+    - SLIME
+    - SPIDER
+    - SQUID
+    - WOLF
+    - ZOMBIE
+
+    # Should only entities with a specific spawn reason be removed?
+    # Setting this to false will check for any spawn reason
+    spawn-reason:
+      enabled: false
+      # See https://papermc.io/javadocs/paper/1.16/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html for all spawn reasons
+      reasons:
+      - SPAWNER
+      - SPAWNER_EGG
+  world_nether:
+    entities:
+    - BLAZE
+    - ZOMBIFIED_PIGLIN
+    spawn-reason:
+      enabled: false
+      reasons: []
+#  creative:
+#    entities:
+#      - ARMOR_STAND
+#      - ARROW
+#      - BOAT
+#      - DROPPED_ITEM
+#      - MINECART
+#      - MINECART_CHEST
+#      - MINECART_FURNACE
+#      - MINECART_HOPPER
+#      - MINECART_TNT
+#    spawn-reason:
+#      enabled: false
+#      reasons: []
+
+nearby-entities:
+  # Should the plugin only remove entities that have multiple entities nearby?
+  # This is useful to only remove large groups of entities while leaving smaller entity groups alone
+  # Using this would prevent every entity from being removed then just respawning again naturally
+  enabled: true
+
+  # Only apply to worlds with the mob spawning gamerule enabled?
+  gamerule-enabled-only: false
+
+  # The distance in blocks that the plugin should check for extra entities
+  x: 3
+  y: 3
+  z: 3
+
+  # How many additional entities must be around the first entity to be removed?
+  count: 4
+
+# Should using the command /clearentities start the countdown or instantly remove the entities?
+countdown-on-command: true
+
+# Should named entities be removed?
+remove-named: false
+
+messages:
+  # Should there be action bar messages?
+  actionbar: true
+
+  # Should there be chat messages?
+  chat: false
+  actionbar-message: "&6&lCommon entities will be removed in &e&l{SECONDS} &6&lsecond{S}!"
+  actionbar-completed-message: "&6&lRemoved &e&l{ENTITIES} &6&lentities!"
+  chat-message: "&cCommon entities will be removed in &7{SECONDS} &csecond{S}!"
+  chat-completed-message: "&cRemoved &7{ENTITIES} &centities!"
+
+# When should the warning messages send?
+# Time is in seconds remaining before the clear task
+warning-messages:
+  60-seconds: false
+  45-seconds: false
+  30-seconds: true
+  15-seconds: false
+  5-seconds: true
+  4-seconds: true
+  3-seconds: true
+  2-seconds: true
+  1-second: true
+
+# The command(s) to run after the entity clearing task runs
+commands:
+#  - nuke
+
+low-tps:
+  # Should the entity removal task be triggered when the TPS is low?
+  enabled: false
+
+  # Below what TPS should the plugin remove the entities?
+  threshold: 17
+
+  # Should the plugin remove the entities instantly or trigger the countdown?
+  # Warning: If the TPS is too low and remove-instantly is false, the plugin may
+  # not be able to remove the entities before the server crashes
+  remove-instantly: true
+
+  # Should there be a chat message sent to players with the `entityclearer.lowtps`
+  # permission stating that the TPS is low?
+  chat: true
+  chat-message: "&c&lWarning: TPS low &8&l(&7&l{TPS}&8&l)&c&l! Removing entities..."
+
+###############################################
+
+# Debug stuff
+# You shouldn't need to touch this unless specifically asked to do so :)
+print-stack-traces: false
+debug: false
