@@ -19,6 +19,7 @@ package org.spongepowered.configurate.yaml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.leangen.geantyref.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -35,6 +36,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,7 +49,7 @@ class YamlConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading() throws ConfigurateException {
-        final URL url = this.getClass().getResource("/example.yml");
+        final URL url = this.resource("/example.yml");
         final ConfigurationLoader<CommentedConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
@@ -73,7 +76,7 @@ class YamlConfigurationLoaderTest {
             });
         });
 
-        final URL url = this.getClass().getResource("/tab-example.yml");
+        final URL url = this.resource("/tab-example.yml");
         final ConfigurationLoader<CommentedConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
@@ -81,7 +84,7 @@ class YamlConfigurationLoaderTest {
     }
 
     @Test
-    void testWriteBasicFile(final @TempDir Path tempDir) throws ConfigurateException, IOException {
+    void testWriteBasicFile(final @TempDir Path tempDir) throws IOException {
         final Path target = tempDir.resolve("write-basic.yml");
         final ConfigurationNode node = BasicConfigurationNode.root(n -> {
             n.node("mapping", "first").set("hello");
@@ -102,7 +105,7 @@ class YamlConfigurationLoaderTest {
 
         loader.save(node);
 
-        assertEquals(readLines(this.getClass().getResource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
+        assertEquals(readLines(this.resource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
     }
 
     @Test
@@ -119,7 +122,7 @@ class YamlConfigurationLoaderTest {
                         })
                 ));
 
-        final URL url = this.getClass().getResource("comments-test.yml");
+        final URL url = this.resource("comments-test.yml");
         final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .url(url).build();
 
@@ -150,14 +153,14 @@ class YamlConfigurationLoaderTest {
         loader.save(node);
 
         assertEquals(
-            readLines(this.getClass().getResource("comments-test.yml")),
+            readLines(this.resource("comments-test.yml")),
             Files.readAllLines(target, StandardCharsets.UTF_8)
         );
     }
 
     @Test
     void testReadWriteComments(final @TempDir Path tempDir) throws IOException {
-        final URL source = this.getClass().getResource("comments-test.yml");
+        final URL source = this.resource("comments-test.yml");
         final Path destination = tempDir.resolve("comments-readwrite.yml");
 
         final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
@@ -173,6 +176,26 @@ class YamlConfigurationLoaderTest {
             readLines(source),
             Files.readAllLines(destination, StandardCharsets.UTF_8)
         );
+    }
+
+    @Test
+    void testComplexKeys() throws ConfigurateException {
+        final URL source = this.resource("complex-keys.yaml");
+        final CommentedConfigurationNode node = YamlConfigurationLoader.builder()
+            .url(source)
+            .build().load();
+
+        assertEquals("good", node.node("mapping", Arrays.asList("one", "two")).getString());
+        assertEquals("bad", node.node("mapping", Arrays.asList("red", "blue")).getString());
+        assertEquals("cat", node.node("mapping", Collections.singletonMap("name", "Meow")).getString());
+    }
+
+    private URL resource(final String path) {
+        final @Nullable URL res = this.getClass().getResource(path);
+        if (res == null) {
+            throw new IllegalArgumentException("No resource found for path '" + path + "'");
+        }
+        return res;
     }
 
     private static List<String> readLines(final URL source) throws IOException {

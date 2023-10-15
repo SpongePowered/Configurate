@@ -27,7 +27,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
-import org.yaml.snakeyaml.nodes.ScalarNode;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -65,13 +64,13 @@ class YamlConstructor extends Constructor {
 
             ((MappingNode) yamlNode).getValue().forEach(tuple -> {
                 // I don't think it's possible to have a non-scalar node as key
-                final ScalarNode keyNode = (ScalarNode) tuple.getKeyNode();
+                final ConfigurationNode keyNode = (ConfigurationNode) this.constructObject(tuple.getKeyNode());
                 final Node valueNode = tuple.getValueNode();
 
                 // comments are on the key, not the value
-                node.node(keyNode.getValue())
+                node.node(keyNode.raw())
                     .from((ConfigurationNode) constructObject(valueNode))
-                    .comment(commentFor(keyNode.getBlockComments()));
+                    .comment(commentFor(tuple.getKeyNode().getBlockComments()));
             });
 
             return node.comment(commentFor(yamlNode.getBlockComments()));

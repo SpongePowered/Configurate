@@ -1,0 +1,4 @@
+mapping:
+  [one, two]: good
+  [red, blue]: bad
+  {name: "Meow"}: cat
