@@ -122,6 +122,7 @@ spotless {
 
         licenseHeader(licenseText)
         targetExclude 'generated/**'
+        targetExclude 'src/main/java/generated/**'
         importOrderFile rootProject.file('.spotless/configurate.importorder')
         spotlessCommon(it)
     }
