@@ -109,6 +109,19 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
             state.mapKeyHolder.raw(node.key());
             state.mapKeyHolder.visit(this, state);
         }
+
+        // detect null value
+        if (node.empty() && node.raw() == null) {
+            state.emit(new ScalarEvent(
+                this.anchor(node),
+                null,
+                new ImplicitTuple(true, false),
+                "",
+                null,
+                null,
+                DumperOptions.ScalarStyle.PLAIN
+            ));
+        }
     }
 
     @Override

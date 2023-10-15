@@ -536,7 +536,9 @@ final class YamlParserComposer extends ParserImpl {
                     // todo: maybe throw here?
                     tag = Yaml11Tags.STR;
                 }
-                head.node.raw(((Tag.Scalar<?>) tag).fromString(scalar.getValue()));
+                if (!Yaml11Tags.NULL.equals(tag)) { // we don't want to nuke node data with null values
+                    head.node.raw(((Tag.Scalar<?>) tag).fromString(scalar.getValue()));
+                }
             }
             self.applyComment(comments, head.node);
             head.node.hint(YamlConfigurationLoader.TAG, tag);

@@ -172,6 +172,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
             Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
             byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class); // complex types
 
+    private static final int DEFAULT_LINE_LENGTH = 150;
+
     /**
      * Creates a new {@link YamlConfigurationLoader} builder.
      *
@@ -328,6 +330,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         opts.setProcessComments(builder.commentsEnabled());
         opts.setIndentWithIndicator(true);
         opts.setIndicatorIndent(builder.indent());
+        opts.setWidth(DEFAULT_LINE_LENGTH);
         this.defaultNodeStyle = builder.nodeStyle();
         this.options = opts;
         this.loader = new LoaderOptions()
@@ -339,7 +342,6 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {
-        // Match the superclass implementation, except we substitute our own scanner implementation
         final YamlParserComposer parser = new YamlParserComposer(new StreamReader(reader), this.loader, Yaml11Tags.REPOSITORY);
         parser.singleDocumentStream(node);
     }
