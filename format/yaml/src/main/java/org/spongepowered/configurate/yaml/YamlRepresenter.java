@@ -23,11 +23,13 @@ import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
+import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -45,6 +47,7 @@ final class YamlRepresenter extends Representer {
     YamlRepresenter(final DumperOptions options) {
         super(options);
         multiRepresenters.put(ConfigurationNode.class, new ConfigurationNodeRepresent());
+        nullRepresenter = new EmptyNullRepresenter();
     }
 
     private final class ConfigurationNodeRepresent implements Represent {
@@ -97,6 +100,13 @@ final class YamlRepresenter extends Representer {
             // before: #hello
             // after:  # hello
             return new CommentLine(null, null, " " + comment, CommentType.BLOCK);
+        }
+    }
+
+    private static final class EmptyNullRepresenter implements Represent {
+        @Override
+        public Node representData(Object data) {
+            return new ScalarNode(Tag.NULL, "", null, null, ScalarStyle.PLAIN);
         }
     }
 
