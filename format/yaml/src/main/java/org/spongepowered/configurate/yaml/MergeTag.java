@@ -18,5 +18,7 @@ package org.spongepowered.configurate.yaml;
 
 // Marker for merge tag values
 enum MergeTag {
+
     INSTANCE
+
 }

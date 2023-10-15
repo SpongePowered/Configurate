@@ -32,6 +32,7 @@ class Tag {
     private final URI tagUri;
     private final Set<Class<?>> supportedTypes;
 
+    // RFC4151 URL
     Tag(final URI tagUri, final Set<? extends Class<?>> supportedTypes) {
         this.tagUri = tagUri;
         this.supportedTypes = UnmodifiableCollections.copyOf(supportedTypes);
