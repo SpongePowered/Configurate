@@ -35,8 +35,8 @@ max-nick-length: 15
 # A list of phrases that cannot be used in nicknames. You can include regular expressions here.
 # Users with essentials.nick.blacklist.bypass will be able to bypass this filter.
 nick-blacklist:
-#- Notch
-#- '^Dinnerbone'
+# - Notch
+# - '^Dinnerbone'
 
 # When this option is enabled, nickname length checking will exclude color codes in player names.
 # ie: "&6Notch" has 7 characters (2 are part of a color code), a length of 5 is used when this option is set to true
@@ -128,7 +128,7 @@ item-spawn-blacklist:
 #  - essentials.unlimited.item-[itemname]
 #  - essentials.unlimited.item-[itemid]
 #  - essentials.unlimited.item-bucket # Unlimited liquid placing
-#
+
 # For more information, visit http://wiki.ess3.net/wiki/Command_Reference/ICheat#Item.2FGive
 permission-based-item-spawn: false
 
@@ -401,8 +401,10 @@ unprotected-sign-names:
 backup:
   # Interval in minutes.
   interval: 30
+
   # If true, the backup task will run even if there are no players online.
   always-run: false
+
   # Unless you add a valid backup command or script here, this feature will be useless.
   # Use 'save-all' to simply force regular world saving without backup.
   # The example command below utilizes rdiff-backup: https://rdiff-backup.net/
@@ -751,7 +753,7 @@ sethome-multiple:
 
 # Controls whether players need the permission "essentials.home.compass" in order to point
 # the player's compass at their first home.
-#
+
 # Leaving this as false will retain Essentials' original behaviour, which is to always
 # change the compass' direction to point towards their first home.
 compass-towards-home-perm: false
@@ -820,13 +822,13 @@ pay-excludes-ignore-list: false
 show-zero-baltop: true
 
 # The format of currency, excluding symbols. See currency-symbol-format-locale for symbol configuration.
-#
+
 # "#,##0.00" is how the majority of countries display currency.
 # currency-format: "#,##0.00"
 
 # Format currency symbols. Some locales use , and . interchangeably.
 # Some formats do not display properly in-game due to faulty Minecraft font rendering.
-#
+
 # For 1.234,50 use de-DE
 # For 1,234.50 use en-US
 # For 1'234,50 use fr-ch
@@ -913,9 +915,7 @@ chat:
 
 # You need to install EssentialsX Protect for this section to work.
 # See https://essentialsx.net/wiki/Module-Breakdown.html for more information.
-
 protect:
-
   # General physics/behavior modifications. Set these to true to disable behaviours.
   prevent:
     lava-flow: false
@@ -955,28 +955,39 @@ protect:
     # Monsters won't follow players.
     # permission essentials.protect.entitytarget.bypass disables this.
     entitytarget: false
+
     # Prevents zombies from breaking down doors
     zombie-door-break: false
+
     # Prevents Ravagers from stealing blocks
     ravager-thief: false
+
     # Prevents sheep from turning grass to dirt
     sheep-eat-grass: false
+
     # Prevent certain transformations.
     transformation:
       # Prevent creepers becoming charged when struck by lightning.
       charged-creeper: false
+
       # Prevent villagers becoming zombie villagers.
       zombie-villager: false
+
       # Prevent zombie villagers being cured.
       villager: false
+
       # Prevent villagers becoming witches when struck by lightning.
       witch: false
+
       # Prevent pigs becoming zombie pigmen when struck by lightning.
       zombie-pigman: false
+
       # Prevent zombies turning into drowneds, and husks turning into zombies.
       drowned: false
+
       # Prevent mooshrooms changing colour when struck by lightning.
       mooshroom: false
+
     # Prevent the spawning of creatures. If a creature is missing, you can add it following the format below.
     spawn:
       creeper: false
@@ -1154,7 +1165,7 @@ spawn-on-join: false
 #spawn-on-join: guests
 # The following list value states that all players in group `guests` and `admin` are to be teleported to spawn when joining.
 #spawn-on-join:
-#- guests
-#- admin
+# - guests
+# - admin
 
 # End of file <-- No seriously, you're done with configuration.

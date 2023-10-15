@@ -326,6 +326,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         final DumperOptions opts = builder.options;
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.nodeStyle()));
         opts.setProcessComments(builder.commentsEnabled());
+        opts.setIndentWithIndicator(true);
+        opts.setIndicatorIndent(builder.indent());
         this.defaultNodeStyle = builder.nodeStyle();
         this.options = opts;
         this.loader = new LoaderOptions()
