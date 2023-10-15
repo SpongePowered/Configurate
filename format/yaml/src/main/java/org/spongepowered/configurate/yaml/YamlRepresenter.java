@@ -58,7 +58,7 @@ final class YamlRepresenter extends Representer {
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
                     // SnakeYAML supports both key and value comments. Add the comments on the key
                     final Node value = represent(ent.getValue());
-                    final Node key = represent(String.valueOf(ent.getKey()));
+                    final Node key = represent(ent.getKey());
                     key.setBlockComments(value.getBlockComments());
                     value.setBlockComments(Collections.emptyList());
 
