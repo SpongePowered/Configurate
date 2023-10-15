@@ -16,11 +16,7 @@
  */
 package org.spongepowered.configurate.yaml;
 
-final class MergeTag {
-
-    static final MergeTag INSTANCE = new MergeTag();
-
-    private MergeTag() {
-    }
-
+// Marker for merge tag values
+enum MergeTag {
+    INSTANCE
 }
