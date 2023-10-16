@@ -63,7 +63,6 @@ class YamlConstructor extends Constructor {
             node.raw(Collections.emptyMap());
 
             ((MappingNode) yamlNode).getValue().forEach(tuple -> {
-                // I don't think it's possible to have a non-scalar node as key
                 final ConfigurationNode keyNode = (ConfigurationNode) this.constructObject(tuple.getKeyNode());
                 final Node valueNode = tuple.getValueNode();
 

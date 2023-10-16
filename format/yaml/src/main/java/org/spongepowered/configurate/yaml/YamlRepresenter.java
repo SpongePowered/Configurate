@@ -105,7 +105,7 @@ final class YamlRepresenter extends Representer {
 
     private static final class EmptyNullRepresenter implements Represent {
         @Override
-        public Node representData(Object data) {
+        public Node representData(final Object data) {
             return new ScalarNode(Tag.NULL, "", null, null, ScalarStyle.PLAIN);
         }
     }
