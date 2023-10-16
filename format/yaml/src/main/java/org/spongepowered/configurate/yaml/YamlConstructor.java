@@ -29,6 +29,8 @@ import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -62,8 +64,12 @@ class YamlConstructor extends Constructor {
         if (yamlNode.getNodeId() == NodeId.mapping) {
             // make sure to mark it as a map type, even if the map itself is empty
             node.raw(Collections.emptyMap());
+            final MappingNode mapping = (MappingNode) yamlNode;
+            if (mapping.getFlowStyle() != null) {
+                node.hint(YamlConfigurationLoader.NODE_STYLE, NodeStyle.fromSnakeYaml(mapping.getFlowStyle()));
+            }
 
-            for (final NodeTuple tuple : ((MappingNode) yamlNode).getValue()) {
+            for (final NodeTuple tuple : mapping.getValue()) {
                 final ConfigurationNode keyNode = (ConfigurationNode) this.constructObject(tuple.getKeyNode());
                 final Node valueNode = tuple.getValueNode();
 
@@ -80,11 +86,17 @@ class YamlConstructor extends Constructor {
         if (raw instanceof Collection<?>) {
             // make sure to mark it as a list type, even if the collection itself is empty
             node.raw(Collections.emptyList());
+            if (((SequenceNode) yamlNode).getFlowStyle() != null) {
+                node.hint(YamlConfigurationLoader.NODE_STYLE, NodeStyle.fromSnakeYaml(((SequenceNode) yamlNode).getFlowStyle()));
+            }
 
             for (final Object value : (Collection<?>) raw) {
                 node.appendListNode().from((ConfigurationNode) value);
             }
         } else {
+            if (yamlNode instanceof ScalarNode) {
+                node.hint(YamlConfigurationLoader.SCALAR_STYLE, ScalarStyle.fromSnakeYaml(((ScalarNode) yamlNode).getScalarStyle()));
+            }
             node.raw(raw);
         }
 

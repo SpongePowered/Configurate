@@ -192,6 +192,7 @@ class YamlConfigurationLoaderTest {
         final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .path(destination)
             .url(source)
+            .indent(2)
             .nodeStyle(NodeStyle.BLOCK)
             .build();
 
@@ -227,6 +228,7 @@ class YamlConfigurationLoaderTest {
         final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .path(destination)
             .url(source)
+            .indent(2)
             .nodeStyle(NodeStyle.BLOCK)
             .build();
 

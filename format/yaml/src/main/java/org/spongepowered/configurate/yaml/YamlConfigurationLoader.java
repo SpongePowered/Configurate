@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
+import org.spongepowered.configurate.RepresentationHint;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
@@ -52,6 +53,25 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
     private static final Set<Class<?>> NATIVE_TYPES = UnmodifiableCollections.toSet(
             Boolean.class, Integer.class, Long.class, BigInteger.class, Double.class, // numeric
             byte[].class, String.class, Date.class, java.sql.Date.class, Timestamp.class); // complex types
+
+    /**
+     * The YAML scalar style this node should attempt to use.
+     *
+     * <p>If the chosen scalar style would produce syntactically invalid YAML, a
+     * valid one will replace it.</p>
+     *
+     * @since 4.2.0
+     */
+    public static final RepresentationHint<ScalarStyle> SCALAR_STYLE = RepresentationHint.of("configurate:yaml/scalarstyle", ScalarStyle.class);
+
+    /**
+     * The YAML node style to use for collection nodes. A {@code null} value
+     * will instruct the emitter to fall back to the
+     * {@link Builder#nodeStyle()} setting.
+     *
+     * @since 4.2.0
+     */
+    public static final RepresentationHint<NodeStyle> NODE_STYLE = RepresentationHint.of("configurate:yaml/nodestyle", NodeStyle.class);
 
     /**
      * Creates a new {@link YamlConfigurationLoader} builder.
@@ -237,9 +257,11 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
         opts.setProcessComments(builder.commentsEnabled());
         opts.setWidth(builder.lineLength());
+        opts.setIndicatorIndent(builder.indent());
+        opts.setIndentWithIndicator(true);
         // the constructor needs ConfigurationOptions, which is only available when called (loadInternal)
         this.constructor = ThreadLocal.withInitial(() -> new YamlConstructor(loaderOpts));
-        this.yaml = ThreadLocal.withInitial(() -> new Yaml(this.constructor.get(), new YamlRepresenter(opts), opts, loaderOpts));
+        this.yaml = ThreadLocal.withInitial(() -> new Yaml(this.constructor.get(), new YamlRepresenter(true, opts), opts, loaderOpts));
     }
 
     @Override

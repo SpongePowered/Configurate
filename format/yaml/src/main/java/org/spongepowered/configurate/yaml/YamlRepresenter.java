@@ -44,8 +44,13 @@ import java.util.stream.Collectors;
 
 final class YamlRepresenter extends Representer {
 
-    YamlRepresenter(final DumperOptions options) {
+    private static final CommentLine BLANK_LINE = new CommentLine(null, null, "", CommentType.BLANK_LINE);
+
+    private final boolean padComments;
+
+    YamlRepresenter(final boolean padComments, final DumperOptions options) {
         super(options);
+        this.padComments = padComments;
         multiRepresenters.put(ConfigurationNode.class, new ConfigurationNodeRepresent());
         nullRepresenter = new EmptyNullRepresenter();
     }
@@ -58,24 +63,49 @@ final class YamlRepresenter extends Representer {
             final Node yamlNode;
             if (node.isMap()) {
                 final List<NodeTuple> children = new ArrayList<>();
+                boolean first = true;
                 for (Map.Entry<Object, ? extends ConfigurationNode> ent : node.childrenMap().entrySet()) {
                     // SnakeYAML supports both key and value comments. Add the comments on the key
                     final Node value = represent(ent.getValue());
                     final Node key = represent(ent.getKey());
                     key.setBlockComments(value.getBlockComments());
                     value.setBlockComments(Collections.emptyList());
+                    if (
+                            !first
+                            && !(node.parent() != null && node.parent().isList())
+                            && key.getBlockComments() != null
+                            && !key.getBlockComments().isEmpty()
+                    ) {
+                        key.getBlockComments().add(0, BLANK_LINE);
+                    }
+                    first = false;
 
                     children.add(new NodeTuple(key, value));
                 }
-                yamlNode = new MappingNode(Tag.MAP, children, FlowStyle.AUTO);
+                yamlNode = new MappingNode(Tag.MAP, children, this.flowStyle(node));
             } else if (node.isList()) {
                 final List<Node> children = new ArrayList<>();
                 for (ConfigurationNode ent : node.childrenList()) {
                     children.add(represent(ent));
                 }
-                yamlNode = new SequenceNode(Tag.SEQ, children, FlowStyle.AUTO);
+                yamlNode = new SequenceNode(Tag.SEQ, children, this.flowStyle(node));
             } else {
-                yamlNode = represent(node.rawScalar());
+                final Node optionNode = represent(node.rawScalar());
+                final org.spongepowered.configurate.yaml.@Nullable ScalarStyle requestedStyle
+                    = node.ownHint(YamlConfigurationLoader.SCALAR_STYLE);
+                if (optionNode instanceof ScalarNode && requestedStyle != null) {
+                    final ScalarNode scalar = (ScalarNode) optionNode;
+                    yamlNode = new ScalarNode(
+                        scalar.getTag(),
+                        scalar.getValue(),
+                        scalar.getStartMark(),
+                        scalar.getEndMark(),
+                        org.spongepowered.configurate.yaml.ScalarStyle.asSnakeYaml(requestedStyle, scalar.getScalarStyle())
+                    );
+                } else {
+                    yamlNode = optionNode;
+                }
+
             }
 
             if (node instanceof CommentedConfigurationNodeIntermediary<?>) {
@@ -92,9 +122,16 @@ final class YamlRepresenter extends Representer {
             return yamlNode;
         }
 
+        private FlowStyle flowStyle(final ConfigurationNode node) {
+            final @Nullable NodeStyle requested = node.ownHint(YamlConfigurationLoader.NODE_STYLE);
+            return NodeStyle.asSnakeYaml(requested);
+        }
+
         private CommentLine commentLineFor(final String comment) {
             if (comment.isEmpty()) {
-                return new CommentLine(null, null, "", CommentType.BLANK_LINE);
+                return BLANK_LINE;
+            } else if (!YamlRepresenter.this.padComments || comment.charAt(0) == '#') {
+                return new CommentLine(null, null, comment, CommentType.BLOCK);
             }
             // prepend a space before the comment:
             // before: #hello
