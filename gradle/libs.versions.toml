@@ -74,13 +74,13 @@ zKtfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 [plugins]
 aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.4"
-detekt = "io.gitlab.arturbosch.detekt:1.23.1"
-dokka = "org.jetbrains.dokka:1.9.0"
+detekt = "io.gitlab.arturbosch.detekt:1.23.3"
+dokka = "org.jetbrains.dokka:1.9.10"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
 gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.0.0" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
-kotlin = "org.jetbrains.kotlin.jvm:1.9.10"
+kotlin = "org.jetbrains.kotlin.jvm:1.9.20"
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0-rc-1" }
 shadow = "com.github.johnrengelman.shadow:8.1.1"
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
