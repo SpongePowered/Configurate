@@ -110,10 +110,10 @@ class HoconConfigurationLoaderTest {
                 .path(saveTo).url(url).build();
 
         final CommentedConfigurationNode node = loader.createNode(ConfigurationOptions.defaults());
-        node.node("test", "third").set(false).comment("really?");
         node.node("test", "apple").comment("fruit").set(false);
         node.node("test", "donut").set(true).comment("tasty");
         node.node("test", "guacamole").set(true).comment("and chips?");
+        node.node("test", "third").set(false).comment("really?");
 
         loader.save(node);
         assertEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
