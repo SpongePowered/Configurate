@@ -1,3 +1,6 @@
 [submodule "vendor/snakeyaml-upstream"]
 	path = vendor/snakeyaml-upstream
 	url = https://bitbucket.org/snakeyaml/snakeyaml.git
+[submodule "vendor/typesafe-config-upstream"]
+	path = vendor/typesafe-config-upstream
+	url = https://github.com/lightbend/config.git

@@ -5,10 +5,17 @@ plugins {
     alias libs.plugins.spotless apply false
 }
 
-patches {
-    submodule = "snakeyaml-upstream"
-    target = file("snakeyaml")
-    patches = file("snakeyaml-patches")
+gitPatcher.patchedRepos {
+    'snakeyaml' {
+        submodule = "snakeyaml-upstream"
+        target = file("snakeyaml")
+        patches = file("snakeyaml-patches")
+    }
+    'typesafeConfig' {
+        submodule = "typesafe-config-upstream"
+        target = file("typesafe-config")
+        patches = file("typesafe-config-patches")
+    }
 }
 
 subprojects {
@@ -29,20 +36,26 @@ subprojects {
     }
 }
 
+def disableAutoPatchApply = providers.gradleProperty("vendor.disableAutoPatchApply")
+    .map { it.toBoolean() }.orElse(false).get()
+if (disableAutoPatchApply) {
+    println("Compilation tasks will not trigger patch apply; vendor.disableAutoPatchApply=true")
+}
+
 project(":snakeyaml") {
     def mavenPom = project.file("../snakeyaml-upstream/pom.xml")
     if (mavenPom.exists()) {
         def document = new XmlSlurper().parse(mavenPom)
         def scopes = [
-            test: 'testImplementation',
-            compile: 'implementation',
-            runtime: 'runtimeOnly',
+            test    : 'testImplementation',
+            compile : 'implementation',
+            runtime : 'runtimeOnly',
             provided: 'compileOnly'
-       ]
-        
+        ]
+
         dependencies {
             def dependencies = document.dependencies.dependency
-            dependencies.each { dep -> 
+            dependencies.each { dep ->
                 def group = dep.groupId
                 def artifact = dep.artifactId
                 def version = dep.version
@@ -65,22 +78,28 @@ project(":snakeyaml") {
         }
     }
 
-    def applyPatches = rootProject.tasks.named("applyPatches")
+    def applyPatches = rootProject.tasks.named("applySnakeyamlPatches")
     tasks.withType(JavaCompile).configureEach {
         options.release.set(7)
-        dependsOn ':applyPatches'
+        if (!disableAutoPatchApply) {
+            dependsOn applyPatches
+        }
     }
     tasks.withType(ProcessResources).configureEach {
-        dependsOn ':applyPatches'
+        if (!disableAutoPatchApply) {
+            dependsOn applyPatches
+        }
     }
     spotlessJava {
-        dependsOn ':applyPatches'
+        if (!disableAutoPatchApply) {
+            dependsOn applyPatches
+        }
     }
 
     tasks.named("test", Test) {
         environment(
-                "EnvironmentKey1": "EnvironmentValue1",
-                "environmentEmpty": ""
+            "EnvironmentKey1": "EnvironmentValue1",
+            "environmentEmpty": ""
         )
         filter {
             // needs classpath provided via expansions, doesn't seem to be easily doable with the maven-style property names
@@ -114,5 +133,71 @@ project(":snakeyaml") {
     compileJava9Java {
         options.release = 9
         options.compilerArgs += "--patch-module=org.yaml.snakeyaml=${sourceSets.main.output.classesDirs.asPath}"
+    }
+}
+
+project(":typesafe-config") {
+    plugins.apply('scala')
+
+    sourceSets {
+        extraTestResources {
+            resources {
+                srcDir("../test-lib/src/test/resources")
+            }
+        }
+    }
+
+    dependencies {
+        // something breaks if we only add to testImplementation
+        implementation("org.scala-lang:scala-library:2.12.18")
+
+        testImplementation("junit:junit:4.13.2")
+        testImplementation("net.liftweb:lift-json_2.12:3.3.0")
+    }
+
+    def applyPatches = rootProject.tasks.named("applyTypesafeConfigPatches")
+
+    tasks.withType(JavaCompile).configureEach {
+        options.release.set(8)
+        if (!disableAutoPatchApply) {
+            dependsOn applyPatches
+        }
+    }
+
+    tasks.withType(ScalaCompile).configureEach {
+        if (!disableAutoPatchApply) {
+            dependsOn applyPatches
+        }
+        options.encoding = "UTF-8"
+        scalaCompileOptions.additionalParameters.add(
+            "-target:jvm-1.8"
+        )
+    }
+
+    tasks.withType(ProcessResources).configureEach {
+        if (!disableAutoPatchApply) {
+            dependsOn applyPatches
+        }
+    }
+
+    tasks.test {
+        classpath.from(sourceSets.extraTestResources.output)
+        // from build.sbt
+        environment([
+            "testList.0"                                                  : "0",
+            "testList.1"                                                  : "1",
+            "CONFIG_FORCE_b"                                              : "5",
+            "CONFIG_FORCE_testList_0"                                     : "10",
+            "CONFIG_FORCE_testList_1"                                     : "11",
+            "CONFIG_FORCE_42___a"                                         : "1",
+            "CONFIG_FORCE_a_b_c"                                          : "2",
+            "CONFIG_FORCE_a__c"                                           : "3",
+            "CONFIG_FORCE_a___c"                                          : "4",
+            "CONFIG_FORCE_akka_version"                                   : "foo",
+            "CONFIG_FORCE_akka_event__handler__dispatcher_max__pool__size": "10",
+            "SECRET_A"                                                    : "A", // ConfigTest.renderShowEnvVariableValues
+            "SECRET_B"                                                    : "B", // ConfigTest.renderShowEnvVariableValues
+            "SECRET_C"                                                    : "C" // ConfigTest.renderShowEnvVariableValues
+        ])
     }
 }

@@ -28,6 +28,8 @@ build-logic/*/bin/
 
 # gitpatcher local data
 /vendor/snakeyaml
+/vendor/typesafe-config
+/vendor/gradle.properties
 
 # IntelliJ project data
 .idea
