@@ -54,11 +54,21 @@ import java.util.Map;
 class HoconConfigurationLoaderTest {
 
     @Test
-    void testSimpleLoading(final @TempDir Path tempDir) throws IOException {
+    void testSimpleLoadingSort(final @TempDir Path tempDir) throws IOException {
+        this.testSimpleLoading(tempDir, true);
+    }
+
+    @Test
+    void testSimpleLoadingNoSort(final @TempDir Path tempDir) throws IOException {
+        this.testSimpleLoading(tempDir, false);
+    }
+
+    void testSimpleLoading(final Path tempDir, final boolean sort) throws IOException {
         final URL url = this.requireResource("example.conf");
         final Path saveTest = tempDir.resolve("text1.txt");
 
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .sortKeysOnSave(sort)
                 .source(() -> new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)))
                 .sink(AtomicFiles.atomicWriterFactory(saveTest, StandardCharsets.UTF_8)).build();
         final CommentedConfigurationNode node = loader.load();
@@ -68,7 +78,8 @@ class HoconConfigurationLoaderTest {
         assertEquals("Test node", testNode.comment());
         assertEquals("dog park", node.node("other", "location").raw());
         loader.save(node);
-        assertEquals(Resources.readLines(this.requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
+        final String expectedResourceName = sort ? "roundtrip-test-sorted.conf" : "roundtrip-test.conf";
+        assertEquals(Resources.readLines(this.requireResource(expectedResourceName), StandardCharsets.UTF_8), Files
                 .readAllLines(saveTest, StandardCharsets.UTF_8));
     }
 
