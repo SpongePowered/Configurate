@@ -1,6 +1,6 @@
 # [Configurate](https://configurate.aoeu.xyz/) 
 
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/SpongePowered/Configurate/Build%20And%20Test/master)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/SpongePowered/Configurate/test-build.yml?branch=master)
 [![MIT License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE) 
 [![Maven Central](https://img.shields.io/maven-central/v/org.spongepowered/configurate-core?label=stable&color=%23f6cf17)][Maven Central]
 ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/org.spongepowered/configurate-core?label=dev&server=https%3A%2F%2Foss.sonatype.org)
