@@ -1,11 +1,20 @@
 plugins {
-    id "org.spongepowered.configurate.build.component"
+    id 'org.spongepowered.configurate.build.shadow-component'
 }
 
 description = "HOCON format loader for Configurate"
 
 dependencies {
     api projects.core
-    implementation libs.hocon
+    shaded("configurate.thirdparty:typesafe-config:version-from-submodule") {
+        // lib has no dependencies, but classpath is polluted by scala for tests...
+        transitive = false
+    }
     testImplementation libs.guava
+}
+
+tasks {
+    shadowJar {
+        relocate("com.typesafe.config", "${project.group}.configurate.hocon.internal.typesafeconfig")
+    }
 }

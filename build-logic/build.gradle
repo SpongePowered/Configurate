@@ -35,6 +35,7 @@ dependencies {
     api libs.build.japicmp.plugin
     api libs.build.forbiddenApis
     api libs.build.goomph
+    api libs.build.shadow
 
     codenarc libs.build.codenarc
     codenarc libs.build.codenarcGroovy

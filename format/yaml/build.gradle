@@ -1,16 +1,8 @@
 plugins {
-    id 'org.spongepowered.configurate.build.component'
-    alias(libs.plugins.shadow)
+    id 'org.spongepowered.configurate.build.shadow-component'
 }
 
 description = "YAML format loader for Configurate"
-
-configurations {
-    shaded
-    compileClasspath { extendsFrom shaded }
-    runtimeClasspath { extendsFrom shaded }
-    testImplementation { extendsFrom shaded }
-}
 
 dependencies {
     api projects.core
@@ -19,62 +11,6 @@ dependencies {
 
 tasks {
     shadowJar {
-        dependsOn ':core:jar' // why?
-        configurations = [project.configurations.shaded]
-        minimize()
         relocate("org.yaml.snakeyaml", "${project.group}.configurate.yaml.internal.snakeyaml")
-    }
-
-    assemble {
-        dependsOn shadowJar
-    }
-
-    pmdMain {
-        enabled = false
-    }
-}
-
-if (project.hasProperty("spongeKeyStore")) {
-    // Just update the input of the sign jar task
-    tasks.shadowJar {
-        dependsOn ':core:signJar' // why?
-        archiveClassifier = "unsigned-all"
-    }
-    tasks.jar {
-        archiveClassifier = "unsigned"
-    }
-
-    tasks.named("signJar", org.spongepowered.configurate.build.SignJarTask) {
-        dependsOn(tasks.shadowJar)
-
-        from(zipTree(tasks.shadowJar.outputs.files.singleFile))
-    }
-} else {
-    // Replace the default artifact
-    // We have to replace the default artifact which is a bit ugly
-    // https://github.com/gradle/gradle/pull/13650 should make it easier
-    def forRelevantOutgoings = { action ->
-        action.resolveStrategy = Closure.DELEGATE_FIRST
-        action.delegate = configurations[JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME].outgoing
-        action()
-        action.delegate = configurations[JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME].outgoing
-        action()
-    }
-
-    forRelevantOutgoings {
-        artifact(tasks.shadowJar)
-    }
-
-    tasks.shadowJar {
-        archiveClassifier = ""
-    }
-    tasks.jar {
-        archiveClassifier = "thin"
-    }
-
-    afterEvaluate {
-        forRelevantOutgoings {
-            artifacts.removeIf { it.classifier.equals("thin") }
-        }
     }
 }

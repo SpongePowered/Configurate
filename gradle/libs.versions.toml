@@ -47,7 +47,6 @@ guice-runtime = "com.google.inject:guice:5.0.1"
 
 # Formats
 gson = "com.google.code.gson:gson:2.8.0" # Fixed version, to avoid using API not present in older MC
-hocon = "com.typesafe:config:1.4.3"
 jackson = "com.fasterxml.jackson.core:jackson-core:2.15.3"
 
 # Tool
@@ -66,6 +65,7 @@ build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.2"
 build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.15.+" }
 build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:1.6.0"
 build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+build-shadow = { module = "com.github.johnrengelman:shadow", version = "8.1.1" }
 
 # For Renovate -- shouldn't need to use these directly
 zPmd = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
@@ -77,10 +77,9 @@ aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.4"
 detekt = "io.gitlab.arturbosch.detekt:1.23.3"
 dokka = "org.jetbrains.dokka:1.9.10"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
-gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.0.0" }
+gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.1.0" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
 kotlin = "org.jetbrains.kotlin.jvm:1.9.20"
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0-rc-1" }
-shadow = "com.github.johnrengelman.shadow:8.1.1"
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
