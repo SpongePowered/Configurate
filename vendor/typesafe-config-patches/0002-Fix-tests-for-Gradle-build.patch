@@ -4,15 +4,6 @@ Date: Tue, 7 Nov 2023 13:40:03 -0700
 Subject: [PATCH] Fix tests for Gradle build
 
 
-diff --git a/.gitignore b/.gitignore
-index 057f41d2039c55b862cb2051e0c14ea7e9e2c959..9210d06996180f942da21ca55daeb439d7a4c46a 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -8,3 +8,4 @@
- target/
- /bin
- /node_modules
-+/config/build
 diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala
 index 350af6f9e9256a34dcac7f22d651299a570bfaba..6e51d2c72effff2d3294077224153e3fc1b7bca0 100644
 --- a/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala

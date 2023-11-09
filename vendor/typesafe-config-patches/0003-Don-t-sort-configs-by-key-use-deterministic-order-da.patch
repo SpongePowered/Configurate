@@ -5,42 +5,19 @@ Subject: [PATCH] Don't sort configs by key & use deterministic order data
  structures
 
 
-diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigDocumentParser.java b/config/src/main/java/com/typesafe/config/impl/ConfigDocumentParser.java
-index 29ffc70a1353f47fd8a59a5816e5bdf4c1b73856..ce4fcc60c24effd6239de9516d168640e6eb2504 100644
---- a/config/src/main/java/com/typesafe/config/impl/ConfigDocumentParser.java
-+++ b/config/src/main/java/com/typesafe/config/impl/ConfigDocumentParser.java
-@@ -420,7 +420,7 @@ final class ConfigDocumentParser {
-             boolean lastInsideEquals = false;
-             ArrayList<AbstractConfigNode> objectNodes = new ArrayList<AbstractConfigNode>();
-             ArrayList<AbstractConfigNode> keyValueNodes;
--            HashMap<String, Boolean> keys  = new HashMap<String, Boolean>();
-+            LinkedHashMap<String, Boolean> keys  = new LinkedHashMap<String, Boolean>();
-             if (hadOpenCurly)
-                 objectNodes.add(new ConfigNodeSingleToken(Tokens.OPEN_CURLY));
- 
 diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigImpl.java b/config/src/main/java/com/typesafe/config/impl/ConfigImpl.java
-index 05be7d26840863c372019873cf8fb9ee3466f1a9..56096c63df164c1bced9dcf14e9fb37cd6c29e51 100644
+index 05be7d26840863c372019873cf8fb9ee3466f1a9..4621e76eb71c1d8ecc27b9a9762c175b1573852c 100644
 --- a/config/src/main/java/com/typesafe/config/impl/ConfigImpl.java
 +++ b/config/src/main/java/com/typesafe/config/impl/ConfigImpl.java
-@@ -9,7 +9,7 @@ import java.net.URL;
- import java.time.Duration;
+@@ -10,6 +10,7 @@ import java.time.Duration;
  import java.util.ArrayList;
  import java.util.Collections;
--import java.util.HashMap;
+ import java.util.HashMap;
 +import java.util.LinkedHashMap;
  import java.util.Iterator;
  import java.util.List;
  import java.util.Map;
-@@ -42,7 +42,7 @@ public class ConfigImpl {
-         LoaderCache() {
-             this.currentSystemProperties = null;
-             this.currentLoader = new WeakReference<ClassLoader>(null);
--            this.cache = new HashMap<String, Config>();
-+            this.cache = new LinkedHashMap<String, Config>();
-         }
- 
-         // for now, caching as long as the loader remains the same,
-@@ -248,7 +248,7 @@ public class ConfigImpl {
+@@ -248,7 +249,7 @@ public class ConfigImpl {
                  return emptyObject(origin);
  
              if (mapMode == FromMapMode.KEYS_ARE_KEYS) {
@@ -49,7 +26,7 @@ index 05be7d26840863c372019873cf8fb9ee3466f1a9..56096c63df164c1bced9dcf14e9fb37c
                  for (Map.Entry<?, ?> entry : ((Map<?, ?>) object).entrySet()) {
                      Object key = entry.getKey();
                      if (!(key instanceof String))
-@@ -370,8 +370,8 @@ public class ConfigImpl {
+@@ -370,8 +371,8 @@ public class ConfigImpl {
  
  
      private static AbstractConfigObject loadEnvVariablesOverrides() {
@@ -60,15 +37,6 @@ index 05be7d26840863c372019873cf8fb9ee3466f1a9..56096c63df164c1bced9dcf14e9fb37c
  
          for (String key : env.keySet()) {
              if (key.startsWith(ENV_VAR_OVERRIDE_PREFIX)) {
-@@ -448,7 +448,7 @@ public class ConfigImpl {
-         private static String SUBSTITUTIONS = "substitutions";
- 
-         private static Map<String, Boolean> loadDiagnostics() {
--            Map<String, Boolean> result = new HashMap<String, Boolean>();
-+            Map<String, Boolean> result = new LinkedHashMap<String, Boolean>();
-             result.put(LOADS, false);
-             result.put(SUBSTITUTIONS, false);
- 
 diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigParser.java b/config/src/main/java/com/typesafe/config/impl/ConfigParser.java
 index 1e562ace21d6ae66b47f7cb51a7a16d2b68f8f59..519ddafe9408845fec9ebb81d5f03e3efac8ff05 100644
 --- a/config/src/main/java/com/typesafe/config/impl/ConfigParser.java
