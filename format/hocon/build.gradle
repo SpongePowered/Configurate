@@ -6,7 +6,10 @@ description = "HOCON format loader for Configurate"
 
 dependencies {
     api projects.core
-    shaded "configurate.thirdparty:typesafe-config:version-from-submodule"
+    shaded("configurate.thirdparty:typesafe-config:version-from-submodule") {
+        // lib has no dependencies, but classpath is polluted by scala for tests...
+        transitive = false
+    }
     testImplementation libs.guava
 }
 
