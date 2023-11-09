@@ -77,7 +77,7 @@ aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.4"
 detekt = "io.gitlab.arturbosch.detekt:1.23.3"
 dokka = "org.jetbrains.dokka:1.9.10"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
-gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.1.0-SNAPSHOT" }
+gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.1.0" }
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra" }
 kotlin = "org.jetbrains.kotlin.jvm:1.9.20"

@@ -2,7 +2,6 @@ import org.gradle.api.initialization.resolve.RepositoriesMode
 
 pluginManagement {
     repositories {
-       mavenLocal()
        maven {
            url = 'https://repo.spongepowered.org/repository/maven-public'
            name = 'sponge'
