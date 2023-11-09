@@ -164,20 +164,6 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             return this;
         }
 
-        /**
-         * Set whether this loader should sort node keys when saving.
-         *
-         * <p>Defaults to {@code true}.</p>
-         *
-         * @param sortKeysOnSave whether to sort keys on save
-         * @return this builder
-         * @since 4.2.0
-         */
-        public Builder sortKeysOnSave(final boolean sortKeysOnSave) {
-            this.render = this.render.setSortKeys(sortKeysOnSave);
-            return this;
-        }
-
         @Override
         public HoconConfigurationLoader build() {
             defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
