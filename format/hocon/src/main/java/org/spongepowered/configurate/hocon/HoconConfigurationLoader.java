@@ -27,7 +27,6 @@ import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import com.typesafe.config.impl.ConfigNodeComment;
-import com.typesafe.config.impl.Tokens;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
@@ -299,9 +298,9 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
                 for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {
                     if (line.charAt(0) == '#') {
                         // allow lines that are only the comment character, for box drawing
-                        nodes.add(new ConfigNodeComment(new Tokens.Comment.HashComment(null, line)));
+                        nodes.add(ConfigNodeComment.hashComment(line));
                     } else {
-                        nodes.add(new ConfigNodeComment(new Tokens.Comment.HashComment(null, ' ' + line)));
+                        nodes.add(ConfigNodeComment.hashComment(' ' + line));
                     }
                 }
                 ret = ret.withOrigin(ret.origin().withComments(nodes));

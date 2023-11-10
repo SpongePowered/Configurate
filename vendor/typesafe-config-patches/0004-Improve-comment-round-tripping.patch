@@ -52,20 +52,19 @@ index e7a6dc99c57341e3f5be1c90b36825261d52ae63..2adfe7c294532c3aa6f8e42494a71fbb
                  }
              }
 diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java b/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java
-index b8371907a74e4409726ea992047cade6b2c14bca..17817e906d6bedc6eb018a736f7a590750d9e2cd 100644
+index b8371907a74e4409726ea992047cade6b2c14bca..9ede0dee45d2a8cad5253085fc6095280fe8e957 100644
 --- a/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java
 +++ b/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java
-@@ -3,15 +3,15 @@ package com.typesafe.config.impl;
+@@ -3,7 +3,7 @@ package com.typesafe.config.impl;
  
  import com.typesafe.config.ConfigException;
  
 -final class ConfigNodeComment extends ConfigNodeSingleToken {
--    ConfigNodeComment(Token comment) {
 +public final class ConfigNodeComment extends ConfigNodeSingleToken {
-+    public ConfigNodeComment(Token comment) {
+     ConfigNodeComment(Token comment) {
          super(comment);
          if (!Tokens.isComment(super.token)) {
-             throw new ConfigException.BugOrBroken("Tried to create a ConfigNodeComment from a non-comment token");
+@@ -11,7 +11,17 @@ final class ConfigNodeComment extends ConfigNodeSingleToken {
          }
      }
  
@@ -73,6 +72,16 @@ index b8371907a74e4409726ea992047cade6b2c14bca..17817e906d6bedc6eb018a736f7a5907
 +    public String commentText() {
          return Tokens.getCommentText(super.token);
      }
++
++    // Creates a node with no origin
++    public static ConfigNodeComment hashComment(final String commentText) {
++        return new ConfigNodeComment(new Tokens.Comment.HashComment(null, commentText));
++    }
++
++    // Creates a node with no origin
++    public static ConfigNodeComment doubleSlashComment(final String commentText) {
++        return new ConfigNodeComment(new Tokens.Comment.DoubleSlashComment(null, commentText));
++    }
  }
 diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigNodeField.java b/config/src/main/java/com/typesafe/config/impl/ConfigNodeField.java
 index 10ba3742911d23746dbf4b17329f3b64934dd1ce..b1f403b90819f7aac00a21938f91ffd173e0ee66 100644
@@ -205,7 +214,7 @@ index 519ddafe9408845fec9ebb81d5f03e3efac8ff05..2f68b56bc7e5f46f352606e7576c2f63
                              break;
                          }
 diff --git a/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java b/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java
-index b68ef502d7f89211835ac595c03ea4cbbb0a7fd8..08145c11123c01ce106873633f9fdd3e516d1e88 100644
+index b68ef502d7f89211835ac595c03ea4cbbb0a7fd8..6fd47642333edfa91752f76270181ae6c531aa00 100644
 --- a/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java
 +++ b/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java
 @@ -188,11 +188,11 @@ class SerializedConfigValue extends AbstractConfigValue implements Externalizabl
@@ -232,7 +241,7 @@ index b68ef502d7f89211835ac595c03ea4cbbb0a7fd8..08145c11123c01ce106873633f9fdd3e
                  for (int i = 0; i < size; ++i) {
 -                    list.add(in.readUTF());
 +                    // TODO extract comment tokenizing logic
-+                    list.add(new ConfigNodeComment(new Tokens.Comment.HashComment(baseOrigin, in.readUTF())));
++                    list.add(new ConfigNodeComment(new Tokens.Comment.HashComment(null, in.readUTF())));
                  }
                  v = list;
                  break;
@@ -366,49 +375,18 @@ index 37dc4c531c4bcbd78ae9153e769798063b9a7f35..273fd004c5716ec6e3f4b73f82db8831
          // the description.
          if (originType == OriginType.RESOURCE && resourceOrNull == null) {
 diff --git a/config/src/main/java/com/typesafe/config/impl/Tokens.java b/config/src/main/java/com/typesafe/config/impl/Tokens.java
-index ef2061c6914c00715135df94acdad7f67fb0aa0f..a0510a4812c4bb7b6c5d53abcb4fc3a638374e8e 100644
+index ef2061c6914c00715135df94acdad7f67fb0aa0f..17fc9466dd3cc40637a15512f5528a19e7352390 100644
 --- a/config/src/main/java/com/typesafe/config/impl/Tokens.java
 +++ b/config/src/main/java/com/typesafe/config/impl/Tokens.java
-@@ -10,7 +10,7 @@ import com.typesafe.config.ConfigOrigin;
- import com.typesafe.config.ConfigValueType;
- 
- /* FIXME the way the subclasses of Token are private with static isFoo and accessors is kind of ridiculous. */
--final class Tokens {
-+public final class Tokens {
-     static private class Value extends Token {
- 
-         final private AbstractConfigValue value;
 @@ -224,7 +224,7 @@ final class Tokens {
          }
      }
  
 -    static private abstract class Comment extends Token {
-+    public static abstract class Comment extends Token {
++    static abstract class Comment extends Token {
          final private String text;
  
          Comment(ConfigOrigin origin, String text) {
-@@ -232,8 +232,8 @@ final class Tokens {
-             this.text = text;
-         }
- 
--        final static class DoubleSlashComment extends Comment {
--            DoubleSlashComment(ConfigOrigin origin, String text) {
-+        public final static class DoubleSlashComment extends Comment {
-+            public DoubleSlashComment(ConfigOrigin origin, String text) {
-                 super(origin, text);
-             }
- 
-@@ -243,8 +243,8 @@ final class Tokens {
-             }
-         }
- 
--        final static class HashComment extends Comment {
--            HashComment(ConfigOrigin origin, String text) {
-+        public final static class HashComment extends Comment {
-+            public HashComment(ConfigOrigin origin, String text) {
-                 super(origin, text);
-             }
- 
 diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala
 index 648e0c4eeca15bb9bdc237aad9da9f003b0281e0..a6f2e44183c156740b61bcd8c4ca47507bee4483 100644
 --- a/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala
@@ -434,18 +412,15 @@ index 648e0c4eeca15bb9bdc237aad9da9f003b0281e0..a6f2e44183c156740b61bcd8c4ca4750
  
      @Test
 diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
-index 66ef10ed87b9a64ccc3fd684169ad4d21e6622b9..71d5bf19878c1efd79b3931f5df90b8a6cdec2f8 100644
+index 66ef10ed87b9a64ccc3fd684169ad4d21e6622b9..80040e2bbe1544795cb13a6f31d3400c3d3dc2db 100644
 --- a/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
 +++ b/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
-@@ -920,7 +920,10 @@ class ConfigValueTest extends TestUtils {
+@@ -920,7 +920,7 @@ class ConfigValueTest extends TestUtils {
          val combos = bases.flatMap({
              base =>
                  Seq(
 -                    (base, base.withComments(Seq("this is a comment", "another one").asJava)),
-+                    (base, base.withComments(Seq(
-+                        new ConfigNodeComment(new Tokens.Comment.HashComment(base, "this is a comment")),
-+                        new ConfigNodeComment(new Tokens.Comment.HashComment(base, "another one"))
-+                    ).asJava)),
++                    (base, base.withComments(Seq("this is a comment", "another one").map(s => ConfigNodeComment.hashComment(s)).asJava)),
                      (base, base.withComments(null)),
                      (base, base.withLineNumber(41)),
                      (base, SimpleConfigOrigin.mergeOrigins(base.withLineNumber(10), base.withLineNumber(20))))
