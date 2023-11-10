@@ -433,20 +433,6 @@ index 648e0c4eeca15bb9bdc237aad9da9f003b0281e0..a6f2e44183c156740b61bcd8c4ca4750
      }
  
      @Test
-diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala
-index 63098872a57b0eccccf5e023498df7d8e7f5a7f1..0083889dd4e87bb74148ac6e9f0264e2c6dfede9 100644
---- a/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala
-+++ b/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala
-@@ -1201,6 +1201,9 @@ class ConfigTest extends TestUtils {
-                     // TODO the strings should be THE SAME not just the same length,
-                     // but there's a bug right now that sometimes object keys seem to
-                     // be re-ordered. Need to fix.
-+                    println(resolvedRender)
-+                    println()
-+                    println(renderedAgain)
-                     assertEquals("render changed, resolved options=" + renderOptions, resolvedRender.length, renderedAgain.length)
-                 }
-             }
 diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
 index 66ef10ed87b9a64ccc3fd684169ad4d21e6622b9..71d5bf19878c1efd79b3931f5df90b8a6cdec2f8 100644
 --- a/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
@@ -464,28 +450,18 @@ index 66ef10ed87b9a64ccc3fd684169ad4d21e6622b9..71d5bf19878c1efd79b3931f5df90b8a
                      (base, base.withLineNumber(41)),
                      (base, SimpleConfigOrigin.mergeOrigins(base.withLineNumber(10), base.withLineNumber(20))))
 diff --git a/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala b/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala
-index 1643a4a3137b2ebc696c1c8b59166fa51158c4cd..aa8331771e09abb868eca036db213a6f1073ee7b 100644
+index 1643a4a3137b2ebc696c1c8b59166fa51158c4cd..af4a7539b13fabe02c15afd0fcb4a81470a6437e 100644
 --- a/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala
 +++ b/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala
-@@ -5,12 +5,16 @@ package com.typesafe.config.impl
- 
- import org.junit.Assert._
- import org.junit._
-+
+@@ -8,6 +8,7 @@ import org.junit._
  import scala.collection.JavaConverters._
  import com.typesafe.config._
--import java.util.{ Collections, TimeZone, TreeSet }
+ import java.util.{ Collections, TimeZone, TreeSet }
 +import com.typesafe.config.impl.Tokens.Comment
-+
-+import java.util.{Collections, TimeZone, TreeSet}
  import java.io.File
  import scala.collection.mutable
  import equiv03.SomethingInEquiv03
-+
- import java.io.StringReader
- import java.net.URL
- import java.time.Duration
-@@ -985,7 +989,8 @@ class PublicApiTest extends TestUtils {
+@@ -985,7 +986,8 @@ class PublicApiTest extends TestUtils {
      @Test
      def exceptionSerializable() {
          // ArrayList is a serialization problem so we want to cover it in tests
