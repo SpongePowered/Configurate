@@ -113,15 +113,12 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             this.render = this.render
                 .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))
                 .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))
-                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));
+                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"))
+                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"));
         }
 
         /**
          * Set whether output from this loader will be pretty-printed or not.
-         *
-         * <p>Output will always print with a fixed indent of 4 spaces per
-         * level. This is a limitation of the underlying library, so it may
-         * become customizable at some point in the future.</p>
          *
          * @param prettyPrinting whether to pretty-print
          * @return this builder
@@ -129,6 +126,21 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          */
         public Builder prettyPrinting(final boolean prettyPrinting) {
             this.render = this.render.setFormatted(prettyPrinting);
+            return this;
+        }
+
+        /**
+         * Set the amount of spaces to indent with when
+         * {@link #prettyPrinting(boolean)} is on.
+         *
+         * <p>Defaults to 4.</p>
+         *
+         * @param indent indent level
+         * @return this builder
+         * @since 4.2.0
+         */
+        public Builder indent(final int indent) {
+            this.render = this.render.setIndent(indent);
             return this;
         }
 
