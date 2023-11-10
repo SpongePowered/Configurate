@@ -17,13 +17,17 @@
 package org.spongepowered.configurate.hocon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertLinesMatch;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -68,7 +72,7 @@ class HoconConfigurationLoaderTest {
         assertEquals("Test node", testNode.comment());
         assertEquals("dog park", node.node("other", "location").raw());
         loader.save(node);
-        assertEquals(Resources.readLines(this.requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
+        assertIterableEquals(Resources.readLines(this.requireResource("roundtrip-test.conf"), StandardCharsets.UTF_8), Files
                 .readAllLines(saveTest, StandardCharsets.UTF_8));
     }
 
@@ -82,7 +86,7 @@ class HoconConfigurationLoaderTest {
         final CommentedConfigurationNode node = loader.load();
         loader.save(node);
 
-        assertEquals(Resources.readLines(this.requireResource("splitline-comment-output.conf"), StandardCharsets.UTF_8),
+        assertIterableEquals(Resources.readLines(this.requireResource("splitline-comment-output.conf"), StandardCharsets.UTF_8),
                 Files.readAllLines(saveTo, StandardCharsets.UTF_8));
     }
 
@@ -97,7 +101,7 @@ class HoconConfigurationLoaderTest {
         node.node("node").comment("I have a comment").node("party").set("now");
 
         loader.save(node);
-        assertEquals(Resources.readLines(this.requireResource("header.conf"), StandardCharsets.UTF_8),
+        assertIterableEquals(Resources.readLines(this.requireResource("header.conf"), StandardCharsets.UTF_8),
                 Files.readAllLines(saveTo, StandardCharsets.UTF_8));
 
     }
@@ -116,7 +120,7 @@ class HoconConfigurationLoaderTest {
         node.node("test", "third").set(false).comment("really?");
 
         loader.save(node);
-        assertEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
+        assertIterableEquals(Resources.readLines(url, StandardCharsets.UTF_8), Files.readAllLines(saveTo, StandardCharsets.UTF_8));
     }
 
     @Test
@@ -144,9 +148,9 @@ class HoconConfigurationLoaderTest {
         final CommentedConfigurationNode destination = loader.createNode();
         destination.mergeFrom(source);
         loader.save(source);
-        assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+        assertIterableEquals(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
         loader.save(destination);
-        assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+        assertIterableEquals(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }
 
     static class OuterConfig {
@@ -174,7 +178,7 @@ class HoconConfigurationLoaderTest {
         final CommentedConfigurationNode source = loader.createNode();
         ObjectMapper.factory().get(OuterConfig.TYPE).load(source);
         loader.save(source);
-        assertLinesMatch(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
+        assertIterableEquals(Resources.readLines(rsrc, StandardCharsets.UTF_8), Files.readAllLines(output, StandardCharsets.UTF_8));
     }
 
     @Test
@@ -201,8 +205,44 @@ class HoconConfigurationLoaderTest {
         final CommentedConfigurationNode loaded = loader.load();
         loader.save(loaded);
 
-        assertEquals(Resources.readLines(resource, StandardCharsets.UTF_8),
+        assertIterableEquals(Resources.readLines(resource, StandardCharsets.UTF_8),
             Resources.readLines(out.toUri().toURL(), StandardCharsets.UTF_8));
+    }
+
+    @Test
+    void testCommentFormattingRoundTrip(final @TempDir Path tempDir) throws IOException {
+        final URL resource = this.requireResource("comment-formatting.conf");
+        final Path out = tempDir.resolve("out.conf");
+
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+            .path(out)
+            .url(resource)
+            .build();
+
+        loader.save(loader.load());
+
+        assertIterableEquals(
+            Resources.readLines(resource, StandardCharsets.UTF_8),
+            Resources.readLines(out.toUri().toURL(), StandardCharsets.UTF_8)
+        );
+    }
+
+    @Test
+    void testCommentFormattingEdgeCase() throws IOException {
+        // This test is here to let us know if behavior changes,
+        // ideally all comments would be perfectly round-tripped
+        // but this is an edge case we accept for now.
+
+        final String in = "# #\nkey=value\n";
+        final String expectedOut = "##\nkey=value\n";
+        final ByteArrayOutputStream s = new ByteArrayOutputStream();
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+            .source(() -> new BufferedReader(new StringReader(in)))
+            .sink(() -> new BufferedWriter(new OutputStreamWriter(s, StandardCharsets.UTF_8)))
+            .build();
+        loader.save(loader.load());
+        final String out = s.toString(StandardCharsets.UTF_8.name());
+        assertEquals(expectedOut, out);
     }
 
     private URL requireResource(final String path) {

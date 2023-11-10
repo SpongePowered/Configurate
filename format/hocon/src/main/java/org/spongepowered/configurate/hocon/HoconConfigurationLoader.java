@@ -26,6 +26,8 @@ import com.typesafe.config.ConfigOriginFactory;
 import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
+import com.typesafe.config.impl.ConfigNodeComment;
+import com.typesafe.config.impl.Tokens;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
@@ -45,7 +47,6 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -218,7 +219,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         if (!value.origin().comments().isEmpty()) {
             node.comment(value.origin().comments().stream()
                 .map(input -> {
-                    final String lineStripped = input.replace("\r", "");
+                    final String lineStripped = input.commentText().replace("\r", "");
                     if (!lineStripped.isEmpty() && lineStripped.charAt(0) == ' ') {
                         return lineStripped.substring(1);
                     } else {
@@ -294,7 +295,16 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             final CommentedConfigurationNodeIntermediary<?> commentedNode = (CommentedConfigurationNodeIntermediary<?>) node;
             final @Nullable String origComment = commentedNode.comment();
             if (origComment != null) {
-                ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));
+                final List<ConfigNodeComment> nodes = new ArrayList<>();
+                for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {
+                    if (line.charAt(0) == '#') {
+                        // allow lines that are only the comment character, for box drawing
+                        nodes.add(new ConfigNodeComment(new Tokens.Comment.HashComment(null, line)));
+                    } else {
+                        nodes.add(new ConfigNodeComment(new Tokens.Comment.HashComment(null, ' ' + line)));
+                    }
+                }
+                ret = ret.withOrigin(ret.origin().withComments(nodes));
             }
         }
         return ret;
