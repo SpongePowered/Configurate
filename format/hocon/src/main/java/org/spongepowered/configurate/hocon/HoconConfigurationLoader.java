@@ -93,6 +93,8 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
      * <dl>
      *     <dt>&lt;prefix&gt;.hocon.pretty-printing</dt>
      *     <dd>Equivalent to {@link #prettyPrinting(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.hocon.indent</dt>
+     *     <dd>Equivalent to {@link #indent(int)}</dd>
      *     <dt>&lt;prefix&gt;.hocon.emit-comments</dt>
      *     <dd>Equivalent to {@link #emitComments(boolean)}</dd>
      *     <dt>&lt;prefix&gt;.hocon.json-compatible</dt>
@@ -112,9 +114,9 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         protected void populate(final LoaderOptionSource options) {
             this.render = this.render
                 .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))
+                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"))
                 .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))
-                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"))
-                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"));
+                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));
         }
 
         /**
