@@ -151,6 +151,15 @@ class AbstractConfigurationNodeTest {
     }
 
     @Test
+    void testLisUnpacking2() {
+        final ConfigurationNode root = BasicConfigurationNode.root();
+        final ConfigurationNode subnode = root.node("subnode");
+        subnode.node(0).raw("test1");
+        subnode.node(1).raw("test2");
+        assertEquals(TEST_LIST, subnode.raw());
+    }
+
+    @Test
     void testListPacking() {
         final ConfigurationNode root = BasicConfigurationNode.root();
         root.appendListNode().raw("test1");

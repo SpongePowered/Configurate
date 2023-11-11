@@ -671,7 +671,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 }
             } else {
                 // if the existing value isn't a map, we need to update it's type
-                if (ListConfigValue.likelyListKey(child.key)) {
+                if (ListConfigValue.likelyNewListKey(child.key) || ListConfigValue.likelyListKey(oldValue, child.key)) {
                     // if child.key is an integer, we can infer that the type of this node should be a list
                     if (oldValue instanceof NullConfigValue) {
                         // if the oldValue was null, we can just replace it with an empty list
