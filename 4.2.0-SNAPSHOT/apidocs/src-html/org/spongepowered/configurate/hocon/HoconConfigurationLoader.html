@@ -305,7 +305,7 @@
 <span class="sourceLineNo">296</span><a id="line.296">            if (origComment != null) {</a>
 <span class="sourceLineNo">297</span><a id="line.297">                final List&lt;ConfigNodeComment&gt; nodes = new ArrayList&lt;&gt;();</a>
 <span class="sourceLineNo">298</span><a id="line.298">                for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {</a>
-<span class="sourceLineNo">299</span><a id="line.299">                    if (line.charAt(0) == '#') {</a>
+<span class="sourceLineNo">299</span><a id="line.299">                    if (line.length() != 0 &amp;&amp; line.charAt(0) == '#') {</a>
 <span class="sourceLineNo">300</span><a id="line.300">                        // allow lines that are only the comment character, for box drawing</a>
 <span class="sourceLineNo">301</span><a id="line.301">                        nodes.add(ConfigNodeComment.hashComment(line));</a>
 <span class="sourceLineNo">302</span><a id="line.302">                    } else {</a>
