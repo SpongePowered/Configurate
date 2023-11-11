@@ -37,6 +37,15 @@ tasks.named('aggregateJavadoc').configure {
     }
 }
 
+tasks.register('test') {
+    def vendor = gradle.includedBuild("configurate-vendor")
+    // dependsOn(vendor.task(":snakeyaml:test")) // tests fail currently
+    dependsOn(vendor.task(":typesafe-config:test"))
+}
+tasks.check {
+    dependsOn('test')
+}
+
 gitPublish {
     def repo = indraGit.git()
     if (repo != null) {
