@@ -60,6 +60,8 @@ jobs:
             */build/reports/
             format/*/build/reports/
             extra/*/build/reports/
+            vendor/*/build/reports/
+            vendor/*/*/build/reports/
 
       # Then deploy, but only on the main branch
       - name: Determine status
