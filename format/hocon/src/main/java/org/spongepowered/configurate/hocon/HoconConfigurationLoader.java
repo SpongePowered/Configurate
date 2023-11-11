@@ -296,7 +296,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             if (origComment != null) {
                 final List<ConfigNodeComment> nodes = new ArrayList<>();
                 for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {
-                    if (line.charAt(0) == '#') {
+                    if (line.length() != 0 && line.charAt(0) == '#') {
                         // allow lines that are only the comment character, for box drawing
                         nodes.add(ConfigNodeComment.hashComment(line));
                     } else {
