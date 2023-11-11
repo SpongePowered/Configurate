@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -140,7 +140,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a></dd>
 </dl>
 <hr>
-<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.104">HoconConfigurationLoader.Builder</a>
+<pre>public static final class <a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.html#line.106">HoconConfigurationLoader.Builder</a>
 extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader.Builder</a>&lt;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>,&#8203;<a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a>&gt;</pre>
 <div class="block">Builds a <a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon"><code>HoconConfigurationLoader</code></a>.
 
@@ -148,6 +148,8 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
  <dl>
      <dt>&lt;prefix&gt;.hocon.pretty-printing</dt>
      <dd>Equivalent to <a href="#prettyPrinting(boolean)"><code>prettyPrinting(boolean)</code></a></dd>
+     <dt>&lt;prefix&gt;.hocon.indent</dt>
+     <dd>Equivalent to <a href="#indent(int)"><code>indent(int)</code></a></dd>
      <dt>&lt;prefix&gt;.hocon.emit-comments</dt>
      <dd>Equivalent to <a href="#emitComments(boolean)"><code>emitComments(boolean)</code></a></dd>
      <dt>&lt;prefix&gt;.hocon.json-compatible</dt>
@@ -217,13 +219,21 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indent(int)">indent</a></span>&#8203;(int&nbsp;indent)</code></th>
+<td class="colLast">
+<div class="block">Set the amount of spaces to indent with when
+ <a href="#prettyPrinting(boolean)"><code>prettyPrinting(boolean)</code></a> is on.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#populate(org.spongepowered.configurate.loader.LoaderOptionSource)">populate</a></span>&#8203;(<a href="../loader/LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Populate options from the provided source.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prettyPrinting(boolean)">prettyPrinting</a></span>&#8203;(boolean&nbsp;prettyPrinting)</code></th>
 <td class="colLast">
@@ -267,7 +277,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>populate</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.111">populate</a>&#8203;(<a href="../loader/LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</pre>
+<pre class="methodSignature">protected&nbsp;void&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.113">populate</a>&#8203;(<a href="../loader/LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html#populate(org.spongepowered.configurate.loader.LoaderOptionSource)">AbstractConfigurationLoader.Builder</a></code></span></div>
 <div class="block">Populate options from the provided source.
 
@@ -286,12 +296,8 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>prettyPrinting</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.130">prettyPrinting</a>&#8203;(boolean&nbsp;prettyPrinting)</pre>
-<div class="block">Set whether output from this loader will be pretty-printed or not.
-
- <p>Output will always print with a fixed indent of 4 spaces per
- level. This is a limitation of the underlying library, so it may
- become customizable at some point in the future.</p></div>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.129">prettyPrinting</a>&#8203;(boolean&nbsp;prettyPrinting)</pre>
+<div class="block">Set whether output from this loader will be pretty-printed or not.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>prettyPrinting</code> - whether to pretty-print</dd>
@@ -302,13 +308,34 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 </dl>
 </li>
 </ul>
+<a id="indent(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>indent</h4>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.144">indent</a>&#8203;(int&nbsp;indent)</pre>
+<div class="block">Set the amount of spaces to indent with when
+ <a href="#prettyPrinting(boolean)"><code>prettyPrinting(boolean)</code></a> is on.
+
+ <p>Defaults to 4.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>indent</code> - indent level</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this builder</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>4.2.0</dd>
+</dl>
+</li>
+</ul>
 <a id="emitComments(boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>emitComments</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.145">emitComments</a>&#8203;(boolean&nbsp;emitComments)</pre>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.159">emitComments</a>&#8203;(boolean&nbsp;emitComments)</pre>
 <div class="block">Set whether comments should be emitted.
 
  <p>Comments will always be loaded from files and
@@ -329,7 +356,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>emitJsonCompatible</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.162">emitJsonCompatible</a>&#8203;(boolean&nbsp;jsonCompatible)</pre>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader.Builder</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.176">emitJsonCompatible</a>&#8203;(boolean&nbsp;jsonCompatible)</pre>
 <div class="block">Set whether output generated by this loader should be
  json-compatible.
 
@@ -352,7 +379,7 @@ extends <a href="../loader/AbstractConfigurationLoader.Builder.html" title="clas
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.167">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="HoconConfigurationLoader.html" title="class in org.spongepowered.configurate.hocon">HoconConfigurationLoader</a>&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/hocon/HoconConfigurationLoader.Builder.html#line.181">build</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.Builder.html#build()">AbstractConfigurationLoader.Builder</a></code></span></div>
 <div class="block">Builds the loader.</div>
 <dl>

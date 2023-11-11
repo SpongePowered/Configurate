@@ -102,247 +102,261 @@
 <span class="sourceLineNo">093</span><a id="line.93">     * &lt;dl&gt;</a>
 <span class="sourceLineNo">094</span><a id="line.94">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.pretty-printing&lt;/dt&gt;</a>
 <span class="sourceLineNo">095</span><a id="line.95">     *     &lt;dd&gt;Equivalent to {@link #prettyPrinting(boolean)}&lt;/dd&gt;</a>
-<span class="sourceLineNo">096</span><a id="line.96">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.emit-comments&lt;/dt&gt;</a>
-<span class="sourceLineNo">097</span><a id="line.97">     *     &lt;dd&gt;Equivalent to {@link #emitComments(boolean)}&lt;/dd&gt;</a>
-<span class="sourceLineNo">098</span><a id="line.98">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.json-compatible&lt;/dt&gt;</a>
-<span class="sourceLineNo">099</span><a id="line.99">     *     &lt;dd&gt;Equivalent to {@link #emitJsonCompatible(boolean)}&lt;/dd&gt;</a>
-<span class="sourceLineNo">100</span><a id="line.100">     * &lt;/dl&gt;</a>
-<span class="sourceLineNo">101</span><a id="line.101">     *</a>
-<span class="sourceLineNo">102</span><a id="line.102">     * @since 4.0.0</a>
-<span class="sourceLineNo">103</span><a id="line.103">     */</a>
-<span class="sourceLineNo">104</span><a id="line.104">    public static final class Builder extends AbstractConfigurationLoader.Builder&lt;Builder, HoconConfigurationLoader&gt; {</a>
-<span class="sourceLineNo">105</span><a id="line.105">        private ConfigRenderOptions render = DEFAULT_RENDER_OPTIONS;</a>
-<span class="sourceLineNo">106</span><a id="line.106"></a>
-<span class="sourceLineNo">107</span><a id="line.107">        Builder() {</a>
-<span class="sourceLineNo">108</span><a id="line.108">            this.from(DEFAULT_OPTIONS_SOURCE);</a>
-<span class="sourceLineNo">109</span><a id="line.109">        }</a>
-<span class="sourceLineNo">110</span><a id="line.110"></a>
-<span class="sourceLineNo">111</span><a id="line.111">        @Override</a>
-<span class="sourceLineNo">112</span><a id="line.112">        protected void populate(final LoaderOptionSource options) {</a>
-<span class="sourceLineNo">113</span><a id="line.113">            this.render = this.render</a>
-<span class="sourceLineNo">114</span><a id="line.114">                .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))</a>
-<span class="sourceLineNo">115</span><a id="line.115">                .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))</a>
-<span class="sourceLineNo">116</span><a id="line.116">                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));</a>
-<span class="sourceLineNo">117</span><a id="line.117">        }</a>
-<span class="sourceLineNo">118</span><a id="line.118"></a>
-<span class="sourceLineNo">119</span><a id="line.119">        /**</a>
-<span class="sourceLineNo">120</span><a id="line.120">         * Set whether output from this loader will be pretty-printed or not.</a>
-<span class="sourceLineNo">121</span><a id="line.121">         *</a>
-<span class="sourceLineNo">122</span><a id="line.122">         * &lt;p&gt;Output will always print with a fixed indent of 4 spaces per</a>
-<span class="sourceLineNo">123</span><a id="line.123">         * level. This is a limitation of the underlying library, so it may</a>
-<span class="sourceLineNo">124</span><a id="line.124">         * become customizable at some point in the future.&lt;/p&gt;</a>
-<span class="sourceLineNo">125</span><a id="line.125">         *</a>
-<span class="sourceLineNo">126</span><a id="line.126">         * @param prettyPrinting whether to pretty-print</a>
-<span class="sourceLineNo">127</span><a id="line.127">         * @return this builder</a>
-<span class="sourceLineNo">128</span><a id="line.128">         * @since 4.0.0</a>
-<span class="sourceLineNo">129</span><a id="line.129">         */</a>
-<span class="sourceLineNo">130</span><a id="line.130">        public Builder prettyPrinting(final boolean prettyPrinting) {</a>
-<span class="sourceLineNo">131</span><a id="line.131">            this.render = this.render.setFormatted(prettyPrinting);</a>
-<span class="sourceLineNo">132</span><a id="line.132">            return this;</a>
-<span class="sourceLineNo">133</span><a id="line.133">        }</a>
-<span class="sourceLineNo">134</span><a id="line.134"></a>
-<span class="sourceLineNo">135</span><a id="line.135">        /**</a>
-<span class="sourceLineNo">136</span><a id="line.136">         * Set whether comments should be emitted.</a>
+<span class="sourceLineNo">096</span><a id="line.96">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.indent&lt;/dt&gt;</a>
+<span class="sourceLineNo">097</span><a id="line.97">     *     &lt;dd&gt;Equivalent to {@link #indent(int)}&lt;/dd&gt;</a>
+<span class="sourceLineNo">098</span><a id="line.98">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.emit-comments&lt;/dt&gt;</a>
+<span class="sourceLineNo">099</span><a id="line.99">     *     &lt;dd&gt;Equivalent to {@link #emitComments(boolean)}&lt;/dd&gt;</a>
+<span class="sourceLineNo">100</span><a id="line.100">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.json-compatible&lt;/dt&gt;</a>
+<span class="sourceLineNo">101</span><a id="line.101">     *     &lt;dd&gt;Equivalent to {@link #emitJsonCompatible(boolean)}&lt;/dd&gt;</a>
+<span class="sourceLineNo">102</span><a id="line.102">     * &lt;/dl&gt;</a>
+<span class="sourceLineNo">103</span><a id="line.103">     *</a>
+<span class="sourceLineNo">104</span><a id="line.104">     * @since 4.0.0</a>
+<span class="sourceLineNo">105</span><a id="line.105">     */</a>
+<span class="sourceLineNo">106</span><a id="line.106">    public static final class Builder extends AbstractConfigurationLoader.Builder&lt;Builder, HoconConfigurationLoader&gt; {</a>
+<span class="sourceLineNo">107</span><a id="line.107">        private ConfigRenderOptions render = DEFAULT_RENDER_OPTIONS;</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">        Builder() {</a>
+<span class="sourceLineNo">110</span><a id="line.110">            this.from(DEFAULT_OPTIONS_SOURCE);</a>
+<span class="sourceLineNo">111</span><a id="line.111">        }</a>
+<span class="sourceLineNo">112</span><a id="line.112"></a>
+<span class="sourceLineNo">113</span><a id="line.113">        @Override</a>
+<span class="sourceLineNo">114</span><a id="line.114">        protected void populate(final LoaderOptionSource options) {</a>
+<span class="sourceLineNo">115</span><a id="line.115">            this.render = this.render</a>
+<span class="sourceLineNo">116</span><a id="line.116">                .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))</a>
+<span class="sourceLineNo">117</span><a id="line.117">                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"))</a>
+<span class="sourceLineNo">118</span><a id="line.118">                .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))</a>
+<span class="sourceLineNo">119</span><a id="line.119">                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));</a>
+<span class="sourceLineNo">120</span><a id="line.120">        }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">        /**</a>
+<span class="sourceLineNo">123</span><a id="line.123">         * Set whether output from this loader will be pretty-printed or not.</a>
+<span class="sourceLineNo">124</span><a id="line.124">         *</a>
+<span class="sourceLineNo">125</span><a id="line.125">         * @param prettyPrinting whether to pretty-print</a>
+<span class="sourceLineNo">126</span><a id="line.126">         * @return this builder</a>
+<span class="sourceLineNo">127</span><a id="line.127">         * @since 4.0.0</a>
+<span class="sourceLineNo">128</span><a id="line.128">         */</a>
+<span class="sourceLineNo">129</span><a id="line.129">        public Builder prettyPrinting(final boolean prettyPrinting) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">            this.render = this.render.setFormatted(prettyPrinting);</a>
+<span class="sourceLineNo">131</span><a id="line.131">            return this;</a>
+<span class="sourceLineNo">132</span><a id="line.132">        }</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">        /**</a>
+<span class="sourceLineNo">135</span><a id="line.135">         * Set the amount of spaces to indent with when</a>
+<span class="sourceLineNo">136</span><a id="line.136">         * {@link #prettyPrinting(boolean)} is on.</a>
 <span class="sourceLineNo">137</span><a id="line.137">         *</a>
-<span class="sourceLineNo">138</span><a id="line.138">         * &lt;p&gt;Comments will always be loaded from files and</a>
-<span class="sourceLineNo">139</span><a id="line.139">         * stored in memory.&lt;/p&gt;</a>
-<span class="sourceLineNo">140</span><a id="line.140">         *</a>
-<span class="sourceLineNo">141</span><a id="line.141">         * @param emitComments whether to emit comments</a>
-<span class="sourceLineNo">142</span><a id="line.142">         * @return this builder</a>
-<span class="sourceLineNo">143</span><a id="line.143">         * @since 4.0.0</a>
-<span class="sourceLineNo">144</span><a id="line.144">         */</a>
-<span class="sourceLineNo">145</span><a id="line.145">        public Builder emitComments(final boolean emitComments) {</a>
-<span class="sourceLineNo">146</span><a id="line.146">            this.render = this.render.setComments(emitComments);</a>
-<span class="sourceLineNo">147</span><a id="line.147">            return this;</a>
-<span class="sourceLineNo">148</span><a id="line.148">        }</a>
-<span class="sourceLineNo">149</span><a id="line.149"></a>
-<span class="sourceLineNo">150</span><a id="line.150">        /**</a>
-<span class="sourceLineNo">151</span><a id="line.151">         * Set whether output generated by this loader should be</a>
-<span class="sourceLineNo">152</span><a id="line.152">         * json-compatible.</a>
-<span class="sourceLineNo">153</span><a id="line.153">         *</a>
-<span class="sourceLineNo">154</span><a id="line.154">         * &lt;p&gt;Whatever format input is received in, this will output</a>
-<span class="sourceLineNo">155</span><a id="line.155">         * JSON. To be fully spec-compliant, comment output must also</a>
-<span class="sourceLineNo">156</span><a id="line.156">         * be disabled.&lt;/p&gt;</a>
-<span class="sourceLineNo">157</span><a id="line.157">         *</a>
-<span class="sourceLineNo">158</span><a id="line.158">         * @param jsonCompatible to emit json-format output</a>
-<span class="sourceLineNo">159</span><a id="line.159">         * @return this builder</a>
-<span class="sourceLineNo">160</span><a id="line.160">         * @since 4.0.0</a>
-<span class="sourceLineNo">161</span><a id="line.161">         */</a>
-<span class="sourceLineNo">162</span><a id="line.162">        public Builder emitJsonCompatible(final boolean jsonCompatible) {</a>
-<span class="sourceLineNo">163</span><a id="line.163">            this.render = this.render.setJson(jsonCompatible);</a>
-<span class="sourceLineNo">164</span><a id="line.164">            return this;</a>
-<span class="sourceLineNo">165</span><a id="line.165">        }</a>
-<span class="sourceLineNo">166</span><a id="line.166"></a>
-<span class="sourceLineNo">167</span><a id="line.167">        @Override</a>
-<span class="sourceLineNo">168</span><a id="line.168">        public HoconConfigurationLoader build() {</a>
-<span class="sourceLineNo">169</span><a id="line.169">            defaultOptions(o -&gt; o.nativeTypes(NATIVE_TYPES));</a>
-<span class="sourceLineNo">170</span><a id="line.170">            return new HoconConfigurationLoader(this);</a>
-<span class="sourceLineNo">171</span><a id="line.171">        }</a>
-<span class="sourceLineNo">172</span><a id="line.172">    }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    private final ConfigRenderOptions render;</a>
-<span class="sourceLineNo">175</span><a id="line.175"></a>
-<span class="sourceLineNo">176</span><a id="line.176">    private HoconConfigurationLoader(final Builder build) {</a>
-<span class="sourceLineNo">177</span><a id="line.177">        super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});</a>
-<span class="sourceLineNo">178</span><a id="line.178">        this.render = build.render;</a>
-<span class="sourceLineNo">179</span><a id="line.179">    }</a>
+<span class="sourceLineNo">138</span><a id="line.138">         * &lt;p&gt;Defaults to 4.&lt;/p&gt;</a>
+<span class="sourceLineNo">139</span><a id="line.139">         *</a>
+<span class="sourceLineNo">140</span><a id="line.140">         * @param indent indent level</a>
+<span class="sourceLineNo">141</span><a id="line.141">         * @return this builder</a>
+<span class="sourceLineNo">142</span><a id="line.142">         * @since 4.2.0</a>
+<span class="sourceLineNo">143</span><a id="line.143">         */</a>
+<span class="sourceLineNo">144</span><a id="line.144">        public Builder indent(final int indent) {</a>
+<span class="sourceLineNo">145</span><a id="line.145">            this.render = this.render.setIndent(indent);</a>
+<span class="sourceLineNo">146</span><a id="line.146">            return this;</a>
+<span class="sourceLineNo">147</span><a id="line.147">        }</a>
+<span class="sourceLineNo">148</span><a id="line.148"></a>
+<span class="sourceLineNo">149</span><a id="line.149">        /**</a>
+<span class="sourceLineNo">150</span><a id="line.150">         * Set whether comments should be emitted.</a>
+<span class="sourceLineNo">151</span><a id="line.151">         *</a>
+<span class="sourceLineNo">152</span><a id="line.152">         * &lt;p&gt;Comments will always be loaded from files and</a>
+<span class="sourceLineNo">153</span><a id="line.153">         * stored in memory.&lt;/p&gt;</a>
+<span class="sourceLineNo">154</span><a id="line.154">         *</a>
+<span class="sourceLineNo">155</span><a id="line.155">         * @param emitComments whether to emit comments</a>
+<span class="sourceLineNo">156</span><a id="line.156">         * @return this builder</a>
+<span class="sourceLineNo">157</span><a id="line.157">         * @since 4.0.0</a>
+<span class="sourceLineNo">158</span><a id="line.158">         */</a>
+<span class="sourceLineNo">159</span><a id="line.159">        public Builder emitComments(final boolean emitComments) {</a>
+<span class="sourceLineNo">160</span><a id="line.160">            this.render = this.render.setComments(emitComments);</a>
+<span class="sourceLineNo">161</span><a id="line.161">            return this;</a>
+<span class="sourceLineNo">162</span><a id="line.162">        }</a>
+<span class="sourceLineNo">163</span><a id="line.163"></a>
+<span class="sourceLineNo">164</span><a id="line.164">        /**</a>
+<span class="sourceLineNo">165</span><a id="line.165">         * Set whether output generated by this loader should be</a>
+<span class="sourceLineNo">166</span><a id="line.166">         * json-compatible.</a>
+<span class="sourceLineNo">167</span><a id="line.167">         *</a>
+<span class="sourceLineNo">168</span><a id="line.168">         * &lt;p&gt;Whatever format input is received in, this will output</a>
+<span class="sourceLineNo">169</span><a id="line.169">         * JSON. To be fully spec-compliant, comment output must also</a>
+<span class="sourceLineNo">170</span><a id="line.170">         * be disabled.&lt;/p&gt;</a>
+<span class="sourceLineNo">171</span><a id="line.171">         *</a>
+<span class="sourceLineNo">172</span><a id="line.172">         * @param jsonCompatible to emit json-format output</a>
+<span class="sourceLineNo">173</span><a id="line.173">         * @return this builder</a>
+<span class="sourceLineNo">174</span><a id="line.174">         * @since 4.0.0</a>
+<span class="sourceLineNo">175</span><a id="line.175">         */</a>
+<span class="sourceLineNo">176</span><a id="line.176">        public Builder emitJsonCompatible(final boolean jsonCompatible) {</a>
+<span class="sourceLineNo">177</span><a id="line.177">            this.render = this.render.setJson(jsonCompatible);</a>
+<span class="sourceLineNo">178</span><a id="line.178">            return this;</a>
+<span class="sourceLineNo">179</span><a id="line.179">        }</a>
 <span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">    @Override</a>
-<span class="sourceLineNo">182</span><a id="line.182">    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {</a>
-<span class="sourceLineNo">183</span><a id="line.183">        if (!node.isMap() &amp;&amp; !node.virtual() &amp;&amp; node.raw() != null) {</a>
-<span class="sourceLineNo">184</span><a id="line.184">            throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");</a>
+<span class="sourceLineNo">181</span><a id="line.181">        @Override</a>
+<span class="sourceLineNo">182</span><a id="line.182">        public HoconConfigurationLoader build() {</a>
+<span class="sourceLineNo">183</span><a id="line.183">            defaultOptions(o -&gt; o.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">184</span><a id="line.184">            return new HoconConfigurationLoader(this);</a>
 <span class="sourceLineNo">185</span><a id="line.185">        }</a>
 <span class="sourceLineNo">186</span><a id="line.186">    }</a>
 <span class="sourceLineNo">187</span><a id="line.187"></a>
-<span class="sourceLineNo">188</span><a id="line.188">    @Override</a>
-<span class="sourceLineNo">189</span><a id="line.189">    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {</a>
-<span class="sourceLineNo">190</span><a id="line.190">        Config hoconConfig;</a>
-<span class="sourceLineNo">191</span><a id="line.191">        try {</a>
-<span class="sourceLineNo">192</span><a id="line.192">            hoconConfig = ConfigFactory.parseReader(reader);</a>
-<span class="sourceLineNo">193</span><a id="line.193">            hoconConfig = hoconConfig.resolve();</a>
-<span class="sourceLineNo">194</span><a id="line.194">        } catch (final ConfigException ex) {</a>
-<span class="sourceLineNo">195</span><a id="line.195">            throw new ParsingException(node, ex.origin().lineNumber(), 0, ex.origin().description(), null, ex);</a>
-<span class="sourceLineNo">196</span><a id="line.196">        }</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">        for (Map.Entry&lt;String, ConfigValue&gt; ent : hoconConfig.root().entrySet()) {</a>
-<span class="sourceLineNo">199</span><a id="line.199">            readConfigValue(ent.getValue(), node.node(ent.getKey()));</a>
-<span class="sourceLineNo">200</span><a id="line.200">        }</a>
-<span class="sourceLineNo">201</span><a id="line.201">    }</a>
-<span class="sourceLineNo">202</span><a id="line.202"></a>
-<span class="sourceLineNo">203</span><a id="line.203">    private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {</a>
-<span class="sourceLineNo">204</span><a id="line.204">        if (!value.origin().comments().isEmpty()) {</a>
-<span class="sourceLineNo">205</span><a id="line.205">            node.comment(value.origin().comments().stream()</a>
-<span class="sourceLineNo">206</span><a id="line.206">                .map(input -&gt; {</a>
-<span class="sourceLineNo">207</span><a id="line.207">                    final String lineStripped = input.replace("\r", "");</a>
-<span class="sourceLineNo">208</span><a id="line.208">                    if (!lineStripped.isEmpty() &amp;&amp; lineStripped.charAt(0) == ' ') {</a>
-<span class="sourceLineNo">209</span><a id="line.209">                        return lineStripped.substring(1);</a>
-<span class="sourceLineNo">210</span><a id="line.210">                    } else {</a>
-<span class="sourceLineNo">211</span><a id="line.211">                        return lineStripped;</a>
-<span class="sourceLineNo">212</span><a id="line.212">                    }</a>
-<span class="sourceLineNo">213</span><a id="line.213">                })</a>
-<span class="sourceLineNo">214</span><a id="line.214">                .collect(Collectors.joining("\n")));</a>
-<span class="sourceLineNo">215</span><a id="line.215">        }</a>
+<span class="sourceLineNo">188</span><a id="line.188">    private final ConfigRenderOptions render;</a>
+<span class="sourceLineNo">189</span><a id="line.189"></a>
+<span class="sourceLineNo">190</span><a id="line.190">    private HoconConfigurationLoader(final Builder build) {</a>
+<span class="sourceLineNo">191</span><a id="line.191">        super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});</a>
+<span class="sourceLineNo">192</span><a id="line.192">        this.render = build.render;</a>
+<span class="sourceLineNo">193</span><a id="line.193">    }</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">    @Override</a>
+<span class="sourceLineNo">196</span><a id="line.196">    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {</a>
+<span class="sourceLineNo">197</span><a id="line.197">        if (!node.isMap() &amp;&amp; !node.virtual() &amp;&amp; node.raw() != null) {</a>
+<span class="sourceLineNo">198</span><a id="line.198">            throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");</a>
+<span class="sourceLineNo">199</span><a id="line.199">        }</a>
+<span class="sourceLineNo">200</span><a id="line.200">    }</a>
+<span class="sourceLineNo">201</span><a id="line.201"></a>
+<span class="sourceLineNo">202</span><a id="line.202">    @Override</a>
+<span class="sourceLineNo">203</span><a id="line.203">    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {</a>
+<span class="sourceLineNo">204</span><a id="line.204">        Config hoconConfig;</a>
+<span class="sourceLineNo">205</span><a id="line.205">        try {</a>
+<span class="sourceLineNo">206</span><a id="line.206">            hoconConfig = ConfigFactory.parseReader(reader);</a>
+<span class="sourceLineNo">207</span><a id="line.207">            hoconConfig = hoconConfig.resolve();</a>
+<span class="sourceLineNo">208</span><a id="line.208">        } catch (final ConfigException ex) {</a>
+<span class="sourceLineNo">209</span><a id="line.209">            throw new ParsingException(node, ex.origin().lineNumber(), 0, ex.origin().description(), null, ex);</a>
+<span class="sourceLineNo">210</span><a id="line.210">        }</a>
+<span class="sourceLineNo">211</span><a id="line.211"></a>
+<span class="sourceLineNo">212</span><a id="line.212">        for (Map.Entry&lt;String, ConfigValue&gt; ent : hoconConfig.root().entrySet()) {</a>
+<span class="sourceLineNo">213</span><a id="line.213">            readConfigValue(ent.getValue(), node.node(ent.getKey()));</a>
+<span class="sourceLineNo">214</span><a id="line.214">        }</a>
+<span class="sourceLineNo">215</span><a id="line.215">    }</a>
 <span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">        switch (value.valueType()) {</a>
-<span class="sourceLineNo">218</span><a id="line.218">            case OBJECT:</a>
-<span class="sourceLineNo">219</span><a id="line.219">                final ConfigObject object = (ConfigObject) value;</a>
-<span class="sourceLineNo">220</span><a id="line.220">                if (object.isEmpty()) {</a>
-<span class="sourceLineNo">221</span><a id="line.221">                    node.raw(Collections.emptyMap());</a>
-<span class="sourceLineNo">222</span><a id="line.222">                } else {</a>
-<span class="sourceLineNo">223</span><a id="line.223">                    for (Map.Entry&lt;String, ConfigValue&gt; ent : object.entrySet()) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">                        readConfigValue(ent.getValue(), node.node(ent.getKey()));</a>
-<span class="sourceLineNo">225</span><a id="line.225">                    }</a>
-<span class="sourceLineNo">226</span><a id="line.226">                }</a>
-<span class="sourceLineNo">227</span><a id="line.227">                break;</a>
-<span class="sourceLineNo">228</span><a id="line.228">            case LIST:</a>
-<span class="sourceLineNo">229</span><a id="line.229">                final ConfigList list = (ConfigList) value;</a>
-<span class="sourceLineNo">230</span><a id="line.230">                if (list.isEmpty()) {</a>
-<span class="sourceLineNo">231</span><a id="line.231">                    node.raw(Collections.emptyList());</a>
-<span class="sourceLineNo">232</span><a id="line.232">                } else {</a>
-<span class="sourceLineNo">233</span><a id="line.233">                    for (int i = 0; i &lt; list.size(); ++i) {</a>
-<span class="sourceLineNo">234</span><a id="line.234">                        readConfigValue(list.get(i), node.node(i));</a>
-<span class="sourceLineNo">235</span><a id="line.235">                    }</a>
-<span class="sourceLineNo">236</span><a id="line.236">                }</a>
-<span class="sourceLineNo">237</span><a id="line.237">                break;</a>
-<span class="sourceLineNo">238</span><a id="line.238">            case NULL:</a>
-<span class="sourceLineNo">239</span><a id="line.239">                return;</a>
-<span class="sourceLineNo">240</span><a id="line.240">            default:</a>
-<span class="sourceLineNo">241</span><a id="line.241">                node.raw(value.unwrapped());</a>
-<span class="sourceLineNo">242</span><a id="line.242">                break;</a>
-<span class="sourceLineNo">243</span><a id="line.243">        }</a>
-<span class="sourceLineNo">244</span><a id="line.244">    }</a>
-<span class="sourceLineNo">245</span><a id="line.245"></a>
-<span class="sourceLineNo">246</span><a id="line.246">    @Override</a>
-<span class="sourceLineNo">247</span><a id="line.247">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
-<span class="sourceLineNo">248</span><a id="line.248">        try {</a>
-<span class="sourceLineNo">249</span><a id="line.249">            if (!node.isMap() &amp;&amp; (node.virtual() || node.raw() == null)) {</a>
-<span class="sourceLineNo">250</span><a id="line.250">                writer.write(SYSTEM_LINE_SEPARATOR);</a>
-<span class="sourceLineNo">251</span><a id="line.251">                return;</a>
-<span class="sourceLineNo">252</span><a id="line.252">            }</a>
-<span class="sourceLineNo">253</span><a id="line.253">            final ConfigValue value = fromValue(node);</a>
-<span class="sourceLineNo">254</span><a id="line.254">            final String renderedValue = value.render(this.render);</a>
-<span class="sourceLineNo">255</span><a id="line.255">            writer.write(renderedValue);</a>
-<span class="sourceLineNo">256</span><a id="line.256">        } catch (final IOException io) {</a>
-<span class="sourceLineNo">257</span><a id="line.257">            throw new ConfigurateException(node, io);</a>
-<span class="sourceLineNo">258</span><a id="line.258">        }</a>
-<span class="sourceLineNo">259</span><a id="line.259">    }</a>
-<span class="sourceLineNo">260</span><a id="line.260"></a>
-<span class="sourceLineNo">261</span><a id="line.261">    private static ConfigValue fromValue(final ConfigurationNode node) {</a>
-<span class="sourceLineNo">262</span><a id="line.262">        ConfigValue ret;</a>
-<span class="sourceLineNo">263</span><a id="line.263">        if (node.isMap()) {</a>
-<span class="sourceLineNo">264</span><a id="line.264">            final Map&lt;String, ConfigValue&gt; children = node.options().mapFactory().create();</a>
-<span class="sourceLineNo">265</span><a id="line.265">            for (Map.Entry&lt;Object, ? extends ConfigurationNode&gt; ent : node.childrenMap().entrySet()) {</a>
-<span class="sourceLineNo">266</span><a id="line.266">                children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));</a>
-<span class="sourceLineNo">267</span><a id="line.267">            }</a>
-<span class="sourceLineNo">268</span><a id="line.268">            ret = newConfigObject(children);</a>
-<span class="sourceLineNo">269</span><a id="line.269">        } else if (node.isList()) {</a>
-<span class="sourceLineNo">270</span><a id="line.270">            final List&lt;ConfigValue&gt; children = new ArrayList&lt;&gt;();</a>
-<span class="sourceLineNo">271</span><a id="line.271">            for (ConfigurationNode ent : node.childrenList()) {</a>
-<span class="sourceLineNo">272</span><a id="line.272">                children.add(fromValue(ent));</a>
-<span class="sourceLineNo">273</span><a id="line.273">            }</a>
-<span class="sourceLineNo">274</span><a id="line.274">            ret = newConfigList(children);</a>
-<span class="sourceLineNo">275</span><a id="line.275"></a>
-<span class="sourceLineNo">276</span><a id="line.276">        } else {</a>
-<span class="sourceLineNo">277</span><a id="line.277">            ret = ConfigValueFactory.fromAnyRef(node.rawScalar(), CONFIGURATE_ORIGIN.description());</a>
-<span class="sourceLineNo">278</span><a id="line.278">        }</a>
-<span class="sourceLineNo">279</span><a id="line.279">        if (node instanceof CommentedConfigurationNodeIntermediary&lt;?&gt;) {</a>
-<span class="sourceLineNo">280</span><a id="line.280">            final CommentedConfigurationNodeIntermediary&lt;?&gt; commentedNode = (CommentedConfigurationNodeIntermediary&lt;?&gt;) node;</a>
-<span class="sourceLineNo">281</span><a id="line.281">            final @Nullable String origComment = commentedNode.comment();</a>
-<span class="sourceLineNo">282</span><a id="line.282">            if (origComment != null) {</a>
-<span class="sourceLineNo">283</span><a id="line.283">                ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));</a>
-<span class="sourceLineNo">284</span><a id="line.284">            }</a>
-<span class="sourceLineNo">285</span><a id="line.285">        }</a>
-<span class="sourceLineNo">286</span><a id="line.286">        return ret;</a>
-<span class="sourceLineNo">287</span><a id="line.287">    }</a>
-<span class="sourceLineNo">288</span><a id="line.288"></a>
-<span class="sourceLineNo">289</span><a id="line.289">    static ConfigValue newConfigObject(final Map&lt;String, ConfigValue&gt; vals) {</a>
-<span class="sourceLineNo">290</span><a id="line.290">        try {</a>
-<span class="sourceLineNo">291</span><a id="line.291">            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
-<span class="sourceLineNo">292</span><a id="line.292">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
-<span class="sourceLineNo">293</span><a id="line.293">            throw new RuntimeException(e); // rethrow</a>
-<span class="sourceLineNo">294</span><a id="line.294">        }</a>
-<span class="sourceLineNo">295</span><a id="line.295"></a>
-<span class="sourceLineNo">296</span><a id="line.296">    }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">    static ConfigValue newConfigList(final List&lt;ConfigValue&gt; vals) {</a>
-<span class="sourceLineNo">299</span><a id="line.299">        try {</a>
-<span class="sourceLineNo">300</span><a id="line.300">            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
-<span class="sourceLineNo">301</span><a id="line.301">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
-<span class="sourceLineNo">302</span><a id="line.302">            throw new RuntimeException(e); // rethrow</a>
-<span class="sourceLineNo">303</span><a id="line.303">        }</a>
-<span class="sourceLineNo">304</span><a id="line.304">    }</a>
-<span class="sourceLineNo">305</span><a id="line.305"></a>
-<span class="sourceLineNo">306</span><a id="line.306">    @Override</a>
-<span class="sourceLineNo">307</span><a id="line.307">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</a>
-<span class="sourceLineNo">308</span><a id="line.308">        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
-<span class="sourceLineNo">309</span><a id="line.309">    }</a>
-<span class="sourceLineNo">310</span><a id="line.310"></a>
-<span class="sourceLineNo">311</span><a id="line.311">    // -- Comment handling -- this might have to be updated as the hocon dep changes</a>
-<span class="sourceLineNo">312</span><a id="line.312">    // (But tests should detect this breakage)</a>
-<span class="sourceLineNo">313</span><a id="line.313">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_OBJECT_CONSTRUCTOR;</a>
-<span class="sourceLineNo">314</span><a id="line.314">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_LIST_CONSTRUCTOR;</a>
-<span class="sourceLineNo">315</span><a id="line.315"></a>
-<span class="sourceLineNo">316</span><a id="line.316">    static {</a>
-<span class="sourceLineNo">317</span><a id="line.317">        final Class&lt;? extends ConfigValue&gt; objectClass;</a>
-<span class="sourceLineNo">318</span><a id="line.318">        final Class&lt;? extends ConfigValue&gt; listClass;</a>
-<span class="sourceLineNo">319</span><a id="line.319">        try {</a>
-<span class="sourceLineNo">320</span><a id="line.320">            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);</a>
-<span class="sourceLineNo">321</span><a id="line.321">            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);</a>
-<span class="sourceLineNo">322</span><a id="line.322">        } catch (final ClassNotFoundException e) {</a>
-<span class="sourceLineNo">323</span><a id="line.323">            throw new ExceptionInInitializerError(e);</a>
-<span class="sourceLineNo">324</span><a id="line.324">        }</a>
-<span class="sourceLineNo">325</span><a id="line.325"></a>
-<span class="sourceLineNo">326</span><a id="line.326">        try {</a>
-<span class="sourceLineNo">327</span><a id="line.327">            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);</a>
-<span class="sourceLineNo">328</span><a id="line.328">            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);</a>
-<span class="sourceLineNo">329</span><a id="line.329">            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);</a>
-<span class="sourceLineNo">330</span><a id="line.330">            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);</a>
-<span class="sourceLineNo">331</span><a id="line.331">        } catch (final NoSuchMethodException e) {</a>
-<span class="sourceLineNo">332</span><a id="line.332">            throw new ExceptionInInitializerError(e);</a>
-<span class="sourceLineNo">333</span><a id="line.333">        }</a>
-<span class="sourceLineNo">334</span><a id="line.334">    }</a>
-<span class="sourceLineNo">335</span><a id="line.335"></a>
-<span class="sourceLineNo">336</span><a id="line.336">}</a>
+<span class="sourceLineNo">217</span><a id="line.217">    private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {</a>
+<span class="sourceLineNo">218</span><a id="line.218">        if (!value.origin().comments().isEmpty()) {</a>
+<span class="sourceLineNo">219</span><a id="line.219">            node.comment(value.origin().comments().stream()</a>
+<span class="sourceLineNo">220</span><a id="line.220">                .map(input -&gt; {</a>
+<span class="sourceLineNo">221</span><a id="line.221">                    final String lineStripped = input.replace("\r", "");</a>
+<span class="sourceLineNo">222</span><a id="line.222">                    if (!lineStripped.isEmpty() &amp;&amp; lineStripped.charAt(0) == ' ') {</a>
+<span class="sourceLineNo">223</span><a id="line.223">                        return lineStripped.substring(1);</a>
+<span class="sourceLineNo">224</span><a id="line.224">                    } else {</a>
+<span class="sourceLineNo">225</span><a id="line.225">                        return lineStripped;</a>
+<span class="sourceLineNo">226</span><a id="line.226">                    }</a>
+<span class="sourceLineNo">227</span><a id="line.227">                })</a>
+<span class="sourceLineNo">228</span><a id="line.228">                .collect(Collectors.joining("\n")));</a>
+<span class="sourceLineNo">229</span><a id="line.229">        }</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">        switch (value.valueType()) {</a>
+<span class="sourceLineNo">232</span><a id="line.232">            case OBJECT:</a>
+<span class="sourceLineNo">233</span><a id="line.233">                final ConfigObject object = (ConfigObject) value;</a>
+<span class="sourceLineNo">234</span><a id="line.234">                if (object.isEmpty()) {</a>
+<span class="sourceLineNo">235</span><a id="line.235">                    node.raw(Collections.emptyMap());</a>
+<span class="sourceLineNo">236</span><a id="line.236">                } else {</a>
+<span class="sourceLineNo">237</span><a id="line.237">                    for (Map.Entry&lt;String, ConfigValue&gt; ent : object.entrySet()) {</a>
+<span class="sourceLineNo">238</span><a id="line.238">                        readConfigValue(ent.getValue(), node.node(ent.getKey()));</a>
+<span class="sourceLineNo">239</span><a id="line.239">                    }</a>
+<span class="sourceLineNo">240</span><a id="line.240">                }</a>
+<span class="sourceLineNo">241</span><a id="line.241">                break;</a>
+<span class="sourceLineNo">242</span><a id="line.242">            case LIST:</a>
+<span class="sourceLineNo">243</span><a id="line.243">                final ConfigList list = (ConfigList) value;</a>
+<span class="sourceLineNo">244</span><a id="line.244">                if (list.isEmpty()) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">                    node.raw(Collections.emptyList());</a>
+<span class="sourceLineNo">246</span><a id="line.246">                } else {</a>
+<span class="sourceLineNo">247</span><a id="line.247">                    for (int i = 0; i &lt; list.size(); ++i) {</a>
+<span class="sourceLineNo">248</span><a id="line.248">                        readConfigValue(list.get(i), node.node(i));</a>
+<span class="sourceLineNo">249</span><a id="line.249">                    }</a>
+<span class="sourceLineNo">250</span><a id="line.250">                }</a>
+<span class="sourceLineNo">251</span><a id="line.251">                break;</a>
+<span class="sourceLineNo">252</span><a id="line.252">            case NULL:</a>
+<span class="sourceLineNo">253</span><a id="line.253">                return;</a>
+<span class="sourceLineNo">254</span><a id="line.254">            default:</a>
+<span class="sourceLineNo">255</span><a id="line.255">                node.raw(value.unwrapped());</a>
+<span class="sourceLineNo">256</span><a id="line.256">                break;</a>
+<span class="sourceLineNo">257</span><a id="line.257">        }</a>
+<span class="sourceLineNo">258</span><a id="line.258">    }</a>
+<span class="sourceLineNo">259</span><a id="line.259"></a>
+<span class="sourceLineNo">260</span><a id="line.260">    @Override</a>
+<span class="sourceLineNo">261</span><a id="line.261">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</a>
+<span class="sourceLineNo">262</span><a id="line.262">        try {</a>
+<span class="sourceLineNo">263</span><a id="line.263">            if (!node.isMap() &amp;&amp; (node.virtual() || node.raw() == null)) {</a>
+<span class="sourceLineNo">264</span><a id="line.264">                writer.write(SYSTEM_LINE_SEPARATOR);</a>
+<span class="sourceLineNo">265</span><a id="line.265">                return;</a>
+<span class="sourceLineNo">266</span><a id="line.266">            }</a>
+<span class="sourceLineNo">267</span><a id="line.267">            final ConfigValue value = fromValue(node);</a>
+<span class="sourceLineNo">268</span><a id="line.268">            final String renderedValue = value.render(this.render);</a>
+<span class="sourceLineNo">269</span><a id="line.269">            writer.write(renderedValue);</a>
+<span class="sourceLineNo">270</span><a id="line.270">        } catch (final IOException io) {</a>
+<span class="sourceLineNo">271</span><a id="line.271">            throw new ConfigurateException(node, io);</a>
+<span class="sourceLineNo">272</span><a id="line.272">        }</a>
+<span class="sourceLineNo">273</span><a id="line.273">    }</a>
+<span class="sourceLineNo">274</span><a id="line.274"></a>
+<span class="sourceLineNo">275</span><a id="line.275">    private static ConfigValue fromValue(final ConfigurationNode node) {</a>
+<span class="sourceLineNo">276</span><a id="line.276">        ConfigValue ret;</a>
+<span class="sourceLineNo">277</span><a id="line.277">        if (node.isMap()) {</a>
+<span class="sourceLineNo">278</span><a id="line.278">            final Map&lt;String, ConfigValue&gt; children = node.options().mapFactory().create();</a>
+<span class="sourceLineNo">279</span><a id="line.279">            for (Map.Entry&lt;Object, ? extends ConfigurationNode&gt; ent : node.childrenMap().entrySet()) {</a>
+<span class="sourceLineNo">280</span><a id="line.280">                children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));</a>
+<span class="sourceLineNo">281</span><a id="line.281">            }</a>
+<span class="sourceLineNo">282</span><a id="line.282">            ret = newConfigObject(children);</a>
+<span class="sourceLineNo">283</span><a id="line.283">        } else if (node.isList()) {</a>
+<span class="sourceLineNo">284</span><a id="line.284">            final List&lt;ConfigValue&gt; children = new ArrayList&lt;&gt;();</a>
+<span class="sourceLineNo">285</span><a id="line.285">            for (ConfigurationNode ent : node.childrenList()) {</a>
+<span class="sourceLineNo">286</span><a id="line.286">                children.add(fromValue(ent));</a>
+<span class="sourceLineNo">287</span><a id="line.287">            }</a>
+<span class="sourceLineNo">288</span><a id="line.288">            ret = newConfigList(children);</a>
+<span class="sourceLineNo">289</span><a id="line.289"></a>
+<span class="sourceLineNo">290</span><a id="line.290">        } else {</a>
+<span class="sourceLineNo">291</span><a id="line.291">            ret = ConfigValueFactory.fromAnyRef(node.rawScalar(), CONFIGURATE_ORIGIN.description());</a>
+<span class="sourceLineNo">292</span><a id="line.292">        }</a>
+<span class="sourceLineNo">293</span><a id="line.293">        if (node instanceof CommentedConfigurationNodeIntermediary&lt;?&gt;) {</a>
+<span class="sourceLineNo">294</span><a id="line.294">            final CommentedConfigurationNodeIntermediary&lt;?&gt; commentedNode = (CommentedConfigurationNodeIntermediary&lt;?&gt;) node;</a>
+<span class="sourceLineNo">295</span><a id="line.295">            final @Nullable String origComment = commentedNode.comment();</a>
+<span class="sourceLineNo">296</span><a id="line.296">            if (origComment != null) {</a>
+<span class="sourceLineNo">297</span><a id="line.297">                ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));</a>
+<span class="sourceLineNo">298</span><a id="line.298">            }</a>
+<span class="sourceLineNo">299</span><a id="line.299">        }</a>
+<span class="sourceLineNo">300</span><a id="line.300">        return ret;</a>
+<span class="sourceLineNo">301</span><a id="line.301">    }</a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">    static ConfigValue newConfigObject(final Map&lt;String, ConfigValue&gt; vals) {</a>
+<span class="sourceLineNo">304</span><a id="line.304">        try {</a>
+<span class="sourceLineNo">305</span><a id="line.305">            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
+<span class="sourceLineNo">306</span><a id="line.306">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">            throw new RuntimeException(e); // rethrow</a>
+<span class="sourceLineNo">308</span><a id="line.308">        }</a>
+<span class="sourceLineNo">309</span><a id="line.309"></a>
+<span class="sourceLineNo">310</span><a id="line.310">    }</a>
+<span class="sourceLineNo">311</span><a id="line.311"></a>
+<span class="sourceLineNo">312</span><a id="line.312">    static ConfigValue newConfigList(final List&lt;ConfigValue&gt; vals) {</a>
+<span class="sourceLineNo">313</span><a id="line.313">        try {</a>
+<span class="sourceLineNo">314</span><a id="line.314">            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
+<span class="sourceLineNo">315</span><a id="line.315">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
+<span class="sourceLineNo">316</span><a id="line.316">            throw new RuntimeException(e); // rethrow</a>
+<span class="sourceLineNo">317</span><a id="line.317">        }</a>
+<span class="sourceLineNo">318</span><a id="line.318">    }</a>
+<span class="sourceLineNo">319</span><a id="line.319"></a>
+<span class="sourceLineNo">320</span><a id="line.320">    @Override</a>
+<span class="sourceLineNo">321</span><a id="line.321">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</a>
+<span class="sourceLineNo">322</span><a id="line.322">        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">323</span><a id="line.323">    }</a>
+<span class="sourceLineNo">324</span><a id="line.324"></a>
+<span class="sourceLineNo">325</span><a id="line.325">    // -- Comment handling -- this might have to be updated as the hocon dep changes</a>
+<span class="sourceLineNo">326</span><a id="line.326">    // (But tests should detect this breakage)</a>
+<span class="sourceLineNo">327</span><a id="line.327">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_OBJECT_CONSTRUCTOR;</a>
+<span class="sourceLineNo">328</span><a id="line.328">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_LIST_CONSTRUCTOR;</a>
+<span class="sourceLineNo">329</span><a id="line.329"></a>
+<span class="sourceLineNo">330</span><a id="line.330">    static {</a>
+<span class="sourceLineNo">331</span><a id="line.331">        final Class&lt;? extends ConfigValue&gt; objectClass;</a>
+<span class="sourceLineNo">332</span><a id="line.332">        final Class&lt;? extends ConfigValue&gt; listClass;</a>
+<span class="sourceLineNo">333</span><a id="line.333">        try {</a>
+<span class="sourceLineNo">334</span><a id="line.334">            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);</a>
+<span class="sourceLineNo">335</span><a id="line.335">            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);</a>
+<span class="sourceLineNo">336</span><a id="line.336">        } catch (final ClassNotFoundException e) {</a>
+<span class="sourceLineNo">337</span><a id="line.337">            throw new ExceptionInInitializerError(e);</a>
+<span class="sourceLineNo">338</span><a id="line.338">        }</a>
+<span class="sourceLineNo">339</span><a id="line.339"></a>
+<span class="sourceLineNo">340</span><a id="line.340">        try {</a>
+<span class="sourceLineNo">341</span><a id="line.341">            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);</a>
+<span class="sourceLineNo">342</span><a id="line.342">            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);</a>
+<span class="sourceLineNo">343</span><a id="line.343">            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);</a>
+<span class="sourceLineNo">344</span><a id="line.344">            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);</a>
+<span class="sourceLineNo">345</span><a id="line.345">        } catch (final NoSuchMethodException e) {</a>
+<span class="sourceLineNo">346</span><a id="line.346">            throw new ExceptionInInitializerError(e);</a>
+<span class="sourceLineNo">347</span><a id="line.347">        }</a>
+<span class="sourceLineNo">348</span><a id="line.348">    }</a>
+<span class="sourceLineNo">349</span><a id="line.349"></a>
+<span class="sourceLineNo">350</span><a id="line.350">}</a>
 
 
 
