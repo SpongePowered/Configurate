@@ -245,6 +245,26 @@ class HoconConfigurationLoaderTest {
         assertEquals(expectedOut, out);
     }
 
+    @Test
+    void testSaveEmptyCommentLine() throws IOException {
+        final String in = "##\n"
+                + "#\n"
+                + "##\n"
+                + "key=value\n";
+        final String expectedOut = "##\n"
+                + "# \n"
+                + "##\n"
+                + "key=value\n";
+        final ByteArrayOutputStream s = new ByteArrayOutputStream();
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .source(() -> new BufferedReader(new StringReader(in)))
+                .sink(() -> new BufferedWriter(new OutputStreamWriter(s, StandardCharsets.UTF_8)))
+                .build();
+        loader.save(loader.load());
+        final String out = s.toString(StandardCharsets.UTF_8.name());
+        assertEquals(expectedOut, out);
+    }
+
     private URL requireResource(final String path) {
         final @Nullable URL resource = this.getClass().getResource('/' + path);
         assertNotNull(resource, () -> "Resource " + path + " was not present when expected to be!");
