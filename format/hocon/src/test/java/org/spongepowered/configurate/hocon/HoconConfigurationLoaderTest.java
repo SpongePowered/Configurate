@@ -190,6 +190,21 @@ class HoconConfigurationLoaderTest {
         assertEquals("tasty", root.node("test", "donut").comment());
     }
 
+    @Test
+    void test2Indent(final @TempDir Path tempDir) throws IOException {
+        final URL resource = requireResource("2indent.conf");
+        final Path out = tempDir.resolve("outout.conf");
+
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+            .indent(2).path(out).url(resource).build();
+
+        final CommentedConfigurationNode loaded = loader.load();
+        loader.save(loaded);
+
+        assertEquals(Resources.readLines(resource, StandardCharsets.UTF_8),
+            Resources.readLines(out.toUri().toURL(), StandardCharsets.UTF_8));
+    }
+
     private URL requireResource(final String path) {
         final @Nullable URL resource = this.getClass().getResource('/' + path);
         assertNotNull(resource, () -> "Resource " + path + " was not present when expected to be!");
