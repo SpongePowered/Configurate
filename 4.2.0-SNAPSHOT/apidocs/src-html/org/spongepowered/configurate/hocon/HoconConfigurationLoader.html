@@ -35,26 +35,26 @@
 <span class="sourceLineNo">026</span><a id="line.26">import com.typesafe.config.ConfigRenderOptions;</a>
 <span class="sourceLineNo">027</span><a id="line.27">import com.typesafe.config.ConfigValue;</a>
 <span class="sourceLineNo">028</span><a id="line.28">import com.typesafe.config.ConfigValueFactory;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import org.spongepowered.configurate.CommentedConfigurationNode;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import org.spongepowered.configurate.ConfigurateException;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import org.spongepowered.configurate.ConfigurationNode;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import org.spongepowered.configurate.ConfigurationOptions;</a>
-<span class="sourceLineNo">035</span><a id="line.35">import org.spongepowered.configurate.loader.AbstractConfigurationLoader;</a>
-<span class="sourceLineNo">036</span><a id="line.36">import org.spongepowered.configurate.loader.CommentHandler;</a>
-<span class="sourceLineNo">037</span><a id="line.37">import org.spongepowered.configurate.loader.CommentHandlers;</a>
-<span class="sourceLineNo">038</span><a id="line.38">import org.spongepowered.configurate.loader.LoaderOptionSource;</a>
-<span class="sourceLineNo">039</span><a id="line.39">import org.spongepowered.configurate.loader.ParsingException;</a>
-<span class="sourceLineNo">040</span><a id="line.40">import org.spongepowered.configurate.util.UnmodifiableCollections;</a>
-<span class="sourceLineNo">041</span><a id="line.41"></a>
-<span class="sourceLineNo">042</span><a id="line.42">import java.io.BufferedReader;</a>
-<span class="sourceLineNo">043</span><a id="line.43">import java.io.IOException;</a>
-<span class="sourceLineNo">044</span><a id="line.44">import java.io.Writer;</a>
-<span class="sourceLineNo">045</span><a id="line.45">import java.lang.reflect.Constructor;</a>
-<span class="sourceLineNo">046</span><a id="line.46">import java.lang.reflect.InvocationTargetException;</a>
-<span class="sourceLineNo">047</span><a id="line.47">import java.util.ArrayList;</a>
-<span class="sourceLineNo">048</span><a id="line.48">import java.util.Arrays;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import com.typesafe.config.impl.ConfigNodeComment;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import org.spongepowered.configurate.CommentedConfigurationNode;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import org.spongepowered.configurate.ConfigurateException;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import org.spongepowered.configurate.ConfigurationNode;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import org.spongepowered.configurate.ConfigurationOptions;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import org.spongepowered.configurate.loader.AbstractConfigurationLoader;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import org.spongepowered.configurate.loader.CommentHandler;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import org.spongepowered.configurate.loader.CommentHandlers;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import org.spongepowered.configurate.loader.LoaderOptionSource;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import org.spongepowered.configurate.loader.ParsingException;</a>
+<span class="sourceLineNo">041</span><a id="line.41">import org.spongepowered.configurate.util.UnmodifiableCollections;</a>
+<span class="sourceLineNo">042</span><a id="line.42"></a>
+<span class="sourceLineNo">043</span><a id="line.43">import java.io.BufferedReader;</a>
+<span class="sourceLineNo">044</span><a id="line.44">import java.io.IOException;</a>
+<span class="sourceLineNo">045</span><a id="line.45">import java.io.Writer;</a>
+<span class="sourceLineNo">046</span><a id="line.46">import java.lang.reflect.Constructor;</a>
+<span class="sourceLineNo">047</span><a id="line.47">import java.lang.reflect.InvocationTargetException;</a>
+<span class="sourceLineNo">048</span><a id="line.48">import java.util.ArrayList;</a>
 <span class="sourceLineNo">049</span><a id="line.49">import java.util.Collections;</a>
 <span class="sourceLineNo">050</span><a id="line.50">import java.util.List;</a>
 <span class="sourceLineNo">051</span><a id="line.51">import java.util.Map;</a>
@@ -227,7 +227,7 @@
 <span class="sourceLineNo">218</span><a id="line.218">        if (!value.origin().comments().isEmpty()) {</a>
 <span class="sourceLineNo">219</span><a id="line.219">            node.comment(value.origin().comments().stream()</a>
 <span class="sourceLineNo">220</span><a id="line.220">                .map(input -&gt; {</a>
-<span class="sourceLineNo">221</span><a id="line.221">                    final String lineStripped = input.replace("\r", "");</a>
+<span class="sourceLineNo">221</span><a id="line.221">                    final String lineStripped = input.commentText().replace("\r", "");</a>
 <span class="sourceLineNo">222</span><a id="line.222">                    if (!lineStripped.isEmpty() &amp;&amp; lineStripped.charAt(0) == ' ') {</a>
 <span class="sourceLineNo">223</span><a id="line.223">                        return lineStripped.substring(1);</a>
 <span class="sourceLineNo">224</span><a id="line.224">                    } else {</a>
@@ -303,60 +303,69 @@
 <span class="sourceLineNo">294</span><a id="line.294">            final CommentedConfigurationNodeIntermediary&lt;?&gt; commentedNode = (CommentedConfigurationNodeIntermediary&lt;?&gt;) node;</a>
 <span class="sourceLineNo">295</span><a id="line.295">            final @Nullable String origComment = commentedNode.comment();</a>
 <span class="sourceLineNo">296</span><a id="line.296">            if (origComment != null) {</a>
-<span class="sourceLineNo">297</span><a id="line.297">                ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));</a>
-<span class="sourceLineNo">298</span><a id="line.298">            }</a>
-<span class="sourceLineNo">299</span><a id="line.299">        }</a>
-<span class="sourceLineNo">300</span><a id="line.300">        return ret;</a>
-<span class="sourceLineNo">301</span><a id="line.301">    }</a>
-<span class="sourceLineNo">302</span><a id="line.302"></a>
-<span class="sourceLineNo">303</span><a id="line.303">    static ConfigValue newConfigObject(final Map&lt;String, ConfigValue&gt; vals) {</a>
-<span class="sourceLineNo">304</span><a id="line.304">        try {</a>
-<span class="sourceLineNo">305</span><a id="line.305">            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
-<span class="sourceLineNo">306</span><a id="line.306">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
-<span class="sourceLineNo">307</span><a id="line.307">            throw new RuntimeException(e); // rethrow</a>
+<span class="sourceLineNo">297</span><a id="line.297">                final List&lt;ConfigNodeComment&gt; nodes = new ArrayList&lt;&gt;();</a>
+<span class="sourceLineNo">298</span><a id="line.298">                for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">                    if (line.charAt(0) == '#') {</a>
+<span class="sourceLineNo">300</span><a id="line.300">                        // allow lines that are only the comment character, for box drawing</a>
+<span class="sourceLineNo">301</span><a id="line.301">                        nodes.add(ConfigNodeComment.hashComment(line));</a>
+<span class="sourceLineNo">302</span><a id="line.302">                    } else {</a>
+<span class="sourceLineNo">303</span><a id="line.303">                        nodes.add(ConfigNodeComment.hashComment(' ' + line));</a>
+<span class="sourceLineNo">304</span><a id="line.304">                    }</a>
+<span class="sourceLineNo">305</span><a id="line.305">                }</a>
+<span class="sourceLineNo">306</span><a id="line.306">                ret = ret.withOrigin(ret.origin().withComments(nodes));</a>
+<span class="sourceLineNo">307</span><a id="line.307">            }</a>
 <span class="sourceLineNo">308</span><a id="line.308">        }</a>
-<span class="sourceLineNo">309</span><a id="line.309"></a>
+<span class="sourceLineNo">309</span><a id="line.309">        return ret;</a>
 <span class="sourceLineNo">310</span><a id="line.310">    }</a>
 <span class="sourceLineNo">311</span><a id="line.311"></a>
-<span class="sourceLineNo">312</span><a id="line.312">    static ConfigValue newConfigList(final List&lt;ConfigValue&gt; vals) {</a>
+<span class="sourceLineNo">312</span><a id="line.312">    static ConfigValue newConfigObject(final Map&lt;String, ConfigValue&gt; vals) {</a>
 <span class="sourceLineNo">313</span><a id="line.313">        try {</a>
-<span class="sourceLineNo">314</span><a id="line.314">            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
+<span class="sourceLineNo">314</span><a id="line.314">            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
 <span class="sourceLineNo">315</span><a id="line.315">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
 <span class="sourceLineNo">316</span><a id="line.316">            throw new RuntimeException(e); // rethrow</a>
 <span class="sourceLineNo">317</span><a id="line.317">        }</a>
-<span class="sourceLineNo">318</span><a id="line.318">    }</a>
-<span class="sourceLineNo">319</span><a id="line.319"></a>
-<span class="sourceLineNo">320</span><a id="line.320">    @Override</a>
-<span class="sourceLineNo">321</span><a id="line.321">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</a>
-<span class="sourceLineNo">322</span><a id="line.322">        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
-<span class="sourceLineNo">323</span><a id="line.323">    }</a>
-<span class="sourceLineNo">324</span><a id="line.324"></a>
-<span class="sourceLineNo">325</span><a id="line.325">    // -- Comment handling -- this might have to be updated as the hocon dep changes</a>
-<span class="sourceLineNo">326</span><a id="line.326">    // (But tests should detect this breakage)</a>
-<span class="sourceLineNo">327</span><a id="line.327">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_OBJECT_CONSTRUCTOR;</a>
-<span class="sourceLineNo">328</span><a id="line.328">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_LIST_CONSTRUCTOR;</a>
-<span class="sourceLineNo">329</span><a id="line.329"></a>
-<span class="sourceLineNo">330</span><a id="line.330">    static {</a>
-<span class="sourceLineNo">331</span><a id="line.331">        final Class&lt;? extends ConfigValue&gt; objectClass;</a>
-<span class="sourceLineNo">332</span><a id="line.332">        final Class&lt;? extends ConfigValue&gt; listClass;</a>
-<span class="sourceLineNo">333</span><a id="line.333">        try {</a>
-<span class="sourceLineNo">334</span><a id="line.334">            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);</a>
-<span class="sourceLineNo">335</span><a id="line.335">            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);</a>
-<span class="sourceLineNo">336</span><a id="line.336">        } catch (final ClassNotFoundException e) {</a>
-<span class="sourceLineNo">337</span><a id="line.337">            throw new ExceptionInInitializerError(e);</a>
-<span class="sourceLineNo">338</span><a id="line.338">        }</a>
-<span class="sourceLineNo">339</span><a id="line.339"></a>
-<span class="sourceLineNo">340</span><a id="line.340">        try {</a>
-<span class="sourceLineNo">341</span><a id="line.341">            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);</a>
-<span class="sourceLineNo">342</span><a id="line.342">            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);</a>
-<span class="sourceLineNo">343</span><a id="line.343">            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);</a>
-<span class="sourceLineNo">344</span><a id="line.344">            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);</a>
-<span class="sourceLineNo">345</span><a id="line.345">        } catch (final NoSuchMethodException e) {</a>
+<span class="sourceLineNo">318</span><a id="line.318"></a>
+<span class="sourceLineNo">319</span><a id="line.319">    }</a>
+<span class="sourceLineNo">320</span><a id="line.320"></a>
+<span class="sourceLineNo">321</span><a id="line.321">    static ConfigValue newConfigList(final List&lt;ConfigValue&gt; vals) {</a>
+<span class="sourceLineNo">322</span><a id="line.322">        try {</a>
+<span class="sourceLineNo">323</span><a id="line.323">            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</a>
+<span class="sourceLineNo">324</span><a id="line.324">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</a>
+<span class="sourceLineNo">325</span><a id="line.325">            throw new RuntimeException(e); // rethrow</a>
+<span class="sourceLineNo">326</span><a id="line.326">        }</a>
+<span class="sourceLineNo">327</span><a id="line.327">    }</a>
+<span class="sourceLineNo">328</span><a id="line.328"></a>
+<span class="sourceLineNo">329</span><a id="line.329">    @Override</a>
+<span class="sourceLineNo">330</span><a id="line.330">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</a>
+<span class="sourceLineNo">331</span><a id="line.331">        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</a>
+<span class="sourceLineNo">332</span><a id="line.332">    }</a>
+<span class="sourceLineNo">333</span><a id="line.333"></a>
+<span class="sourceLineNo">334</span><a id="line.334">    // -- Comment handling -- this might have to be updated as the hocon dep changes</a>
+<span class="sourceLineNo">335</span><a id="line.335">    // (But tests should detect this breakage)</a>
+<span class="sourceLineNo">336</span><a id="line.336">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_OBJECT_CONSTRUCTOR;</a>
+<span class="sourceLineNo">337</span><a id="line.337">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_LIST_CONSTRUCTOR;</a>
+<span class="sourceLineNo">338</span><a id="line.338"></a>
+<span class="sourceLineNo">339</span><a id="line.339">    static {</a>
+<span class="sourceLineNo">340</span><a id="line.340">        final Class&lt;? extends ConfigValue&gt; objectClass;</a>
+<span class="sourceLineNo">341</span><a id="line.341">        final Class&lt;? extends ConfigValue&gt; listClass;</a>
+<span class="sourceLineNo">342</span><a id="line.342">        try {</a>
+<span class="sourceLineNo">343</span><a id="line.343">            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);</a>
+<span class="sourceLineNo">344</span><a id="line.344">            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);</a>
+<span class="sourceLineNo">345</span><a id="line.345">        } catch (final ClassNotFoundException e) {</a>
 <span class="sourceLineNo">346</span><a id="line.346">            throw new ExceptionInInitializerError(e);</a>
 <span class="sourceLineNo">347</span><a id="line.347">        }</a>
-<span class="sourceLineNo">348</span><a id="line.348">    }</a>
-<span class="sourceLineNo">349</span><a id="line.349"></a>
-<span class="sourceLineNo">350</span><a id="line.350">}</a>
+<span class="sourceLineNo">348</span><a id="line.348"></a>
+<span class="sourceLineNo">349</span><a id="line.349">        try {</a>
+<span class="sourceLineNo">350</span><a id="line.350">            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);</a>
+<span class="sourceLineNo">351</span><a id="line.351">            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);</a>
+<span class="sourceLineNo">352</span><a id="line.352">            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);</a>
+<span class="sourceLineNo">353</span><a id="line.353">            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);</a>
+<span class="sourceLineNo">354</span><a id="line.354">        } catch (final NoSuchMethodException e) {</a>
+<span class="sourceLineNo">355</span><a id="line.355">            throw new ExceptionInInitializerError(e);</a>
+<span class="sourceLineNo">356</span><a id="line.356">        }</a>
+<span class="sourceLineNo">357</span><a id="line.357">    }</a>
+<span class="sourceLineNo">358</span><a id="line.358"></a>
+<span class="sourceLineNo">359</span><a id="line.359">}</a>
 
 
 
