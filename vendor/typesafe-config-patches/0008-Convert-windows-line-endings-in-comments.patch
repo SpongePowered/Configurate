@@ -16,6 +16,28 @@ index 28585258893a5105cb2c8d482b9b16d1cb3e14e5..569ed7241a4248051083fb34cb9875fb
                  if (c == -1 || c == '\n') {
                      putBack(c);
                      if (doubleSlash)
+diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala
+index 9cba2eb0a5a571efed77e2cacfae207a2a7adcd7..aa936f374b44f12be3628fb63c34275ff6d64536 100644
+--- a/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala
++++ b/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala
+@@ -116,7 +116,7 @@ class ConfigDocumentParserTest extends TestUtils {
+           foo: bar
+           // This is a comment
+           baz:qux // This is another comment
+-         }""")
++         }""".replace("\r\n", "\n"))
+ 
+         // Basic array tests
+         parseTest("[]")
+@@ -171,7 +171,7 @@ class ConfigDocumentParserTest extends TestUtils {
+             }
+           }
+         // Did I cover everything?
+-        }""")
++        }""".replace("\r\n", "\n"))
+ 
+         // Can correctly parse a JSON string
+         val origText =
 diff --git a/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala b/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala
 index 79750bc83933709de885337f889e291527c8393a..b8abc8753e8d0216195840621f178c6d8e01832a 100644
 --- a/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala
