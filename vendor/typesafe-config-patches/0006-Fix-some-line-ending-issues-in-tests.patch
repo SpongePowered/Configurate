@@ -1,8 +1,12 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jason Penilla <11360596+jpenilla@users.noreply.github.com>
-Date: Sat, 11 Nov 2023 19:32:49 -0700
-Subject: [PATCH] test
+Date: Sat, 11 Nov 2023 19:11:43 -0700
+Subject: [PATCH] Fix some line ending issues in tests
 
+We always render with '\n' line endings. So when we compile
+this source code with '\r\n' for the expected value, it will
+obviously fail. (Scala passes through the line endings for triple
+quotes)
 
 diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigTest.scala
 index 63098872a57b0eccccf5e023498df7d8e7f5a7f1..246ba622ca38e0e9ca2b8a5e4f1243124d8e96bc 100644

@@ -1,0 +1,18 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jason Penilla <11360596+jpenilla@users.noreply.github.com>
+Date: Tue, 21 Nov 2023 22:57:21 -0700
+Subject: [PATCH] Convert windows line endings in comments
+
+
+diff --git a/config/src/main/java/com/typesafe/config/impl/Tokenizer.java b/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
+index 28585258893a5105cb2c8d482b9b16d1cb3e14e5..569ed7241a4248051083fb34cb9875fbadd99b96 100644
+--- a/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
++++ b/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
+@@ -282,6 +282,7 @@ final class Tokenizer {
+             StringBuilder sb = new StringBuilder();
+             for (;;) {
+                 int c = nextCharRaw();
++                c = handleWindowsLineEndings(c);
+                 if (c == -1 || c == '\n') {
+                     putBack(c);
+                     if (doubleSlash)
