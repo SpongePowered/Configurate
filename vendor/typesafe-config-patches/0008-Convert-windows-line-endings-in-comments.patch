@@ -1,0 +1,71 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jason Penilla <11360596+jpenilla@users.noreply.github.com>
+Date: Tue, 21 Nov 2023 22:57:21 -0700
+Subject: [PATCH] Convert windows line endings in comments
+
+
+diff --git a/config/src/main/java/com/typesafe/config/impl/Tokenizer.java b/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
+index 28585258893a5105cb2c8d482b9b16d1cb3e14e5..569ed7241a4248051083fb34cb9875fbadd99b96 100644
+--- a/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
++++ b/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
+@@ -282,6 +282,7 @@ final class Tokenizer {
+             StringBuilder sb = new StringBuilder();
+             for (;;) {
+                 int c = nextCharRaw();
++                c = handleWindowsLineEndings(c);
+                 if (c == -1 || c == '\n') {
+                     putBack(c);
+                     if (doubleSlash)
+diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala
+index 9cba2eb0a5a571efed77e2cacfae207a2a7adcd7..aa936f374b44f12be3628fb63c34275ff6d64536 100644
+--- a/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala
++++ b/config/src/test/scala/com/typesafe/config/impl/ConfigDocumentParserTest.scala
+@@ -116,7 +116,7 @@ class ConfigDocumentParserTest extends TestUtils {
+           foo: bar
+           // This is a comment
+           baz:qux // This is another comment
+-         }""")
++         }""".replace("\r\n", "\n"))
+ 
+         // Basic array tests
+         parseTest("[]")
+@@ -171,7 +171,7 @@ class ConfigDocumentParserTest extends TestUtils {
+             }
+           }
+         // Did I cover everything?
+-        }""")
++        }""".replace("\r\n", "\n"))
+ 
+         // Can correctly parse a JSON string
+         val origText =
+diff --git a/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala b/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala
+index 79750bc83933709de885337f889e291527c8393a..b8abc8753e8d0216195840621f178c6d8e01832a 100644
+--- a/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala
++++ b/config/src/test/scala/com/typesafe/config/impl/TokenizerTest.scala
+@@ -285,18 +285,24 @@ class TokenizerTest extends TestUtils {
+             "//comment\n//comment2")
+         tokenizerTest(List(tokenCommentHash("comment"), tokenLine(1), tokenCommentHash("comment2")),
+             "#comment\n#comment2")
+-        tokenizerTest(List(tokenWhitespace("        "), tokenCommentDoubleSlash("comment\r"),
++        tokenizerTest1(List(tokenWhitespace("        "), tokenCommentDoubleSlash("comment"),
+             tokenLine(1), tokenWhitespace("        "), tokenCommentDoubleSlash("comment2        "),
+             tokenLine(2), tokenCommentDoubleSlash("comment3        "),
+             tokenLine(3), tokenLine(4), tokenCommentDoubleSlash("comment4")),
+             "        //comment\r\n        //comment2        \n//comment3        \n\n//comment4")
+-        tokenizerTest(List(tokenWhitespace("        "), tokenCommentHash("comment\r"),
++        tokenizerTest1(List(tokenWhitespace("        "), tokenCommentHash("comment"),
+             tokenLine(1), tokenWhitespace("        "), tokenCommentHash("comment2        "),
+             tokenLine(2), tokenCommentHash("comment3        "),
+             tokenLine(3), tokenLine(4), tokenCommentHash("comment4")),
+             "        #comment\r\n        #comment2        \n#comment3        \n\n#comment4")
+     }
+ 
++    private def tokenizerTest1(expected: List[Token], s: String) {
++        assertEquals(List(Tokens.START) ++ expected ++ List(Tokens.END),
++            tokenizeAsList(s))
++        assertEquals(s.replace("\r\n", "\n"), tokenizeAsString(s))
++    }
++
+     @Test
+     def tokenizeReservedChars() {
+         for (invalid <- "+`^?!@*&\\") {

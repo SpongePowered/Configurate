@@ -52,6 +52,7 @@ jobs:
           arguments: build
       - name: Archive test results
         uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
           name: "test-results-${{ runner.os }}"
           path: |
@@ -59,6 +60,8 @@ jobs:
             */build/reports/
             format/*/build/reports/
             extra/*/build/reports/
+            vendor/*/build/reports/
+            vendor/*/*/build/reports/
 
       # Then deploy, but only on the main branch
       - name: Determine status
