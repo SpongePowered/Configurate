@@ -16,10 +16,9 @@
  */
 package org.spongepowered.configurate.interfaces;
 
+import java.util.function.UnaryOperator;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
-
-import java.util.function.UnaryOperator;
 
 /**
  * This class has the default {@link ConfigurationOptions}
@@ -34,6 +33,7 @@ public final class InterfaceDefaultOptions {
             .serializers(
                 TypeSerializerCollection.builder()
                     .registerAnnotated(InterfaceTypeSerializer::applicable, InterfaceTypeSerializer.INSTANCE)
+                    .registerAnnotatedObjects(InterfaceConstraints.buildObjectMapperWithConstraints())
                     .registerAll(TypeSerializerCollection.defaults())
                     .build()
             );

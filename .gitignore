@@ -15,7 +15,7 @@ build-logic/*/bin/
 /format/*/.apt_generated/
 /format/*/.apt_generated_tests/
 /format/*/.checkstyle
-/extra/*/build/
+/extra/**/build/
 /extra/*/out/
 /extra/*/bin/
 /extra/*/.factorypath
