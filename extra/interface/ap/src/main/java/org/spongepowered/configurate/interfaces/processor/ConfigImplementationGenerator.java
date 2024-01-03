@@ -2,6 +2,7 @@ package org.spongepowered.configurate.interfaces.processor;
 
 import static org.spongepowered.configurate.interfaces.processor.Utils.hasAnnotation;
 
+import com.google.auto.common.MoreTypes;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
@@ -106,17 +107,31 @@ class ConfigImplementationGenerator {
             TypeMirror nodeType = element.getReturnType();
 
             if (parameters.size() == 1) {
-                final VariableElement parameter = parameters.get(0);
                 // setter
-                spec.add(
-                    simpleName + "#" + parameter.getSimpleName().toString(),
-                    MethodSpec.overriding(element)
-                        .addStatement(
-                            "this.$N = $N",
-                            element.getSimpleName(),
-                            parameter.getSimpleName()
-                        )
-                );
+                final VariableElement parameter = parameters.get(0);
+
+                final MethodSpec.Builder method = MethodSpec.overriding(element)
+                    .addStatement(
+                        "this.$N = $N",
+                        element.getSimpleName(),
+                        parameter.getSimpleName()
+                    );
+
+                // if it's not void
+                if (!MoreTypes.isTypeOf(Void.TYPE, nodeType)) {
+                    // the return type can be a parent type of parameter, but it has to be assignable
+                    if (!processor.typeUtils.isAssignable(parameter.asType(), nodeType)) {
+                        throw new IllegalStateException(String.format(
+                            "Cannot create a setter with return type %s for argument type %s. Method: %s",
+                            nodeType,
+                            parameter.asType(),
+                            element
+                        ));
+                    }
+                    method.addStatement("return this.$N", element.getSimpleName());
+                }
+
+                spec.add(simpleName + "#" + parameter.getSimpleName().toString(), method);
                 nodeType = parameter.asType();
             } else {
                 // getter

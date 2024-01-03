@@ -7,4 +7,6 @@ public interface BasicConfig {
     String hello();
 
     void hi(String value);
+
+    String hello(String value);
 }

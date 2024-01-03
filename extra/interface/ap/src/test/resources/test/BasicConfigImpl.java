@@ -21,4 +21,10 @@ final class BasicConfigImpl implements BasicConfig {
     public void hi(String value) {
         this.hi = value;
     }
+
+    @Override
+    public String hello(String value) {
+        this.hello = value;
+        return this.hello;
+    }
 }

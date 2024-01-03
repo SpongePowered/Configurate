@@ -32,14 +32,12 @@ class ConfigImplementationGenerationTest {
     }
 
     @Test
-    void testMultiLayerCompilation() {
-        // expect generated config + mapping
-        testCompilation("test/MultiLayerConfig", EXPECT_CONFIG_AND_MAPPING);
+    void testExtendedCompilation() {
+        testCompilation("test/ExtendedConfig", EXPECT_CONFIG_AND_MAPPING);
     }
 
     @Test
-    void testExtendedCompilation() {
-        // expect generated config + mapping
-        testCompilation("test/ExtendedConfig", EXPECT_CONFIG_AND_MAPPING);
+    void testMultiLayerCompilation() {
+        testCompilation("test/MultiLayerConfig", EXPECT_CONFIG_AND_MAPPING);
     }
 }
