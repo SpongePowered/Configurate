@@ -95,6 +95,8 @@ class ConfigImplementationGenerator {
                 ));
             }
 
+            // all methods are either setters or getters past this point
+
             final List<? extends VariableElement> parameters = element.getParameters();
             if (parameters.size() > 1) {
                 throw new IllegalStateException("Setters cannot have more than one parameter! Method: " + element);
@@ -125,7 +127,12 @@ class ConfigImplementationGenerator {
                 );
             }
 
-            spec.add(simpleName, FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE));
+            final FieldSpec.Builder fieldSpec = FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE);
+
+            // add default value if it has any
+            DefaultAnnotations.process(element, nodeType, fieldSpec);
+
+            spec.add(simpleName, fieldSpec);
         }
 
         // then handle parent elements

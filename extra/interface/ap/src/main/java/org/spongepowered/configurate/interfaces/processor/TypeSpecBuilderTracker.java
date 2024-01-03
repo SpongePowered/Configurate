@@ -39,7 +39,13 @@ class TypeSpecBuilderTracker {
     void add(final String fieldIdentifier, final FieldSpec.Builder builder) {
         final FieldSpec.Builder existing = this.fieldSpecs.get(fieldIdentifier);
         if (existing != null) {
-            existing.addAnnotations(originalAnnotations(existing.build().annotations, builder.build().annotations));
+            final FieldSpec existingBuild = existing.build();
+            final FieldSpec builderBuild = builder.build();
+            // copy initializer of the builder to the existing one if the existing one doesn't have an initializer
+            if (existingBuild.initializer.isEmpty() && !builderBuild.initializer.isEmpty()) {
+                existing.initializer(builderBuild.initializer);
+            }
+            existing.addAnnotations(originalAnnotations(existingBuild.annotations, builderBuild.annotations));
             return;
         }
         this.fieldSpecs.put(fieldIdentifier, builder);
