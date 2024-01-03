@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.tools.StandardLocation;
@@ -40,7 +41,6 @@ class TestUtils {
             .hasSourceEquivalentTo(JavaFileObjects.forResource(targetResourceName + ".java"));
 
         try {
-            final URL localMappings = Resources.getResource(sourceResourceName + ".properties");
 
             final String actualContent = compilation
                 .generatedFile(StandardLocation.SOURCE_OUTPUT, Constants.MAPPING_FILE)
@@ -48,10 +48,7 @@ class TestUtils {
                 .getCharContent(false)
                 .toString();
 
-            final List<String> expectedLines =
-                Resources
-                    .asCharSource(localMappings, StandardCharsets.UTF_8)
-                    .readLines();
+            final List<String> expectedLines = readOrGenerateMappings(sourceResourceName, targetResourceName);
 
             assertIterableEquals(expectedLines, removeComments(actualContent));
         } catch (final IOException exception) {
@@ -71,10 +68,26 @@ class TestUtils {
         return compilation;
     }
 
-    static List<String> removeComments(final String content) {
+    private static List<String> removeComments(final String content) {
         return Arrays.stream(content.split(System.lineSeparator()))
             .filter(line -> !line.startsWith("#"))
             .collect(Collectors.toList());
+    }
+
+    private static List<String> readOrGenerateMappings(String sourceResourceName, String targetResourceName) {
+        try {
+            final URL localMappings = Resources.getResource(sourceResourceName + ".properties");
+            return Resources.asCharSource(localMappings, StandardCharsets.UTF_8).readLines();
+        } catch (IllegalArgumentException ignored) {
+            System.out.println("Could not find resource " + sourceResourceName + ".properties, generating one");
+            return Collections.singletonList(String.format(
+                "%s=%s",
+                sourceResourceName.replace('/', '.'),
+                targetResourceName.replace('/', '.')
+            ));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
