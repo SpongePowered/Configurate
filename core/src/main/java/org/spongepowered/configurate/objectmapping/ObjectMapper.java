@@ -296,7 +296,7 @@ public interface ObjectMapper<V> {
              * @return this builder
              * @since 4.0.0
              */
-            default <A extends Annotation> Builder addProcessor(final Class<A> definition, final Processor.Factory<A, Object> factory) {
+            default <A extends Annotation> Builder addProcessor(final Class<A> definition, final Processor.AdvancedFactory<A, Object> factory) {
                 return addProcessor(definition, Object.class, factory);
             }
 
@@ -314,7 +314,7 @@ public interface ObjectMapper<V> {
              * @return this builder
              * @since 4.0.0
              */
-            <A extends Annotation, T> Builder addProcessor(Class<A> definition, Class<T> valueType, Processor.Factory<A, T> factory);
+            <A extends Annotation, T> Builder addProcessor(Class<A> definition, Class<T> valueType, Processor.AdvancedFactory<A, T> factory);
 
             /**
              * Register a {@link Constraint} that will be used to validate fields.

@@ -120,7 +120,7 @@ class ConfigImplementationGenerator {
                 // if it's not void
                 if (!MoreTypes.isTypeOf(Void.TYPE, nodeType)) {
                     // the return type can be a parent type of parameter, but it has to be assignable
-                    if (!processor.typeUtils.isAssignable(parameter.asType(), nodeType)) {
+                    if (!this.processor.typeUtils.isAssignable(parameter.asType(), nodeType)) {
                         throw new IllegalStateException(String.format(
                             "Cannot create a setter with return type %s for argument type %s. Method: %s",
                             nodeType,
@@ -144,8 +144,9 @@ class ConfigImplementationGenerator {
 
             final FieldSpec.Builder fieldSpec = FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE);
 
-            // add default value if it has any
-            DefaultAnnotations.process(element, nodeType, fieldSpec);
+            //todo add tests for hidden in both ap and interfaces and defaults in interfaces
+            AnnotationDefaults.process(element, nodeType, fieldSpec);
+            AnnotationHidden.process(element, fieldSpec);
 
             spec.add(simpleName, fieldSpec);
         }

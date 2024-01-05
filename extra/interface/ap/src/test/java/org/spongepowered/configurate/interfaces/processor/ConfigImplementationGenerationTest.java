@@ -40,4 +40,5 @@ class ConfigImplementationGenerationTest {
     void testMultiLayerCompilation() {
         testCompilation("test/MultiLayerConfig", EXPECT_CONFIG_AND_MAPPING);
     }
+
 }

@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.objectmapping.meta;
 
+import java.lang.reflect.AnnotatedElement;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -42,6 +43,31 @@ public interface Processor<V> {
 
     /**
      * Provider to, given an annotation instance and the type it's on,
+     * create a {@link Processor}. If you don't need access to the other
+     * annotations on the field, you can also choose the simpler {@link Factory}.
+     *
+     * @param <A> annotation type
+     * @param <T> handled value type
+     * @since 4.0.0
+     */
+    @FunctionalInterface
+    interface AdvancedFactory<A extends Annotation, T> {
+
+        /**
+         * Create a new processor given the annotation and data type.
+         *
+         * @param data annotation type on record field
+         * @param value declared field type
+         * @param container container holding the field, with its annotations
+         * @return new processor
+         * @since 4.0.0
+         */
+        Processor<T> make(A data, Type value, AnnotatedElement container);
+
+    }
+
+    /**
+     * Provider to, given an annotation instance and the type it's on,
      * create a {@link Processor}.
      *
      * @param <A> annotation type
@@ -49,7 +75,7 @@ public interface Processor<V> {
      * @since 4.0.0
      */
     @FunctionalInterface
-    interface Factory<A extends Annotation, T> {
+    interface Factory<A extends Annotation, T> extends AdvancedFactory<A, T> {
 
         /**
          * Create a new processor given the annotation and data type.
@@ -61,6 +87,10 @@ public interface Processor<V> {
          */
         Processor<T> make(A data, Type value);
 
+        @Override
+        default Processor<T> make(A data, Type value, AnnotatedElement element) {
+            return make(data, value);
+        }
     }
 
     /**

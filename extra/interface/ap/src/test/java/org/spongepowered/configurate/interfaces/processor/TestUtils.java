@@ -18,9 +18,11 @@ import java.util.stream.Collectors;
 import javax.tools.StandardLocation;
 import org.spongepowered.configurate.interfaces.Constants;
 
-class TestUtils {
+final class TestUtils {
 
     static final int EXPECT_CONFIG_AND_MAPPING = 2;
+
+    private TestUtils() {}
 
     /**
      * Tests whether the compilation is successful and
@@ -74,18 +76,18 @@ class TestUtils {
             .collect(Collectors.toList());
     }
 
-    private static List<String> readOrGenerateMappings(String sourceResourceName, String targetResourceName) {
+    private static List<String> readOrGenerateMappings(final String sourceResourceName, final String targetResourceName) {
         try {
             final URL localMappings = Resources.getResource(sourceResourceName + ".properties");
             return Resources.asCharSource(localMappings, StandardCharsets.UTF_8).readLines();
-        } catch (IllegalArgumentException ignored) {
+        } catch (final IllegalArgumentException ignored) {
             System.out.println("Could not find resource " + sourceResourceName + ".properties, generating one");
             return Collections.singletonList(String.format(
                 "%s=%s",
                 sourceResourceName.replace('/', '.'),
                 targetResourceName.replace('/', '.')
             ));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

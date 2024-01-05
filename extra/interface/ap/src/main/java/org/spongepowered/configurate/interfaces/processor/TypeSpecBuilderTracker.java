@@ -20,7 +20,6 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,7 +44,7 @@ class TypeSpecBuilderTracker {
             if (existingBuild.initializer.isEmpty() && !builderBuild.initializer.isEmpty()) {
                 existing.initializer(builderBuild.initializer);
             }
-            existing.addAnnotations(originalAnnotations(existingBuild.annotations, builderBuild.annotations));
+            existing.addAnnotations(pickNewAnnotations(existingBuild.annotations, builderBuild.annotations));
             return;
         }
         this.fieldSpecs.put(fieldIdentifier, builder);
@@ -54,7 +53,7 @@ class TypeSpecBuilderTracker {
     void add(final String methodIdentifier, final MethodSpec.Builder builder) {
         final MethodSpec.Builder existing = this.methodSpecs.get(methodIdentifier);
         if (existing != null) {
-            existing.addAnnotations(originalAnnotations(existing.build().annotations, builder.build().annotations));
+            existing.addAnnotations(pickNewAnnotations(existing.build().annotations, builder.build().annotations));
             return;
         }
         this.methodSpecs.put(methodIdentifier, builder);
@@ -77,12 +76,20 @@ class TypeSpecBuilderTracker {
         this.typeSpecs.values().forEach(builder::addType);
     }
 
-    private List<AnnotationSpec> originalAnnotations(
-        final List<AnnotationSpec> left,
-        final List<AnnotationSpec> right
+    private List<AnnotationSpec> pickNewAnnotations(
+        final List<AnnotationSpec> existing,
+        final List<AnnotationSpec> newOne
     ) {
-        final List<AnnotationSpec> result = new ArrayList<>(left);
-        result.removeAll(right);
+        final List<AnnotationSpec> result = new ArrayList<>();
+        // only add annotations if they don't already exist
+        outer: for (AnnotationSpec spec : newOne) {
+            for (AnnotationSpec existingSpec : existing) {
+                if (existingSpec.type.equals(spec.type)) {
+                    break outer;
+                }
+            }
+            result.add(spec);
+        }
         return result;
     }
 

@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Prevents the annotated method from being handled as a config node.
  * This is practically only used for default methods, as normal interface
- * methods have to have an implementation.
+ * methods need to have an implementation.
  *
  * @since 4.2.0
  */
