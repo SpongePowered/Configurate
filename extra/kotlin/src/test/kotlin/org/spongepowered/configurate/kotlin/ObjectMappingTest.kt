@@ -83,19 +83,19 @@ class ObjectMappingTest {
     }
 
     // can't be local to the function: https://youtrack.jetbrains.com/issue/KT-42440
-    @ConfigSerializable
-    data class Empty(val empty: String?)
+    @ConfigSerializable data class Empty(val empty: String?)
 
     @ConfigSerializable
     data class ImplicitTest(val test: Set<String>, val help: Map<String, String>, val empty: Empty)
 
     @Test
     fun `collections are initialized implicitly`() {
-        val node = CommentedConfigurationNode.root(
-            ConfigurationOptions.defaults()
-                .implicitInitialization(true)
-                .serializers { it.registerAnnotatedObjects(objectMapperFactory()) },
-        )
+        val node =
+            CommentedConfigurationNode.root(
+                ConfigurationOptions.defaults().implicitInitialization(true).serializers {
+                    it.registerAnnotatedObjects(objectMapperFactory())
+                },
+            )
 
         val tester = objectMapper<ImplicitTest>().load(node)
 

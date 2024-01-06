@@ -1,15 +1,16 @@
 pluginManagement {
     repositories {
         maven {
-            name = "sponge"
-            url = "https://repo.spongepowered.org/repository/maven-public/"
+            name = "stellardriftReleases"
+            url = "https://repo.stellardrift.ca/repository/internal/"
             mavenContent { releasesOnly() }
         }
+        mavenCentral()
     }
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
 }
 
 dependencyResolutionManagement {
@@ -65,5 +66,7 @@ findProject(":extra:extra-interface:ap")?.name = "extra-interface-ap"
 includeBuild 'vendor', {
   name = "configurate-vendor"
 }
-includeBuild 'build-logic'
+includeBuild 'build-logic', {
+    name = "configurate-build-logic"
+}
 

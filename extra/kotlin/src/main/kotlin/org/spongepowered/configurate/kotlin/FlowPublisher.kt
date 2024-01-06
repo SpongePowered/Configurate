@@ -16,6 +16,7 @@
  */
 package org.spongepowered.configurate.kotlin
 
+import java.util.concurrent.Executor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -30,18 +31,19 @@ import org.spongepowered.configurate.reactive.Publisher
 import org.spongepowered.configurate.reactive.Subscriber
 import org.spongepowered.configurate.reactive.TransactionFailedException
 import org.spongepowered.configurate.util.CheckedFunction
-import java.util.concurrent.Executor
 
 internal class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : Publisher<V> {
     private val executor = Executor { task -> scope.launch { task.run() } }
+
     override fun executor(): Executor = this.executor
 
     override fun subscribe(subscriber: Subscriber<in V>): Disposable {
-        val ret = flow
-            .onEach { subscriber.submit(it) }
-            .catch { subscriber.onError(it) }
-            .onCompletion { subscriber.onClose() }
-            .launchIn(scope)
+        val ret =
+            flow
+                .onEach { subscriber.submit(it) }
+                .catch { subscriber.onError(it) }
+                .onCompletion { subscriber.onClose() }
+                .launchIn(scope)
         return Disposable { ret.cancel() }
     }
 
@@ -49,7 +51,9 @@ internal class FlowPublisher<V>(val flow: Flow<V>, val scope: CoroutineScope) : 
         return scope.coroutineContext.isActive
     }
 
-    override fun <R> map(mapper: CheckedFunction<in V, out R, TransactionFailedException>): Publisher<R> {
+    override fun <R> map(
+        mapper: CheckedFunction<in V, out R, TransactionFailedException>
+    ): Publisher<R> {
         return FlowPublisher(flow.map { mapper.apply(it) }, scope)
     }
 }

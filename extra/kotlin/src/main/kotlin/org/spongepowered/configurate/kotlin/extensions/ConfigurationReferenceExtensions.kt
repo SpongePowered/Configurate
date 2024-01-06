@@ -22,16 +22,16 @@ import org.spongepowered.configurate.kotlin.typeTokenOf
 import org.spongepowered.configurate.reference.ConfigurationReference
 import org.spongepowered.configurate.reference.ValueReference
 
-/**
- * Create a flow with events for every refresh of a value backing this reference
- */
-inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.flowOf(vararg path: Any): Flow<T> {
+/** Create a flow with events for every refresh of a value backing this reference */
+inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.flowOf(
+    vararg path: Any
+): Flow<T> {
     return this.referenceTo<T>(typeTokenOf(), *path).asFlow()
 }
 
-/**
- * Get a reference to the value of type [T] at [path].
- */
-inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.referenceTo(vararg path: Any): ValueReference<T, N> {
+/** Get a reference to the value of type [T] at [path]. */
+inline fun <reified T : Any, N : ScopedConfigurationNode<N>> ConfigurationReference<N>.referenceTo(
+    vararg path: Any
+): ValueReference<T, N> {
     return this.referenceTo(typeTokenOf(), *path)
 }

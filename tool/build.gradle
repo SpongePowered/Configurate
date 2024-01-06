@@ -1,5 +1,4 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import kotlinx.coroutines.scheduling.TasksKt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -32,12 +31,12 @@ tasks.withType(KotlinCompile).configureEach {
 
 tasks.jar.configure {
     manifest.attributes "Specification-Version": project.version,
-         "Implementation-Version": project.version
+    "Implementation-Version": project.version
 }
 
 tasks.distTar.configure {
-  compression = Compression.GZIP
-  archiveExtension = 'tar.gz'
+    compression = Compression.GZIP
+    archiveExtension = 'tar.gz'
 }
 
 tasks.withType(Detekt).configureEach {

@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jason Penilla <11360596+jpenilla@users.noreply.github.com>
+Date: Tue, 21 Nov 2023 22:48:39 -0700
+Subject: [PATCH] Convert windows line endings in triple quoted strings
+
+
+diff --git a/config/src/main/java/com/typesafe/config/impl/Tokenizer.java b/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
+index 0295ea5828b8a30fa261e90fcc5b907a5b499a9c..28585258893a5105cb2c8d482b9b16d1cb3e14e5 100644
+--- a/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
++++ b/config/src/main/java/com/typesafe/config/impl/Tokenizer.java
+@@ -452,6 +452,7 @@ final class Tokenizer {
+             int consecutiveQuotes = 0;
+             for (;;) {
+                 int c = nextCharRaw();
++                c = handleWindowsLineEndings(c);
+ 
+                 if (c == '"') {
+                     consecutiveQuotes += 1;
+@@ -477,6 +478,18 @@ final class Tokenizer {
+             }
+         }
+ 
++        private int handleWindowsLineEndings(int c) {
++            if (c == '\r') {
++                int nextC = nextCharRaw();
++                if (nextC == '\n') {
++                    c = '\n';
++                } else {
++                    putBack(nextC);
++                }
++            }
++            return c;
++        }
++
+         private Token pullQuotedString() throws ProblemException {
+             // the open quote has already been consumed
+             StringBuilder sb = new StringBuilder();

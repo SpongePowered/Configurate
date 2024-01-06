@@ -29,7 +29,7 @@ jobs:
     steps:
       # Setup
       - name: Check out
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # checkout full history for site generation
           submodules: recursive
@@ -38,7 +38,7 @@ jobs:
           git config --global user.email "noreply@spongepowered.org"
           git config --global user.name "github-actions"
       - name: "Setup JDK ${{ env.JAVA_VERSION }}"
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "${{ env.JAVA_VERSION }}"
@@ -52,6 +52,7 @@ jobs:
           arguments: build
       - name: Archive test results
         uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
           name: "test-results-${{ runner.os }}"
           path: |
@@ -59,6 +60,8 @@ jobs:
             */build/reports/
             format/*/build/reports/
             extra/*/build/reports/
+            vendor/*/build/reports/
+            vendor/*/*/build/reports/
 
       # Then deploy, but only on the main branch
       - name: Determine status
@@ -92,14 +95,14 @@ jobs:
           ORG_GRADLE_PROJECT_spongeKeyStorePassword: "${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}"
       - name: Publish to GH pages
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           branch: gh-pages
           force: false
           folder: build/gitPublish
       - name: Publish Javadoc to Sponge index
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           folder: build/publish-jd
           ssh-key: "${{ secrets.SPONGE_JD_DEPLOY_KEY }}"

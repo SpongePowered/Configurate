@@ -24,26 +24,23 @@ import kotlinx.coroutines.flow.callbackFlow
 import org.spongepowered.configurate.reactive.Publisher
 import org.spongepowered.configurate.reactive.Subscriber
 
-/**
- * Given an [Publisher] instance, return a new [Flow] emitting values from the Flow
- */
+/** Given an [Publisher] instance, return a new [Flow] emitting values from the Flow */
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <V : Any> Publisher<V>.asFlow(): Flow<V> = callbackFlow {
-    val observer = object : Subscriber<V> {
-        override fun submit(item: V) {
-            sendBlocking(item)
-        }
+    val observer =
+        object : Subscriber<V> {
+            override fun submit(item: V) {
+                sendBlocking(item)
+            }
 
-        override fun onError(thrown: Throwable) {
-            close(thrown)
-        }
+            override fun onError(thrown: Throwable) {
+                close(thrown)
+            }
 
-        override fun onClose() {
-            close()
+            override fun onClose() {
+                close()
+            }
         }
-    }
     val dispose = subscribe(observer)
-    awaitClose {
-        dispose.dispose()
-    }
+    awaitClose { dispose.dispose() }
 }

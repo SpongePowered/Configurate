@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate.kotlin.examples
 
+import java.nio.file.Path
 import org.spongepowered.configurate.kotlin.dataClassFieldDiscoverer
 import org.spongepowered.configurate.loader.ConfigurationLoader
 import org.spongepowered.configurate.objectmapping.ObjectMapper
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
-import java.nio.file.Path
 
 fun createLoader(source: Path): ConfigurationLoader<*> {
     // Create a new yaml loader for the target that uses options customized to
@@ -30,9 +30,7 @@ fun createLoader(source: Path): ConfigurationLoader<*> {
         .defaultOptions {
             it.serializers { s ->
                 s.registerAnnotatedObjects(
-                    ObjectMapper.factoryBuilder()
-                        .addDiscoverer(dataClassFieldDiscoverer())
-                        .build(),
+                    ObjectMapper.factoryBuilder().addDiscoverer(dataClassFieldDiscoverer()).build(),
                 )
             }
         }

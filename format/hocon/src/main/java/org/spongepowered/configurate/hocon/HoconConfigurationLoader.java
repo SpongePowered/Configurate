@@ -26,6 +26,7 @@ import com.typesafe.config.ConfigOriginFactory;
 import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
+import com.typesafe.config.impl.ConfigNodeComment;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
@@ -45,7 +46,6 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +93,8 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
      * <dl>
      *     <dt>&lt;prefix&gt;.hocon.pretty-printing</dt>
      *     <dd>Equivalent to {@link #prettyPrinting(boolean)}</dd>
+     *     <dt>&lt;prefix&gt;.hocon.indent</dt>
+     *     <dd>Equivalent to {@link #indent(int)}</dd>
      *     <dt>&lt;prefix&gt;.hocon.emit-comments</dt>
      *     <dd>Equivalent to {@link #emitComments(boolean)}</dd>
      *     <dt>&lt;prefix&gt;.hocon.json-compatible</dt>
@@ -112,6 +114,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         protected void populate(final LoaderOptionSource options) {
             this.render = this.render
                 .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))
+                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"))
                 .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))
                 .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));
         }
@@ -119,16 +122,27 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         /**
          * Set whether output from this loader will be pretty-printed or not.
          *
-         * <p>Output will always print with a fixed indent of 4 spaces per
-         * level. This is a limitation of the underlying library, so it may
-         * become customizable at some point in the future.</p>
-         *
          * @param prettyPrinting whether to pretty-print
          * @return this builder
          * @since 4.0.0
          */
         public Builder prettyPrinting(final boolean prettyPrinting) {
             this.render = this.render.setFormatted(prettyPrinting);
+            return this;
+        }
+
+        /**
+         * Set the amount of spaces to indent with when
+         * {@link #prettyPrinting(boolean)} is on.
+         *
+         * <p>Defaults to 4.</p>
+         *
+         * @param indent indent level
+         * @return this builder
+         * @since 4.2.0
+         */
+        public Builder indent(final int indent) {
+            this.render = this.render.setIndent(indent);
             return this;
         }
 
@@ -204,7 +218,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
         if (!value.origin().comments().isEmpty()) {
             node.comment(value.origin().comments().stream()
                 .map(input -> {
-                    final String lineStripped = input.replace("\r", "");
+                    final String lineStripped = input.commentText().replace("\r", "");
                     if (!lineStripped.isEmpty() && lineStripped.charAt(0) == ' ') {
                         return lineStripped.substring(1);
                     } else {
@@ -280,7 +294,16 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
             final CommentedConfigurationNodeIntermediary<?> commentedNode = (CommentedConfigurationNodeIntermediary<?>) node;
             final @Nullable String origComment = commentedNode.comment();
             if (origComment != null) {
-                ret = ret.withOrigin(ret.origin().withComments(Arrays.asList(CONFIGURATE_LINE_PATTERN.split(origComment))));
+                final List<ConfigNodeComment> nodes = new ArrayList<>();
+                for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {
+                    if (line.length() != 0 && line.charAt(0) == '#') {
+                        // allow lines that are only the comment character, for box drawing
+                        nodes.add(ConfigNodeComment.hashComment(line));
+                    } else {
+                        nodes.add(ConfigNodeComment.hashComment(' ' + line));
+                    }
+                }
+                ret = ret.withOrigin(ret.origin().withComments(nodes));
             }
         }
         return ret;

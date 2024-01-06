@@ -16,21 +16,23 @@
  */
 package org.spongepowered.configurate.kotlin
 
+import java.net.URL
+import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.spongepowered.configurate.AttributedConfigurationNode
 import org.spongepowered.configurate.ScopedConfigurationNode
-import java.net.URL
-import java.util.UUID
 
 class BuildersTest {
     @Test
     fun testBuildAttributed() {
-        attributed("ServerPack", "version" to "1.15.2", "url" to "https://permissionsex.stellardrift.ca") {
+        attributed(
+            "ServerPack",
+            "version" to "1.15.2",
+            "url" to "https://permissionsex.stellardrift.ca"
+        ) {
             this.node("a").set("Hello")
             this.node("Game, over").set(5)
-            child("Haa") {
-                set("nope")
-            }
+            child("Haa") { set("nope") }
             child("list", "parameter" to "test") {
                 comment("I'm a list!")
                 this += "hello"
@@ -42,9 +44,7 @@ class BuildersTest {
     @Test
     fun testBuildCommented() {
         commented {
-            child("a", value = "b") {
-                comment("The most important thing")
-            }
+            child("a", value = "b") { comment("The most important thing") }
             this.node("cow").set("potato")
             set(UUID.randomUUID())
         }
@@ -65,7 +65,11 @@ private val NO_VALUE: Any = Any()
 
 // Creating children
 
-fun <N : ScopedConfigurationNode<N>> N.child(vararg path: Any, value: Any? = NO_VALUE, init: N.() -> Unit = {}) {
+fun <N : ScopedConfigurationNode<N>> N.child(
+    vararg path: Any,
+    value: Any? = NO_VALUE,
+    init: N.() -> Unit = {}
+) {
     val node = this.node(*path)
     if (value != NO_VALUE) {
         node.set(value)

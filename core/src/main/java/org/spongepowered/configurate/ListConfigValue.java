@@ -50,13 +50,32 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
     };
 
     /**
-     * Return whether a key is likely to be an index into a list.
+     * Return whether a key is likely to create a new list.
      *
      * @param key key to check
-     * @return if the key is likely to be a list index
+     * @return if the key is likely to create a new list.
      */
-    static boolean likelyListKey(final @Nullable Object key) {
+    static boolean likelyNewListKey(final @Nullable Object key) {
         return (key instanceof Integer && ((Integer) key).intValue() == 0) || key == UNALLOCATED_IDX;
+    }
+
+    /**
+     * Return whether a key is likely to be an index into a list.
+     *
+     * @param configValue the list to check
+     * @param key         key to check
+     * @return if the key is likely to be  an index into a list.
+     */
+    static boolean likelyListKey(final @Nullable ConfigValue<?, ?> configValue, final @Nullable Object key) {
+        if (!(configValue instanceof ListConfigValue<?, ?>)) {
+            return false;
+        }
+        if (!(key instanceof Integer)) {
+            return false;
+        }
+        final ListConfigValue<?, ?> listConfigValue = (ListConfigValue<?, ?>) configValue;
+        final int keyAsInt = (Integer) key;
+        return keyAsInt >= 0 && keyAsInt <= listConfigValue.values.size();
     }
 
     private final A holder;

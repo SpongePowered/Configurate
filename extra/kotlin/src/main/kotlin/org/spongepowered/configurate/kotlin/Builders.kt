@@ -23,21 +23,21 @@ import org.spongepowered.configurate.ConfigurationOptions
 
 // Factory methods //
 
-/**
- * Create a new basic configuration node, optionally providing options.
- */
-fun node(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: BasicConfigurationNode.() -> Unit): BasicConfigurationNode =
-    BasicConfigurationNode.root<RuntimeException>(options, init)
+/** Create a new basic configuration node, optionally providing options. */
+fun node(
+    options: ConfigurationOptions = ConfigurationOptions.defaults(),
+    init: BasicConfigurationNode.() -> Unit
+): BasicConfigurationNode = BasicConfigurationNode.root<RuntimeException>(options, init)
+
+/** Create a commented configuration node. */
+fun commented(
+    options: ConfigurationOptions = ConfigurationOptions.defaults(),
+    init: CommentedConfigurationNode.() -> Unit
+): CommentedConfigurationNode = CommentedConfigurationNode.root<RuntimeException>(options, init)
 
 /**
- * Create a commented configuration node.
- */
-fun commented(options: ConfigurationOptions = ConfigurationOptions.defaults(), init: CommentedConfigurationNode.() -> Unit): CommentedConfigurationNode =
-    CommentedConfigurationNode.root<RuntimeException>(options, init)
-
-/**
- * Create a new attributed configuration node, with all [attributes] applied,
- * the provided options, and running [init] to initialize the node.
+ * Create a new attributed configuration node, with all [attributes] applied, the provided options,
+ * and running [init] to initialize the node.
  */
 fun attributed(
     nodeName: String = "root",
