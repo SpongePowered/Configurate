@@ -32,8 +32,8 @@ class ConfigurateExtension {
             options.links(
                 'https://lightbend.github.io/config/latest/api/',
                 'https://fasterxml.github.io/jackson-core/javadoc/2.10/',
-                "https://javadocs.dev/org.checkerframework/checker-qual/${libs.findVersion('checkerQual').get().requiredVersion}/",
-                "https://javadocs.dev/io.leangen.geantyref/geantyref/${libs.findVersion('geantyref').get().requiredVersion}/"
+                // "https://javadocs.dev/org.checkerframework/checker-qual/${libs.findVersion('checkerQual').get().requiredVersion}/",
+                // "https://javadocs.dev/io.leangen.geantyref/geantyref/${libs.findVersion('geantyref').get().requiredVersion}/"
             )
 
             options.addBooleanOption('html5', true)
