@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
         maven {
-            name = "sponge"
-            url = "https://repo.spongepowered.org/repository/maven-public/"
+            name = "stellardriftReleases"
+            url = "https://repo.stellardrift.ca/repository/internal/"
             mavenContent { releasesOnly() }
         }
     }
