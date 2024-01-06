@@ -2,12 +2,14 @@ package org.spongepowered.configurate.interfaces.processor;
 
 import static com.google.testing.compile.CompilationSubject.assertThat;
 import static com.google.testing.compile.Compiler.javac;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import com.google.common.io.Resources;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
+import javax.tools.StandardLocation;
+import org.spongepowered.configurate.interfaces.Constants;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -15,12 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.tools.StandardLocation;
-import org.spongepowered.configurate.interfaces.Constants;
 
 final class TestUtils {
-
-    static final int EXPECT_CONFIG_AND_MAPPING = 2;
 
     private TestUtils() {
     }
@@ -46,7 +44,7 @@ final class TestUtils {
         try {
 
             final String actualContent = compilation
-                .generatedFile(StandardLocation.SOURCE_OUTPUT, Constants.MAPPING_FILE)
+                .generatedFile(StandardLocation.CLASS_OUTPUT, Constants.MAPPING_FILE)
                 .orElseThrow(() -> new IllegalStateException("Expected the interface mappings file to be created"))
                 .getCharContent(false)
                 .toString();
@@ -58,14 +56,6 @@ final class TestUtils {
             throw new RuntimeException(exception);
         }
 
-        // can't use compilation.generatedSourceFiles because the mapping
-        // file is written to the source output, but isn't a source file
-        assertEquals(
-            EXPECT_CONFIG_AND_MAPPING,
-            compilation.generatedFiles().stream()
-                .filter(file -> file.getName().startsWith("/SOURCE_OUTPUT/"))
-                .count()
-        );
         return compilation;
     }
 

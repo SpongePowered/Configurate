@@ -124,7 +124,7 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
     private void writeMappings() {
         final FileObject resource;
         try {
-            resource = this.filer.createResource(StandardLocation.SOURCE_OUTPUT, "", Constants.MAPPING_FILE);
+            resource = this.filer.createResource(StandardLocation.CLASS_OUTPUT, "", Constants.MAPPING_FILE);
             try (Writer writer = resource.openWriter()) {
                 this.mappings.store(writer, null);
             }

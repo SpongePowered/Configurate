@@ -1,6 +1,6 @@
 package org.spongepowered.configurate.interfaces;
 
-import com.google.common.base.Splitter;
+import java.util.Arrays;
 
 final class TypeUtils {
 
@@ -25,14 +25,13 @@ final class TypeUtils {
 
         // every subclass and the class itself has 'Impl' behind it
         final String implClassName =
-            Splitter.on('.')
-                .splitToStream(classHierarchy)
-                .reduce("", (reduced, current) -> {
-                    if (!reduced.isEmpty()) {
-                        reduced += "$";
-                    }
-                    return reduced + current + "Impl";
-                });
+                Arrays.stream(classHierarchy.split("\\."))
+                        .reduce("", (reduced, current) -> {
+                            if (!reduced.isEmpty()) {
+                                reduced += "$";
+                            }
+                            return reduced + current + "Impl";
+                        });
         return packageName + "." + implClassName;
     }
 

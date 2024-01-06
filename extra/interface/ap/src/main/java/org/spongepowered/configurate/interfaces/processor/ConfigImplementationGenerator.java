@@ -51,7 +51,8 @@ class ConfigImplementationGenerator {
         tracker.writeTo(spec);
 
         final String qualifiedName = className.reflectionName();
-        this.processor.generatedClasses().put(qualifiedName, qualifiedName + "Impl");
+        final String qualifiedImplName = qualifiedName.replace("$", "Impl$") + "Impl";
+        this.processor.generatedClasses().put(qualifiedName, qualifiedImplName);
         this.processor.info("Generated implementation for %s", this.source);
 
         return spec;

@@ -34,9 +34,9 @@ class InterfaceTypeSerializerTest {
         // doesn't deserialize if value is NullValue
         node.node("hello").set("world");
 
-        final @Nullable TestConfig config = Assertions.assertDoesNotThrow(() -> node.get(TestConfig.class));
+        final @Nullable ConfigEmpty config = Assertions.assertDoesNotThrow(() -> node.get(ConfigEmpty.class));
         assertNotNull(config);
-        assertInstanceOf(configImplementationFor(TestConfig.class), config);
+        assertInstanceOf(configImplementationFor(ConfigEmpty.class), config);
     }
 
     @Test
@@ -45,10 +45,10 @@ class InterfaceTypeSerializerTest {
         // doesn't deserialize if value is NullValue
         node.node("hello").set("world");
 
-        final TestConfig.@Nullable TestInnerConfig config =
-            Assertions.assertDoesNotThrow(() -> node.get(TestConfig.TestInnerConfig.class));
+        final ConfigEmpty.@Nullable ConfigEmptyInner config =
+            Assertions.assertDoesNotThrow(() -> node.get(ConfigEmpty.ConfigEmptyInner.class));
         assertNotNull(config);
-        assertInstanceOf(configImplementationFor(TestConfig.TestInnerConfig.class), config);
+        assertInstanceOf(configImplementationFor(ConfigEmpty.ConfigEmptyInner.class), config);
     }
 
 }

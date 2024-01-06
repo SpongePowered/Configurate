@@ -19,9 +19,9 @@ package org.spongepowered.configurate.interfaces;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 @ConfigSerializable
-interface TestConfig {
+interface ConfigEmpty {
 
     @ConfigSerializable
-    interface TestInnerConfig {}
+    interface ConfigEmptyInner {}
 
 }
