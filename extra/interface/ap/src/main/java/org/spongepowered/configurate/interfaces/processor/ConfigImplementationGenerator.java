@@ -19,6 +19,7 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import org.spongepowered.configurate.interfaces.meta.Exclude;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.PostProcess;
 
 class ConfigImplementationGenerator {
 
@@ -80,6 +81,11 @@ class ConfigImplementationGenerator {
             }
 
             final ExecutableElement element = (ExecutableElement) enclosedElement;
+
+            if (hasAnnotation(element, PostProcess.class)) {
+                // A postprocess annotated method is not a config node
+                continue;
+            }
 
             final boolean excluded = hasAnnotation(element, Exclude.class);
             if (element.isDefault()) {
@@ -147,6 +153,8 @@ class ConfigImplementationGenerator {
             //todo add tests for hidden in both ap and interfaces and defaults in interfaces
             AnnotationDefaults.process(element, nodeType, fieldSpec);
             AnnotationHidden.process(element, fieldSpec);
+            // add Configurate's build-in annotations as well
+            AnnotationConfigurate.process(element, fieldSpec);
 
             spec.add(simpleName, fieldSpec);
         }

@@ -41,4 +41,9 @@ class ConfigImplementationGenerationTest {
         testCompilation("test/MultiLayerConfig", EXPECT_CONFIG_AND_MAPPING);
     }
 
+    @Test
+    void testConfigurateAnnotationsCompilation() {
+        testCompilation("test/ConfigurateAnnotations", EXPECT_CONFIG_AND_MAPPING);
+    }
+
 }
