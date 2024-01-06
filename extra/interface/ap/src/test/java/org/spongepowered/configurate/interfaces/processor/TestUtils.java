@@ -22,13 +22,14 @@ final class TestUtils {
 
     static final int EXPECT_CONFIG_AND_MAPPING = 2;
 
-    private TestUtils() {}
+    private TestUtils() {
+    }
 
     /**
-     * Tests whether the compilation is successful and
-     * that the correct mappings have been made
+     * Tests whether the compilation is successful, that the correct mappings
+     * have been made and that the generated impl matches the expected impl.
      */
-    static Compilation testCompilation(final String sourceResourceName, final int expectedSourceCount) {
+    static Compilation testCompilation(final String sourceResourceName) {
         final Compilation compilation =
             javac()
                 .withProcessors(new ConfigImplementationGeneratorProcessor())
@@ -57,16 +58,14 @@ final class TestUtils {
             throw new RuntimeException(exception);
         }
 
-        if (expectedSourceCount != -1) {
-            // can't use compilation.generatedSourceFiles because the mapping
-            // file is written to the source output, but isn't a source file
-            assertEquals(
-                expectedSourceCount,
-                compilation.generatedFiles().stream()
-                    .filter(file -> file.getName().startsWith("/SOURCE_OUTPUT/"))
-                    .count()
-            );
-        }
+        // can't use compilation.generatedSourceFiles because the mapping
+        // file is written to the source output, but isn't a source file
+        assertEquals(
+            EXPECT_CONFIG_AND_MAPPING,
+            compilation.generatedFiles().stream()
+                .filter(file -> file.getName().startsWith("/SOURCE_OUTPUT/"))
+                .count()
+        );
         return compilation;
     }
 

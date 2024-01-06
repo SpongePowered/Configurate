@@ -45,8 +45,14 @@ import javax.tools.StandardLocation;
 import org.spongepowered.configurate.interfaces.Constants;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
+/**
+ * Generates an implementation for a given interface based config,
+ * which then can be read by Configurate.
+ *
+ * @since 4.2.0
+ */
 @AutoService(Processor.class)
-class ConfigImplementationGeneratorProcessor extends AbstractProcessor {
+public final class ConfigImplementationGeneratorProcessor extends AbstractProcessor {
 
     private final Properties mappings = new Properties();
     Types typeUtils;

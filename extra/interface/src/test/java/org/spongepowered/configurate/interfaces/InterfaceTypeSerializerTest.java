@@ -18,6 +18,7 @@ package org.spongepowered.configurate.interfaces;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.spongepowered.configurate.interfaces.TypeUtils.configImplementationFor;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Assertions;
@@ -35,7 +36,7 @@ class InterfaceTypeSerializerTest {
 
         final @Nullable TestConfig config = Assertions.assertDoesNotThrow(() -> node.get(TestConfig.class));
         assertNotNull(config);
-        assertInstanceOf(TestConfigImpl.class, config);
+        assertInstanceOf(configImplementationFor(TestConfig.class), config);
     }
 
     @Test
@@ -47,7 +48,7 @@ class InterfaceTypeSerializerTest {
         final TestConfig.@Nullable TestInnerConfig config =
             Assertions.assertDoesNotThrow(() -> node.get(TestConfig.TestInnerConfig.class));
         assertNotNull(config);
-        assertInstanceOf(TestConfigImpl.TestInnerConfig.class, config);
+        assertInstanceOf(configImplementationFor(TestConfig.TestInnerConfig.class), config);
     }
 
 }

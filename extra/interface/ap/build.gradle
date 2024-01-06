@@ -9,6 +9,7 @@ dependencies {
     implementation projects.extra.extraInterface
     implementation libs.javapoet
     implementation libs.auto.service
+    annotationProcessor libs.auto.service
 
     testImplementation libs.compile.testing
 }

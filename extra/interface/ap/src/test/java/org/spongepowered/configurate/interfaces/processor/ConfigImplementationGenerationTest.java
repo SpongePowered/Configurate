@@ -16,7 +16,6 @@
  */
 package org.spongepowered.configurate.interfaces.processor;
 
-import static org.spongepowered.configurate.interfaces.processor.TestUtils.EXPECT_CONFIG_AND_MAPPING;
 import static org.spongepowered.configurate.interfaces.processor.TestUtils.testCompilation;
 
 import org.junit.experimental.runners.Enclosed;
@@ -28,22 +27,22 @@ class ConfigImplementationGenerationTest {
 
     @Test
     void testBasicCompilation() {
-        testCompilation("test/BasicConfig", EXPECT_CONFIG_AND_MAPPING);
+        testCompilation("test/BasicConfig");
     }
 
     @Test
     void testExtendedCompilation() {
-        testCompilation("test/ExtendedConfig", EXPECT_CONFIG_AND_MAPPING);
+        testCompilation("test/ExtendedConfig");
     }
 
     @Test
     void testMultiLayerCompilation() {
-        testCompilation("test/MultiLayerConfig", EXPECT_CONFIG_AND_MAPPING);
+        testCompilation("test/MultiLayerConfig");
     }
 
     @Test
     void testConfigurateAnnotationsCompilation() {
-        testCompilation("test/ConfigurateAnnotations", EXPECT_CONFIG_AND_MAPPING);
+        testCompilation("test/ConfigurateAnnotations");
     }
 
 }

@@ -6,5 +6,7 @@ description = "Utility classes for generated config interface implementations"
 
 dependencies {
     compileOnly projects.core
+
+    testAnnotationProcessor projects.extra.extraInterface.extraInterfaceAp
     testImplementation projects.core
 }
