@@ -202,7 +202,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>default &lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a></span>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.14/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toListCollector(io.leangen.geantyref.TypeToken)">toListCollector</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to a newly created node as
  list children.</div>
@@ -218,7 +218,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>default &lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a></span>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.14/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toMapCollector(io.leangen.geantyref.TypeToken)">toMapCollector</a></span>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</code></th>
 <td class="colLast">
 <div class="block">Create a collector that appends values to a newly created node as
  map children.</div>
@@ -367,7 +367,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>toMapCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.117">toMapCollector</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.14/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;java.util.Map.Entry&lt;?,&#8203;V&gt;,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.117">toMapCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  map children.
 
@@ -413,7 +413,7 @@ public interface <a href="../../../src-html/org/spongepowered/configurate/Config
 <ul class="blockList">
 <li class="blockList">
 <h4>toListCollector</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.165">toListCollector</a>&#8203;(<a href="https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/1.3.14/io/leangen/geantyref/TypeToken.html?is-external=true" title="class or interface in io.leangen.geantyref" class="externalLink">TypeToken</a>&lt;V&gt;&nbsp;valueType)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;java.util.stream.Collector&lt;V,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>,&#8203;<a href="ConfigurationNodeFactory.html" title="type parameter in ConfigurationNodeFactory">N</a>&gt;&nbsp;<a href="../../../src-html/org/spongepowered/configurate/ConfigurationNodeFactory.html#line.165">toListCollector</a>&#8203;(io.leangen.geantyref.TypeToken&lt;V&gt;&nbsp;valueType)</pre>
 <div class="block">Create a collector that appends values to a newly created node as
  list children.
 
