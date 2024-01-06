@@ -317,6 +317,44 @@ public interface ObjectMapper<V> {
             <A extends Annotation, T> Builder addProcessor(Class<A> definition, Class<T> valueType, Processor.Factory<A, T> factory);
 
             /**
+             * Register a {@link Processor} that will process fields after write.
+             * The difference between an AdvancedFactory and a Factory is that
+             * an AdvancedFactory has access to all the annotations on the
+             * field, which makes more advanced processors possible.
+             *
+             * <p>Processors registered without a specific data type should be
+             * able to operate on any value type.</p>
+             *
+             * @param definition annotation providing data
+             * @param factory factory for callback function
+             * @param <A> annotation type
+             * @return this builder
+             * @since 4.0.0
+             */
+            default <A extends Annotation> Builder addProcessor(final Class<A> definition, final Processor.AdvancedFactory<A, Object> factory) {
+                return addProcessor(definition, Object.class, factory);
+            }
+
+            /**
+             * Register a {@link Processor} that will process fields after write.
+             * The difference between an AdvancedFactory and a Factory is that
+             * an AdvancedFactory has access to all the annotations on the
+             * field, which makes more advanced processors possible.
+             *
+             * <p>All value types will be tested against types normalized to
+             * their boxed variants.</p>
+             *
+             * @param definition annotation providing data
+             * @param valueType value types the processor will handle
+             * @param factory factory for callback function
+             * @param <A> annotation type
+             * @param <T> data type
+             * @return this builder
+             * @since 4.0.0
+             */
+            <A extends Annotation, T> Builder addProcessor(Class<A> definition, Class<T> valueType, Processor.AdvancedFactory<A, T> factory);
+
+            /**
              * Register a {@link Constraint} that will be used to validate fields.
              *
              * <p>Constraints registered without a specific data type will be

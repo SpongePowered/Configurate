@@ -14,27 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spongepowered.configurate.objectmapping.meta;
+package org.spongepowered.configurate.interfaces.meta;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.SubtypeOf;
-
-import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that a field is required.
+ * Prevents the annotated method from being handled as a config node.
+ * This is practically only used for default methods, as normal interface
+ * methods need to have an implementation.
  *
- * <p>Loading will fail if this field has a null value.</p>
- *
- * @since 4.0.0
+ * @since 4.2.0
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
-@SubtypeOf(NonNull.class)
-public @interface Required {
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.METHOD)
+public @interface Exclude {
 }

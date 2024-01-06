@@ -25,6 +25,17 @@ import static io.leangen.geantyref.GenericTypeReflector.updateAnnotations;
 import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.GenericTypeReflector;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -41,18 +52,6 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.NamingScheme;
 import org.spongepowered.configurate.util.NamingSchemes;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Factory for a basic {@link ObjectMapper}.
@@ -72,7 +71,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
     private final List<NodeResolver.Factory> resolverFactories;
     private final List<FieldDiscoverer<?>> fieldDiscoverers;
     private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>>> constraints;
-    private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Processor.Factory<?, ?>>>> processors;
+    private final Map<Class<? extends Annotation>, List<Definition<?, ?, ? extends Processor.AdvancedFactory<?, ?>>>> processors;
     private final List<PostProcessor.Factory> postProcessors;
 
     ObjectMapperFactoryImpl(final Builder builder) {
@@ -97,7 +96,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         this.constraints.values().forEach(Collections::reverse);
 
         this.processors = new HashMap<>();
-        for (final Definition<?, ?, ? extends Processor.Factory<?, ?>> def : builder.processors) {
+        for (final Definition<?, ?, ? extends Processor.AdvancedFactory<?, ?>> def : builder.processors) {
             this.processors.computeIfAbsent(def.annotation(), k -> new ArrayList<>()).add(def);
         }
         this.processors.values().forEach(Collections::reverse);
@@ -206,11 +205,11 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
                 }
             }
 
-            final List<Definition<?, ?, ? extends Processor.Factory<?, ?>>> processorDefs = this.processors.get(annotation.annotationType());
+            final List<Definition<?, ?, ? extends Processor.AdvancedFactory<?, ?>>> processorDefs = this.processors.get(annotation.annotationType());
             if (processorDefs != null) {
-                for (final Definition<?, ?, ? extends Processor.Factory<?, ?>> processorDef : processorDefs) {
+                for (final Definition<?, ?, ? extends Processor.AdvancedFactory<?, ?>> processorDef : processorDefs) {
                     if (isSuperType(processorDef.type(), normalizedType)) {
-                        processors.add(((Processor.Factory) processorDef.factory()).make(annotation, type.getType()));
+                        processors.add(((Processor.AdvancedFactory) processorDef.factory()).make(annotation, type.getType(), container));
                     }
                 }
             }
@@ -356,7 +355,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         private final List<NodeResolver.Factory> resolvers = new ArrayList<>();
         private final List<FieldDiscoverer<?>> discoverer = new ArrayList<>();
         private final List<Definition<?, ?, ? extends Constraint.Factory<?, ?>>> constraints = new ArrayList<>();
-        private final List<Definition<?, ?, ? extends Processor.Factory<?, ?>>> processors = new ArrayList<>();
+        private final List<Definition<?, ?, ? extends Processor.AdvancedFactory<?, ?>>> processors = new ArrayList<>();
         private final List<PostProcessor.Factory> postProcessors = new ArrayList<>();
 
         @Override
@@ -380,6 +379,13 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
         @Override
         public <A extends Annotation, T> Builder addProcessor(final Class<A> definition, final Class<T> valueType,
                 final Processor.Factory<A, T> factory) {
+            this.processors.add(Definition.of(definition, valueType, factory));
+            return this;
+        }
+
+        @Override
+        public <A extends Annotation, T> Builder addProcessor(final Class<A> definition, final Class<T> valueType,
+                final Processor.AdvancedFactory<A, T> factory) {
             this.processors.add(Definition.of(definition, valueType, factory));
             return this;
         }

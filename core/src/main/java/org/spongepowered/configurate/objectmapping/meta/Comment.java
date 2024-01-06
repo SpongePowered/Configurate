@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
  *
  * @since 4.0.0
  */
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Comment {
 
