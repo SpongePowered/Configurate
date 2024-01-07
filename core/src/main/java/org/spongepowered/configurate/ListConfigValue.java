@@ -124,7 +124,7 @@ final class ListConfigValue<N extends ScopedConfigurationNode<N>, A extends Abst
         if (!(value instanceof Collection)) {
             value = Collections.singleton(value);
         }
-        final Collection<@Nullable ?> valueAsList = (Collection<@Nullable ?>) value;
+        final Collection<? extends @Nullable Object> valueAsList = (Collection<? extends @Nullable Object>) value;
         final List<A> newValue = new ArrayList<>(valueAsList.size());
 
         int count = 0;

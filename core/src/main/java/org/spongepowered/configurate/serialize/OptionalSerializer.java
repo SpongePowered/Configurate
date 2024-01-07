@@ -55,6 +55,7 @@ final class OptionalSerializer implements TypeSerializer.Annotated<Optional<?>> 
     }
 
     @Override
+    @SuppressWarnings("NullableOptional") // needed for type signature
     public void serialize(final AnnotatedType type, final @Nullable Optional<?> obj, final ConfigurationNode node) throws SerializationException {
         if (obj == null || !obj.isPresent()) {
             node.set(null);

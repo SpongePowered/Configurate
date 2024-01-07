@@ -24,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * A registration that is transaction-aware.
  *
  * @param <V> value type
+ * @since 4.0.0
  */
 interface TransactionalRegistration<V> extends AbstractProcessor.Registration<V> {
 

@@ -20,6 +20,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The value in a {@link ConfigurationNode}.
+ *
+ * @since 4.0.0
  */
 interface ConfigValue<N extends ScopedConfigurationNode<N>, A extends AbstractConfigurationNode<N, A>> {
 
