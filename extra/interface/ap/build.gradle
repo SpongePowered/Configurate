@@ -18,8 +18,12 @@ dependencies {
 tasks.withType(Javadoc).configureEach { enabled = false }
 
 tasks.withType(Test).configureEach {
-    // See: https://github.com/google/compile-testing/issues/222
-    jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED'
-    jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED'
-    jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED'
+    doFirst {
+        // See: https://github.com/google/compile-testing/issues/222
+        if (javaLauncher.get().metadata.languageVersion >= JavaLanguageVersion.of(9)) {
+            jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED'
+            jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED'
+            jvmArgs '--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED'
+        }
+    }
 }
