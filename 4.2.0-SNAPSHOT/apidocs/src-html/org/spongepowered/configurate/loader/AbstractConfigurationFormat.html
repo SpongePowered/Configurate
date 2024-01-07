@@ -88,14 +88,14 @@
 <span class="sourceLineNo">079</span><a id="line.79">    }</a>
 <span class="sourceLineNo">080</span><a id="line.80"></a>
 <span class="sourceLineNo">081</span><a id="line.81">    @Override</a>
-<span class="sourceLineNo">082</span><a id="line.82">    public ConfigurationLoader&lt;@NonNull ?&gt; create(final Path file) {</a>
+<span class="sourceLineNo">082</span><a id="line.82">    public ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final Path file) {</a>
 <span class="sourceLineNo">083</span><a id="line.83">        return this.builderMaker.get()</a>
 <span class="sourceLineNo">084</span><a id="line.84">            .path(file)</a>
 <span class="sourceLineNo">085</span><a id="line.85">            .build();</a>
 <span class="sourceLineNo">086</span><a id="line.86">    }</a>
 <span class="sourceLineNo">087</span><a id="line.87"></a>
 <span class="sourceLineNo">088</span><a id="line.88">    @Override</a>
-<span class="sourceLineNo">089</span><a id="line.89">    public ConfigurationLoader&lt;@NonNull ?&gt; create(final Path file, final ConfigurationNode options) {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    public ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final Path file, final ConfigurationNode options) {</a>
 <span class="sourceLineNo">090</span><a id="line.90">        return this.builderMaker.get()</a>
 <span class="sourceLineNo">091</span><a id="line.91">            .from(LoaderOptionSource.node(options))</a>
 <span class="sourceLineNo">092</span><a id="line.92">            .path(file)</a>
@@ -103,14 +103,14 @@
 <span class="sourceLineNo">094</span><a id="line.94">    }</a>
 <span class="sourceLineNo">095</span><a id="line.95"></a>
 <span class="sourceLineNo">096</span><a id="line.96">    @Override</a>
-<span class="sourceLineNo">097</span><a id="line.97">    public ConfigurationLoader&lt;@NonNull ?&gt; create(final URL url) {</a>
+<span class="sourceLineNo">097</span><a id="line.97">    public ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final URL url) {</a>
 <span class="sourceLineNo">098</span><a id="line.98">        return this.builderMaker.get()</a>
 <span class="sourceLineNo">099</span><a id="line.99">            .url(url)</a>
 <span class="sourceLineNo">100</span><a id="line.100">            .build();</a>
 <span class="sourceLineNo">101</span><a id="line.101">    }</a>
 <span class="sourceLineNo">102</span><a id="line.102"></a>
 <span class="sourceLineNo">103</span><a id="line.103">    @Override</a>
-<span class="sourceLineNo">104</span><a id="line.104">    public ConfigurationLoader&lt;@NonNull ?&gt; create(final URL url, final ConfigurationNode options) {</a>
+<span class="sourceLineNo">104</span><a id="line.104">    public ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final URL url, final ConfigurationNode options) {</a>
 <span class="sourceLineNo">105</span><a id="line.105">        return this.builderMaker.get()</a>
 <span class="sourceLineNo">106</span><a id="line.106">            .from(LoaderOptionSource.node(options))</a>
 <span class="sourceLineNo">107</span><a id="line.107">            .url(url)</a>

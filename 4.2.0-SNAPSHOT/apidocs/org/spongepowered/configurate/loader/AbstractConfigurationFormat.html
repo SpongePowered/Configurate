@@ -205,7 +205,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL)">create</a></span>&#8203;(java.net.URL&nbsp;url)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided URL,
@@ -213,7 +213,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(java.net.URL&nbsp;url,
       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</code></th>
 <td class="colLast">
@@ -221,7 +221,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path)">create</a></span>&#8203;(java.nio.file.Path&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided file,
@@ -229,7 +229,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(java.nio.file.Path&nbsp;file,
       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</code></th>
 <td class="colLast">
@@ -350,7 +350,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.81">create</a>&#8203;(java.nio.file.Path&nbsp;file)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.81">create</a>&#8203;(java.nio.file.Path&nbsp;file)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.nio.file.Path)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided file,
  with default style options.</div>
@@ -370,8 +370,8 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.88">create</a>&#8203;(java.nio.file.Path&nbsp;file,
-                                     <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.88">create</a>&#8203;(java.nio.file.Path&nbsp;file,
+                                                                       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.nio.file.Path,org.spongepowered.configurate.ConfigurationNode)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided file.</div>
 <dl>
@@ -391,7 +391,7 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.96">create</a>&#8203;(java.net.URL&nbsp;url)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.96">create</a>&#8203;(java.net.URL&nbsp;url)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.net.URL)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided URL,
  with default style options.
@@ -413,8 +413,8 @@ implements <a href="ConfigurationFormat.html" title="interface in org.spongepowe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.103">create</a>&#8203;(java.net.URL&nbsp;url,
-                                     <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationFormat.html#line.103">create</a>&#8203;(java.net.URL&nbsp;url,
+                                                                       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="ConfigurationFormat.html#create(java.net.URL,org.spongepowered.configurate.ConfigurationNode)">ConfigurationFormat</a></code></span></div>
 <div class="block">Create a new loader configured to load from the provided URL.
 

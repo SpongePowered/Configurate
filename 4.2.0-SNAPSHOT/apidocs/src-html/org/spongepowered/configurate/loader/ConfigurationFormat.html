@@ -102,7 +102,7 @@
 <span class="sourceLineNo">093</span><a id="line.93">     * @return a newly configured loader</a>
 <span class="sourceLineNo">094</span><a id="line.94">     * @since 4.2.0</a>
 <span class="sourceLineNo">095</span><a id="line.95">     */</a>
-<span class="sourceLineNo">096</span><a id="line.96">    default ConfigurationLoader&lt;@NonNull ?&gt; create(Path file) {</a>
+<span class="sourceLineNo">096</span><a id="line.96">    default ConfigurationLoader&lt;? extends @NonNull Object&gt; create(Path file) {</a>
 <span class="sourceLineNo">097</span><a id="line.97">        return create(file, BasicConfigurationNode.factory().createNode());</a>
 <span class="sourceLineNo">098</span><a id="line.98">    }</a>
 <span class="sourceLineNo">099</span><a id="line.99"></a>
@@ -114,7 +114,7 @@
 <span class="sourceLineNo">105</span><a id="line.105">     * @return a newly configured loader</a>
 <span class="sourceLineNo">106</span><a id="line.106">     * @since 4.2.0</a>
 <span class="sourceLineNo">107</span><a id="line.107">     */</a>
-<span class="sourceLineNo">108</span><a id="line.108">    ConfigurationLoader&lt;@NonNull ?&gt; create(Path file, ConfigurationNode options);</a>
+<span class="sourceLineNo">108</span><a id="line.108">    ConfigurationLoader&lt;? extends @NonNull Object&gt; create(Path file, ConfigurationNode options);</a>
 <span class="sourceLineNo">109</span><a id="line.109"></a>
 <span class="sourceLineNo">110</span><a id="line.110">    /**</a>
 <span class="sourceLineNo">111</span><a id="line.111">     * Create a new loader configured to load from the provided URL,</a>
@@ -126,7 +126,7 @@
 <span class="sourceLineNo">117</span><a id="line.117">     * @return a newly configured loader</a>
 <span class="sourceLineNo">118</span><a id="line.118">     * @since 4.2.0</a>
 <span class="sourceLineNo">119</span><a id="line.119">     */</a>
-<span class="sourceLineNo">120</span><a id="line.120">    default ConfigurationLoader&lt;@NonNull ?&gt; create(URL url) {</a>
+<span class="sourceLineNo">120</span><a id="line.120">    default ConfigurationLoader&lt;? extends @NonNull Object&gt; create(URL url) {</a>
 <span class="sourceLineNo">121</span><a id="line.121">        return create(url, BasicConfigurationNode.factory().createNode());</a>
 <span class="sourceLineNo">122</span><a id="line.122">    }</a>
 <span class="sourceLineNo">123</span><a id="line.123"></a>
@@ -140,7 +140,7 @@
 <span class="sourceLineNo">131</span><a id="line.131">     * @return a newly configured loader</a>
 <span class="sourceLineNo">132</span><a id="line.132">     * @since 4.2.0</a>
 <span class="sourceLineNo">133</span><a id="line.133">     */</a>
-<span class="sourceLineNo">134</span><a id="line.134">    ConfigurationLoader&lt;@NonNull?&gt; create(URL url, ConfigurationNode options);</a>
+<span class="sourceLineNo">134</span><a id="line.134">    ConfigurationLoader&lt;? extends @NonNull Object&gt; create(URL url, ConfigurationNode options);</a>
 <span class="sourceLineNo">135</span><a id="line.135"></a>
 <span class="sourceLineNo">136</span><a id="line.136">}</a>
 

@@ -510,89 +510,94 @@
 <span class="sourceLineNo">501</span><a id="line.501">        }</a>
 <span class="sourceLineNo">502</span><a id="line.502">    }</a>
 <span class="sourceLineNo">503</span><a id="line.503"></a>
-<span class="sourceLineNo">504</span><a id="line.504">    interface RegisteredSerializer {</a>
-<span class="sourceLineNo">505</span><a id="line.505"></a>
-<span class="sourceLineNo">506</span><a id="line.506">        boolean matches(Type test);</a>
-<span class="sourceLineNo">507</span><a id="line.507"></a>
-<span class="sourceLineNo">508</span><a id="line.508">        boolean matches(AnnotatedType annotated);</a>
-<span class="sourceLineNo">509</span><a id="line.509"></a>
-<span class="sourceLineNo">510</span><a id="line.510">        TypeSerializer&lt;?&gt; serializer();</a>
-<span class="sourceLineNo">511</span><a id="line.511"></a>
-<span class="sourceLineNo">512</span><a id="line.512">    }</a>
-<span class="sourceLineNo">513</span><a id="line.513"></a>
-<span class="sourceLineNo">514</span><a id="line.514">    static final class TypeRegistration implements RegisteredSerializer {</a>
-<span class="sourceLineNo">515</span><a id="line.515"></a>
-<span class="sourceLineNo">516</span><a id="line.516">        private final Predicate&lt;Type&gt; predicate;</a>
-<span class="sourceLineNo">517</span><a id="line.517">        private final TypeSerializer&lt;?&gt; serializer;</a>
+<span class="sourceLineNo">504</span><a id="line.504">    /**</a>
+<span class="sourceLineNo">505</span><a id="line.505">     * A serializer registration.</a>
+<span class="sourceLineNo">506</span><a id="line.506">     *</a>
+<span class="sourceLineNo">507</span><a id="line.507">     * @since 4.2.0</a>
+<span class="sourceLineNo">508</span><a id="line.508">     */</a>
+<span class="sourceLineNo">509</span><a id="line.509">    interface RegisteredSerializer {</a>
+<span class="sourceLineNo">510</span><a id="line.510"></a>
+<span class="sourceLineNo">511</span><a id="line.511">        boolean matches(Type test);</a>
+<span class="sourceLineNo">512</span><a id="line.512"></a>
+<span class="sourceLineNo">513</span><a id="line.513">        boolean matches(AnnotatedType annotated);</a>
+<span class="sourceLineNo">514</span><a id="line.514"></a>
+<span class="sourceLineNo">515</span><a id="line.515">        TypeSerializer&lt;?&gt; serializer();</a>
+<span class="sourceLineNo">516</span><a id="line.516"></a>
+<span class="sourceLineNo">517</span><a id="line.517">    }</a>
 <span class="sourceLineNo">518</span><a id="line.518"></a>
-<span class="sourceLineNo">519</span><a id="line.519">        TypeRegistration(final Predicate&lt;Type&gt; predicate, final TypeSerializer&lt;?&gt; serializer) {</a>
-<span class="sourceLineNo">520</span><a id="line.520">            this.predicate = predicate;</a>
-<span class="sourceLineNo">521</span><a id="line.521">            this.serializer = serializer;</a>
-<span class="sourceLineNo">522</span><a id="line.522">        }</a>
+<span class="sourceLineNo">519</span><a id="line.519">    static final class TypeRegistration implements RegisteredSerializer {</a>
+<span class="sourceLineNo">520</span><a id="line.520"></a>
+<span class="sourceLineNo">521</span><a id="line.521">        private final Predicate&lt;Type&gt; predicate;</a>
+<span class="sourceLineNo">522</span><a id="line.522">        private final TypeSerializer&lt;?&gt; serializer;</a>
 <span class="sourceLineNo">523</span><a id="line.523"></a>
-<span class="sourceLineNo">524</span><a id="line.524">        @Override</a>
-<span class="sourceLineNo">525</span><a id="line.525">        public boolean matches(final Type test) {</a>
-<span class="sourceLineNo">526</span><a id="line.526">            return this.predicate.test(test);</a>
+<span class="sourceLineNo">524</span><a id="line.524">        TypeRegistration(final Predicate&lt;Type&gt; predicate, final TypeSerializer&lt;?&gt; serializer) {</a>
+<span class="sourceLineNo">525</span><a id="line.525">            this.predicate = predicate;</a>
+<span class="sourceLineNo">526</span><a id="line.526">            this.serializer = serializer;</a>
 <span class="sourceLineNo">527</span><a id="line.527">        }</a>
 <span class="sourceLineNo">528</span><a id="line.528"></a>
 <span class="sourceLineNo">529</span><a id="line.529">        @Override</a>
-<span class="sourceLineNo">530</span><a id="line.530">        public boolean matches(final AnnotatedType annotated) {</a>
-<span class="sourceLineNo">531</span><a id="line.531">            return this.predicate.test(annotated.getType());</a>
+<span class="sourceLineNo">530</span><a id="line.530">        public boolean matches(final Type test) {</a>
+<span class="sourceLineNo">531</span><a id="line.531">            return this.predicate.test(test);</a>
 <span class="sourceLineNo">532</span><a id="line.532">        }</a>
 <span class="sourceLineNo">533</span><a id="line.533"></a>
 <span class="sourceLineNo">534</span><a id="line.534">        @Override</a>
-<span class="sourceLineNo">535</span><a id="line.535">        public TypeSerializer&lt;?&gt; serializer() {</a>
-<span class="sourceLineNo">536</span><a id="line.536">            return this.serializer;</a>
+<span class="sourceLineNo">535</span><a id="line.535">        public boolean matches(final AnnotatedType annotated) {</a>
+<span class="sourceLineNo">536</span><a id="line.536">            return this.predicate.test(annotated.getType());</a>
 <span class="sourceLineNo">537</span><a id="line.537">        }</a>
 <span class="sourceLineNo">538</span><a id="line.538"></a>
-<span class="sourceLineNo">539</span><a id="line.539">    }</a>
-<span class="sourceLineNo">540</span><a id="line.540"></a>
-<span class="sourceLineNo">541</span><a id="line.541">    static final class AnnotatedTypeRegistration implements RegisteredSerializer {</a>
-<span class="sourceLineNo">542</span><a id="line.542"></a>
-<span class="sourceLineNo">543</span><a id="line.543">        private final Predicate&lt;AnnotatedType&gt; predicate;</a>
-<span class="sourceLineNo">544</span><a id="line.544">        private final TypeSerializer&lt;?&gt; serializer;</a>
+<span class="sourceLineNo">539</span><a id="line.539">        @Override</a>
+<span class="sourceLineNo">540</span><a id="line.540">        public TypeSerializer&lt;?&gt; serializer() {</a>
+<span class="sourceLineNo">541</span><a id="line.541">            return this.serializer;</a>
+<span class="sourceLineNo">542</span><a id="line.542">        }</a>
+<span class="sourceLineNo">543</span><a id="line.543"></a>
+<span class="sourceLineNo">544</span><a id="line.544">    }</a>
 <span class="sourceLineNo">545</span><a id="line.545"></a>
-<span class="sourceLineNo">546</span><a id="line.546">        AnnotatedTypeRegistration(final Predicate&lt;AnnotatedType&gt; predicate, final TypeSerializer&lt;?&gt; serializer) {</a>
-<span class="sourceLineNo">547</span><a id="line.547">            this.predicate = predicate;</a>
-<span class="sourceLineNo">548</span><a id="line.548">            this.serializer = serializer;</a>
-<span class="sourceLineNo">549</span><a id="line.549">        }</a>
+<span class="sourceLineNo">546</span><a id="line.546">    static final class AnnotatedTypeRegistration implements RegisteredSerializer {</a>
+<span class="sourceLineNo">547</span><a id="line.547"></a>
+<span class="sourceLineNo">548</span><a id="line.548">        private final Predicate&lt;AnnotatedType&gt; predicate;</a>
+<span class="sourceLineNo">549</span><a id="line.549">        private final TypeSerializer&lt;?&gt; serializer;</a>
 <span class="sourceLineNo">550</span><a id="line.550"></a>
-<span class="sourceLineNo">551</span><a id="line.551">        @Override</a>
-<span class="sourceLineNo">552</span><a id="line.552">        public boolean matches(final Type test) {</a>
-<span class="sourceLineNo">553</span><a id="line.553">            return this.predicate.test(GenericTypeReflector.annotate(test));</a>
+<span class="sourceLineNo">551</span><a id="line.551">        AnnotatedTypeRegistration(final Predicate&lt;AnnotatedType&gt; predicate, final TypeSerializer&lt;?&gt; serializer) {</a>
+<span class="sourceLineNo">552</span><a id="line.552">            this.predicate = predicate;</a>
+<span class="sourceLineNo">553</span><a id="line.553">            this.serializer = serializer;</a>
 <span class="sourceLineNo">554</span><a id="line.554">        }</a>
 <span class="sourceLineNo">555</span><a id="line.555"></a>
 <span class="sourceLineNo">556</span><a id="line.556">        @Override</a>
-<span class="sourceLineNo">557</span><a id="line.557">        public boolean matches(final AnnotatedType annotated) {</a>
-<span class="sourceLineNo">558</span><a id="line.558">            return this.predicate.test(annotated);</a>
+<span class="sourceLineNo">557</span><a id="line.557">        public boolean matches(final Type test) {</a>
+<span class="sourceLineNo">558</span><a id="line.558">            return this.predicate.test(GenericTypeReflector.annotate(test));</a>
 <span class="sourceLineNo">559</span><a id="line.559">        }</a>
 <span class="sourceLineNo">560</span><a id="line.560"></a>
 <span class="sourceLineNo">561</span><a id="line.561">        @Override</a>
-<span class="sourceLineNo">562</span><a id="line.562">        public TypeSerializer&lt;?&gt; serializer() {</a>
-<span class="sourceLineNo">563</span><a id="line.563">            return this.serializer;</a>
+<span class="sourceLineNo">562</span><a id="line.562">        public boolean matches(final AnnotatedType annotated) {</a>
+<span class="sourceLineNo">563</span><a id="line.563">            return this.predicate.test(annotated);</a>
 <span class="sourceLineNo">564</span><a id="line.564">        }</a>
 <span class="sourceLineNo">565</span><a id="line.565"></a>
-<span class="sourceLineNo">566</span><a id="line.566">    }</a>
-<span class="sourceLineNo">567</span><a id="line.567"></a>
-<span class="sourceLineNo">568</span><a id="line.568">    static final class NoOp implements TypeSerializer&lt;Void&gt; {</a>
-<span class="sourceLineNo">569</span><a id="line.569"></a>
-<span class="sourceLineNo">570</span><a id="line.570">        static final NoOp INSTANCE = new NoOp();</a>
-<span class="sourceLineNo">571</span><a id="line.571"></a>
-<span class="sourceLineNo">572</span><a id="line.572">        private NoOp() {</a>
-<span class="sourceLineNo">573</span><a id="line.573">        }</a>
+<span class="sourceLineNo">566</span><a id="line.566">        @Override</a>
+<span class="sourceLineNo">567</span><a id="line.567">        public TypeSerializer&lt;?&gt; serializer() {</a>
+<span class="sourceLineNo">568</span><a id="line.568">            return this.serializer;</a>
+<span class="sourceLineNo">569</span><a id="line.569">        }</a>
+<span class="sourceLineNo">570</span><a id="line.570"></a>
+<span class="sourceLineNo">571</span><a id="line.571">    }</a>
+<span class="sourceLineNo">572</span><a id="line.572"></a>
+<span class="sourceLineNo">573</span><a id="line.573">    static final class NoOp implements TypeSerializer&lt;Void&gt; {</a>
 <span class="sourceLineNo">574</span><a id="line.574"></a>
-<span class="sourceLineNo">575</span><a id="line.575">        @Override</a>
-<span class="sourceLineNo">576</span><a id="line.576">        public Void deserialize(final Type type, final ConfigurationNode node) throws SerializationException {</a>
-<span class="sourceLineNo">577</span><a id="line.577">            throw new UnsupportedOperationException("this is a placeholder for null, should not be called directly");</a>
+<span class="sourceLineNo">575</span><a id="line.575">        static final NoOp INSTANCE = new NoOp();</a>
+<span class="sourceLineNo">576</span><a id="line.576"></a>
+<span class="sourceLineNo">577</span><a id="line.577">        private NoOp() {</a>
 <span class="sourceLineNo">578</span><a id="line.578">        }</a>
 <span class="sourceLineNo">579</span><a id="line.579"></a>
 <span class="sourceLineNo">580</span><a id="line.580">        @Override</a>
-<span class="sourceLineNo">581</span><a id="line.581">        public void serialize(final Type type, final @Nullable Void obj, final ConfigurationNode node) throws SerializationException {</a>
+<span class="sourceLineNo">581</span><a id="line.581">        public Void deserialize(final Type type, final ConfigurationNode node) throws SerializationException {</a>
 <span class="sourceLineNo">582</span><a id="line.582">            throw new UnsupportedOperationException("this is a placeholder for null, should not be called directly");</a>
 <span class="sourceLineNo">583</span><a id="line.583">        }</a>
-<span class="sourceLineNo">584</span><a id="line.584">    }</a>
-<span class="sourceLineNo">585</span><a id="line.585"></a>
-<span class="sourceLineNo">586</span><a id="line.586">}</a>
+<span class="sourceLineNo">584</span><a id="line.584"></a>
+<span class="sourceLineNo">585</span><a id="line.585">        @Override</a>
+<span class="sourceLineNo">586</span><a id="line.586">        public void serialize(final Type type, final @Nullable Void obj, final ConfigurationNode node) throws SerializationException {</a>
+<span class="sourceLineNo">587</span><a id="line.587">            throw new UnsupportedOperationException("this is a placeholder for null, should not be called directly");</a>
+<span class="sourceLineNo">588</span><a id="line.588">        }</a>
+<span class="sourceLineNo">589</span><a id="line.589">    }</a>
+<span class="sourceLineNo">590</span><a id="line.590"></a>
+<span class="sourceLineNo">591</span><a id="line.591">}</a>
 
 
 

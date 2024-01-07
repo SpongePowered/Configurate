@@ -160,7 +160,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>default <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code>default <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL)">create</a></span>&#8203;(java.net.URL&nbsp;url)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided URL,
@@ -168,7 +168,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.net.URL,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(java.net.URL&nbsp;url,
       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</code></th>
 <td class="colLast">
@@ -176,7 +176,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>default <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code>default <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path)">create</a></span>&#8203;(java.nio.file.Path&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Create a new loader configured to load from the provided file,
@@ -184,7 +184,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.nio.file.Path,org.spongepowered.configurate.ConfigurationNode)">create</a></span>&#8203;(java.nio.file.Path&nbsp;file,
       <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</code></th>
 <td class="colLast">
@@ -317,7 +317,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.96">create</a>&#8203;(java.nio.file.Path&nbsp;file)</pre>
+<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.96">create</a>&#8203;(java.nio.file.Path&nbsp;file)</pre>
 <div class="block">Create a new loader configured to load from the provided file,
  with default style options.</div>
 <dl>
@@ -336,8 +336,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature"><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.108">create</a>&#8203;(java.nio.file.Path&nbsp;file,
-                              <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
+<pre class="methodSignature"><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.108">create</a>&#8203;(java.nio.file.Path&nbsp;file,
+                                                                <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
 <div class="block">Create a new loader configured to load from the provided file.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -356,7 +356,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.120">create</a>&#8203;(java.net.URL&nbsp;url)</pre>
+<pre class="methodSignature">default&nbsp;<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.120">create</a>&#8203;(java.net.URL&nbsp;url)</pre>
 <div class="block">Create a new loader configured to load from the provided URL,
  with default style options.
 
@@ -377,8 +377,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockListLast">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature"><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.134">create</a>&#8203;(java.net.URL&nbsp;url,
-                              <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
+<pre class="methodSignature"><a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;? extends @NonNull java.lang.Object&gt;&nbsp;<a href="../../../../src-html/org/spongepowered/configurate/loader/ConfigurationFormat.html#line.134">create</a>&#8203;(java.net.URL&nbsp;url,
+                                                                <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;options)</pre>
 <div class="block">Create a new loader configured to load from the provided URL.
 
  <p>This loader may not be able to write to the given URL.</p></div>
