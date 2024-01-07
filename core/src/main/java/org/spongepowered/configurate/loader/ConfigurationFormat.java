@@ -93,7 +93,7 @@ public interface ConfigurationFormat {
      * @return a newly configured loader
      * @since 4.2.0
      */
-    default ConfigurationLoader<@NonNull ?> create(Path file) {
+    default ConfigurationLoader<? extends @NonNull Object> create(Path file) {
         return create(file, BasicConfigurationNode.factory().createNode());
     }
 
@@ -105,7 +105,7 @@ public interface ConfigurationFormat {
      * @return a newly configured loader
      * @since 4.2.0
      */
-    ConfigurationLoader<@NonNull ?> create(Path file, ConfigurationNode options);
+    ConfigurationLoader<? extends @NonNull Object> create(Path file, ConfigurationNode options);
 
     /**
      * Create a new loader configured to load from the provided URL,
@@ -117,7 +117,7 @@ public interface ConfigurationFormat {
      * @return a newly configured loader
      * @since 4.2.0
      */
-    default ConfigurationLoader<@NonNull ?> create(URL url) {
+    default ConfigurationLoader<? extends @NonNull Object> create(URL url) {
         return create(url, BasicConfigurationNode.factory().createNode());
     }
 
@@ -131,6 +131,6 @@ public interface ConfigurationFormat {
      * @return a newly configured loader
      * @since 4.2.0
      */
-    ConfigurationLoader<@NonNull?> create(URL url, ConfigurationNode options);
+    ConfigurationLoader<? extends @NonNull Object> create(URL url, ConfigurationNode options);
 
 }

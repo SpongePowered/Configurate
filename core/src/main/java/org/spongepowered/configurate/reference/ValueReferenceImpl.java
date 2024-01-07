@@ -33,7 +33,7 @@ import org.spongepowered.configurate.util.UnmodifiableCollections;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
 
-class ValueReferenceImpl<@Nullable T, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Publisher<T> {
+class ValueReferenceImpl<T extends @Nullable Object, N extends ScopedConfigurationNode<N>> implements ValueReference<T, N>, Publisher<T> {
 
     // Information about the reference
     private final ManualConfigurationReference<N> root;
