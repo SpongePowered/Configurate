@@ -2,7 +2,7 @@
 assertj="3.25.1"
 autoValue="1.10.4"
 checkerQual="3.42.0"
-checkstyle="10.12.5"
+checkstyle="10.12.7"
 geantyref = "1.3.14"
 errorprone="2.24.1"
 indra = "3.1.3"
@@ -10,7 +10,7 @@ junit="5.10.1"
 ktlint="0.49.1"
 ktfmt="0.46"
 pmd = "6.55.0"
-spotless = "6.23.2"
+spotless = "6.23.3"
 
 [libraries]
 # Shared
@@ -47,7 +47,7 @@ guice-runtime = "com.google.inject:guice:5.0.1"
 
 # Formats
 gson = "com.google.code.gson:gson:2.8.0" # Fixed version, to avoid using API not present in older MC
-jackson = "com.fasterxml.jackson.core:jackson-core:2.16.0"
+jackson = "com.fasterxml.jackson.core:jackson-core:2.16.1"
 
 # Tool
 clikt = "com.github.ajalt:clikt:2.8.0"
@@ -55,7 +55,7 @@ jansi = "org.fusesource.jansi:jansi:2.4.1"
 
 # Build
 build-codenarc = { module = "org.codenarc:CodeNarc", version = "3.3.0-groovy-4.0" }
-build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.16" }
+build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.17" }
 build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:3.1.0"
 build-forbiddenApis = "de.thetaphi:forbiddenapis:3.6"
 build-goomph = "com.diffplug.gradle:goomph:3.44.0"
