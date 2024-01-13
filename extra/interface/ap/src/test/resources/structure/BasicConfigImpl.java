@@ -1,4 +1,4 @@
-package test;
+package structure;
 
 import java.lang.Override;
 import java.lang.String;

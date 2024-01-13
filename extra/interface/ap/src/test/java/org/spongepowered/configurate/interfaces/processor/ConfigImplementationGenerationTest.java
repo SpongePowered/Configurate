@@ -27,22 +27,22 @@ class ConfigImplementationGenerationTest {
 
     @Test
     void testBasicCompilation() {
-        testCompilation("test/BasicConfig");
+        testCompilation("structure/BasicConfig");
     }
 
     @Test
     void testExtendedCompilation() {
-        testCompilation("test/ExtendedConfig");
+        testCompilation("structure/ExtendedConfig");
     }
 
     @Test
     void testMultiLayerCompilation() {
-        testCompilation("test/MultiLayerConfig");
+        testCompilation("structure/MultiLayerConfig");
     }
 
     @Test
-    void testConfigurateAnnotationsCompilation() {
-        testCompilation("test/ConfigurateAnnotations");
+    void testAnnotationOthersCompilation() {
+        testCompilation("test/OtherAnnotations");
     }
 
 }

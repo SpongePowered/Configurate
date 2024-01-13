@@ -96,7 +96,7 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
             try {
                 processInterface(typeElement);
             } catch (final IOException exception) {
-                throw new RuntimeException(exception);
+                error(exception.getMessage());
             }
         }
 
@@ -139,6 +139,10 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
 
     void info(final String message, final Object... arguments) {
         this.messager.printMessage(Kind.NOTE, String.format(Locale.ROOT, message, arguments));
+    }
+
+    void error(final String message, final Object... arguments) {
+        this.messager.printMessage(Kind.ERROR, String.format(Locale.ROOT, message, arguments));
     }
 
 }

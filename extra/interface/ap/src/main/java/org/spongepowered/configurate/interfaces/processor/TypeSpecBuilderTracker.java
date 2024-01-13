@@ -29,7 +29,7 @@ import java.util.Map;
  * {@link TypeSpec.Builder} does not keep track of duplicates, resulting in failures to compile.
  * This will only allow a single definition of a given method/field
  */
-class TypeSpecBuilderTracker {
+final class TypeSpecBuilderTracker {
 
     private final Map<String, FieldSpec.Builder> fieldSpecs = new LinkedHashMap<>();
     private final Map<String, MethodSpec.Builder> methodSpecs = new LinkedHashMap<>();

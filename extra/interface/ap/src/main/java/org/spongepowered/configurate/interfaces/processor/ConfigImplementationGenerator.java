@@ -8,8 +8,6 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import java.util.List;
-import java.util.Locale;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -20,6 +18,8 @@ import javax.lang.model.type.TypeMirror;
 import org.spongepowered.configurate.interfaces.meta.Exclude;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.PostProcess;
+
+import java.util.List;
 
 class ConfigImplementationGenerator {
 
@@ -96,18 +96,19 @@ class ConfigImplementationGenerator {
                 }
                 this.processor.info("Overriding implementation for %s as it's not excluded", element);
             } else if (excluded) {
-                throw new IllegalStateException(String.format(
-                    Locale.ROOT,
+                this.processor.error(
                     "Cannot make config due to method %s, which is a method excluded method that has no implementation!",
                     element
-                ));
+                );
+                continue;
             }
 
             // all methods are either setters or getters past this point
 
             final List<? extends VariableElement> parameters = element.getParameters();
             if (parameters.size() > 1) {
-                throw new IllegalStateException("Setters cannot have more than one parameter! Method: " + element);
+                this.processor.error("Setters cannot have more than one parameter! Method: " + element);
+                continue;
             }
 
             final String simpleName = element.getSimpleName().toString();
@@ -128,12 +129,13 @@ class ConfigImplementationGenerator {
                 if (!MoreTypes.isTypeOf(Void.TYPE, nodeType)) {
                     // the return type can be a parent type of parameter, but it has to be assignable
                     if (!this.processor.typeUtils.isAssignable(parameter.asType(), nodeType)) {
-                        throw new IllegalStateException(String.format(
+                        this.processor.error(
                             "Cannot create a setter with return type %s for argument type %s. Method: %s",
                             nodeType,
                             parameter.asType(),
                             element
-                        ));
+                        );
+                        continue;
                     }
                     method.addStatement("return this.$N", element.getSimpleName());
                 }
@@ -152,10 +154,7 @@ class ConfigImplementationGenerator {
             final FieldSpec.Builder fieldSpec = FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE);
 
             //todo add tests for hidden in both ap and interfaces and defaults in interfaces
-            AnnotationDefaults.process(element, nodeType, fieldSpec);
-            AnnotationHidden.process(element, fieldSpec);
-            // add Configurate's build-in annotations as well
-            AnnotationConfigurate.process(element, fieldSpec);
+            AnnotationProcessorHandler.handle(element, nodeType, fieldSpec);
 
             spec.add(simpleName, fieldSpec);
         }

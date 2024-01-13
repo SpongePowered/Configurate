@@ -7,16 +7,24 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 final class Utils {
 
-    private Utils() {
-    }
+    private Utils() {}
 
     static boolean hasAnnotation(final AnnotatedConstruct element, final Class<? extends Annotation> annotation) {
-        //noinspection ConstantValue not everything is nonnull by default
-        return element.getAnnotation(annotation) != null;
+        return annotation(element, annotation) != null;
+    }
+
+    /**
+     * The same as {@link AnnotatedConstruct#getAnnotation(Class)} except that
+     * you don't have to suppress the ConstantValue warning everywhere.
+     */
+    @SuppressWarnings("DataFlowIssue")
+    static <T extends Annotation> @Nullable T annotation(final AnnotatedConstruct construct, final Class<T> annotation) {
+        return construct.getAnnotation(annotation);
     }
 
     static boolean isNestedConfig(final TypeElement type) {

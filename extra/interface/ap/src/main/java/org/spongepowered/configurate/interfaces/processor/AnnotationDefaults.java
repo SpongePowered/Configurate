@@ -1,10 +1,10 @@
 package org.spongepowered.configurate.interfaces.processor;
 
+import static org.spongepowered.configurate.interfaces.processor.Utils.annotation;
+
 import com.google.auto.common.MoreTypes;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
-import java.lang.annotation.Annotation;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeMirror;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -13,24 +13,38 @@ import org.spongepowered.configurate.interfaces.meta.defaults.DefaultDecimal;
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultNumeric;
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultString;
 
-final class AnnotationDefaults {
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+final class AnnotationDefaults implements AnnotationProcessor {
+
+    static final AnnotationDefaults INSTANCE = new AnnotationDefaults();
 
     private AnnotationDefaults() {}
 
-    static void process(final ExecutableElement element, final TypeMirror nodeType, final FieldSpec.Builder fieldSpec) {
-        final @Nullable DefaultBoolean defaultBoolean = element.getAnnotation(DefaultBoolean.class);
-        final @Nullable DefaultDecimal defaultDecimal = element.getAnnotation(DefaultDecimal.class);
-        final @Nullable DefaultNumeric defaultNumeric = element.getAnnotation(DefaultNumeric.class);
-        final @Nullable DefaultString defaultString = element.getAnnotation(DefaultString.class);
-        //noinspection ConstantValue not everything is nonnull by default
+    @Override
+    public Set<Class<? extends Annotation>> processes() {
+        return new HashSet<>(Arrays.asList(DefaultBoolean.class, DefaultDecimal.class, DefaultNumeric.class, DefaultString.class));
+    }
+
+    @Override
+    public void process(
+            final ExecutableElement element,
+            final TypeMirror nodeType,
+            final FieldSpecBuilderTracker fieldSpec
+    ) throws IllegalStateException {
+        final @Nullable DefaultBoolean defaultBoolean = annotation(element, DefaultBoolean.class);
+        final @Nullable DefaultDecimal defaultDecimal = annotation(element, DefaultDecimal.class);
+        final @Nullable DefaultNumeric defaultNumeric = annotation(element, DefaultNumeric.class);
+        final @Nullable DefaultString defaultString = annotation(element, DefaultString.class);
         final boolean hasDefault = defaultBoolean != null || defaultDecimal != null || defaultNumeric != null || defaultString != null;
 
         @Nullable Object defaultValue = null;
         boolean isString = false;
-        //noinspection ConstantValue
         if (hasDefault) {
             if (MoreTypes.isTypeOf(Boolean.TYPE, nodeType)) {
-                //noinspection ConstantValue
                 if (defaultBoolean == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
@@ -38,7 +52,6 @@ final class AnnotationDefaults {
                 buildAndAddAnnotation(fieldSpec, DefaultBoolean.class, defaultValue, false);
 
             } else if (Utils.isDecimal(nodeType)) {
-                //noinspection ConstantValue
                 if (defaultDecimal == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
@@ -46,7 +59,6 @@ final class AnnotationDefaults {
                 buildAndAddAnnotation(fieldSpec, DefaultDecimal.class, defaultValue, false);
 
             } else if (Utils.isNumeric(nodeType)) {
-                //noinspection ConstantValue
                 if (defaultNumeric == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
@@ -57,7 +69,6 @@ final class AnnotationDefaults {
                 buildAndAddAnnotation(fieldSpec, DefaultNumeric.class, defaultValue, false);
 
             } else if (MoreTypes.isTypeOf(String.class, nodeType)) {
-                //noinspection ConstantValue
                 if (defaultString == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
@@ -72,8 +83,8 @@ final class AnnotationDefaults {
         }
     }
 
-    private static void buildAndAddAnnotation(
-        final FieldSpec.Builder fieldSpec,
+    private void buildAndAddAnnotation(
+        final FieldSpecBuilderTracker fieldSpec,
         final Class<? extends Annotation> annotationClass,
         final Object value,
         final boolean isString
@@ -81,7 +92,6 @@ final class AnnotationDefaults {
         fieldSpec.addAnnotation(
             AnnotationSpec.builder(annotationClass)
                 .addMember("value", CodeBlock.of(isString ? "$S" : "$L", value))
-                .build()
         );
     }
 
