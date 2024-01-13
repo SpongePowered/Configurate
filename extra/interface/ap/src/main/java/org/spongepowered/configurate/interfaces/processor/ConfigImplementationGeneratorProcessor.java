@@ -137,10 +137,6 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
         return this.mappings;
     }
 
-    void info(final String message, final Object... arguments) {
-        this.messager.printMessage(Kind.NOTE, String.format(Locale.ROOT, message, arguments));
-    }
-
     void error(final String message, final Object... arguments) {
         this.messager.printMessage(Kind.ERROR, String.format(Locale.ROOT, message, arguments));
     }

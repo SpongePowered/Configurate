@@ -1,4 +1,4 @@
-package test.defaults;
+package defaults;
 
 import java.lang.Override;
 import java.lang.String;

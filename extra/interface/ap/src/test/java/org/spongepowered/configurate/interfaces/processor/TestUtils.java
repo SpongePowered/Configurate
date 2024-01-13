@@ -70,7 +70,8 @@ final class TestUtils {
             final URL localMappings = Resources.getResource(sourceResourceName + ".properties");
             return Resources.asCharSource(localMappings, StandardCharsets.UTF_8).readLines();
         } catch (final IllegalArgumentException ignored) {
-            System.out.println("Could not find resource " + sourceResourceName + ".properties, generating one");
+            // we only support generating simple (not nested) configs,
+            // for complexer configs we need a mappings file
             return Collections.singletonList(String.format(
                 "%s=%s",
                 sourceResourceName.replace('/', '.'),

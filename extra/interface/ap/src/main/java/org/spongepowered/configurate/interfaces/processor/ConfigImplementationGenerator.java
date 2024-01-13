@@ -37,8 +37,6 @@ class ConfigImplementationGenerator {
     public TypeSpec.Builder generate() {
         final ClassName className = ClassName.get(this.source);
 
-        this.processor.info("Generating implementation for %s", this.source);
-
         final TypeSpec.Builder spec = TypeSpec
             .classBuilder(className.simpleName() + "Impl")
             .addSuperinterface(className)
@@ -53,7 +51,6 @@ class ConfigImplementationGenerator {
         final String qualifiedName = className.reflectionName();
         final String qualifiedImplName = qualifiedName.replace("$", "Impl$") + "Impl";
         this.processor.generatedClasses().put(qualifiedName, qualifiedImplName);
-        this.processor.info("Generated implementation for %s", this.source);
 
         return spec;
     }
@@ -89,17 +86,13 @@ class ConfigImplementationGenerator {
             }
 
             final boolean excluded = hasAnnotation(element, Exclude.class);
-            if (element.isDefault()) {
-                if (excluded) {
-                    // no need to handle them
-                    continue;
+            if (excluded) {
+                if (!element.isDefault()) {
+                    this.processor.error(
+                            "Cannot make config due to method %s, which is an excluded method that has no implementation!",
+                            element
+                    );
                 }
-                this.processor.info("Overriding implementation for %s as it's not excluded", element);
-            } else if (excluded) {
-                this.processor.error(
-                    "Cannot make config due to method %s, which is a method excluded method that has no implementation!",
-                    element
-                );
                 continue;
             }
 

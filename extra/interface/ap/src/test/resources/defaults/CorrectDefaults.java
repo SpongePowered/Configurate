@@ -1,4 +1,4 @@
-package test.defaults;
+package defaults;
 
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultBoolean;
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultDecimal;

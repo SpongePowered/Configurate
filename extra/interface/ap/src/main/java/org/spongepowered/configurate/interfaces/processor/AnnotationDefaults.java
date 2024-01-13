@@ -4,7 +4,6 @@ import static org.spongepowered.configurate.interfaces.processor.Utils.annotatio
 
 import com.google.auto.common.MoreTypes;
 import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.CodeBlock;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeMirror;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -41,58 +40,58 @@ final class AnnotationDefaults implements AnnotationProcessor {
         final @Nullable DefaultString defaultString = annotation(element, DefaultString.class);
         final boolean hasDefault = defaultBoolean != null || defaultDecimal != null || defaultNumeric != null || defaultString != null;
 
-        @Nullable Object defaultValue = null;
-        boolean isString = false;
+        @Nullable Class<? extends Annotation> annnotationType = null;
+        @Nullable Object value = null;
         if (hasDefault) {
             if (MoreTypes.isTypeOf(Boolean.TYPE, nodeType)) {
                 if (defaultBoolean == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
-                defaultValue = defaultBoolean.value();
-                buildAndAddAnnotation(fieldSpec, DefaultBoolean.class, defaultValue, false);
+                annnotationType = DefaultBoolean.class;
+                value = defaultBoolean.value();
 
             } else if (Utils.isDecimal(nodeType)) {
                 if (defaultDecimal == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
-                defaultValue = defaultDecimal.value() + (MoreTypes.isTypeOf(Float.TYPE, nodeType) ? "F" : "D");
-                buildAndAddAnnotation(fieldSpec, DefaultDecimal.class, defaultValue, false);
+                annnotationType = DefaultDecimal.class;
+                value = defaultDecimal.value();
 
             } else if (Utils.isNumeric(nodeType)) {
                 if (defaultNumeric == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
-                defaultValue = defaultNumeric.value();
-                if (MoreTypes.isTypeOf(Long.TYPE, nodeType)) {
-                    defaultValue += "L";
-                }
-                buildAndAddAnnotation(fieldSpec, DefaultNumeric.class, defaultValue, false);
+                annnotationType = DefaultNumeric.class;
+                value = defaultNumeric.value();
 
             } else if (MoreTypes.isTypeOf(String.class, nodeType)) {
                 if (defaultString == null) {
                     throw new IllegalStateException("A default value of the incorrect type was provided for " + element);
                 }
-                defaultValue = defaultString.value();
-                isString = true;
-                buildAndAddAnnotation(fieldSpec, DefaultString.class, defaultValue, true);
+                annnotationType = DefaultString.class;
+                value = defaultString.value();
             }
         }
 
-        if (defaultValue != null) {
-            fieldSpec.initializer(isString ? "$S" : "$L", defaultValue);
+        if (annnotationType == null) {
+            return;
         }
-    }
 
-    private void buildAndAddAnnotation(
-        final FieldSpecBuilderTracker fieldSpec,
-        final Class<? extends Annotation> annotationClass,
-        final Object value,
-        final boolean isString
-    ) {
+        final boolean isString = value instanceof String;
+
+        // special cases are floats and longs, because the default for decimals
+        // is double and for numerics it's int.
+        if (MoreTypes.isTypeOf(Float.TYPE, nodeType)) {
+            value = value + "F";
+        } else if (MoreTypes.isTypeOf(Long.TYPE, nodeType)) {
+            value = value + "L";
+        }
+
         fieldSpec.addAnnotation(
-            AnnotationSpec.builder(annotationClass)
-                .addMember("value", CodeBlock.of(isString ? "$S" : "$L", value))
+                AnnotationSpec.builder(annnotationType)
+                        .addMember("value", isString ? "$S" : "$L", value)
         );
+        fieldSpec.initializer(isString ? "$S" : "$L", value);
     }
 
 }

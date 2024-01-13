@@ -8,12 +8,12 @@ public class DefaultValueTest {
 
     @Test
     void testCorrectDefaults() {
-        testCompilation("test/defaults/CorrectDefaults");
+        testCompilation("defaults/CorrectDefaults");
     }
 
     @Test
     void testMultipleDefaults() {
-        testCompilation("test/defaults/MultipleDefaults");
+        testCompilation("defaults/MultipleDefaults");
     }
 
 }
