@@ -42,6 +42,7 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.interfaces.Constants;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
@@ -104,14 +105,17 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
     }
 
     /**
-     * Generate a class for the given interface and
-     * returns the name of the generated class.
+     * Generate a class for the given interface.
      */
     private void processInterface(final TypeElement type) throws IOException {
         final ClassName className = ClassName.get(type);
-        final TypeSpec spec = new ConfigImplementationGenerator(this, type).generate().build();
 
-        JavaFile.builder(className.packageName(), spec)
+        final TypeSpec.@Nullable Builder generated = new ConfigImplementationGenerator(this, type).generate();
+        if (generated == null) {
+            return;
+        }
+
+        JavaFile.builder(className.packageName(), generated.build())
             .build()
             .writeTo(this.filer);
     }

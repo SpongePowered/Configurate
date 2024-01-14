@@ -15,6 +15,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.interfaces.meta.Exclude;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.PostProcess;
@@ -34,7 +35,11 @@ class ConfigImplementationGenerator {
         this.source = configInterfaceType;
     }
 
-    public TypeSpec.Builder generate() {
+    /**
+     * Returns the generated class or null if something went wrong during
+     * generation.
+     */
+    public TypeSpec.@Nullable Builder generate() {
         final ClassName className = ClassName.get(this.source);
 
         final TypeSpec.Builder spec = TypeSpec
@@ -45,7 +50,9 @@ class ConfigImplementationGenerator {
             .addJavadoc("Automatically generated implementation of the config");
 
         final TypeSpecBuilderTracker tracker = new TypeSpecBuilderTracker();
-        gatherElementSpec(tracker, this.source);
+        if (!gatherElementSpec(tracker, this.source)) {
+            return null;
+        }
         tracker.writeTo(spec);
 
         final String qualifiedName = className.reflectionName();
@@ -55,7 +62,10 @@ class ConfigImplementationGenerator {
         return spec;
     }
 
-    private void gatherElementSpec(
+    /**
+     * Returns true if successful, otherwise false.
+     */
+    private boolean gatherElementSpec(
         final TypeSpecBuilderTracker spec,
         final TypeElement type
     ) {
@@ -65,12 +75,16 @@ class ConfigImplementationGenerator {
             final ElementKind kind = enclosedElement.getKind();
 
             if (kind == ElementKind.INTERFACE && hasAnnotation(enclosedElement, ConfigSerializable.class)) {
-                spec.add(
-                    enclosedElement.getSimpleName().toString(),
-                    new ConfigImplementationGenerator(this.processor, (TypeElement) enclosedElement)
-                        .generate()
-                        .addModifiers(Modifier.STATIC)
-                );
+                final TypeSpec.@Nullable Builder generated =
+                        new ConfigImplementationGenerator(this.processor, (TypeElement) enclosedElement)
+                                .generate();
+
+                // if something went wrong in the child class, the parent can't complete normally either
+                if (generated == null) {
+                    return false;
+                }
+
+                spec.add(enclosedElement.getSimpleName().toString(), generated.addModifiers(Modifier.STATIC));
                 continue;
             }
 
@@ -87,13 +101,14 @@ class ConfigImplementationGenerator {
 
             final boolean excluded = hasAnnotation(element, Exclude.class);
             if (excluded) {
-                if (!element.isDefault()) {
-                    this.processor.error(
-                            "Cannot make config due to method %s, which is an excluded method that has no implementation!",
-                            element
-                    );
+                if (element.isDefault()) {
+                    continue;
                 }
-                continue;
+                this.processor.error(
+                        "Cannot make config due to method %s, which is an excluded method that has no implementation!",
+                        element
+                );
+                return false;
             }
 
             // all methods are either setters or getters past this point
@@ -101,7 +116,7 @@ class ConfigImplementationGenerator {
             final List<? extends VariableElement> parameters = element.getParameters();
             if (parameters.size() > 1) {
                 this.processor.error("Setters cannot have more than one parameter! Method: " + element);
-                continue;
+                return false;
             }
 
             final String simpleName = element.getSimpleName().toString();
@@ -112,7 +127,7 @@ class ConfigImplementationGenerator {
                 final VariableElement parameter = parameters.get(0);
                 final boolean success = handleSetter(element, simpleName, parameter, nodeType, spec);
                 if (!success) {
-                    continue;
+                    return false;
                 }
                 nodeType = parameter.asType();
             } else {
@@ -131,6 +146,7 @@ class ConfigImplementationGenerator {
         for (final TypeMirror parent : type.getInterfaces()) {
             gatherElementSpec(spec, (TypeElement) this.processor.typeUtils.asElement(parent));
         }
+        return true;
     }
 
     private boolean handleSetter(
