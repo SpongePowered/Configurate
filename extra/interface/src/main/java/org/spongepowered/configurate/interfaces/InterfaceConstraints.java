@@ -1,9 +1,11 @@
 package org.spongepowered.configurate.interfaces;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.interfaces.meta.Hidden;
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultBoolean;
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultDecimal;
 import org.spongepowered.configurate.interfaces.meta.defaults.DefaultNumeric;
+import org.spongepowered.configurate.interfaces.meta.defaults.DefaultString;
 import org.spongepowered.configurate.interfaces.meta.range.DecimalRange;
 import org.spongepowered.configurate.interfaces.meta.range.NumericRange;
 import org.spongepowered.configurate.interfaces.meta.range.StringRange;
@@ -77,27 +79,46 @@ final class InterfaceConstraints {
         };
     }
 
+    @SuppressWarnings("ConstantValue")
     private static Processor.AdvancedFactory<Hidden, Object> hiddenProcessor() {
-        return (ignored, fieldType, element) -> (value, destination) -> {
-            // hidden fields are only not part of the config if the value is the default value, so we check that below
-            if (TypeUtils.isBoolean(fieldType) && element.isAnnotationPresent(DefaultBoolean.class)) {
-                if (!value.equals(element.getAnnotation(DefaultBoolean.class).value())) {
-                    return;
-                }
-            } else if (TypeUtils.isDecimal(fieldType) && element.isAnnotationPresent(DefaultDecimal.class)) {
-                if (((Number) value).doubleValue() != element.getAnnotation(DefaultDecimal.class).value()) {
-                    return;
-                }
-            } else if (TypeUtils.isNumeric(fieldType) && element.isAnnotationPresent(DefaultNumeric.class)) {
-                if (((Number) value).longValue() != element.getAnnotation(DefaultNumeric.class).value()) {
-                    return;
-                }
-            }
+        return (ignored, fieldType, element) -> {
+            // prefetch everything we can
+            final @Nullable DefaultBoolean defaultBoolean = element.getAnnotation(DefaultBoolean.class);
+            final @Nullable DefaultDecimal defaultDecimal = element.getAnnotation(DefaultDecimal.class);
+            final @Nullable DefaultNumeric defaultNumeric = element.getAnnotation(DefaultNumeric.class);
+            final @Nullable DefaultString defaultString = element.getAnnotation(DefaultString.class);
+            final boolean isBoolean = TypeUtils.isBoolean(fieldType);
+            final boolean isDecimal = TypeUtils.isDecimal(fieldType);
+            final boolean isNumeric = TypeUtils.isNumeric(fieldType);
+            final boolean isString = String.class == fieldType;
 
-            // as long as it uses the naming scheme-based resolver parent should be the object holding the field and
-            // key the field type
-            //noinspection DataFlowIssue
-            destination.parent().removeChild(destination.key());
+            // unfortunately default methods cannot be supported in combination with Hidden in Configurate
+
+            return (value, destination) -> {
+                // hidden fields are only absent from the config if the value is the default value, so we check that below
+                if (isBoolean && defaultBoolean != null) {
+                    if (!value.equals(defaultBoolean.value())) {
+                        return;
+                    }
+                } else if (isDecimal && defaultDecimal != null) {
+                    if (((Number) value).doubleValue() != defaultDecimal.value()) {
+                        return;
+                    }
+                } else if (isNumeric && defaultNumeric != null) {
+                    if (((Number) value).longValue() != defaultNumeric.value()) {
+                        return;
+                    }
+                } else if (isString && defaultString != null) {
+                    if (!defaultString.value().equals(value)) {
+                        return;
+                    }
+                }
+
+                // as long as it uses the naming scheme-based resolver parent should be the object holding the field and
+                // key the field type
+                //noinspection DataFlowIssue
+                destination.parent().removeChild(destination.key());
+            };
         };
     }
 

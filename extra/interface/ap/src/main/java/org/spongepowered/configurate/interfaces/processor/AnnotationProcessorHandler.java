@@ -13,6 +13,7 @@ final class AnnotationProcessorHandler {
 
     static {
         HANDLERS.add(AnnotationDefaults.INSTANCE);
+        HANDLERS.add(AnnotationHidden.INSTANCE);
         // always add others as last because it adds all annotations that have not been processed
         HANDLERS.add(AnnotationOthers.INSTANCE);
     }

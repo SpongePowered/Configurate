@@ -14,6 +14,10 @@ import java.lang.annotation.Target;
  * <p>Without a default value the annotated node will be read, but will never
  * be written even if the user explicitly added it to their config.</p>
  *
+ * <b>Note that Hidden doesn't work with default method getters due to a
+ * limitation, and Hidden will function like it doesn't have a default
+ * value.</b>
+ *
  * @since 4.2.0
  */
 @Retention(RetentionPolicy.RUNTIME)
