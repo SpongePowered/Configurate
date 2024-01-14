@@ -9,4 +9,8 @@ public interface BasicConfig {
     void hi(String value);
 
     String hello(String value);
+
+    default String hey(String value) {
+        return "Hello";
+    }
 }

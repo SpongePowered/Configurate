@@ -64,4 +64,15 @@ public interface CorrectDefaults {
 
     @DefaultString("Hello world!")
     String strawberry();
+
+    @DefaultString("Hi")
+    void tamarillo(String value);
+
+    default String ugli() {
+        return "A fruit";
+    }
+
+    default int velvetApple() {
+        return 500;
+    }
 }

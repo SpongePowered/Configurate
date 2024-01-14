@@ -12,6 +12,8 @@ final class BasicConfigImpl implements BasicConfig {
 
     private String hi;
 
+    private String hey;
+
     @Override
     public String hello() {
         return hello;
@@ -26,5 +28,11 @@ final class BasicConfigImpl implements BasicConfig {
     public String hello(String value) {
         this.hello = value;
         return this.hello;
+    }
+
+    @Override
+    public String hey(String value) {
+        this.hey = BasicConfig.super.hey(value);
+        return this.hey;
     }
 }

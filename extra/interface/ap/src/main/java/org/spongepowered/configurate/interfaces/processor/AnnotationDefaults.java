@@ -4,6 +4,7 @@ import static org.spongepowered.configurate.interfaces.processor.Utils.annotatio
 
 import com.google.auto.common.MoreTypes;
 import com.squareup.javapoet.AnnotationSpec;
+import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeMirror;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -34,6 +35,15 @@ final class AnnotationDefaults implements AnnotationProcessor {
             final TypeMirror nodeType,
             final FieldSpecBuilderTracker fieldSpec
     ) throws IllegalStateException {
+        // there are two types of default values, one using annotations and one using the default value of a default method
+
+        // first, handle default value of a default method getter
+        if (element.isDefault() && element.getParameters().isEmpty() && hasNoAnnotationDefaults(element)) {
+            fieldSpec.initializer("$T.super.$L()", element.getEnclosingElement(), element.getSimpleName());
+            return;
+        }
+
+        // if it's not using the default value of a default method, use the annotations
         final @Nullable DefaultBoolean defaultBoolean = annotation(element, DefaultBoolean.class);
         final @Nullable DefaultDecimal defaultDecimal = annotation(element, DefaultDecimal.class);
         final @Nullable DefaultNumeric defaultNumeric = annotation(element, DefaultNumeric.class);
@@ -92,6 +102,15 @@ final class AnnotationDefaults implements AnnotationProcessor {
                         .addMember("value", isString ? "$S" : "$L", value)
         );
         fieldSpec.initializer(isString ? "$S" : "$L", value);
+    }
+
+    static boolean hasNoAnnotationDefaults(final AnnotatedConstruct construct) {
+        for (Class<? extends Annotation> defaultAnnotation : INSTANCE.processes()) {
+            if (annotation(construct, defaultAnnotation) != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

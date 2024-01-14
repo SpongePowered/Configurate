@@ -110,38 +110,13 @@ class ConfigImplementationGenerator {
             if (parameters.size() == 1) {
                 // setter
                 final VariableElement parameter = parameters.get(0);
-
-                final MethodSpec.Builder method = MethodSpec.overriding(element)
-                    .addStatement(
-                        "this.$N = $N",
-                        element.getSimpleName(),
-                        parameter.getSimpleName()
-                    );
-
-                // if it's not void
-                if (!MoreTypes.isTypeOf(Void.TYPE, nodeType)) {
-                    // the return type can be a parent type of parameter, but it has to be assignable
-                    if (!this.processor.typeUtils.isAssignable(parameter.asType(), nodeType)) {
-                        this.processor.error(
-                            "Cannot create a setter with return type %s for argument type %s. Method: %s",
-                            nodeType,
-                            parameter.asType(),
-                            element
-                        );
-                        continue;
-                    }
-                    method.addStatement("return this.$N", element.getSimpleName());
+                final boolean success = handleSetter(element, simpleName, parameter, nodeType, spec);
+                if (!success) {
+                    continue;
                 }
-
-                spec.add(simpleName + "#" + parameter.getSimpleName().toString(), method);
                 nodeType = parameter.asType();
             } else {
-                // getter
-                spec.add(
-                    simpleName,
-                    MethodSpec.overriding(element)
-                        .addStatement("return $N", element.getSimpleName())
-                );
+                handleGetter(element, simpleName, nodeType, spec);
             }
 
             final FieldSpec.Builder fieldSpec = FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE);
@@ -156,6 +131,73 @@ class ConfigImplementationGenerator {
         for (final TypeMirror parent : type.getInterfaces()) {
             gatherElementSpec(spec, (TypeElement) this.processor.typeUtils.asElement(parent));
         }
+    }
+
+    private boolean handleSetter(
+            final ExecutableElement element,
+            final String simpleName,
+            final VariableElement parameter,
+            final TypeMirror returnType,
+            final TypeSpecBuilderTracker spec
+    ) {
+        final MethodSpec.Builder method = MethodSpec.overriding(element);
+
+        // we have two main branches of setters, default non-void setters and non-default any setters
+        if (element.isDefault()) {
+            if (MoreTypes.isTypeOf(Void.TYPE, returnType)) {
+                this.processor.error("A default setter cannot have void as return type. Method: " + element);
+                return false;
+            }
+
+            method.addStatement(
+                    "this.$N = $T.super.$L($N)",
+                    simpleName,
+                    element.getEnclosingElement(),
+                    simpleName,
+                    parameter.getSimpleName()
+            );
+        } else {
+            method.addStatement("this.$N = $N", simpleName, parameter.getSimpleName());
+        }
+
+        // if it's not void
+        if (!MoreTypes.isTypeOf(Void.TYPE, returnType)) {
+            // the return type can be a parent type of parameter, but it has to be assignable
+            if (!this.processor.typeUtils.isAssignable(parameter.asType(), returnType)) {
+                this.processor.error(
+                        "Cannot create a setter with return type %s for argument type %s. Method: %s",
+                        returnType,
+                        parameter.asType(),
+                        element
+                );
+                return false;
+            }
+            method.addStatement("return this.$N", simpleName);
+        }
+
+        spec.add(simpleName + "#" + parameter.getSimpleName(), method);
+        return true;
+    }
+
+    private void handleGetter(
+            final ExecutableElement element,
+            final String simpleName,
+            final TypeMirror nodeType,
+            final TypeSpecBuilderTracker spec
+    ) {
+        // voids aren't valid
+        if (MoreTypes.isTypeOf(Void.TYPE, nodeType)) {
+            this.processor.error(
+                    "Cannot create a getter with return type void for method %s, did you forget to @Exclude this method?",
+                    element
+            );
+        }
+
+        spec.add(
+                simpleName,
+                MethodSpec.overriding(element)
+                        .addStatement("return $N", element.getSimpleName())
+        );
     }
 
 }

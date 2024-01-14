@@ -12,7 +12,6 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
  * Automatically generated implementation of the config */
 @ConfigSerializable
 final class CorrectDefaultsImpl implements CorrectDefaults {
-
     @DefaultBoolean(false)
     private boolean apple = false;
 
@@ -69,6 +68,13 @@ final class CorrectDefaultsImpl implements CorrectDefaults {
 
     @DefaultString("Hello world!")
     private String strawberry = "Hello world!";
+
+    @DefaultString("Hi")
+    private String tamarillo = "Hi";
+
+    private String ugli = CorrectDefaults.super.ugli();
+
+    private int velvetApple = CorrectDefaults.super.velvetApple();
 
     @Override
     public boolean apple() {
@@ -163,5 +169,20 @@ final class CorrectDefaultsImpl implements CorrectDefaults {
     @Override
     public String strawberry() {
         return strawberry;
+    }
+
+    @Override
+    public void tamarillo(String value) {
+        this.tamarillo = value;
+    }
+
+    @Override
+    public String ugli() {
+        return ugli;
+    }
+
+    @Override
+    public int velvetApple() {
+        return velvetApple;
     }
 }
