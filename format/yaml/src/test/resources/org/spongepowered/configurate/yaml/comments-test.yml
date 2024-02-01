@@ -4,6 +4,6 @@ waffles-with-syrup:
     # comments
     ingredients:
     # would you've guessed the ingredients?
-    - waffles
-    # I certainly didn't
-    - syrup
+        - waffles
+        # I certainly didn't
+        - syrup
