@@ -42,11 +42,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "${{ env.JAVA_VERSION }}"
-      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/wrapper-validation-action@v2
 
       # Actually build
       - name: Run Gradle Build
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           cache-read-only: "${{ !(github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')) || github.event_name == 'pull_request' }}"
           arguments: build
