@@ -99,7 +99,7 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
             try {
                 processInterface(typeElement);
             } catch (final IOException exception) {
-                error(exception.getMessage());
+                printError(exception.getMessage());
             }
         }
 
@@ -143,7 +143,7 @@ public final class ConfigImplementationGeneratorProcessor extends AbstractProces
         return this.mappings;
     }
 
-    void error(final String message, final Object... arguments) {
+    void printError(final String message, final Object... arguments) {
         this.messager.printMessage(Kind.ERROR, String.format(Locale.ROOT, message, arguments));
     }
 

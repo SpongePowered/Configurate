@@ -122,7 +122,7 @@ class ConfigImplementationGenerator {
                 if (element.isDefault()) {
                     continue;
                 }
-                this.processor.error(
+                this.processor.printError(
                         "Cannot make config due to method %s, which is an excluded method that has no implementation!",
                         element
                 );
@@ -133,7 +133,7 @@ class ConfigImplementationGenerator {
 
             final List<? extends VariableElement> parameters = element.getParameters();
             if (parameters.size() > 1) {
-                this.processor.error("Setters cannot have more than one parameter! Method: " + element);
+                this.processor.printError("Setters cannot have more than one parameter! Method: " + element);
                 return false;
             }
 
@@ -183,7 +183,7 @@ class ConfigImplementationGenerator {
         // we have two main branches of setters, default non-void setters and non-default any setters
         if (element.isDefault()) {
             if (MoreTypes.isTypeOf(Void.TYPE, returnType)) {
-                this.processor.error("A default setter cannot have void as return type. Method: " + element);
+                this.processor.printError("A default setter cannot have void as return type. Method: " + element);
                 return false;
             }
 
@@ -202,7 +202,7 @@ class ConfigImplementationGenerator {
         if (!MoreTypes.isTypeOf(Void.TYPE, returnType)) {
             // the return type can be a parent type of parameter, but it has to be assignable
             if (!this.processor.typeUtils.isAssignable(parameter.asType(), returnType)) {
-                this.processor.error(
+                this.processor.printError(
                         "Cannot create a setter with return type %s for argument type %s. Method: %s",
                         returnType,
                         parameter.asType(),
@@ -225,7 +225,7 @@ class ConfigImplementationGenerator {
     ) {
         // voids aren't valid
         if (MoreTypes.isTypeOf(Void.TYPE, nodeType)) {
-            this.processor.error(
+            this.processor.printError(
                     "Cannot create a getter with return type void for method %s, did you forget to @Exclude this method?",
                     element
             );
