@@ -20,7 +20,7 @@ import static org.spongepowered.configurate.interfaces.processor.TestUtils.testC
 
 import org.junit.jupiter.api.Test;
 
-public class DefaultValueTest {
+class DefaultValueTest {
 
     @Test
     void testCorrectDefaults() {
