@@ -30,6 +30,8 @@ import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.Locale;
+
 final class InterfaceMiddleware {
 
     private InterfaceMiddleware() {
@@ -54,6 +56,7 @@ final class InterfaceMiddleware {
             final double value = number.doubleValue();
             if (!(data.from() >= value && data.to() <= value)) {
                 throw new SerializationException(String.format(
+                    Locale.ROOT,
                     "'%s' is not in the allowed range of from: %s, to: %s!",
                     value, data.from(), data.to()
                 ));
@@ -71,6 +74,7 @@ final class InterfaceMiddleware {
             final long value = number.longValue();
             if (!(data.from() >= value && data.to() <= value)) {
                 throw new SerializationException(String.format(
+                    Locale.ROOT,
                     "'%s' is not in the allowed range of from: %s, to: %s!",
                     value, data.from(), data.to()
                 ));
@@ -88,6 +92,7 @@ final class InterfaceMiddleware {
             final int length = string.length();
             if (!(data.from() >= length && data.to() <= length)) {
                 throw new SerializationException(String.format(
+                    Locale.ROOT,
                     "'%s' is not in the allowed string length range of from: %s, to: %s!",
                     length, data.from(), data.to()
                 ));

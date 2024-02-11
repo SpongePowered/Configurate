@@ -23,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import com.google.common.io.Resources;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
+
+import java.util.Locale;
+
 import org.spongepowered.configurate.interfaces.Constants;
 
 import java.io.IOException;
@@ -90,6 +93,7 @@ final class TestUtils {
             // we only support generating simple (not nested) configs,
             // for complexer configs we need a mappings file
             return Collections.singletonList(String.format(
+                Locale.ROOT,
                 "%s=%s",
                 sourceResourceName.replace('/', '.'),
                 targetResourceName.replace('/', '.')
