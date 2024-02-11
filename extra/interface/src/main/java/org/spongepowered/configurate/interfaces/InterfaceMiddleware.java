@@ -14,12 +14,12 @@ import org.spongepowered.configurate.objectmapping.meta.Constraint;
 import org.spongepowered.configurate.objectmapping.meta.Processor;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-final class InterfaceConstraints {
+final class InterfaceMiddleware {
 
-    private InterfaceConstraints() {
+    private InterfaceMiddleware() {
     }
 
-    static ObjectMapper.Factory buildObjectMapperWithConstraints() {
+    static ObjectMapper.Factory buildObjectMapperWithMiddleware() {
         return ObjectMapper.factoryBuilder()
             .addConstraint(DecimalRange.class, Number.class, decimalRange())
             .addConstraint(NumericRange.class, Number.class, numericRange())

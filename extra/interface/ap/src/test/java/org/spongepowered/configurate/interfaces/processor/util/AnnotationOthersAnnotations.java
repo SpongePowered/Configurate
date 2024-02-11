@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 public final class AnnotationOthersAnnotations {
+
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     public @interface AnnotationNoField {}
@@ -19,4 +20,5 @@ public final class AnnotationOthersAnnotations {
 
     @Target({ElementType.METHOD, ElementType.FIELD})
     public @interface AnnotationNoRetention {}
+
 }

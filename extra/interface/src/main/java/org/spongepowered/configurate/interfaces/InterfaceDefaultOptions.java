@@ -33,7 +33,7 @@ public final class InterfaceDefaultOptions {
             .serializers(
                 TypeSerializerCollection.builder()
                     .registerAnnotated(InterfaceTypeSerializer::applicable, InterfaceTypeSerializer.INSTANCE)
-                    .registerAnnotatedObjects(InterfaceConstraints.buildObjectMapperWithConstraints())
+                    .registerAnnotatedObjects(InterfaceMiddleware.buildObjectMapperWithMiddleware())
                     .registerAll(TypeSerializerCollection.defaults())
                     .build()
             );

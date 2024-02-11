@@ -17,6 +17,7 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.interfaces.meta.Exclude;
+import org.spongepowered.configurate.interfaces.meta.Field;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.PostProcess;
 
@@ -135,6 +136,10 @@ class ConfigImplementationGenerator {
             }
 
             final FieldSpec.Builder fieldSpec = FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE);
+
+            if (hasAnnotation(element, Field.class)) {
+                fieldSpec.addModifiers(Modifier.TRANSIENT);
+            }
 
             //todo add tests for hidden in both ap and interfaces and defaults in interfaces
             AnnotationProcessorHandler.handle(element, nodeType, fieldSpec);
