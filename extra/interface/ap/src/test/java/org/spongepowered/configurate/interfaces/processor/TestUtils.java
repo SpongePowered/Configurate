@@ -23,9 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import com.google.common.io.Resources;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
-
-import java.util.Locale;
-
 import org.spongepowered.configurate.interfaces.Constants;
 
 import java.io.IOException;
@@ -34,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.tools.StandardLocation;
