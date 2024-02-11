@@ -25,17 +25,6 @@ import static io.leangen.geantyref.GenericTypeReflector.updateAnnotations;
 import static java.util.Objects.requireNonNull;
 
 import io.leangen.geantyref.GenericTypeReflector;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -52,6 +41,18 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 import org.spongepowered.configurate.util.CheckedFunction;
 import org.spongepowered.configurate.util.NamingScheme;
 import org.spongepowered.configurate.util.NamingSchemes;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Factory for a basic {@link ObjectMapper}.

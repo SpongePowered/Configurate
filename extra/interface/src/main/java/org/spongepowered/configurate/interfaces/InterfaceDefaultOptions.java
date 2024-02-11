@@ -16,9 +16,10 @@
  */
 package org.spongepowered.configurate.interfaces;
 
-import java.util.function.UnaryOperator;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
+
+import java.util.function.UnaryOperator;
 
 /**
  * This class has the default {@link ConfigurationOptions}

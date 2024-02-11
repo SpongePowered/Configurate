@@ -22,12 +22,17 @@ import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.interfaces.Constants;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
+
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -42,9 +47,6 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.interfaces.Constants;
-import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 /**
  * Generates an implementation for a given interface based config,

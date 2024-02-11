@@ -16,11 +16,11 @@
  */
 package org.spongepowered.configurate.objectmapping.meta;
 
-import java.lang.reflect.AnnotatedElement;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
 import java.util.ResourceBundle;
 
