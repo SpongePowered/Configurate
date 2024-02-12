@@ -33,6 +33,7 @@ import java.util.Set;
 
 import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
 final class AnnotationDefaults implements AnnotationProcessor {
@@ -48,6 +49,7 @@ final class AnnotationDefaults implements AnnotationProcessor {
 
     @Override
     public void process(
+            final TypeElement targetInterface,
             final ExecutableElement element,
             final TypeMirror nodeType,
             final FieldSpecBuilderTracker fieldSpec
@@ -56,7 +58,7 @@ final class AnnotationDefaults implements AnnotationProcessor {
 
         // first, handle default value of a default method getter
         if (element.isDefault() && element.getParameters().isEmpty() && hasNoAnnotationDefaults(element)) {
-            fieldSpec.initializer("$T.super.$L()", element.getEnclosingElement(), element.getSimpleName());
+            fieldSpec.initializer("$T.super.$L()", targetInterface, element.getSimpleName());
             return;
         }
 

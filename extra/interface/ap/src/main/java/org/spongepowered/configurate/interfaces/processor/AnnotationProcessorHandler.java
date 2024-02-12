@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
 final class AnnotationProcessorHandler {
@@ -37,11 +38,15 @@ final class AnnotationProcessorHandler {
 
     private AnnotationProcessorHandler() {}
 
-    static void handle(final ExecutableElement element, final TypeMirror nodeType, final FieldSpec.Builder fieldSpec) {
+    static void handle(
+            final TypeElement targetInterface,
+            final ExecutableElement element,
+            final TypeMirror nodeType,
+            final FieldSpec.Builder fieldSpec) {
         final FieldSpecBuilderTracker fieldTracker = new FieldSpecBuilderTracker(fieldSpec);
 
         for (AnnotationProcessor handler : HANDLERS) {
-            handler.process(element, nodeType, fieldTracker);
+            handler.process(targetInterface, element, nodeType, fieldTracker);
             fieldTracker.processed(handler.processes());
         }
     }

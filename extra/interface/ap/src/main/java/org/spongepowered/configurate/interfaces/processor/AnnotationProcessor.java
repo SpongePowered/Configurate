@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
 interface AnnotationProcessor {
@@ -40,6 +41,11 @@ interface AnnotationProcessor {
      * @param fieldSpec the builder of the field that is being generated
      * @throws IllegalStateException when something goes wrong
      */
-    void process(ExecutableElement element, TypeMirror nodeType, FieldSpecBuilderTracker fieldSpec) throws IllegalStateException;
+    void process(
+            TypeElement targetInterface,
+            ExecutableElement element,
+            TypeMirror nodeType,
+            FieldSpecBuilderTracker fieldSpec
+    ) throws IllegalStateException;
 
 }

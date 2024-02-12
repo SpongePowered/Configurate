@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
 final class AnnotationHidden implements AnnotationProcessor {
@@ -42,6 +43,7 @@ final class AnnotationHidden implements AnnotationProcessor {
 
     @Override
     public void process(
+            final TypeElement targetInterface,
             final ExecutableElement element,
             final TypeMirror nodeType,
             final FieldSpecBuilderTracker fieldSpec

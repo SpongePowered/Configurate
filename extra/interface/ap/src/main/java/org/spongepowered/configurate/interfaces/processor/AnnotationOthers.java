@@ -48,7 +48,11 @@ final class AnnotationOthers implements AnnotationProcessor {
     }
 
     @Override
-    public void process(final ExecutableElement element, final TypeMirror nodeType, final FieldSpecBuilderTracker fieldSpec) {
+    public void process(
+            final TypeElement targetInterface,
+            final ExecutableElement element,
+            final TypeMirror nodeType,
+            final FieldSpecBuilderTracker fieldSpec) {
         for (AnnotationMirror annotationMirror : element.getAnnotationMirrors()) {
             //noinspection UnstableApiUsage
             final TypeElement annotationType = MoreElements.asType(annotationMirror.getAnnotationType().asElement());

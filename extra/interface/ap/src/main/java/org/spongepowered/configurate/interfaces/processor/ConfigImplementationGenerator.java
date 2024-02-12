@@ -47,10 +47,10 @@ class ConfigImplementationGenerator {
 
     ConfigImplementationGenerator(
         final ConfigImplementationGeneratorProcessor processor,
-        final TypeElement configInterfaceType
+        final TypeElement source
     ) {
         this.processor = processor;
-        this.source = configInterfaceType;
+        this.source = source;
     }
 
     /**
@@ -159,7 +159,7 @@ class ConfigImplementationGenerator {
             }
 
             //todo add tests for hidden in both ap and interfaces and defaults in interfaces
-            AnnotationProcessorHandler.handle(element, nodeType, fieldSpec);
+            AnnotationProcessorHandler.handle(this.source, element, nodeType, fieldSpec);
 
             spec.add(simpleName, fieldSpec);
         }
