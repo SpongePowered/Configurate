@@ -10,7 +10,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 final class MultiLayerConfigImpl implements MultiLayerConfig {
     private String test;
 
-    private MultiLayerConfig.SecondLayer second;
+    private MultiLayerConfig.SecondLayer second = new SecondLayerImpl();
 
     @Override
     public String test() {
