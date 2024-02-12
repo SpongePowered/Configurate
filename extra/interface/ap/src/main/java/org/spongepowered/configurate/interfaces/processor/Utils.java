@@ -27,6 +27,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Types;
 
 final class Utils {
 
@@ -65,6 +66,13 @@ final class Utils {
         return MoreTypes.isTypeOf(Byte.TYPE, typeMirror) || MoreTypes.isTypeOf(Character.TYPE, typeMirror)
             || MoreTypes.isTypeOf(Short.TYPE, typeMirror) || MoreTypes.isTypeOf(Integer.TYPE, typeMirror)
             || MoreTypes.isTypeOf(Long.TYPE, typeMirror);
+    }
+
+    public static TypeElement toBoxedTypeElement(final TypeMirror mirror, final Types typeUtils) {
+        if (mirror.getKind().isPrimitive()) {
+            return typeUtils.boxedClass(MoreTypes.asPrimitiveType(mirror));
+        }
+        return MoreTypes.asTypeElement(mirror);
     }
 
 }

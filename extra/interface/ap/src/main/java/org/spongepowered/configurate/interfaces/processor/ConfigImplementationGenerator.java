@@ -158,6 +158,20 @@ class ConfigImplementationGenerator {
                 fieldSpec.addModifiers(Modifier.TRANSIENT);
             }
 
+            // set a default value for config subsections
+            final TypeElement nodeTypeElement = Utils.toBoxedTypeElement(nodeType, this.processor.typeUtils);
+            if (!element.isDefault() && hasAnnotation(nodeTypeElement, ConfigSerializable.class)) {
+                ClassName configClass = ClassName.get(nodeTypeElement);
+                if (nodeTypeElement.getKind().isInterface()) {
+                    // first find the generated class for given type
+                    String implName = this.processor.generatedClasses().getProperty(configClass.reflectionName());
+                    // make it canonical and replace superinterface type with source interface type if present
+                    implName = implName.replace('$', '.').replace(type.getQualifiedName(), this.source.getQualifiedName());
+                    configClass = ClassName.bestGuess(implName);
+                }
+                fieldSpec.initializer("new $T()", configClass);
+            }
+
             //todo add tests for hidden in both ap and interfaces and defaults in interfaces
             AnnotationProcessorHandler.handle(this.source, element, nodeType, fieldSpec);
 
