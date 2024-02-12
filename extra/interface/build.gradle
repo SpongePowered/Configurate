@@ -5,8 +5,6 @@ plugins {
 description = "Utility classes for generated config interface implementations"
 
 dependencies {
-    compileOnly projects.core
-
+    api projects.core
     testAnnotationProcessor projects.extra.extraInterface.extraInterfaceAp
-    testImplementation projects.core
 }
