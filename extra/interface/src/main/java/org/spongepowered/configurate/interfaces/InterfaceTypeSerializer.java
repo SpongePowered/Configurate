@@ -87,14 +87,23 @@ final class InterfaceTypeSerializer implements TypeSerializer<Object> {
     }
 
     @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void serialize(
         final Type type,
         final @Nullable Object obj,
         final ConfigurationNode node
     ) throws SerializationException {
-        throw new SerializationException(
-            "I can only deserialize stuff. Serialization has to be handled by ObjectMapper!"
-        );
+        // don't determine serialize from type, because that might be incorrect for subsections
+        if (obj == null) {
+            node.set(null);
+            return;
+        }
+
+        final @Nullable TypeSerializer serializer = node.options().serializers().get(obj.getClass());
+        if (serializer == null) {
+            throw new SerializationException("No serializer found for implementation class " + obj.getClass());
+        }
+        serializer.serialize(obj.getClass(), obj, node);
     }
 
     private String availableMappings() {
