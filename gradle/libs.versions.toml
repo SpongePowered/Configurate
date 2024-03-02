@@ -73,7 +73,7 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.4"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.6"
 detekt = "io.gitlab.arturbosch.detekt:1.23.5"
 dokka = "org.jetbrains.dokka:1.9.10"
 gitPublish = "org.ajoberstar.git-publish:3.0.1"
