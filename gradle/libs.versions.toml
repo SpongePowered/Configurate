@@ -55,7 +55,7 @@ jansi = "org.fusesource.jansi:jansi:2.4.1"
 
 # Build
 build-codenarc = { module = "org.codenarc:CodeNarc", version = "3.4.0-groovy-4.0" }
-build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.20" }
+build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.21" }
 build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:3.1.0"
 build-forbiddenApis = "de.thetaphi:forbiddenapis:3.7"
 build-goomph = "com.diffplug.gradle:goomph:3.44.0"
