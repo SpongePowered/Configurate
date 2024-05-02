@@ -108,7 +108,7 @@ jobs:
           commit-message: "Publishing javadoc for ${{ github.repository }} ${{ env.VERSION }}"
       - name: Publish configurate-tool as release artifact
         if: "${{ runner.os == 'Linux' && env.STATUS == 'release' && github.event_name == 'release' }}"
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             tool/build/distributions/tool-${{ env.VERSION }}.tar.gz
