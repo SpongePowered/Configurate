@@ -188,6 +188,10 @@ class ConfigImplementationGenerator {
                 if (nodeTypeElement.getKind().isInterface()) {
                     // first find the generated class for given type
                     String implName = this.processor.generatedClasses().getProperty(configClass.reflectionName());
+                    if (implName == null) {
+                        this.processor.printError("Could not determine an implementation type for method " + element.getSimpleName());
+                        return false;
+                    }
                     // make it canonical and replace superinterface type with source interface type if present
                     implName = implName.replace('$', '.').replace(type.getQualifiedName(), this.source.getQualifiedName());
                     configClass = ClassName.bestGuess(implName);
