@@ -30,12 +30,15 @@ import org.spongepowered.configurate.interfaces.meta.Field;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.PostProcess;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
@@ -87,6 +90,19 @@ class ConfigImplementationGenerator {
         final TypeSpecBuilderTracker spec,
         final TypeElement type
     ) {
+        return gatherElementSpec(spec, type, new HashSet<>());
+    }
+
+    /**
+     * Returns true if successful, otherwise false.
+     *
+     * @param excludedElements a set of all elements a superclass has annotated with {@link Exclude}.
+     */
+    private boolean gatherElementSpec(
+        final TypeSpecBuilderTracker spec,
+        final TypeElement type,
+        final Set<Name> excludedElements
+    ) {
         // first handle own elements
 
         for (final Element enclosedElement : type.getEnclosedElements()) {
@@ -117,9 +133,16 @@ class ConfigImplementationGenerator {
                 continue;
             }
 
+            if (excludedElements.contains(element.getSimpleName())) {
+                continue;
+            }
             final boolean excluded = hasAnnotation(element, Exclude.class);
             if (excluded) {
                 if (element.isDefault()) {
+                    // Do not add setters to the exclusion list as they will not be serialized anyway.
+                    if (element.getParameters().isEmpty()) {
+                        excludedElements.add(element.getSimpleName());
+                    }
                     continue;
                 }
                 this.processor.printError(
@@ -180,7 +203,7 @@ class ConfigImplementationGenerator {
 
         // then handle parent elements
         for (final TypeMirror parent : type.getInterfaces()) {
-            gatherElementSpec(spec, (TypeElement) this.processor.typeUtils.asElement(parent));
+            gatherElementSpec(spec, (TypeElement) this.processor.typeUtils.asElement(parent), excludedElements);
         }
         return true;
     }
