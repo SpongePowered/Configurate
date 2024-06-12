@@ -31,7 +31,6 @@ public final class InterfaceDefaultOptions {
                 TypeSerializerCollection.builder()
                     .registerAnnotated(InterfaceTypeSerializer::applicable, InterfaceTypeSerializer.INSTANCE)
                     .registerAnnotatedObjects(InterfaceMiddleware.buildObjectMapperWithMiddleware())
-                    .registerAll(TypeSerializerCollection.defaults())
                     .build();
 
     private InterfaceDefaultOptions() {
@@ -57,7 +56,8 @@ public final class InterfaceDefaultOptions {
      * @since 4.2.0
      */
     public static ConfigurationOptions addTo(final ConfigurationOptions options) {
-        return options.serializers(DEFAULTS.childBuilder().registerAll(options.serializers()).build());
+        // This creates a new TypeSerializerCollection with 'options' as parent. Child takes priority over parent.
+        return options.serializers(serializers -> serializers.registerAll(DEFAULTS));
     }
 
 }
