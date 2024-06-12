@@ -33,7 +33,6 @@ final class TypeUtils {
         }
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private static <T> String implClassNameFor(final Class<T> interfaceClass) {
         final String packageName = interfaceClass.getPackage().getName();
         // include the package name dot as well

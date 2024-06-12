@@ -30,7 +30,7 @@ class InterfaceTypeSerializerTest {
 
     @Test
     void testDeserialization() throws ConfigurateException {
-        final BasicConfigurationNode node = BasicConfigurationNode.root(InterfaceDefaultOptions.get());
+        final BasicConfigurationNode node = BasicConfigurationNode.root(InterfaceDefaultOptions.defaults());
         // doesn't deserialize if value is NullValue
         node.node("hello").set("world");
 
@@ -41,7 +41,7 @@ class InterfaceTypeSerializerTest {
 
     @Test
     void testInnerDeserialization() throws ConfigurateException {
-        final BasicConfigurationNode node = BasicConfigurationNode.root(InterfaceDefaultOptions.get());
+        final BasicConfigurationNode node = BasicConfigurationNode.root(InterfaceDefaultOptions.defaults());
         // doesn't deserialize if value is NullValue
         node.node("hello").set("world");
 

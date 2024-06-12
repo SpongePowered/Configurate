@@ -19,8 +19,6 @@ package org.spongepowered.configurate.interfaces;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
-import java.util.function.UnaryOperator;
-
 /**
  * This class has the default {@link ConfigurationOptions}
  * with {@link InterfaceTypeSerializer} added to the serializers.
@@ -29,15 +27,12 @@ import java.util.function.UnaryOperator;
  */
 public final class InterfaceDefaultOptions {
 
-    private static final ConfigurationOptions DEFAULTS =
-        ConfigurationOptions.defaults()
-            .serializers(
+    private static final TypeSerializerCollection DEFAULTS =
                 TypeSerializerCollection.builder()
                     .registerAnnotated(InterfaceTypeSerializer::applicable, InterfaceTypeSerializer.INSTANCE)
                     .registerAnnotatedObjects(InterfaceMiddleware.buildObjectMapperWithMiddleware())
                     .registerAll(TypeSerializerCollection.defaults())
-                    .build()
-            );
+                    .build();
 
     private InterfaceDefaultOptions() {
     }
@@ -48,21 +43,21 @@ public final class InterfaceDefaultOptions {
      * @return the default ConfigurationOptions with {@link InterfaceTypeSerializer} added to the serializers.
      * @since 4.2.0
      */
-    public static ConfigurationOptions get() {
-        return DEFAULTS;
+    public static ConfigurationOptions defaults() {
+        return addTo(ConfigurationOptions.defaults());
     }
 
     /**
      * Sets the default configuration options to be used by the resultant loader
-     * by providing a function which takes the current {@link #get() default options}
-     * and applies any desired changes.
+     * by providing a function which takes interface's default serializer
+     * collection and applies any desired changes.
      *
      * @param options to transform the existing default options
      * @return the default options with the applied changes
      * @since 4.2.0
      */
-    public static ConfigurationOptions with(final UnaryOperator<ConfigurationOptions> options) {
-        return options.apply(DEFAULTS);
+    public static ConfigurationOptions addTo(final ConfigurationOptions options) {
+        return options.serializers(DEFAULTS.childBuilder().registerAll(options.serializers()).build());
     }
 
 }
