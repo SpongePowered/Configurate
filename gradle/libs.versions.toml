@@ -1,6 +1,6 @@
 [versions]
 assertj="3.25.3"
-autoValue="1.10.4"
+autoValue="1.11.0"
 checkerQual="3.43.0"
 checkstyle="10.16.0"
 geantyref = "1.3.15"
