@@ -1,5 +1,5 @@
 [versions]
-assertj="3.25.3"
+assertj="3.26.3"
 autoValue="1.11.0"
 checkerQual="3.43.0"
 checkstyle="10.17.0"
