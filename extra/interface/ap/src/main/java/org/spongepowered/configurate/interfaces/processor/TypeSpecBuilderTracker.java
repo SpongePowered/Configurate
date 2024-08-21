@@ -36,8 +36,9 @@ final class TypeSpecBuilderTracker {
     private final Map<String, MethodSpec.Builder> methodSpecs = new LinkedHashMap<>();
     private final Map<String, TypeSpec> typeSpecs = new LinkedHashMap<>();
 
-    void add(final String fieldIdentifier, final FieldSpec.Builder builder) {
-        final FieldSpec.Builder existing = this.fieldSpecs.get(fieldIdentifier);
+    void add(final String fieldIdentifier, final FieldSpec.Builder builder, final boolean override) {
+        final FieldSpec.Builder existing = override ? this.fieldSpecs.remove(fieldIdentifier)
+                : this.fieldSpecs.get(fieldIdentifier);
         if (existing != null) {
             final FieldSpec existingBuild = existing.build();
             final FieldSpec builderBuild = builder.build();
@@ -46,6 +47,9 @@ final class TypeSpecBuilderTracker {
                 existing.initializer(builderBuild.initializer);
             }
             existing.addAnnotations(pickNewAnnotations(existingBuild.annotations, builderBuild.annotations));
+            if (override) {
+                this.fieldSpecs.put(fieldIdentifier, existing);
+            }
             return;
         }
         this.fieldSpecs.put(fieldIdentifier, builder);

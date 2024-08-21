@@ -104,6 +104,8 @@ class ConfigImplementationGenerator {
         final Set<Name> excludedElements
     ) {
         // first handle own elements
+        // If this interface is noted as ConfigSerializable, then its element order should override previous configs
+        final boolean hasConfigSerializable = hasAnnotation(type, ConfigSerializable.class);
 
         for (final Element enclosedElement : type.getEnclosedElements()) {
             final ElementKind kind = enclosedElement.getKind();
@@ -202,7 +204,9 @@ class ConfigImplementationGenerator {
             //todo add tests for hidden in both ap and interfaces and defaults in interfaces
             AnnotationProcessorHandler.handle(this.source, element, nodeType, fieldSpec);
 
-            spec.add(simpleName, fieldSpec);
+            // If this is a getter and ConfigSerializable, then it should define where in the config
+            // this element should go.
+            spec.add(simpleName, fieldSpec, hasConfigSerializable && element.getParameters().isEmpty());
         }
 
         // then handle parent elements
