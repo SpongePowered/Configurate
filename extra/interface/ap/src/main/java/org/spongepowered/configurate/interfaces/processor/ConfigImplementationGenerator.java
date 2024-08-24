@@ -179,13 +179,14 @@ class ConfigImplementationGenerator {
 
             final FieldSpec.Builder fieldSpec = FieldSpec.builder(TypeName.get(nodeType), simpleName, Modifier.PRIVATE);
 
-            if (hasAnnotation(element, Field.class)) {
+            final boolean isField = hasAnnotation(element, Field.class);
+            if (isField) {
                 fieldSpec.addModifiers(Modifier.TRANSIENT);
             }
 
             // set a default value for config subsections
             final TypeElement nodeTypeElement = Utils.toBoxedTypeElement(nodeType, this.processor.typeUtils);
-            if (!element.isDefault() && hasAnnotation(nodeTypeElement, ConfigSerializable.class)) {
+            if (!isField && !element.isDefault() && hasAnnotation(nodeTypeElement, ConfigSerializable.class)) {
                 ClassName configClass = ClassName.get(nodeTypeElement);
                 if (nodeTypeElement.getKind().isInterface()) {
                     // first find the generated class for given type
