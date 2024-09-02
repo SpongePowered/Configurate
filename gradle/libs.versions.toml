@@ -62,7 +62,7 @@ build-goomph = "com.diffplug.gradle:goomph:3.44.0"
 build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 build-indra-crossdoc = { module = "net.kyori:indra-crossdoc", version.ref = "indra" }
 build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.3"
-build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.22.+" }
+build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.23.+" }
 build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:2.0.0"
 build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 build-shadow = { module = "com.github.johnrengelman:shadow", version = "8.1.1" }
