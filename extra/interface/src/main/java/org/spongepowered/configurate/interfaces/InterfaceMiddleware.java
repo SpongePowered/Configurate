@@ -37,13 +37,12 @@ final class InterfaceMiddleware {
     private InterfaceMiddleware() {
     }
 
-    static ObjectMapper.Factory buildObjectMapperWithMiddleware() {
+    static ObjectMapper.Factory.Builder buildObjectMapperWithMiddleware() {
         return ObjectMapper.factoryBuilder()
             .addConstraint(DecimalRange.class, Number.class, decimalRange())
             .addConstraint(NumericRange.class, Number.class, numericRange())
             .addConstraint(StringRange.class, String.class, stringRange())
-            .addProcessor(Hidden.class, hiddenProcessor())
-            .build();
+            .addProcessor(Hidden.class, hiddenProcessor());
     }
 
     private static Constraint.Factory<DecimalRange, Number> decimalRange() {
