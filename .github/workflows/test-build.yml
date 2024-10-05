@@ -79,7 +79,7 @@ jobs:
           ORG_GRADLE_PROJECT_spongeKeyStorePassword: "${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}"
       - name: Publish to GH pages
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
           branch: gh-pages
           force: false
@@ -95,7 +95,7 @@ jobs:
           installation_retrieval_payload: "SpongePowered/APIJavadocs"
       - name: Publish Javadoc to Sponge index
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
           folder: build/publish-jd
           repository-name: SpongePowered/APIJavadocs
