@@ -87,18 +87,18 @@ if (project.hasProperty("spongeKeyStore")) {
 }
 
 indra {
-    github("SpongePowered", "Configurate") {
-        publishing(true) // GH Packages
+    github("Syrent", "Configurate") {
+        publishing(true) // GH Packagess
         ci(true) // GH Actions
     }
     apache2License()
 
     if (
-        project.hasProperty("spongeSnapshotRepo") &&
-        project.hasProperty("spongeReleaseRepo")
+        project.hasProperty("sayanSnapshotRepo") &&
+        project.hasProperty("sayanReleaseRepo")
     ) {
-        publishSnapshotsTo("sponge", project.spongeSnapshotRepo)
-        publishReleasesTo("sponge", project.spongeReleaseRepo)
+        publishSnapshotsTo("sayanrepo", project.sayanSnapshotRepo)
+        publishReleasesTo("sayanrepo", project.sayanReleaseRepo)
     }
 
     configurePublications {
