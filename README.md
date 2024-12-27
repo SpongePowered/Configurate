@@ -7,7 +7,7 @@
 
 Configurate is a simple configuration library for Java applications that provides a node-based representation of data, able to handle a wide variety of configuration formats.
 
-Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/PtaGRAs) or start a thread on our (new!) [Discussions](https://github.com/SpongePowered/Configurate/discussions) page.
+Want to talk to us about Configurate? Join us in the `#dev` channel on our [Discord](https://discord.gg/sponge) or start a thread on our (new!) [Discussions](https://github.com/SpongePowered/Configurate/discussions) page.
 
 The current supported formats are:
 
@@ -86,7 +86,7 @@ More detailed usage instructions can be found in the [Configurate wiki](https://
 #### Clone
 The following steps will ensure your project is cloned properly.
 
-1. `git clone https://github.com/SpongePowered/Configurate.git`
+1. `git clone https://github.com/SpongePowered/Configurate.git --recurse-submodules`
 2. `cd Configurate`
 
 #### Building
