@@ -9,7 +9,7 @@ indra = "3.1.3"
 junit="5.11.3"
 ktlint="0.49.1"
 ktfmt="0.49"
-pmd = "6.55.0"
+pmd = "7.9.0"
 spotless = "6.25.0"
 
 [libraries]
