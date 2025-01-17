@@ -17,7 +17,6 @@
         <exclude name="JUnitTestsShouldIncludeAssert"/>
         <exclude name="LiteralsFirstInComparisons"/>
         <exclude name="PreserveStackTrace"/> <!-- for a lot of parse errors, the stacktrace is not important -->
-        <exclude name="UseAssertTrueInsteadOfAssertEquals"/> <!-- false positives on comparisons to Object-returning methods -->
         <exclude name="UseVarargs"/>
 
         <!-- We don't want to depend on a logging framework -->
@@ -38,7 +37,6 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
     <rule ref="category/java/codestyle.xml/UnnecessarySemicolon"/>
-    <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
 
     <!-- https://pmd.github.io/latest/pmd_rules_java_design.html -->
     <rule ref="category/java/design.xml/AvoidThrowingNullPointerException"/>
