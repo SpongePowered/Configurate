@@ -269,7 +269,15 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         // the constructor needs ConfigurationOptions for the to be created nodes
         // and since it's a thread-local, this won't cause any issues
         this.constructor.get().options = node.options();
-        node.from(this.yaml.get().load(reader));
+
+        @Nullable CommentedConfigurationNode loaded = this.yaml.get().load(reader);
+        // when a file exists but is empty (or if the file only exists of comments), the first event will be StreamEnd.
+        // getSingleNode will return null, getSingleData uses the Constructor of Tag Null, which just returns null.
+        // So we have to map null to an empty root node.
+        if (loaded == null) {
+            loaded = CommentedConfigurationNode.root(node.options());
+        }
+        node.from(loaded);
     }
 
     @Override

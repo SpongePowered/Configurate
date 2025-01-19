@@ -31,6 +31,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +61,17 @@ class YamlConstructor extends Constructor {
     protected Object constructObjectNoCheck(final Node yamlNode) {
         //noinspection DataFlowIssue guarenteed NonNull by getSingleData, which load(Reader) uses
         final CommentedConfigurationNode node = CommentedConfigurationNode.root(this.options);
+
+        // alright, let's first check some interesting behaviour.
+        // When you have a file with only empty lines (has to be at least two),
+        // a Tag of the type COMMENT will be executed.
+        // It'll have a blockComment of the type empty line.
+        // This is unlike the behaviour of an empty file and a file with only comments,
+        // because both won't be seen as an object and will instead return null by Yaml#load.
+        // Let's filter out the multi-empty-lines behaviour and return an empty node instead.
+        if (yamlNode.getTag() == Tag.COMMENT) {
+            return node;
+        }
 
         if (yamlNode.getNodeId() == NodeId.mapping) {
             // make sure to mark it as a map type, even if the map itself is empty

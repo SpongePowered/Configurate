@@ -35,6 +35,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -109,6 +110,57 @@ class YamlConfigurationLoaderTest {
     }
 
     @Test
+    void testNonExistentFile() throws IOException {
+        final Path path = Paths.get("non-existent-file.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().path(path).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testEmptyFile(final @TempDir Path tempDir) throws IOException {
+        // an empty file should be seen as empty node, by default SnakeYaml returns null for loading an empty file.
+        // Check if it correctly gets mapped to an empty node.
+
+        // Configurate's Spotless settings require an empty row after the last row (so essentially making the file
+        // multiline), to bypass this we write an empty temp file and read that.
+        final Path emptyFile = tempDir.resolve("empty-file.yml");
+        Files.write(emptyFile, Collections.emptyList());
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().path(emptyFile).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testEmptyFileMultiline() throws IOException {
+        // a multiline file has at least some data (the fact that it has multiple lines), which is why it's handled
+        // differently inside SnakeYaml. This is seen as a mapping node with the Tag COMMENT.
+
+        final URL url = this.resource("no-data-multiline.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().url(url).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testEmptyFileOnlyComments() throws IOException {
+        // just like 'empty file' and 'empty file multiline', this is kind of a weird situation.
+        // In SnakeYaml, when the file exists of just comments, the first event will be StreamEnd.
+        // getSingleNode will return null, getSingleData uses the Constructor of Tag Null, which just returns null.
+        // Make sure that we return an empty node there.
+
+        final URL url = this.resource("no-data-just-comments.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().url(url).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
     void testReadComments() throws IOException {
         final ConfigurationNode expected = CommentedConfigurationNode.root(n ->
             n.node("waffles-with-syrup")
@@ -123,8 +175,7 @@ class YamlConfigurationLoaderTest {
                 ));
 
         final URL url = this.resource("comments-test.yml");
-        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
-            .url(url).build();
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().url(url).build();
 
         final ConfigurationNode actual = loader.load();
         assertEquals(expected, actual);
