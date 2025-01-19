@@ -19,6 +19,7 @@ package org.spongepowered.configurate.yaml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.leangen.geantyref.TypeToken;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -34,7 +35,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,7 +50,7 @@ class YamlConfigurationLoaderTest {
 
     @Test
     void testSimpleLoading() throws ConfigurateException {
-        final URL url = this.getClass().getResource("/example.yml");
+        final URL url = this.resource("/example.yml");
         final ConfigurationLoader<CommentedConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
@@ -73,7 +77,7 @@ class YamlConfigurationLoaderTest {
             });
         });
 
-        final URL url = this.getClass().getResource("/tab-example.yml");
+        final URL url = this.resource("/tab-example.yml");
         final ConfigurationLoader<CommentedConfigurationNode> loader = YamlConfigurationLoader.builder()
                 .url(url).build();
         final ConfigurationNode node = loader.load();
@@ -81,7 +85,7 @@ class YamlConfigurationLoaderTest {
     }
 
     @Test
-    void testWriteBasicFile(final @TempDir Path tempDir) throws ConfigurateException, IOException {
+    void testWriteBasicFile(final @TempDir Path tempDir) throws IOException {
         final Path target = tempDir.resolve("write-basic.yml");
         final ConfigurationNode node = BasicConfigurationNode.root(n -> {
             n.node("mapping", "first").set("hello");
@@ -102,12 +106,207 @@ class YamlConfigurationLoaderTest {
 
         loader.save(node);
 
-        assertEquals(readLines(this.getClass().getResource("write-expected.yml")), Files.readAllLines(target, StandardCharsets.UTF_8));
+        assertContentsSame(this.resource("write-expected.yml"), target);
     }
 
-    private static List<String> readLines(final URL source) throws IOException {
+    @Test
+    void testNonExistentFile() throws IOException {
+        final Path path = Paths.get("non-existent-file.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().path(path).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testEmptyFile(final @TempDir Path tempDir) throws IOException {
+        // an empty file should be seen as empty node, by default SnakeYaml returns null for loading an empty file.
+        // Check if it correctly gets mapped to an empty node.
+
+        // Configurate's Spotless settings require an empty row after the last row (so essentially making the file
+        // multiline), to bypass this we write an empty temp file and read that.
+        final Path emptyFile = tempDir.resolve("empty-file.yml");
+        Files.write(emptyFile, Collections.emptyList());
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().path(emptyFile).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testEmptyFileMultiline() throws IOException {
+        // a multiline file has at least some data (the fact that it has multiple lines), which is why it's handled
+        // differently inside SnakeYaml. This is seen as a mapping node with the Tag COMMENT.
+
+        final URL url = this.resource("no-data-multiline.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().url(url).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testEmptyFileOnlyComments() throws IOException {
+        // just like 'empty file' and 'empty file multiline', this is kind of a weird situation.
+        // In SnakeYaml, when the file exists of just comments, the first event will be StreamEnd.
+        // getSingleNode will return null, getSingleData uses the Constructor of Tag Null, which just returns null.
+        // Make sure that we return an empty node there.
+
+        final URL url = this.resource("no-data-just-comments.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().url(url).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(CommentedConfigurationNode.root(), actual);
+    }
+
+    @Test
+    void testReadComments() throws IOException {
+        final ConfigurationNode expected = CommentedConfigurationNode.root(n ->
+            n.node("waffles-with-syrup")
+                .comment("hello world")
+                .act(p ->
+                    p.node("ingredients")
+                        .comment("multi-line\ncomments")
+                        .act(i -> {
+                            i.appendListNode().set("waffles").comment("would you've guessed the ingredients?");
+                            i.appendListNode().set("syrup").comment("I certainly didn't");
+                        })
+                ));
+
+        final URL url = this.resource("comments-test.yml");
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().url(url).build();
+
+        final ConfigurationNode actual = loader.load();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testWriteComments(final @TempDir Path tempDir) throws IOException {
+        final Path target = tempDir.resolve("comments-write.yml");
+        final ConfigurationNode node = CommentedConfigurationNode.root(n ->
+            n.node("waffles-with-syrup")
+                .comment("hello world")
+                .act(p ->
+                    p.node("ingredients")
+                        .comment("multi-line\ncomments")
+                        .act(i -> {
+                            i.appendListNode().set("waffles").comment("would you've guessed the ingredients?");
+                            i.appendListNode().set("syrup").comment("I certainly didn't");
+                        })
+                ));
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(target)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        loader.save(node);
+
+        assertContentsSame(this.resource("comments-test.yml"), target);
+    }
+
+    @Test
+    void testReadWriteComments(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("comments-test.yml");
+        final Path destination = tempDir.resolve("comments-readwrite.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
+    @Test
+    void testComplexKeys() throws ConfigurateException {
+        final URL source = this.resource("complex-keys.yaml");
+        final CommentedConfigurationNode node = YamlConfigurationLoader.builder()
+            .url(source)
+            .build().load();
+
+        assertEquals("good", node.node("mapping", Arrays.asList("one", "two")).getString());
+        assertEquals("bad", node.node("mapping", Arrays.asList("red", "blue")).getString());
+        assertEquals("cat", node.node("mapping", Collections.singletonMap("name", "Meow")).getString());
+    }
+
+    @Test
+    void testRoundtripEssX(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("essx-example.yml");
+        final Path destination = tempDir.resolve("essx-example-roundtrip.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .indent(2)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
+    @Test
+    void testRoundtripEssXLegacy(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("essx-legacy.yml");
+        final Path destination = tempDir.resolve("essx-legacy-roundtrip.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .nodeStyle(NodeStyle.BLOCK)
+            .indent(2)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
+    @Test
+    void testRoundtripMobCleaner(final @TempDir Path tempDir) throws IOException {
+        final URL source = this.resource("mobcleaner-example.yml");
+        final Path destination = tempDir.resolve("mobcleaner-example-roundtrip.yml");
+
+        final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(destination)
+            .url(source)
+            .indent(2)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+
+        final ConfigurationNode sourceNode = loader.load();
+        loader.save(sourceNode);
+
+        assertContentsSame(source, destination);
+    }
+
+    private URL resource(final String path) {
+        final @Nullable URL res = this.getClass().getResource(path);
+        if (res == null) {
+            throw new IllegalArgumentException("No resource found for path '" + path + "'");
+        }
+        return res;
+    }
+
+    private static void assertContentsSame(final URL expected, final Path actual) throws IOException {
+        assertEquals(
+            readLines(expected),
+            String.join("\n", Files.readAllLines(actual, StandardCharsets.UTF_8))
+        );
+    }
+
+    private static String readLines(final URL source) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(source.openStream(), StandardCharsets.UTF_8))) {
-            return reader.lines().collect(Collectors.toList());
+            return reader.lines().collect(Collectors.joining("\n"));
         }
     }
 

@@ -1,0 +1,9 @@
+# hello world
+waffles-with-syrup:
+    # multi-line
+    # comments
+    ingredients:
+    # would you've guessed the ingredients?
+        - waffles
+        # I certainly didn't
+        - syrup
