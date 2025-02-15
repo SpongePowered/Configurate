@@ -167,7 +167,10 @@ tasks.jar {
 
 // Configure target versions
 indra {
-    javaVersions().testWith(8, 11, 17)
+    javaVersions() {
+        testWith(8, 11, 17)
+        minimumToolchain(17)
+    }
 }
 
 // Don't compile AP-generated sources from within IDE
