@@ -77,7 +77,7 @@ class ObjectMappingTest {
                 node {
                     this.node("name").set("meow")
                     this.node("attributes").set("quiet") // does not match regex
-                },
+                }
             )
         }
     }
@@ -94,7 +94,7 @@ class ObjectMappingTest {
             CommentedConfigurationNode.root(
                 ConfigurationOptions.defaults().implicitInitialization(true).serializers {
                     it.registerAnnotatedObjects(objectMapperFactory())
-                },
+                }
             )
 
         val tester = objectMapper<ImplicitTest>().load(node)

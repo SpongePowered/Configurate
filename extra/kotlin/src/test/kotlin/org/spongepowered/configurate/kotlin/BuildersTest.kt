@@ -28,7 +28,7 @@ class BuildersTest {
         attributed(
             "ServerPack",
             "version" to "1.15.2",
-            "url" to "https://permissionsex.stellardrift.ca"
+            "url" to "https://permissionsex.stellardrift.ca",
         ) {
             this.node("a").set("Hello")
             this.node("Game, over").set(5)
@@ -69,7 +69,7 @@ private val NO_VALUE: Any = Any()
 fun <N : ScopedConfigurationNode<N>> N.child(
     vararg path: Any,
     value: Any? = NO_VALUE,
-    init: N.() -> Unit = {}
+    init: N.() -> Unit = {},
 ) {
     val node = this.node(*path)
     if (value != NO_VALUE) {

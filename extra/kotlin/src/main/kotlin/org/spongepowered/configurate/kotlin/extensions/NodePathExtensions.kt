@@ -23,7 +23,7 @@ import org.spongepowered.configurate.NodePath
 // TODO: Deprecated due to being added directly to class, make HIDDEN for 4.2.0
 @Deprecated(
     message = "This method has been added directly to NodePath",
-    replaceWith = ReplaceWith("this.plus(other)")
+    replaceWith = ReplaceWith("this.plus(other)"),
 )
 operator fun NodePath.plus(other: NodePath): NodePath {
     return NodePath.of(
@@ -33,7 +33,7 @@ operator fun NodePath.plus(other: NodePath): NodePath {
             } else {
                 other[it - size()]
             }
-        },
+        }
     )
 }
 
