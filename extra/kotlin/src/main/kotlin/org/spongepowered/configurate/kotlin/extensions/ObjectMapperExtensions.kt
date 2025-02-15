@@ -65,7 +65,7 @@ fun <T : Any> TypeSerializerCollection.get(type: KClass<T>): TypeSerializer<T>? 
  */
 fun <A : Annotation> Builder.addProcessor(
     definition: KClass<A>,
-    factory: Processor.Factory<A, Any?>
+    factory: Processor.Factory<A, Any?>,
 ): Builder = addProcessor(definition.java, factory)
 
 /**
@@ -105,7 +105,7 @@ inline fun <reified A : Annotation, reified T : Any> Builder.addProcessor(
  */
 fun <A : Annotation> Builder.addConstraint(
     definition: KClass<A>,
-    factory: Constraint.Factory<A, Any?>
+    factory: Constraint.Factory<A, Any?>,
 ): Builder = addConstraint(definition.java, factory)
 
 /**

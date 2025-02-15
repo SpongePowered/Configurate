@@ -30,7 +30,7 @@ fun createLoader(source: Path): ConfigurationLoader<*> {
         .defaultOptions {
             it.serializers { s ->
                 s.registerAnnotatedObjects(
-                    ObjectMapper.factoryBuilder().addDiscoverer(dataClassFieldDiscoverer()).build(),
+                    ObjectMapper.factoryBuilder().addDiscoverer(dataClassFieldDiscoverer()).build()
                 )
             }
         }

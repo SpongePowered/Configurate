@@ -99,7 +99,7 @@ class Tool :
 
     This helps to understand the internal structure of Configurate's nodes
     """
-                .trimIndent(),
+                .trimIndent()
     ) {
     init {
         AnsiConsole.systemInstall()
@@ -174,7 +174,7 @@ sealed class FormatSubcommand<N : ScopedConfigurationNode<N>>(formatName: String
                     SPLIT,
                     attributes
                         .map { (k, v) -> "@|green \"$k\"|@=@|green \"$v\"|@" }
-                        .joinToString(", ")
+                        .joinToString(", "),
                 )
             }
         }
