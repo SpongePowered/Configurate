@@ -29,7 +29,7 @@ jobs:
         id: setup
         uses: SpongePowered/.github/.github/actions/setup-java-env@master
         with:
-          runtime_version: 11
+          runtime_version: 17
           publishing_branch_regex: "master|3\\.x|(?:release/[\\d.x]+)"
       # Actually build
       - name: Run Gradle Build
