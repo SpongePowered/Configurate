@@ -6,7 +6,7 @@ checkstyle="10.21.2"
 geantyref = "1.3.16"
 errorprone="2.27.1"
 indra = "3.1.3"
-junit="5.11.3"
+junit="5.11.4"
 ktlint="0.49.1"
 ktfmt="0.49"
 pmd = "6.55.0"
@@ -55,13 +55,13 @@ jansi = "org.fusesource.jansi:jansi:2.4.1"
 
 # Build
 build-codenarc = { module = "org.codenarc:CodeNarc", version = "3.5.0-groovy-4.0" }
-build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.24" }
+build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.25" }
 build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:3.1.0"
 build-forbiddenApis = "de.thetaphi:forbiddenapis:3.8"
 build-goomph = "com.diffplug.gradle:goomph:4.2.0"
 build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 build-indra-crossdoc = { module = "net.kyori:indra-crossdoc", version.ref = "indra" }
-build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.5"
+build-japicmp-plugin = "me.champeau.gradle:japicmp-gradle-plugin:0.4.6"
 build-japicmp = { module = "com.github.siom79.japicmp:japicmp", version.require = "0.23.+" }
 build-nullaway = "net.ltgt.gradle:gradle-nullaway-plugin:2.1.0"
 build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
