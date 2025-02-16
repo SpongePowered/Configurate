@@ -107,7 +107,7 @@ configurations {
 // Apply a license header
 def spotlessCommon = { FormatExtension f ->
     f.toggleOffOn("@formatter:off", "@formatter:on")
-    f.indentWithSpaces()
+    f.leadingTabsToSpaces()
     f.endWithNewline()
     f.trimTrailingWhitespace()
 }
