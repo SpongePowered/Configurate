@@ -37,6 +37,7 @@ import java.lang.reflect.TypeVariable;
 import java.util.AbstractCollection;
 import java.util.Collection;
 
+@SuppressWarnings("PMD.LooseCoupling") // specific types matter
 class TypesTest {
 
     @Test

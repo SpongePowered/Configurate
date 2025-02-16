@@ -96,6 +96,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
+    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     protected AbstractConfigurationNode(final @Nullable A parent, final A copyOf) {
         this.options = copyOf.options();
         this.attached = true; // copies are always attached
@@ -734,7 +735,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
-    @SuppressWarnings({"JdkObsolete", "unchecked"})
+    @SuppressWarnings({"JdkObsolete", "unchecked", "PMD.LooseCoupling"})
     private <S, T, E extends Exception> T visitInternal(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
         visitor.beginVisit(this.self(), state);
         if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value
