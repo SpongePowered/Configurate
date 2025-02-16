@@ -1,6 +1,6 @@
 plugins {
     id "org.spongepowered.configurate.build.component"
-    id "com.github.johnrengelman.shadow"
+    id "com.gradleup.shadow"
 }
 
 configurations {
