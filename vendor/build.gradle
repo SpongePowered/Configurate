@@ -46,6 +46,8 @@ project(":snakeyaml") {
     def mavenPom = project.file("../snakeyaml-upstream/pom.xml")
     if (mavenPom.exists()) {
         def document = new XmlSlurper().parse(mavenPom)
+        def properties = document.properties.'*'.collectEntries { Map.entry(it.name().replaceAll('\\.', '__'), it.text()) }
+
         def scopes = [
             test    : 'testImplementation',
             compile : 'implementation',
@@ -54,11 +56,12 @@ project(":snakeyaml") {
         ]
 
         dependencies {
+            def templateEngine = new groovy.text.SimpleTemplateEngine()
             def dependencies = document.dependencies.dependency
             dependencies.each { dep ->
                 def group = dep.groupId
                 def artifact = dep.artifactId
-                def version = dep.version
+                def version = templateEngine.createTemplate(dep.version.text().replaceAll('\\.', '__')).make(properties).toString().replaceAll('__', '.')
                 def configuration = scopes[dep.scope]
                 if (configuration != null) {
                     add(configuration, "$group:$artifact:$version")

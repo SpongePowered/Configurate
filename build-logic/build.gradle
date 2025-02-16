@@ -44,7 +44,7 @@ dependencies {
 spotless {
     def common = { FormatExtension conf ->
         conf.endWithNewline()
-        conf.indentWithSpaces(4)
+        conf.leadingTabsToSpaces(4)
         conf.trimTrailingWhitespace()
         conf.toggleOffOn('@formatter:off', '@formatter:on')
     }
