@@ -104,6 +104,7 @@ public class ValueReferences implements AutoCloseable {
         this.base.save();
     }
 
+    @SuppressWarnings("SystemConsoleNull")
     public void repl() {
         boolean running = true;
         if (System.console() == null) {
