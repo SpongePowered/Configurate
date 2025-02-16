@@ -230,7 +230,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 case FIELD_NAME:
                     break;
                 default:
-                    final JsonLocation loc = parser.getTokenLocation();
+                    final JsonLocation loc = JacksonCompat.currentTokenLocation(parser);
                     throw new ParsingException(node, loc.getLineNr(), loc.getColumnNr(), parser.getText(), "Unsupported token type: " + token, null);
             }
         } catch (final StreamReadException ex) {
@@ -252,7 +252,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 written = true;
             }
         }
-        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed array!", null);
+        throw newException(node, JacksonCompat.currentLocation(parser), null, "Reached end of stream with unclosed array!", null);
     }
 
     private static void parseObject(final JsonParser parser, final ConfigurationNode node) throws IOException {
@@ -265,11 +265,11 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                 }
                 return;
             } else {
-                parseValue(parser, node.node(parser.getCurrentName()));
+                parseValue(parser, node.node(JacksonCompat.currentName(parser)));
                 written = true;
             }
         }
-        throw newException(node, parser.getCurrentLocation(), null, "Reached end of stream with unclosed object!", null);
+        throw newException(node, JacksonCompat.currentLocation(parser), null, "Reached end of stream with unclosed object!", null);
     }
 
     @Override
