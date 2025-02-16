@@ -61,7 +61,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("checkstyle:IllegalType") // for Optional
+@SuppressWarnings({
+    "checkstyle:IllegalType", // for Optional
+    "PMD.LooseCoupling" // testing specific type implementations
+})
 class TypeSerializersTest {
 
     private <T> TypeSerializer<T> serializer(final TypeToken<T> type) {

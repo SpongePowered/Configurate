@@ -28,6 +28,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
@@ -41,7 +42,7 @@ class DirectoryListenerRegistration implements Subscriber<WatchEvent<?>> {
     private final Lock lock = new ReentrantLock();
     private final AtomicBoolean acceptingRegistrations = new AtomicBoolean(true);
     private final WatchKey key;
-    private final ConcurrentHashMap<Path, Processor<WatchEvent<?>, WatchEvent<?>>> fileListeners
+    private final ConcurrentMap<Path, Processor<WatchEvent<?>, WatchEvent<?>>> fileListeners
         = new ConcurrentHashMap<>();
     private final Executor executor;
     private final Processor<WatchEvent<?>, WatchEvent<?>> dirListeners;
