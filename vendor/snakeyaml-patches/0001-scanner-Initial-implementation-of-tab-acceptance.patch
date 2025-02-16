@@ -5,10 +5,10 @@ Subject: [PATCH] scanner: Initial implementation of tab acceptance
 
 
 diff --git a/src/main/java/org/yaml/snakeyaml/LoaderOptions.java b/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
-index 12038cbbab7d0263739b8738a309412157be71c5..772c8819aab4b39d702d89d0508dc79d2126c13f 100644
+index fda63cf784f5f308f9c2b7b23dd7e6c9b5a4b617..d36f4db48f9de077959c39f0e003bd9b690f970c 100644
 --- a/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
 +++ b/src/main/java/org/yaml/snakeyaml/LoaderOptions.java
-@@ -32,6 +32,8 @@ public class LoaderOptions {
+@@ -34,6 +34,8 @@ public class LoaderOptions {
  
    private boolean processComments = false;
  
@@ -17,7 +17,7 @@ index 12038cbbab7d0263739b8738a309412157be71c5..772c8819aab4b39d702d89d0508dc79d
    private boolean enumCaseSensitive = true;
  
    private int nestingDepthLimit = 50;
-@@ -149,6 +151,30 @@ public class LoaderOptions {
+@@ -182,6 +184,30 @@ public class LoaderOptions {
      return this;
    }
  
@@ -49,7 +49,7 @@ index 12038cbbab7d0263739b8738a309412157be71c5..772c8819aab4b39d702d89d0508dc79d
     * getter
     *
 diff --git a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
-index ca2343c2d223abee59c219aa58629efd46429fdf..e566816b2cf7719a14c601f2551aa7f6f0c13cd6 100644
+index f38b61f97f6e6a2f187b7e15f2ce05839cb36866..85dae0a2a9c0ab7358938a6a8ec6e5e04b99f53a 100644
 --- a/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
 +++ b/src/main/java/org/yaml/snakeyaml/scanner/ScannerImpl.java
 @@ -216,11 +216,14 @@ public final class ScannerImpl implements Scanner {
@@ -67,7 +67,7 @@ index ca2343c2d223abee59c219aa58629efd46429fdf..e566816b2cf7719a14c601f2551aa7f6
      this.reader = reader;
      this.tokens = new ArrayList<Token>(100);
      this.indents = new ArrayStack<Integer>(10);
-@@ -1213,7 +1216,7 @@ public final class ScannerImpl implements Scanner {
+@@ -1228,7 +1231,7 @@ public final class ScannerImpl implements Scanner {
        int ff = 0;
        // Peek ahead until we find the first non-space character, then
        // move forward directly to that character.
