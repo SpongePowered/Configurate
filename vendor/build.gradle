@@ -80,7 +80,7 @@ project(":snakeyaml") {
 
     def applyPatches = rootProject.tasks.named("applySnakeyamlPatches")
     tasks.withType(JavaCompile).configureEach {
-        options.release.set(7)
+        options.release.set(8)
         if (!disableAutoPatchApply) {
             dependsOn applyPatches
         }

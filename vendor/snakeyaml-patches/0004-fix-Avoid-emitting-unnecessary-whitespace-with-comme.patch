@@ -5,10 +5,10 @@ Subject: [PATCH] fix: Avoid emitting unnecessary whitespace with comments
 
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb6a798bfa 100644
+index cbb80699d5bfb18a14ded385d9c81228d21a3f2b..5baf93ae969c0158f5b302ec2f3337f4555107d2 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-@@ -1334,6 +1334,10 @@ public final class Emitter implements Emitable {
+@@ -1345,6 +1345,10 @@ public final class Emitter implements Emitable {
    }
  
    void writeIndent() throws IOException {
@@ -19,7 +19,7 @@ index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb
      int indent;
      if (this.indent != null) {
        indent = this.indent;
-@@ -1345,7 +1349,8 @@ public final class Emitter implements Emitable {
+@@ -1356,7 +1360,8 @@ public final class Emitter implements Emitable {
        writeLineBreak(null);
      }
  
@@ -29,7 +29,7 @@ index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb
    }
  
    private void writeWhitespace(int length) throws IOException {
-@@ -1539,7 +1544,8 @@ public final class Emitter implements Emitable {
+@@ -1550,7 +1555,8 @@ public final class Emitter implements Emitable {
      writeIndicator("\"", false, false, false);
    }
  
@@ -39,7 +39,7 @@ index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb
      boolean wroteComment = false;
      if (emitComments) {
        int indentColumns = 0;
-@@ -1548,6 +1554,8 @@ public final class Emitter implements Emitable {
+@@ -1559,6 +1565,8 @@ public final class Emitter implements Emitable {
          if (commentLine.getCommentType() != CommentType.BLANK_LINE) {
            if (firstComment) {
              firstComment = false;
@@ -48,7 +48,7 @@ index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb
              writeIndicator("#", commentLine.getCommentType() == CommentType.IN_LINE, false, false);
              indentColumns = this.column > 0 ? this.column - 1 : 0;
            } else {
-@@ -1558,7 +1566,7 @@ public final class Emitter implements Emitable {
+@@ -1569,7 +1577,7 @@ public final class Emitter implements Emitable {
            writeLineBreak(null);
          } else {
            writeLineBreak(null);
@@ -57,7 +57,7 @@ index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb
          }
          wroteComment = true;
        }
-@@ -1568,8 +1576,8 @@ public final class Emitter implements Emitable {
+@@ -1579,8 +1587,8 @@ public final class Emitter implements Emitable {
  
    private void writeBlockComment() throws IOException {
      if (!blockCommentsCollector.isEmpty()) {
@@ -68,7 +68,7 @@ index b2f9e9486fd43570b831cf2409e1321aeedcb38b..b6f9ca0f81d93128b492d56e7dc249cb
        if (!prettyFlow && flowLevel > 0) {
          prettyFlow = true;
          requiredPrettyFlowLevel++;
-@@ -1578,7 +1586,7 @@ public final class Emitter implements Emitable {
+@@ -1589,7 +1597,7 @@ public final class Emitter implements Emitable {
    }
  
    private boolean writeInlineComments() throws IOException {
