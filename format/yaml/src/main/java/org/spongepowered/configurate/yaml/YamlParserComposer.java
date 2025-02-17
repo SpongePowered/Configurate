@@ -273,13 +273,15 @@ final class YamlParserComposer extends ParserImpl {
     // comments
 
     void applyComments(final ConfigurationNode node) {
-        if (!(node instanceof CommentedConfigurationNodeIntermediary<@NonNull?>)) {
+        if (!(node instanceof CommentedConfigurationNodeIntermediary<?>)) {
             return; // no comments are even collected
         }
 
         if (this.commentCollector != null && this.commentCollector.length() > 0) {
             final StringBuilder collector = this.commentCollector;
-            final CommentedConfigurationNodeIntermediary<@NonNull ?> commented = (CommentedConfigurationNodeIntermediary<@NonNull ?>) node;
+            @SuppressWarnings("unchecked")
+            final CommentedConfigurationNodeIntermediary<? extends @NonNull Object> commented
+                    = (CommentedConfigurationNodeIntermediary<? extends @NonNull Object>) node;
             if (commented.comment() != null) {
                 collector.insert(0, commented.comment());
                 collector.insert(commented.comment().length(), '\n');
@@ -307,10 +309,12 @@ final class YamlParserComposer extends ParserImpl {
     }
 
     void applyComment(final @Nullable String comment, final ConfigurationNode node) {
-        if (comment == null || !(node instanceof CommentedConfigurationNodeIntermediary<@NonNull ?>)) {
+        if (comment == null || !(node instanceof CommentedConfigurationNodeIntermediary<?>)) {
             return;
         }
-        final CommentedConfigurationNodeIntermediary<@NonNull ?> commented = (CommentedConfigurationNodeIntermediary<@NonNull ?>) node;
+        @SuppressWarnings("unchecked")
+        final CommentedConfigurationNodeIntermediary<? extends @NonNull Object> commented
+                = (CommentedConfigurationNodeIntermediary<? extends @NonNull Object>) node;
         if (commented.comment() != null) {
             commented.comment(
                 commented.comment()

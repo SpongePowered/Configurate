@@ -79,8 +79,8 @@ final class YamlVisitor implements ConfigurationVisitor<YamlVisitor.State, Void,
 
     @Override
     public void enterNode(final ConfigurationNode node, final State state) throws ConfigurateException {
-        if (node instanceof CommentedConfigurationNodeIntermediary<@NonNull ?> && state.options.isProcessComments()) {
-            final @Nullable String comment = ((CommentedConfigurationNodeIntermediary<@NonNull ?>) node).comment();
+        if (node instanceof CommentedConfigurationNodeIntermediary<?> && state.options.isProcessComments()) {
+            final @Nullable String comment = ((CommentedConfigurationNodeIntermediary<? extends @NonNull Object>) node).comment();
             if (comment != null) {
                 if (this.shouldPadComments && node != state.start) {
                     if (!state.first) {

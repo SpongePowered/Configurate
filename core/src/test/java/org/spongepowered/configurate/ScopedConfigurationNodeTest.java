@@ -35,6 +35,7 @@ class ScopedConfigurationNodeTest {
 
     @ConfigSerializable
     static final class TestClass {
+        @Keep
         private NonRegisteredClass non = new NonRegisteredClass();
     }
 
