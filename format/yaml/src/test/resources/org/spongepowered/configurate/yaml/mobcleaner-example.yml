@@ -20,17 +20,17 @@ worlds:
   world:
     # The entities to be removed from the world
     entities:
-    - BEE
-    - CAVE_SPIDER
-    - CHICKEN
-    - CREEPER
-    - SHEEP
-    - SKELETON
-    - SLIME
-    - SPIDER
-    - SQUID
-    - WOLF
-    - ZOMBIE
+      - BEE
+      - CAVE_SPIDER
+      - CHICKEN
+      - CREEPER
+      - SHEEP
+      - SKELETON
+      - SLIME
+      - SPIDER
+      - SQUID
+      - WOLF
+      - ZOMBIE
 
     # Should only entities with a specific spawn reason be removed?
     # Setting this to false will check for any spawn reason
@@ -38,12 +38,12 @@ worlds:
       enabled: false
       # See https://papermc.io/javadocs/paper/1.16/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html for all spawn reasons
       reasons:
-      - SPAWNER
-      - SPAWNER_EGG
+        - SPAWNER
+        - SPAWNER_EGG
   world_nether:
     entities:
-    - BLAZE
-    - ZOMBIFIED_PIGLIN
+      - BLAZE
+      - ZOMBIFIED_PIGLIN
     spawn-reason:
       enabled: false
       reasons: []

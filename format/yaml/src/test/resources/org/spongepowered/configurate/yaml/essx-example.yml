@@ -154,7 +154,7 @@ notify-player-of-mail-cooldown: 60
 # When a command conflicts with another plugin, by default, Essentials will try to force the OTHER plugin to take priority.
 # Commands in this list, will tell Essentials to 'not give up' the command to other plugins.
 # In this state, which plugin 'wins' appears to be almost random.
-#
+
 # If you have two plugin with the same command and you wish to force Essentials to take over, you need an alias.
 # To force essentials to take 'god' alias 'god' to 'egod'.
 # See http://wiki.bukkit.org/Commands.yml#aliases for more information.
@@ -232,7 +232,7 @@ mute-commands:
 # If you are using an unsupported permissions system, simply delete this section.
 # Whitelist the commands and permissions you wish to give players by default (everything else is op only).
 # These are the permissions without the "essentials." part.
-#
+
 # To enable this feature, please set use-bukkit-permissions to false.
 player-commands:
   - afk
@@ -389,7 +389,7 @@ allow-old-id-signs: false
 # another plugin provides a sign that EssentialsX provides, but Essentials overrides.
 # For example, if a plugin provides a [kit] sign, and you wish to use theirs instead of
 # Essentials's, then simply add kit below and Essentials will not protect it.
-#
+
 # See https://github.com/drtshock/Essentials/pull/699 for more information.
 unprotected-sign-names:
   # - kit
@@ -641,11 +641,11 @@ world-time-permissions: false
 
 # Specify cooldown for both Essentials commands and external commands as well.
 # All commands do not start with a Forward Slash (/). Instead of /msg, write msg
-#
+
 # Wildcards are supported. E.g.
 # - '*i*': 50
 # adds a 50 second cooldown to all commands that include the letter i
-#
+
 # EssentialsX supports regex by starting the command with a caret ^
 # For example, to target commands starting with ban and not banip the following would be used:
 #  '^ban([^ip])( .*)?': 60 # 60 seconds /ban cooldown.
@@ -857,9 +857,7 @@ hide-permissionless-help: true
 
 # You need to install EssentialsX Chat for this section to work.
 # See https://essentialsx.net/wiki/Module-Breakdown.html for more information.
-
 chat:
-
   # If EssentialsX Chat is installed, this will define how far a player's voice travels, in blocks. Set to 0 to make all chat global.
   # Note that users with the "essentials.chat.spy" permission will hear everything, regardless of this setting.
   # Users with essentials.chat.shout can override this by prefixing their message with an exclamation mark (!)
@@ -888,8 +886,8 @@ chat:
   # {TEAMSUFFIX} - The sender's scoreboard team suffix.
 
   format: '<{DISPLAYNAME}> {MESSAGE}'
-  #format: '&7[{GROUP}]&r {DISPLAYNAME}&7:&r {MESSAGE}'
-  #format: '&7{PREFIX}&r {DISPLAYNAME}&r &7{SUFFIX}&r: {MESSAGE}'
+  # format: '&7[{GROUP}]&r {DISPLAYNAME}&7:&r {MESSAGE}'
+  # format: '&7{PREFIX}&r {DISPLAYNAME}&r &7{SUFFIX}&r: {MESSAGE}'
 
   group-formats:
   #  default: '{WORLDNAME} {DISPLAYNAME}&7:&r {MESSAGE}'
@@ -1094,7 +1092,6 @@ protect:
     on-break:
 
   blacklist:
-
     # Which blocks should people be prevented from placing?
     placement: LAVA,TNT,LAVA_BUCKET
 
@@ -1118,7 +1115,6 @@ protect:
 
 # You need to install EssentialsX Spawn for this section to work.
 # See https://essentialsx.net/wiki/Module-Breakdown.html for more information.
-
 newbies:
   # Should we announce to the server when someone logs in for the first time?
   # If so, use this format, replacing {DISPLAYNAME} with the player name.
@@ -1162,9 +1158,9 @@ respawn-at-anchor: false
 # Teleport all joining players to the spawnpoint
 spawn-on-join: false
 # The following value of `guests` states that all players in group `guests` will be teleported to spawn when joining.
-#spawn-on-join: guests
+# spawn-on-join: guests
 # The following list value states that all players in group `guests` and `admin` are to be teleported to spawn when joining.
-#spawn-on-join:
+# spawn-on-join:
 # - guests
 # - admin
 

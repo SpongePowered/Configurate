@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: zml <zml@stellardrift.ca>
+Date: Sun, 16 Feb 2025 20:09:57 -0800
+Subject: [PATCH] emitter: Do not apply indicator indent to block sequences at
+ root level
+
+This root-level indentation adds extraneous whitespace that looks kinda awkward
+
+diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
+index 5baf93ae969c0158f5b302ec2f3337f4555107d2..d85f065850ce0d4a076f63fee5ad2e3bf3e74d4e 100644
+--- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
++++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
+@@ -734,16 +734,18 @@ public final class Emitter implements Emitable {
+   private class ExpectFirstBlockSequenceItem implements EmitterState {
+ 
+     public void expect() throws IOException {
+-      new ExpectBlockSequenceItem(true).expect();
++      new ExpectBlockSequenceItem(true, rootContext).expect();
+     }
+   }
+ 
+   private class ExpectBlockSequenceItem implements EmitterState {
+ 
+     private final boolean first;
++    private final boolean suppressIndicatorIndent;
+ 
+-    public ExpectBlockSequenceItem(boolean first) {
++    public ExpectBlockSequenceItem(boolean first, boolean suppressIndicatorIndent) {
+       this.first = first;
++      this.suppressIndicatorIndent = suppressIndicatorIndent;
+     }
+ 
+     public void expect() throws IOException {
+@@ -757,14 +759,14 @@ public final class Emitter implements Emitable {
+           writeBlockComment();
+         }
+         writeIndent();
+-        if (!indentWithIndicator || this.first) {
++        if ((!indentWithIndicator || this.first) && !this.suppressIndicatorIndent) {
+           writeWhitespace(indicatorIndent);
+         }
+         writeIndicator("-", true, false, true);
+-        if (indentWithIndicator && this.first) {
++        if (indentWithIndicator && this.first && !this.suppressIndicatorIndent) {
+           indent += indicatorIndent;
+         }
+-        states.push(new ExpectBlockSequenceItem(false));
++        states.push(new ExpectBlockSequenceItem(false, this.suppressIndicatorIndent));
+         expectNode(false, false, false);
+         inlineCommentsCollector.collectEvents();
+         writeInlineComments();
