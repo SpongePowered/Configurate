@@ -1,2 +1,7 @@
-[*]
+[snakeyaml/**]
 indent_size = 2
+ij_continuation_indent_size = 4
+
+[typesafe-config/**]
+# same as root but swap java.** and * to match typesafe-config existing files
+ij_java_imports_layout = $*, |, java.**, |, *

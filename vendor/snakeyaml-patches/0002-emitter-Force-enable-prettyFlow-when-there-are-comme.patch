@@ -8,7 +8,7 @@ sequences. It might be nice to capture the prettiness status of input
 data, but that seems extremely error-prone and probably not worth doing.
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index 7ba1cd72dfe51ca80131b05d38fdba8e7f37e60c..1cdf6658139bb08939a830ce1dbf1d762d0f8fda 100644
+index 09db74988192742d6fd4693bbe0e1dafcb4a408e..6842ba3dc1e29603dceebc2deced5fde61e94684 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 @@ -161,7 +161,14 @@ public final class Emitter implements Emitable {
@@ -104,7 +104,7 @@ index 7ba1cd72dfe51ca80131b05d38fdba8e7f37e60c..1cdf6658139bb08939a830ce1dbf1d76
          inlineCommentsCollector.collectEvents();
          writeInlineComments();
          state = states.pop();
-@@ -1545,6 +1578,10 @@ public final class Emitter implements Emitable {
+@@ -1556,6 +1589,10 @@ public final class Emitter implements Emitable {
      if (!blockCommentsCollector.isEmpty()) {
        writeIndent();
        writeCommentLines(blockCommentsCollector.consume());

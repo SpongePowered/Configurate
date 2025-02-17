@@ -8,7 +8,7 @@ first element of the sequence. I don't think there's anything we can
 do about that though.... needs more thought i suppose
 
 diff --git a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
-index 1cdf6658139bb08939a830ce1dbf1d762d0f8fda..b2f9e9486fd43570b831cf2409e1321aeedcb38b 100644
+index 6842ba3dc1e29603dceebc2deced5fde61e94684..cbb80699d5bfb18a14ded385d9c81228d21a3f2b 100644
 --- a/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 +++ b/src/main/java/org/yaml/snakeyaml/emitter/Emitter.java
 @@ -753,6 +753,9 @@ public final class Emitter implements Emitable {
@@ -40,7 +40,7 @@ index 1cdf6658139bb08939a830ce1dbf1d762d0f8fda..b2f9e9486fd43570b831cf2409e1321a
          expectNode(false, false, false);
          inlineCommentsCollector.collectEvents();
 diff --git a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
-index 52f7e7b1f71c2132de07ebe86356d35db56a9628..17815881b0a2693ebf62e8023425bcf7a0be2d1d 100644
+index 9175f78f379fe36a57db63c5017329496eadcb71..c95528b3800d7730a4d4ec0a714c3827691093c1 100644
 --- a/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
 +++ b/src/test/java/org/yaml/snakeyaml/comment/EmitterWithCommentEnabledTest.java
 @@ -160,8 +160,8 @@ public class EmitterWithCommentEnabledTest {

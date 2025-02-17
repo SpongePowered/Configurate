@@ -96,6 +96,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
+    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     protected AbstractConfigurationNode(final @Nullable A parent, final A copyOf) {
         this.options = copyOf.options();
         this.attached = true; // copies are always attached
@@ -671,7 +672,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
                 }
             } else {
                 // if the existing value isn't a map, we need to update it's type
-                if (ListConfigValue.likelyListKey(child.key)) {
+                if (ListConfigValue.likelyNewListKey(child.key) || ListConfigValue.likelyListKey(oldValue, child.key)) {
                     // if child.key is an integer, we can infer that the type of this node should be a list
                     if (oldValue instanceof NullConfigValue) {
                         // if the oldValue was null, we can just replace it with an empty list
@@ -734,7 +735,7 @@ abstract class AbstractConfigurationNode<N extends ScopedConfigurationNode<N>, A
         }
     }
 
-    @SuppressWarnings({"JdkObsolete", "unchecked"})
+    @SuppressWarnings({"JdkObsolete", "unchecked", "PMD.LooseCoupling"})
     private <S, T, E extends Exception> T visitInternal(final ConfigurationVisitor<S, T, E> visitor, final S state) throws E {
         visitor.beginVisit(this.self(), state);
         if (!(this.value instanceof NullConfigValue)) { // only visit if we have an actual value

@@ -31,7 +31,7 @@ operator fun <N : ConfigurationNode> ConfigurationNodeFactory<N>.invoke(
  */
 fun <T : ConfigurationNode> ConfigurationNodeFactory<T>.node(
     options: ConfigurationOptions = this.defaultOptions(),
-    init: T.() -> Unit
+    init: T.() -> Unit,
 ): T {
     val ret = createNode(options)
     ret.init()

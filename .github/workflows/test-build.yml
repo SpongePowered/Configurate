@@ -14,9 +14,6 @@ concurrency:
   group: "${{ github.workflow }}-${{ github.event.number || github.ref }}"
   cancel-in-progress: true
 
-env:
-  JAVA_VERSION: 11
-
 jobs:
   build:
     # Only run on PRs if the source branch is on someone else's repo
@@ -28,30 +25,18 @@ jobs:
         os: [ubuntu-20.04, windows-latest]
     steps:
       # Setup
-      - name: Check out
-        uses: actions/checkout@v4
+      - name: setup
+        id: setup
+        uses: SpongePowered/.github/.github/actions/setup-java-env@master
         with:
-          fetch-depth: 0 # checkout full history for site generation
-          submodules: recursive
-      - name: Set up committer info for patching
-        run: |
-          git config --global user.email "noreply@spongepowered.org"
-          git config --global user.name "github-actions"
-      - name: "Setup JDK ${{ env.JAVA_VERSION }}"
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: "${{ env.JAVA_VERSION }}"
-      - uses: gradle/wrapper-validation-action@v1
-
+          runtime_version: 17
+          publishing_branch_regex: "master|3\\.x|(?:release/[\\d.x]+)"
       # Actually build
       - name: Run Gradle Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: "${{ !(github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')) || github.event_name == 'pull_request' }}"
-          arguments: build
+        run: "./gradlew build"
       - name: Archive test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
         with:
           name: "test-results-${{ runner.os }}"
           path: |
@@ -59,6 +44,8 @@ jobs:
             */build/reports/
             format/*/build/reports/
             extra/*/build/reports/
+            vendor/*/build/reports/
+            vendor/*/*/build/reports/
 
       # Then deploy, but only on the main branch
       - name: Determine status
@@ -72,7 +59,7 @@ jobs:
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Publish with Gradle
-        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x' || startsWith(github.ref, 'refs/heads/release/')))) }}"
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
         run: |
           mkdir -p build/publish-jd/configurate
           ./gradlew publish gitPublishCopy copyJavadoc --output build/publish-jd/configurate closeSonatypeStagingRepository
@@ -91,28 +78,37 @@ jobs:
           ORG_GRADLE_PROJECT_spongeKeyStoreAlias: "${{ secrets.CONFIGURATE_JARSIGNING_ALIAS }}"
           ORG_GRADLE_PROJECT_spongeKeyStorePassword: "${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}"
       - name: Publish to GH pages
-        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
+        uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           branch: gh-pages
           force: false
           folder: build/gitPublish
+      - name: "Authenticate for JD publication"
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
+        uses: "tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a" # v2.1.0
+        id: jd-token
+        with:
+          app_id: "${{ secrets.JAVADOC_PUBLISH_APP_ID }}"
+          private_key: "${{ secrets.JAVADOC_PUBLISH_APP_KEY }}"
+          installation_retrieval_mode: "repository"
+          installation_retrieval_payload: "SpongePowered/APIJavadocs"
       - name: Publish Javadoc to Sponge index
-        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/3.x'))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
+        uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           folder: build/publish-jd
-          ssh-key: "${{ secrets.SPONGE_JD_DEPLOY_KEY }}"
           repository-name: SpongePowered/APIJavadocs
+          token: ${{ steps.jd-token.outputs.token }}
           branch: data
-          git-config-name: Spongie
-          git-config-email: staff@spongepowered.org
+          git-config-name: spongie-jd[bot]
+          git-config-email: "167721471+spongie-jd[bot]@users.noreply.github.com"
           clean: false
           force: false
           commit-message: "Publishing javadoc for ${{ github.repository }} ${{ env.VERSION }}"
       - name: Publish configurate-tool as release artifact
         if: "${{ runner.os == 'Linux' && env.STATUS == 'release' && github.event_name == 'release' }}"
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             tool/build/distributions/tool-${{ env.VERSION }}.tar.gz

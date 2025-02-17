@@ -6,8 +6,8 @@
   "ignoreDeps": [
     "com.google.code.gson:gson",
     "com.google.inject:guice",
-    "org.ajoberstar.git-publish",
-    "org.slf4j:slf4j-api"
+    "org.slf4j:slf4j-api",
+    "io.leangen.geantyref:geantyref"
   ],
   "labels": [
     "dependencies"

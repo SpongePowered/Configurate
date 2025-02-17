@@ -11,13 +11,14 @@
         <exclude name="ArrayIsStoredDirectly"/> <!-- triggers on package-private constructors -->
         <exclude name="AvoidReassigningLoopVariables"/>
         <exclude name="AvoidReassigningParameters"/>
+        <exclude name="ExhaustiveSwitchHasDefault"/> <!-- does not make sense when targeting JDK8, since we can't use switch expressions -->
         <exclude name="ForLoopCanBeForeach"/> <!-- has false positives when catching exceptions thrown by Iterator.next -->
-        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
-        <exclude name="JUnitTestContainsTooManyAsserts"/>
-        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="GuardLogStatement"/> <!-- we use parameter substitution instead -->
+        <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
+        <exclude name="UnitTestContainsTooManyAsserts"/>
+        <exclude name="UnitTestShouldIncludeAssert"/>
         <exclude name="LiteralsFirstInComparisons"/>
         <exclude name="PreserveStackTrace"/> <!-- for a lot of parse errors, the stacktrace is not important -->
-        <exclude name="UseAssertTrueInsteadOfAssertEquals"/> <!-- false positives on comparisons to Object-returning methods -->
         <exclude name="UseVarargs"/>
 
         <!-- We don't want to depend on a logging framework -->
@@ -38,7 +39,6 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
     <rule ref="category/java/codestyle.xml/UnnecessarySemicolon"/>
-    <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
 
     <!-- https://pmd.github.io/latest/pmd_rules_java_design.html -->
     <rule ref="category/java/design.xml/AvoidThrowingNullPointerException"/>
@@ -92,7 +92,7 @@
     <rule ref="category/java/errorprone.xml/MissingSerialVersionUID"/>
     <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass"/>
     <rule ref="category/java/errorprone.xml/MoreThanOneLogger"/>
-    <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement"/>
+    <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitch"/>
     <rule ref="category/java/errorprone.xml/NonStaticInitializer"/>
     <rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashcode"/>
     <rule ref="category/java/errorprone.xml/ProperCloneImplementation"/>
@@ -135,7 +135,7 @@
     <rule ref="category/java/performance.xml/RedundantFieldInitializer"/>
     <rule ref="category/java/performance.xml/StringInstantiation"/>
     <rule ref="category/java/performance.xml/StringToString"/>
-    <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement"/>
+    <rule ref="category/java/performance.xml/TooFewBranchesForSwitch"/>
     <rule ref="category/java/performance.xml/UseArrayListInsteadOfVector"/>
     <rule ref="category/java/performance.xml/UseArraysAsList"/>
     <rule ref="category/java/performance.xml/UseIndexOfChar"/>

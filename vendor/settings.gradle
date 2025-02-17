@@ -2,10 +2,11 @@ import org.gradle.api.initialization.resolve.RepositoriesMode
 
 pluginManagement {
     repositories {
-       maven {
-           url = 'https://repo.spongepowered.org/repository/maven-public'
-           name = 'sponge'
-       }
+        maven {
+            name = "stellardriftReleases"
+            url = "https://repo.stellardrift.ca/repository/internal/"
+            mavenContent { releasesOnly() }
+        }
     }
 }
 
@@ -26,4 +27,13 @@ dependencyResolutionManagement {
     }
 }
 
+def propsFile = file("gradle.properties")
+if (!propsFile.exists()) {
+    def s = "# Useful when working on /vendor\n" +
+        "#vendor.disableAutoPatchApply=true\n"
+    propsFile.write(s)
+}
+
 include "snakeyaml"
+include "typesafe-config"
+findProject(":typesafe-config").projectDir = file("typesafe-config/config")

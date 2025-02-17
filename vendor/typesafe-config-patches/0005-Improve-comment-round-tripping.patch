@@ -1,0 +1,448 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jason Penilla <11360596+jpenilla@users.noreply.github.com>
+Date: Fri, 10 Nov 2023 11:30:39 -0700
+Subject: [PATCH] Improve comment round-tripping
+
+
+diff --git a/config/src/main/java/com/typesafe/config/ConfigOrigin.java b/config/src/main/java/com/typesafe/config/ConfigOrigin.java
+index 152e6058a25dcf914ab9498726158a424d48b009..2af54d30353821ee2efdc048378b0b0eba6fcbe2 100644
+--- a/config/src/main/java/com/typesafe/config/ConfigOrigin.java
++++ b/config/src/main/java/com/typesafe/config/ConfigOrigin.java
+@@ -3,6 +3,7 @@
+  */
+ package com.typesafe.config;
+ 
++import com.typesafe.config.impl.ConfigNodeComment;
+ import java.net.URL;
+ import java.util.List;
+ 
+@@ -78,7 +79,7 @@ public interface ConfigOrigin {
+      * @return any comments that seemed to "go with" this origin, empty list if
+      *         none
+      */
+-    public List<String> comments();
++    public List<ConfigNodeComment> comments();
+ 
+     /**
+      * Returns a {@code ConfigOrigin} based on this one, but with the given
+@@ -95,7 +96,7 @@ public interface ConfigOrigin {
+      * @param comments the comments used on the returned origin
+      * @return the ConfigOrigin with the given comments
+      */
+-    public ConfigOrigin withComments(List<String> comments);
++    public ConfigOrigin withComments(List<ConfigNodeComment> comments);
+ 
+     /**
+      * Returns a {@code ConfigOrigin} based on this one, but with the given
+diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigDelayedMerge.java b/config/src/main/java/com/typesafe/config/impl/ConfigDelayedMerge.java
+index e7a6dc99c57341e3f5be1c90b36825261d52ae63..2adfe7c294532c3aa6f8e42494a71fbbbe5f9fc0 100644
+--- a/config/src/main/java/com/typesafe/config/impl/ConfigDelayedMerge.java
++++ b/config/src/main/java/com/typesafe/config/impl/ConfigDelayedMerge.java
+@@ -307,10 +307,9 @@ final class ConfigDelayedMerge extends AbstractConfigValue implements Unmergeabl
+                 sb.append(v.origin().description());
+                 sb.append("\n");
+ 
+-                for (String comment : v.origin().comments()) {
++                for (ConfigNodeComment comment : v.origin().comments()) {
+                     indent(sb, indent, options);
+-                    sb.append("# ");
+-                    sb.append(comment);
++                    sb.append(comment.render());
+                     sb.append("\n");
+                 }
+             }
+diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java b/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java
+index b8371907a74e4409726ea992047cade6b2c14bca..9ede0dee45d2a8cad5253085fc6095280fe8e957 100644
+--- a/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java
++++ b/config/src/main/java/com/typesafe/config/impl/ConfigNodeComment.java
+@@ -3,7 +3,7 @@ package com.typesafe.config.impl;
+ 
+ import com.typesafe.config.ConfigException;
+ 
+-final class ConfigNodeComment extends ConfigNodeSingleToken {
++public final class ConfigNodeComment extends ConfigNodeSingleToken {
+     ConfigNodeComment(Token comment) {
+         super(comment);
+         if (!Tokens.isComment(super.token)) {
+@@ -11,7 +11,17 @@ final class ConfigNodeComment extends ConfigNodeSingleToken {
+         }
+     }
+ 
+-    protected String commentText() {
++    public String commentText() {
+         return Tokens.getCommentText(super.token);
+     }
++
++    // Creates a node with no origin
++    public static ConfigNodeComment hashComment(final String commentText) {
++        return new ConfigNodeComment(new Tokens.Comment.HashComment(null, commentText));
++    }
++
++    // Creates a node with no origin
++    public static ConfigNodeComment doubleSlashComment(final String commentText) {
++        return new ConfigNodeComment(new Tokens.Comment.DoubleSlashComment(null, commentText));
++    }
+ }
+diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigNodeField.java b/config/src/main/java/com/typesafe/config/impl/ConfigNodeField.java
+index 10ba3742911d23746dbf4b17329f3b64934dd1ce..b1f403b90819f7aac00a21938f91ffd173e0ee66 100644
+--- a/config/src/main/java/com/typesafe/config/impl/ConfigNodeField.java
++++ b/config/src/main/java/com/typesafe/config/impl/ConfigNodeField.java
+@@ -66,11 +66,11 @@ final class ConfigNodeField extends AbstractConfigNode {
+         return null;
+     }
+ 
+-    protected List<String> comments() {
+-        List<String> comments = new ArrayList<String>();
++    protected List<ConfigNodeComment> comments() {
++        List<ConfigNodeComment> comments = new ArrayList<>();
+         for (AbstractConfigNode child : children) {
+             if (child instanceof ConfigNodeComment) {
+-                comments.add(((ConfigNodeComment) child).commentText());
++                comments.add((ConfigNodeComment) child);
+             }
+         }
+         return comments;
+diff --git a/config/src/main/java/com/typesafe/config/impl/ConfigParser.java b/config/src/main/java/com/typesafe/config/impl/ConfigParser.java
+index 519ddafe9408845fec9ebb81d5f03e3efac8ff05..2f68b56bc7e5f46f352606e7576c2f63e23043af 100644
+--- a/config/src/main/java/com/typesafe/config/impl/ConfigParser.java
++++ b/config/src/main/java/com/typesafe/config/impl/ConfigParser.java
+@@ -92,7 +92,7 @@ final class ConfigParser {
+                 return new Path(pathStack.descendingIterator());
+         }
+ 
+-        private AbstractConfigValue parseValue(AbstractConfigNodeValue n, List<String> comments) {
++        private AbstractConfigValue parseValue(AbstractConfigNodeValue n, List<ConfigNodeComment> comments) {
+             AbstractConfigValue v;
+ 
+             int startingArrayCount = arrayCount;
+@@ -110,7 +110,7 @@ final class ConfigParser {
+             }
+ 
+             if (comments != null && !comments.isEmpty()) {
+-                v = v.withOrigin(v.origin().prependComments(new ArrayList<String>(comments)));
++                v = v.withOrigin(v.origin().prependComments(new ArrayList<>(comments)));
+                 comments.clear();
+             }
+ 
+@@ -220,12 +220,12 @@ final class ConfigParser {
+             boolean lastWasNewline = false;
+ 
+             ArrayList<AbstractConfigNode> nodes = new ArrayList<AbstractConfigNode>(n.children());
+-            List<String> comments = new ArrayList<String>();
++            List<ConfigNodeComment> comments = new ArrayList<>();
+             for (int i = 0; i < nodes.size(); i++) {
+                 AbstractConfigNode node = nodes.get(i);
+                 if (node instanceof ConfigNodeComment) {
+                     lastWasNewline = false;
+-                    comments.add(((ConfigNodeComment) node).commentText());
++                    comments.add((ConfigNodeComment) node);
+                 } else if (node instanceof ConfigNodeSingleToken && Tokens.isNewline(((ConfigNodeSingleToken) node).token())) {
+                     lineNumber++;
+                     if (lastWasNewline) {
+@@ -287,7 +287,7 @@ final class ConfigParser {
+                             if (nodes.get(i) instanceof ConfigNodeComment) {
+                                 ConfigNodeComment comment = (ConfigNodeComment) nodes.get(i);
+                                 newValue = newValue.withOrigin(newValue.origin().appendComments(
+-                                            Collections.singletonList(comment.commentText())));
++                                            Collections.singletonList(comment)));
+                                 break;
+                             } else if (nodes.get(i) instanceof ConfigNodeSingleToken) {
+                                 ConfigNodeSingleToken curr = (ConfigNodeSingleToken) nodes.get(i);
+@@ -355,20 +355,20 @@ final class ConfigParser {
+             List<AbstractConfigValue> values = new ArrayList<AbstractConfigValue>();
+ 
+             boolean lastWasNewLine = false;
+-            List<String> comments = new ArrayList<String>();
++            List<ConfigNodeComment> comments = new ArrayList<>();
+ 
+             AbstractConfigValue v = null;
+ 
+             for (AbstractConfigNode node : n.children()) {
+                 if (node instanceof ConfigNodeComment) {
+-                    comments.add(((ConfigNodeComment) node).commentText());
++                    comments.add((ConfigNodeComment) node);
+                     lastWasNewLine = false;
+                 } else if (node instanceof ConfigNodeSingleToken && Tokens.isNewline(((ConfigNodeSingleToken) node).token())) {
+                     lineNumber++;
+                     if (lastWasNewLine && v == null) {
+                         comments.clear();
+                     } else if (v != null) {
+-                        values.add(v.withOrigin(v.origin().appendComments(new ArrayList<String>(comments))));
++                        values.add(v.withOrigin(v.origin().appendComments(new ArrayList<>(comments))));
+                         comments.clear();
+                         v = null;
+                     }
+@@ -376,7 +376,7 @@ final class ConfigParser {
+                 } else if (node instanceof AbstractConfigNodeValue) {
+                     lastWasNewLine = false;
+                     if (v != null) {
+-                        values.add(v.withOrigin(v.origin().appendComments(new ArrayList<String>(comments))));
++                        values.add(v.withOrigin(v.origin().appendComments(new ArrayList<>(comments))));
+                         comments.clear();
+                     }
+                     v = parseValue((AbstractConfigNodeValue)node, comments);
+@@ -384,7 +384,7 @@ final class ConfigParser {
+             }
+             // There shouldn't be any comments at this point, but add them just in case
+             if (v != null) {
+-                values.add(v.withOrigin(v.origin().appendComments(new ArrayList<String>(comments))));
++                values.add(v.withOrigin(v.origin().appendComments(new ArrayList<>(comments))));
+             }
+             arrayCount -= 1;
+             return new SimpleConfigList(arrayOrigin, values);
+@@ -392,11 +392,11 @@ final class ConfigParser {
+ 
+         AbstractConfigValue parse() {
+             AbstractConfigValue result = null;
+-            ArrayList<String> comments = new ArrayList<String>();
++            ArrayList<ConfigNodeComment> comments = new ArrayList<>();
+             boolean lastWasNewLine = false;
+             for (AbstractConfigNode node : document.children()) {
+                 if (node instanceof ConfigNodeComment) {
+-                    comments.add(((ConfigNodeComment) node).commentText());
++                    comments.add((ConfigNodeComment) node);
+                     lastWasNewLine = false;
+                 } else if (node instanceof ConfigNodeSingleToken) {
+                     Token t = ((ConfigNodeSingleToken) node).token();
+@@ -405,7 +405,7 @@ final class ConfigParser {
+                         if (lastWasNewLine && result == null) {
+                             comments.clear();
+                         } else if (result != null) {
+-                            result = result.withOrigin(result.origin().appendComments(new ArrayList<String>(comments)));
++                            result = result.withOrigin(result.origin().appendComments(new ArrayList<>(comments)));
+                             comments.clear();
+                             break;
+                         }
+diff --git a/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java b/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java
+index b68ef502d7f89211835ac595c03ea4cbbb0a7fd8..6fd47642333edfa91752f76270181ae6c531aa00 100644
+--- a/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java
++++ b/config/src/main/java/com/typesafe/config/impl/SerializedConfigValue.java
+@@ -188,11 +188,11 @@ class SerializedConfigValue extends AbstractConfigValue implements Externalizabl
+             break;
+         case ORIGIN_COMMENTS:
+             @SuppressWarnings("unchecked")
+-            List<String> list = (List<String>) v;
++            List<ConfigNodeComment> list = (List<ConfigNodeComment>) v;
+             int size = list.size();
+             out.writeInt(size);
+-            for (String s : list) {
+-                out.writeUTF(s);
++            for (ConfigNodeComment s : list) {
++                out.writeUTF(s.commentText());
+             }
+             break;
+         case ORIGIN_NULL_URL: // FALL THRU
+@@ -260,9 +260,10 @@ class SerializedConfigValue extends AbstractConfigValue implements Externalizabl
+             case ORIGIN_COMMENTS:
+                 in.readInt(); // discard length
+                 int size = in.readInt();
+-                List<String> list = new ArrayList<String>(size);
++                List<ConfigNodeComment> list = new ArrayList<>(size);
+                 for (int i = 0; i < size; ++i) {
+-                    list.add(in.readUTF());
++                    // TODO extract comment tokenizing logic
++                    list.add(new ConfigNodeComment(new Tokens.Comment.HashComment(null, in.readUTF())));
+                 }
+                 v = list;
+                 break;
+diff --git a/config/src/main/java/com/typesafe/config/impl/SimpleConfigList.java b/config/src/main/java/com/typesafe/config/impl/SimpleConfigList.java
+index a8d8e366c70d28efd7b6db1d50cf7ed6c39160f6..c1e1b92f2716e34baeebbe7d7a40bb6f3cb22b9d 100644
+--- a/config/src/main/java/com/typesafe/config/impl/SimpleConfigList.java
++++ b/config/src/main/java/com/typesafe/config/impl/SimpleConfigList.java
+@@ -222,10 +222,9 @@ final class SimpleConfigList extends AbstractConfigValue implements ConfigList,
+                     }
+                 }
+                 if (options.getComments()) {
+-                    for (String comment : v.origin().comments()) {
++                    for (ConfigNodeComment comment : v.origin().comments()) {
+                         indent(sb, indent + 1, options);
+-                        sb.append("# ");
+-                        sb.append(comment);
++                        sb.append(comment.render());
+                         sb.append("\n");
+                     }
+                 }
+diff --git a/config/src/main/java/com/typesafe/config/impl/SimpleConfigObject.java b/config/src/main/java/com/typesafe/config/impl/SimpleConfigObject.java
+index 7dfc361bf126c4583782d8ab1e14bd29c27a39c1..fff76d232cf2e9ac842d573251f8215e5d04b051 100644
+--- a/config/src/main/java/com/typesafe/config/impl/SimpleConfigObject.java
++++ b/config/src/main/java/com/typesafe/config/impl/SimpleConfigObject.java
+@@ -496,12 +496,9 @@ final class SimpleConfigObject extends AbstractConfigObject implements Serializa
+                     }
+                 }
+                 if (options.getComments()) {
+-                    for (String comment : v.origin().comments()) {
++                    for (ConfigNodeComment comment : v.origin().comments()) {
+                         indent(sb, innerIndent, options);
+-                        sb.append("#");
+-                        if (!comment.startsWith(" "))
+-                            sb.append(' ');
+-                        sb.append(comment);
++                        sb.append(comment.render());
+                         sb.append("\n");
+                     }
+                 }
+diff --git a/config/src/main/java/com/typesafe/config/impl/SimpleConfigOrigin.java b/config/src/main/java/com/typesafe/config/impl/SimpleConfigOrigin.java
+index 37dc4c531c4bcbd78ae9153e769798063b9a7f35..273fd004c5716ec6e3f4b73f82db88310e4a63c2 100644
+--- a/config/src/main/java/com/typesafe/config/impl/SimpleConfigOrigin.java
++++ b/config/src/main/java/com/typesafe/config/impl/SimpleConfigOrigin.java
+@@ -29,10 +29,10 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+     final private OriginType originType;
+     final private String urlOrNull;
+     final private String resourceOrNull;
+-    final private List<String> commentsOrNull;
++    final private List<ConfigNodeComment> commentsOrNull;
+ 
+     protected SimpleConfigOrigin(String description, int lineNumber, int endLineNumber, OriginType originType,
+-            String urlOrNull, String resourceOrNull, List<String> commentsOrNull) {
++            String urlOrNull, String resourceOrNull, List<ConfigNodeComment> commentsOrNull) {
+         if (description == null)
+             throw new ConfigException.BugOrBroken("description may not be null");
+         this.description = description;
+@@ -97,7 +97,7 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+     }
+ 
+     @Override
+-    public SimpleConfigOrigin withComments(List<String> comments) {
++    public SimpleConfigOrigin withComments(List<ConfigNodeComment> comments) {
+         if (ConfigImplUtil.equalsHandlingNull(comments, this.commentsOrNull)) {
+             return this;
+         } else {
+@@ -106,26 +106,26 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+         }
+     }
+ 
+-    SimpleConfigOrigin prependComments(List<String> comments) {
++    SimpleConfigOrigin prependComments(List<ConfigNodeComment> comments) {
+         if (ConfigImplUtil.equalsHandlingNull(comments, this.commentsOrNull) || comments == null) {
+             return this;
+         } else if (this.commentsOrNull == null) {
+             return withComments(comments);
+         } else {
+-            List<String> merged = new ArrayList<String>(comments.size() + this.commentsOrNull.size());
++            List<ConfigNodeComment> merged = new ArrayList<>(comments.size() + this.commentsOrNull.size());
+             merged.addAll(comments);
+             merged.addAll(this.commentsOrNull);
+             return withComments(merged);
+         }
+     }
+ 
+-    SimpleConfigOrigin appendComments(List<String> comments) {
++    SimpleConfigOrigin appendComments(List<ConfigNodeComment> comments) {
+         if (ConfigImplUtil.equalsHandlingNull(comments, this.commentsOrNull) || comments == null) {
+             return this;
+         } else if (this.commentsOrNull == null) {
+             return withComments(comments);
+         } else {
+-            List<String> merged = new ArrayList<String>(comments.size() + this.commentsOrNull.size());
++            List<ConfigNodeComment> merged = new ArrayList<>(comments.size() + this.commentsOrNull.size());
+             merged.addAll(this.commentsOrNull);
+             merged.addAll(comments);
+             return withComments(merged);
+@@ -224,7 +224,7 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+     }
+ 
+     @Override
+-    public List<String> comments() {
++    public List<ConfigNodeComment> comments() {
+         if (commentsOrNull != null) {
+             return Collections.unmodifiableList(commentsOrNull);
+         } else {
+@@ -238,7 +238,7 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+         String mergedDesc;
+         int mergedStartLine;
+         int mergedEndLine;
+-        List<String> mergedComments;
++        List<ConfigNodeComment> mergedComments;
+ 
+         OriginType mergedType;
+         if (a.originType == b.originType) {
+@@ -304,7 +304,7 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+         if (ConfigImplUtil.equalsHandlingNull(a.commentsOrNull, b.commentsOrNull)) {
+             mergedComments = a.commentsOrNull;
+         } else {
+-            mergedComments = new ArrayList<String>();
++            mergedComments = new ArrayList<>();
+             if (a.commentsOrNull != null)
+                 mergedComments.addAll(a.commentsOrNull);
+             if (b.commentsOrNull != null)
+@@ -500,7 +500,7 @@ final class SimpleConfigOrigin implements ConfigOrigin {
+         String urlOrNull = (String) m.get(SerializedField.ORIGIN_URL);
+         String resourceOrNull = (String) m.get(SerializedField.ORIGIN_RESOURCE);
+         @SuppressWarnings("unchecked")
+-        List<String> commentsOrNull = (List<String>) m.get(SerializedField.ORIGIN_COMMENTS);
++        List<ConfigNodeComment> commentsOrNull = (List<ConfigNodeComment>) m.get(SerializedField.ORIGIN_COMMENTS);
+         // Older versions did not have a resource field, they stuffed it into
+         // the description.
+         if (originType == OriginType.RESOURCE && resourceOrNull == null) {
+diff --git a/config/src/main/java/com/typesafe/config/impl/Tokens.java b/config/src/main/java/com/typesafe/config/impl/Tokens.java
+index ef2061c6914c00715135df94acdad7f67fb0aa0f..17fc9466dd3cc40637a15512f5528a19e7352390 100644
+--- a/config/src/main/java/com/typesafe/config/impl/Tokens.java
++++ b/config/src/main/java/com/typesafe/config/impl/Tokens.java
+@@ -224,7 +224,7 @@ final class Tokens {
+         }
+     }
+ 
+-    static private abstract class Comment extends Token {
++    static abstract class Comment extends Token {
+         final private String text;
+ 
+         Comment(ConfigOrigin origin, String text) {
+diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala
+index 648e0c4eeca15bb9bdc237aad9da9f003b0281e0..a6f2e44183c156740b61bcd8c4ca47507bee4483 100644
+--- a/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala
++++ b/config/src/test/scala/com/typesafe/config/impl/ConfParserTest.scala
+@@ -362,16 +362,16 @@ class ConfParserTest extends TestUtils {
+     }
+ 
+     private def assertComments(comments: Seq[String], conf: Config) {
+-        assertEquals(comments, conf.root().origin().comments().asScala.toSeq)
++        assertEquals(comments, conf.root().origin().comments().asScala.map(n => n.commentText()).toSeq)
+     }
+ 
+     private def assertComments(comments: Seq[String], conf: Config, path: String) {
+-        assertEquals(comments, conf.getValue(path).origin().comments().asScala)
++        assertEquals(comments, conf.getValue(path).origin().comments().asScala.map(n => n.commentText()))
+     }
+ 
+     private def assertComments(comments: Seq[String], conf: Config, path: String, index: Int) {
+         val v = conf.getList(path).get(index)
+-        assertEquals(comments, v.origin().comments().asScala.toSeq)
++        assertEquals(comments, v.origin().comments().asScala.map(n => n.commentText()).toSeq)
+     }
+ 
+     @Test
+diff --git a/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala b/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
+index 66ef10ed87b9a64ccc3fd684169ad4d21e6622b9..80040e2bbe1544795cb13a6f31d3400c3d3dc2db 100644
+--- a/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
++++ b/config/src/test/scala/com/typesafe/config/impl/ConfigValueTest.scala
+@@ -920,7 +920,7 @@ class ConfigValueTest extends TestUtils {
+         val combos = bases.flatMap({
+             base =>
+                 Seq(
+-                    (base, base.withComments(Seq("this is a comment", "another one").asJava)),
++                    (base, base.withComments(Seq("this is a comment", "another one").map(s => ConfigNodeComment.hashComment(s)).asJava)),
+                     (base, base.withComments(null)),
+                     (base, base.withLineNumber(41)),
+                     (base, SimpleConfigOrigin.mergeOrigins(base.withLineNumber(10), base.withLineNumber(20))))
+diff --git a/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala b/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala
+index 1643a4a3137b2ebc696c1c8b59166fa51158c4cd..af4a7539b13fabe02c15afd0fcb4a81470a6437e 100644
+--- a/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala
++++ b/config/src/test/scala/com/typesafe/config/impl/PublicApiTest.scala
+@@ -8,6 +8,7 @@ import org.junit._
+ import scala.collection.JavaConverters._
+ import com.typesafe.config._
+ import java.util.{ Collections, TimeZone, TreeSet }
++import com.typesafe.config.impl.Tokens.Comment
+ import java.io.File
+ import scala.collection.mutable
+ import equiv03.SomethingInEquiv03
+@@ -985,7 +986,8 @@ class PublicApiTest extends TestUtils {
+     @Test
+     def exceptionSerializable() {
+         // ArrayList is a serialization problem so we want to cover it in tests
+-        val comments = new java.util.ArrayList(List("comment 1", "comment 2").asJava)
++        val comments = new java.util.ArrayList(List("comment 1", "comment 2")
++            .map(s => new ConfigNodeComment(new Comment.HashComment(null, s))).asJava)
+         val e = new ConfigException.WrongType(SimpleConfigOrigin.newSimple("an origin").withComments(comments),
+             "this is a message", new RuntimeException("this is a cause"))
+         val eCopy = checkSerializableNoMeaningfulEquals(e)

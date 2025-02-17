@@ -70,6 +70,7 @@ public final class WatchServiceListener implements AutoCloseable {
     private volatile boolean open = true;
     private final Thread executor;
     final Executor taskExecutor;
+    @SuppressWarnings("PMD.LooseCoupling") // we use implementation-specific API
     private final ConcurrentHashMap<Path, DirectoryListenerRegistration> activeListeners = new ConcurrentHashMap<>();
     private static final ThreadLocal<IOException> exceptionHolder = new ThreadLocal<>();
 

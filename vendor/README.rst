@@ -13,3 +13,10 @@ snakeyaml
 
 A fork of snakeyaml for fixes to comment handling that have not yet made it into
 an upstream release.
+
+typesafe-config
+---------------
+
+Modifications and enhancements to typesafe-config that are useful for
+Configurate's use case, but that upstream does not want to adopt due to the
+wider scope of their configuration loading API.

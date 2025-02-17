@@ -501,6 +501,11 @@ public final class TypeSerializerCollection {
         }
     }
 
+    /**
+     * A serializer registration.
+     *
+     * @since 4.2.0
+     */
     interface RegisteredSerializer {
 
         boolean matches(Type test);

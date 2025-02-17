@@ -71,8 +71,8 @@ tasks.withType(Javadoc).configureEach {
         options.links(
             "https://lightbend.github.io/config/latest/api/",
             "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
-            "https://www.javadoc.io/doc/org.checkerframework/checker-qual/${libs.versions.checkerQual.get()}/",
-            "https://www.javadoc.io/doc/io.leangen.geantyref/geantyref/${libs.versions.geantyref.get()}/"
+            // "https://javadocs.dev/org.checkerframework/checker-qual/${libs.versions.checkerQual.get()}/",
+            // "https://javadocs.dev/io.leangen.geantyref/geantyref/${libs.versions.geantyref.get()}/"
         )
         options.linkSource()
     }
@@ -107,7 +107,7 @@ configurations {
 // Apply a license header
 def spotlessCommon = { FormatExtension f ->
     f.toggleOffOn("@formatter:off", "@formatter:on")
-    f.indentWithSpaces()
+    f.leadingTabsToSpaces()
     f.endWithNewline()
     f.trimTrailingWhitespace()
 }
@@ -167,7 +167,10 @@ tasks.jar {
 
 // Configure target versions
 indra {
-    javaVersions().testWith(8, 11, 17)
+    javaVersions() {
+        testWith(8, 11, 17)
+        minimumToolchain(17)
+    }
 }
 
 // Don't compile AP-generated sources from within IDE

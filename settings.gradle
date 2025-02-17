@@ -1,15 +1,16 @@
 pluginManagement {
     repositories {
         maven {
-            name = "sponge"
-            url = "https://repo.spongepowered.org/repository/maven-public/"
+            name = "stellardriftReleases"
+            url = "https://repo.stellardrift.ca/repository/internal/"
             mavenContent { releasesOnly() }
         }
+        mavenCentral()
     }
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 
 dependencyResolutionManagement {

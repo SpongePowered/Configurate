@@ -107,7 +107,7 @@ private object DataClassFieldDiscoverer : FieldDiscoverer<MutableMap<KParameter,
                 combinedAnnotations(
                     param.type.javaElement,
                     param.javaElement,
-                    field.javaField
+                    field.javaField,
                 ), // type, backing field, etc
                 // deserializer
                 { intermediate, arg, implicitProvider ->

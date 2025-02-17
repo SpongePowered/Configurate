@@ -24,6 +24,7 @@ import org.spongepowered.configurate.ConfigurationVisitor;
 
 import java.io.IOException;
 
+@SuppressWarnings("AlmostJavadoc")
 final class JacksonVisitor implements ConfigurationVisitor<JsonGenerator, Void, ConfigurateException> {
 
     static final ThreadLocal<JacksonVisitor> INSTANCE = ThreadLocal.withInitial(JacksonVisitor::new);

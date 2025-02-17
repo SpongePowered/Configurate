@@ -5,9 +5,13 @@ insert_final_newline = true
 charset = utf-8
 indent_style = space
 indent_size = 4
+ij_java_imports_layout = $*, |, *, |, java.**
 
 [*.{yml,yaml,json}]
 indent_size = 2
 
 [*.{kt,kts}]
 ktlint_standard_filename = disabled
+
+[*.java]
+ij_continuation_indent_size = 8
