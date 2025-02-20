@@ -83,7 +83,7 @@ jobs:
         with:
           branch: gh-pages
           force: false
-          folder: build/gitPublish
+          folder: build/gitPublish/main
       - name: "Authenticate for JD publication"
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
         uses: "tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a" # v2.1.0
