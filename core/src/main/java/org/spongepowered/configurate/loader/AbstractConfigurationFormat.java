@@ -88,7 +88,7 @@ public abstract class AbstractConfigurationFormat<
     @Override
     public ConfigurationLoader<? extends @NonNull Object> create(final Path file, final ConfigurationNode options) {
         return this.builderMaker.get()
-            .from(LoaderOptionSource.node(options))
+            .editOptions(opts -> opts.values(ValueSources.node(options)))
             .path(file)
             .build();
     }
@@ -103,7 +103,7 @@ public abstract class AbstractConfigurationFormat<
     @Override
     public ConfigurationLoader<? extends @NonNull Object> create(final URL url, final ConfigurationNode options) {
         return this.builderMaker.get()
-            .from(LoaderOptionSource.node(options))
+            .editOptions(opts -> opts.values(ValueSources.node(options)))
             .url(url)
             .build();
     }

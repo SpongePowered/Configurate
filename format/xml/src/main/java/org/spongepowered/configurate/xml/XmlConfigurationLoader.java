@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.xml;
 
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.AttributedConfigurationNode;
@@ -26,7 +28,6 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.w3c.dom.Document;
@@ -113,40 +114,70 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
      * Builds a {@link XmlConfigurationLoader}.
      *
      * <p>This builder supports the following options:</p>
-     * <dl>
-     *     <dt>&lt;prefix&gt;.xml.default-tag-name</dt>
-     *     <dd>Equivalent to {@link #defaultTagName(String)}</dd>
-     *     <dt>&lt;prefix&gt;.xml.indent</dt>
-     *     <dd>Equivalent to {@link #indent(int)}</dd>
-     *     <dt>&lt;prefix&gt;.xml.writes-explicit-type</dt>
-     *     <dd>Equivalent to {@link #writesExplicitType(boolean)}</dd>
-     *     <dt>&lt;prefix&gt;.xml.resolves-external-content</dt>
-     *     <dd>Equivalent to {@link #resolvesExternalContent(boolean)}</dd>
-     *     <dt>&lt;prefix&gt;.xml.includes-xml-declaration</dt>
-     *     <dd>Equivalent to {@link #includesXmlDeclaration(boolean)}</dd>
-     * </dl>
+     * <ul>
+     *     <li>{@link #DEFAULT_TAG_NAME}</li>
+     *     <li>{@link #INDENT}</li>
+     *     <li>{@link #WRITE_EXPLICIT_TYPE}</li>
+     *     <li>{@link #RESOLVE_EXTERNAL_CONTENT}</li>
+     *     <li>{@link #INCLUDE_XML_DECLARATION}</li>
+     * </ul>
      *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, XmlConfigurationLoader> {
-        private @Nullable Schema schema;
-        private String defaultTagName = "element";
-        private int indent = 2;
-        private boolean writeExplicitType = true;
-        private boolean resolvesExternalContent;
-        private boolean includeXmlDeclaration = true;
 
-        Builder() {
-            this.from(DEFAULT_OPTIONS_SOURCE);
-        }
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);
+        /**
+         * A schema of options available to configure the XML loader.
+         *
+         * @since 4.2.0
+         */
+        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+        /**
+         * The default tag name the created loader should use.
+         *
+         * @see #defaultTagName(String)
+         * @since 4.2.0
+         */
+        public static final Option<String> DEFAULT_TAG_NAME = UNSAFE_SCHEMA.stringOption("xml:default_tag_name", "element");
+
+        /**
+         * The size of indent (in spaces) the created loader should use.
+         *
+         * @see #indent(int)
+         * @since 4.2.0
+         */
+        public static final Option<Integer> INDENT = UNSAFE_SCHEMA.intOption("xml:indent", 2);
+        /**
+         * Whether explicit node types should be written out (to disambiguate
+         * between maps and lists).
+         *
+         * @see #writesExplicitType(boolean)
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> WRITE_EXPLICIT_TYPE = UNSAFE_SCHEMA.booleanOption("xml:writes_explicit_type", true);
+        /**
+         * Whether externally included content should be resolved in documents
+         * read by the created loader.
+         *
+         * @see #resolvesExternalContent(boolean)
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> RESOLVE_EXTERNAL_CONTENT = UNSAFE_SCHEMA.booleanOption("xml:resolve_external_content", false);
+        /**
+         * Whether an XML declaration should be included as the first line of
+         * emitted documents from the created loader.
+         *
+         * @see #includesXmlDeclaration(boolean)
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> INCLUDE_XML_DECLARATION = UNSAFE_SCHEMA.booleanOption("xml:include_xml_declaration", true);
+
+        private @Nullable Schema schema;
 
         @Override
-        protected void populate(final LoaderOptionSource options) {
-            this.defaultTagName = options.getOr(this.defaultTagName, "xml", "default-tag-name");
-            this.indent = options.getInt(this.indent, "xml", "indent");
-            this.writeExplicitType = options.getBoolean(this.writeExplicitType, "xml", "writes-explicit-type");
-            this.resolvesExternalContent = options.getBoolean(this.resolvesExternalContent, "xml", "resolves-external-content");
-            this.includeXmlDeclaration = options.getBoolean(this.includeXmlDeclaration, "xml", "includes-xml-declaration");
+        protected OptionSchema optionSchema() {
+            return SCHEMA;
         }
 
         /**
@@ -157,7 +188,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public @NonNull Builder indent(final int indent) {
-            this.indent = indent;
+            this.optionStateBuilder().value(INDENT, indent);
             return this;
         }
 
@@ -168,7 +199,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public int indent() {
-            return this.indent;
+            return this.optionState().value(INDENT);
         }
 
         /**
@@ -201,7 +232,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public Builder defaultTagName(final String defaultTagName) {
-            this.defaultTagName = defaultTagName;
+            this.optionStateBuilder().value(DEFAULT_TAG_NAME, defaultTagName);
             return this;
         }
 
@@ -212,7 +243,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public @NonNull String defaultTagName() {
-            return this.defaultTagName;
+            return this.optionState().value(DEFAULT_TAG_NAME);
         }
 
         /**
@@ -229,7 +260,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public Builder writesExplicitType(final boolean writeExplicitType) {
-            this.writeExplicitType = writeExplicitType;
+            this.optionStateBuilder().value(WRITE_EXPLICIT_TYPE, writeExplicitType);
             return this;
         }
 
@@ -243,7 +274,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public boolean writesExplicitType() {
-            return this.writeExplicitType;
+            return this.optionState().value(WRITE_EXPLICIT_TYPE);
         }
 
         /**
@@ -256,7 +287,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public Builder includesXmlDeclaration(final boolean includeXmlDeclaration) {
-            this.includeXmlDeclaration = includeXmlDeclaration;
+            this.optionStateBuilder().value(INCLUDE_XML_DECLARATION, includeXmlDeclaration);
             return this;
         }
 
@@ -268,7 +299,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public boolean includesXmlDeclaration() {
-            return this.includeXmlDeclaration;
+            return this.optionState().value(INCLUDE_XML_DECLARATION);
         }
 
         /**
@@ -290,7 +321,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public Builder resolvesExternalContent(final boolean resolvesExternalContent) {
-            this.resolvesExternalContent = resolvesExternalContent;
+            this.optionStateBuilder().value(RESOLVE_EXTERNAL_CONTENT, resolvesExternalContent);
             return this;
         }
 
@@ -301,7 +332,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
          * @since 4.0.0
          */
         public boolean resolvesExternalContent() {
-            return this.resolvesExternalContent;
+            return this.optionState().value(RESOLVE_EXTERNAL_CONTENT);
         }
 
         @Override

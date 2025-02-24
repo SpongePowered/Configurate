@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.yaml;
 
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -23,7 +25,6 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -77,21 +78,43 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
+
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);
+
+        /**
+         * A schema of options available to configure the YAML loader.
+         *
+         * @since 4.2.0
+         */
+        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+
+        /**
+         * The collection node style to use globally when emitting with
+         * this loader.
+         *
+         * @see #nodeStyle(NodeStyle)
+         * @since 4.2.0
+         */
+        public static final Option<NodeStyle> NODE_STYLE = UNSAFE_SCHEMA.enumOption("yaml:node_style", NodeStyle.class, null);
+
+        /**
+         * The indent size (in spaces) to use for documents emitted by
+         * the created loader.
+         *
+         * @see #indent(int)
+         * @since 4.2.0
+         */
+        public static final Option<Integer> INDENT = UNSAFE_SCHEMA.intOption("yaml:indent", 4);
+
         private final DumperOptions options = new DumperOptions();
-        private @Nullable NodeStyle style;
 
         Builder() {
-            this.indent(4);
             this.defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
-            this.from(DEFAULT_OPTIONS_SOURCE);
         }
 
         @Override
-        protected void populate(final LoaderOptionSource options) {
-            final @Nullable NodeStyle declared = options.getEnum(NodeStyle.class, "yaml", "node-style");
-            if (declared != null) {
-                this.style = declared;
-            }
+        protected OptionSchema optionSchema() {
+            return SCHEMA;
         }
 
         /**
@@ -102,7 +125,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public Builder indent(final int indent) {
-            this.options.setIndent(indent);
+            this.optionStateBuilder().value(INDENT, indent);
             return this;
         }
 
@@ -113,7 +136,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public int indent() {
-            return this.options.getIndent();
+            return this.optionState().value(INDENT);
         }
 
         /**
@@ -144,7 +167,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public Builder nodeStyle(final @Nullable NodeStyle style) {
-            this.style = style;
+            this.optionStateBuilder().value(NODE_STYLE, style);
             return this;
         }
 
@@ -155,7 +178,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public @Nullable NodeStyle nodeStyle() {
-            return this.style;
+            return this.optionState().value(NODE_STYLE);
         }
 
         @Override
@@ -174,7 +197,8 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         loaderOpts.setCodePointLimit(Integer.MAX_VALUE);
 
         final DumperOptions opts = builder.options;
-        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.style));
+        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.optionState().value(Builder.NODE_STYLE)));
+        opts.setIndent(builder.optionState().value(Builder.INDENT));
         this.yaml = ThreadLocal.withInitial(() -> new Yaml(new Constructor(loaderOpts), new Representer(opts), opts, loaderOpts));
     }
 

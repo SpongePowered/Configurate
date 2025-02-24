@@ -14,6 +14,7 @@ provides a node-based data structure able to handle a wide variety of configurat
 configurate.useAutoValue()
 dependencies {
     api libs.geantyref
+    api libs.option
     testImplementation libs.checkerQual // needs to be on runtime classpath on Java 8 for object mapper
     compileOnlyApi libs.checkerQual
     testImplementation libs.guava

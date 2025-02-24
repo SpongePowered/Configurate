@@ -26,6 +26,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.gson.stream.MalformedJsonException;
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -35,7 +37,6 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.util.Strings;
@@ -96,28 +97,45 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
      * Builds a {@link GsonConfigurationLoader}.
      *
      * <p>This builder supports the following options:</p>
-     * <dl>
-     *     <dt>&lt;prefix&gt;.gson.lenient</dt>
-     *     <dd>Equivalent to {@link #lenient(boolean)}</dd>
-     *     <dt>&lt;prefix&gt;.gson.indent</dt>
-     *     <dd>Equivalent to {@link #indent(int)}</dd>
-     * </dl>
+     * <ul>
+     *     <li>{@link #INDENT}</li>
+     *     <li>{@link #LENIENT}</li>
+     * </ul>
      *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, GsonConfigurationLoader> {
-        private boolean lenient = true;
-        private int indent = 2;
+
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);
+
+        /**
+         * A schema of options available on the Gson loader.
+         *
+         * @since 4.2.0
+         */
+        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+
+        /**
+         * The level of indentation to be used by the resulting loader.
+         *
+         * @since 4.2.0
+         */
+        public static final Option<Integer> INDENT = UNSAFE_SCHEMA.intOption("gson:indent", 2);
+
+        /**
+         * If the resultant loader should parse leniently.
+         *
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> LENIENT = UNSAFE_SCHEMA.booleanOption("gson:lenient", true);
 
         Builder() {
             this.defaultOptions(DEFAULT_OPTIONS);
-            this.from(DEFAULT_OPTIONS_SOURCE);
         }
 
         @Override
-        protected void populate(final LoaderOptionSource options) {
-            this.indent = options.getInt(this.indent, "gson", "indent");
-            this.lenient = options.getBoolean(this.lenient, "gson", "lenient");
+        protected OptionSchema optionSchema() {
+            return SCHEMA;
         }
 
         /**
@@ -128,7 +146,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @since 4.0.0
          */
         public @NonNull Builder indent(final int indent) {
-            this.indent = indent;
+            this.optionStateBuilder().value(INDENT, indent);
             return this;
         }
 
@@ -139,7 +157,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @since 4.0.0
          */
         public int indent() {
-            return this.indent;
+            return this.optionState().value(INDENT);
         }
 
         /**
@@ -151,7 +169,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @since 4.0.0
          */
         public @NonNull Builder lenient(final boolean lenient) {
-            this.lenient = lenient;
+            this.optionStateBuilder().value(LENIENT, lenient);
             return this;
         }
 
@@ -162,7 +180,7 @@ public final class GsonConfigurationLoader extends AbstractConfigurationLoader<B
          * @since 4.0.0
          */
         public boolean lenient() {
-            return this.lenient;
+            return this.optionState().value(LENIENT);
         }
 
         @Override
