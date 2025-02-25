@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code>, <code><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-74">XmlConfigurationLoader</a></span>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-75">XmlConfigurationLoader</a></span>
 <span class="extends-implements">extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&gt;</span></div>
 <div class="block">A loader for XML (Extensible Markup Language), using the native javax library
  for parsing and generation.</div>
@@ -191,7 +191,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="builder()">
 <h3>builder</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NonNull <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-108">builder</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NonNull <a href="XmlConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.xml">XmlConfigurationLoader.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-109">builder</a></span>()</div>
 <div class="block">Creates a new <a href="XmlConfigurationLoader.html" title="class in org.spongepowered.configurate.xml"><code>XmlConfigurationLoader</code></a> builder.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -204,7 +204,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="load(org.spongepowered.configurate.ConfigurationOptions)">
 <h3>load</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull <a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-378">load</a></span><wbr><span class="parameters">(@NonNull <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull <a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-409">load</a></span><wbr><span class="parameters">(@NonNull <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span>
                                           throws <span class="exceptions"><a href="../loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../loader/ConfigurationLoader.html#load(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationLoader</a></code></span></div>
 <div class="block">Attempts to load a <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate"><code>ConfigurationNode</code></a> using this loader, from the defined source.
@@ -228,7 +228,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="loadInternal(org.spongepowered.configurate.AttributedConfigurationNode,java.io.BufferedReader)">
 <h3>loadInternal</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-443">loadInternal</a></span><wbr><span class="parameters">(<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;node,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-474">loadInternal</a></span><wbr><span class="parameters">(<a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a>&nbsp;node,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&nbsp;reader)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">AbstractConfigurationLoader</a></code></span></div>
 <div class="block">Using a created node, attempt to read a configuration file.
@@ -246,7 +246,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="writeHeaderInternal(java.io.Writer)">
 <h3>writeHeaderInternal</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-550">writeHeaderInternal</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-581">writeHeaderInternal</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
                             throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#writeHeaderInternal(java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
 <div class="block">Write out any implementation-specific file header.</div>
@@ -263,7 +263,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">
 <h3>saveInternal</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-558">saveInternal</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-589">saveInternal</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
                      throws <span class="exceptions"><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
@@ -282,7 +282,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="createNode(org.spongepowered.configurate.ConfigurationOptions)">
 <h3>createNode</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-631">createNode</a></span><wbr><span class="parameters">(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../AttributedConfigurationNode.html" title="interface in org.spongepowered.configurate">AttributedConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/xml/XmlConfigurationLoader.html#line-662">createNode</a></span><wbr><span class="parameters">(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationNodeFactory</a></code></span></div>
 <div class="block">Create an empty node with the provided options.
 

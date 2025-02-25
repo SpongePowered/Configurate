@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../ConfigurationNodeFactory.html" title="interface in org.spongepowered.configurate">ConfigurationNodeFactory</a>&lt;<a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</code>, <code><a href="../loader/ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;<a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-56">GsonConfigurationLoader</a></span>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-57">GsonConfigurationLoader</a></span>
 <span class="extends-implements">extends <a href="../loader/AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&gt;</span></div>
 <div class="block">A loader for JSON-formatted configurations, using the GSON library for
  parsing and generation.</div>
@@ -191,7 +191,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="builder()">
 <h3>builder</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NonNull <a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-75">builder</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NonNull <a href="GsonConfigurationLoader.Builder.html" title="class in org.spongepowered.configurate.gson">GsonConfigurationLoader.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-76">builder</a></span>()</div>
 <div class="block">Creates a new <a href="GsonConfigurationLoader.html" title="class in org.spongepowered.configurate.gson"><code>GsonConfigurationLoader</code></a> builder.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -204,7 +204,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="gsonSerializers()">
 <h3>gsonSerializers</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-91">gsonSerializers</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize">TypeSerializerCollection</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-92">gsonSerializers</a></span>()</div>
 <div class="block">Get a <a href="../serialize/TypeSerializerCollection.html" title="class in org.spongepowered.configurate.serialize"><code>TypeSerializerCollection</code></a> for handling Gson types.
 
  <p>Currently, this serializer can handle:</p>
@@ -223,7 +223,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">
 <h3>checkCanWrite</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-184">checkCanWrite</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-202">checkCanWrite</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span>
                       throws <span class="exceptions"><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#checkCanWrite(org.spongepowered.configurate.ConfigurationNode)">AbstractConfigurationLoader</a></code></span></div>
 <div class="block">Perform format-specific validation of a node.
@@ -244,7 +244,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="loadInternal(org.spongepowered.configurate.BasicConfigurationNode,java.io.BufferedReader)">
 <h3>loadInternal</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-191">loadInternal</a></span><wbr><span class="parameters">(<a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;node,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-209">loadInternal</a></span><wbr><span class="parameters">(<a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a>&nbsp;node,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&nbsp;reader)</span>
                      throws <span class="exceptions"><a href="../loader/ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#loadInternal(N,java.io.BufferedReader)">AbstractConfigurationLoader</a></code></span></div>
@@ -265,7 +265,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">
 <h3>saveInternal</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-320">saveInternal</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-338">saveInternal</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
                      throws <span class="exceptions"><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../loader/AbstractConfigurationLoader.html#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)">AbstractConfigurationLoader</a></code></span></div>
@@ -284,7 +284,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="createNode(org.spongepowered.configurate.ConfigurationOptions)">
 <h3>createNode</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-334">createNode</a></span><wbr><span class="parameters">(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../BasicConfigurationNode.html" title="interface in org.spongepowered.configurate">BasicConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/gson/GsonConfigurationLoader.html#line-352">createNode</a></span><wbr><span class="parameters">(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;options)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../ConfigurationNodeFactory.html#createNode(org.spongepowered.configurate.ConfigurationOptions)">ConfigurationNodeFactory</a></code></span></div>
 <div class="block">Create an empty node with the provided options.
 

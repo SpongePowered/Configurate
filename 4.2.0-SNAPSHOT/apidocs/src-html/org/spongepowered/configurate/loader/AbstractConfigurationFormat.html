@@ -101,7 +101,7 @@
 <span class="source-line-no">088</span><span id="line-88">    @Override</span>
 <span class="source-line-no">089</span><span id="line-89">    public ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final Path file, final ConfigurationNode options) {</span>
 <span class="source-line-no">090</span><span id="line-90">        return this.builderMaker.get()</span>
-<span class="source-line-no">091</span><span id="line-91">            .from(LoaderOptionSource.node(options))</span>
+<span class="source-line-no">091</span><span id="line-91">            .editOptions(opts -&gt; opts.values(ValueSources.node(options)))</span>
 <span class="source-line-no">092</span><span id="line-92">            .path(file)</span>
 <span class="source-line-no">093</span><span id="line-93">            .build();</span>
 <span class="source-line-no">094</span><span id="line-94">    }</span>
@@ -116,7 +116,7 @@
 <span class="source-line-no">103</span><span id="line-103">    @Override</span>
 <span class="source-line-no">104</span><span id="line-104">    public ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final URL url, final ConfigurationNode options) {</span>
 <span class="source-line-no">105</span><span id="line-105">        return this.builderMaker.get()</span>
-<span class="source-line-no">106</span><span id="line-106">            .from(LoaderOptionSource.node(options))</span>
+<span class="source-line-no">106</span><span id="line-106">            .editOptions(opts -&gt; opts.values(ValueSources.node(options)))</span>
 <span class="source-line-no">107</span><span id="line-107">            .url(url)</span>
 <span class="source-line-no">108</span><span id="line-108">            .build();</span>
 <span class="source-line-no">109</span><span id="line-109">    }</span>

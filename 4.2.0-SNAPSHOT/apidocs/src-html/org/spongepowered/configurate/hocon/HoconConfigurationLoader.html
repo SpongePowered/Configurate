@@ -40,336 +40,376 @@
 <span class="source-line-no">027</span><span id="line-27">import com.typesafe.config.ConfigValue;</span>
 <span class="source-line-no">028</span><span id="line-28">import com.typesafe.config.ConfigValueFactory;</span>
 <span class="source-line-no">029</span><span id="line-29">import com.typesafe.config.impl.ConfigNodeComment;</span>
-<span class="source-line-no">030</span><span id="line-30">import org.checkerframework.checker.nullness.qual.Nullable;</span>
-<span class="source-line-no">031</span><span id="line-31">import org.spongepowered.configurate.CommentedConfigurationNode;</span>
-<span class="source-line-no">032</span><span id="line-32">import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;</span>
-<span class="source-line-no">033</span><span id="line-33">import org.spongepowered.configurate.ConfigurateException;</span>
-<span class="source-line-no">034</span><span id="line-34">import org.spongepowered.configurate.ConfigurationNode;</span>
-<span class="source-line-no">035</span><span id="line-35">import org.spongepowered.configurate.ConfigurationOptions;</span>
-<span class="source-line-no">036</span><span id="line-36">import org.spongepowered.configurate.loader.AbstractConfigurationLoader;</span>
-<span class="source-line-no">037</span><span id="line-37">import org.spongepowered.configurate.loader.CommentHandler;</span>
-<span class="source-line-no">038</span><span id="line-38">import org.spongepowered.configurate.loader.CommentHandlers;</span>
-<span class="source-line-no">039</span><span id="line-39">import org.spongepowered.configurate.loader.LoaderOptionSource;</span>
-<span class="source-line-no">040</span><span id="line-40">import org.spongepowered.configurate.loader.ParsingException;</span>
-<span class="source-line-no">041</span><span id="line-41">import org.spongepowered.configurate.util.UnmodifiableCollections;</span>
-<span class="source-line-no">042</span><span id="line-42"></span>
-<span class="source-line-no">043</span><span id="line-43">import java.io.BufferedReader;</span>
-<span class="source-line-no">044</span><span id="line-44">import java.io.IOException;</span>
-<span class="source-line-no">045</span><span id="line-45">import java.io.Writer;</span>
-<span class="source-line-no">046</span><span id="line-46">import java.lang.reflect.Constructor;</span>
-<span class="source-line-no">047</span><span id="line-47">import java.lang.reflect.InvocationTargetException;</span>
-<span class="source-line-no">048</span><span id="line-48">import java.util.ArrayList;</span>
-<span class="source-line-no">049</span><span id="line-49">import java.util.Collections;</span>
-<span class="source-line-no">050</span><span id="line-50">import java.util.List;</span>
-<span class="source-line-no">051</span><span id="line-51">import java.util.Map;</span>
-<span class="source-line-no">052</span><span id="line-52">import java.util.Set;</span>
-<span class="source-line-no">053</span><span id="line-53">import java.util.stream.Collectors;</span>
-<span class="source-line-no">054</span><span id="line-54"></span>
-<span class="source-line-no">055</span><span id="line-55">/**</span>
-<span class="source-line-no">056</span><span id="line-56"> * A loader for HOCON (Hodor)-formatted configurations, using the</span>
-<span class="source-line-no">057</span><span id="line-57"> * &lt;a href="https://github.com/lightbend/config"&gt;lightbend config&lt;/a&gt; library</span>
-<span class="source-line-no">058</span><span id="line-58"> * for parsing and generation.</span>
-<span class="source-line-no">059</span><span id="line-59"> *</span>
-<span class="source-line-no">060</span><span id="line-60"> * @since 4.0.0</span>
-<span class="source-line-no">061</span><span id="line-61"> */</span>
-<span class="source-line-no">062</span><span id="line-62">public final class HoconConfigurationLoader extends AbstractConfigurationLoader&lt;CommentedConfigurationNode&gt; {</span>
-<span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">    private static final Set&lt;Class&lt;?&gt;&gt; NATIVE_TYPES = UnmodifiableCollections.toSet(</span>
-<span class="source-line-no">065</span><span id="line-65">            Double.class, Long.class, Integer.class, Boolean.class, String.class, Number.class);</span>
-<span class="source-line-no">066</span><span id="line-66"></span>
-<span class="source-line-no">067</span><span id="line-67">    /**</span>
-<span class="source-line-no">068</span><span id="line-68">     * The default render options used by configurate.</span>
-<span class="source-line-no">069</span><span id="line-69">     */</span>
-<span class="source-line-no">070</span><span id="line-70">    private static final ConfigRenderOptions DEFAULT_RENDER_OPTIONS = ConfigRenderOptions.defaults()</span>
-<span class="source-line-no">071</span><span id="line-71">            .setOriginComments(false)</span>
-<span class="source-line-no">072</span><span id="line-72">            .setJson(false);</span>
-<span class="source-line-no">073</span><span id="line-73"></span>
-<span class="source-line-no">074</span><span id="line-74">    /**</span>
-<span class="source-line-no">075</span><span id="line-75">     * An instance of {@link ConfigOrigin} for configurate.</span>
-<span class="source-line-no">076</span><span id="line-76">     */</span>
-<span class="source-line-no">077</span><span id="line-77">    private static final ConfigOrigin CONFIGURATE_ORIGIN = ConfigOriginFactory.newSimple("configurate-hocon");</span>
-<span class="source-line-no">078</span><span id="line-78"></span>
-<span class="source-line-no">079</span><span id="line-79">    /**</span>
-<span class="source-line-no">080</span><span id="line-80">     * Creates a new {@link HoconConfigurationLoader} builder.</span>
-<span class="source-line-no">081</span><span id="line-81">     *</span>
-<span class="source-line-no">082</span><span id="line-82">     * @return a new builder</span>
-<span class="source-line-no">083</span><span id="line-83">     * @since 4.0.0</span>
-<span class="source-line-no">084</span><span id="line-84">     */</span>
-<span class="source-line-no">085</span><span id="line-85">    public static Builder builder() {</span>
-<span class="source-line-no">086</span><span id="line-86">        return new Builder();</span>
-<span class="source-line-no">087</span><span id="line-87">    }</span>
-<span class="source-line-no">088</span><span id="line-88"></span>
-<span class="source-line-no">089</span><span id="line-89">    /**</span>
-<span class="source-line-no">090</span><span id="line-90">     * Builds a {@link HoconConfigurationLoader}.</span>
-<span class="source-line-no">091</span><span id="line-91">     *</span>
-<span class="source-line-no">092</span><span id="line-92">     * &lt;p&gt;This builder supports the following options:&lt;/p&gt;</span>
-<span class="source-line-no">093</span><span id="line-93">     * &lt;dl&gt;</span>
-<span class="source-line-no">094</span><span id="line-94">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.pretty-printing&lt;/dt&gt;</span>
-<span class="source-line-no">095</span><span id="line-95">     *     &lt;dd&gt;Equivalent to {@link #prettyPrinting(boolean)}&lt;/dd&gt;</span>
-<span class="source-line-no">096</span><span id="line-96">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.indent&lt;/dt&gt;</span>
-<span class="source-line-no">097</span><span id="line-97">     *     &lt;dd&gt;Equivalent to {@link #indent(int)}&lt;/dd&gt;</span>
-<span class="source-line-no">098</span><span id="line-98">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.emit-comments&lt;/dt&gt;</span>
-<span class="source-line-no">099</span><span id="line-99">     *     &lt;dd&gt;Equivalent to {@link #emitComments(boolean)}&lt;/dd&gt;</span>
-<span class="source-line-no">100</span><span id="line-100">     *     &lt;dt&gt;&amp;lt;prefix&amp;gt;.hocon.json-compatible&lt;/dt&gt;</span>
-<span class="source-line-no">101</span><span id="line-101">     *     &lt;dd&gt;Equivalent to {@link #emitJsonCompatible(boolean)}&lt;/dd&gt;</span>
-<span class="source-line-no">102</span><span id="line-102">     * &lt;/dl&gt;</span>
-<span class="source-line-no">103</span><span id="line-103">     *</span>
-<span class="source-line-no">104</span><span id="line-104">     * @since 4.0.0</span>
-<span class="source-line-no">105</span><span id="line-105">     */</span>
-<span class="source-line-no">106</span><span id="line-106">    public static final class Builder extends AbstractConfigurationLoader.Builder&lt;Builder, HoconConfigurationLoader&gt; {</span>
-<span class="source-line-no">107</span><span id="line-107">        private ConfigRenderOptions render = DEFAULT_RENDER_OPTIONS;</span>
-<span class="source-line-no">108</span><span id="line-108"></span>
-<span class="source-line-no">109</span><span id="line-109">        Builder() {</span>
-<span class="source-line-no">110</span><span id="line-110">            this.from(DEFAULT_OPTIONS_SOURCE);</span>
-<span class="source-line-no">111</span><span id="line-111">        }</span>
-<span class="source-line-no">112</span><span id="line-112"></span>
-<span class="source-line-no">113</span><span id="line-113">        @Override</span>
-<span class="source-line-no">114</span><span id="line-114">        protected void populate(final LoaderOptionSource options) {</span>
-<span class="source-line-no">115</span><span id="line-115">            this.render = this.render</span>
-<span class="source-line-no">116</span><span id="line-116">                .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))</span>
-<span class="source-line-no">117</span><span id="line-117">                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"))</span>
-<span class="source-line-no">118</span><span id="line-118">                .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))</span>
-<span class="source-line-no">119</span><span id="line-119">                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));</span>
-<span class="source-line-no">120</span><span id="line-120">        }</span>
-<span class="source-line-no">121</span><span id="line-121"></span>
-<span class="source-line-no">122</span><span id="line-122">        /**</span>
-<span class="source-line-no">123</span><span id="line-123">         * Set whether output from this loader will be pretty-printed or not.</span>
-<span class="source-line-no">124</span><span id="line-124">         *</span>
-<span class="source-line-no">125</span><span id="line-125">         * @param prettyPrinting whether to pretty-print</span>
-<span class="source-line-no">126</span><span id="line-126">         * @return this builder</span>
-<span class="source-line-no">127</span><span id="line-127">         * @since 4.0.0</span>
-<span class="source-line-no">128</span><span id="line-128">         */</span>
-<span class="source-line-no">129</span><span id="line-129">        public Builder prettyPrinting(final boolean prettyPrinting) {</span>
-<span class="source-line-no">130</span><span id="line-130">            this.render = this.render.setFormatted(prettyPrinting);</span>
-<span class="source-line-no">131</span><span id="line-131">            return this;</span>
-<span class="source-line-no">132</span><span id="line-132">        }</span>
-<span class="source-line-no">133</span><span id="line-133"></span>
-<span class="source-line-no">134</span><span id="line-134">        /**</span>
-<span class="source-line-no">135</span><span id="line-135">         * Set the amount of spaces to indent with when</span>
-<span class="source-line-no">136</span><span id="line-136">         * {@link #prettyPrinting(boolean)} is on.</span>
-<span class="source-line-no">137</span><span id="line-137">         *</span>
-<span class="source-line-no">138</span><span id="line-138">         * &lt;p&gt;Defaults to 4.&lt;/p&gt;</span>
-<span class="source-line-no">139</span><span id="line-139">         *</span>
-<span class="source-line-no">140</span><span id="line-140">         * @param indent indent level</span>
-<span class="source-line-no">141</span><span id="line-141">         * @return this builder</span>
-<span class="source-line-no">142</span><span id="line-142">         * @since 4.2.0</span>
-<span class="source-line-no">143</span><span id="line-143">         */</span>
-<span class="source-line-no">144</span><span id="line-144">        public Builder indent(final int indent) {</span>
-<span class="source-line-no">145</span><span id="line-145">            this.render = this.render.setIndent(indent);</span>
-<span class="source-line-no">146</span><span id="line-146">            return this;</span>
-<span class="source-line-no">147</span><span id="line-147">        }</span>
-<span class="source-line-no">148</span><span id="line-148"></span>
-<span class="source-line-no">149</span><span id="line-149">        /**</span>
-<span class="source-line-no">150</span><span id="line-150">         * Set whether comments should be emitted.</span>
-<span class="source-line-no">151</span><span id="line-151">         *</span>
-<span class="source-line-no">152</span><span id="line-152">         * &lt;p&gt;Comments will always be loaded from files and</span>
-<span class="source-line-no">153</span><span id="line-153">         * stored in memory.&lt;/p&gt;</span>
-<span class="source-line-no">154</span><span id="line-154">         *</span>
-<span class="source-line-no">155</span><span id="line-155">         * @param emitComments whether to emit comments</span>
-<span class="source-line-no">156</span><span id="line-156">         * @return this builder</span>
-<span class="source-line-no">157</span><span id="line-157">         * @since 4.0.0</span>
-<span class="source-line-no">158</span><span id="line-158">         */</span>
-<span class="source-line-no">159</span><span id="line-159">        public Builder emitComments(final boolean emitComments) {</span>
-<span class="source-line-no">160</span><span id="line-160">            this.render = this.render.setComments(emitComments);</span>
-<span class="source-line-no">161</span><span id="line-161">            return this;</span>
-<span class="source-line-no">162</span><span id="line-162">        }</span>
-<span class="source-line-no">163</span><span id="line-163"></span>
-<span class="source-line-no">164</span><span id="line-164">        /**</span>
-<span class="source-line-no">165</span><span id="line-165">         * Set whether output generated by this loader should be</span>
-<span class="source-line-no">166</span><span id="line-166">         * json-compatible.</span>
-<span class="source-line-no">167</span><span id="line-167">         *</span>
-<span class="source-line-no">168</span><span id="line-168">         * &lt;p&gt;Whatever format input is received in, this will output</span>
-<span class="source-line-no">169</span><span id="line-169">         * JSON. To be fully spec-compliant, comment output must also</span>
-<span class="source-line-no">170</span><span id="line-170">         * be disabled.&lt;/p&gt;</span>
-<span class="source-line-no">171</span><span id="line-171">         *</span>
-<span class="source-line-no">172</span><span id="line-172">         * @param jsonCompatible to emit json-format output</span>
-<span class="source-line-no">173</span><span id="line-173">         * @return this builder</span>
-<span class="source-line-no">174</span><span id="line-174">         * @since 4.0.0</span>
-<span class="source-line-no">175</span><span id="line-175">         */</span>
-<span class="source-line-no">176</span><span id="line-176">        public Builder emitJsonCompatible(final boolean jsonCompatible) {</span>
-<span class="source-line-no">177</span><span id="line-177">            this.render = this.render.setJson(jsonCompatible);</span>
-<span class="source-line-no">178</span><span id="line-178">            return this;</span>
-<span class="source-line-no">179</span><span id="line-179">        }</span>
-<span class="source-line-no">180</span><span id="line-180"></span>
-<span class="source-line-no">181</span><span id="line-181">        @Override</span>
-<span class="source-line-no">182</span><span id="line-182">        public HoconConfigurationLoader build() {</span>
-<span class="source-line-no">183</span><span id="line-183">            defaultOptions(o -&gt; o.nativeTypes(NATIVE_TYPES));</span>
-<span class="source-line-no">184</span><span id="line-184">            return new HoconConfigurationLoader(this);</span>
-<span class="source-line-no">185</span><span id="line-185">        }</span>
-<span class="source-line-no">186</span><span id="line-186">    }</span>
-<span class="source-line-no">187</span><span id="line-187"></span>
-<span class="source-line-no">188</span><span id="line-188">    private final ConfigRenderOptions render;</span>
-<span class="source-line-no">189</span><span id="line-189"></span>
-<span class="source-line-no">190</span><span id="line-190">    private HoconConfigurationLoader(final Builder build) {</span>
-<span class="source-line-no">191</span><span id="line-191">        super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});</span>
-<span class="source-line-no">192</span><span id="line-192">        this.render = build.render;</span>
-<span class="source-line-no">193</span><span id="line-193">    }</span>
+<span class="source-line-no">030</span><span id="line-30">import net.kyori.option.Option;</span>
+<span class="source-line-no">031</span><span id="line-31">import net.kyori.option.OptionSchema;</span>
+<span class="source-line-no">032</span><span id="line-32">import net.kyori.option.OptionState;</span>
+<span class="source-line-no">033</span><span id="line-33">import org.checkerframework.checker.nullness.qual.Nullable;</span>
+<span class="source-line-no">034</span><span id="line-34">import org.spongepowered.configurate.CommentedConfigurationNode;</span>
+<span class="source-line-no">035</span><span id="line-35">import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;</span>
+<span class="source-line-no">036</span><span id="line-36">import org.spongepowered.configurate.ConfigurateException;</span>
+<span class="source-line-no">037</span><span id="line-37">import org.spongepowered.configurate.ConfigurationNode;</span>
+<span class="source-line-no">038</span><span id="line-38">import org.spongepowered.configurate.ConfigurationOptions;</span>
+<span class="source-line-no">039</span><span id="line-39">import org.spongepowered.configurate.loader.AbstractConfigurationLoader;</span>
+<span class="source-line-no">040</span><span id="line-40">import org.spongepowered.configurate.loader.CommentHandler;</span>
+<span class="source-line-no">041</span><span id="line-41">import org.spongepowered.configurate.loader.CommentHandlers;</span>
+<span class="source-line-no">042</span><span id="line-42">import org.spongepowered.configurate.loader.ParsingException;</span>
+<span class="source-line-no">043</span><span id="line-43">import org.spongepowered.configurate.util.UnmodifiableCollections;</span>
+<span class="source-line-no">044</span><span id="line-44"></span>
+<span class="source-line-no">045</span><span id="line-45">import java.io.BufferedReader;</span>
+<span class="source-line-no">046</span><span id="line-46">import java.io.IOException;</span>
+<span class="source-line-no">047</span><span id="line-47">import java.io.Writer;</span>
+<span class="source-line-no">048</span><span id="line-48">import java.lang.reflect.Constructor;</span>
+<span class="source-line-no">049</span><span id="line-49">import java.lang.reflect.InvocationTargetException;</span>
+<span class="source-line-no">050</span><span id="line-50">import java.util.ArrayList;</span>
+<span class="source-line-no">051</span><span id="line-51">import java.util.Collections;</span>
+<span class="source-line-no">052</span><span id="line-52">import java.util.List;</span>
+<span class="source-line-no">053</span><span id="line-53">import java.util.Map;</span>
+<span class="source-line-no">054</span><span id="line-54">import java.util.Set;</span>
+<span class="source-line-no">055</span><span id="line-55">import java.util.stream.Collectors;</span>
+<span class="source-line-no">056</span><span id="line-56"></span>
+<span class="source-line-no">057</span><span id="line-57">/**</span>
+<span class="source-line-no">058</span><span id="line-58"> * A loader for HOCON (Hodor)-formatted configurations, using the</span>
+<span class="source-line-no">059</span><span id="line-59"> * &lt;a href="https://github.com/lightbend/config"&gt;lightbend config&lt;/a&gt; library</span>
+<span class="source-line-no">060</span><span id="line-60"> * for parsing and generation.</span>
+<span class="source-line-no">061</span><span id="line-61"> *</span>
+<span class="source-line-no">062</span><span id="line-62"> * @since 4.0.0</span>
+<span class="source-line-no">063</span><span id="line-63"> */</span>
+<span class="source-line-no">064</span><span id="line-64">public final class HoconConfigurationLoader extends AbstractConfigurationLoader&lt;CommentedConfigurationNode&gt; {</span>
+<span class="source-line-no">065</span><span id="line-65"></span>
+<span class="source-line-no">066</span><span id="line-66">    private static final Set&lt;Class&lt;?&gt;&gt; NATIVE_TYPES = UnmodifiableCollections.toSet(</span>
+<span class="source-line-no">067</span><span id="line-67">            Double.class, Long.class, Integer.class, Boolean.class, String.class, Number.class);</span>
+<span class="source-line-no">068</span><span id="line-68"></span>
+<span class="source-line-no">069</span><span id="line-69">    /**</span>
+<span class="source-line-no">070</span><span id="line-70">     * The default render options used by configurate.</span>
+<span class="source-line-no">071</span><span id="line-71">     */</span>
+<span class="source-line-no">072</span><span id="line-72">    private static final ConfigRenderOptions DEFAULT_RENDER_OPTIONS = ConfigRenderOptions.defaults()</span>
+<span class="source-line-no">073</span><span id="line-73">            .setOriginComments(false)</span>
+<span class="source-line-no">074</span><span id="line-74">            .setJson(false);</span>
+<span class="source-line-no">075</span><span id="line-75"></span>
+<span class="source-line-no">076</span><span id="line-76">    /**</span>
+<span class="source-line-no">077</span><span id="line-77">     * An instance of {@link ConfigOrigin} for configurate.</span>
+<span class="source-line-no">078</span><span id="line-78">     */</span>
+<span class="source-line-no">079</span><span id="line-79">    private static final ConfigOrigin CONFIGURATE_ORIGIN = ConfigOriginFactory.newSimple("configurate-hocon");</span>
+<span class="source-line-no">080</span><span id="line-80"></span>
+<span class="source-line-no">081</span><span id="line-81">    /**</span>
+<span class="source-line-no">082</span><span id="line-82">     * Creates a new {@link HoconConfigurationLoader} builder.</span>
+<span class="source-line-no">083</span><span id="line-83">     *</span>
+<span class="source-line-no">084</span><span id="line-84">     * @return a new builder</span>
+<span class="source-line-no">085</span><span id="line-85">     * @since 4.0.0</span>
+<span class="source-line-no">086</span><span id="line-86">     */</span>
+<span class="source-line-no">087</span><span id="line-87">    public static Builder builder() {</span>
+<span class="source-line-no">088</span><span id="line-88">        return new Builder();</span>
+<span class="source-line-no">089</span><span id="line-89">    }</span>
+<span class="source-line-no">090</span><span id="line-90"></span>
+<span class="source-line-no">091</span><span id="line-91">    /**</span>
+<span class="source-line-no">092</span><span id="line-92">     * Builds a {@link HoconConfigurationLoader}.</span>
+<span class="source-line-no">093</span><span id="line-93">     *</span>
+<span class="source-line-no">094</span><span id="line-94">     * &lt;p&gt;This builder supports the following options:&lt;/p&gt;</span>
+<span class="source-line-no">095</span><span id="line-95">     * &lt;ul&gt;</span>
+<span class="source-line-no">096</span><span id="line-96">     *     &lt;li&gt;{@link #HEADER_MODE}&lt;/li&gt;</span>
+<span class="source-line-no">097</span><span id="line-97">     *     &lt;li&gt;{@link #PRETTY_PRINTING}&lt;/li&gt;</span>
+<span class="source-line-no">098</span><span id="line-98">     *     &lt;li&gt;{@link #INDENT}&lt;/li&gt;</span>
+<span class="source-line-no">099</span><span id="line-99">     *     &lt;li&gt;{@link #COMMENTS}&lt;/li&gt;</span>
+<span class="source-line-no">100</span><span id="line-100">     *     &lt;li&gt;{@link #JSON_COMPATIBLE}&lt;/li&gt;</span>
+<span class="source-line-no">101</span><span id="line-101">     * &lt;/ul&gt;</span>
+<span class="source-line-no">102</span><span id="line-102">     *</span>
+<span class="source-line-no">103</span><span id="line-103">     * @since 4.0.0</span>
+<span class="source-line-no">104</span><span id="line-104">     */</span>
+<span class="source-line-no">105</span><span id="line-105">    public static final class Builder extends AbstractConfigurationLoader.Builder&lt;Builder, HoconConfigurationLoader&gt; {</span>
+<span class="source-line-no">106</span><span id="line-106">        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);</span>
+<span class="source-line-no">107</span><span id="line-107"></span>
+<span class="source-line-no">108</span><span id="line-108">        /**</span>
+<span class="source-line-no">109</span><span id="line-109">         * A schema of options available to configure the Hocon loader.</span>
+<span class="source-line-no">110</span><span id="line-110">         *</span>
+<span class="source-line-no">111</span><span id="line-111">         * @since 4.2.0</span>
+<span class="source-line-no">112</span><span id="line-112">         */</span>
+<span class="source-line-no">113</span><span id="line-113">        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();</span>
+<span class="source-line-no">114</span><span id="line-114"></span>
+<span class="source-line-no">115</span><span id="line-115">        /**</span>
+<span class="source-line-no">116</span><span id="line-116">         * Set whether output from this loader will be pretty-printed or not.</span>
+<span class="source-line-no">117</span><span id="line-117">         *</span>
+<span class="source-line-no">118</span><span id="line-118">         * @see #prettyPrinting(boolean)</span>
+<span class="source-line-no">119</span><span id="line-119">         * @since 4.2.0</span>
+<span class="source-line-no">120</span><span id="line-120">         */</span>
+<span class="source-line-no">121</span><span id="line-121">        public static final Option&lt;Boolean&gt; PRETTY_PRINTING =</span>
+<span class="source-line-no">122</span><span id="line-122">                UNSAFE_SCHEMA.booleanOption("hocon:pretty-printing", DEFAULT_RENDER_OPTIONS.getFormatted());</span>
+<span class="source-line-no">123</span><span id="line-123"></span>
+<span class="source-line-no">124</span><span id="line-124">        /**</span>
+<span class="source-line-no">125</span><span id="line-125">         * Set the amount of spaces to indent with when {@link #prettyPrinting(boolean)} is on.</span>
+<span class="source-line-no">126</span><span id="line-126">         *</span>
+<span class="source-line-no">127</span><span id="line-127">         * @see #indent(int)</span>
+<span class="source-line-no">128</span><span id="line-128">         * @since 4.2.0</span>
+<span class="source-line-no">129</span><span id="line-129">         */</span>
+<span class="source-line-no">130</span><span id="line-130">        public static final Option&lt;Integer&gt; INDENT = UNSAFE_SCHEMA.intOption("hocon:indent", DEFAULT_RENDER_OPTIONS.getIndent());</span>
+<span class="source-line-no">131</span><span id="line-131"></span>
+<span class="source-line-no">132</span><span id="line-132">        /**</span>
+<span class="source-line-no">133</span><span id="line-133">         * Set whether comments will be emitted.</span>
+<span class="source-line-no">134</span><span id="line-134">         *</span>
+<span class="source-line-no">135</span><span id="line-135">         * @see #emitComments(boolean)</span>
+<span class="source-line-no">136</span><span id="line-136">         * @since 4.2.0</span>
+<span class="source-line-no">137</span><span id="line-137">         */</span>
+<span class="source-line-no">138</span><span id="line-138">        public static final Option&lt;Boolean&gt; COMMENTS = UNSAFE_SCHEMA.booleanOption("hocon:emit-comments", DEFAULT_RENDER_OPTIONS.getComments());</span>
+<span class="source-line-no">139</span><span id="line-139"></span>
+<span class="source-line-no">140</span><span id="line-140">        /**</span>
+<span class="source-line-no">141</span><span id="line-141">         * Set whether JSON compatible output mode will be used.</span>
+<span class="source-line-no">142</span><span id="line-142">         *</span>
+<span class="source-line-no">143</span><span id="line-143">         * @see #emitJsonCompatible(boolean)</span>
+<span class="source-line-no">144</span><span id="line-144">         * @since 4.2.0</span>
+<span class="source-line-no">145</span><span id="line-145">         */</span>
+<span class="source-line-no">146</span><span id="line-146">        public static final Option&lt;Boolean&gt; JSON_COMPATIBLE = UNSAFE_SCHEMA.booleanOption("hocon:json-compatible", DEFAULT_RENDER_OPTIONS.getJson());</span>
+<span class="source-line-no">147</span><span id="line-147"></span>
+<span class="source-line-no">148</span><span id="line-148">        @Override</span>
+<span class="source-line-no">149</span><span id="line-149">        protected OptionSchema optionSchema() {</span>
+<span class="source-line-no">150</span><span id="line-150">            return SCHEMA;</span>
+<span class="source-line-no">151</span><span id="line-151">        }</span>
+<span class="source-line-no">152</span><span id="line-152"></span>
+<span class="source-line-no">153</span><span id="line-153">        /**</span>
+<span class="source-line-no">154</span><span id="line-154">         * Set whether output from this loader will be pretty-printed or not.</span>
+<span class="source-line-no">155</span><span id="line-155">         *</span>
+<span class="source-line-no">156</span><span id="line-156">         * @param prettyPrinting whether to pretty-print</span>
+<span class="source-line-no">157</span><span id="line-157">         * @return this builder</span>
+<span class="source-line-no">158</span><span id="line-158">         * @since 4.0.0</span>
+<span class="source-line-no">159</span><span id="line-159">         */</span>
+<span class="source-line-no">160</span><span id="line-160">        public Builder prettyPrinting(final boolean prettyPrinting) {</span>
+<span class="source-line-no">161</span><span id="line-161">            this.optionStateBuilder().value(PRETTY_PRINTING, prettyPrinting);</span>
+<span class="source-line-no">162</span><span id="line-162">            return this;</span>
+<span class="source-line-no">163</span><span id="line-163">        }</span>
+<span class="source-line-no">164</span><span id="line-164"></span>
+<span class="source-line-no">165</span><span id="line-165">        /**</span>
+<span class="source-line-no">166</span><span id="line-166">         * Set the amount of spaces to indent with when</span>
+<span class="source-line-no">167</span><span id="line-167">         * {@link #prettyPrinting(boolean)} is on.</span>
+<span class="source-line-no">168</span><span id="line-168">         *</span>
+<span class="source-line-no">169</span><span id="line-169">         * &lt;p&gt;Defaults to 4.&lt;/p&gt;</span>
+<span class="source-line-no">170</span><span id="line-170">         *</span>
+<span class="source-line-no">171</span><span id="line-171">         * @param indent indent level</span>
+<span class="source-line-no">172</span><span id="line-172">         * @return this builder</span>
+<span class="source-line-no">173</span><span id="line-173">         * @since 4.2.0</span>
+<span class="source-line-no">174</span><span id="line-174">         */</span>
+<span class="source-line-no">175</span><span id="line-175">        public Builder indent(final int indent) {</span>
+<span class="source-line-no">176</span><span id="line-176">            this.optionStateBuilder().value(INDENT, indent);</span>
+<span class="source-line-no">177</span><span id="line-177">            return this;</span>
+<span class="source-line-no">178</span><span id="line-178">        }</span>
+<span class="source-line-no">179</span><span id="line-179"></span>
+<span class="source-line-no">180</span><span id="line-180">        /**</span>
+<span class="source-line-no">181</span><span id="line-181">         * Set whether comments should be emitted.</span>
+<span class="source-line-no">182</span><span id="line-182">         *</span>
+<span class="source-line-no">183</span><span id="line-183">         * &lt;p&gt;Comments will always be loaded from files and</span>
+<span class="source-line-no">184</span><span id="line-184">         * stored in memory.&lt;/p&gt;</span>
+<span class="source-line-no">185</span><span id="line-185">         *</span>
+<span class="source-line-no">186</span><span id="line-186">         * @param emitComments whether to emit comments</span>
+<span class="source-line-no">187</span><span id="line-187">         * @return this builder</span>
+<span class="source-line-no">188</span><span id="line-188">         * @since 4.0.0</span>
+<span class="source-line-no">189</span><span id="line-189">         */</span>
+<span class="source-line-no">190</span><span id="line-190">        public Builder emitComments(final boolean emitComments) {</span>
+<span class="source-line-no">191</span><span id="line-191">            this.optionStateBuilder().value(COMMENTS, emitComments);</span>
+<span class="source-line-no">192</span><span id="line-192">            return this;</span>
+<span class="source-line-no">193</span><span id="line-193">        }</span>
 <span class="source-line-no">194</span><span id="line-194"></span>
-<span class="source-line-no">195</span><span id="line-195">    @Override</span>
-<span class="source-line-no">196</span><span id="line-196">    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {</span>
-<span class="source-line-no">197</span><span id="line-197">        if (!node.isMap() &amp;&amp; !node.virtual() &amp;&amp; node.raw() != null) {</span>
-<span class="source-line-no">198</span><span id="line-198">            throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");</span>
-<span class="source-line-no">199</span><span id="line-199">        }</span>
-<span class="source-line-no">200</span><span id="line-200">    }</span>
-<span class="source-line-no">201</span><span id="line-201"></span>
-<span class="source-line-no">202</span><span id="line-202">    @Override</span>
-<span class="source-line-no">203</span><span id="line-203">    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {</span>
-<span class="source-line-no">204</span><span id="line-204">        Config hoconConfig;</span>
-<span class="source-line-no">205</span><span id="line-205">        try {</span>
-<span class="source-line-no">206</span><span id="line-206">            hoconConfig = ConfigFactory.parseReader(reader);</span>
-<span class="source-line-no">207</span><span id="line-207">            hoconConfig = hoconConfig.resolve();</span>
-<span class="source-line-no">208</span><span id="line-208">        } catch (final ConfigException ex) {</span>
-<span class="source-line-no">209</span><span id="line-209">            throw new ParsingException(node, ex.origin().lineNumber(), 0, ex.origin().description(), null, ex);</span>
+<span class="source-line-no">195</span><span id="line-195">        /**</span>
+<span class="source-line-no">196</span><span id="line-196">         * Set whether output generated by this loader should be</span>
+<span class="source-line-no">197</span><span id="line-197">         * json-compatible.</span>
+<span class="source-line-no">198</span><span id="line-198">         *</span>
+<span class="source-line-no">199</span><span id="line-199">         * &lt;p&gt;Whatever format input is received in, this will output</span>
+<span class="source-line-no">200</span><span id="line-200">         * JSON. To be fully spec-compliant, comment output must also</span>
+<span class="source-line-no">201</span><span id="line-201">         * be disabled.&lt;/p&gt;</span>
+<span class="source-line-no">202</span><span id="line-202">         *</span>
+<span class="source-line-no">203</span><span id="line-203">         * @param jsonCompatible to emit json-format output</span>
+<span class="source-line-no">204</span><span id="line-204">         * @return this builder</span>
+<span class="source-line-no">205</span><span id="line-205">         * @since 4.0.0</span>
+<span class="source-line-no">206</span><span id="line-206">         */</span>
+<span class="source-line-no">207</span><span id="line-207">        public Builder emitJsonCompatible(final boolean jsonCompatible) {</span>
+<span class="source-line-no">208</span><span id="line-208">            this.optionStateBuilder().value(JSON_COMPATIBLE, jsonCompatible);</span>
+<span class="source-line-no">209</span><span id="line-209">            return this;</span>
 <span class="source-line-no">210</span><span id="line-210">        }</span>
 <span class="source-line-no">211</span><span id="line-211"></span>
-<span class="source-line-no">212</span><span id="line-212">        for (Map.Entry&lt;String, ConfigValue&gt; ent : hoconConfig.root().entrySet()) {</span>
-<span class="source-line-no">213</span><span id="line-213">            readConfigValue(ent.getValue(), node.node(ent.getKey()));</span>
-<span class="source-line-no">214</span><span id="line-214">        }</span>
-<span class="source-line-no">215</span><span id="line-215">    }</span>
-<span class="source-line-no">216</span><span id="line-216"></span>
-<span class="source-line-no">217</span><span id="line-217">    private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {</span>
-<span class="source-line-no">218</span><span id="line-218">        if (!value.origin().comments().isEmpty()) {</span>
-<span class="source-line-no">219</span><span id="line-219">            node.comment(value.origin().comments().stream()</span>
-<span class="source-line-no">220</span><span id="line-220">                .map(input -&gt; {</span>
-<span class="source-line-no">221</span><span id="line-221">                    final String lineStripped = input.commentText().replace("\r", "");</span>
-<span class="source-line-no">222</span><span id="line-222">                    if (!lineStripped.isEmpty() &amp;&amp; lineStripped.charAt(0) == ' ') {</span>
-<span class="source-line-no">223</span><span id="line-223">                        return lineStripped.substring(1);</span>
-<span class="source-line-no">224</span><span id="line-224">                    } else {</span>
-<span class="source-line-no">225</span><span id="line-225">                        return lineStripped;</span>
-<span class="source-line-no">226</span><span id="line-226">                    }</span>
-<span class="source-line-no">227</span><span id="line-227">                })</span>
-<span class="source-line-no">228</span><span id="line-228">                .collect(Collectors.joining("\n")));</span>
-<span class="source-line-no">229</span><span id="line-229">        }</span>
-<span class="source-line-no">230</span><span id="line-230"></span>
-<span class="source-line-no">231</span><span id="line-231">        switch (value.valueType()) {</span>
-<span class="source-line-no">232</span><span id="line-232">            case OBJECT:</span>
-<span class="source-line-no">233</span><span id="line-233">                final ConfigObject object = (ConfigObject) value;</span>
-<span class="source-line-no">234</span><span id="line-234">                if (object.isEmpty()) {</span>
-<span class="source-line-no">235</span><span id="line-235">                    node.raw(Collections.emptyMap());</span>
-<span class="source-line-no">236</span><span id="line-236">                } else {</span>
-<span class="source-line-no">237</span><span id="line-237">                    for (Map.Entry&lt;String, ConfigValue&gt; ent : object.entrySet()) {</span>
-<span class="source-line-no">238</span><span id="line-238">                        readConfigValue(ent.getValue(), node.node(ent.getKey()));</span>
-<span class="source-line-no">239</span><span id="line-239">                    }</span>
-<span class="source-line-no">240</span><span id="line-240">                }</span>
-<span class="source-line-no">241</span><span id="line-241">                break;</span>
-<span class="source-line-no">242</span><span id="line-242">            case LIST:</span>
-<span class="source-line-no">243</span><span id="line-243">                final ConfigList list = (ConfigList) value;</span>
-<span class="source-line-no">244</span><span id="line-244">                if (list.isEmpty()) {</span>
-<span class="source-line-no">245</span><span id="line-245">                    node.raw(Collections.emptyList());</span>
-<span class="source-line-no">246</span><span id="line-246">                } else {</span>
-<span class="source-line-no">247</span><span id="line-247">                    for (int i = 0; i &lt; list.size(); ++i) {</span>
-<span class="source-line-no">248</span><span id="line-248">                        readConfigValue(list.get(i), node.node(i));</span>
-<span class="source-line-no">249</span><span id="line-249">                    }</span>
-<span class="source-line-no">250</span><span id="line-250">                }</span>
-<span class="source-line-no">251</span><span id="line-251">                break;</span>
-<span class="source-line-no">252</span><span id="line-252">            case NULL:</span>
-<span class="source-line-no">253</span><span id="line-253">                return;</span>
-<span class="source-line-no">254</span><span id="line-254">            default:</span>
-<span class="source-line-no">255</span><span id="line-255">                node.raw(value.unwrapped());</span>
-<span class="source-line-no">256</span><span id="line-256">                break;</span>
-<span class="source-line-no">257</span><span id="line-257">        }</span>
-<span class="source-line-no">258</span><span id="line-258">    }</span>
-<span class="source-line-no">259</span><span id="line-259"></span>
-<span class="source-line-no">260</span><span id="line-260">    @Override</span>
-<span class="source-line-no">261</span><span id="line-261">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</span>
-<span class="source-line-no">262</span><span id="line-262">        try {</span>
-<span class="source-line-no">263</span><span id="line-263">            if (!node.isMap() &amp;&amp; (node.virtual() || node.raw() == null)) {</span>
-<span class="source-line-no">264</span><span id="line-264">                writer.write(SYSTEM_LINE_SEPARATOR);</span>
-<span class="source-line-no">265</span><span id="line-265">                return;</span>
-<span class="source-line-no">266</span><span id="line-266">            }</span>
-<span class="source-line-no">267</span><span id="line-267">            final ConfigValue value = fromValue(node);</span>
-<span class="source-line-no">268</span><span id="line-268">            final String renderedValue = value.render(this.render);</span>
-<span class="source-line-no">269</span><span id="line-269">            writer.write(renderedValue);</span>
-<span class="source-line-no">270</span><span id="line-270">        } catch (final IOException io) {</span>
-<span class="source-line-no">271</span><span id="line-271">            throw new ConfigurateException(node, io);</span>
-<span class="source-line-no">272</span><span id="line-272">        }</span>
-<span class="source-line-no">273</span><span id="line-273">    }</span>
-<span class="source-line-no">274</span><span id="line-274"></span>
-<span class="source-line-no">275</span><span id="line-275">    private static ConfigValue fromValue(final ConfigurationNode node) {</span>
-<span class="source-line-no">276</span><span id="line-276">        ConfigValue ret;</span>
-<span class="source-line-no">277</span><span id="line-277">        if (node.isMap()) {</span>
-<span class="source-line-no">278</span><span id="line-278">            final Map&lt;String, ConfigValue&gt; children = node.options().mapFactory().create();</span>
-<span class="source-line-no">279</span><span id="line-279">            for (Map.Entry&lt;Object, ? extends ConfigurationNode&gt; ent : node.childrenMap().entrySet()) {</span>
-<span class="source-line-no">280</span><span id="line-280">                children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));</span>
-<span class="source-line-no">281</span><span id="line-281">            }</span>
-<span class="source-line-no">282</span><span id="line-282">            ret = newConfigObject(children);</span>
-<span class="source-line-no">283</span><span id="line-283">        } else if (node.isList()) {</span>
-<span class="source-line-no">284</span><span id="line-284">            final List&lt;ConfigValue&gt; children = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">285</span><span id="line-285">            for (ConfigurationNode ent : node.childrenList()) {</span>
-<span class="source-line-no">286</span><span id="line-286">                children.add(fromValue(ent));</span>
-<span class="source-line-no">287</span><span id="line-287">            }</span>
-<span class="source-line-no">288</span><span id="line-288">            ret = newConfigList(children);</span>
-<span class="source-line-no">289</span><span id="line-289"></span>
-<span class="source-line-no">290</span><span id="line-290">        } else {</span>
-<span class="source-line-no">291</span><span id="line-291">            ret = ConfigValueFactory.fromAnyRef(node.rawScalar(), CONFIGURATE_ORIGIN.description());</span>
-<span class="source-line-no">292</span><span id="line-292">        }</span>
-<span class="source-line-no">293</span><span id="line-293">        if (node instanceof CommentedConfigurationNodeIntermediary&lt;?&gt;) {</span>
-<span class="source-line-no">294</span><span id="line-294">            final CommentedConfigurationNodeIntermediary&lt;?&gt; commentedNode = (CommentedConfigurationNodeIntermediary&lt;?&gt;) node;</span>
-<span class="source-line-no">295</span><span id="line-295">            final @Nullable String origComment = commentedNode.comment();</span>
-<span class="source-line-no">296</span><span id="line-296">            if (origComment != null) {</span>
-<span class="source-line-no">297</span><span id="line-297">                final List&lt;ConfigNodeComment&gt; nodes = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">298</span><span id="line-298">                for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {</span>
-<span class="source-line-no">299</span><span id="line-299">                    if (line.length() != 0 &amp;&amp; line.charAt(0) == '#') {</span>
-<span class="source-line-no">300</span><span id="line-300">                        // allow lines that are only the comment character, for box drawing</span>
-<span class="source-line-no">301</span><span id="line-301">                        nodes.add(ConfigNodeComment.hashComment(line));</span>
-<span class="source-line-no">302</span><span id="line-302">                    } else {</span>
-<span class="source-line-no">303</span><span id="line-303">                        nodes.add(ConfigNodeComment.hashComment(' ' + line));</span>
-<span class="source-line-no">304</span><span id="line-304">                    }</span>
-<span class="source-line-no">305</span><span id="line-305">                }</span>
-<span class="source-line-no">306</span><span id="line-306">                ret = ret.withOrigin(ret.origin().withComments(nodes));</span>
-<span class="source-line-no">307</span><span id="line-307">            }</span>
-<span class="source-line-no">308</span><span id="line-308">        }</span>
-<span class="source-line-no">309</span><span id="line-309">        return ret;</span>
-<span class="source-line-no">310</span><span id="line-310">    }</span>
-<span class="source-line-no">311</span><span id="line-311"></span>
-<span class="source-line-no">312</span><span id="line-312">    static ConfigValue newConfigObject(final Map&lt;String, ConfigValue&gt; vals) {</span>
-<span class="source-line-no">313</span><span id="line-313">        try {</span>
-<span class="source-line-no">314</span><span id="line-314">            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</span>
-<span class="source-line-no">315</span><span id="line-315">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</span>
-<span class="source-line-no">316</span><span id="line-316">            throw new RuntimeException(e); // rethrow</span>
-<span class="source-line-no">317</span><span id="line-317">        }</span>
-<span class="source-line-no">318</span><span id="line-318"></span>
-<span class="source-line-no">319</span><span id="line-319">    }</span>
-<span class="source-line-no">320</span><span id="line-320"></span>
-<span class="source-line-no">321</span><span id="line-321">    static ConfigValue newConfigList(final List&lt;ConfigValue&gt; vals) {</span>
-<span class="source-line-no">322</span><span id="line-322">        try {</span>
-<span class="source-line-no">323</span><span id="line-323">            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</span>
-<span class="source-line-no">324</span><span id="line-324">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</span>
-<span class="source-line-no">325</span><span id="line-325">            throw new RuntimeException(e); // rethrow</span>
-<span class="source-line-no">326</span><span id="line-326">        }</span>
-<span class="source-line-no">327</span><span id="line-327">    }</span>
-<span class="source-line-no">328</span><span id="line-328"></span>
-<span class="source-line-no">329</span><span id="line-329">    @Override</span>
-<span class="source-line-no">330</span><span id="line-330">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</span>
-<span class="source-line-no">331</span><span id="line-331">        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</span>
-<span class="source-line-no">332</span><span id="line-332">    }</span>
-<span class="source-line-no">333</span><span id="line-333"></span>
-<span class="source-line-no">334</span><span id="line-334">    // -- Comment handling -- this might have to be updated as the hocon dep changes</span>
-<span class="source-line-no">335</span><span id="line-335">    // (But tests should detect this breakage)</span>
-<span class="source-line-no">336</span><span id="line-336">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_OBJECT_CONSTRUCTOR;</span>
-<span class="source-line-no">337</span><span id="line-337">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_LIST_CONSTRUCTOR;</span>
-<span class="source-line-no">338</span><span id="line-338"></span>
-<span class="source-line-no">339</span><span id="line-339">    static {</span>
-<span class="source-line-no">340</span><span id="line-340">        final Class&lt;? extends ConfigValue&gt; objectClass;</span>
-<span class="source-line-no">341</span><span id="line-341">        final Class&lt;? extends ConfigValue&gt; listClass;</span>
-<span class="source-line-no">342</span><span id="line-342">        try {</span>
-<span class="source-line-no">343</span><span id="line-343">            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);</span>
-<span class="source-line-no">344</span><span id="line-344">            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);</span>
-<span class="source-line-no">345</span><span id="line-345">        } catch (final ClassNotFoundException e) {</span>
-<span class="source-line-no">346</span><span id="line-346">            throw new ExceptionInInitializerError(e);</span>
-<span class="source-line-no">347</span><span id="line-347">        }</span>
-<span class="source-line-no">348</span><span id="line-348"></span>
-<span class="source-line-no">349</span><span id="line-349">        try {</span>
-<span class="source-line-no">350</span><span id="line-350">            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);</span>
-<span class="source-line-no">351</span><span id="line-351">            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);</span>
-<span class="source-line-no">352</span><span id="line-352">            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);</span>
-<span class="source-line-no">353</span><span id="line-353">            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);</span>
-<span class="source-line-no">354</span><span id="line-354">        } catch (final NoSuchMethodException e) {</span>
-<span class="source-line-no">355</span><span id="line-355">            throw new ExceptionInInitializerError(e);</span>
-<span class="source-line-no">356</span><span id="line-356">        }</span>
-<span class="source-line-no">357</span><span id="line-357">    }</span>
+<span class="source-line-no">212</span><span id="line-212">        ConfigRenderOptions renderOptions() {</span>
+<span class="source-line-no">213</span><span id="line-213">            final OptionState opt = this.optionState();</span>
+<span class="source-line-no">214</span><span id="line-214">            return DEFAULT_RENDER_OPTIONS</span>
+<span class="source-line-no">215</span><span id="line-215">                    .setFormatted(opt.value(PRETTY_PRINTING))</span>
+<span class="source-line-no">216</span><span id="line-216">                    .setIndent(opt.value(INDENT))</span>
+<span class="source-line-no">217</span><span id="line-217">                    .setComments(opt.value(COMMENTS))</span>
+<span class="source-line-no">218</span><span id="line-218">                    .setJson(opt.value(JSON_COMPATIBLE));</span>
+<span class="source-line-no">219</span><span id="line-219">        }</span>
+<span class="source-line-no">220</span><span id="line-220"></span>
+<span class="source-line-no">221</span><span id="line-221">        @Override</span>
+<span class="source-line-no">222</span><span id="line-222">        public HoconConfigurationLoader build() {</span>
+<span class="source-line-no">223</span><span id="line-223">            defaultOptions(o -&gt; o.nativeTypes(NATIVE_TYPES));</span>
+<span class="source-line-no">224</span><span id="line-224">            return new HoconConfigurationLoader(this);</span>
+<span class="source-line-no">225</span><span id="line-225">        }</span>
+<span class="source-line-no">226</span><span id="line-226">    }</span>
+<span class="source-line-no">227</span><span id="line-227"></span>
+<span class="source-line-no">228</span><span id="line-228">    private final ConfigRenderOptions render;</span>
+<span class="source-line-no">229</span><span id="line-229"></span>
+<span class="source-line-no">230</span><span id="line-230">    private HoconConfigurationLoader(final Builder build) {</span>
+<span class="source-line-no">231</span><span id="line-231">        super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});</span>
+<span class="source-line-no">232</span><span id="line-232">        this.render = build.renderOptions();</span>
+<span class="source-line-no">233</span><span id="line-233">    }</span>
+<span class="source-line-no">234</span><span id="line-234"></span>
+<span class="source-line-no">235</span><span id="line-235">    @Override</span>
+<span class="source-line-no">236</span><span id="line-236">    protected void checkCanWrite(final ConfigurationNode node) throws ConfigurateException {</span>
+<span class="source-line-no">237</span><span id="line-237">        if (!node.isMap() &amp;&amp; !node.virtual() &amp;&amp; node.raw() != null) {</span>
+<span class="source-line-no">238</span><span id="line-238">            throw new ConfigurateException(node, "HOCON can only write nodes that are in map format!");</span>
+<span class="source-line-no">239</span><span id="line-239">        }</span>
+<span class="source-line-no">240</span><span id="line-240">    }</span>
+<span class="source-line-no">241</span><span id="line-241"></span>
+<span class="source-line-no">242</span><span id="line-242">    @Override</span>
+<span class="source-line-no">243</span><span id="line-243">    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) throws ParsingException {</span>
+<span class="source-line-no">244</span><span id="line-244">        Config hoconConfig;</span>
+<span class="source-line-no">245</span><span id="line-245">        try {</span>
+<span class="source-line-no">246</span><span id="line-246">            hoconConfig = ConfigFactory.parseReader(reader);</span>
+<span class="source-line-no">247</span><span id="line-247">            hoconConfig = hoconConfig.resolve();</span>
+<span class="source-line-no">248</span><span id="line-248">        } catch (final ConfigException ex) {</span>
+<span class="source-line-no">249</span><span id="line-249">            throw new ParsingException(node, ex.origin().lineNumber(), 0, ex.origin().description(), null, ex);</span>
+<span class="source-line-no">250</span><span id="line-250">        }</span>
+<span class="source-line-no">251</span><span id="line-251"></span>
+<span class="source-line-no">252</span><span id="line-252">        for (Map.Entry&lt;String, ConfigValue&gt; ent : hoconConfig.root().entrySet()) {</span>
+<span class="source-line-no">253</span><span id="line-253">            readConfigValue(ent.getValue(), node.node(ent.getKey()));</span>
+<span class="source-line-no">254</span><span id="line-254">        }</span>
+<span class="source-line-no">255</span><span id="line-255">    }</span>
+<span class="source-line-no">256</span><span id="line-256"></span>
+<span class="source-line-no">257</span><span id="line-257">    private static void readConfigValue(final ConfigValue value, final CommentedConfigurationNode node) {</span>
+<span class="source-line-no">258</span><span id="line-258">        if (!value.origin().comments().isEmpty()) {</span>
+<span class="source-line-no">259</span><span id="line-259">            node.comment(value.origin().comments().stream()</span>
+<span class="source-line-no">260</span><span id="line-260">                .map(input -&gt; {</span>
+<span class="source-line-no">261</span><span id="line-261">                    final String lineStripped = input.commentText().replace("\r", "");</span>
+<span class="source-line-no">262</span><span id="line-262">                    if (!lineStripped.isEmpty() &amp;&amp; lineStripped.charAt(0) == ' ') {</span>
+<span class="source-line-no">263</span><span id="line-263">                        return lineStripped.substring(1);</span>
+<span class="source-line-no">264</span><span id="line-264">                    } else {</span>
+<span class="source-line-no">265</span><span id="line-265">                        return lineStripped;</span>
+<span class="source-line-no">266</span><span id="line-266">                    }</span>
+<span class="source-line-no">267</span><span id="line-267">                })</span>
+<span class="source-line-no">268</span><span id="line-268">                .collect(Collectors.joining("\n")));</span>
+<span class="source-line-no">269</span><span id="line-269">        }</span>
+<span class="source-line-no">270</span><span id="line-270"></span>
+<span class="source-line-no">271</span><span id="line-271">        switch (value.valueType()) {</span>
+<span class="source-line-no">272</span><span id="line-272">            case OBJECT:</span>
+<span class="source-line-no">273</span><span id="line-273">                final ConfigObject object = (ConfigObject) value;</span>
+<span class="source-line-no">274</span><span id="line-274">                if (object.isEmpty()) {</span>
+<span class="source-line-no">275</span><span id="line-275">                    node.raw(Collections.emptyMap());</span>
+<span class="source-line-no">276</span><span id="line-276">                } else {</span>
+<span class="source-line-no">277</span><span id="line-277">                    for (Map.Entry&lt;String, ConfigValue&gt; ent : object.entrySet()) {</span>
+<span class="source-line-no">278</span><span id="line-278">                        readConfigValue(ent.getValue(), node.node(ent.getKey()));</span>
+<span class="source-line-no">279</span><span id="line-279">                    }</span>
+<span class="source-line-no">280</span><span id="line-280">                }</span>
+<span class="source-line-no">281</span><span id="line-281">                break;</span>
+<span class="source-line-no">282</span><span id="line-282">            case LIST:</span>
+<span class="source-line-no">283</span><span id="line-283">                final ConfigList list = (ConfigList) value;</span>
+<span class="source-line-no">284</span><span id="line-284">                if (list.isEmpty()) {</span>
+<span class="source-line-no">285</span><span id="line-285">                    node.raw(Collections.emptyList());</span>
+<span class="source-line-no">286</span><span id="line-286">                } else {</span>
+<span class="source-line-no">287</span><span id="line-287">                    for (int i = 0; i &lt; list.size(); ++i) {</span>
+<span class="source-line-no">288</span><span id="line-288">                        readConfigValue(list.get(i), node.node(i));</span>
+<span class="source-line-no">289</span><span id="line-289">                    }</span>
+<span class="source-line-no">290</span><span id="line-290">                }</span>
+<span class="source-line-no">291</span><span id="line-291">                break;</span>
+<span class="source-line-no">292</span><span id="line-292">            case NULL:</span>
+<span class="source-line-no">293</span><span id="line-293">                return;</span>
+<span class="source-line-no">294</span><span id="line-294">            default:</span>
+<span class="source-line-no">295</span><span id="line-295">                node.raw(value.unwrapped());</span>
+<span class="source-line-no">296</span><span id="line-296">                break;</span>
+<span class="source-line-no">297</span><span id="line-297">        }</span>
+<span class="source-line-no">298</span><span id="line-298">    }</span>
+<span class="source-line-no">299</span><span id="line-299"></span>
+<span class="source-line-no">300</span><span id="line-300">    @Override</span>
+<span class="source-line-no">301</span><span id="line-301">    protected void saveInternal(final ConfigurationNode node, final Writer writer) throws ConfigurateException {</span>
+<span class="source-line-no">302</span><span id="line-302">        try {</span>
+<span class="source-line-no">303</span><span id="line-303">            if (!node.isMap() &amp;&amp; (node.virtual() || node.raw() == null)) {</span>
+<span class="source-line-no">304</span><span id="line-304">                writer.write(SYSTEM_LINE_SEPARATOR);</span>
+<span class="source-line-no">305</span><span id="line-305">                return;</span>
+<span class="source-line-no">306</span><span id="line-306">            }</span>
+<span class="source-line-no">307</span><span id="line-307">            final ConfigValue value = fromValue(node);</span>
+<span class="source-line-no">308</span><span id="line-308">            final String renderedValue = value.render(this.render);</span>
+<span class="source-line-no">309</span><span id="line-309">            writer.write(renderedValue);</span>
+<span class="source-line-no">310</span><span id="line-310">        } catch (final IOException io) {</span>
+<span class="source-line-no">311</span><span id="line-311">            throw new ConfigurateException(node, io);</span>
+<span class="source-line-no">312</span><span id="line-312">        }</span>
+<span class="source-line-no">313</span><span id="line-313">    }</span>
+<span class="source-line-no">314</span><span id="line-314"></span>
+<span class="source-line-no">315</span><span id="line-315">    private static ConfigValue fromValue(final ConfigurationNode node) {</span>
+<span class="source-line-no">316</span><span id="line-316">        ConfigValue ret;</span>
+<span class="source-line-no">317</span><span id="line-317">        if (node.isMap()) {</span>
+<span class="source-line-no">318</span><span id="line-318">            final Map&lt;String, ConfigValue&gt; children = node.options().mapFactory().create();</span>
+<span class="source-line-no">319</span><span id="line-319">            for (Map.Entry&lt;Object, ? extends ConfigurationNode&gt; ent : node.childrenMap().entrySet()) {</span>
+<span class="source-line-no">320</span><span id="line-320">                children.put(String.valueOf(ent.getKey()), fromValue(ent.getValue()));</span>
+<span class="source-line-no">321</span><span id="line-321">            }</span>
+<span class="source-line-no">322</span><span id="line-322">            ret = newConfigObject(children);</span>
+<span class="source-line-no">323</span><span id="line-323">        } else if (node.isList()) {</span>
+<span class="source-line-no">324</span><span id="line-324">            final List&lt;ConfigValue&gt; children = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">325</span><span id="line-325">            for (ConfigurationNode ent : node.childrenList()) {</span>
+<span class="source-line-no">326</span><span id="line-326">                children.add(fromValue(ent));</span>
+<span class="source-line-no">327</span><span id="line-327">            }</span>
+<span class="source-line-no">328</span><span id="line-328">            ret = newConfigList(children);</span>
+<span class="source-line-no">329</span><span id="line-329"></span>
+<span class="source-line-no">330</span><span id="line-330">        } else {</span>
+<span class="source-line-no">331</span><span id="line-331">            ret = ConfigValueFactory.fromAnyRef(node.rawScalar(), CONFIGURATE_ORIGIN.description());</span>
+<span class="source-line-no">332</span><span id="line-332">        }</span>
+<span class="source-line-no">333</span><span id="line-333">        if (node instanceof CommentedConfigurationNodeIntermediary&lt;?&gt;) {</span>
+<span class="source-line-no">334</span><span id="line-334">            final CommentedConfigurationNodeIntermediary&lt;?&gt; commentedNode = (CommentedConfigurationNodeIntermediary&lt;?&gt;) node;</span>
+<span class="source-line-no">335</span><span id="line-335">            final @Nullable String origComment = commentedNode.comment();</span>
+<span class="source-line-no">336</span><span id="line-336">            if (origComment != null) {</span>
+<span class="source-line-no">337</span><span id="line-337">                final List&lt;ConfigNodeComment&gt; nodes = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">338</span><span id="line-338">                for (final String line : CONFIGURATE_LINE_PATTERN.split(origComment, -1)) {</span>
+<span class="source-line-no">339</span><span id="line-339">                    if (line.length() != 0 &amp;&amp; line.charAt(0) == '#') {</span>
+<span class="source-line-no">340</span><span id="line-340">                        // allow lines that are only the comment character, for box drawing</span>
+<span class="source-line-no">341</span><span id="line-341">                        nodes.add(ConfigNodeComment.hashComment(line));</span>
+<span class="source-line-no">342</span><span id="line-342">                    } else {</span>
+<span class="source-line-no">343</span><span id="line-343">                        nodes.add(ConfigNodeComment.hashComment(' ' + line));</span>
+<span class="source-line-no">344</span><span id="line-344">                    }</span>
+<span class="source-line-no">345</span><span id="line-345">                }</span>
+<span class="source-line-no">346</span><span id="line-346">                ret = ret.withOrigin(ret.origin().withComments(nodes));</span>
+<span class="source-line-no">347</span><span id="line-347">            }</span>
+<span class="source-line-no">348</span><span id="line-348">        }</span>
+<span class="source-line-no">349</span><span id="line-349">        return ret;</span>
+<span class="source-line-no">350</span><span id="line-350">    }</span>
+<span class="source-line-no">351</span><span id="line-351"></span>
+<span class="source-line-no">352</span><span id="line-352">    static ConfigValue newConfigObject(final Map&lt;String, ConfigValue&gt; vals) {</span>
+<span class="source-line-no">353</span><span id="line-353">        try {</span>
+<span class="source-line-no">354</span><span id="line-354">            return CONFIG_OBJECT_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</span>
+<span class="source-line-no">355</span><span id="line-355">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</span>
+<span class="source-line-no">356</span><span id="line-356">            throw new RuntimeException(e); // rethrow</span>
+<span class="source-line-no">357</span><span id="line-357">        }</span>
 <span class="source-line-no">358</span><span id="line-358"></span>
-<span class="source-line-no">359</span><span id="line-359">}</span>
+<span class="source-line-no">359</span><span id="line-359">    }</span>
+<span class="source-line-no">360</span><span id="line-360"></span>
+<span class="source-line-no">361</span><span id="line-361">    static ConfigValue newConfigList(final List&lt;ConfigValue&gt; vals) {</span>
+<span class="source-line-no">362</span><span id="line-362">        try {</span>
+<span class="source-line-no">363</span><span id="line-363">            return CONFIG_LIST_CONSTRUCTOR.newInstance(CONFIGURATE_ORIGIN, vals);</span>
+<span class="source-line-no">364</span><span id="line-364">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</span>
+<span class="source-line-no">365</span><span id="line-365">            throw new RuntimeException(e); // rethrow</span>
+<span class="source-line-no">366</span><span id="line-366">        }</span>
+<span class="source-line-no">367</span><span id="line-367">    }</span>
+<span class="source-line-no">368</span><span id="line-368"></span>
+<span class="source-line-no">369</span><span id="line-369">    @Override</span>
+<span class="source-line-no">370</span><span id="line-370">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</span>
+<span class="source-line-no">371</span><span id="line-371">        return CommentedConfigurationNode.root(options.nativeTypes(NATIVE_TYPES));</span>
+<span class="source-line-no">372</span><span id="line-372">    }</span>
+<span class="source-line-no">373</span><span id="line-373"></span>
+<span class="source-line-no">374</span><span id="line-374">    // -- Comment handling -- this might have to be updated as the hocon dep changes</span>
+<span class="source-line-no">375</span><span id="line-375">    // (But tests should detect this breakage)</span>
+<span class="source-line-no">376</span><span id="line-376">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_OBJECT_CONSTRUCTOR;</span>
+<span class="source-line-no">377</span><span id="line-377">    private static final Constructor&lt;? extends ConfigValue&gt; CONFIG_LIST_CONSTRUCTOR;</span>
+<span class="source-line-no">378</span><span id="line-378"></span>
+<span class="source-line-no">379</span><span id="line-379">    static {</span>
+<span class="source-line-no">380</span><span id="line-380">        final Class&lt;? extends ConfigValue&gt; objectClass;</span>
+<span class="source-line-no">381</span><span id="line-381">        final Class&lt;? extends ConfigValue&gt; listClass;</span>
+<span class="source-line-no">382</span><span id="line-382">        try {</span>
+<span class="source-line-no">383</span><span id="line-383">            objectClass = Class.forName("com.typesafe.config.impl.SimpleConfigObject").asSubclass(ConfigValue.class);</span>
+<span class="source-line-no">384</span><span id="line-384">            listClass = Class.forName("com.typesafe.config.impl.SimpleConfigList").asSubclass(ConfigValue.class);</span>
+<span class="source-line-no">385</span><span id="line-385">        } catch (final ClassNotFoundException e) {</span>
+<span class="source-line-no">386</span><span id="line-386">            throw new ExceptionInInitializerError(e);</span>
+<span class="source-line-no">387</span><span id="line-387">        }</span>
+<span class="source-line-no">388</span><span id="line-388"></span>
+<span class="source-line-no">389</span><span id="line-389">        try {</span>
+<span class="source-line-no">390</span><span id="line-390">            CONFIG_OBJECT_CONSTRUCTOR = objectClass.getDeclaredConstructor(ConfigOrigin.class, Map.class);</span>
+<span class="source-line-no">391</span><span id="line-391">            CONFIG_OBJECT_CONSTRUCTOR.setAccessible(true);</span>
+<span class="source-line-no">392</span><span id="line-392">            CONFIG_LIST_CONSTRUCTOR = listClass.getDeclaredConstructor(ConfigOrigin.class, List.class);</span>
+<span class="source-line-no">393</span><span id="line-393">            CONFIG_LIST_CONSTRUCTOR.setAccessible(true);</span>
+<span class="source-line-no">394</span><span id="line-394">        } catch (final NoSuchMethodException e) {</span>
+<span class="source-line-no">395</span><span id="line-395">            throw new ExceptionInInitializerError(e);</span>
+<span class="source-line-no">396</span><span id="line-396">        }</span>
+<span class="source-line-no">397</span><span id="line-397">    }</span>
+<span class="source-line-no">398</span><span id="line-398"></span>
+<span class="source-line-no">399</span><span id="line-399">}</span>
 
 
 

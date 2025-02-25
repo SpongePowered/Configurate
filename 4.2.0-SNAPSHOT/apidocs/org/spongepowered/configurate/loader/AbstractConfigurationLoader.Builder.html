@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <dd><a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a> extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&gt;&gt;</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract static class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-265">AbstractConfigurationLoader.Builder</a>&lt;T extends AbstractConfigurationLoader.Builder&lt;T,<wbr>L&gt;,<wbr>L extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;&gt;</span>
+<div class="type-signature"><span class="modifiers">public abstract static class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-271">AbstractConfigurationLoader.Builder</a>&lt;T extends AbstractConfigurationLoader.Builder&lt;T,<wbr>L&gt;,<wbr>L extends <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader">AbstractConfigurationLoader</a>&lt;?&gt;&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">An abstract builder implementation for <a href="AbstractConfigurationLoader.html" title="class in org.spongepowered.configurate.loader"><code>AbstractConfigurationLoader</code></a>s.</div>
 <dl class="notes">
@@ -107,21 +107,29 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected static final <a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a></code></div>
-<div class="col-second even-row-color"><code><a href="#DEFAULT_OPTIONS_SOURCE" class="member-name-link">DEFAULT_OPTIONS_SOURCE</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></code></div>
+<div class="col-second even-row-color"><code><a href="#defaultOptions" class="member-name-link">defaultOptions</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#defaultOptions" class="member-name-link">defaultOptions</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final net.kyori.option.Option&lt;<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#HEADER_MODE" class="member-name-link">HEADER_MODE</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">How to read and emit headers discovered on documents processed by
+ the created loader.</div>
+</div>
 <div class="col-first even-row-color"><code>protected <a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></code></div>
 <div class="col-second even-row-color"><code><a href="#headerMode" class="member-name-link">headerMode</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#sink" class="member-name-link">sink</a></code></div>
+<div class="col-last even-row-color">
+<div class="block"><span class="deprecated-label">Deprecated.</span></div>
+</div>
+<div class="col-first odd-row-color"><code>protected static final net.kyori.option.OptionSchema</code></div>
+<div class="col-second odd-row-color"><code><a href="#SCHEMA" class="member-name-link">SCHEMA</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#source" class="member-name-link">source</a></code></div>
+<div class="col-first even-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#sink" class="member-name-link">sink</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#source" class="member-name-link">source</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -188,14 +196,14 @@ loadScripts(document, 'script');</script>
  resultant loader.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#file(java.io.File)" class="member-name-link">file</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editOptions(java.util.function.Consumer)" class="member-name-link">editOptions</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;net.kyori.option.OptionState.Builder&gt;&nbsp;builderConsumer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the sink and source of the resultant loader to the given file.</div>
+<div class="block">Modify the state of loader options set on this loader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#from(org.spongepowered.configurate.loader.LoaderOptionSource)" class="member-name-link">from</a><wbr>(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;source)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#file(java.io.File)" class="member-name-link">file</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Populate this builder by reading options from the provided source.</div>
+<div class="block">Sets the sink and source of the resultant loader to the given file.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#headerMode()" class="member-name-link">headerMode</a>()</code></div>
@@ -207,39 +215,55 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the header mode of the resultant loader.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected net.kyori.option.OptionSchema</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#optionSchema()" class="member-name-link">optionSchema</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the schema of available options that can be set on this loader.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.kyori.option.OptionState</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#optionState()" class="member-name-link">optionState</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Compute a snapshot of the currently set options for created loaders.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#optionState(net.kyori.option.OptionState)" class="member-name-link">optionState</a><wbr>(net.kyori.option.OptionState&nbsp;state)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the option state for this loader to the provided state.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected net.kyori.option.OptionState.Builder</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#optionStateBuilder()" class="member-name-link">optionStateBuilder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Begin building an option state, initialized from the current
+ environment.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#path(java.nio.file.Path)" class="member-name-link">path</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;path)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the sink and source of the resultant loader to the given path.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#populate(org.spongepowered.configurate.loader.LoaderOptionSource)" class="member-name-link">populate</a><wbr>(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sink()" class="member-name-link">sink</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Populate options from the provided source.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sink()" class="member-name-link">sink</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the sink to be used by the resultant loader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sink(java.util.concurrent.Callable)" class="member-name-link">sink</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;&nbsp;sink)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sink(java.util.concurrent.Callable)" class="member-name-link">sink</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;&nbsp;sink)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the sink of the resultant loader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#source()" class="member-name-link">source</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#source()" class="member-name-link">source</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the source to be used by the resultant loader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#source(java.util.concurrent.Callable)" class="member-name-link">source</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;&nbsp;source)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#source(java.util.concurrent.Callable)" class="member-name-link">source</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;&nbsp;source)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the source of the resultant loader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#url(java.net.URL)" class="member-name-link">url</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html" title="class or interface in java.net" class="external-link">URL</a>&nbsp;url)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#url(java.net.URL)" class="member-name-link">url</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html" title="class or interface in java.net" class="external-link">URL</a>&nbsp;url)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the source of the resultant loader to the given URL.</div>
 </div>
 </div>
@@ -260,33 +284,47 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="DEFAULT_OPTIONS_SOURCE">
-<h3>DEFAULT_OPTIONS_SOURCE</h3>
-<div class="member-signature"><span class="modifiers">protected static final</span>&nbsp;<span class="return-type"><a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-267">DEFAULT_OPTIONS_SOURCE</a></span></div>
+<section class="detail" id="SCHEMA">
+<h3>SCHEMA</h3>
+<div class="member-signature"><span class="modifiers">protected static final</span>&nbsp;<span class="return-type">net.kyori.option.OptionSchema</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-276">SCHEMA</a></span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="HEADER_MODE">
+<h3>HEADER_MODE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">net.kyori.option.Option&lt;<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-284">HEADER_MODE</a></span></div>
+<div class="block">How to read and emit headers discovered on documents processed by
+ the created loader.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>4.2.0</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="headerMode">
 <h3>headerMode</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-272">headerMode</a></span></div>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-286">headerMode</a></span></div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="source">
 <h3>source</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-273">source</a></span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-290">source</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="sink">
 <h3>sink</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-274">sink</a></span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-291">sink</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="defaultOptions">
 <h3>defaultOptions</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-275">defaultOptions</a></span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-292">defaultOptions</a></span></div>
 </section>
 </li>
 </ul>
@@ -300,14 +338,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Builder</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-288">Builder</a></span>()</div>
-<div class="block">Create a new builder.
-
- <p>This is where any custom default options can be applied.</p>
-
- <p>At the end of this constructor, <a href="#from(org.spongepowered.configurate.loader.LoaderOptionSource)"><code>from(LoaderOptionSource)</code></a>
- should be called with <a href="#DEFAULT_OPTIONS_SOURCE"><code>DEFAULT_OPTIONS_SOURCE</code></a> to read any supported
- options from environment variables and system properties.</p></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-299">Builder</a></span>()</div>
+<div class="block">Create a new builder.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>4.0.0</dd>
@@ -323,38 +355,77 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="from(org.spongepowered.configurate.loader.LoaderOptionSource)">
-<h3>from</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-304">from</a></span><wbr><span class="parameters">(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;source)</span></div>
-<div class="block">Populate this builder by reading options from the provided source.
-
- <p>These options should control all options for the reading and
- representation of nodes produced by this loader, specifically
- excluding the <a href="#source()"><code>source()</code></a> and <a href="#sink()"><code>sink()</code></a> of the loader,
- and the <a href="#defaultOptions()"><code>defaultOptions()</code></a>.</p>
-
- <p>The options read from the provided source are format-defined.</p></div>
+<section class="detail" id="optionStateBuilder()">
+<h3>optionStateBuilder</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">net.kyori.option.OptionState.Builder</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-308">optionStateBuilder</a></span>()</div>
+<div class="block">Begin building an option state, initialized from the current
+ environment.</div>
 <dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>source</code> - the source to read</dd>
 <dt>Returns:</dt>
-<dd>this builder (for chaining)</dd>
+<dd>the pre-initialized option state builder</dd>
 <dt>Since:</dt>
 <dd>4.2.0</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="populate(org.spongepowered.configurate.loader.LoaderOptionSource)">
-<h3>populate</h3>
-<div class="member-signature"><span class="annotations">@ForOverride
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-322">populate</a></span><wbr><span class="parameters">(<a href="LoaderOptionSource.html" title="interface in org.spongepowered.configurate.loader">LoaderOptionSource</a>&nbsp;options)</span></div>
-<div class="block">Populate options from the provided source.
+<section class="detail" id="optionState()">
+<h3>optionState</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">net.kyori.option.OptionState</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-324">optionState</a></span>()</div>
+<div class="block">Compute a snapshot of the currently set options for created loaders.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the option state</dd>
+<dt>Since:</dt>
+<dd>4.2.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="optionState(net.kyori.option.OptionState)">
+<h3>optionState</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-341">optionState</a></span><wbr><span class="parameters">(net.kyori.option.OptionState&nbsp;state)</span></div>
+<div class="block">Set the option state for this loader to the provided state.
 
- <p>The source will have already been validated for nullness.</p></div>
+ <p>The provided state must be within the
+ <a href="#optionSchema()"><code>loader's schema</code></a>.</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>options</code> - the options to read</dd>
+<dd><code>state</code> - the state</dd>
+<dt>Returns:</dt>
+<dd>this builder</dd>
+<dt>Since:</dt>
+<dd>4.2.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="editOptions(java.util.function.Consumer)">
+<h3>editOptions</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-357">editOptions</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;net.kyori.option.OptionState.Builder&gt;&nbsp;builderConsumer)</span></div>
+<div class="block">Modify the state of loader options set on this loader.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>builderConsumer</code> - a consumer that receives the modifier to
+                        perform changes</dd>
+<dt>Returns:</dt>
+<dd>this builder</dd>
+<dt>Since:</dt>
+<dd>4.2.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="optionSchema()">
+<h3>optionSchema</h3>
+<div class="member-signature"><span class="annotations">@ForOverride
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">net.kyori.option.OptionSchema</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-371">optionSchema</a></span>()</div>
+<div class="block">Get the schema of available options that can be set on this loader.
+
+ <p>This schema should inherit from <code>UNSAFE_SCHEMA</code>.</p></div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the option schema</dd>
 <dt>Since:</dt>
 <dd>4.2.0</dd>
 </dl>
@@ -363,7 +434,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="file(java.io.File)">
 <h3>file</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-344">file</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-394">file</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file)</span></div>
 <div class="block">Sets the sink and source of the resultant loader to the given file.
 
  <p>The <a href="#source()"><code>source</code></a> is defined using
@@ -384,7 +455,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="path(java.nio.file.Path)">
 <h3>path</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-361">path</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;path)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-411">path</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;path)</span></div>
 <div class="block">Sets the sink and source of the resultant loader to the given path.
 
  <p>The <a href="#source()"><code>source</code></a> is defined using
@@ -405,7 +476,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="url(java.net.URL)">
 <h3>url</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-375">url</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html" title="class or interface in java.net" class="external-link">URL</a>&nbsp;url)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-425">url</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/net/URL.html" title="class or interface in java.net" class="external-link">URL</a>&nbsp;url)</span></div>
 <div class="block">Sets the source of the resultant loader to the given URL.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -420,7 +491,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="source(java.util.concurrent.Callable)">
 <h3>source</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-390">source</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;&nbsp;source)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-440">source</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;&nbsp;source)</span></div>
 <div class="block">Sets the source of the resultant loader.
 
  <p>The "source" is used by the loader to load the configuration.</p></div>
@@ -437,7 +508,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="source()">
 <h3>source</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-401">source</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-451">source</a></span>()</div>
 <div class="block">Gets the source to be used by the resultant loader.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -450,7 +521,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="sink(java.util.concurrent.Callable)">
 <h3>sink</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-414">sink</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;&nbsp;sink)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-464">sink</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;&nbsp;sink)</span></div>
 <div class="block">Sets the sink of the resultant loader.
 
  <p>The "sink" is used by the loader to save the configuration.</p></div>
@@ -467,7 +538,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="sink()">
 <h3>sink</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-425">sink</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-475">sink</a></span>()</div>
 <div class="block">Gets the sink to be used by the resultant loader.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -480,7 +551,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="headerMode(org.spongepowered.configurate.loader.HeaderMode)">
 <h3>headerMode</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-436">headerMode</a></span><wbr><span class="parameters">(<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-486">headerMode</a></span><wbr><span class="parameters">(<a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a>&nbsp;mode)</span></div>
 <div class="block">Sets the header mode of the resultant loader.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -495,7 +566,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="headerMode()">
 <h3>headerMode</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-447">headerMode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="HeaderMode.html" title="enum in org.spongepowered.configurate.loader">HeaderMode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-497">headerMode</a></span>()</div>
 <div class="block">Gets the header mode to be used by the resultant loader.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -508,7 +579,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="defaultOptions(org.spongepowered.configurate.ConfigurationOptions)">
 <h3>defaultOptions</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-459">defaultOptions</a></span><wbr><span class="parameters">(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-515">defaultOptions</a></span><wbr><span class="parameters">(<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&nbsp;defaultOptions)</span></div>
 <div class="block">Sets the default configuration options to be used by the
  resultant loader.</div>
 <dl class="notes">
@@ -524,7 +595,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="defaultOptions(java.util.function.UnaryOperator)">
 <h3>defaultOptions</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-473">defaultOptions</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html" title="class or interface in java.util.function" class="external-link">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-529">defaultOptions</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html" title="class or interface in java.util.function" class="external-link">UnaryOperator</a>&lt;<a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a>&gt;&nbsp;defaultOptions)</span></div>
 <div class="block">Sets the default configuration options to be used by the resultant
  loader by providing a function which takes the current default
  options and applies any desired changes.</div>
@@ -541,7 +612,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="defaultOptions()">
 <h3>defaultOptions</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-485">defaultOptions</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../ConfigurationOptions.html" title="class in org.spongepowered.configurate">ConfigurationOptions</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-541">defaultOptions</a></span>()</div>
 <div class="block">Gets the default configuration options to be used by the resultant
  loader.</div>
 <dl class="notes">
@@ -555,7 +626,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="build()">
 <h3>build</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-495">build</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="AbstractConfigurationLoader.Builder.html" title="type parameter in AbstractConfigurationLoader.Builder">L</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-551">build</a></span>()</div>
 <div class="block">Builds the loader.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -568,7 +639,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="buildAndLoadString(java.lang.String)">
 <h3>buildAndLoadString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-504">buildAndLoadString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;input)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-560">buildAndLoadString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;input)</span>
                                      throws <span class="exceptions"><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></span></div>
 <div class="block">Configure to read from a string, build, and load in one step.</div>
 <dl class="notes">
@@ -586,7 +657,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="buildAndSaveString(org.spongepowered.configurate.ConfigurationNode)">
 <h3>buildAndSaveString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-517">buildAndSaveString</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;output)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.Builder.html#line-573">buildAndSaveString</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;output)</span>
                           throws <span class="exceptions"><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></span></div>
 <div class="block">Configure to write to a string, build, and save in one step.</div>
 <dl class="notes">
