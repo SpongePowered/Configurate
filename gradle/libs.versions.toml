@@ -74,8 +74,8 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.12.1"
-detekt = "io.gitlab.arturbosch.detekt:1.23.7"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.12.2"
+detekt = "io.gitlab.arturbosch.detekt:1.23.8"
 dokka = "org.jetbrains.dokka:1.9.20"
 gitPublish = "org.ajoberstar.git-publish:5.1.0"
 gitpatcher = { id = "ca.stellardrift.gitpatcher", version = "1.1.2" }
