@@ -24,6 +24,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.BasicConfigurationNode;
@@ -33,7 +35,6 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -70,19 +71,45 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
      * Builds a {@link JacksonConfigurationLoader}.
      *
      * <p>This builder supports the following options:</p>
-     * <dl>
-     *     <dt>&lt;prefix&gt;.jackson.field-value-separator</dt>
-     *     <dd>Equivalent to {@link #fieldValueSeparatorStyle(FieldValueSeparatorStyle)}</dd>
-     *     <dt>&lt;prefix&gt;.jackson.indent</dt>
-     *     <dd>Equivalent to {@link #indent(int)}</dd>
-     * </dl>
+     * <ul>
+     *     <li>{@link #INDENT}</li>
+     *     <li>{@link #FIELD_VALUE_SEPARATOR}</li>
+     * </ul>
      *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, JacksonConfigurationLoader> {
+
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);
+
+        /**
+         * A schema of options available to configure the Jackson loader.
+         *
+         * @since 4.2.0
+         */
+        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+
+        /**
+         * Set the indentation to when emitting json.
+         *
+         * @see #indent(int)
+         * @since 4.2.0
+         */
+        public static final Option<Integer> INDENT = UNSAFE_SCHEMA.intOption("jackson:indent", 2);
+
+        /**
+         * Set the field-value separator style to be used when emitting json.
+         *
+         * @see #fieldValueSeparatorStyle(FieldValueSeparatorStyle)
+         * @since 4.2.0
+         */
+        public static final Option<FieldValueSeparatorStyle> FIELD_VALUE_SEPARATOR = UNSAFE_SCHEMA.enumOption(
+            "jackson:field-value-separator",
+            FieldValueSeparatorStyle.class,
+            FieldValueSeparatorStyle.SPACE_AFTER
+        );
+
         private final JsonFactoryBuilder factory = new JsonFactoryBuilder();
-        private int indent = 2;
-        private FieldValueSeparatorStyle fieldValueSeparatorStyle = FieldValueSeparatorStyle.SPACE_AFTER;
 
         Builder() {
             this.factory.enable(JsonReadFeature.ALLOW_JAVA_COMMENTS)
@@ -92,18 +119,11 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
                     .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
                     .enable(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS)
                     .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS);
-            this.from(DEFAULT_OPTIONS_SOURCE);
         }
 
         @Override
-        protected void populate(final LoaderOptionSource options) {
-            this.indent = options.getInt(this.indent, "jackson", "indent");
-            this.fieldValueSeparatorStyle = options.getEnum(
-                FieldValueSeparatorStyle.class,
-                this.fieldValueSeparatorStyle,
-                "jackson",
-                "field-value-separator"
-            );
+        protected OptionSchema optionSchema() {
+            return SCHEMA;
         }
 
         /**
@@ -124,7 +144,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @since 4.0.0
          */
         public Builder indent(final int indent) {
-            this.indent = indent;
+            this.optionStateBuilder().value(INDENT, indent);
             return this;
         }
 
@@ -135,7 +155,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @since 4.0.0
          */
         public int indent() {
-            return this.indent;
+            return this.optionState().value(INDENT);
         }
 
         /**
@@ -146,7 +166,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @since 4.0.0
          */
         public Builder fieldValueSeparatorStyle(final FieldValueSeparatorStyle style) {
-            this.fieldValueSeparatorStyle = style;
+            this.optionStateBuilder().value(FIELD_VALUE_SEPARATOR, style);
             return this;
         }
 
@@ -157,7 +177,7 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
          * @since 4.0.0
          */
         public FieldValueSeparatorStyle fieldValueSeparatorStyle() {
-            return this.fieldValueSeparatorStyle;
+            return this.optionState().value(FIELD_VALUE_SEPARATOR);
         }
 
         @Override
@@ -175,8 +195,8 @@ public final class JacksonConfigurationLoader extends AbstractConfigurationLoade
         super(builder, new CommentHandler[]{CommentHandlers.DOUBLE_SLASH, CommentHandlers.SLASH_BLOCK, CommentHandlers.HASH});
         this.factory = builder.factoryBuilder().build();
         this.factory.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-        this.indent = builder.indent();
-        this.fieldValueSeparatorStyle = builder.fieldValueSeparatorStyle();
+        this.indent = builder.optionState().value(Builder.INDENT);
+        this.fieldValueSeparatorStyle = builder.optionState().value(Builder.FIELD_VALUE_SEPARATOR);
     }
 
     private static final int MAX_CTX_LENGTH = 80;

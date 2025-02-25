@@ -27,6 +27,9 @@ import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 import com.typesafe.config.impl.ConfigNodeComment;
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
+import net.kyori.option.OptionState;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNodeIntermediary;
@@ -36,7 +39,6 @@ import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 
@@ -90,33 +92,62 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
      * Builds a {@link HoconConfigurationLoader}.
      *
      * <p>This builder supports the following options:</p>
-     * <dl>
-     *     <dt>&lt;prefix&gt;.hocon.pretty-printing</dt>
-     *     <dd>Equivalent to {@link #prettyPrinting(boolean)}</dd>
-     *     <dt>&lt;prefix&gt;.hocon.indent</dt>
-     *     <dd>Equivalent to {@link #indent(int)}</dd>
-     *     <dt>&lt;prefix&gt;.hocon.emit-comments</dt>
-     *     <dd>Equivalent to {@link #emitComments(boolean)}</dd>
-     *     <dt>&lt;prefix&gt;.hocon.json-compatible</dt>
-     *     <dd>Equivalent to {@link #emitJsonCompatible(boolean)}</dd>
-     * </dl>
+     * <ul>
+     *     <li>{@link #HEADER_MODE}</li>
+     *     <li>{@link #PRETTY_PRINTING}</li>
+     *     <li>{@link #INDENT}</li>
+     *     <li>{@link #COMMENTS}</li>
+     *     <li>{@link #JSON_COMPATIBLE}</li>
+     * </ul>
      *
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, HoconConfigurationLoader> {
-        private ConfigRenderOptions render = DEFAULT_RENDER_OPTIONS;
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);
 
-        Builder() {
-            this.from(DEFAULT_OPTIONS_SOURCE);
-        }
+        /**
+         * A schema of options available to configure the Hocon loader.
+         *
+         * @since 4.2.0
+         */
+        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+
+        /**
+         * Set whether output from this loader will be pretty-printed or not.
+         *
+         * @see #prettyPrinting(boolean)
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> PRETTY_PRINTING =
+                UNSAFE_SCHEMA.booleanOption("hocon:pretty-printing", DEFAULT_RENDER_OPTIONS.getFormatted());
+
+        /**
+         * Set the amount of spaces to indent with when {@link #prettyPrinting(boolean)} is on.
+         *
+         * @see #indent(int)
+         * @since 4.2.0
+         */
+        public static final Option<Integer> INDENT = UNSAFE_SCHEMA.intOption("hocon:indent", DEFAULT_RENDER_OPTIONS.getIndent());
+
+        /**
+         * Set whether comments will be emitted.
+         *
+         * @see #emitComments(boolean)
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> COMMENTS = UNSAFE_SCHEMA.booleanOption("hocon:emit-comments", DEFAULT_RENDER_OPTIONS.getComments());
+
+        /**
+         * Set whether JSON compatible output mode will be used.
+         *
+         * @see #emitJsonCompatible(boolean)
+         * @since 4.2.0
+         */
+        public static final Option<Boolean> JSON_COMPATIBLE = UNSAFE_SCHEMA.booleanOption("hocon:json-compatible", DEFAULT_RENDER_OPTIONS.getJson());
 
         @Override
-        protected void populate(final LoaderOptionSource options) {
-            this.render = this.render
-                .setFormatted(options.getBoolean(this.render.getFormatted(), "hocon", "pretty-printing"))
-                .setIndent(options.getInt(this.render.getIndent(), "hocon", "indent"))
-                .setComments(options.getBoolean(this.render.getComments(), "hocon", "emit-comments"))
-                .setJson(options.getBoolean(this.render.getJson(), "hocon", "json-compatible"));
+        protected OptionSchema optionSchema() {
+            return SCHEMA;
         }
 
         /**
@@ -127,7 +158,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @since 4.0.0
          */
         public Builder prettyPrinting(final boolean prettyPrinting) {
-            this.render = this.render.setFormatted(prettyPrinting);
+            this.optionStateBuilder().value(PRETTY_PRINTING, prettyPrinting);
             return this;
         }
 
@@ -142,7 +173,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @since 4.2.0
          */
         public Builder indent(final int indent) {
-            this.render = this.render.setIndent(indent);
+            this.optionStateBuilder().value(INDENT, indent);
             return this;
         }
 
@@ -157,7 +188,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @since 4.0.0
          */
         public Builder emitComments(final boolean emitComments) {
-            this.render = this.render.setComments(emitComments);
+            this.optionStateBuilder().value(COMMENTS, emitComments);
             return this;
         }
 
@@ -174,8 +205,17 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
          * @since 4.0.0
          */
         public Builder emitJsonCompatible(final boolean jsonCompatible) {
-            this.render = this.render.setJson(jsonCompatible);
+            this.optionStateBuilder().value(JSON_COMPATIBLE, jsonCompatible);
             return this;
+        }
+
+        ConfigRenderOptions renderOptions() {
+            final OptionState opt = this.optionState();
+            return DEFAULT_RENDER_OPTIONS
+                    .setFormatted(opt.value(PRETTY_PRINTING))
+                    .setIndent(opt.value(INDENT))
+                    .setComments(opt.value(COMMENTS))
+                    .setJson(opt.value(JSON_COMPATIBLE));
         }
 
         @Override
@@ -189,7 +229,7 @@ public final class HoconConfigurationLoader extends AbstractConfigurationLoader<
 
     private HoconConfigurationLoader(final Builder build) {
         super(build, new CommentHandler[] {CommentHandlers.HASH, CommentHandlers.DOUBLE_SLASH});
-        this.render = build.render;
+        this.render = build.renderOptions();
     }
 
     @Override
