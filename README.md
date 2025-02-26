@@ -48,8 +48,8 @@ Some features that don't need tight integration with Configurate itself are prov
 ## Usage
 
 * To use Configurate, your project must be configured to use Java 8 or higher.
-* Releases are on [Maven Central] and snapshot artifacts are hosted on Sonatype OSS. Builds are also included on SpongePowered's Maven Repository
-, available at https://repo.spongepowered.org/maven/.
+* Releases are on [Maven Central] and snapshot artifacts are hosted on Sonatype OSS. Builds are also included on SpongePowered's Maven Repository,
+available at https://repo.spongepowered.org/maven/.
 
 If your project uses Maven or Gradle, just add the following to your build scripts.
 
@@ -62,7 +62,7 @@ repositories {
 
 dependencies {
     // Modify this line to target the loader you wish to use.
-    compile 'org.spongepowered:configurate-hocon:4.0.0'
+    compile 'org.spongepowered:configurate-hocon:4.2.0'
 }
 ```
 
@@ -74,7 +74,7 @@ dependencies {
         <groupId>org.spongepowered</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>configurate-hocon</artifactId>
-        <version>4.0.0</version>
+        <version>4.2.0</version>
     </dependency>
 </dependencies>
 ```
