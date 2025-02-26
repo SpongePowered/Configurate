@@ -16,6 +16,8 @@
  */
 package org.spongepowered.configurate.yaml;
 
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
@@ -25,7 +27,6 @@ import org.spongepowered.configurate.RepresentationHint;
 import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 import org.spongepowered.configurate.loader.CommentHandler;
 import org.spongepowered.configurate.loader.CommentHandlers;
-import org.spongepowered.configurate.loader.LoaderOptionSource;
 import org.spongepowered.configurate.loader.ParsingException;
 import org.spongepowered.configurate.util.UnmodifiableCollections;
 import org.yaml.snakeyaml.DumperOptions;
@@ -196,24 +197,51 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * @since 4.0.0
      */
     public static final class Builder extends AbstractConfigurationLoader.Builder<Builder, YamlConfigurationLoader> {
+
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.childSchema(AbstractConfigurationLoader.Builder.SCHEMA);
+
+        /**
+         * A schema of options available to configure the YAML loader.
+         *
+         * @since 4.2.0
+         */
+        public static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+
+        /**
+         * The collection node style to use globally when emitting with
+         * this loader.
+         *
+         * @see #nodeStyle(NodeStyle)
+         * @since 4.2.0
+         */
+        public static final Option<NodeStyle> NODE_STYLE = UNSAFE_SCHEMA.enumOption("yaml:node_style", NodeStyle.class, null);
+
+        /**
+         * The indent size (in spaces) to use for documents emitted by
+         * the created loader.
+         *
+         * @see #indent(int)
+         * @since 4.2.0
+         */
+        public static final Option<Integer> INDENT = UNSAFE_SCHEMA.intOption("yaml:indent", 4);
+
+        /**
+         * Whether comment handling should be enabled.
+         *
+         * @see #commentsEnabled(boolean)
+         * @since 4.3.0
+         */
+        public static final Option<Boolean> ENABLE_COMMENTS = UNSAFE_SCHEMA.booleanOption("yaml:enable_comments", COMMENTS_DEFAULT);
+
         private final DumperOptions options = new DumperOptions();
-        private @Nullable NodeStyle style;
-        private boolean enableComments = COMMENTS_DEFAULT;
 
         Builder() {
-            this.indent(4);
             this.defaultOptions(o -> o.nativeTypes(NATIVE_TYPES));
-            this.from(DEFAULT_OPTIONS_SOURCE);
         }
 
         @Override
-        protected void populate(final LoaderOptionSource options) {
-            final @Nullable NodeStyle declared = options.getEnum(NodeStyle.class, "yaml", "node-style");
-            if (declared != null) {
-                this.style = declared;
-            }
-
-            this.enableComments = options.getBoolean(false, "yaml", "comments-enabled");
+        protected OptionSchema optionSchema() {
+            return SCHEMA;
         }
 
         /**
@@ -224,7 +252,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public Builder indent(final int indent) {
-            this.options.setIndent(indent);
+            this.optionStateBuilder().value(INDENT, indent);
             return this;
         }
 
@@ -235,7 +263,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public int indent() {
-            return this.options.getIndent();
+            return this.optionState().value(INDENT);
         }
 
         /**
@@ -266,7 +294,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public Builder nodeStyle(final @Nullable NodeStyle style) {
-            this.style = style;
+            this.optionStateBuilder().value(NODE_STYLE, style);
             return this;
         }
 
@@ -277,7 +305,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          * @since 4.0.0
          */
         public @Nullable NodeStyle nodeStyle() {
-            return this.style;
+            return this.optionState().value(NODE_STYLE);
         }
 
         /**
@@ -293,10 +321,10 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          *
          * @param enableComments whether comment handling should be enabled
          * @return this builder (for chaining)
-         * @since 4.1.0
+         * @since 4.3.0
          */
         public Builder commentsEnabled(final boolean enableComments) {
-            this.enableComments = enableComments;
+            this.editOptions(opts -> opts.value(ENABLE_COMMENTS, enableComments));
             return this;
         }
 
@@ -305,10 +333,10 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
          *
          * @return whether comment handling is enabled
          * @see #commentsEnabled(boolean) for details on comment handling
-         * @since 4.1.0
+         * @since 4.3.0
          */
         public boolean commentsEnabled() {
-            return this.enableComments;
+            return this.optionState().value(ENABLE_COMMENTS);
         }
 
         @Override
@@ -326,8 +354,9 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
 
         final DumperOptions opts = builder.options;
-        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.nodeStyle()));
-        opts.setProcessComments(builder.commentsEnabled());
+        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.optionState().value(Builder.NODE_STYLE)));
+        opts.setIndent(builder.optionState().value(Builder.INDENT));
+        opts.setProcessComments(builder.optionState().value(Builder.ENABLE_COMMENTS));
         opts.setIndentWithIndicator(true);
         opts.setIndicatorIndent(builder.indent());
         opts.setWidth(DEFAULT_LINE_LENGTH);
@@ -335,7 +364,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         this.options = opts;
         this.loader = new LoaderOptions()
             .setAcceptTabs(true)
-            .setProcessComments(builder.commentsEnabled());
+            .setProcessComments(builder.optionState().value(Builder.ENABLE_COMMENTS));
         this.loader.setCodePointLimit(Integer.MAX_VALUE);
         this.visitor = new YamlVisitor(true, Yaml11Tags.REPOSITORY);
     }

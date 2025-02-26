@@ -22,7 +22,7 @@ jobs:
     runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-latest]
+        os: [ubuntu-24.04, windows-latest]
     steps:
       # Setup
       - name: setup
@@ -79,11 +79,11 @@ jobs:
           ORG_GRADLE_PROJECT_spongeKeyStorePassword: "${{ secrets.CONFIGURATE_JARSIGNING_PASSWORD }}"
       - name: Publish to GH pages
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.7.2
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           branch: gh-pages
           force: false
-          folder: build/gitPublish
+          folder: build/gitPublish/main
       - name: "Authenticate for JD publication"
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
         uses: "tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a" # v2.1.0
@@ -95,7 +95,7 @@ jobs:
           installation_retrieval_payload: "SpongePowered/APIJavadocs"
       - name: Publish Javadoc to Sponge index
         if: "${{ runner.os == 'Linux' && ((env.STATUS == 'release' && github.event_name == 'release') || (env.STATUS != 'release' && github.event_name != 'release' && (steps.setup.outputs.publishing_branch != ''))) }}"
-        uses: JamesIves/github-pages-deploy-action@v4.7.2
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           folder: build/publish-jd
           repository-name: SpongePowered/APIJavadocs

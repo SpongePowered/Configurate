@@ -170,12 +170,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T>
     public abstract T deserialize(Type type, Object obj) throws SerializationException;
 
     @Override
-    public final void serialize(final AnnotatedType type, final @Nullable T obj, final ConfigurationNode node) throws SerializationException {
-        this.serialize(type.getType(), obj, node);
-    }
-
-    @Override
-    public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
+    public final void serialize(final AnnotatedType type, final @Nullable T obj, final ConfigurationNode node) {
         if (obj == null) {
             node.raw(null);
             return;
@@ -186,7 +181,29 @@ public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T>
             return;
         }
 
-        node.raw(this.serialize(obj, node.options()::acceptsType));
+        node.raw(this.serialize(type, obj, node.options()::acceptsType));
+    }
+
+    @Override
+    public final void serialize(final Type type, final @Nullable T obj, final ConfigurationNode node) {
+        this.serialize(GenericTypeReflector.annotate(type), obj, node);
+    }
+
+    /**
+     * Serialize the provided value to a supported type, testing against the
+     * provided predicate.
+     *
+     * <p>Annotated type information is provided for reference.</p>
+     *
+     * @param type the annotated type of the field being serialized
+     * @param item the value to serialize
+     * @param typeSupported a predicate to allow choosing which types are
+     *                      supported
+     * @return a serialized form of this object
+     * @since 4.2.0
+     */
+    protected Object serialize(final AnnotatedType type, final T item, final Predicate<Class<?>> typeSupported) {
+        return this.serialize(item, typeSupported);
     }
 
     /**
@@ -244,7 +261,7 @@ public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T>
             return item.toString();
         }
         // Otherwise, use the serializer
-        return (String) this.serialize(item, clazz -> clazz.isAssignableFrom(String.class));
+        return (String) this.serialize(GenericTypeReflector.annotate(item.getClass()), item, clazz -> clazz.isAssignableFrom(String.class));
     }
 
     /**
@@ -292,6 +309,14 @@ public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T>
             final Object obj
         ) throws SerializationException {
             return this.deserialize(GenericTypeReflector.annotate(type), obj);
+        }
+
+        @Override
+        protected abstract Object serialize(AnnotatedType type, V item, Predicate<Class<?>> typeSupported);
+
+        @Override
+        protected Object serialize(final V item, final Predicate<Class<?>> typeSupported) {
+            return this.serialize(GenericTypeReflector.annotate(item.getClass()), item, typeSupported);
         }
 
     }

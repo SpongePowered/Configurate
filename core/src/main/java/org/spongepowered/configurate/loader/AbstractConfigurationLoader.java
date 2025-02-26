@@ -20,6 +20,11 @@ import static java.util.Objects.requireNonNull;
 import static org.spongepowered.configurate.loader.ParsingException.UNKNOWN_POS;
 
 import com.google.errorprone.annotations.ForOverride;
+import net.kyori.option.Option;
+import net.kyori.option.OptionSchema;
+import net.kyori.option.OptionState;
+import net.kyori.option.value.ValueSource;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -45,6 +50,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -119,7 +125,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
     protected AbstractConfigurationLoader(final Builder<?, ?> builder, final CommentHandler[] commentHandlers) {
         this.source = builder.source();
         this.sink = builder.sink();
-        this.headerMode = builder.headerMode();
+        this.headerMode = builder.optionState().value(Builder.HEADER_MODE);
         this.commentHandlers = UnmodifiableCollections.toList(commentHandlers);
         this.defaultOptions = builder.defaultOptions();
     }
@@ -264,12 +270,23 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
      */
     public abstract static class Builder<T extends Builder<T, L>, L extends AbstractConfigurationLoader<?>> {
 
-        protected static final LoaderOptionSource DEFAULT_OPTIONS_SOURCE = LoaderOptionSource.composite(
-            LoaderOptionSource.systemProperties(),
-            LoaderOptionSource.environmentVariables()
-        );
+        private static final String CONFIGURATE_PREFIX = "configurate";
 
-        protected HeaderMode headerMode = HeaderMode.PRESERVE;
+        private static final OptionSchema.Mutable UNSAFE_SCHEMA = OptionSchema.emptySchema();
+        protected static final OptionSchema SCHEMA = UNSAFE_SCHEMA.frozenView();
+
+        /**
+         * How to read and emit headers discovered on documents processed by
+         * the created loader.
+         *
+         * @since 4.2.0
+         */
+        public static final Option<HeaderMode> HEADER_MODE = UNSAFE_SCHEMA.enumOption("header", HeaderMode.class, HeaderMode.PRESERVE);
+
+        @Deprecated
+        protected HeaderMode headerMode;
+        private OptionState.@MonotonicNonNull Builder optionBuilder;
+        private @Nullable OptionState optionState;
         protected @Nullable Callable<BufferedReader> source;
         protected @Nullable Callable<BufferedWriter> sink;
         protected ConfigurationOptions defaultOptions = ConfigurationOptions.defaults();
@@ -277,50 +294,83 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
         /**
          * Create a new builder.
          *
-         * <p>This is where any custom default options can be applied.</p>
-         *
-         * <p>At the end of this constructor, {@link #from(LoaderOptionSource)}
-         * should be called with {@link #DEFAULT_OPTIONS_SOURCE} to read any supported
-         * options from environment variables and system properties.</p>
-         *
          * @since 4.0.0
          */
         protected Builder() {}
 
         /**
-         * Populate this builder by reading options from the provided source.
+         * Begin building an option state, initialized from the current
+         * environment.
          *
-         * <p>These options should control all options for the reading and
-         * representation of nodes produced by this loader, specifically
-         * excluding the {@link #source()} and {@link #sink()} of the loader,
-         * and the {@link #defaultOptions()}.</p>
-         *
-         * <p>The options read from the provided source are format-defined.</p>
-         *
-         * @param source the source to read
-         * @return this builder (for chaining)
+         * @return the pre-initialized option state builder
          * @since 4.2.0
          */
-        public final T from(final LoaderOptionSource source) {
-            requireNonNull(source, "source");
-            final @Nullable HeaderMode headerMode = source.getEnum(HeaderMode.class, "header");
-            if (headerMode != null) {
-                this.headerMode = headerMode;
+        protected OptionState.Builder optionStateBuilder() {
+            if (this.optionBuilder == null) {
+                this.optionState = null;
+                this.optionBuilder = this.optionSchema().stateBuilder()
+                        .values(ValueSource.systemProperty(CONFIGURATE_PREFIX))
+                        .values(ValueSource.environmentVariable(CONFIGURATE_PREFIX));
             }
-            this.populate(source);
+            return this.optionBuilder;
+        }
+
+        /**
+         * Compute a snapshot of the currently set options for created loaders.
+         *
+         * @return the option state
+         * @since 4.2.0
+         */
+        public OptionState optionState() {
+            if (this.optionState == null) {
+                this.optionState = this.optionStateBuilder().build();
+            }
+            return this.optionState;
+        }
+
+        /**
+         * Set the option state for this loader to the provided state.
+         *
+         * <p>The provided state must be within the
+         * {@link #optionSchema() loader's schema}.</p>
+         *
+         * @param state the state
+         * @return this builder
+         * @since 4.2.0
+         */
+        public T optionState(final OptionState state) {
+            this.optionBuilder = this.optionSchema().stateBuilder()
+                    .values(state);
+            this.optionState = null;
+
             return this.self();
         }
 
         /**
-         * Populate options from the provided source.
+         * Modify the state of loader options set on this loader.
          *
-         * <p>The source will have already been validated for nullness.</p>
+         * @param builderConsumer a consumer that receives the modifier to
+         *                        perform changes
+         * @return this builder
+         * @since 4.2.0
+         */
+        public T editOptions(final Consumer<OptionState.Builder> builderConsumer) {
+            this.optionState = null;
+            builderConsumer.accept(this.optionStateBuilder());
+            return this.self();
+        }
+
+        /**
+         * Get the schema of available options that can be set on this loader.
          *
-         * @param options the options to read
+         * <p>This schema should inherit from {@link #UNSAFE_SCHEMA}.</p>
+         *
+         * @return the option schema
          * @since 4.2.0
          */
         @ForOverride
-        protected void populate(final LoaderOptionSource options) {
+        protected OptionSchema optionSchema() {
+            return SCHEMA; // fallback
         }
 
         @SuppressWarnings("unchecked")
@@ -434,7 +484,7 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @since 4.0.0
          */
         public T headerMode(final HeaderMode mode) {
-            this.headerMode = requireNonNull(mode, "mode");
+            this.optionStateBuilder().value(Builder.HEADER_MODE, mode);
             return self();
         }
 
@@ -444,8 +494,14 @@ public abstract class AbstractConfigurationLoader<N extends ScopedConfigurationN
          * @return the header mode
          * @since 4.0.0
          */
+        @SuppressWarnings("deprecation")
         public HeaderMode headerMode() {
-            return this.headerMode;
+            // manually overridden for some reason?
+            if (this.headerMode != null) {
+                this.optionStateBuilder().value(HEADER_MODE, this.headerMode);
+                this.headerMode = null;
+            }
+            return this.optionState().value(HEADER_MODE);
         }
 
         /**

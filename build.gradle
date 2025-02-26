@@ -61,7 +61,7 @@ gitPublish {
     if (repo != null) {
         repo.remoteList().call().find { config -> config.name == "origin" }?.with { remote ->
             repoUri.set((remote.pushURIs.find() ?: remote.URIs.first()).toPrivateString())
-            referenceRepoUri.set(remote.URIs.first().toPrivateString())
+            referenceRepoUri.set(project.rootDir.toURI().toString())
         }
     }
 
