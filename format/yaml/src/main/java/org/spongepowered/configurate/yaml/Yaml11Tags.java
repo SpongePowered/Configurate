@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * Standard types defined on the <a href="https://yaml.org/type/">yaml.org
  * tag repository</a>.
  *
- * @since 4.2.0
+ * @since 4.3.0
  */
 final class Yaml11Tags {
 
@@ -49,7 +49,7 @@ final class Yaml11Tags {
      * A binary data tag.
      *
      * @see <a href="https://yaml.org/type/binary.html">tag:yaml.org,2002:binary</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<byte[]> BINARY = new Tag.Scalar<byte[]>(
         yamlOrg("binary"),
@@ -77,7 +77,7 @@ final class Yaml11Tags {
      *     true/false and on/off in order to avoid cases of confusion (such as
      *     the classic Norway problem).
      * @see <a href="https://yaml.org/type/bool.html">tag:yaml.org,2002:bool</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<Boolean> BOOL = new Tag.Scalar<Boolean>(
         yamlOrg("bool"),
@@ -107,7 +107,7 @@ final class Yaml11Tags {
      * A floating-point number.
      *
      * @see <a href="https://yaml.org/type/float.html">tag:yaml.org,2002:float</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<Number> FLOAT = new Tag.Scalar<Number>(
         yamlOrg("float"),
@@ -133,7 +133,7 @@ final class Yaml11Tags {
      * An integer.
      *
      * @see <a href="https://yaml.org/type/int.html">tag:yaml.org,2002:int</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<Number> INT = new Tag.Scalar<Number>(
         yamlOrg("int"),
@@ -178,7 +178,7 @@ final class Yaml11Tags {
      * are fully implemented.</p>
      *
      * @see <a href="https://yaml.org/type/merge.html">tag:yaml.org,2002:merge</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<?> MERGE = new Tag.Scalar<Object>(
         yamlOrg("merge"),
@@ -208,7 +208,7 @@ final class Yaml11Tags {
      * likely never be encountered in an in-memory representation.</p>
      *
      * @see <a href="https://yaml.org/type/null.html">tag:yaml.org,2002:null</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<Void> NULL = new Tag.Scalar<Void>(
         yamlOrg("null"),
@@ -233,7 +233,7 @@ final class Yaml11Tags {
      * Any string.
      *
      * @see <a href="https://yaml.org/type/str.html">tag:yaml.org,2002:str</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<String> STR = new Tag.Scalar<String>(
         yamlOrg("str"),
@@ -255,7 +255,7 @@ final class Yaml11Tags {
      * A timestamp, containing date, time, and timezone.
      *
      * @see <a href="https://yaml.org/type/timestamp.html">tag:yaml.org,2002:timestamp</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Scalar<ZonedDateTime> TIMESTAMP = new Tag.Scalar<ZonedDateTime>(
         yamlOrg("timestamp"),
@@ -285,7 +285,7 @@ final class Yaml11Tags {
      * A mapping.
      *
      * @see <a href="https://yaml.org/type/map.html">tag:yaml.org,2002:map</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Mapping MAP = new Tag.Mapping(yamlOrg("map"), UnmodifiableCollections.toSet(Map.class));
 
@@ -293,7 +293,7 @@ final class Yaml11Tags {
      * A sequence.
      *
      * @see <a href="https://yaml.org/type/seq.html">tag:yaml.org,2002:seq</a>
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final Tag.Sequence SEQ = new Tag.Sequence(yamlOrg("seq"), UnmodifiableCollections.toSet(List.class, Set.class));
 

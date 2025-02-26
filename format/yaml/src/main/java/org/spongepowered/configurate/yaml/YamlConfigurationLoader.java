@@ -129,7 +129,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * <p>If the chosen scalar style would produce syntactically invalid YAML, a
      * valid one will replace it.</p>
      *
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final RepresentationHint<ScalarStyle> SCALAR_STYLE = RepresentationHint.of("configurate:yaml/scalar-style", ScalarStyle.class);
 
@@ -138,7 +138,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      * will instruct the emitter to fall back to the
      * {@link Builder#nodeStyle()} setting.
      *
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final RepresentationHint<NodeStyle> NODE_STYLE = RepresentationHint.of("configurate:yaml/node-style", NodeStyle.class);
 
@@ -147,7 +147,7 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
      *
      * <p>This can override default type conversion for a YAML document.</p>
      *
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public static final RepresentationHint<Tag> TAG = RepresentationHint.<Tag>builder()
         .identifier("configurate:yaml/tag")

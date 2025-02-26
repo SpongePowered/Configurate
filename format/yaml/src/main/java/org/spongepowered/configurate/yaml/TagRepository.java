@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 /**
  * A collection of tags that are understood when reading a document.
  *
- * @since 4.2.0
+ * @since 4.3.0
  */
 final class TagRepository {
 
@@ -93,7 +93,7 @@ final class TagRepository {
      *
      * @param name the tag URI
      * @return a tag, if any is present
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public @Nullable Tag named(final URI name) {
         return this.byName.get(name);
@@ -104,7 +104,7 @@ final class TagRepository {
      *
      * @param type the type used
      * @return a tag, if any is registered
-     * @since 4.2.0
+     * @since 4.3.0
      */
     public @Nullable Tag byType(final Class<?> type) {
         return this.byErasedType.get(type);
@@ -115,7 +115,7 @@ final class TagRepository {
      *
      * @param node the node to analyze
      * @return a calculated tag
-     * @since 4.2.0
+     * @since 4.3.0
      */
     @SuppressWarnings("rawtypes")
     AnalyzedTag analyze(final ConfigurationNode node) throws ConfigurateException {
@@ -171,7 +171,7 @@ final class TagRepository {
      * A combination of resolved tag, and whether the tag is the same as the tag
      * that would be implicitly calculated.
      *
-     * @since 4.2.0
+     * @since 4.3.0
      */
     @AutoValue
     abstract static class AnalyzedTag {
@@ -182,7 +182,7 @@ final class TagRepository {
          * @param resolved the resolved type
          * @param specified the specified type
          * @return the resolved tag
-         * @since 4.2.0
+         * @since 4.3.0
          */
         static AnalyzedTag of(final Tag resolved, final @Nullable Tag specified, final boolean defaultForType) {
             return new AutoValue_TagRepository_AnalyzedTag(resolved, specified, defaultForType);
@@ -198,7 +198,7 @@ final class TagRepository {
          * <em>unresolved</em> tag.</p>
          *
          * @return the calculated tag
-         * @since 4.2.0
+         * @since 4.3.0
          */
         public abstract Tag resolved();
 
@@ -206,7 +206,7 @@ final class TagRepository {
          * Get the manually specified tag for this node.
          *
          * @return the specified tag
-         * @since 4.2.0
+         * @since 4.3.0
          */
         public abstract @Nullable Tag specified();
 
@@ -215,7 +215,7 @@ final class TagRepository {
          * a certain tag.
          *
          * @return whether the calculated tag unambiguously matches
-         * @since 4.2.0
+         * @since 4.3.0
          */
         abstract boolean isUnambiguous();
 
@@ -226,6 +226,7 @@ final class TagRepository {
          * Otherwise, the specified tag will be used.</p>
          *
          * @return the actual tag
+         * @since 4.3.0
          */
         public final Tag actual() {
             return this.specified() == null ? this.resolved() : this.specified();
@@ -238,7 +239,7 @@ final class TagRepository {
          * type equals the specified type.</p>
          *
          * @return whether the tag is implicit.
-         * @since 4.2.0
+         * @since 4.3.0
          */
         public final boolean implicit() {
             return this.specified() == null ? this.isUnambiguous() : Objects.equals(this.resolved(), this.specified());
@@ -303,7 +304,7 @@ final class TagRepository {
          *
          * @param tag the tag to register
          * @return this builder
-         * @since 4.2.0
+         * @since 4.3.0
          */
         Builder addTag(final Tag tag) {
             requireNonNull(tag, "tag");
