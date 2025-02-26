@@ -199,35 +199,43 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize an object to the given configuration node.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)" class="member-name-link">serialize</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type,
- @Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;obj,
- <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Serialize an object to the given configuration node.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#serialize(T,java.util.function.Predicate)" class="member-name-link">serialize</a><wbr>(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serialize(java.lang.reflect.AnnotatedType,T,java.util.function.Predicate)" class="member-name-link">serialize</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedType</a>&nbsp;type,
+ <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize the provided value to a supported type, testing against the
  provided predicate.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serializeToString(T)" class="member-name-link">serializeToString</a><wbr>(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)" class="member-name-link">serialize</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type,
+ @Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;obj,
+ <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Serialize an object to the given configuration node.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#serialize(T,java.util.function.Predicate)" class="member-name-link">serialize</a><wbr>(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Serialize the provided value to a supported type, testing against the
+ provided predicate.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serializeToString(T)" class="member-name-link">serializeToString</a><wbr>(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize the item to a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a>, in a representation that can be
  interpreted by this serializer again.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryDeserialize(java.lang.Object)" class="member-name-link">tryDeserialize</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryDeserialize(java.lang.Object)" class="member-name-link">tryDeserialize</a><wbr>(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Attempt to deserialize the provided object, but rather than throwing an
  exception when a deserialization error occurs, return null instead.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final io.leangen.geantyref.TypeToken&lt;<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the general type token applicable for this serializer.</div>
 </div>
 </div>
@@ -418,8 +426,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <h3 id="serialize(java.lang.reflect.AnnotatedType,java.lang.Object,org.spongepowered.configurate.ConfigurationNode)">serialize</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-172">serialize</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedType</a>&nbsp;type,
  @Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;obj,
- <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span>
-                     throws <span class="exceptions"><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></span></div>
+ <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="TypeSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">TypeSerializer</a></code></span></div>
 <div class="block">Serialize an object to the given configuration node.</div>
 <dl class="notes">
@@ -431,15 +438,13 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <dd><code>type</code> - the annotated type of the input object</dd>
 <dd><code>obj</code> - the object to be serialized</dd>
 <dd><code>node</code> - the node to write to</dd>
-<dt>Throws:</dt>
-<dd><code><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the object cannot be serialized</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">
 <h3 id="serialize(java.lang.reflect.Type,java.lang.Object,org.spongepowered.configurate.ConfigurationNode)">serialize</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-177">serialize</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type,
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-187">serialize</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type,
  @Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;obj,
  <a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="TypeSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">TypeSerializer</a></code></span></div>
@@ -457,9 +462,32 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 </section>
 </li>
 <li>
+<section class="detail" id="serialize(java.lang.reflect.AnnotatedType,T,java.util.function.Predicate)">
+<h3 id="serialize(java.lang.reflect.AnnotatedType,java.lang.Object,java.util.function.Predicate)">serialize</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-205">serialize</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedType</a>&nbsp;type,
+ <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</span></div>
+<div class="block">Serialize the provided value to a supported type, testing against the
+ provided predicate.
+
+ <p>Annotated type information is provided for reference.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>type</code> - the annotated type of the field being serialized</dd>
+<dd><code>item</code> - the value to serialize</dd>
+<dd><code>typeSupported</code> - a predicate to allow choosing which types are
+                      supported</dd>
+<dt>Returns:</dt>
+<dd>a serialized form of this object</dd>
+<dt>Since:</dt>
+<dd>4.2.0</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="serialize(T,java.util.function.Predicate)">
 <h3 id="serialize(java.lang.Object,java.util.function.Predicate)">serialize</h3>
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-202">serialize</a></span><wbr><span class="parameters">(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-219">serialize</a></span><wbr><span class="parameters">(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item,
  <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</span></div>
 <div class="block">Serialize the provided value to a supported type, testing against the
  provided predicate.</div>
@@ -478,7 +506,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <li>
 <section class="detail" id="tryDeserialize(java.lang.Object)">
 <h3>tryDeserialize</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">@Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-222">tryDeserialize</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">@Nullable <a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-239">tryDeserialize</a></span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
 <div class="block">Attempt to deserialize the provided object, but rather than throwing an
  exception when a deserialization error occurs, return null instead.</div>
 <dl class="notes">
@@ -500,7 +528,7 @@ implements <a href="TypeSerializer.Annotated.html" title="interface in org.spong
 <li>
 <section class="detail" id="serializeToString(T)">
 <h3 id="serializeToString(java.lang.Object)">serializeToString</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-242">serializeToString</a></span><wbr><span class="parameters">(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.html#line-259">serializeToString</a></span><wbr><span class="parameters">(<a href="ScalarSerializer.html" title="type parameter in ScalarSerializer">T</a>&nbsp;item)</span></div>
 <div class="block">Serialize the item to a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a>, in a representation that can be
  interpreted by this serializer again.</div>
 <dl class="notes">
