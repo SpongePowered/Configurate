@@ -159,12 +159,27 @@ loadScripts(document, 'script');</script>
 <div class="block">Given an object of unknown type, attempt to convert it into the given
  type.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#serialize(java.lang.reflect.AnnotatedType,V,java.util.function.Predicate)" class="member-name-link">serialize</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedType</a>&nbsp;type,
+ <a href="ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&nbsp;item,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Serialize the provided value to a supported type, testing against the
+ provided predicate.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serialize(V,java.util.function.Predicate)" class="member-name-link">serialize</a><wbr>(<a href="ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&nbsp;item,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Serialize the provided value to a supported type, testing against the
+ provided predicate.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.spongepowered.configurate.serialize.ScalarSerializer">Methods inherited from class&nbsp;org.spongepowered.configurate.serialize.<a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a></h3>
-<code><a href="ScalarSerializer.html#deserialize(java.lang.Object)">deserialize</a>, <a href="ScalarSerializer.html#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize</a>, <a href="ScalarSerializer.html#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">deserialize</a>, <a href="ScalarSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a>, <a href="ScalarSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,java.util.function.Predicate)">serialize</a>, <a href="ScalarSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a>, <a href="ScalarSerializer.html#serialize(T,java.util.function.Predicate)">serialize</a>, <a href="ScalarSerializer.html#serializeToString(T)">serializeToString</a>, <a href="ScalarSerializer.html#tryDeserialize(java.lang.Object)">tryDeserialize</a>, <a href="ScalarSerializer.html#type()">type</a></code></div>
+<code><a href="ScalarSerializer.html#deserialize(java.lang.Object)">deserialize</a>, <a href="ScalarSerializer.html#deserialize(java.lang.reflect.AnnotatedType,org.spongepowered.configurate.ConfigurationNode)">deserialize</a>, <a href="ScalarSerializer.html#deserialize(java.lang.reflect.Type,org.spongepowered.configurate.ConfigurationNode)">deserialize</a>, <a href="ScalarSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a>, <a href="ScalarSerializer.html#serialize(java.lang.reflect.Type,T,org.spongepowered.configurate.ConfigurationNode)">serialize</a>, <a href="ScalarSerializer.html#serializeToString(T)">serializeToString</a>, <a href="ScalarSerializer.html#tryDeserialize(java.lang.Object)">tryDeserialize</a>, <a href="ScalarSerializer.html#type()">type</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -263,6 +278,50 @@ loadScripts(document, 'script');</script>
 <dt>Throws:</dt>
 <dd><code><a href="SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></code> - if the object could not be converted for
                                 any reason</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="serialize(java.lang.reflect.AnnotatedType,V,java.util.function.Predicate)">
+<h3 id="serialize(java.lang.reflect.AnnotatedType,java.lang.Object,java.util.function.Predicate)">serialize</h3>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html#line-314">serialize</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedType.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedType</a>&nbsp;type,
+ <a href="ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&nbsp;item,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="ScalarSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,java.util.function.Predicate)">ScalarSerializer</a></code></span></div>
+<div class="block">Serialize the provided value to a supported type, testing against the
+ provided predicate.
+
+ <p>Annotated type information is provided for reference.</p></div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="ScalarSerializer.html#serialize(java.lang.reflect.AnnotatedType,T,java.util.function.Predicate)">serialize</a></code>&nbsp;in class&nbsp;<code><a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>type</code> - the annotated type of the field being serialized</dd>
+<dd><code>item</code> - the value to serialize</dd>
+<dd><code>typeSupported</code> - a predicate to allow choosing which types are
+                      supported</dd>
+<dt>Returns:</dt>
+<dd>a serialized form of this object</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="serialize(V,java.util.function.Predicate)">
+<h3 id="serialize(java.lang.Object,java.util.function.Predicate)">serialize</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/serialize/ScalarSerializer.Annotated.html#line-317">serialize</a></span><wbr><span class="parameters">(<a href="ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&nbsp;item,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;typeSupported)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="ScalarSerializer.html#serialize(T,java.util.function.Predicate)">ScalarSerializer</a></code></span></div>
+<div class="block">Serialize the provided value to a supported type, testing against the
+ provided predicate.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="ScalarSerializer.html#serialize(T,java.util.function.Predicate)">serialize</a></code>&nbsp;in class&nbsp;<code><a href="ScalarSerializer.html" title="class in org.spongepowered.configurate.serialize">ScalarSerializer</a>&lt;<a href="ScalarSerializer.Annotated.html" title="type parameter in ScalarSerializer.Annotated">V</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>item</code> - the value to serialize</dd>
+<dd><code>typeSupported</code> - a predicate to allow choosing which types are
+                      supported</dd>
+<dt>Returns:</dt>
+<dd>a serialized form of this object</dd>
 </dl>
 </section>
 </li>

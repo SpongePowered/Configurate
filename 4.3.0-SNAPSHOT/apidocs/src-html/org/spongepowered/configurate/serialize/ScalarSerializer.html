@@ -324,9 +324,17 @@
 <span class="source-line-no">311</span><span id="line-311">            return this.deserialize(GenericTypeReflector.annotate(type), obj);</span>
 <span class="source-line-no">312</span><span id="line-312">        }</span>
 <span class="source-line-no">313</span><span id="line-313"></span>
-<span class="source-line-no">314</span><span id="line-314">    }</span>
-<span class="source-line-no">315</span><span id="line-315"></span>
-<span class="source-line-no">316</span><span id="line-316">}</span>
+<span class="source-line-no">314</span><span id="line-314">        @Override</span>
+<span class="source-line-no">315</span><span id="line-315">        protected abstract Object serialize(AnnotatedType type, V item, Predicate&lt;Class&lt;?&gt;&gt; typeSupported);</span>
+<span class="source-line-no">316</span><span id="line-316"></span>
+<span class="source-line-no">317</span><span id="line-317">        @Override</span>
+<span class="source-line-no">318</span><span id="line-318">        protected Object serialize(final V item, final Predicate&lt;Class&lt;?&gt;&gt; typeSupported) {</span>
+<span class="source-line-no">319</span><span id="line-319">            return this.serialize(GenericTypeReflector.annotate(item.getClass()), item, typeSupported);</span>
+<span class="source-line-no">320</span><span id="line-320">        }</span>
+<span class="source-line-no">321</span><span id="line-321"></span>
+<span class="source-line-no">322</span><span id="line-322">    }</span>
+<span class="source-line-no">323</span><span id="line-323"></span>
+<span class="source-line-no">324</span><span id="line-324">}</span>
 
 
 
