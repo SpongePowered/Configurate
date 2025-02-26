@@ -1,3 +1,5 @@
+import org.jetbrains.gradle.ext.ActionDelegationConfig
+
 import static org.eclipse.jgit.lib.Repository.shortenRefName
 
 plugins {
@@ -6,11 +8,19 @@ plugins {
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.aggregateJavadoc)
     alias(libs.plugins.gitPublish)
+    alias(libs.plugins.ideaExt)
     alias(libs.plugins.indra.git)
     alias(libs.plugins.indra.sonatype)
     alias(libs.plugins.nexusPublish)
     id 'java-base'
     id 'org.spongepowered.configurate.build.base'
+}
+
+idea.project.settings {
+    delegateActions {
+        delegateBuildRunToGradle = false
+        testRunner = ActionDelegationConfig.TestRunner.PLATFORM
+    }
 }
 
 tasks.named('aggregateJavadoc').configure {

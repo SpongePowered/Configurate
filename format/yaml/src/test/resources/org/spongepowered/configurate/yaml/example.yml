@@ -1,0 +1,13 @@
+test:
+    op-level: unicorn
+other: &ptr
+    op-level: dragon
+    location: dog park
+    age: 28
+    big scalar: |
+      Hello world!
+more: *ptr
+
+foo:
+    bar:
+    - {a: "best", no: help}
