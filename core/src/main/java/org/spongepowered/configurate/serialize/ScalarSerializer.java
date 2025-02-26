@@ -311,6 +311,14 @@ public abstract class ScalarSerializer<T> implements TypeSerializer.Annotated<T>
             return this.deserialize(GenericTypeReflector.annotate(type), obj);
         }
 
+        @Override
+        protected abstract Object serialize(AnnotatedType type, V item, Predicate<Class<?>> typeSupported);
+
+        @Override
+        protected Object serialize(final V item, final Predicate<Class<?>> typeSupported) {
+            return this.serialize(GenericTypeReflector.annotate(item.getClass()), item, typeSupported);
+        }
+
     }
 
 }

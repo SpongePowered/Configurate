@@ -44,7 +44,7 @@ final class PatternSerializer extends ScalarSerializer.Annotated<Pattern> {
     }
 
     @Override
-    public Object serialize(final Pattern item, final Predicate<Class<?>> typeSupported) {
+    public Object serialize(final AnnotatedType type, final Pattern item, final Predicate<Class<?>> typeSupported) {
         return item.pattern();
     }
 
