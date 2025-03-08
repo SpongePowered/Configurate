@@ -1,8 +1,0 @@
-test:
-    op-level: unicorn
-other:
-    op-level: dragon
-    location: dog park
-
-foo:
-    bar: []

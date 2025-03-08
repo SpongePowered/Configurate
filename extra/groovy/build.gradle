@@ -1,0 +1,22 @@
+plugins {
+    id 'org.spongepowered.configurate.build.component'
+    id 'groovy'
+}
+
+tasks.processResources {
+    inputs.property("version", project.version)
+    expand version: project.version
+}
+
+dependencies {
+    api projects.core
+   
+    [
+        libs.groovy,
+        libs.groovy.nio
+    ].each {
+        implementation variantOf(it) { classifier('indy') }
+    }
+    
+    testImplementation variantOf(libs.groovy.test) { classifier('indy') }
+}

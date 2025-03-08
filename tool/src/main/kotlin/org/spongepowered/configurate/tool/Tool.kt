@@ -243,6 +243,9 @@ class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
             .default(DEFAULT_INDENT)
     private val flowStyle by
         option("-s", "--style", help = "What node style to use").enum<NodeStyle>()
+    private val comments by
+        option("-c", "--comments", help = "Whether or not to enable comment handling")
+            .flag("--no-comments", default = false)
 
     override fun createLoader(): ConfigurationLoader<CommentedConfigurationNode> {
         return YamlConfigurationLoader.builder()
@@ -250,6 +253,7 @@ class Yaml : FormatSubcommand<CommentedConfigurationNode>("YAML") {
             .headerMode(header)
             .indent(indent)
             .nodeStyle(flowStyle)
+            .commentsEnabled(comments)
             .build()
     }
 }

@@ -48,7 +48,7 @@ public final class UnmodifiableCollections {
      *
      * @since 4.0.0
      */
-    public static <E> List<E> copyOf(final List<E> original) {
+    public static <E> List<E> copyOf(final List<? extends E> original) {
         switch (original.size()) {
             case 0:
                 return Collections.emptyList();
@@ -67,7 +67,7 @@ public final class UnmodifiableCollections {
      * @return a unmodifiable copy of the given {@link Set} instance
      * @since 4.0.0
      */
-    public static <E> Set<E> copyOf(final Set<E> original) {
+    public static <E> Set<E> copyOf(final Set<? extends E> original) {
         switch (original.size()) {
             case 0:
                 return Collections.emptySet();
@@ -87,12 +87,12 @@ public final class UnmodifiableCollections {
      * @return an unmodifiable copy of the given {@link Map} instance.
      * @since 4.1.0
      */
-    public static <K, V> Map<K, V> copyOf(final Map<K, V> original) {
+    public static <K, V> Map<K, V> copyOf(final Map<? extends K, ? extends V> original) {
         switch (original.size()) {
             case 0:
                 return Collections.emptyMap();
             case 1:
-                final Map.Entry<K, V> entry = original.entrySet().iterator().next();
+                final Map.Entry<? extends K, ? extends V> entry = original.entrySet().iterator().next();
                 return Collections.singletonMap(entry.getKey(), entry.getValue());
             default:
                 if (original instanceof LinkedHashMap<?, ?>) {
