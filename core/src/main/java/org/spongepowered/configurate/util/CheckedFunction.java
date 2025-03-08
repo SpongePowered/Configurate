@@ -52,7 +52,7 @@ public interface CheckedFunction<I, O, E extends Exception> {
      * @return the function as a checked function
      * @since 4.0.0
      */
-    static <I, O> CheckedFunction<I, O, RuntimeException> from(Function<I, @NonNull O> func) {
+    static <I, O> CheckedFunction<I, O, RuntimeException> from(final Function<I, @NonNull O> func) {
         return requireNonNull(func, "func")::apply;
     }
 

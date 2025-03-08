@@ -33,7 +33,7 @@ public interface NodePath extends Iterable<Object> {
      * @return the path instance
      * @since 4.0.0
      */
-    static NodePath of(Object[] path) {
+    static NodePath of(final Object[] path) {
         if (path.length == 0) {
             return NodePathImpl.EMPTY;
         } else {
@@ -48,7 +48,7 @@ public interface NodePath extends Iterable<Object> {
      * @return the path instance
      * @since 4.0.0
      */
-    static NodePath of(Collection<?> path) {
+    static NodePath of(final Collection<?> path) {
         if (path.isEmpty()) {
             return NodePathImpl.EMPTY;
         } else {
@@ -66,7 +66,7 @@ public interface NodePath extends Iterable<Object> {
      * @return the path instance
      * @since 4.0.0
      */
-    static NodePath path(Object... elements) {
+    static NodePath path(final Object... elements) {
         return of(elements);
     }
 

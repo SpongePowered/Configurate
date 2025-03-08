@@ -46,7 +46,7 @@ public interface CheckedSupplier<V, E extends Throwable> {
      * @return a function that executes the provided consumer
      * @since 4.0.0
      */
-    static <V> CheckedSupplier<V, RuntimeException> from(Supplier<V> consumer) {
+    static <V> CheckedSupplier<V, RuntimeException> from(final Supplier<V> consumer) {
         return consumer::get;
     }
 

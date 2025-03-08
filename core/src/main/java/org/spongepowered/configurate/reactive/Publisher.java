@@ -49,7 +49,7 @@ public interface Publisher<V> {
      * @return a publisher
      * @since 4.0.0
      */
-    static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action) {
+    static <V, E extends Exception> Publisher<V> execute(final CheckedSupplier<V, E> action) {
         return execute(action, ForkJoinPool.commonPool());
     }
 
@@ -67,7 +67,7 @@ public interface Publisher<V> {
      * @return a publisher
      * @since 4.0.0
      */
-    static <V, E extends Exception> Publisher<V> execute(CheckedSupplier<V, E> action, Executor executor) {
+    static <V, E extends Exception> Publisher<V> execute(final CheckedSupplier<V, E> action, final Executor executor) {
         return new ExecutePublisher<>(requireNonNull(action, "action"), requireNonNull(executor, "executor"));
     }
 
@@ -101,7 +101,7 @@ public interface Publisher<V> {
      * @return a new publisher
      * @since 4.0.0
      */
-    default <R> Publisher<R> map(CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
+    default <R> Publisher<R> map(final CheckedFunction<? super V, ? extends R, TransactionFailedException> mapper) {
         return new MappedProcessor<>(mapper, this);
     }
 
@@ -123,7 +123,7 @@ public interface Publisher<V> {
      * @return publisher that will cache future responses
      * @since 4.0.0
      */
-    default Cached<V> cache(@Nullable V initialValue) {
+    default Cached<V> cache(final @Nullable V initialValue) {
         return new CachedPublisher<>(this, initialValue);
     }
 

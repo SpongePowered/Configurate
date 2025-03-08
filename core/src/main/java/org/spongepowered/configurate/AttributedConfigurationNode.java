@@ -137,7 +137,7 @@ public interface AttributedConfigurationNode extends CommentedConfigurationNodeI
      * @since 4.0.0
      */
     static <E extends Exception> AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,
-            CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
+            final CheckedConsumer<? super AttributedConfigurationNode, E> action) throws E {
         return root(tagName, options).act(action);
     }
 

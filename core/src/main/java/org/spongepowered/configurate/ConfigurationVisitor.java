@@ -174,7 +174,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
         }
 
         @Override
-        default void beginVisit(ConfigurationNode node, Void state) throws E {
+        default void beginVisit(final ConfigurationNode node, final Void state) throws E {
             beginVisit(node);
         }
 
@@ -185,10 +185,10 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * @throws E as required by implementation
          * @since 4.0.0
          */
-        default void beginVisit(ConfigurationNode node) throws E {}
+        default void beginVisit(final ConfigurationNode node) throws E {}
 
         @Override
-        default void enterNode(ConfigurationNode node, Void state) throws E {
+        default void enterNode(final ConfigurationNode node, final Void state) throws E {
             enterNode(node);
         }
 
@@ -202,7 +202,7 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
         void enterNode(ConfigurationNode node) throws E;
 
         @Override
-        default void enterMappingNode(ConfigurationNode node, Void state) throws E {
+        default void enterMappingNode(final ConfigurationNode node, final Void state) throws E {
             enterMappingNode(node);
         }
 
@@ -214,10 +214,10 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * @throws E when thrown by implementation
          * @since 4.0.0
          */
-        default void enterMappingNode(ConfigurationNode node) throws E {}
+        default void enterMappingNode(final ConfigurationNode node) throws E {}
 
         @Override
-        default void enterListNode(ConfigurationNode node, Void state) throws E {
+        default void enterListNode(final ConfigurationNode node, final Void state) throws E {
             enterListNode(node);
         }
 
@@ -229,11 +229,11 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * @throws E when thrown by implementation
          * @since 4.0.0
          */
-        default void enterListNode(ConfigurationNode node) throws E {
+        default void enterListNode(final ConfigurationNode node) throws E {
         }
 
         @Override
-        default void enterScalarNode(ConfigurationNode node, Void state) throws E {
+        default void enterScalarNode(final ConfigurationNode node, final Void state) throws E {
             enterScalarNode(node);
         }
 
@@ -245,11 +245,11 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * @throws E when thrown by implementation
          * @since 4.0.0
          */
-        default void enterScalarNode(ConfigurationNode node) throws E {
+        default void enterScalarNode(final ConfigurationNode node) throws E {
         }
 
         @Override
-        default void exitMappingNode(ConfigurationNode node, Void state) throws E {
+        default void exitMappingNode(final ConfigurationNode node, final Void state) throws E {
             exitMappingNode(node);
         }
 
@@ -261,10 +261,10 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * @throws E when thrown by implementation
          * @since 4.0.0
          */
-        default void exitMappingNode(ConfigurationNode node) throws E {}
+        default void exitMappingNode(final ConfigurationNode node) throws E {}
 
         @Override
-        default void exitListNode(ConfigurationNode node, Void state) throws E {
+        default void exitListNode(final ConfigurationNode node, final Void state) throws E {
             exitListNode(node);
         }
 
@@ -276,10 +276,10 @@ public interface ConfigurationVisitor<S, T, E extends Exception> {
          * @throws E when thrown by implementation
          * @since 4.0.0
          */
-        default void exitListNode(ConfigurationNode node) throws E {}
+        default void exitListNode(final ConfigurationNode node) throws E {}
 
         @Override
-        default Void endVisit(Void state) throws E {
+        default Void endVisit(final Void state) throws E {
             endVisit();
             return null;
         }
