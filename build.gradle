@@ -31,7 +31,7 @@ tasks.named('aggregateJavadoc').configure {
     }
 
     options.addBooleanOption("Xdoclint:-missing", true)
-    options.links("https://docs.oracle.com/javase/8/docs/api/")
+    options.links("https://docs.oracle.com/en/java/javase/11/docs/api/")
     if (gradleJdk > JavaVersion.VERSION_1_8 && gradleJdk < JavaVersion.VERSION_12) {
         options.addBooleanOption("-no-module-directories", true)
     }
