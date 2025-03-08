@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">org.spongepowered.configurate.loader</a></div>
 <h1 title="Class AbstractConfigurationLoader" class="title">Class AbstractConfigurationLoader&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">org.spongepowered.configurate.loader.AbstractConfigurationLoader&lt;N&gt;</div>
 </div>
 <section class="class-description" id="class-description">
@@ -89,15 +89,15 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-69">AbstractConfigurationLoader</a>&lt;N extends <a href="../ScopedConfigurationNode.html" title="interface in org.spongepowered.configurate">ScopedConfigurationNode</a>&lt;N&gt;&gt;</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a>&lt;N&gt;</span></div>
 <div class="block">Base class for many stream-based configuration loaders. This class provides
- conversion from a variety of input sources to <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link"><code>BufferedReader</code></a>
+ conversion from a variety of input sources to <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link"><code>BufferedReader</code></a>
  suppliers, providing a consistent API for loaders to read from and write to.
 
  <p>Either the source or sink may be null. If this is true, this loader may
  not support either loading or saving. In this case, implementing classes are
- expected to throw an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html" title="class or interface in java.io" class="external-link"><code>IOException</code></a> for the unsupported operation.</p></div>
+ expected to throw an <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link"><code>IOException</code></a> for the unsupported operation.</p></div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>4.0.0</dd>
@@ -131,27 +131,27 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" title="class or interface in java.util.regex" class="external-link">Pattern</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html" title="class or interface in java.util.regex" class="external-link">Pattern</a></code></div>
 <div class="col-second even-row-color"><code><a href="#CONFIGURATE_LINE_PATTERN" class="member-name-link">CONFIGURATE_LINE_PATTERN</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">A pattern that will match line breaks in comments.</div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#CONFIGURATE_LINE_SEPARATOR" class="member-name-link">CONFIGURATE_LINE_SEPARATOR</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">The escape sequence used by Configurate to separate comment lines.</div>
 </div>
-<div class="col-first even-row-color"><code>protected final @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>protected final @Nullable <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#sink" class="member-name-link">sink</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">The writer sink for this loader.</div>
 </div>
-<div class="col-first odd-row-color"><code>protected final @Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>protected final @Nullable <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#source" class="member-name-link">source</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">The reader source for this loader.</div>
 </div>
-<div class="col-first even-row-color"><code>protected static final <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color"><code>protected static final <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#SYSTEM_LINE_SEPARATOR" class="member-name-link">SYSTEM_LINE_SEPARATOR</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">The line separator used by the system.</div>
@@ -220,7 +220,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#loadInternal(N,java.io.BufferedReader)" class="member-name-link">loadInternal</a><wbr>(<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;node,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&nbsp;reader)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&nbsp;reader)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Using a created node, attempt to read a configuration file.</div>
 </div>
@@ -236,12 +236,12 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#saveInternal(org.spongepowered.configurate.ConfigurationNode,java.io.Writer)" class="member-name-link">saveInternal</a><wbr>(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Perform a save of the node to the provided writer.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeHeaderInternal(java.io.Writer)" class="member-name-link">writeHeaderInternal</a><wbr>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeHeaderInternal(java.io.Writer)" class="member-name-link">writeHeaderInternal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Write out any implementation-specific file header.</div>
 </div>
@@ -249,8 +249,8 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.spongepowered.configurate.loader.ConfigurationLoader">Methods inherited from interface&nbsp;org.spongepowered.configurate.loader.<a href="ConfigurationLoader.html" title="interface in org.spongepowered.configurate.loader">ConfigurationLoader</a></h3>
 <code><a href="ConfigurationLoader.html#load()">load</a></code></div>
@@ -271,7 +271,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <li>
 <section class="detail" id="CONFIGURATE_LINE_SEPARATOR">
 <h3>CONFIGURATE_LINE_SEPARATOR</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-74">CONFIGURATE_LINE_SEPARATOR</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-74">CONFIGURATE_LINE_SEPARATOR</a></span></div>
 <div class="block">The escape sequence used by Configurate to separate comment lines.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -286,20 +286,20 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <li>
 <section class="detail" id="CONFIGURATE_LINE_PATTERN">
 <h3>CONFIGURATE_LINE_PATTERN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" title="class or interface in java.util.regex" class="external-link">Pattern</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-79">CONFIGURATE_LINE_PATTERN</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html" title="class or interface in java.util.regex" class="external-link">Pattern</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-79">CONFIGURATE_LINE_PATTERN</a></span></div>
 <div class="block">A pattern that will match line breaks in comments.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="SYSTEM_LINE_SEPARATOR">
 <h3>SYSTEM_LINE_SEPARATOR</h3>
-<div class="member-signature"><span class="modifiers">protected static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-86">SYSTEM_LINE_SEPARATOR</a></span></div>
+<div class="member-signature"><span class="modifiers">protected static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-86">SYSTEM_LINE_SEPARATOR</a></span></div>
 <div class="block">The line separator used by the system.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#lineSeparator--" title="class or interface in java.lang" class="external-link"><code>System.lineSeparator()</code></a></li>
+<li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/System.html#lineSeparator()" title="class or interface in java.lang" class="external-link"><code>System.lineSeparator()</code></a></li>
 </ul>
 </dd>
 </dl>
@@ -308,7 +308,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <li>
 <section class="detail" id="source">
 <h3>source</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-93">source</a></span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-93">source</a></span></div>
 <div class="block">The reader source for this loader.
 
  <p>Can be null (for loaders which don't support loading!)</p></div>
@@ -317,7 +317,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <li>
 <section class="detail" id="sink">
 <h3>sink</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-100">sink</a></span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedWriter.html" title="class or interface in java.io" class="external-link">BufferedWriter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-100">sink</a></span></div>
 <div class="block">The writer sink for this loader.
 
  <p>Can be null (for loaders which don't support saving!)</p></div>
@@ -420,7 +420,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <h3 id="loadInternal(org.spongepowered.configurate.ScopedConfigurationNode,java.io.BufferedReader)">loadInternal</h3>
 <div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-185">loadInternal</a></span><wbr><span class="parameters">(<a href="AbstractConfigurationLoader.html" title="type parameter in AbstractConfigurationLoader">N</a>&nbsp;node,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&nbsp;reader)</span>
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link">BufferedReader</a>&nbsp;reader)</span>
                               throws <span class="exceptions"><a href="ParsingException.html" title="class in org.spongepowered.configurate.loader">ParsingException</a></span></div>
 <div class="block">Using a created node, attempt to read a configuration file.
 
@@ -479,14 +479,14 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <section class="detail" id="writeHeaderInternal(java.io.Writer)">
 <h3>writeHeaderInternal</h3>
 <div class="member-signature"><span class="annotations">@ForOverride
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-236">writeHeaderInternal</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
-                            throws <span class="exceptions"><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-236">writeHeaderInternal</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
+                            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Write out any implementation-specific file header.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>writer</code> - writer to output to</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - if an error occurs in the implementation</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - if an error occurs in the implementation</dd>
 <dt>Since:</dt>
 <dd>4.0.0</dd>
 </dl>
@@ -497,7 +497,7 @@ implements <a href="ConfigurationLoader.html" title="interface in org.spongepowe
 <h3>saveInternal</h3>
 <div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/org/spongepowered/configurate/loader/AbstractConfigurationLoader.html#line-247">saveInternal</a></span><wbr><span class="parameters">(<a href="../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;node,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a>&nbsp;writer)</span>
                               throws <span class="exceptions"><a href="../ConfigurateException.html" title="class in org.spongepowered.configurate">ConfigurateException</a></span></div>
 <div class="block">Perform a save of the node to the provided writer.</div>
 <dl class="notes">
