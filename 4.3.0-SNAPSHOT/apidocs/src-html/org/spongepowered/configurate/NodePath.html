@@ -46,7 +46,7 @@
 <span class="source-line-no">033</span><span id="line-33">     * @return the path instance</span>
 <span class="source-line-no">034</span><span id="line-34">     * @since 4.0.0</span>
 <span class="source-line-no">035</span><span id="line-35">     */</span>
-<span class="source-line-no">036</span><span id="line-36">    static NodePath of(Object[] path) {</span>
+<span class="source-line-no">036</span><span id="line-36">    static NodePath of(final Object[] path) {</span>
 <span class="source-line-no">037</span><span id="line-37">        if (path.length == 0) {</span>
 <span class="source-line-no">038</span><span id="line-38">            return NodePathImpl.EMPTY;</span>
 <span class="source-line-no">039</span><span id="line-39">        } else {</span>
@@ -61,7 +61,7 @@
 <span class="source-line-no">048</span><span id="line-48">     * @return the path instance</span>
 <span class="source-line-no">049</span><span id="line-49">     * @since 4.0.0</span>
 <span class="source-line-no">050</span><span id="line-50">     */</span>
-<span class="source-line-no">051</span><span id="line-51">    static NodePath of(Collection&lt;?&gt; path) {</span>
+<span class="source-line-no">051</span><span id="line-51">    static NodePath of(final Collection&lt;?&gt; path) {</span>
 <span class="source-line-no">052</span><span id="line-52">        if (path.isEmpty()) {</span>
 <span class="source-line-no">053</span><span id="line-53">            return NodePathImpl.EMPTY;</span>
 <span class="source-line-no">054</span><span id="line-54">        } else {</span>
@@ -79,7 +79,7 @@
 <span class="source-line-no">066</span><span id="line-66">     * @return the path instance</span>
 <span class="source-line-no">067</span><span id="line-67">     * @since 4.0.0</span>
 <span class="source-line-no">068</span><span id="line-68">     */</span>
-<span class="source-line-no">069</span><span id="line-69">    static NodePath path(Object... elements) {</span>
+<span class="source-line-no">069</span><span id="line-69">    static NodePath path(final Object... elements) {</span>
 <span class="source-line-no">070</span><span id="line-70">        return of(elements);</span>
 <span class="source-line-no">071</span><span id="line-71">    }</span>
 <span class="source-line-no">072</span><span id="line-72"></span>

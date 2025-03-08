@@ -60,7 +60,7 @@
 <span class="source-line-no">047</span><span id="line-47">     * @param thrown the exception thrown</span>
 <span class="source-line-no">048</span><span id="line-48">     * @since 4.0.0</span>
 <span class="source-line-no">049</span><span id="line-49">     */</span>
-<span class="source-line-no">050</span><span id="line-50">    default void onError(Throwable thrown) {</span>
+<span class="source-line-no">050</span><span id="line-50">    default void onError(final Throwable thrown) {</span>
 <span class="source-line-no">051</span><span id="line-51">        final Thread t = Thread.currentThread();</span>
 <span class="source-line-no">052</span><span id="line-52">        t.getUncaughtExceptionHandler().uncaughtException(t, thrown);</span>
 <span class="source-line-no">053</span><span id="line-53">    }</span>

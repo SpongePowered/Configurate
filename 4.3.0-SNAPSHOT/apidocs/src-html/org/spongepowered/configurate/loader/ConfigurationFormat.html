@@ -106,7 +106,7 @@
 <span class="source-line-no">093</span><span id="line-93">     * @return a newly configured loader</span>
 <span class="source-line-no">094</span><span id="line-94">     * @since 4.2.0</span>
 <span class="source-line-no">095</span><span id="line-95">     */</span>
-<span class="source-line-no">096</span><span id="line-96">    default ConfigurationLoader&lt;? extends @NonNull Object&gt; create(Path file) {</span>
+<span class="source-line-no">096</span><span id="line-96">    default ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final Path file) {</span>
 <span class="source-line-no">097</span><span id="line-97">        return create(file, BasicConfigurationNode.factory().createNode());</span>
 <span class="source-line-no">098</span><span id="line-98">    }</span>
 <span class="source-line-no">099</span><span id="line-99"></span>
@@ -130,7 +130,7 @@
 <span class="source-line-no">117</span><span id="line-117">     * @return a newly configured loader</span>
 <span class="source-line-no">118</span><span id="line-118">     * @since 4.2.0</span>
 <span class="source-line-no">119</span><span id="line-119">     */</span>
-<span class="source-line-no">120</span><span id="line-120">    default ConfigurationLoader&lt;? extends @NonNull Object&gt; create(URL url) {</span>
+<span class="source-line-no">120</span><span id="line-120">    default ConfigurationLoader&lt;? extends @NonNull Object&gt; create(final URL url) {</span>
 <span class="source-line-no">121</span><span id="line-121">        return create(url, BasicConfigurationNode.factory().createNode());</span>
 <span class="source-line-no">122</span><span id="line-122">    }</span>
 <span class="source-line-no">123</span><span id="line-123"></span>

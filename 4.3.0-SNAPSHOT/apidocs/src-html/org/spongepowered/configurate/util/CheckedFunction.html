@@ -65,7 +65,7 @@
 <span class="source-line-no">052</span><span id="line-52">     * @return the function as a checked function</span>
 <span class="source-line-no">053</span><span id="line-53">     * @since 4.0.0</span>
 <span class="source-line-no">054</span><span id="line-54">     */</span>
-<span class="source-line-no">055</span><span id="line-55">    static &lt;I, O&gt; CheckedFunction&lt;I, O, RuntimeException&gt; from(Function&lt;I, @NonNull O&gt; func) {</span>
+<span class="source-line-no">055</span><span id="line-55">    static &lt;I, O&gt; CheckedFunction&lt;I, O, RuntimeException&gt; from(final Function&lt;I, @NonNull O&gt; func) {</span>
 <span class="source-line-no">056</span><span id="line-56">        return requireNonNull(func, "func")::apply;</span>
 <span class="source-line-no">057</span><span id="line-57">    }</span>
 <span class="source-line-no">058</span><span id="line-58"></span>

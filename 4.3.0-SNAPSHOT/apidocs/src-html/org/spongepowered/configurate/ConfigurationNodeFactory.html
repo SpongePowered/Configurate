@@ -131,8 +131,8 @@
 <span class="source-line-no">118</span><span id="line-118">        return Collector.of(this::createNode, (node, entry) -&gt; {</span>
 <span class="source-line-no">119</span><span id="line-119">            try {</span>
 <span class="source-line-no">120</span><span id="line-120">                node.node(entry.getKey()).set(valueType, entry.getValue());</span>
-<span class="source-line-no">121</span><span id="line-121">            } catch (SerializationException e) {</span>
-<span class="source-line-no">122</span><span id="line-122">                throw new IllegalArgumentException(e);</span>
+<span class="source-line-no">121</span><span id="line-121">            } catch (final SerializationException ex) {</span>
+<span class="source-line-no">122</span><span id="line-122">                throw new IllegalArgumentException(ex);</span>
 <span class="source-line-no">123</span><span id="line-123">            }</span>
 <span class="source-line-no">124</span><span id="line-124">        }, (a, b) -&gt; {</span>
 <span class="source-line-no">125</span><span id="line-125">                a.mergeFrom(b);</span>
@@ -155,8 +155,8 @@
 <span class="source-line-no">142</span><span id="line-142">        return Collector.of(this::createNode, (node, entry) -&gt; {</span>
 <span class="source-line-no">143</span><span id="line-143">            try {</span>
 <span class="source-line-no">144</span><span id="line-144">                node.node(entry.getKey()).set(valueType, entry.getValue());</span>
-<span class="source-line-no">145</span><span id="line-145">            } catch (SerializationException e) {</span>
-<span class="source-line-no">146</span><span id="line-146">                throw new IllegalArgumentException(e);</span>
+<span class="source-line-no">145</span><span id="line-145">            } catch (final SerializationException ex) {</span>
+<span class="source-line-no">146</span><span id="line-146">                throw new IllegalArgumentException(ex);</span>
 <span class="source-line-no">147</span><span id="line-147">            }</span>
 <span class="source-line-no">148</span><span id="line-148">        }, (a, b) -&gt; {</span>
 <span class="source-line-no">149</span><span id="line-149">                a.mergeFrom(b);</span>
@@ -179,8 +179,8 @@
 <span class="source-line-no">166</span><span id="line-166">        return Collector.of(this::createNode, (node, value) -&gt; {</span>
 <span class="source-line-no">167</span><span id="line-167">            try {</span>
 <span class="source-line-no">168</span><span id="line-168">                node.appendListNode().set(valueType, value);</span>
-<span class="source-line-no">169</span><span id="line-169">            } catch (SerializationException e) {</span>
-<span class="source-line-no">170</span><span id="line-170">                throw new IllegalArgumentException(e);</span>
+<span class="source-line-no">169</span><span id="line-169">            } catch (final SerializationException ex) {</span>
+<span class="source-line-no">170</span><span id="line-170">                throw new IllegalArgumentException(ex);</span>
 <span class="source-line-no">171</span><span id="line-171">            }</span>
 <span class="source-line-no">172</span><span id="line-172">        }, (a, b) -&gt; {</span>
 <span class="source-line-no">173</span><span id="line-173">                a.mergeFrom(b);</span>
@@ -203,8 +203,8 @@
 <span class="source-line-no">190</span><span id="line-190">        return Collector.of(this::createNode, (node, value) -&gt; {</span>
 <span class="source-line-no">191</span><span id="line-191">            try {</span>
 <span class="source-line-no">192</span><span id="line-192">                node.appendListNode().set(valueType, value);</span>
-<span class="source-line-no">193</span><span id="line-193">            } catch (SerializationException e) {</span>
-<span class="source-line-no">194</span><span id="line-194">                throw new IllegalArgumentException(e);</span>
+<span class="source-line-no">193</span><span id="line-193">            } catch (final SerializationException ex) {</span>
+<span class="source-line-no">194</span><span id="line-194">                throw new IllegalArgumentException(ex);</span>
 <span class="source-line-no">195</span><span id="line-195">            }</span>
 <span class="source-line-no">196</span><span id="line-196">        }, (a, b) -&gt; {</span>
 <span class="source-line-no">197</span><span id="line-197">                a.mergeFrom(b);</span>

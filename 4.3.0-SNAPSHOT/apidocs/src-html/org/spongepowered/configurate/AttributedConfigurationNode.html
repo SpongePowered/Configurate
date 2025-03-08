@@ -150,7 +150,7 @@
 <span class="source-line-no">137</span><span id="line-137">     * @since 4.0.0</span>
 <span class="source-line-no">138</span><span id="line-138">     */</span>
 <span class="source-line-no">139</span><span id="line-139">    static &lt;E extends Exception&gt; AttributedConfigurationNode root(final String tagName, final ConfigurationOptions options,</span>
-<span class="source-line-no">140</span><span id="line-140">            CheckedConsumer&lt;? super AttributedConfigurationNode, E&gt; action) throws E {</span>
+<span class="source-line-no">140</span><span id="line-140">            final CheckedConsumer&lt;? super AttributedConfigurationNode, E&gt; action) throws E {</span>
 <span class="source-line-no">141</span><span id="line-141">        return root(tagName, options).act(action);</span>
 <span class="source-line-no">142</span><span id="line-142">    }</span>
 <span class="source-line-no">143</span><span id="line-143"></span>

@@ -68,7 +68,7 @@
 <span class="source-line-no">055</span><span id="line-55">     * @return new action</span>
 <span class="source-line-no">056</span><span id="line-56">     * @since 4.0.0</span>
 <span class="source-line-no">057</span><span id="line-57">     */</span>
-<span class="source-line-no">058</span><span id="line-58">    static TransformAction rename(Object newKey) {</span>
+<span class="source-line-no">058</span><span id="line-58">    static TransformAction rename(final Object newKey) {</span>
 <span class="source-line-no">059</span><span id="line-59">        return (path, value) -&gt; {</span>
 <span class="source-line-no">060</span><span id="line-60">            final Object[] arr = path.array();</span>
 <span class="source-line-no">061</span><span id="line-61">            if (arr.length == 0) {</span>
@@ -89,7 +89,7 @@
 <span class="source-line-no">076</span><span id="line-76">     * @return new transformation action</span>
 <span class="source-line-no">077</span><span id="line-77">     * @since 4.0.0</span>
 <span class="source-line-no">078</span><span id="line-78">     */</span>
-<span class="source-line-no">079</span><span id="line-79">    static &lt;V&gt; TransformAction set(TypeToken&lt;V&gt; type, @Nullable V value) {</span>
+<span class="source-line-no">079</span><span id="line-79">    static &lt;V&gt; TransformAction set(final TypeToken&lt;V&gt; type, final @Nullable V value) {</span>
 <span class="source-line-no">080</span><span id="line-80">        return (path, node) -&gt; {</span>
 <span class="source-line-no">081</span><span id="line-81">            node.set(type, value);</span>
 <span class="source-line-no">082</span><span id="line-82">            return null;</span>
@@ -106,7 +106,7 @@
 <span class="source-line-no">093</span><span id="line-93">     * @return new transformation action</span>
 <span class="source-line-no">094</span><span id="line-94">     * @since 4.0.0</span>
 <span class="source-line-no">095</span><span id="line-95">     */</span>
-<span class="source-line-no">096</span><span id="line-96">    static &lt;V&gt; TransformAction set(TypeToken&lt;V&gt; type, Supplier&lt;@Nullable V&gt; valueSupplier) {</span>
+<span class="source-line-no">096</span><span id="line-96">    static &lt;V&gt; TransformAction set(final TypeToken&lt;V&gt; type, final Supplier&lt;@Nullable V&gt; valueSupplier) {</span>
 <span class="source-line-no">097</span><span id="line-97">        return (path, value) -&gt; {</span>
 <span class="source-line-no">098</span><span id="line-98">            value.set(type, valueSupplier.get());</span>
 <span class="source-line-no">099</span><span id="line-99">            return null;</span>
@@ -123,7 +123,7 @@
 <span class="source-line-no">110</span><span id="line-110">     * @return new transformation action</span>
 <span class="source-line-no">111</span><span id="line-111">     * @since 4.0.0</span>
 <span class="source-line-no">112</span><span id="line-112">     */</span>
-<span class="source-line-no">113</span><span id="line-113">    static &lt;V&gt; TransformAction set(Class&lt;V&gt; type, Supplier&lt;V&gt; valueSupplier) {</span>
+<span class="source-line-no">113</span><span id="line-113">    static &lt;V&gt; TransformAction set(final Class&lt;V&gt; type, final Supplier&lt;V&gt; valueSupplier) {</span>
 <span class="source-line-no">114</span><span id="line-114">        return (path, value) -&gt; {</span>
 <span class="source-line-no">115</span><span id="line-115">            value.set(type, valueSupplier.get());</span>
 <span class="source-line-no">116</span><span id="line-116">            return null;</span>

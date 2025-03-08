@@ -187,7 +187,7 @@
 <span class="source-line-no">174</span><span id="line-174">        }</span>
 <span class="source-line-no">175</span><span id="line-175"></span>
 <span class="source-line-no">176</span><span id="line-176">        @Override</span>
-<span class="source-line-no">177</span><span id="line-177">        default void beginVisit(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">177</span><span id="line-177">        default void beginVisit(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">178</span><span id="line-178">            beginVisit(node);</span>
 <span class="source-line-no">179</span><span id="line-179">        }</span>
 <span class="source-line-no">180</span><span id="line-180"></span>
@@ -198,10 +198,10 @@
 <span class="source-line-no">185</span><span id="line-185">         * @throws E as required by implementation</span>
 <span class="source-line-no">186</span><span id="line-186">         * @since 4.0.0</span>
 <span class="source-line-no">187</span><span id="line-187">         */</span>
-<span class="source-line-no">188</span><span id="line-188">        default void beginVisit(ConfigurationNode node) throws E {}</span>
+<span class="source-line-no">188</span><span id="line-188">        default void beginVisit(final ConfigurationNode node) throws E {}</span>
 <span class="source-line-no">189</span><span id="line-189"></span>
 <span class="source-line-no">190</span><span id="line-190">        @Override</span>
-<span class="source-line-no">191</span><span id="line-191">        default void enterNode(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">191</span><span id="line-191">        default void enterNode(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">192</span><span id="line-192">            enterNode(node);</span>
 <span class="source-line-no">193</span><span id="line-193">        }</span>
 <span class="source-line-no">194</span><span id="line-194"></span>
@@ -215,7 +215,7 @@
 <span class="source-line-no">202</span><span id="line-202">        void enterNode(ConfigurationNode node) throws E;</span>
 <span class="source-line-no">203</span><span id="line-203"></span>
 <span class="source-line-no">204</span><span id="line-204">        @Override</span>
-<span class="source-line-no">205</span><span id="line-205">        default void enterMappingNode(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">205</span><span id="line-205">        default void enterMappingNode(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">206</span><span id="line-206">            enterMappingNode(node);</span>
 <span class="source-line-no">207</span><span id="line-207">        }</span>
 <span class="source-line-no">208</span><span id="line-208"></span>
@@ -227,10 +227,10 @@
 <span class="source-line-no">214</span><span id="line-214">         * @throws E when thrown by implementation</span>
 <span class="source-line-no">215</span><span id="line-215">         * @since 4.0.0</span>
 <span class="source-line-no">216</span><span id="line-216">         */</span>
-<span class="source-line-no">217</span><span id="line-217">        default void enterMappingNode(ConfigurationNode node) throws E {}</span>
+<span class="source-line-no">217</span><span id="line-217">        default void enterMappingNode(final ConfigurationNode node) throws E {}</span>
 <span class="source-line-no">218</span><span id="line-218"></span>
 <span class="source-line-no">219</span><span id="line-219">        @Override</span>
-<span class="source-line-no">220</span><span id="line-220">        default void enterListNode(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">220</span><span id="line-220">        default void enterListNode(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">221</span><span id="line-221">            enterListNode(node);</span>
 <span class="source-line-no">222</span><span id="line-222">        }</span>
 <span class="source-line-no">223</span><span id="line-223"></span>
@@ -242,11 +242,11 @@
 <span class="source-line-no">229</span><span id="line-229">         * @throws E when thrown by implementation</span>
 <span class="source-line-no">230</span><span id="line-230">         * @since 4.0.0</span>
 <span class="source-line-no">231</span><span id="line-231">         */</span>
-<span class="source-line-no">232</span><span id="line-232">        default void enterListNode(ConfigurationNode node) throws E {</span>
+<span class="source-line-no">232</span><span id="line-232">        default void enterListNode(final ConfigurationNode node) throws E {</span>
 <span class="source-line-no">233</span><span id="line-233">        }</span>
 <span class="source-line-no">234</span><span id="line-234"></span>
 <span class="source-line-no">235</span><span id="line-235">        @Override</span>
-<span class="source-line-no">236</span><span id="line-236">        default void enterScalarNode(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">236</span><span id="line-236">        default void enterScalarNode(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">237</span><span id="line-237">            enterScalarNode(node);</span>
 <span class="source-line-no">238</span><span id="line-238">        }</span>
 <span class="source-line-no">239</span><span id="line-239"></span>
@@ -258,11 +258,11 @@
 <span class="source-line-no">245</span><span id="line-245">         * @throws E when thrown by implementation</span>
 <span class="source-line-no">246</span><span id="line-246">         * @since 4.0.0</span>
 <span class="source-line-no">247</span><span id="line-247">         */</span>
-<span class="source-line-no">248</span><span id="line-248">        default void enterScalarNode(ConfigurationNode node) throws E {</span>
+<span class="source-line-no">248</span><span id="line-248">        default void enterScalarNode(final ConfigurationNode node) throws E {</span>
 <span class="source-line-no">249</span><span id="line-249">        }</span>
 <span class="source-line-no">250</span><span id="line-250"></span>
 <span class="source-line-no">251</span><span id="line-251">        @Override</span>
-<span class="source-line-no">252</span><span id="line-252">        default void exitMappingNode(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">252</span><span id="line-252">        default void exitMappingNode(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">253</span><span id="line-253">            exitMappingNode(node);</span>
 <span class="source-line-no">254</span><span id="line-254">        }</span>
 <span class="source-line-no">255</span><span id="line-255"></span>
@@ -274,10 +274,10 @@
 <span class="source-line-no">261</span><span id="line-261">         * @throws E when thrown by implementation</span>
 <span class="source-line-no">262</span><span id="line-262">         * @since 4.0.0</span>
 <span class="source-line-no">263</span><span id="line-263">         */</span>
-<span class="source-line-no">264</span><span id="line-264">        default void exitMappingNode(ConfigurationNode node) throws E {}</span>
+<span class="source-line-no">264</span><span id="line-264">        default void exitMappingNode(final ConfigurationNode node) throws E {}</span>
 <span class="source-line-no">265</span><span id="line-265"></span>
 <span class="source-line-no">266</span><span id="line-266">        @Override</span>
-<span class="source-line-no">267</span><span id="line-267">        default void exitListNode(ConfigurationNode node, Void state) throws E {</span>
+<span class="source-line-no">267</span><span id="line-267">        default void exitListNode(final ConfigurationNode node, final Void state) throws E {</span>
 <span class="source-line-no">268</span><span id="line-268">            exitListNode(node);</span>
 <span class="source-line-no">269</span><span id="line-269">        }</span>
 <span class="source-line-no">270</span><span id="line-270"></span>
@@ -289,10 +289,10 @@
 <span class="source-line-no">276</span><span id="line-276">         * @throws E when thrown by implementation</span>
 <span class="source-line-no">277</span><span id="line-277">         * @since 4.0.0</span>
 <span class="source-line-no">278</span><span id="line-278">         */</span>
-<span class="source-line-no">279</span><span id="line-279">        default void exitListNode(ConfigurationNode node) throws E {}</span>
+<span class="source-line-no">279</span><span id="line-279">        default void exitListNode(final ConfigurationNode node) throws E {}</span>
 <span class="source-line-no">280</span><span id="line-280"></span>
 <span class="source-line-no">281</span><span id="line-281">        @Override</span>
-<span class="source-line-no">282</span><span id="line-282">        default Void endVisit(Void state) throws E {</span>
+<span class="source-line-no">282</span><span id="line-282">        default Void endVisit(final Void state) throws E {</span>
 <span class="source-line-no">283</span><span id="line-283">            endVisit();</span>
 <span class="source-line-no">284</span><span id="line-284">            return null;</span>
 <span class="source-line-no">285</span><span id="line-285">        }</span>
