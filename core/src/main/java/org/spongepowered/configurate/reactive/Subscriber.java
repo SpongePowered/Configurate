@@ -47,7 +47,7 @@ public interface Subscriber<V> {
      * @param thrown the exception thrown
      * @since 4.0.0
      */
-    default void onError(Throwable thrown) {
+    default void onError(final Throwable thrown) {
         final Thread t = Thread.currentThread();
         t.getUncaughtExceptionHandler().uncaughtException(t, thrown);
     }

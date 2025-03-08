@@ -61,7 +61,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * @return a new processor instance
      * @since 4.0.0
      */
-    static <V> Processor.Iso<V> create(Executor executor) {
+    static <V> Processor.Iso<V> create(final Executor executor) {
         return new ProcessorImpl<>(executor);
     }
 
@@ -94,7 +94,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      * {@inheritDoc}
      */
     @Override
-    default <R> Processor<O, R> map(CheckedFunction<? super O, ? extends R, TransactionFailedException> mapper) {
+    default <R> Processor<O, R> map(final CheckedFunction<? super O, ? extends R, TransactionFailedException> mapper) {
         return new MappedProcessor<>(mapper, this);
     }
 
@@ -138,7 +138,7 @@ public interface Processor<I, O> extends Publisher<O>, Subscriber<I> {
      */
     interface Iso<V> extends Processor<V, V> {
         @Override
-        default void inject(V element) {
+        default void inject(final V element) {
             submit(element);
         }
     }

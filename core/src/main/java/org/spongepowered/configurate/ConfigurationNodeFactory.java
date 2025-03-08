@@ -118,8 +118,8 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (SerializationException e) {
-                throw new IllegalArgumentException(e);
+            } catch (final SerializationException ex) {
+                throw new IllegalArgumentException(ex);
             }
         }, (a, b) -> {
                 a.mergeFrom(b);
@@ -142,8 +142,8 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, entry) -> {
             try {
                 node.node(entry.getKey()).set(valueType, entry.getValue());
-            } catch (SerializationException e) {
-                throw new IllegalArgumentException(e);
+            } catch (final SerializationException ex) {
+                throw new IllegalArgumentException(ex);
             }
         }, (a, b) -> {
                 a.mergeFrom(b);
@@ -166,8 +166,8 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (SerializationException e) {
-                throw new IllegalArgumentException(e);
+            } catch (final SerializationException ex) {
+                throw new IllegalArgumentException(ex);
             }
         }, (a, b) -> {
                 a.mergeFrom(b);
@@ -190,8 +190,8 @@ public interface ConfigurationNodeFactory<N extends ConfigurationNode> {
         return Collector.of(this::createNode, (node, value) -> {
             try {
                 node.appendListNode().set(valueType, value);
-            } catch (SerializationException e) {
-                throw new IllegalArgumentException(e);
+            } catch (final SerializationException ex) {
+                throw new IllegalArgumentException(ex);
             }
         }, (a, b) -> {
                 a.mergeFrom(b);

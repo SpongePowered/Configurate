@@ -33,13 +33,13 @@ package org.spongepowered.configurate.reactive;
 public interface TransactionalSubscriber<V> extends Subscriber<V> {
 
     @Override
-    default void submit(V item) {
+    default void submit(final V item) {
         try {
             beginTransaction(item);
             commit();
-        } catch (TransactionFailedException ex) {
+        } catch (final TransactionFailedException ex) {
             rollback();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             rollback();
             throw ex;
         }
