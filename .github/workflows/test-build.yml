@@ -30,7 +30,7 @@ jobs:
         uses: SpongePowered/.github/.github/actions/setup-java-env@master
         with:
           runtime_version: 17
-          publishing_branch_regex: "master|3\\.x|(?:release/[\\d.x]+)"
+          publishing_branch_regex: "master|main|trunk|3\\.x|(?:release/[\\d.x]+)"
       # Actually build
       - name: Run Gradle Build
         run: "./gradlew build"
