@@ -187,29 +187,31 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
         }
     }
 
-    private final ThreadLocal<Yaml> yaml;
+    private final LoaderOptions loaderOpts;
+    private final DumperOptions dumperOpts;
 
     private YamlConfigurationLoader(final Builder builder) {
         super(builder, new CommentHandler[] {CommentHandlers.HASH});
-        final LoaderOptions loaderOpts = new LoaderOptions()
+        this.loaderOpts = new LoaderOptions()
             .setAcceptTabs(true)
             .setProcessComments(false);
-        loaderOpts.setCodePointLimit(Integer.MAX_VALUE);
+        this.loaderOpts.setCodePointLimit(Integer.MAX_VALUE);
 
-        final DumperOptions opts = builder.options;
-        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.optionState().value(Builder.NODE_STYLE)));
-        opts.setIndent(builder.optionState().value(Builder.INDENT));
-        this.yaml = ThreadLocal.withInitial(() -> new Yaml(new Constructor(loaderOpts), new Representer(opts), opts, loaderOpts));
+        this.dumperOpts = builder.options;
+        this.dumperOpts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.optionState().value(Builder.NODE_STYLE)));
+        this.dumperOpts.setIndent(builder.optionState().value(Builder.INDENT));
     }
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
-        node.raw(this.yaml.get().load(reader));
+        Yaml yaml = new Yaml(new Constructor(loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, loaderOpts);
+        node.raw(yaml.load(reader));
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        this.yaml.get().dump(node.raw(), writer);
+        Yaml yaml = new Yaml(new Constructor(loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, loaderOpts);
+        yaml.dump(node.raw(), writer);
     }
 
     @Override
