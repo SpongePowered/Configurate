@@ -23,13 +23,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import io.leangen.geantyref.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 
 final class TypeSerializerCodec<V> implements Codec<V> {
 
-    private static final LogWrapper LOGGER = LogWrapper.logger(TypeSerializerCodec.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeSerializerCodec.class);
 
     private final TypeToken<V> token;
     private final TypeSerializer<V> serializer;
@@ -59,7 +61,7 @@ final class TypeSerializerCodec<V> implements Codec<V> {
         try {
             return DataResult.success(Pair.of(this.serializer.deserialize(this.token.getType(), node), holder));
         } catch (final SerializationException ex) {
-            LOGGER.debug(() -> "Error decoding value of type " + this.token, ex);
+            LOGGER.debug("Error decoding value of type {}", this.token, ex);
             return DataResult.error(ex::getMessage);
         }
     }
@@ -83,7 +85,7 @@ final class TypeSerializerCodec<V> implements Codec<V> {
                 }
             }
         } catch (final SerializationException ex) {
-            LOGGER.debug(() -> "Error encoding value of type " + this.token, ex);
+            LOGGER.debug("Error encoding value of type {}", this.token, ex);
             return DataResult.error(ex::getMessage);
         }
     }

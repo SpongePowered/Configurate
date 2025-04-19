@@ -7,7 +7,7 @@ description = "Integration between Configurate and Mojang's DataFixerUpper v4 li
 dependencies {
     api projects.core
     api libs.dfu.v4
-    compileOnly libs.slf4j
+    compileOnly libs.slf4j.v1
     testImplementation projects.format.gson
     testImplementation libs.math
 }

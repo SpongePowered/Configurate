@@ -41,7 +41,8 @@ dfu-v3 = "com.mojang:datafixerupper:3.0.25"
 dfu-v4 = "com.mojang:datafixerupper:4.0.26"
 dfu-v7 = "com.mojang:datafixerupper:7.1.15"
 math = "org.spongepowered:math:2.0.1"
-slf4j = "org.slf4j:slf4j-api:1.8.0-beta4" # Match version used in MC
+slf4j-v1 = "org.slf4j:slf4j-api:1.8.0-beta4"
+slf4j-v2 = "org.slf4j:slf4j-api:2.0.9"
 
 # Guice
 guice-compile = "com.google.inject:guice:4.1.0"
