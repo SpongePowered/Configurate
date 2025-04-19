@@ -1,0 +1,27 @@
+plugins {
+    id "org.spongepowered.configurate.build.component"
+}
+
+description = "Integration between Configurate and Mojang's DataFixerUpper v7 library"
+
+dependencies {
+    api projects.core
+    api libs.dfu.v7
+    compileOnly libs.slf4j
+    testImplementation projects.format.gson
+    testImplementation libs.math
+}
+
+def javaTarget = 17
+java {
+    def javaVersion = JavaVersion.toVersion(javaTarget)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(javaTarget)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = javaTarget
+}
