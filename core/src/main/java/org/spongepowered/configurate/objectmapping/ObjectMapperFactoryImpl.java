@@ -222,7 +222,7 @@ final class ObjectMapperFactoryImpl implements ObjectMapper.Factory, TypeSeriali
 
     // TypeSerializer //
 
-    public static final String CLASS_KEY = "__class__";
+    static final String CLASS_KEY = "__class__";
 
     @Override
     public Object deserialize(final Type type, final ConfigurationNode node) throws SerializationException {

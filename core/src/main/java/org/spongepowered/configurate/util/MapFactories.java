@@ -77,18 +77,34 @@ public final class MapFactories {
     }
 
     private enum DefaultFactory implements MapFactory {
+        /**
+         * A factory creating maps with no order contract.
+         *
+         * @since 4.0.0
+         */
         UNORDERED {
             @Override
             public <K, V> ConcurrentMap<K, V> create() {
                 return new ConcurrentHashMap<>();
             }
         },
+        /**
+         * A factory creating maps which sort comparable elements by
+         * natural order.
+         *
+         * @since 4.0.0
+         */
         SORTED_NATURAL {
             @Override
             public <K, V> ConcurrentMap<K, V> create() {
                 return new ConcurrentSkipListMap<>();
             }
         },
+        /**
+         * A factory creating maps that preserve insertion order.
+         *
+         * @since 4.0.0
+         */
         INSERTION_ORDERED {
             @Override
             public <K, V> Map<K, V> create() {

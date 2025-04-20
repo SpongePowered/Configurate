@@ -476,6 +476,7 @@ public final class XmlConfigurationLoader extends AbstractConfigurationLoader<At
         throw new UnsupportedOperationException("XMLConfigurationLoader provides custom loading logic to handle headers");
     }
 
+    @SuppressWarnings("checkstyle:JavadocVariable") // false positive, private enum
     private enum NodeType {
         MAP, LIST
     }

@@ -85,6 +85,7 @@ public final class Tutorial {
     /**
      * A mood that a message may have.
      */
+    @SuppressWarnings("checkstyle:JavadocVariable")
     enum Mood {
 
         HAPPY, SAD, CONFUSED, NEUTRAL;
