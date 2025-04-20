@@ -90,55 +90,71 @@
 <span class="source-line-no">077</span><span id="line-77">    }</span>
 <span class="source-line-no">078</span><span id="line-78"></span>
 <span class="source-line-no">079</span><span id="line-79">    private enum DefaultFactory implements MapFactory {</span>
-<span class="source-line-no">080</span><span id="line-80">        UNORDERED {</span>
-<span class="source-line-no">081</span><span id="line-81">            @Override</span>
-<span class="source-line-no">082</span><span id="line-82">            public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; create() {</span>
-<span class="source-line-no">083</span><span id="line-83">                return new ConcurrentHashMap&lt;&gt;();</span>
-<span class="source-line-no">084</span><span id="line-84">            }</span>
-<span class="source-line-no">085</span><span id="line-85">        },</span>
-<span class="source-line-no">086</span><span id="line-86">        SORTED_NATURAL {</span>
-<span class="source-line-no">087</span><span id="line-87">            @Override</span>
-<span class="source-line-no">088</span><span id="line-88">            public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; create() {</span>
-<span class="source-line-no">089</span><span id="line-89">                return new ConcurrentSkipListMap&lt;&gt;();</span>
-<span class="source-line-no">090</span><span id="line-90">            }</span>
-<span class="source-line-no">091</span><span id="line-91">        },</span>
-<span class="source-line-no">092</span><span id="line-92">        INSERTION_ORDERED {</span>
-<span class="source-line-no">093</span><span id="line-93">            @Override</span>
-<span class="source-line-no">094</span><span id="line-94">            public &lt;K, V&gt; Map&lt;K, V&gt; create() {</span>
-<span class="source-line-no">095</span><span id="line-95">                return new LinkedHashMap&lt;&gt;();</span>
-<span class="source-line-no">096</span><span id="line-96">            }</span>
-<span class="source-line-no">097</span><span id="line-97">        }</span>
-<span class="source-line-no">098</span><span id="line-98">    }</span>
-<span class="source-line-no">099</span><span id="line-99"></span>
-<span class="source-line-no">100</span><span id="line-100">    private static final class SortedMapFactory implements MapFactory {</span>
-<span class="source-line-no">101</span><span id="line-101">        private final Comparator&lt;Object&gt; comparator;</span>
-<span class="source-line-no">102</span><span id="line-102"></span>
-<span class="source-line-no">103</span><span id="line-103">        private SortedMapFactory(final Comparator&lt;Object&gt; comparator) {</span>
-<span class="source-line-no">104</span><span id="line-104">            this.comparator = comparator;</span>
-<span class="source-line-no">105</span><span id="line-105">        }</span>
-<span class="source-line-no">106</span><span id="line-106"></span>
-<span class="source-line-no">107</span><span id="line-107">        @Override</span>
-<span class="source-line-no">108</span><span id="line-108">        public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; create() {</span>
-<span class="source-line-no">109</span><span id="line-109">            return new ConcurrentSkipListMap&lt;&gt;(this.comparator);</span>
-<span class="source-line-no">110</span><span id="line-110">        }</span>
-<span class="source-line-no">111</span><span id="line-111"></span>
-<span class="source-line-no">112</span><span id="line-112">        @Override</span>
-<span class="source-line-no">113</span><span id="line-113">        public boolean equals(final Object obj) {</span>
-<span class="source-line-no">114</span><span id="line-114">            return obj instanceof SortedMapFactory &amp;&amp; this.comparator.equals(((SortedMapFactory) obj).comparator);</span>
-<span class="source-line-no">115</span><span id="line-115">        }</span>
-<span class="source-line-no">116</span><span id="line-116"></span>
-<span class="source-line-no">117</span><span id="line-117">        @Override</span>
-<span class="source-line-no">118</span><span id="line-118">        public int hashCode() {</span>
-<span class="source-line-no">119</span><span id="line-119">            return this.comparator.hashCode();</span>
-<span class="source-line-no">120</span><span id="line-120">        }</span>
-<span class="source-line-no">121</span><span id="line-121"></span>
-<span class="source-line-no">122</span><span id="line-122">        @Override</span>
-<span class="source-line-no">123</span><span id="line-123">        public String toString() {</span>
-<span class="source-line-no">124</span><span id="line-124">            return "SortedMapFactory{comparator=" + this.comparator + '}';</span>
-<span class="source-line-no">125</span><span id="line-125">        }</span>
-<span class="source-line-no">126</span><span id="line-126">    }</span>
+<span class="source-line-no">080</span><span id="line-80">        /**</span>
+<span class="source-line-no">081</span><span id="line-81">         * A factory creating maps with no order contract.</span>
+<span class="source-line-no">082</span><span id="line-82">         *</span>
+<span class="source-line-no">083</span><span id="line-83">         * @since 4.0.0</span>
+<span class="source-line-no">084</span><span id="line-84">         */</span>
+<span class="source-line-no">085</span><span id="line-85">        UNORDERED {</span>
+<span class="source-line-no">086</span><span id="line-86">            @Override</span>
+<span class="source-line-no">087</span><span id="line-87">            public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; create() {</span>
+<span class="source-line-no">088</span><span id="line-88">                return new ConcurrentHashMap&lt;&gt;();</span>
+<span class="source-line-no">089</span><span id="line-89">            }</span>
+<span class="source-line-no">090</span><span id="line-90">        },</span>
+<span class="source-line-no">091</span><span id="line-91">        /**</span>
+<span class="source-line-no">092</span><span id="line-92">         * A factory creating maps which sort comparable elements by</span>
+<span class="source-line-no">093</span><span id="line-93">         * natural order.</span>
+<span class="source-line-no">094</span><span id="line-94">         *</span>
+<span class="source-line-no">095</span><span id="line-95">         * @since 4.0.0</span>
+<span class="source-line-no">096</span><span id="line-96">         */</span>
+<span class="source-line-no">097</span><span id="line-97">        SORTED_NATURAL {</span>
+<span class="source-line-no">098</span><span id="line-98">            @Override</span>
+<span class="source-line-no">099</span><span id="line-99">            public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; create() {</span>
+<span class="source-line-no">100</span><span id="line-100">                return new ConcurrentSkipListMap&lt;&gt;();</span>
+<span class="source-line-no">101</span><span id="line-101">            }</span>
+<span class="source-line-no">102</span><span id="line-102">        },</span>
+<span class="source-line-no">103</span><span id="line-103">        /**</span>
+<span class="source-line-no">104</span><span id="line-104">         * A factory creating maps that preserve insertion order.</span>
+<span class="source-line-no">105</span><span id="line-105">         *</span>
+<span class="source-line-no">106</span><span id="line-106">         * @since 4.0.0</span>
+<span class="source-line-no">107</span><span id="line-107">         */</span>
+<span class="source-line-no">108</span><span id="line-108">        INSERTION_ORDERED {</span>
+<span class="source-line-no">109</span><span id="line-109">            @Override</span>
+<span class="source-line-no">110</span><span id="line-110">            public &lt;K, V&gt; Map&lt;K, V&gt; create() {</span>
+<span class="source-line-no">111</span><span id="line-111">                return new LinkedHashMap&lt;&gt;();</span>
+<span class="source-line-no">112</span><span id="line-112">            }</span>
+<span class="source-line-no">113</span><span id="line-113">        }</span>
+<span class="source-line-no">114</span><span id="line-114">    }</span>
+<span class="source-line-no">115</span><span id="line-115"></span>
+<span class="source-line-no">116</span><span id="line-116">    private static final class SortedMapFactory implements MapFactory {</span>
+<span class="source-line-no">117</span><span id="line-117">        private final Comparator&lt;Object&gt; comparator;</span>
+<span class="source-line-no">118</span><span id="line-118"></span>
+<span class="source-line-no">119</span><span id="line-119">        private SortedMapFactory(final Comparator&lt;Object&gt; comparator) {</span>
+<span class="source-line-no">120</span><span id="line-120">            this.comparator = comparator;</span>
+<span class="source-line-no">121</span><span id="line-121">        }</span>
+<span class="source-line-no">122</span><span id="line-122"></span>
+<span class="source-line-no">123</span><span id="line-123">        @Override</span>
+<span class="source-line-no">124</span><span id="line-124">        public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; create() {</span>
+<span class="source-line-no">125</span><span id="line-125">            return new ConcurrentSkipListMap&lt;&gt;(this.comparator);</span>
+<span class="source-line-no">126</span><span id="line-126">        }</span>
 <span class="source-line-no">127</span><span id="line-127"></span>
-<span class="source-line-no">128</span><span id="line-128">}</span>
+<span class="source-line-no">128</span><span id="line-128">        @Override</span>
+<span class="source-line-no">129</span><span id="line-129">        public boolean equals(final Object obj) {</span>
+<span class="source-line-no">130</span><span id="line-130">            return obj instanceof SortedMapFactory &amp;&amp; this.comparator.equals(((SortedMapFactory) obj).comparator);</span>
+<span class="source-line-no">131</span><span id="line-131">        }</span>
+<span class="source-line-no">132</span><span id="line-132"></span>
+<span class="source-line-no">133</span><span id="line-133">        @Override</span>
+<span class="source-line-no">134</span><span id="line-134">        public int hashCode() {</span>
+<span class="source-line-no">135</span><span id="line-135">            return this.comparator.hashCode();</span>
+<span class="source-line-no">136</span><span id="line-136">        }</span>
+<span class="source-line-no">137</span><span id="line-137"></span>
+<span class="source-line-no">138</span><span id="line-138">        @Override</span>
+<span class="source-line-no">139</span><span id="line-139">        public String toString() {</span>
+<span class="source-line-no">140</span><span id="line-140">            return "SortedMapFactory{comparator=" + this.comparator + '}';</span>
+<span class="source-line-no">141</span><span id="line-141">        }</span>
+<span class="source-line-no">142</span><span id="line-142">    }</span>
+<span class="source-line-no">143</span><span id="line-143"></span>
+<span class="source-line-no">144</span><span id="line-144">}</span>
 
 
 
