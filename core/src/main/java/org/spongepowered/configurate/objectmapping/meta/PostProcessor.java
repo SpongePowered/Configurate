@@ -34,6 +34,7 @@ import java.util.List;
  *
  * @since 4.2.0
  */
+@FunctionalInterface
 public interface PostProcessor {
 
     /**
@@ -51,6 +52,7 @@ public interface PostProcessor {
      *
      * @since 4.2.0
      */
+    @FunctionalInterface
     interface Factory {
 
         /**

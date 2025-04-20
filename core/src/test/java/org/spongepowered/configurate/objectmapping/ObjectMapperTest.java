@@ -202,6 +202,7 @@ class ObjectMapperTest {
     }
 
     @ConfigSerializable
+    @SuppressWarnings("PMD.ImplicitFunctionalInterface")
     private interface ParentInterface {
         String test();
     }

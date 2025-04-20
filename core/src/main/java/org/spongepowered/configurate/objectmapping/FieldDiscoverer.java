@@ -34,6 +34,7 @@ import java.util.function.Supplier;
  * @param <I> intermediate data type
  * @since 4.0.0
  */
+@FunctionalInterface
 public interface FieldDiscoverer<I> {
 
     /**

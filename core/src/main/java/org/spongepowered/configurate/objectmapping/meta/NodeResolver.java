@@ -32,6 +32,7 @@ import java.lang.reflect.AnnotatedElement;
  *
  * @since 4.0.0
  */
+@FunctionalInterface
 public interface NodeResolver {
 
     /**
@@ -58,6 +59,7 @@ public interface NodeResolver {
      *
      * @since 4.0.0
      */
+    @FunctionalInterface
     interface Factory {
 
         /**

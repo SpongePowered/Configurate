@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
  * @param <V> value type
  * @since 4.0.0
  */
+@FunctionalInterface
 public interface Constraint<V> {
 
     /**
@@ -51,6 +52,7 @@ public interface Constraint<V> {
      * @param <V> data type
      * @since 4.0.0
      */
+    @FunctionalInterface
     interface Factory<A extends Annotation, V> {
 
         /**
