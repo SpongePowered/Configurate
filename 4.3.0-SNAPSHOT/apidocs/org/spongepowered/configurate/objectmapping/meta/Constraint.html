@@ -76,8 +76,13 @@ loadScripts(document, 'script');</script>
 <dt>Type Parameters:</dt>
 <dd><code>V</code> - value type</dd>
 </dl>
+<dl class="notes">
+<dt>Functional Interface:</dt>
+<dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-36">Constraint</a>&lt;V&gt;</span></div>
+<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-36">Constraint</a>&lt;V&gt;</span></div>
 <div class="block">Perform a validation on data upon load.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -152,7 +157,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="validate(V)">
 <h3 id="validate(java.lang.Object)">validate</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-45">validate</a></span><wbr><span class="parameters">(@Nullable <a href="Constraint.html" title="type parameter in Constraint">V</a>&nbsp;value)</span>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-46">validate</a></span><wbr><span class="parameters">(@Nullable <a href="Constraint.html" title="type parameter in Constraint">V</a>&nbsp;value)</span>
        throws <span class="exceptions"><a href="../../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></span></div>
 <div class="block">Check if the provided deserialized value matches an expected condition.</div>
 <dl class="notes">
@@ -169,7 +174,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="required()">
 <h3>required</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;</span>
-<span class="return-type"><a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-75">required</a></span>()</div>
+<span class="return-type"><a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-77">required</a></span>()</div>
 <div class="block">Require a value to be present for fields marked with the
  annotation <code>T</code>.</div>
 <dl class="notes">
@@ -185,7 +190,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="pattern()">
 <h3>pattern</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-91">pattern</a></span>()</div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-93">pattern</a></span>()</div>
 <div class="block">Require values to match the <a href="Matches.html#value()"><code>pattern</code></a> provided.
 
  <p>Upon failure, an error message will be taken from the annotation.</p></div>
@@ -200,7 +205,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="localizedPattern(java.util.ResourceBundle)">
 <h3>localizedPattern</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-116">localizedPattern</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ResourceBundle.html" title="class or interface in java.util" class="external-link">ResourceBundle</a>&nbsp;bundle)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="Constraint.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">Constraint.Factory</a>&lt;<a href="Matches.html" title="annotation in org.spongepowered.configurate.objectmapping.meta">Matches</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/Constraint.html#line-118">localizedPattern</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ResourceBundle.html" title="class or interface in java.util" class="external-link">ResourceBundle</a>&nbsp;bundle)</span></div>
 <div class="block">Require values to match the <a href="Matches.html#value()"><code>pattern</code></a> provided.
 
  <p>Upon failure, an error message will be taken from <code>bundle</code> with

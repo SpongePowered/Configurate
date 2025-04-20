@@ -72,8 +72,13 @@ loadScripts(document, 'script');</script>
 <h1 title="Interface NodeResolver" class="title">Interface NodeResolver</h1>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Functional Interface:</dt>
+<dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-35">NodeResolver</a></span></div>
+<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-35">NodeResolver</a></span></div>
 <div class="block">A function to resolve nodes for a specific field.
 
  <p>A <a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta"><code>NodeResolver.Factory</code></a> is responsible for creating node resolvers for each
@@ -178,7 +183,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="SKIP_FIELD">
 <h3>SKIP_FIELD</h3>
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-42">SKIP_FIELD</a></span></div>
+<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="NodeResolver.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-43">SKIP_FIELD</a></span></div>
 <div class="block">Indicates that a field should be explicitly skipped.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -197,7 +202,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="resolve(org.spongepowered.configurate.ConfigurationNode)">
 <h3>resolve</h3>
-<div class="member-signature"><span class="return-type">@Nullable <a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-54">resolve</a></span><wbr><span class="parameters">(<a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;parent)</span></div>
+<div class="member-signature"><span class="return-type">@Nullable <a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-55">resolve</a></span><wbr><span class="parameters">(<a href="../../ConfigurationNode.html" title="interface in org.spongepowered.configurate">ConfigurationNode</a>&nbsp;parent)</span></div>
 <div class="block">Given a parent node, resolve an appropriate child.
 
  <p>The <code>parent</code> node is the node that the mapped object is being
@@ -215,7 +220,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="nodeKey()">
 <h3>nodeKey</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-82">nodeKey</a></span>()</div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-84">nodeKey</a></span>()</div>
 <div class="block">Creates resolvers that provide the key of the containing node for values.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -228,7 +233,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="keyFromSetting()">
 <h3>keyFromSetting</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-97">keyFromSetting</a></span>()</div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-99">keyFromSetting</a></span>()</div>
 <div class="block">Creates resolvers that get the node at a key defined by <a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Setting</code></a>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -241,7 +246,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="onlyWithAnnotation(java.lang.Class)">
 <h3>onlyWithAnnotation</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-116">onlyWithAnnotation</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-118">onlyWithAnnotation</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation)</span></div>
 <div class="block">A resolver that skips any field not annotated with <code>annotation</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -256,7 +261,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="onlyWithSetting()">
 <h3>onlyWithSetting</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-131">onlyWithSetting</a></span>()</div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-133">onlyWithSetting</a></span>()</div>
 <div class="block">A resolver that will skip any field not annotated with <a href="Setting.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>Setting</code></a>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -269,7 +274,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="nodeFromParent()">
 <h3>nodeFromParent</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-144">nodeFromParent</a></span>()</div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="NodeResolver.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">NodeResolver.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/NodeResolver.html#line-146">nodeFromParent</a></span>()</div>
 <div class="block">A resolver that uses the containing node of a field.
 
  <p>This can be used to combine multiple Java objects into one

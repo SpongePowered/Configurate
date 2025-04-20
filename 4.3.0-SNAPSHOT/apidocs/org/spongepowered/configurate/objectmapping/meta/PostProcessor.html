@@ -72,8 +72,13 @@ loadScripts(document, 'script');</script>
 <h1 title="Interface PostProcessor" class="title">Interface PostProcessor</h1>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Functional Interface:</dt>
+<dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-37">PostProcessor</a></span></div>
+<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
+</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-37">PostProcessor</a></span></div>
 <div class="block">A callback executed after all field serialization has been performed.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -143,7 +148,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="postProcess(java.lang.Object)">
 <h3>postProcess</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-47">postProcess</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;instance)</span>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-48">postProcess</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;instance)</span>
           throws <span class="exceptions"><a href="../../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></span></div>
 <div class="block">Perform post-processing on the fully deserialized instance.</div>
 <dl class="notes">
@@ -160,7 +165,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="methodsAnnotated(java.lang.Class)">
 <h3>methodsAnnotated</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="PostProcessor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-81">methodsAnnotated</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="PostProcessor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-83">methodsAnnotated</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation)</span></div>
 <div class="block">Discover methods annotated with the designated post-processor annotation
  in object-mapped types and their supertypes.
 
@@ -180,7 +185,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="methodsAnnotatedPostProcess()">
 <h3>methodsAnnotatedPostProcess</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="PostProcessor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-188">methodsAnnotatedPostProcess</a></span>()</div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="PostProcessor.Factory.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor.Factory</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-190">methodsAnnotatedPostProcess</a></span>()</div>
 <div class="block">Discover methods annotated with the <a href="PostProcess.html" title="annotation in org.spongepowered.configurate.objectmapping.meta"><code>PostProcess</code></a> annotation.
 
  <p>All restrictions from <a href="#methodsAnnotated(java.lang.Class)"><code>methodsAnnotated(Class)</code></a> apply to these

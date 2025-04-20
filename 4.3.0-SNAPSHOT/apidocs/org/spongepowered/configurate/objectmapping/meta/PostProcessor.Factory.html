@@ -76,8 +76,13 @@ loadScripts(document, 'script');</script>
 <dt>Enclosing interface:</dt>
 <dd><a href="PostProcessor.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor</a></dd>
 </dl>
+<dl class="notes">
+<dt>Functional Interface:</dt>
+<dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-54">PostProcessor.Factory</a></span></div>
+<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
+</span><span class="modifiers">public static interface </span><span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.html#line-55">PostProcessor.Factory</a></span></div>
 <div class="block">A factory to produce object post-processors.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -119,7 +124,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="createProcessor(java.lang.reflect.Type)">
 <h3>createProcessor</h3>
-<div class="member-signature"><span class="return-type">@Nullable <a href="PostProcessor.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.Factory.html#line-65">createProcessor</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type)</span>
+<div class="member-signature"><span class="return-type">@Nullable <a href="PostProcessor.html" title="interface in org.spongepowered.configurate.objectmapping.meta">PostProcessor</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/org/spongepowered/configurate/objectmapping/meta/PostProcessor.Factory.html#line-67">createProcessor</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type)</span>
                                  throws <span class="exceptions"><a href="../../serialize/SerializationException.html" title="class in org.spongepowered.configurate.serialize">SerializationException</a></span></div>
 <div class="block">Return a post-processor if any is applicable to the provided type.</div>
 <dl class="notes">
