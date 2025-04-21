@@ -12,16 +12,6 @@ dependencies {
     testImplementation libs.math
 }
 
-def javaTarget = 17
-java {
-    def javaVersion = JavaVersion.toVersion(javaTarget)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(javaTarget)
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.release = javaTarget
+indra {
+    javaVersions().target(17)
 }

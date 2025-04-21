@@ -17,9 +17,9 @@
 /**
  * Implementation of DataFixerUpper interfaces for Configurate types.
  *
- * <p>This version of DataFixerUpper is used in Minecraft 1.16.2 onwards.</p>
+ * <p>This version of DataFixerUpper is used in Minecraft 1.20.6 onwards.</p>
  *
- * <p>This module is also compatible with DataFixerUpper v5, since
+ * <p>This module is also compatible with DataFixerUpper v8, since
  * there were no major API changes.</p>
  */
 @DefaultQualifier(NonNull.class)

@@ -19,6 +19,7 @@ dependencies {
         api projects.extra.extraDfu2
         api projects.extra.extraDfu3
         api projects.extra.extraDfu4
+        api projects.extra.extraDfu7
         api projects.tool
         api projects.format.gson
         api projects.format.hocon
