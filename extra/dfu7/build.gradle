@@ -13,5 +13,8 @@ dependencies {
 }
 
 indra {
-    javaVersions().target(17)
+    javaVersions() {
+        testWith().set(testWith().get().findAll { it >= 17 })
+        target(17)
+    }
 }
