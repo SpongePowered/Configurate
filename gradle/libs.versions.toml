@@ -48,7 +48,7 @@ guice-runtime = "com.google.inject:guice:5.0.1"
 
 # Formats
 gson = "com.google.code.gson:gson:2.8.0" # Fixed version, to avoid using API not present in older MC
-jackson = "com.fasterxml.jackson.core:jackson-core:2.18.3"
+jackson = "com.fasterxml.jackson.core:jackson-core:2.19.0"
 
 # Tool
 clikt = "com.github.ajalt:clikt:2.8.0"
