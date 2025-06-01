@@ -29,7 +29,6 @@ import java.util.Set;
 
 final class SetSerializer extends AbstractListChildSerializer<Set<?>> {
 
-    @SuppressWarnings("PMD")
     static boolean accepts(final Type type) {
         final Class<?> erased = GenericTypeReflector.erase(type);
         return Set.class.isAssignableFrom(erased) && (erased.isAssignableFrom(EnumSet.class) || erased.isAssignableFrom(LinkedHashSet.class));
