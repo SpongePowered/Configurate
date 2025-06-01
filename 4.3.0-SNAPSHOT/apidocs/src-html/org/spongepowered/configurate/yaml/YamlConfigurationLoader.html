@@ -200,37 +200,39 @@
 <span class="source-line-no">187</span><span id="line-187">        }</span>
 <span class="source-line-no">188</span><span id="line-188">    }</span>
 <span class="source-line-no">189</span><span id="line-189"></span>
-<span class="source-line-no">190</span><span id="line-190">    private final ThreadLocal&lt;Yaml&gt; yaml;</span>
-<span class="source-line-no">191</span><span id="line-191"></span>
-<span class="source-line-no">192</span><span id="line-192">    private YamlConfigurationLoader(final Builder builder) {</span>
-<span class="source-line-no">193</span><span id="line-193">        super(builder, new CommentHandler[] {CommentHandlers.HASH});</span>
-<span class="source-line-no">194</span><span id="line-194">        final LoaderOptions loaderOpts = new LoaderOptions()</span>
-<span class="source-line-no">195</span><span id="line-195">            .setAcceptTabs(true)</span>
-<span class="source-line-no">196</span><span id="line-196">            .setProcessComments(false);</span>
-<span class="source-line-no">197</span><span id="line-197">        loaderOpts.setCodePointLimit(Integer.MAX_VALUE);</span>
-<span class="source-line-no">198</span><span id="line-198"></span>
-<span class="source-line-no">199</span><span id="line-199">        final DumperOptions opts = builder.options;</span>
-<span class="source-line-no">200</span><span id="line-200">        opts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.optionState().value(Builder.NODE_STYLE)));</span>
-<span class="source-line-no">201</span><span id="line-201">        opts.setIndent(builder.optionState().value(Builder.INDENT));</span>
-<span class="source-line-no">202</span><span id="line-202">        this.yaml = ThreadLocal.withInitial(() -&gt; new Yaml(new Constructor(loaderOpts), new Representer(opts), opts, loaderOpts));</span>
+<span class="source-line-no">190</span><span id="line-190">    private final LoaderOptions loaderOpts;</span>
+<span class="source-line-no">191</span><span id="line-191">    private final DumperOptions dumperOpts;</span>
+<span class="source-line-no">192</span><span id="line-192"></span>
+<span class="source-line-no">193</span><span id="line-193">    private YamlConfigurationLoader(final Builder builder) {</span>
+<span class="source-line-no">194</span><span id="line-194">        super(builder, new CommentHandler[] {CommentHandlers.HASH});</span>
+<span class="source-line-no">195</span><span id="line-195">        this.loaderOpts = new LoaderOptions()</span>
+<span class="source-line-no">196</span><span id="line-196">            .setAcceptTabs(true)</span>
+<span class="source-line-no">197</span><span id="line-197">            .setProcessComments(false);</span>
+<span class="source-line-no">198</span><span id="line-198">        this.loaderOpts.setCodePointLimit(Integer.MAX_VALUE);</span>
+<span class="source-line-no">199</span><span id="line-199"></span>
+<span class="source-line-no">200</span><span id="line-200">        this.dumperOpts = builder.options;</span>
+<span class="source-line-no">201</span><span id="line-201">        this.dumperOpts.setDefaultFlowStyle(NodeStyle.asSnakeYaml(builder.optionState().value(Builder.NODE_STYLE)));</span>
+<span class="source-line-no">202</span><span id="line-202">        this.dumperOpts.setIndent(builder.optionState().value(Builder.INDENT));</span>
 <span class="source-line-no">203</span><span id="line-203">    }</span>
 <span class="source-line-no">204</span><span id="line-204"></span>
 <span class="source-line-no">205</span><span id="line-205">    @Override</span>
 <span class="source-line-no">206</span><span id="line-206">    protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {</span>
-<span class="source-line-no">207</span><span id="line-207">        node.raw(this.yaml.get().load(reader));</span>
-<span class="source-line-no">208</span><span id="line-208">    }</span>
-<span class="source-line-no">209</span><span id="line-209"></span>
-<span class="source-line-no">210</span><span id="line-210">    @Override</span>
-<span class="source-line-no">211</span><span id="line-211">    protected void saveInternal(final ConfigurationNode node, final Writer writer) {</span>
-<span class="source-line-no">212</span><span id="line-212">        this.yaml.get().dump(node.raw(), writer);</span>
-<span class="source-line-no">213</span><span id="line-213">    }</span>
-<span class="source-line-no">214</span><span id="line-214"></span>
-<span class="source-line-no">215</span><span id="line-215">    @Override</span>
-<span class="source-line-no">216</span><span id="line-216">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</span>
-<span class="source-line-no">217</span><span id="line-217">        return CommentedConfigurationNode.root(options);</span>
-<span class="source-line-no">218</span><span id="line-218">    }</span>
-<span class="source-line-no">219</span><span id="line-219"></span>
-<span class="source-line-no">220</span><span id="line-220">}</span>
+<span class="source-line-no">207</span><span id="line-207">        final Yaml yaml = new Yaml(new Constructor(this.loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, this.loaderOpts);</span>
+<span class="source-line-no">208</span><span id="line-208">        node.raw(yaml.load(reader));</span>
+<span class="source-line-no">209</span><span id="line-209">    }</span>
+<span class="source-line-no">210</span><span id="line-210"></span>
+<span class="source-line-no">211</span><span id="line-211">    @Override</span>
+<span class="source-line-no">212</span><span id="line-212">    protected void saveInternal(final ConfigurationNode node, final Writer writer) {</span>
+<span class="source-line-no">213</span><span id="line-213">        final Yaml yaml = new Yaml(new Constructor(this.loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, this.loaderOpts);</span>
+<span class="source-line-no">214</span><span id="line-214">        yaml.dump(node.raw(), writer);</span>
+<span class="source-line-no">215</span><span id="line-215">    }</span>
+<span class="source-line-no">216</span><span id="line-216"></span>
+<span class="source-line-no">217</span><span id="line-217">    @Override</span>
+<span class="source-line-no">218</span><span id="line-218">    public CommentedConfigurationNode createNode(final ConfigurationOptions options) {</span>
+<span class="source-line-no">219</span><span id="line-219">        return CommentedConfigurationNode.root(options);</span>
+<span class="source-line-no">220</span><span id="line-220">    }</span>
+<span class="source-line-no">221</span><span id="line-221"></span>
+<span class="source-line-no">222</span><span id="line-222">}</span>
 
 
 
