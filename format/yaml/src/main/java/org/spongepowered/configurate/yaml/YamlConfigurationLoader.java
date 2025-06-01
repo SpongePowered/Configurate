@@ -204,13 +204,13 @@ public final class YamlConfigurationLoader extends AbstractConfigurationLoader<C
 
     @Override
     protected void loadInternal(final CommentedConfigurationNode node, final BufferedReader reader) {
-        Yaml yaml = new Yaml(new Constructor(loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, loaderOpts);
+        final Yaml yaml = new Yaml(new Constructor(this.loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, this.loaderOpts);
         node.raw(yaml.load(reader));
     }
 
     @Override
     protected void saveInternal(final ConfigurationNode node, final Writer writer) {
-        Yaml yaml = new Yaml(new Constructor(loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, loaderOpts);
+        final Yaml yaml = new Yaml(new Constructor(this.loaderOpts), new Representer(this.dumperOpts), this.dumperOpts, this.loaderOpts);
         yaml.dump(node.raw(), writer);
     }
 
