@@ -2,6 +2,7 @@ org.spongepowered.configurate
 org.spongepowered.configurate.extra.dfu.v2
 org.spongepowered.configurate.extra.dfu.v3
 org.spongepowered.configurate.extra.dfu.v4
+org.spongepowered.configurate.extra.dfu.v7
 org.spongepowered.configurate.gson
 org.spongepowered.configurate.hocon
 org.spongepowered.configurate.jackson
