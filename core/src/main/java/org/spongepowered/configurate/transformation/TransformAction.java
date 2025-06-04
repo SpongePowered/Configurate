@@ -117,7 +117,6 @@ public interface TransformAction {
         };
     }
 
-
     /**
      * Called at a certain path, with the node at that path.
      *
