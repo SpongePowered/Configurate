@@ -8,7 +8,7 @@ errorprone="2.38.0"
 indra = "3.2.0"
 junit="5.13.0"
 ktlint="0.49.1"
-ktfmt="0.54"
+ktfmt="0.56"
 pmd = "7.14.0"
 spotless = "7.2.1"
 
