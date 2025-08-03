@@ -5,12 +5,12 @@ checkerQual="3.49.3"
 checkstyle="10.25.0"
 geantyref = "1.3.16"
 errorprone="2.38.0"
-indra = "3.1.3"
+indra = "3.2.0"
 junit="5.13.0"
 ktlint="0.49.1"
 ktfmt="0.54"
 pmd = "7.14.0"
-spotless = "7.0.4"
+spotless = "7.2.1"
 
 [libraries]
 # Shared
@@ -76,7 +76,7 @@ zCheckstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "check
 zKtfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 [plugins]
-aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.13.1"
+aggregateJavadoc = "io.freefair.aggregate-javadoc-jar:8.14"
 detekt = "io.gitlab.arturbosch.detekt:1.23.8"
 dokka = "org.jetbrains.dokka:1.9.20"
 gitPublish = "org.ajoberstar.git-publish:5.1.1"
