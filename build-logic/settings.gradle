@@ -5,6 +5,11 @@ pluginManagement {
             url = "https://repo.stellardrift.ca/repository/internal/"
             mavenContent { releasesOnly() }
         }
+        maven {
+            name = "papermcSnapshots"
+            url = "https://repo.papermc.io/repository/maven-snapshots/"
+            mavenContent { snapshotsOnly() }
+        }
     }
 }
 
