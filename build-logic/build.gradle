@@ -6,7 +6,7 @@ plugins {
     id 'codenarc'
 }
 
-def javaTarget = 11
+def javaTarget = 17
 java {
     def javaVersion = JavaVersion.toVersion(javaTarget)
     sourceCompatibility = javaVersion

@@ -2,14 +2,14 @@ pluginManagement {
     repositories {
         maven {
             name = "stellardriftReleases"
-            url = "https://repo.stellardrift.ca/repository/internal/"
+            url = "https://repo.stellardrift.ca/maven/internal/"
             mavenContent { releasesOnly() }
         }
     }
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.10.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
 dependencyResolutionManagement {
