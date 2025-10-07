@@ -60,7 +60,7 @@ jansi = "org.fusesource.jansi:jansi:2.4.2"
 build-codenarc = { module = "org.codenarc:CodeNarc", version = "3.6.0-groovy-4.0" }
 build-codenarcGroovy = { module = "org.apache.groovy:groovy-all", version = "4.0.28" }
 build-errorprone = "net.ltgt.gradle:gradle-errorprone-plugin:4.3.0"
-build-forbiddenApis = "de.thetaphi:forbiddenapis:3.9"
+build-forbiddenApis = "de.thetaphi:forbiddenapis:3.10"
 build-goomph = "com.diffplug.gradle:goomph:4.4.0"
 build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 build-indra-crossdoc = { module = "net.kyori:indra-crossdoc", version.ref = "indra" }
