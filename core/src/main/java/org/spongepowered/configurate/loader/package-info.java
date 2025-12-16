@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * Base infrastructure for configuration loaders
+ * Base infrastructure for configuration loaders.
  *
  * <p>A configuration loader is responsible for converting between the location
  * of a serialized form (a file, string, or URL) and a

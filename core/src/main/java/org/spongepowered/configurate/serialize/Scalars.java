@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
- * Scalar value serializers available
+ * Scalar value serializers available.
  *
  * <p>Each of these serializers can be used through a configuration node, or
  * directly with a value.
