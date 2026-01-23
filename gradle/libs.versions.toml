@@ -10,7 +10,7 @@ junit="5.14.0"
 ktlint="0.49.1"
 ktfmt="0.58"
 pmd = "7.16.0"
-spotless = "7.2.1"
+spotless = "8.2.0"
 
 [libraries]
 # Shared
