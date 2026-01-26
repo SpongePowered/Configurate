@@ -248,9 +248,9 @@ def apiDiffPrevious = configurations.register("apiDiffPrevious") {
 
     defaultDependencies {
         // create based on git's previous tag
-        def tags = indraGit.tags()
-        if (tags) {
-            add(project.dependencies.create("$group:configurate-${project.name}:${Repository.shortenRefName(tags.last().name)}"))
+        def tags = indraGit.tagNames().get()
+        if (!tags.isEmpty()) {
+            add(project.dependencies.create("$group:configurate-${project.name}:${tags.last()}"))
         }
     }
 }
