@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * Configuration tree transformations
+ * Configuration tree transformations.
  *
  * <p>Transformations in this package can be used to evolve a configuration
  * structure over time. Builders are in the

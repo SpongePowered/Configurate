@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * Core node data structures and supports
+ * Core node data structures and supports.
  *
  * <p>At the core of Configurate are nodes. We have 3 variants to work with:
  * <ul>

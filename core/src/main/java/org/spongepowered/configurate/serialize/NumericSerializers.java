@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.function.BiFunction;
 
 /**
- * Scalar serializers for numeric types
+ * Scalar serializers for numeric types.
  *
  * <p>These serializers attempt to make the appropriate type conversions for
  * numeric values.

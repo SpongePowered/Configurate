@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 
 /**
- * Implementation of a caching publisher
+ * Implementation of a caching publisher.
  *
  * <p>All subscriptions are handled by the parent publisher, so transactional
  * and non-transactional subscribers can be handled appropriately by the
