@@ -47,7 +47,7 @@ public interface TransformAction {
     }
 
     /**
-     * Rename a node
+     * Rename a node.
      *
      * <p>This transformation cannot be applied to the root node.
      *
