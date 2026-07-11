@@ -108,6 +108,11 @@ final class SingleConfigurationTransformation implements ConfigurationTransforma
                     // No children
                     return;
                 }
+
+                if (thrown != null) {
+                    throw thrown;
+                }
+
                 return;
             } else {
                 node = node.node(path[i]);
