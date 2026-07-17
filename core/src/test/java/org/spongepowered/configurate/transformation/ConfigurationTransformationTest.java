@@ -18,6 +18,7 @@ package org.spongepowered.configurate.transformation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.spongepowered.configurate.NodePath.path;
 
@@ -262,6 +263,138 @@ class ConfigurationTransformationTest {
         xform.apply(original);
 
         assertEquals(transformed, original);
+    }
+
+    private void assertConfigurateEx(final ConfigurationNode root, final ConfigurationTransformation transformation, final int suppressedAmount) {
+        final ConfigurateException ex = assertThrows(ConfigurateException.class, () -> transformation.apply(root));
+        assertEquals(ex.rawMessage(), "test exception");
+
+        final Throwable[] suppressedArr = ex.getSuppressed();
+        assertEquals(suppressedArr.length, suppressedAmount);
+
+        for (final Throwable throwable : suppressedArr) {
+            assertEquals(throwable.getClass(), ConfigurateException.class);
+            final ConfigurateException suppressedEx = (ConfigurateException) throwable;
+            assertEquals(suppressedEx.rawMessage(), "test suppressed exception");
+        }
+    }
+
+    @Test
+    void testSingleTransformationThrowsConfigurateException() throws ConfigurateException {
+        final BasicConfigurationNode root = BasicConfigurationNode.root(b -> {
+            b.node("test-key").raw("test-value");
+            b.node("zzz").raw("zzz");
+            b.node("zzzz").raw("zzzz");
+        });
+
+        final ConfigurationTransformation transformation = ConfigurationTransformation.builder()
+                .addAction(path("test-key"), (path, value) -> {
+                    throw new ConfigurateException("test exception");
+                })
+                .addAction(path("zzz"), (path, value) -> {
+                    throw new ConfigurateException("test suppressed exception");
+                })
+                .addAction(path("zzzz"), (path, value) -> {
+                    throw new ConfigurateException("test suppressed exception");
+                })
+                .build();
+
+        this.assertConfigurateEx(root, transformation, 2);
+    }
+
+    private ConfigurationTransformation createWildcardTransformation() {
+        return ConfigurationTransformation.builder()
+                .addAction(path("test", ConfigurationTransformation.WILDCARD_OBJECT), (path, value) -> {
+                    if (value.getString().equals("value1")) {
+                        throw new ConfigurateException("test exception");
+                    } else {
+                        throw new ConfigurateException("test suppressed exception");
+                    }
+                })
+                .build();
+    }
+
+    @Test
+    void testSingleTransformationWildcardMapThrowsConfigurateException() throws ConfigurateException {
+        final BasicConfigurationNode root = BasicConfigurationNode.root(b -> {
+            b.node("test").act(t -> {
+                t.node("child1").raw("value1");
+                t.node("child2").raw("value2");
+                t.node("child3").raw("value3");
+            });
+        });
+
+        final ConfigurationTransformation transformation = this.createWildcardTransformation();
+
+        this.assertConfigurateEx(root, transformation, 2);
+    }
+
+    @Test
+    void testSingleTransformationWildcardListThrowsConfigurateException() throws ConfigurateException {
+        final BasicConfigurationNode root = BasicConfigurationNode.root(b -> {
+            b.node("test").setList(String.class, Arrays.asList("value1", "value2", "value3"));
+        });
+
+        final ConfigurationTransformation transformation = this.createWildcardTransformation();
+
+        this.assertConfigurateEx(root, transformation, 2);
+    }
+
+    @Test
+    void testVersionedTransformationThrowsConfigurateException() throws ConfigurateException {
+        final BasicConfigurationNode root = BasicConfigurationNode.root(b -> {
+            b.node("test").raw("test value");
+            b.node("zzz").raw("zzz");
+            b.node("zzzz").raw("zzzz");
+        });
+
+        final ConfigurationTransformation.Versioned transformation = ConfigurationTransformation.versionedBuilder()
+            .makeVersion(0, (version) -> {
+                version.addAction(path("test"), (path, value) -> null);
+            })
+            .makeVersion(1, (version) -> {
+                version.addAction(path("test"), (path, value) -> {
+                    throw new ConfigurateException("test exception");
+                });
+                version.addAction(path("zzz"), (path, value) -> {
+                    throw new ConfigurateException("test suppressed exception");
+                });
+                version.addAction(path("zzzz"), (path, value) -> {
+                    throw new ConfigurateException("test suppressed exception");
+                });
+            })
+            .build();
+
+        this.assertConfigurateEx(root, transformation, 2);
+    }
+
+    @Test
+    void testChainedTransformationThrowsConfigurateException() throws ConfigurateException {
+        final BasicConfigurationNode root = BasicConfigurationNode.root(b -> {
+            b.node("test").raw("test");
+            b.node("zzz").raw("zzz");
+            b.node("zzzz").raw("zzzz");
+        });
+
+        final ConfigurationTransformation transformation = ConfigurationTransformation.chain(
+            ConfigurationTransformation.builder()
+                    .addAction(path("test"), (path, value) -> {
+                        throw new ConfigurateException("test exception");
+                    })
+                    .build(),
+            ConfigurationTransformation.builder()
+                    .addAction(path("zzz"), (path, value) -> {
+                        throw new ConfigurateException("test suppressed exception");
+                    })
+                    .build(),
+            ConfigurationTransformation.builder()
+                    .addAction(path("zzzz"), (path, value) -> {
+                        throw new ConfigurateException("test suppressed exception");
+                    })
+                    .build()
+        );
+
+        this.assertConfigurateEx(root, transformation, 2);
     }
 
 }
