@@ -175,7 +175,9 @@ public class ParsingException extends ConfigurateException {
 
         if (this.context != null) {
             message.append(System.lineSeparator()).append(this.context);
-            if (this.column >= 0 && this.column < this.context.length()) {
+            // column is 1-indexed: column == context.length() points at the last character,
+            // so the caret drawn at position (column - 1) stays within the context bounds.
+            if (this.column >= 0 && this.column <= this.context.length()) {
                 message.append(System.lineSeparator());
                 if (this.column > 0) {
                     final char[] spaces = new char[this.column - 1];
