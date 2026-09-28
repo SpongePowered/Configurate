@@ -373,6 +373,19 @@ public final class ConfigurateOps implements DynamicOps<ConfigurationNode> {
     }
 
     /**
+     * Get the value of the provided node if it is a boolean or a number where non-zero is {@code true}.
+     *
+     * @param input data source
+     * @return extracted boolean
+     */
+    @Override
+    public DataResult<Boolean> getBooleanValue(final ConfigurationNode input) {
+        return getNumberValue(input)
+                .map(number -> number.doubleValue() != 0.0)
+                .mapError(_ -> "Not a boolean: " + input);
+    }
+
+    /**
      * Get the value of the provided node if it is a scalar, converted to
      * a {@link String}.
      *
